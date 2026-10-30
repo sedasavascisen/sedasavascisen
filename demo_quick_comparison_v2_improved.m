@@ -28,7 +28,7 @@ configs = {
 };
 
 % Ortak parametreler
-numSamples = 5000;  % ✅ 1000 → 5000 (daha fazla veri)
+numSamples = 20000;  % ✅ 5000 → 20000 (AJAN 2 önerisi: %20-30 RMSE azalma)
 numScatter = 6;
 roomSize = [40 20 6];
 fc = 3e9;
