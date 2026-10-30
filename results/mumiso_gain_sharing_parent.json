@@ -1,0 +1,29 @@
+{
+  "share_gains_off": {
+    "antenna_corr": 0.12872441112995148,
+    "antenna_corr_nlos": 0.0954260379076004,
+    "antenna_rank": 7.340370178222656,
+    "anchor": 3.5549280643463135,
+    "pga": 6.214683532714844,
+    "n_samples": 1200,
+    "n_antennas": 8
+  },
+  "share_gains_on": {
+    "antenna_corr": 0.07980626821517944,
+    "antenna_corr_nlos": 0.278548926115036,
+    "antenna_rank": 6.878239154815674,
+    "anchor": 2.418023109436035,
+    "pga": 5.708108901977539,
+    "n_samples": 1200,
+    "n_antennas": 8
+  },
+  "changes": {
+    "anchor_pct": -31.981095941510553,
+    "pga_pct": -8.151253850186169,
+    "ratio_off": 1.7481882671675413,
+    "ratio_on": 2.360651095393734
+  },
+  "stream_preserved": true,
+  "n_samples": 1200,
+  "seed": 11
+}
