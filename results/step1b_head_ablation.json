@@ -1,0 +1,42 @@
+{
+  "none + local": {
+    "body": "none",
+    "head": "local",
+    "params": 6626,
+    "test_rmse": 2.1443369388580322,
+    "test_sr5": 98.1208324432373,
+    "minutes": 1.0804247736930848
+  },
+  "CNN + dense": {
+    "body": "CNN",
+    "head": "dense",
+    "params": 583296,
+    "test_rmse": 50.19230270385742,
+    "test_sr5": 10.42708307504654,
+    "minutes": 3.354470256964366
+  },
+  "CNN + local": {
+    "body": "CNN",
+    "head": "local",
+    "params": 17730,
+    "test_rmse": 2.457406759262085,
+    "test_sr5": 96.13749980926514,
+    "minutes": 2.2916118423144023
+  },
+  "CNN-LSTM + dense": {
+    "body": "CNN-LSTM",
+    "head": "dense",
+    "params": 822976,
+    "test_rmse": 28.62091827392578,
+    "test_sr5": 16.91562533378601,
+    "minutes": 18.226432077089946
+  },
+  "CNN-LSTM + local": {
+    "body": "CNN-LSTM",
+    "head": "local",
+    "params": 257410,
+    "test_rmse": 1.9966771602630615,
+    "test_sr5": 97.63593673706055,
+    "minutes": 16.74301970799764
+  }
+}

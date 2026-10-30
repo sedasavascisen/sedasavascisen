@@ -1,0 +1,66 @@
+=== dataset: 16000 scenarios, T=8, K=4 ===
+  N=32 C=37  generated in 4.3s
+  features (16000, 4, 37, 32)  303 MB  in 0.3s
+  G rank(pooled) 21.18  G rank(user0) 19.37  F rank 16.18  G neigh 0.481
+  split  train 11200  val 2400  test 2400
+
+=== baselines on the test split ===
+       no_ris  min  0.2280  sum   10.898   (0.0s)
+       random  min  0.9253  sum   14.258   (0.0s)
+   su_weakest  min  1.1428  sum   14.280   (0.0s)
+   su_average  min  1.0945  sum   14.945   (0.0s)
+           cd  min  3.6532  sum   19.351   (19.8s)
+          pga  min  3.0342  sum   17.461   (4.0s)
+           ao  min  3.7614  sum   19.522   (19.1s)
+  -> the number to beat is AO: 3.7614
+
+=== train mode=concat ===
+  parameters: 285058
+    epoch   1/35  loss  -1.1012  val min  1.0650  sum   15.196  (7.1s)  *
+    epoch   2/35  loss  -1.1068  val min  1.0870  sum   15.202  (7.1s)  *
+    epoch   3/35  loss  -1.1065  val min  1.0688  sum   15.162  (6.8s)
+    epoch   4/35  loss  -1.1037  val min  1.0707  sum   15.210  (6.6s)
+    epoch   5/35  loss  -1.1168  val min  1.0775  sum   15.240  (6.6s)
+    epoch   6/35  loss  -1.1047  val min  1.0607  sum   15.178  (6.3s)
+    epoch   7/35  loss  -1.1023  val min  1.0613  sum   15.177  (6.5s)
+    epoch   8/35  loss  -1.0980  val min  1.0608  sum   15.177  (6.6s)
+    epoch   9/35  loss  -1.1055  val min  1.0606  sum   15.177  (6.5s)
+    epoch  10/35  loss  -1.1032  val min  1.0622  sum   15.181  (6.7s)
+    epoch  11/35  loss  -1.1023  val min  1.0681  sum   15.223  (6.6s)
+    epoch  12/35  loss  -1.1053  val min  1.0710  sum   15.243  (6.2s)
+    epoch  13/35  loss  -1.1097  val min  1.0662  sum   15.209  (7.0s)
+    epoch  14/35  loss  -1.1136  val min  1.0729  sum   15.220  (7.0s)
+    epoch  15/35  loss  -1.1060  val min  1.0579  sum   15.157  (6.5s)
+    epoch  16/35  loss  -1.0963  val min  1.0595  sum   15.150  (7.0s)
+    epoch  17/35  loss  -1.0977  val min  1.0574  sum   15.149  (6.8s)
+    epoch  18/35  loss  -1.1036  val min  1.0561  sum   15.142  (7.4s)
+    epoch  19/35  loss  -1.1000  val min  1.0580  sum   15.144  (6.9s)
+    epoch  20/35  loss  -1.1002  val min  1.0551  sum   15.126  (6.9s)
+    epoch  21/35  loss  -1.1032  val min  1.0568  sum   15.122  (6.8s)
+    epoch  22/35  loss  -1.1108  val min  1.0592  sum   15.120  (6.9s)
+    epoch  23/35  loss  -1.1026  val min  1.0662  sum   15.135  (6.8s)
+    epoch  24/35  loss  -1.1098  val min  1.0748  sum   15.164  (6.6s)
+    epoch  25/35  loss  -1.1184  val min  1.0878  sum   15.218  (7.2s)  *
+    epoch  26/35  loss  -1.1198  val min  1.0731  sum   15.142  (7.4s)
+    epoch  27/35  loss  -1.1220  val min  1.1057  sum   15.248  (7.2s)  *
+    epoch  28/35  loss  -1.1267  val min  1.1088  sum   15.276  (6.9s)  *
+    epoch  29/35  loss  -1.1287  val min  1.1056  sum   15.315  (6.9s)
+    epoch  30/35  loss  -1.1356  val min  1.1161  sum   15.308  (7.0s)  *
+    epoch  31/35  loss  -1.1472  val min  1.1125  sum   15.326  (6.7s)
+    epoch  32/35  loss  -1.1447  val min  1.1114  sum   15.341  (6.4s)
+    epoch  33/35  loss  -1.1423  val min  1.0994  sum   15.323  (6.8s)
+    epoch  34/35  loss  -1.1451  val min  1.0903  sum   15.267  (7.1s)
+    epoch  35/35  loss  -1.1424  val min  1.0992  sum   15.311  (6.4s)
+  TEST  min 1.1493  sum 15.338   (0.306x of AO)   [239s]
+  user-order spread over 6 permutations: 2.46e-02  (mean 1.1508)
+
+=== train mode=deepsets ===
+  parameters: 263746
+    epoch   1/35  loss  -1.0931  val min  1.0591  sum   15.153  (26.4s)  *
+    epoch   2/35  loss  -1.0975  val min  1.0613  sum   15.175  (25.2s)  *
+    epoch   3/35  loss  -1.1016  val min  1.0608  sum   15.169  (24.8s)
+    epoch   4/35  loss  -1.0995  val min  1.0620  sum   15.172  (98.0s)  *
+    epoch   5/35  loss  -1.0999  val min  1.0612  sum   15.171  (24.4s)
+    epoch   6/35  loss  -1.0919  val min  1.0618  sum   15.172  (26.1s)
+    epoch   7/35  loss  -1.1005  val min  1.0627  sum   15.175  (27.6s)  *
+    epoch   8/35  loss  -1.0999  val min  1.0607  sum   15.166  (79.0s)

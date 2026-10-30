@@ -1,0 +1,146 @@
+{
+  "legacy|0.0|element-local": {
+    "channel": "legacy",
+    "sigma": 0.0,
+    "model": "element-local",
+    "params": 6626,
+    "rmse": 3.518679618835449,
+    "sr5": 92.97569394111633
+  },
+  "legacy|0.0|local mixing": {
+    "channel": "legacy",
+    "sigma": 0.0,
+    "model": "local mixing",
+    "params": 17730,
+    "rmse": 4.912480354309082,
+    "sr5": 81.270831823349
+  },
+  "legacy|0.0|global mixing": {
+    "channel": "legacy",
+    "sigma": 0.0,
+    "model": "global mixing",
+    "params": 257410,
+    "rmse": 4.914536952972412,
+    "sr5": 83.73264074325562
+  },
+  "legacy|0.1|element-local": {
+    "channel": "legacy",
+    "sigma": 0.1,
+    "model": "element-local",
+    "params": 6626,
+    "rmse": 15.902997016906738,
+    "sr5": 43.81076395511627
+  },
+  "legacy|0.1|local mixing": {
+    "channel": "legacy",
+    "sigma": 0.1,
+    "model": "local mixing",
+    "params": 17730,
+    "rmse": 16.2270450592041,
+    "sr5": 41.80381894111633
+  },
+  "legacy|0.1|global mixing": {
+    "channel": "legacy",
+    "sigma": 0.1,
+    "model": "global mixing",
+    "params": 257410,
+    "rmse": 16.4041805267334,
+    "sr5": 42.954862117767334
+  },
+  "legacy|0.25|element-local": {
+    "channel": "legacy",
+    "sigma": 0.25,
+    "model": "element-local",
+    "params": 6626,
+    "rmse": 33.38824462890625,
+    "sr5": 19.951388239860535
+  },
+  "legacy|0.25|local mixing": {
+    "channel": "legacy",
+    "sigma": 0.25,
+    "model": "local mixing",
+    "params": 17730,
+    "rmse": 33.58855056762695,
+    "sr5": 19.65624988079071
+  },
+  "legacy|0.25|global mixing": {
+    "channel": "legacy",
+    "sigma": 0.25,
+    "model": "global mixing",
+    "params": 257410,
+    "rmse": 33.74972915649414,
+    "sr5": 19.885416328907013
+  },
+  "geometric|0.0|element-local": {
+    "channel": "geometric",
+    "sigma": 0.0,
+    "model": "element-local",
+    "params": 6626,
+    "rmse": 2.7648496627807617,
+    "sr5": 96.12500071525574
+  },
+  "geometric|0.0|local mixing": {
+    "channel": "geometric",
+    "sigma": 0.0,
+    "model": "local mixing",
+    "params": 17730,
+    "rmse": 5.10032320022583,
+    "sr5": 81.35416507720947
+  },
+  "geometric|0.0|global mixing": {
+    "channel": "geometric",
+    "sigma": 0.0,
+    "model": "global mixing",
+    "params": 257410,
+    "rmse": 5.85609245300293,
+    "sr5": 80.77083230018616
+  },
+  "geometric|0.1|element-local": {
+    "channel": "geometric",
+    "sigma": 0.1,
+    "model": "element-local",
+    "params": 6626,
+    "rmse": 11.14328670501709,
+    "sr5": 51.13368034362793
+  },
+  "geometric|0.1|local mixing": {
+    "channel": "geometric",
+    "sigma": 0.1,
+    "model": "local mixing",
+    "params": 17730,
+    "rmse": 11.679926872253418,
+    "sr5": 48.82291555404663
+  },
+  "geometric|0.1|global mixing": {
+    "channel": "geometric",
+    "sigma": 0.1,
+    "model": "global mixing",
+    "params": 257410,
+    "rmse": 11.889800071716309,
+    "sr5": 49.449652433395386
+  },
+  "geometric|0.25|element-local": {
+    "channel": "geometric",
+    "sigma": 0.25,
+    "model": "element-local",
+    "params": 6626,
+    "rmse": 24.534765243530273,
+    "sr5": 23.423610627651215
+  },
+  "geometric|0.25|local mixing": {
+    "channel": "geometric",
+    "sigma": 0.25,
+    "model": "local mixing",
+    "params": 17730,
+    "rmse": 23.343046188354492,
+    "sr5": 25.0
+  },
+  "geometric|0.25|global mixing": {
+    "channel": "geometric",
+    "sigma": 0.25,
+    "model": "global mixing",
+    "params": 257410,
+    "rmse": 22.9359188079834,
+    "sr5": 25.984373688697815
+  }
+}

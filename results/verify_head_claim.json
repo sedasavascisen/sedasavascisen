@@ -1,0 +1,26 @@
+{
+  "A  dense, published settings": {
+    "params": 583296,
+    "rmse": 50.19230270385742,
+    "sr5": 10.42708307504654,
+    "note": "from step 2"
+  },
+  "B  dense, tuned": {
+    "params": 583296,
+    "rmse": 49.747127532958984,
+    "sr5": 10.672395676374435,
+    "note": "lr 3e-4, no dropout"
+  },
+  "C  dense, widened bottleneck": {
+    "params": 1620672,
+    "rmse": 3.77384090423584,
+    "sr5": 88.1864607334137,
+    "note": "64 -> 512 units"
+  },
+  "D  local head (reference)": {
+    "params": 17730,
+    "rmse": 2.457406759262085,
+    "sr5": 96.13749980926514,
+    "note": "from step 2"
+  }
+}

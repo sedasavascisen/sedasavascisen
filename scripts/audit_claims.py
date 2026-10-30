@@ -1,0 +1,465 @@
+"""
+audit_claims.py -- every load-bearing number in README_MUMISO.md, frozen
+and re-checkable by machine.
+
+WHY THIS FILE EXISTS
+--------------------
+Three times in this project a stated number turned out to be wrong: a table
+whose rows came from two different antenna counts, a baseline that was
+weaker than claimed, and a "strongest classical method" that was not the
+strongest. Each was caught by someone deciding to look again. That is not a
+process, it is luck.
+
+So the claims live here as code. Each one recomputes its value from the
+library -- not by parsing a script's printout, which rots the moment the
+printing changes -- and compares against the value frozen in the report.
+Run it after any change to the package:
+
+    python3 -I scripts/audit_claims.py            # fast tiers only
+    python3 -I scripts/audit_claims.py --all      # includes slow tiers
+
+TIERS, because not every number deserves the same tolerance
+-----------------------------------------------------------
+  exact        mathematical identities. A drift here is a bug. rtol 1e-6.
+  statistical  rates and ranks measured over scenarios. Seeded, so
+               reproducible, but a tolerance wide enough to survive a torch
+               version bump. rtol 5e-2.
+  timing       wall-clock. NOT asserted -- machine-dependent and noisy
+               (16-step Adam measured 23.7, 24.2, 26.0 and 29.4 ms across
+               runs on the same box). Reported, and only the ORDERING and
+               the budget fraction are checked, because those are what the
+               argument rests on.
+
+If a claim here disagrees with the report, the report is what is wrong
+until proven otherwise.
+"""
+import sys
+import pathlib
+import argparse
+import time
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+import numpy as np
+import torch
+
+from ris_mu.mumiso.channel import (make_mumiso_scenario, MuMisoChannel,
+                                   to_torch, effective_rank, neighbour_corr)
+from ris_mu.mumiso.features import mumiso_features, n_channels
+from ris_mu.mumiso.models import MuMisoNet, MODES
+from ris_mu.mumiso import system as S, baselines as B
+
+ap = argparse.ArgumentParser()
+ap.add_argument("--all", action="store_true", help="include slow tiers")
+ap.add_argument("--only", default=None, help="substring filter on claim id")
+a = ap.parse_args()
+
+RESULTS = []
+
+
+def claim(cid, section, tier, claimed, measured, note="", at_most=None):
+    """
+    Two kinds of claim, and conflating them is what made this file's first
+    run produce three false alarms:
+
+      VALUE claims ("the rate is 3.6688"). Checked within the tier's
+      relative tolerance. The exact tier uses 1e-3, not something tighter,
+      because the report quotes these to four decimals -- asserting to 1e-6
+      against a four-decimal quote fails on the rounding, which is the
+      report's precision, not an error.
+
+      THRESHOLD claims ("the leakage is negligible", "the gradient matches
+      finite differences"). These have no true value to hit: finite
+      differences cannot do better than ~1e-8, and the residual model is
+      deliberately a hair off the anchor so that gradients reach the body.
+      Pass `at_most=` for these.
+    """
+    tol = {"exact": 1e-3, "statistical": 5e-2, "timing": None}[tier]
+    if at_most is not None:
+        ok = abs(measured) <= at_most
+        shown = f"<={at_most:.3g}"
+    elif tol is None:
+        ok = None
+        shown = "-"
+    else:
+        ok = abs(measured - claimed) / max(abs(claimed), 1e-30) <= tol
+        shown = f"{claimed:.4g}"
+    RESULTS.append(dict(id=cid, section=section, tier=tier, claimed=claimed,
+                        measured=measured, ok=ok, note=note, at_most=at_most))
+    tag = {True: "PASS", False: "FAIL", None: "info"}[ok]
+    print(f"  [{tag}] {cid:<28} §{section:<4} target {shown:>11}  "
+          f"measured {measured:10.4g}  {note}", flush=True)
+
+
+def section(name):
+    print(f"\n=== {name} ===", flush=True)
+
+
+# ----------------------------------------------------------------- exact
+section("exact: mathematical identities")
+torch.manual_seed(0)
+rng = np.random.default_rng(0)
+
+
+def cn(*s):
+    return (rng.normal(size=s) + 1j * rng.normal(size=s)) / np.sqrt(2)
+
+
+# single-user reduction: general form vs the published Eq. (8)
+Nn = 32
+F1, G1, H1 = cn(1, Nn, 1), cn(1, 1, Nn), cn(1, 1, 1)
+tF, tG, tH = (torch.tensor(x) for x in (F1, G1, H1))
+acas = G1[0, 0] * F1[0, :, 0]
+bound = (abs(H1[0, 0, 0]) + np.abs(acas).sum()) ** 2
+
+
+def gain(th):
+    c = torch.tensor(np.cos(th))[None]
+    s = torch.tensor(np.sin(th))[None]
+    return S.effective_channel(tF, tG, tH, c, s).abs().item() ** 2
+
+
+claim("su_general_over_bound", "7", "exact", 1.0000,
+      gain(S.su_align_phase(tF, tG, tH)[0, 0].numpy()) / bound)
+claim("su_eq8_over_bound", "7", "exact", 0.8977,
+      gain(-np.angle(acas)) / bound, "published Eq. (8), h_d=0 special case")
+
+# ZF: nulls interference, respects the power constraint
+Bn, Nn, T, K = 4, 32, 8, 4
+F2, G2, H2 = cn(Bn, Nn, T), cn(Bn, K, Nn), cn(Bn, K, T)
+tF, tG, tH = (torch.tensor(x) for x in (F2, G2, H2))
+th = torch.tensor(rng.uniform(-np.pi, np.pi, (Bn, Nn)))
+He = S.effective_channel(tF, tG, tH, torch.cos(th), torch.sin(th))
+A = (He @ S.zf(He, 1.0)).abs() ** 2
+off = A - torch.diag_embed(torch.diagonal(A, dim1=-2, dim2=-1))
+claim("zf_leakage", "7", "exact", 0.0, off.abs().max().item(),
+      "inter-user interference", at_most=1e-15)
+claim("zf_power", "7", "exact", 1.0,
+      (S.zf(He, 1.0).abs() ** 2).sum((-1, -2)).mean().item(), "||W||_F^2 = Pt")
+claim("mrt_power", "7", "exact", 1.0,
+      (S.mrt(He, 1.0).abs() ** 2).sum((-1, -2)).mean().item(), "||W||_F^2 = Pt")
+
+# rate gradient against finite differences
+Bn, Nn, T, K = 2, 16, 4, 3
+F3, G3, H3 = cn(Bn, Nn, T), cn(Bn, K, Nn), cn(Bn, K, T)
+tF, tG, tH = (torch.tensor(x) for x in (F3, G3, H3))
+th0 = rng.uniform(-np.pi, np.pi, (Bn, Nn))
+
+
+def obj(t, grad=False):
+    tt = torch.tensor(t, requires_grad=grad)
+    R = S.rates(tF, tG, tH, torch.cos(tt), torch.sin(tt), 1.0, 1e-3)
+    return R.min(-1).values.sum(), tt
+
+
+v, tt = obj(th0, True)
+v.backward()
+g_auto = tt.grad.numpy().copy()
+eps = 1e-6
+g_fd = np.zeros_like(th0)
+for b in range(Bn):
+    for n in range(Nn):
+        tp = th0.copy(); tp[b, n] += eps
+        tm = th0.copy(); tm[b, n] -= eps
+        g_fd[b, n] = (obj(tp)[0].item() - obj(tm)[0].item()) / (2 * eps)
+claim("grad_vs_fd_relative", "7", "exact", 0.0,
+      np.abs(g_auto - g_fd).max() / np.abs(g_fd).max(),
+      "autograd vs finite diff; fd cannot do better than ~1e-8",
+      at_most=1e-5)
+
+# raw network output is scale invariant after unit_phase
+gsc = torch.tensor(rng.uniform(0.2, 5.0, (Bn, Nn)))
+c0, s0 = torch.tensor(np.cos(th0)), torch.tensor(np.sin(th0))
+R1 = S.rates(tF, tG, tH, *S.unit_phase(c0, s0), 1.0, 1e-3)
+R2 = S.rates(tF, tG, tH, *S.unit_phase(gsc * c0, gsc * s0), 1.0, 1e-3)
+claim("scale_invariance", "7", "exact", 0.0, (R1 - R2).abs().max().item(),
+      at_most=1e-9)
+
+# straight-through quantiser: value on the grid, gradient equal to one
+for bits in (1, 2, 3):
+    cc = torch.tensor(np.cos(th0), requires_grad=True)
+    ss = torch.tensor(np.sin(th0), requires_grad=True)
+    cq, sq = S.quantise_ste(cc, ss, bits)
+    step = 2 * np.pi / (2 ** bits)
+    tq = torch.atan2(sq, cq).detach().numpy()
+    claim(f"ste_{bits}bit_on_grid", "7", "exact", 0.0,
+          float(np.abs(tq / step - np.round(tq / step)).max()), at_most=1e-12)
+    # d theta_q / d theta must be 1, not 0: perturb theta and watch theta_q
+    th_t = torch.tensor(th0, requires_grad=True)
+    cq, sq = S.quantise_ste(torch.cos(th_t), torch.sin(th_t), bits)
+    torch.atan2(sq, cq).sum().backward()
+    claim(f"ste_{bits}bit_gradient_is_one", "7", "exact", 1.0,
+          th_t.grad.abs().mean().item(), "straight-through, not zero")
+
+# permutation symmetry at inference
+C = n_channels(8)
+X = torch.randn(6, 4, C, 32)
+for mode in MODES:
+    net = MuMisoNet(N=32, n_users=4, n_tx=8, mode=mode).eval()
+    base = net(X).detach()
+    dev = max((net(X[:, torch.tensor(rng.permutation(4))]).detach()
+               - base).abs().max().item() for _ in range(6))
+    if mode == "concat":
+        # At initialisation an untrained net is near-random, so this number
+        # is not the real test. The real one is post-training, on the RATE:
+        # measured 1.67e-02 (residual) and 2.46e-02 (absolute) for concat
+        # against 2.46e-06 for deepsets. See the run logs in results/.
+        claim("perm_concat_is_sensitive", "7", "timing", 0.0, dev,
+              "at init; real test is post-training on the rate")
+    else:
+        claim(f"perm_{mode}_invariant", "7", "exact", 0.0, dev, at_most=1e-5)
+
+# residual mode starts at the anchor
+panel, cfg = make_mumiso_scenario(n_users=4, n_bs_antennas=8, seed=11)
+N = panel.positions.shape[0]
+d = MuMisoChannel(panel, cfg).generate(200)
+F, G, hd, _ = to_torch(d)
+pt, nv = 1.0, 1.0 / cfg.snr_scale()
+phi = S.su_align_phase(F, G, hd)
+Xs = torch.from_numpy(mumiso_features(d["F"], d["G"], d["hd"], phi.numpy()))
+_, th_su = B.su_average(F, G, hd, pt, nv)
+net = MuMisoNet(N=N, n_users=4, n_tx=8, mode="exchange", residual=True).eval()
+with torch.no_grad():
+    c, s = net.phases(Xs)
+dev = torch.atan2(torch.sin(torch.atan2(s, c) - th_su),
+                  torch.cos(torch.atan2(s, c) - th_su)).abs().max().item()
+claim("residual_starts_at_anchor", "7", "exact", 0.0, dev,
+      "radians; deliberately a hair off so gradients reach the body",
+      at_most=2e-3)
+
+# ----------------------------------------------------- statistical (fast)
+section("statistical: channel diagnostics (1000 scenarios, N=32 T=8 K=4)")
+d2 = MuMisoChannel(*make_mumiso_scenario(n_users=4, n_bs_antennas=8,
+                                         seed=11)).generate(1000)
+Gv = d2["G"].reshape(-1, N)
+Ft = d2["F"].transpose(0, 2, 1).reshape(-1, 8)
+claim("g_rank_pooled_1000", "6", "statistical", 15.73, effective_rank(Gv))
+claim("g_rank_user0_1000", "6", "statistical", 15.58,
+      effective_rank(d2["G"][:, 0]))
+claim("f_rank_ant0_1000", "6", "statistical", 13.46,
+      effective_rank(d2["F"][:, :, 0]))
+claim("g_neigh_corr_1000", "6", "statistical", 0.5716, neighbour_corr(Gv))
+claim("ant_neigh_corr_1000", "6", "statistical", 0.7401, neighbour_corr(Ft))
+claim("ant_rank_1000", "6", "statistical", 4.00, effective_rank(Ft))
+claim("los_frac_bs_ris", "6", "statistical", 0.383,
+      float(d2["los_ris_bs"].mean()))
+
+section("statistical: effective rank vs sample count (§6 caveat)")
+# The previous version of this check computed effective_rank on
+# d2["G"][:min(Sn, 1000)], so its 4000 and 8000 rows silently reused the
+# first 1000 scenarios and the test could never fail. An independent audit
+# caught it. It also found the report's stated DIRECTION is wrong: the
+# estimator is not monotone upward -- 250 scenarios gives a HIGHER value
+# than 1000. So what is checked here is the honest claim: the estimate
+# moves by more than a few percent with sample count, therefore an absolute
+# value must never be quoted without the count.
+d_big = MuMisoChannel(*make_mumiso_scenario(n_users=4, n_bs_antennas=8,
+                                            seed=11)).generate(
+    16000 if a.all else 4000)
+ranks = {}
+for Sn in (250, 1000, 4000) + ((16000,) if a.all else ()):
+    ranks[Sn] = effective_rank(d_big["G"][:Sn].reshape(-1, N))
+    claim(f"rank_at_{Sn}", "6", "timing", 0.0, ranks[Sn],
+          f"{Sn} scenarios")
+spread = (max(ranks.values()) - min(ranks.values())) / min(ranks.values())
+claim("rank_estimate_is_count_dependent", "6", "exact", 1.0,
+      1.0 if spread > 0.05 else 0.0,
+      f"spread {100*spread:.0f}% across counts -> never quote without n")
+claim("rank_is_not_monotone_up", "6", "exact", 1.0,
+      1.0 if ranks[250] > ranks[1000] else 0.0,
+      "report's 'drifts upward' is wrong at the low end")
+
+# ------------------------------------------------------- statistical slow
+if a.all:
+    section("statistical: baselines and the frontier ordering (slow)")
+    d3 = MuMisoChannel(*make_mumiso_scenario(n_users=4, n_bs_antennas=8,
+                                             seed=11)).generate(600)
+    F3, G3, H3, _ = to_torch(d3)
+    ev = slice(0, 450)
+    _, TH0 = B.su_average(F3, G3, H3, pt, nv)
+
+    def rate_of(th):
+        return S.rates(F3[ev], G3[ev], H3[ev], torch.cos(th), torch.sin(th),
+                       pt, nv, "zf").min(-1).values.mean().item()
+
+    def adam_phase(L, lr=0.5):
+        dl = torch.zeros(450, N, requires_grad=True)
+        opt = torch.optim.Adam([dl], lr=lr)
+        for _ in range(L):
+            th = TH0[ev] + dl
+            R = S.rates(F3[ev], G3[ev], H3[ev], torch.cos(th), torch.sin(th),
+                        pt, nv, "zf")
+            (-(-torch.logsumexp(-8.0 * R, -1) / 8.0).mean()).backward()
+            opt.step()
+            opt.zero_grad()
+        return TH0[ev] + dl.detach()
+
+    claim("su_average_rate", "5", "statistical", 3.664, rate_of(TH0[ev]))
+    claim("adam8_rate", "5", "statistical", 5.378, rate_of(adam_phase(8)))
+    claim("adam16_rate", "5", "statistical", 5.743, rate_of(adam_phase(16)))
+    claim("adam32_rate", "5", "statistical", 6.015, rate_of(adam_phase(32)))
+    q_cd = S.rate_metrics(B.coord_descent(F3[ev], G3[ev], H3[ev], pt,
+                                          nv)[0])["min_rate"]
+    q_pga = S.rate_metrics(B.pga(F3[ev], G3[ev], H3[ev], pt,
+                                 nv)[0])["min_rate"]
+    q_ao = S.rate_metrics(B.ao(F3[ev], G3[ev], H3[ev], pt, nv)[0])["min_rate"]
+    claim("cd_rate", "5", "statistical", 5.910, q_cd)
+    claim("pga_rate", "5", "statistical", 6.202, q_pga)
+    claim("ao_rate", "5", "statistical", 6.201, q_ao)
+    claim("pga_beats_ao", "5", "exact", 1.0, 1.0 if q_pga >= q_ao else 0.0,
+          "report says PGA is the strongest, not AO")
+    claim("cd_dominated_by_adam32", "5", "exact", 1.0,
+          1.0 if rate_of(adam_phase(32)) > q_cd else 0.0,
+          "report says coordinate descent is dominated")
+
+    # The latency table in the report comes from a DIFFERENT sample (400
+    # scenarios, mumiso_budget_fraction.py) than the frontier rows above
+    # (450, mumiso_frontier.py), and the min-rate mean moves about 6% at
+    # this n. Both are frozen here so that quoting one while measuring the
+    # other shows up as a failure instead of as a puzzling 6% drift.
+    section("statistical: the OTHER sample the latency table uses (400)")
+    d4 = MuMisoChannel(*make_mumiso_scenario(n_users=4, n_bs_antennas=8,
+                                             seed=11)).generate(400)
+    F4, G4, H4, _ = to_torch(d4)
+    _, T4 = B.su_average(F4, G4, H4, pt, nv)
+    _, T4b = B.su_best_of(F4, G4, H4, pt, nv)
+
+    def rate4(th):
+        return S.rates(F4, G4, H4, torch.cos(th), torch.sin(th), pt, nv,
+                       "zf").min(-1).values.mean().item()
+
+    def adam4(L, start):
+        dl = torch.zeros(400, N, requires_grad=True)
+        opt = torch.optim.Adam([dl], lr=0.5)
+        for _ in range(L):
+            t = start + dl
+            R = S.rates(F4, G4, H4, torch.cos(t), torch.sin(t), pt, nv, "zf")
+            (-(-torch.logsumexp(-8.0 * R, -1) / 8.0).mean()).backward()
+            opt.step()
+            opt.zero_grad()
+        return start + dl.detach()
+
+    claim("bf_su_average", "5", "statistical", 3.765, rate4(T4))
+    claim("bf_su_best_of", "5", "statistical", 4.417, rate4(T4b))
+    claim("bf_adam8", "5", "statistical", 5.569, rate4(adam4(8, T4)))
+    claim("bf_adam12", "5", "statistical", 5.775, rate4(adam4(12, T4)))
+    claim("bf_adam16", "5", "statistical", 5.934, rate4(adam4(16, T4)))
+    # The audit found su_average to be a weak anchor and measured the fix
+    # at +48%. With the precoder bug fixed that drops to +17% -- the finding
+    # is real but much smaller, and the threshold here records the measured
+    # value rather than the one from the broken configuration.
+    claim("su_best_of_gain_over_average", "5", "statistical", 1.173,
+          rate4(T4b) / rate4(T4), "anchor fix, properly precoded")
+
+# --------------------------------------------------- sec4 / unrolled claims
+# WHY THESE EXIST
+# ---------------
+# Everything above re-measures something. The numbers behind Bulgu 1 and
+# Bulgu 2 come from training runs that take ~15-45 min each, so an audit
+# cannot reproduce them. What it CAN do is pin the saved results to the
+# claims the report makes about them -- which is exactly the failure mode
+# this project already hit once: the report quoted the UNROLLED model's
+# 3.50 -> 5.64 as evidence about the ONE-SHOT models. A number lifted from
+# the wrong file reads perfectly plausible. These checks make that specific
+# mistake fail loudly.
+#
+# KNOWN GAP, stated rather than papered over: the anchor on the models' own
+# 1800-scenario test split (su_average 3.5363, su_best_of 4.1730) is the
+# denominator of every Bulgu 1 ratio in the report, and it is NOT re-measured
+# here -- doing so means regenerating all 12000 scenarios. It is measured by
+# scripts/anchor_same_split.py and read from results/anchor_full_test.json.
+# So a regression in the SU baselines would not fail this section; it would
+# fail the §5 statistical tier above, which does re-measure them on its own
+# sample. That is weaker than checking the same split, and worth closing.
+section("saved results: Bulgu 1 and Bulgu 2 (consistency, not re-measurement)")
+
+import json as _json
+
+_RES = pathlib.Path(__file__).resolve().parents[1] / "results"
+
+
+def _load(name):
+    p = _RES / name
+    return _json.loads(p.read_text()) if p.exists() else None
+
+
+_s4 = _load("mumiso_sec4_fixzf.json")
+_un = _load("mumiso_unrolled_fixzf.json")
+_ng = _load("mumiso_nograd_fixzf.json")
+
+if _s4 is None or _un is None or _ng is None:
+    print("  [skip] one of the fixzf result files is missing -- rerun "
+          "mumiso_run.py / mumiso_unrolled.py with --tag *_fixzf")
+else:
+    # --- Bulgu 1: the three one-shot models sit ON the anchor -------------
+    for _m, _v in (("concat", 3.536795), ("deepsets", 3.536696),
+                   ("exchange", 3.526039)):
+        claim(f"sec4_{_m}_test_min", "4", "statistical", _v,
+              _s4["models"][_m]["test_min"], "from mumiso_sec4_fixzf.json")
+    claim("sec4_target_is_pga", "4", "exact", 1,
+          int(_s4["target"]["method"] == "pga"),
+          "the number to beat is PGA, chosen by measurement")
+    claim("sec4_target_rate", "4", "statistical", 6.078346,
+          _s4["target"]["rate"])
+    # The spread ACROSS architectures is the real claim of Bulgu 1: the
+    # choice of architecture does not matter. Asserting it as a bound means
+    # a future run that separates them will fail here instead of quietly
+    # contradicting the report.
+    _mins = [_s4["models"][k]["test_min"] for k in ("concat", "deepsets",
+                                                    "exchange")]
+    claim("sec4_architecture_spread_tiny", "4", "statistical",
+          0.0, (max(_mins) - min(_mins)) / max(_mins),
+          "architecture choice changes nothing", at_most=0.01)
+
+    # --- Bulgu 2: the gradient input is what matters ---------------------
+    claim("unrolled_anchor", "4", "statistical", 3.5758257, _un["anchor"])
+    claim("unrolled_with_grad", "4", "statistical", 5.6359273,
+          _un["test_min"], "gradient given as input")
+    claim("unrolled_without_grad", "4", "statistical", 3.6160022,
+          _ng["test_min"], "same model, gradient withheld")
+    claim("unrolled_grad_is_on", "4", "exact", 1,
+          int(bool(_un["config"]["use_grad"])))
+    claim("unrolled_nograd_is_off", "4", "exact", 0,
+          int(bool(_ng["config"]["use_grad"])))
+    # Same anchor for both arms, or the comparison means nothing.
+    claim("ablation_shares_anchor", "4", "exact", 0.0,
+          abs(_un["anchor"] - _ng["anchor"]), "both arms, one anchor",
+          at_most=1e-6)
+    # Nor may it be a capacity difference.
+    claim("ablation_capacity_matched", "4", "statistical", 0.0,
+          abs(_un["params"] - _ng["params"]) / _un["params"],
+          "parameter counts within 1%", at_most=0.01)
+    # The finding itself, as a ratio so it survives a change of scale.
+    # `claim` only bounds from ABOVE, so the "gradient buys >10x" claim is
+    # written as its reciprocal <= 0.1. Writing it the natural way round
+    # with a huge at_most would assert nothing at all -- the exact kind of
+    # toothless threshold this audit exists to catch.
+    claim("nograd_gain_is_under_a_tenth", "4", "statistical", 0.0,
+          (_ng["test_min"] / _ng["anchor"] - 1.0)
+          / (_un["test_min"] / _un["anchor"] - 1.0),
+          "gradient input buys >10x the anchor-relative gain", at_most=0.1)
+    claim("nograd_barely_moves", "4", "statistical", 0.0,
+          _ng["test_min"] / _ng["anchor"] - 1.0,
+          "without the gradient the model stays at the anchor",
+          at_most=0.05)
+    # And the guard against the mistake that actually happened: the
+    # one-shot models must NOT be credited with the unrolled model's rate.
+    claim("bulgu1_not_bulgu2", "4", "exact", 1,
+          int(max(_mins) < 0.75 * _un["test_min"]),
+          "one-shot models are nowhere near the unrolled model")
+
+# ----------------------------------------------------------------- report
+section("summary")
+fails = [r for r in RESULTS if r["ok"] is False]
+n_checked = sum(1 for r in RESULTS if r["ok"] is not None)
+print(f"  {n_checked - len(fails)}/{n_checked} asserted claims hold; "
+      f"{sum(1 for r in RESULTS if r['ok'] is None)} informational")
+if fails:
+    print("\n  FAILED:")
+    for r in fails:
+        print(f"    {r['id']} (§{r['section']}): claimed {r['claimed']:.4g}, "
+              f"measured {r['measured']:.4g}")
+    print("\n  The report is wrong until proven otherwise. Fix the report, or")
+    print("  find the regression in the package that moved the number.")
+if not a.all:
+    print("\n  (slow tiers skipped; rerun with --all before trusting §5)")
+sys.exit(1 if fails else 0)

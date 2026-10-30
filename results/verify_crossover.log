@@ -1,0 +1,27 @@
+  legacy     seed 0  element-local  RMSE= 33.403°
+  legacy     seed 0  global mixing  RMSE= 33.670°
+  legacy     seed 1  element-local  RMSE= 33.146°
+  legacy     seed 1  global mixing  RMSE= 33.488°
+  legacy     seed 2  element-local  RMSE= 33.291°
+  legacy     seed 2  global mixing  RMSE= 33.542°
+  legacy     seed 3  element-local  RMSE= 33.291°
+  legacy     seed 3  global mixing  RMSE= 33.589°
+  geometric  seed 0  element-local  RMSE= 24.785°
+  geometric  seed 0  global mixing  RMSE= 23.167°
+  geometric  seed 1  element-local  RMSE= 24.953°
+  geometric  seed 1  global mixing  RMSE= 23.383°
+  geometric  seed 2  element-local  RMSE= 25.054°
+  geometric  seed 2  global mixing  RMSE= 23.719°
+  geometric  seed 3  element-local  RMSE= 24.788°
+  geometric  seed 3  global mixing  RMSE= 23.354°
+
+sigma = 0.25, 4 seeds, mean +- std over seeds
+channel          element-local     global mixing     advantage   wins
+---------------------------------------------------------------------
+legacy             33.28±0.09        33.57±0.07      +0.9±0.1 %   0/4
+geometric          24.90±0.11        23.41±0.20      -6.0±0.5 %   4/4
+
+  (advantage negative = spatial mixing beats the element-local model;
+   'wins' counts seeds where it did)
+
+saved -> results/verify_crossover.json

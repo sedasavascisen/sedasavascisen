@@ -1,0 +1,20 @@
+Equiv+residual  (130,435 params)
+  before training: min=4.666  sum=33.830
+    [residual] ep   1  loss=-5.26840  min_rate=5.371  sum_rate=33.107  mean_rate=8.277  *
+    [residual] ep   5  loss=-5.32031  min_rate=5.370  sum_rate=32.899  mean_rate=8.225
+    [residual] ep  10  loss=-5.35833  min_rate=5.395  sum_rate=32.836  mean_rate=8.209
+    [residual] ep  15  loss=-5.37332  min_rate=5.418  sum_rate=32.921  mean_rate=8.230
+    [residual] ep  20  loss=-5.37664  min_rate=5.404  sum_rate=32.845  mean_rate=8.211
+    [residual] ep  25  loss=-5.37202  min_rate=5.407  sum_rate=32.884  mean_rate=8.221
+    [residual] early stop at epoch 28 (best 16)
+  after  training: min=5.351  sum=32.727  (19.8 min)
+
+method             min rate  sum rate  % of PGA  ms/sample
+----------------------------------------------------------
+no RIS                0.689    13.861     10.3%          -
+random phase          2.616    23.911     39.2%          -
+SU closed form        5.733    33.766     86.0%          -
+PGA max-min           6.666    34.700    100.0%      2.318
+MU-CNN-LSTM           5.304    32.602     79.6%      0.172
+Equivariant           5.649    33.823     84.7%      0.747
+Equiv+residual        5.351    32.727     80.3%      0.846

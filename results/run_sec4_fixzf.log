@@ -1,0 +1,69 @@
+=== dataset: 12000 scenarios, T=8, K=4 ===
+  N=32 C=37  generated in 4.4s
+  features (12000, 4, 37, 32)  227 MB  in 0.3s
+  G rank(pooled) 20.99  G rank(user0) 18.85  F rank 15.84  G neigh 0.474
+  split  train 8400  val 1800  test 1800
+
+=== baselines on 300 test scenarios ===
+       no_ris  min  1.0860  sum    4.344   (0.0s)
+       random  min  2.9767  sum   15.737   (0.0s)
+   su_weakest  min  3.6114  sum   17.410   (0.0s)
+   su_average  min  3.4154  sum   17.193   (0.0s)
+   su_best_of  min  4.0461  sum   18.681   (0.0s)
+           cd  min  5.7945  sum   23.928   (8.2s)
+          pga  min  6.0783  sum   24.916   (25.1s)
+           ao  min  6.0783  sum   24.916   (26.3s)
+  -> the number to beat is pga: 6.0783   (others: cd 5.7945, ao 6.0783)
+
+=== train mode=concat ===
+  parameters: 285058
+    epoch   1/12  loss  -3.5272  val min  3.5836  sum   17.563  (8.4s)  *
+    epoch   2/12  loss  -3.5212  val min  3.5839  sum   17.563  (7.7s)  *
+    epoch   3/12  loss  -3.5320  val min  3.5812  sum   17.555  (7.8s)
+    epoch   4/12  loss  -3.5293  val min  3.5847  sum   17.564  (8.3s)  *
+    epoch   5/12  loss  -3.5377  val min  3.5669  sum   17.513  (8.2s)
+    epoch   6/12  loss  -3.5414  val min  3.5743  sum   17.532  (8.3s)
+    epoch   7/12  loss  -3.5572  val min  3.5615  sum   17.490  (8.0s)
+    epoch   8/12  loss  -3.5669  val min  3.5542  sum   17.468  (7.8s)
+    epoch   9/12  loss  -3.5877  val min  3.5603  sum   17.483  (8.2s)
+    epoch  10/12  loss  -3.6084  val min  3.5451  sum   17.437  (7.8s)
+    epoch  11/12  loss  -3.6176  val min  3.5502  sum   17.453  (8.4s)
+    epoch  12/12  loss  -3.6269  val min  3.5411  sum   17.427  (7.9s)
+  TEST  min 3.5368  sum 17.486   (0.582x of AO)   [97s]
+  user-order spread over 6 permutations: 1.17e-03  (mean 3.5362)
+
+=== train mode=deepsets ===
+  parameters: 263746
+    epoch   1/12  loss  -3.5270  val min  3.5835  sum   17.563  (29.3s)  *
+    epoch   2/12  loss  -3.5202  val min  3.5835  sum   17.563  (29.2s)  *
+    epoch   3/12  loss  -3.5306  val min  3.5836  sum   17.563  (28.9s)  *
+    epoch   4/12  loss  -3.5267  val min  3.5819  sum   17.558  (30.2s)
+    epoch   5/12  loss  -3.5262  val min  3.5837  sum   17.563  (30.4s)  *
+    epoch   6/12  loss  -3.5261  val min  3.5788  sum   17.554  (30.3s)
+    epoch   7/12  loss  -3.5280  val min  3.5824  sum   17.561  (29.3s)
+    epoch   8/12  loss  -3.5247  val min  3.5759  sum   17.547  (28.8s)
+    epoch   9/12  loss  -3.5312  val min  3.5845  sum   17.566  (29.9s)  *
+    epoch  10/12  loss  -3.5299  val min  3.5760  sum   17.547  (29.9s)
+    epoch  11/12  loss  -3.5324  val min  3.5742  sum   17.543  (29.4s)
+    epoch  12/12  loss  -3.5335  val min  3.5800  sum   17.556  (30.4s)
+  TEST  min 3.5367  sum 17.487   (0.582x of AO)   [358s]
+  user-order spread over 6 permutations: 5.93e-06  (mean 3.5367)
+
+=== train mode=exchange ===
+  parameters: 272066
+    epoch   1/12  loss  -3.5273  val min  3.5835  sum   17.563  (31.4s)  *
+    epoch   2/12  loss  -3.5207  val min  3.5880  sum   17.571  (33.5s)  *
+    epoch   3/12  loss  -3.5305  val min  3.5837  sum   17.563  (33.1s)
+    epoch   4/12  loss  -3.5265  val min  3.5836  sum   17.563  (33.0s)
+    epoch   5/12  loss  -3.5270  val min  3.5836  sum   17.563  (31.8s)
+    epoch   6/12  loss  -3.5247  val min  3.5835  sum   17.563  (32.3s)
+    epoch   7/12  loss  -3.5284  val min  3.5836  sum   17.563  (30.6s)
+    epoch   8/12  loss  -3.5228  val min  3.5836  sum   17.563  (30.7s)
+    epoch   9/12  loss  -3.5280  val min  3.5836  sum   17.563  (30.3s)
+    epoch  10/12  loss  -3.5262  val min  3.5836  sum   17.563  (31.0s)
+    epoch  11/12  loss  -3.5270  val min  3.5836  sum   17.563  (30.7s)
+    epoch  12/12  loss  -3.5262  val min  3.5836  sum   17.563  (30.6s)
+  TEST  min 3.5260  sum 17.462   (0.580x of AO)   [381s]
+  user-order spread over 6 permutations: 9.83e-07  (mean 3.5260)
+
+=== done in 15.4 min -> results/mumiso_sec4_fixzf.json ===

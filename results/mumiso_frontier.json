@@ -1,0 +1,86 @@
+{
+ "strongest": "PGA (3 random starts)",
+ "strongest_rate": 5.182668209075928,
+ "best_in_budget_frac": 0.7078898370323318,
+ "config": {
+  "ckpt": "results/mumiso_unrolled.pt",
+  "samples": 600,
+  "eval_n": 450,
+  "steps": 8,
+  "users": 4,
+  "tx": 8,
+  "lr": 0.5,
+  "velocity": 1.5,
+  "tag": "frontier"
+ },
+ "coherence_ms": 28.2,
+ "fd_hz": 15.0,
+ "rows": [
+  {
+   "method": "su_average",
+   "min_rate": 1.1924703121185303,
+   "latency_ms": 0.7193069999971158
+  },
+  {
+   "method": "tuned Adam, 4 steps",
+   "min_rate": 2.5749354362487793,
+   "latency_ms": 5.986929500011229
+  },
+  {
+   "method": "tuned Adam, 8 steps",
+   "min_rate": 3.1227400302886963,
+   "latency_ms": 12.148547500032691
+  },
+  {
+   "method": "tuned Adam, 16 steps",
+   "min_rate": 3.6687581539154053,
+   "latency_ms": 23.67783300002202
+  },
+  {
+   "method": "learned, 8 steps",
+   "min_rate": 3.276554822921753,
+   "latency_ms": 36.180542499977264
+  },
+  {
+   "method": "tuned Adam, 32 steps",
+   "min_rate": 4.156853199005127,
+   "latency_ms": 48.192502500000955
+  },
+  {
+   "method": "tuned Adam, 64 steps",
+   "min_rate": 4.504144191741943,
+   "latency_ms": 98.09180899998182
+  },
+  {
+   "method": "tuned Adam, 128 steps",
+   "min_rate": 4.678711891174316,
+   "latency_ms": 197.08455199997843
+  },
+  {
+   "method": "coord descent",
+   "min_rate": 3.755382776260376,
+   "latency_ms": 1534.8085399999718
+  },
+  {
+   "method": "PGA (3 random starts)",
+   "min_rate": 5.182668209075928,
+   "latency_ms": 5611.39618499999
+  },
+  {
+   "method": "AO (cd+su+rnd starts)",
+   "min_rate": 5.179166793823242,
+   "latency_ms": 6543.490138499976
+  }
+ ],
+ "pareto": [
+  "su_average",
+  "tuned Adam, 4 steps",
+  "tuned Adam, 8 steps",
+  "tuned Adam, 16 steps",
+  "tuned Adam, 32 steps",
+  "tuned Adam, 64 steps",
+  "tuned Adam, 128 steps",
+  "PGA (3 random starts)"
+ ],
+ "best_in_budget": "tuned Adam, 16 steps"
+}

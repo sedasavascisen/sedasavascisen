@@ -1,0 +1,30 @@
+===== L=1 baslıyor 11:54:11 =====
+L=1 bitti 12:03:10, son satirlar:
+  per-step min rate: 4.412
+  learned step sizes: 0.514
+
+wrote results/mumiso_eqstep_L1.json
+===== L=2 baslıyor 12:03:10 =====
+L=2 bitti 12:11:25, son satirlar:
+  per-step min rate: 4.338 -> 4.846
+  learned step sizes: 0.735 0.342
+
+wrote results/mumiso_eqstep_L2.json
+===== L=4 baslıyor 12:11:25 =====
+L=4 bitti 12:25:21, son satirlar:
+  per-step min rate: 4.311 -> 4.411 -> 4.850 -> 5.251
+  learned step sizes: 0.778 0.749 0.585 0.273
+
+wrote results/mumiso_eqstep_L4.json
+===== L=8 baslıyor 12:25:21 =====
+L=8 bitti 12:51:55, son satirlar:
+  per-step min rate: 4.348 -> 4.759 -> 4.778 -> 5.207 -> 4.499 -> 5.283 -> 5.158 -> 5.574
+  learned step sizes: 0.513 0.611 0.722 0.481 0.815 0.393 0.534 0.291
+
+wrote results/mumiso_eqstep_L8.json
+===== L=16 baslıyor 12:51:55 =====
+L=16 bitti 14:12:14, son satirlar:
+  per-step min rate: 4.158 -> 4.605 -> 4.904 -> 5.096 -> 5.156 -> 5.358 -> 5.183 -> 5.521 -> 5.161 -> 5.630 -> 5.202 -> 5.694 -> 5.138 -> 5.726 -> 5.305 -> 5.792
+  learned step sizes: 0.472 0.507 0.554 0.486 0.562 0.457 0.577 0.441 0.604 0.425 0.596 0.413 0.632 0.403 0.557 0.392
+
+wrote results/mumiso_eqstep_L16.json

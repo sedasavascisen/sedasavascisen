@@ -1,0 +1,43 @@
+{
+  "per_run": {
+    "legacy|0|element-local": 33.40340805053711,
+    "legacy|0|global mixing": 33.67047119140625,
+    "legacy|1|element-local": 33.146331787109375,
+    "legacy|1|global mixing": 33.48751449584961,
+    "legacy|2|element-local": 33.290592193603516,
+    "legacy|2|global mixing": 33.542362213134766,
+    "legacy|3|element-local": 33.290855407714844,
+    "legacy|3|global mixing": 33.589263916015625,
+    "geometric|0|element-local": 24.78522300720215,
+    "geometric|0|global mixing": 23.167434692382812,
+    "geometric|1|element-local": 24.95292091369629,
+    "geometric|1|global mixing": 23.382545471191406,
+    "geometric|2|element-local": 25.054271697998047,
+    "geometric|2|global mixing": 23.71944236755371,
+    "geometric|3|element-local": 24.787668228149414,
+    "geometric|3|global mixing": 23.353538513183594
+  },
+  "summary": {
+    "legacy": {
+      "local_mean": 33.28279685974121,
+      "local_std": 0.0912352492448574,
+      "mix_mean": 33.57240295410156,
+      "mix_std": 0.06710098297890975,
+      "advantage_mean": 0.8703697307784861,
+      "advantage_std": 0.10485674067917593,
+      "mixing_wins": 0,
+      "n_seeds": 4
+    },
+    "geometric": {
+      "local_mean": 24.895020961761475,
+      "local_std": 0.11433875290702844,
+      "mix_mean": 23.40574026107788,
+      "mix_std": 0.1990361628194418,
+      "advantage_mean": -5.983497971508354,
+      "advantage_std": 0.4638960061662561,
+      "mixing_wins": 4,
+      "n_seeds": 4
+    }
+  },
+  "sigma": 0.25
+}

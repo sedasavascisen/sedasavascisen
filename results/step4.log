@@ -1,0 +1,51 @@
+N=32  U=4  samples=16000  noise=-94.0 dBm
+
+baselines on the test split
+  no RIS           min=0.689  sum=13.861
+  random phase     min=2.616  sum=23.911
+  SU closed form   min=5.733  sum=33.766
+  PGA max-min      min=6.666  sum=34.700
+
+--- MU-CNN-LSTM  (263,554 params)
+    [MU-CNN-LSTM] ep   1  loss=-3.44869  min_rate=4.231  sum_rate=31.356  mean_rate=7.839  *
+    [MU-CNN-LSTM] ep   5  loss=-4.97911  min_rate=5.129  sum_rate=32.923  mean_rate=8.231  *
+    [MU-CNN-LSTM] ep  10  loss=-5.14634  min_rate=5.224  sum_rate=32.737  mean_rate=8.184
+    [MU-CNN-LSTM] ep  15  loss=-5.17425  min_rate=5.272  sum_rate=32.798  mean_rate=8.199
+    [MU-CNN-LSTM] ep  20  loss=-5.23094  min_rate=5.236  sum_rate=32.652  mean_rate=8.163
+    [MU-CNN-LSTM] ep  25  loss=-5.30611  min_rate=5.308  sum_rate=32.840  mean_rate=8.210
+    [MU-CNN-LSTM] ep  30  loss=-5.33637  min_rate=5.323  sum_rate=32.811  mean_rate=8.203
+    [MU-CNN-LSTM] ep  35  loss=-5.33858  min_rate=5.312  sum_rate=32.812  mean_rate=8.203
+    [MU-CNN-LSTM] ep  40  loss=-5.37147  min_rate=5.316  sum_rate=32.849  mean_rate=8.212
+    [MU-CNN-LSTM] early stop at epoch 40 (best 28)
+    min=5.304  sum=32.602  (7.6 min)
+
+--- Equivariant  (130,242 params)
+    [Equivariant] ep   1  loss=-4.54470  min_rate=5.296  sum_rate=33.097  mean_rate=8.274  *
+    [Equivariant] ep   5  loss=-5.33322  min_rate=5.350  sum_rate=33.109  mean_rate=8.277
+    [Equivariant] ep  10  loss=-5.39066  min_rate=5.436  sum_rate=33.347  mean_rate=8.337  *
+    [Equivariant] ep  15  loss=-5.43423  min_rate=5.485  sum_rate=33.479  mean_rate=8.370  *
+    [Equivariant] ep  20  loss=-5.48683  min_rate=5.471  sum_rate=33.361  mean_rate=8.340
+    [Equivariant] ep  25  loss=-5.64341  min_rate=5.638  sum_rate=33.935  mean_rate=8.484  *
+    [Equivariant] ep  30  loss=-5.64380  min_rate=5.669  sum_rate=33.996  mean_rate=8.499  *
+    [Equivariant] ep  35  loss=-5.66640  min_rate=5.705  sum_rate=34.241  mean_rate=8.560  *
+    [Equivariant] ep  40  loss=-5.74056  min_rate=5.737  sum_rate=34.145  mean_rate=8.536  *
+    min=5.649  sum=33.823  (27.3 min)
+
+--- Equiv+residual  (130,435 params)
+    [Equiv+residual] ep   1  loss=nan  min_rate=nan  sum_rate=nan  mean_rate=nan
+    [Equiv+residual] ep   5  loss=nan  min_rate=nan  sum_rate=nan  mean_rate=nan
+    [Equiv+residual] ep  10  loss=nan  min_rate=nan  sum_rate=nan  mean_rate=nan
+    [Equiv+residual] early stop at epoch 12 (best 0)
+    min=nan  sum=nan  (8.4 min)
+
+method             min rate  sum rate  % of PGA  ms/sample
+----------------------------------------------------------
+no RIS                0.689    13.861     10.3%          -
+random phase          2.616    23.911     39.2%          -
+SU closed form        5.733    33.766     86.0%          -
+PGA max-min           6.666    34.700    100.0%      2.318
+MU-CNN-LSTM           5.304    32.602     79.6%      0.172
+Equivariant           5.649    33.823     84.7%      0.747
+Equiv+residual          nan       nan      nan%      0.898
+
+saved -> results/step4_multiuser.json

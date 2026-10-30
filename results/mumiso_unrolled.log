@@ -1,0 +1,46 @@
+N=32 T=8 K=4  samples=9000  steps=8  mode=exchange  use_grad=True
+
+anchor su_average on test : 1.1118
+coord descent on 800    : 3.7495
+AO (strong) on 800      : 5.3069   (41s)
+
+parameters: 272842
+before training, val min : 1.0589  (should sit at the anchor)
+  epoch   1/30  loss  -2.4619  val min  2.9010  sum   18.816  (103s)  *
+  epoch   2/30  loss  -3.0207  val min  3.0156  sum   18.979  (106s)  *
+  epoch   3/30  loss  -3.0853  val min  3.1029  sum   19.161  (106s)  *
+  epoch   4/30  loss  -3.1154  val min  3.0889  sum   19.410  (106s)
+  epoch   5/30  loss  -3.1448  val min  3.1535  sum   19.518  (112s)  *
+  epoch   6/30  loss  -3.1653  val min  3.1274  sum   19.553  (107s)
+  epoch   7/30  loss  -3.1861  val min  3.0636  sum   19.420  (109s)
+  epoch   8/30  loss  -3.1904  val min  3.1472  sum   19.530  (112s)
+  epoch   9/30  loss  -3.2012  val min  3.1067  sum   19.575  (107s)
+  epoch  10/30  loss  -3.1950  val min  3.1487  sum   19.629  (104s)
+  epoch  11/30  loss  -3.2116  val min  3.0638  sum   19.568  (105s)
+  epoch  12/30  loss  -3.1265  val min  3.1745  sum   19.631  (109s)  *
+  epoch  13/30  loss  -3.1815  val min  3.1477  sum   19.688  (107s)
+  epoch  14/30  loss  -3.1442  val min  3.0310  sum   19.401  (109s)
+  epoch  15/30  loss  -3.1437  val min  3.0797  sum   19.488  (126s)
+  epoch  16/30  loss  -3.0782  val min  2.9817  sum   19.152  (105s)
+  epoch  17/30  loss  -3.0537  val min  3.0092  sum   19.259  (110s)
+  epoch  18/30  loss  -3.0687  val min  3.0304  sum   19.415  (112s)
+  epoch  19/30  loss  -3.1247  val min  3.1592  sum   19.632  (109s)
+  epoch  20/30  loss  -3.1209  val min  3.1366  sum   19.520  (115s)
+  epoch  21/30  loss  -3.1290  val min  3.0470  sum   19.352  (108s)
+  epoch  22/30  loss  -3.0499  val min  3.0040  sum   19.283  (109s)
+  epoch  23/30  loss  -3.1338  val min  3.0271  sum   19.401  (107s)
+  epoch  24/30  loss  -3.1095  val min  3.0585  sum   19.453  (107s)
+  epoch  25/30  loss  -3.1179  val min  3.0414  sum   19.390  (107s)
+  epoch  26/30  loss  -3.0841  val min  3.0145  sum   19.377  (113s)
+  epoch  27/30  loss  -3.0865  val min  3.0276  sum   19.387  (112s)
+  epoch  28/30  loss  -3.0914  val min  3.0447  sum   19.370  (112s)
+  epoch  29/30  loss  -3.1110  val min  3.0381  sum   19.311  (114s)
+  epoch  30/30  loss  -3.0940  val min  3.0193  sum   19.329  (119s)
+
+TEST  min 3.2648  sum 19.797
+  anchor 1.1118   cd 3.7495   AO 5.3069
+  fraction of AO : 0.615
+  per-step min rate: 1.678 -> 1.585 -> 1.840 -> 2.073 -> 2.129 -> 2.623 -> 2.861 -> 3.265
+  learned step sizes: 0.746 0.944 0.866 0.691 0.684 0.460 0.338 0.156
+
+wrote results/mumiso_unrolled.json

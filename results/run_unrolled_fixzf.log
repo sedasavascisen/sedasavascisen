@@ -1,0 +1,32 @@
+N=32 T=8 K=4  samples=9000  steps=8  mode=exchange  use_grad=True
+
+anchor su_average on test : 3.5758
+coord descent on 300    : 6.1180
+AO (strong) on 300      : 6.4020   (34s)
+
+parameters: 272842
+before training, val min : 3.5021  (should sit at the anchor)
+  epoch   1/16  loss  -4.6852  val min  5.5668  sum   23.298  (163s)  *
+  epoch   2/16  loss  -5.4820  val min  5.4935  sum   23.084  (172s)
+  epoch   3/16  loss  -5.5118  val min  5.6102  sum   23.447  (172s)  *
+  epoch   4/16  loss  -5.5169  val min  5.5686  sum   23.313  (167s)
+  epoch   5/16  loss  -5.5114  val min  5.5826  sum   23.351  (172s)
+  epoch   6/16  loss  -5.5267  val min  5.6276  sum   23.494  (170s)  *
+  epoch   7/16  loss  -5.5184  val min  5.5918  sum   23.388  (169s)
+  epoch   8/16  loss  -5.5330  val min  5.5608  sum   23.289  (165s)
+  epoch   9/16  loss  -5.5125  val min  5.5663  sum   23.299  (164s)
+  epoch  10/16  loss  -5.4793  val min  5.5718  sum   23.338  (165s)
+  epoch  11/16  loss  -5.4508  val min  5.4906  sum   23.061  (171s)
+  epoch  12/16  loss  -5.4432  val min  5.4920  sum   23.074  (166s)
+  epoch  13/16  loss  -5.4374  val min  5.5082  sum   23.125  (163s)
+  epoch  14/16  loss  -5.4456  val min  5.5263  sum   23.194  (159s)
+  epoch  15/16  loss  -5.4459  val min  5.4990  sum   23.102  (158s)
+  epoch  16/16  loss  -5.4324  val min  5.5034  sum   23.105  (160s)
+
+TEST  min 5.6359  sum 23.613
+  anchor 3.5758   cd 6.1180   AO 6.4020
+  fraction of AO : 0.880
+  per-step min rate: 4.451 -> 4.611 -> 4.905 -> 5.092 -> 4.599 -> 5.343 -> 5.251 -> 5.636
+  learned step sizes: 0.589 0.845 0.720 0.607 0.836 0.381 0.507 0.258
+
+wrote results/mumiso_unrolled_fixzf.json

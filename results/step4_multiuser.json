@@ -1,0 +1,46 @@
+{
+  "no RIS": {
+    "min_rate": 0.6894102692604065,
+    "sum_rate": 13.861438751220703,
+    "mean_rate": 3.4653592109680176
+  },
+  "random phase": {
+    "min_rate": 2.615804433822632,
+    "sum_rate": 23.911136627197266,
+    "mean_rate": 5.977784633636475
+  },
+  "SU closed form": {
+    "min_rate": 5.732700824737549,
+    "sum_rate": 33.766448974609375,
+    "mean_rate": 8.441612243652344
+  },
+  "PGA max-min": {
+    "min_rate": 6.665925979614258,
+    "sum_rate": 34.699867248535156,
+    "mean_rate": 8.674966812133789,
+    "ms_per_sample": 2.318402302917093
+  },
+  "MU-CNN-LSTM": {
+    "min_rate": 5.30399382909139,
+    "sum_rate": 32.602072092692055,
+    "mean_rate": 8.150517845153809,
+    "ms_per_sample": 0.17207599624953218,
+    "params": 263554
+  },
+  "Equivariant": {
+    "min_rate": 5.658715165456136,
+    "sum_rate": 33.82694279988607,
+    "mean_rate": 8.456735750834147,
+    "ms_per_sample": 0.7601330779167862,
+    "params": 130242,
+    "untrained_min_rate": 2.722848892211914
+  },
+  "Equiv+residual": {
+    "min_rate": 5.3506909879048665,
+    "sum_rate": 32.72674077351888,
+    "mean_rate": 8.18168519337972,
+    "ms_per_sample": 0.8456770208332879,
+    "params": 130435,
+    "untrained_min_rate": 4.6664498456319174
+  }
+}

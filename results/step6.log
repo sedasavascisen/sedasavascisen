@@ -1,0 +1,37 @@
+N=32  U=4  samples=6000
+
+continuous reference   closed form 5.734   PGA 6.663
+
+===== 1-bit phase (2 levels) =====
+  closed form -> round   4.743
+  PGA -> round           5.440
+  discrete CD            5.600
+  learned (STE)          3.544   (2.8 dk)
+
+  learned vs closed-form-rounded : -25.3%
+  learned vs discrete CD         : -36.7%
+  discrete CD cost               : 0.09 ms/sample
+
+===== 2-bit phase (4 levels) =====
+  closed form -> round   5.457
+  PGA -> round           6.351
+  discrete CD            6.255
+  learned (STE)          5.009   (5.3 dk)
+
+  learned vs closed-form-rounded : -8.2%
+  learned vs discrete CD         : -19.9%
+  discrete CD cost               : 0.16 ms/sample
+
+==================================================================
+method                         1-bit       2-bit
+------------------------------------------------------------------
+closed form -> round           4.743       5.457
+PGA -> round                   5.440       6.351
+discrete CD                    5.600       6.255
+learned (STE)                  3.544       5.009
+------------------------------------------------------------------
+continuous closed form         5.734
+continuous PGA                 6.663
+==================================================================
+
+saved -> results/step6_quantised.json

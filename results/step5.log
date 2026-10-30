@@ -1,0 +1,17 @@
+user-ordering sensitivity  (U=4, 3000 scenarios, 8 relabellings)
+  MU-CNN-LSTM   min-rate 5.5522 +- 0.0117   spread 0.0316
+  Equivariant   min-rate 5.9714 +- 0.0000   spread 0.0000
+
+generalisation across user count (trained at U=4)
+  U   Equivariant       PGA  % of PGA   MU-CNN-LSTM
+---------------------------------------------------
+  2         7.756     8.465     91.6%    undefined
+  3         6.640     7.383     89.9%    undefined
+  4         5.850     6.719     87.1%        5.410
+  6         4.923     6.005     82.0%    undefined
+  8         4.081     5.350     76.3%    undefined
+
+('undefined' is the result: the concatenated model fixes U in its first layer
+ and cannot be evaluated at another user count without retraining.)
+
+saved -> results/step5_generalisation.json

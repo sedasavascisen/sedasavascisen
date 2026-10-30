@@ -1,0 +1,36 @@
+N=32 T=8 K=4  samples=9000  steps=8  mode=exchange  use_grad=False
+
+anchor su_average on test : 1.1118
+coord descent on 300    : 3.7575
+AO (strong) on 300      : 5.3623   (30s)
+
+parameters: 272650
+before training, val min : 1.0386  (should sit at the anchor)
+  epoch   1/20  loss  -1.1115  val min  1.0629  sum   15.068  (136s)  *
+  epoch   2/20  loss  -1.1207  val min  1.0755  sum   15.098  (135s)  *
+  epoch   3/20  loss  -1.1259  val min  1.0832  sum   15.123  (137s)  *
+  epoch   4/20  loss  -1.1283  val min  1.0762  sum   15.122  (140s)
+  epoch   5/20  loss  -1.1238  val min  1.0450  sum   15.047  (139s)
+  epoch   6/20  loss  -1.1193  val min  1.0706  sum   15.086  (144s)
+  epoch   7/20  loss  -1.1261  val min  1.0735  sum   15.092  (149s)
+  epoch   8/20  loss  -1.1241  val min  1.0684  sum   15.092  (147s)
+  epoch   9/20  loss  -1.1276  val min  1.0792  sum   15.124  (142s)
+  epoch  10/20  loss  -1.1306  val min  1.0815  sum   15.125  (140s)
+  epoch  11/20  loss  -1.1270  val min  1.0893  sum   15.137  (143s)  *
+  epoch  12/20  loss  -1.1266  val min  1.0907  sum   15.141  (143s)  *
+  epoch  13/20  loss  -1.1272  val min  1.0907  sum   15.141  (142s)  *
+  epoch  14/20  loss  -1.1270  val min  1.0893  sum   15.136  (138s)
+  epoch  15/20  loss  -1.1298  val min  1.0881  sum   15.135  (136s)
+  epoch  16/20  loss  -1.1306  val min  1.0861  sum   15.137  (140s)
+  epoch  17/20  loss  -1.1334  val min  1.0857  sum   15.136  (138s)
+  epoch  18/20  loss  -1.1352  val min  1.0869  sum   15.144  (135s)
+  epoch  19/20  loss  -1.1354  val min  1.0867  sum   15.145  (136s)
+  epoch  20/20  loss  -1.1355  val min  1.0863  sum   15.148  (136s)
+
+TEST  min 1.1518  sum 14.931
+  anchor 1.1118   cd 3.7575   AO 5.3623
+  fraction of AO : 0.215
+  per-step min rate: 1.114 -> 1.118 -> 1.123 -> 1.130 -> 1.139 -> 1.147 -> 1.151 -> 1.152
+  learned step sizes: 0.460 0.454 0.452 0.460 0.468 0.455 0.465 0.465
+
+wrote results/mumiso_unroll_nograd.json

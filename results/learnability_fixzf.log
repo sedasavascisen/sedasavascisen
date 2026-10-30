@@ -1,0 +1,26 @@
+anchor (su_average) on test : 3.4350
+
+=== oracle offsets (Adam, 600 steps, per scenario) ===
+  oracle rate on test : 6.1619   (18s)
+  offset magnitude    : mean |d| 1.478 rad, std 1.731
+
+=== how wiggly is the map? nearest-neighbour test ===
+  cos(offset difference) to NEAREST feature neighbour : +0.0047
+  ... to a RANDOM scenario                            : +0.0089
+  (both near zero => the required offset is uncorrelated with
+   feature similarity, i.e. not a smooth map in this representation)
+
+=== supervised fit of the oracle offsets ===
+  epoch  1  train mse 0.9303  fit mse train 0.9325 val 0.9153   val rate 3.7037
+  epoch  5  train mse 0.9260  fit mse train 0.9254 val 0.9253   val rate 3.7007
+  epoch 10  train mse 0.9212  fit mse train 0.9281 val 0.9264   val rate 3.6804
+  epoch 15  train mse 0.9159  fit mse train 0.9179 val 0.9262   val rate 3.7116
+  epoch 20  train mse 0.9096  fit mse train 0.9053 val 0.9281   val rate 3.6993
+  epoch 25  train mse 0.8958  fit mse train 0.8909 val 0.9250   val rate 3.6913
+
+  supervised model on test : 3.4064
+  oracle on test           : 6.1619
+  anchor on test           : 3.4350
+
+  mse 1.0 means the prediction is uncorrelated with the target
+  (both are unit vectors), mse 0 is a perfect fit.

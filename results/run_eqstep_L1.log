@@ -1,0 +1,28 @@
+N=32 T=8 K=4  samples=6000  steps=1  mode=exchange  use_grad=True
+
+anchor su_average on test : 3.4854
+coord descent on 300    : 5.7857
+AO (strong) on 300      : 6.0382   (258s)
+
+parameters: 272835
+before training, val min : 3.6061  (should sit at the anchor)
+  epoch   1/12  loss  -4.2757  val min  4.4928  sum   19.971  (20s)  *
+  epoch   2/12  loss  -4.4456  val min  4.5115  sum   20.031  (18s)  *
+  epoch   3/12  loss  -4.4554  val min  4.5074  sum   20.016  (18s)
+  epoch   4/12  loss  -4.4617  val min  4.5098  sum   20.024  (17s)
+  epoch   5/12  loss  -4.4791  val min  4.5041  sum   20.013  (18s)
+  epoch   6/12  loss  -4.4806  val min  4.5010  sum   19.999  (19s)
+  epoch   7/12  loss  -4.4919  val min  4.5036  sum   20.005  (18s)
+  epoch   8/12  loss  -4.4979  val min  4.5004  sum   19.994  (17s)
+  epoch   9/12  loss  -4.5084  val min  4.4996  sum   19.992  (19s)
+  epoch  10/12  loss  -4.5145  val min  4.4933  sum   19.973  (19s)
+  epoch  11/12  loss  -4.5318  val min  4.4963  sum   19.980  (18s)
+  epoch  12/12  loss  -4.5180  val min  4.4938  sum   19.972  (19s)
+
+TEST  min 4.4125  sum 19.799
+  anchor 3.4854   cd 5.7857   AO 6.0382
+  fraction of AO : 0.731
+  per-step min rate: 4.412
+  learned step sizes: 0.514
+
+wrote results/mumiso_eqstep_L1.json

@@ -1,0 +1,14 @@
+--- B  dense head, lr=3e-4, no dropout, 70 epochs
+    RMSE=49.747  SR@5=10.67%
+
+--- C  dense head, final hidden widened 64 -> 512
+    RMSE=3.774  SR@5=88.19%
+
+variant                             params      RMSE     SR@5   note
+------------------------------------------------------------------------------
+A  dense, published settings       583,296    50.19°   10.43%   from step 2
+B  dense, tuned                    583,296    49.75°   10.67%   lr 3e-4, no dropout
+C  dense, widened bottleneck     1,620,672     3.77°   88.19%   64 -> 512 units
+D  local head (reference)           17,730     2.46°   96.14%   from step 2
+
+saved -> results/verify_head_claim.json

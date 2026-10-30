@@ -1,0 +1,64 @@
+--- none + local  (6,626 params)
+    [none + local] ep   1  loss=0.22521  rmse=8.400  sr5=71.557  *
+    [none + local] ep   5  loss=0.00736  rmse=3.584  sr5=91.704  *
+    [none + local] ep  10  loss=0.00323  rmse=2.801  sr5=95.614  *
+    [none + local] ep  15  loss=0.00229  rmse=2.503  sr5=96.895  *
+    [none + local] ep  20  loss=0.00196  rmse=2.442  sr5=97.265
+    [none + local] ep  25  loss=0.00174  rmse=2.294  sr5=97.838  *
+    [none + local] ep  30  loss=0.00157  rmse=2.195  sr5=97.979  *
+    [none + local] ep  35  loss=0.00150  rmse=2.177  sr5=98.098  *
+    test RMSE=2.144  SR@5=98.12%
+
+--- CNN + dense  (583,296 params)
+    [CNN + dense] ep   1  loss=0.49619  rmse=85.853  sr5=4.701  *
+    [CNN + dense] ep   5  loss=0.38333  rmse=59.201  sr5=8.878  *
+    [CNN + dense] ep  10  loss=0.36854  rmse=56.110  sr5=9.491  *
+    [CNN + dense] ep  15  loss=0.35931  rmse=54.012  sr5=9.842  *
+    [CNN + dense] ep  20  loss=0.35246  rmse=52.336  sr5=10.073  *
+    [CNN + dense] ep  25  loss=0.34773  rmse=51.734  sr5=10.290  *
+    [CNN + dense] ep  30  loss=0.34341  rmse=50.740  sr5=10.377  *
+    [CNN + dense] ep  35  loss=0.34039  rmse=50.375  sr5=10.449  *
+    test RMSE=50.192  SR@5=10.43%
+
+--- CNN + local  (17,730 params)
+    [CNN + local] ep   1  loss=0.21383  rmse=14.635  sr5=48.897  *
+    [CNN + local] ep   5  loss=0.03767  rmse=5.659  sr5=75.922  *
+    [CNN + local] ep  10  loss=0.01777  rmse=3.616  sr5=88.332  *
+    [CNN + local] ep  15  loss=0.01252  rmse=3.163  sr5=91.715  *
+    [CNN + local] ep  20  loss=0.01066  rmse=2.807  sr5=94.157  *
+    [CNN + local] ep  25  loss=0.00959  rmse=2.881  sr5=93.986
+    [CNN + local] ep  30  loss=0.00885  rmse=2.534  sr5=95.976  *
+    [CNN + local] ep  35  loss=0.00852  rmse=2.503  sr5=96.136  *
+    test RMSE=2.457  SR@5=96.14%
+
+--- CNN-LSTM + dense  (822,976 params)
+    [CNN-LSTM + dense] ep   1  loss=0.49403  rmse=83.792  sr5=4.894  *
+    [CNN-LSTM + dense] ep   5  loss=0.28270  rmse=35.370  sr5=14.160  *
+    [CNN-LSTM + dense] ep  10  loss=0.25823  rmse=31.830  sr5=15.209  *
+    [CNN-LSTM + dense] ep  15  loss=0.24983  rmse=30.996  sr5=15.737  *
+    [CNN-LSTM + dense] ep  20  loss=0.24526  rmse=30.261  sr5=16.006
+    [CNN-LSTM + dense] ep  25  loss=0.24205  rmse=29.853  sr5=16.217  *
+    [CNN-LSTM + dense] ep  30  loss=0.23876  rmse=29.153  sr5=16.476  *
+    [CNN-LSTM + dense] ep  35  loss=0.23747  rmse=28.914  sr5=16.554  *
+    test RMSE=28.621  SR@5=16.92%
+
+--- CNN-LSTM + local  (257,410 params)
+    [CNN-LSTM + local] ep   1  loss=0.23913  rmse=14.437  sr5=49.982  *
+    [CNN-LSTM + local] ep   5  loss=0.03674  rmse=5.716  sr5=80.384  *
+    [CNN-LSTM + local] ep  10  loss=0.01799  rmse=3.722  sr5=90.766  *
+    [CNN-LSTM + local] ep  15  loss=0.01349  rmse=3.206  sr5=93.401  *
+    [CNN-LSTM + local] ep  20  loss=0.01206  rmse=2.256  sr5=96.907  *
+    [CNN-LSTM + local] ep  25  loss=0.01144  rmse=2.848  sr5=94.727
+    [CNN-LSTM + local] ep  30  loss=0.01075  rmse=2.255  sr5=97.198
+    [CNN-LSTM + local] ep  35  loss=0.01067  rmse=2.092  sr5=97.489
+    test RMSE=1.997  SR@5=97.64%
+
+body      head        params      RMSE     SR@5
+-----------------------------------------------
+none      local        6,626     2.14°   98.12%
+CNN       dense      583,296    50.19°   10.43%
+CNN       local       17,730     2.46°   96.14%
+CNN-LSTM  dense      822,976    28.62°   16.92%
+CNN-LSTM  local      257,410     2.00°   97.64%
+
+saved -> results/step1b_head_ablation.json

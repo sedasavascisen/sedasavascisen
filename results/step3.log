@@ -1,0 +1,55 @@
+--- legacy     sigma=0.0   element-local  (6,626 par)
+    RMSE=  3.519°   SR@5= 92.98%
+--- legacy     sigma=0.0   local mixing   (17,730 par)
+    RMSE=  4.912°   SR@5= 81.27%
+--- legacy     sigma=0.0   global mixing  (257,410 par)
+    RMSE=  4.915°   SR@5= 83.73%
+--- legacy     sigma=0.1   element-local  (6,626 par)
+    RMSE= 15.903°   SR@5= 43.81%
+--- legacy     sigma=0.1   local mixing   (17,730 par)
+    RMSE= 16.227°   SR@5= 41.80%
+--- legacy     sigma=0.1   global mixing  (257,410 par)
+    RMSE= 16.404°   SR@5= 42.95%
+--- legacy     sigma=0.25  element-local  (6,626 par)
+    RMSE= 33.388°   SR@5= 19.95%
+--- legacy     sigma=0.25  local mixing   (17,730 par)
+    RMSE= 33.589°   SR@5= 19.66%
+--- legacy     sigma=0.25  global mixing  (257,410 par)
+    RMSE= 33.750°   SR@5= 19.89%
+--- geometric  sigma=0.0   element-local  (6,626 par)
+    RMSE=  2.765°   SR@5= 96.13%
+--- geometric  sigma=0.0   local mixing   (17,730 par)
+    RMSE=  5.100°   SR@5= 81.35%
+--- geometric  sigma=0.0   global mixing  (257,410 par)
+    RMSE=  5.856°   SR@5= 80.77%
+--- geometric  sigma=0.1   element-local  (6,626 par)
+    RMSE= 11.143°   SR@5= 51.13%
+--- geometric  sigma=0.1   local mixing   (17,730 par)
+    RMSE= 11.680°   SR@5= 48.82%
+--- geometric  sigma=0.1   global mixing  (257,410 par)
+    RMSE= 11.890°   SR@5= 49.45%
+--- geometric  sigma=0.25  element-local  (6,626 par)
+    RMSE= 24.535°   SR@5= 23.42%
+--- geometric  sigma=0.25  local mixing   (17,730 par)
+    RMSE= 23.343°   SR@5= 25.00%
+--- geometric  sigma=0.25  global mixing  (257,410 par)
+    RMSE= 22.936°   SR@5= 25.98%
+
+channel      sigma   element-local    local mixing   global mixing
+------------------------------------------------------------------
+legacy        0.00           3.52°           4.91°           4.91°
+legacy        0.10          15.90°          16.23°          16.40°
+legacy        0.25          33.39°          33.59°          33.75°
+geometric     0.00           2.76°           5.10°           5.86°
+geometric     0.10          11.14°          11.68°          11.89°
+geometric     0.25          24.53°          23.34°          22.94°
+
+advantage of spatial mixing over element-local (negative = mixing helps):
+  legacy     sigma=0.0      +0.0%
+  legacy     sigma=0.1      +0.0%
+  legacy     sigma=0.25     +0.0%
+  geometric  sigma=0.0      +0.0%
+  geometric  sigma=0.1      +0.0%
+  geometric  sigma=0.25     -6.5%
+
+saved -> results/step3_csi_transfer.json

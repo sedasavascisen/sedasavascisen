@@ -1,0 +1,22 @@
+MATLAB architecture as published: 162,562 trainable parameters
+(the paper reports 727,360 for this model)
+
+    [matlab] ep   1  loss=0.20269  rmse=16.841  sr5=46.834  *
+    [matlab] ep   5  loss=0.01714  rmse=6.436  sr5=78.910  *
+    [matlab] ep  10  loss=0.01196  rmse=4.433  sr5=90.035  *
+    [matlab] ep  15  loss=0.01081  rmse=3.654  sr5=93.144
+    [matlab] ep  20  loss=0.00992  rmse=2.963  sr5=96.355  *
+    [matlab] ep  25  loss=0.00980  rmse=3.087  sr5=95.246
+    [matlab] ep  30  loss=0.00953  rmse=3.017  sr5=95.741
+    [matlab] ep  35  loss=0.00915  rmse=2.434  sr5=97.703  *
+    [matlab] ep  40  loss=0.00920  rmse=2.459  sr5=97.584
+    [matlab] ep  45  loss=0.00910  rmse=2.667  sr5=97.075
+    [matlab] ep  50  loss=0.00883  rmse=2.260  sr5=98.055
+
+                                       RMSE     SR@5     params
+---------------------------------------------------------------
+published figure (paper)              2.77°        —    727,360
+MATLAB architecture, re-run here      2.11°   98.18%    162,562
+repo train_cnn_lstm.py (dense head)   27.97°   17.59%    822,976
+
+saved -> results/verify_matlab_arch.json

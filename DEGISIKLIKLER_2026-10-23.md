@@ -1,0 +1,395 @@
+# Değişiklikler — 23 Ekim 2026
+
+Satır satır kod incelemesi ve iki yeni deney. Aşağıda **davranışı değiştiren**
+ile **yalnızca belgeyi düzelten** ayrı tutulmuştur, çünkü ikisinin tez
+açısından sonucu farklı: ilki sayıları oynatır, ikincisi yazdığınız cümleyi
+değiştirir.
+
+---
+
+## 1. Davranışı değiştiren (sayılar oynar)
+
+### `baselines.no_ris` — ön kodlayıcı tutarsızlığı giderildi
+
+`S.precode(hd, pt, precoder)` çağrısı `noise_var` geçirmiyordu, yani `zf`'in
+argümansız varsayılanına düşüyordu; diğer **tüm** temel çizgiler `_rate` →
+`S.rates` yolundan geçip MMSE regülatörünü alıyor. Taban, karşısında
+tablolandığı satırlardan farklı bir ön kodlayıcıyla ölçülmüş oluyordu.
+
+| | min hız |
+|---|---|
+| eski çağrı | 1.1339 |
+| tutarlı (MMSE) | **1.0224** |
+| tutarsızlık | **+%10.91** |
+
+Hatanın yönü sizin aleyhinize değildi — fazla yüksek bir taban RIS kazancını
+küçük gösterir. Bu düzeltmeden önce hesaplanmış "kazancın kaynağı"
+rakamlarında pano-yok → rastgele-faz adımı 2.73× yerine **3.03×** olmalı.
+`audit_claims.py` bu değeri sabitlemediği için kırılan iddia yok.
+
+### `system.zf` — ölü hesap kaldırıldı (sayısal olarak nötr)
+
+`p_sig` varsayılan yolda hesaplanıp atılıyordu. Artık yalnızca kullanan
+dallarda hesaplanıyor. **Bit-bit aynı sonuç** verdiği doğrulandı
+(1200 senaryoda 3.5549 / 3.6330, değişmedi) ve `verify_mumiso_system.py`
+geçiyor.
+
+---
+
+## 2. Yalnızca belge — ama biri tezin cümlesini değiştiriyor
+
+### `unrolled.py` — ÇÜRÜTÜLMÜŞ açıklama kaldırıldı (en önemli)
+
+Modül başlığı şunu söylüyordu: *"The cause is multiplicity, not capacity.
+Many phase configurations are near-optimal and which one an optimiser
+reaches is arbitrary, so any single target is noise."* **Bu yanlış.**
+Bağımsız denetim tek satırlık testle çürüttü:
+
+| | cos uyuşması |
+|---|---|
+| aynı senaryo, iki farklı başlangıç | +0.58 / +0.81 / +0.57 |
+| farklı senaryolar | +0.005 / +0.009 / −0.003 |
+
+İki büyüklük mertebesi: hedef girdi tarafından **belirleniyor**, keyfi değil.
+Ayrıca gerçek etiket gürültüsü olsaydı yeterli kapasiteli bir model eğitim
+hatasını ezberleyerek sıfıra indirirdi; gözlenen imza (eğitim 0.896'da
+takılı, doğrulama 0.925'te düz, gözetimli model çapanın **altında**: 3.4064
+vs 3.4350) yetersiz uyum imzası.
+
+Doğru ifade: optimal kaydırma kanalın neredeyse **deterministik** ama
+**düzgün olmayan** bir fonksiyonu, ve bu öznitelik temsili onu ifade
+edemiyor. Negatif sonuç ayakta, mekanizması değişti.
+
+Bayat sayılar da güncellendi: oracle 5.07 → **6.1619**, çapa 1.03 →
+**3.4350**, ve komşuluk testinin sırası **tersine döndü** (+0.0070/+0.0018
+yerine +0.0047/+0.0089 — ikisi de sıfırdan ayırt edilemez).
+
+### `features.py` ile ilgili yeni bulgu (kod değişmedi, belgelendi)
+
+Normalizasyon `F`, `G`, `hd`'yi **ayrı ayrı** senaryo ölçeğine bölüyor ve
+bu, RIS kaskadının doğrudan yola göre gücünü siliyor:
+
+| | gerçek | ağın gördüğü |
+|---|---|---|
+| RIS/doğrudan güç oranı yayılımı | **9.4 milyon kat** | **1.000 kat** |
+| gerçek ile görünen oranın korelasyonu | — | **+0.031** |
+
+Ağ, kaskadın baskın olduğu senaryoyu doğrudan yolun baskın olduğundan
+ayırt edemiyor. **Ölçülen** şey bilginin yok olduğu; **hipotez** olan şey
+eklenince stall'ın düzeleceği. Test: `log10(RIS/doğrudan)`'ı kanal olarak
+ekleyip üç mimariyi yeniden eğitmek.
+
+### `models.py` — doğrudan çelişki giderildi
+
+Modül başlığı "son katman **sıfırla başlatılır**, eğitim tam çapada başlar"
+diyordu; kod `weight.mul_(0.01)` yapıyor ve neden sıfırlanmadığını
+açıklıyor (sıfırlamak ilk adımda gradyanı 22 tensörden 2'sine ulaştırıyor).
+Ayrıca kalıntı bölümünün sayıları bayat ve biri kendi içinde tutarsızdı:
+"1.15'te takıldı, su_average'ın 1.27'sini kıl payı geçti" — 1.15 < 1.27.
+
+### `unrolled.py` — `×0.01` ölçeklemesi ölü kod
+
+`_delta` `atan2(y₁, y₀)` ile bitiyor ve atan2 ölçekten bağımsız:
+`atan2(0.01·y)` ile `atan2(y)` arasında 2.4e-07 fark. Yani ölçekleme
+**hiçbir şey yapmıyor**. Başlangıçta `_delta` ortalama 1.4243 rad (81.6°)
+üretiyor, 0.5 adım boyuyla her adımda ~41° dönüş — `models.py`'nin iddia
+ettiği 0.6°'nin ~70 katı. Sonuçları bozmuyor; niyeti belgeleyip yerine
+getirmeyen ölü kod olarak işaretlendi.
+
+### `channel.py` — üç düzeltme
+
+**(a) Anten ekseni iddiası yanlıştı.** Başlık "her iki yönde korelasyonlu
+açıklık, anten korelasyonu 0.77, etkin rank 2.32/4" diyordu. Yeniden ölçüm:
+
+| konfigürasyon | eleman ekseni | anten ekseni | anten etkin rank |
+|---|---|---|---|
+| T=4, 600 örnek | 0.620 | **0.234** | **3.71 / 4** |
+| T=8, 1500 örnek | 0.639 | **0.204** | **7.26 / 8** |
+
+Anten ekseni LoS'ta 0.818, NLoS'ta **0.130** — yani var olan korelasyonu
+neredeyse tamamen LoS terimi taşıyor. Eski sayılar eksen karıştıran bir
+dilimlemeden geliyordu (`F` `[S,N,T]` olduğu için anten satırları
+`F.reshape(-1,T)`, eleman satırları `F.transpose(0,2,1).reshape(-1,N)`).
+
+**(b) Küme kazançları anten ekseninde paylaşılmıyor**, oysa başlık
+paylaşıldığını iddia ediyordu. Ebeveyn `_ris_link` `gains = _crandn(d1.shape)`
+çağırıyor ve BS–RIS için `d1` şekli `[S,T,L]`. Fizikçe her saçıcının tek
+yansıma katsayısı vardır. Bedeli ölçüldü (akış korunarak, aynı senaryolar):
+
+| | mevcut | fiziksel | fark |
+|---|---|---|---|
+| NLoS anten korelasyonu | 0.095 | 0.279 | 2.9× |
+| çapa (su_average) | 3.5549 | 2.4180 | **−%31.98** |
+| PGA | 6.2147 | 5.7081 | **−%8.15** |
+
+Hatanın yönü **aleyhinize**: fazla anten çeşitliliği ZF'yi kolaylaştırıyor,
+yani hızlar iyimser. Ama beklenmedik bir yan etki var — çapa PGA'dan çok
+daha fazla düştüğü için **optimizasyonun değeri artıyor**: 1.75× → **2.36×**.
+Mevcut model sizin katkınızı olduğundan küçük gösteriyor. Kod
+değiştirilmedi; karar sizin.
+
+**(c) Veri seti prefix-kararlı değil.** `generate(1000)` ≠
+`generate(2000)[:1000]` ve `chunk` de veriyi değiştiriyor (dağılımlar aynı,
+çekilişler farklı). Farklı `--samples` ile alınmış iki sayı aynı tabloya
+konamaz. Belgelendirildi.
+
+**(d) `effective_rank` uyarısı eklendi**: örnek sayısına bağlı (%32 yayılım)
+ve tekdüze değil (250→1000 ters yönde). `n` belirtilmeden alıntılanamaz.
+
+### `csi.py` — hata ölçeğinin yığına bağlılığı not edildi
+
+`_noisy` ölçeği tüm tensörün ortalamasından alıyor, yani bir senaryonun
+etkin hata seviyesi kaç senaryoyla birlikte geçirildiğine bağlı.
+Karşılaştırılabilirlik uyarısı, doğruluk hatası değil.
+
+### `baselines.su_best_of` — bayat sayılar güncellendi
+
+"+%48.0 (1.1344 → 1.6791)" ve "1.112 → 3.265" hatalı ön kodlayıcı
+döneminden. Yeniden ölçüm: **3.5549 → 4.2151, +%18.6**. Bulgu ayakta,
+eski boyutunun üçte biri.
+
+---
+
+## 3. Yeni betikler
+
+### `scripts/mumiso_equal_step.py` — eşit adım bütçesi
+
+Her bütçede klasik kolun **adım boyu × objektif** ızgarası doğrulamada
+seçiliyor, test kümesinde raporlanıyor; ayrıca senaryo başına **oracle**
+üst sınırı. Öğrenilen model her L için **ayrı eğitiliyor** (8 adıma eğitilip
+L'de kesilmiyor). İki düzeltme ters yöne çekiyor, yani deney kurgulanmış
+değil.
+
+Sonuç (çapa 3.5386, `su_best_of` 4.2371):
+
+| L | öğrenilen | ayarlanmış Adam | oran | eşleşt. fark − 2 s.e. | kazanma oranı |
+|---|---|---|---|---|---|
+| 1 | 4.4599 | 4.3810 | 1.018 | +0.0608 | %74.8 |
+| 2 | 4.8792 | 4.6927 | 1.040 | +0.1602 | %83.2 |
+| 4 | 5.2855 | 5.0253 | **1.052** | +0.2279 | %83.7 |
+| 8 | 5.5932 | 5.3800 | 1.040 | +0.1840 | %83.2 |
+| 16 | 5.8003 | 5.7389 | 1.011 | +0.0393 | %68.3 |
+
+Öğrenilen kural **her bütçede** kazanıyor. Izgara her L'de gerçek bir iç
+tepe veriyor (0.5 < 0.75 > 1.0); yumuşak/sert objektif farkı 0.008–0.018,
+yani sonucu belirlemiyor.
+
+### `scripts/mumiso_latency_parity.py` — eşit MİLİSANİYE
+
+Eşit adım, eşit gecikme **değil**. Ölçüm: bir öğrenilen adım bir Adam
+adımının **2.5–3.3 katı** (ortalama ~3×), çünkü her adımda `rates` iki kez
+ve CNN+LSTM gövdesi K kez çalışıyor.
+
+Baskınlık testi — interpolasyon yok, yalnızca ölçülmüş noktalar.
+
+> **27 EKİM DÜZELTMESİ.** Bu bölümün ilk sürümü "beş noktadan dördü
+> baskınlanmış, L=4 cephede" diyordu. **L=4 de baskınlanmış.** İlk ölçüm
+> eğitim koşarken alınmış ve Adam'ın zamanlamalarını şişirmiş: Adam L=8
+> 29.70 ms olarak kaydedilmiş, boş makinede 17.48 ms. 23 Ekim'de "%65
+> zamanlama gürültüsü" diye not ettiğim şey gürültü değil **CPU
+> çekişmesiydi** — ve yönü öğrenilen modelin lehineydi, yani kendi
+> uyarımı yanlış teşhis etmişim. Aşağıdaki tablo boş makinede (yük 0.06)
+> beş bağımsız turda yeniden ölçülmüş hâlidir
+> (`results/mumiso_latency_repeat.json`).
+
+| öğrenilen L | gecikme | hız | baskınlayan Adam | 5 turun kaçında |
+|---|---|---|---|---|
+| 1 | 6.71 ms | 4.4599 | L=2: 4.48 ms, 4.6927 | **5/5** |
+| 2 | 14.59 ms | 4.8792 | L=4: 9.30 ms, 5.0253 | **5/5** |
+| 4 | 25.79 ms | 5.2855 | L=8: 17.48 ms, 5.3800 | **5/5** |
+| 8 | 52.34 ms | 5.5932 | L=16: 36.62 ms, 5.7389 | **5/5** |
+| 16 | 99.15 ms | 5.8003 | L=32: 76.57 ms, 6.0132 | **5/5** |
+
+**Beş noktanın beşi de kesin baskınlanmış, beş turun beşinde.** Öğrenilen
+kuralın gecikme ekseninde cephede hiçbir noktası yok. Baskınlayan Adam
+ayarı her satırda hem daha hızlı hem daha yüksek hızlı.
+
+Boş makinede turlar arası oynama 1.06×–1.41×, yani zamanlamalar aslında
+yeterince kararlı; hükmü bozan şey gürültü değil kirlilikti. Adım maliyeti
+oranı da daraldı: tutarlı biçimde **~2.7×** (L=1'de 6.71/2.54, L=16'da
+99.15/36.62).
+
+Betiğin eski hükmü doğrusal interpolasyona dayanıyordu; hız–gecikme eğrisi
+içbükey olduğu için interpolasyon gerçeğin altında kalır ve sapma öğrenilen
+modelin lehinedir. Betik artık **baskınlık** hesaplıyor.
+
+**Bulgu:** adım başına kazanıyor (%1.1–5.2), milisaniye başına **her yerde**
+kaybediyor. İyileştirme adımın maliyetinden (~2.7×) küçük. Bu,
+`mumiso_frontier.py`'nin düzeltme öncesi hükmünü onaylıyor.
+
+**Ders:** gecikme ölçümü yük altında alınamaz, ve kirlilik tarafsız değil —
+hangi kolu daha çok yavaşlattığına göre hükmü çevirebilir.
+`mumiso_budget_fraction.py` meşgul makinede raporlamayı bu yüzden
+reddediyor; `mumiso_latency_parity.py` artık yükü ölçüp uyarıyor.
+
+### `scripts/anchor_same_split.py`
+
+Çapayı modellerin puanlandığı **tam** test bölmesinde ölçer. Bulgu 1'in her
+oranının paydası bu.
+
+---
+
+## 4. `audit_claims.py` — 11 yeni iddia
+
+Bulgu 1 ve 2'nin kayıtlı sonuçlarını raporun söylediklerine sabitler.
+41/41 geçiyor. **Gerçekten patladığı doğrulandı**: tek geçişli modellere
+açılmış modelin sayısı yazıldığında yedi iddia başarısız oluyor — bu
+projede bir kez fiilen yaşanmış hatanın tam kendisi.
+
+Bilinen boşluk betikte yazılı: modellerin kendi test bölmesindeki çapa
+yeniden ölçülmüyor, JSON'dan okunuyor.
+
+---
+
+## 5. Karar sizin olan üç şey
+
+Hiçbiri yapılmadı, çünkü üçü de paketteki tüm sayıları oynatır.
+
+1. **Ön kodlayıcı varsayılanını `eps_abs=0` yapmak.** Kusursuz CSI'da
+   %2.20 kazandırır, en zor %10'luk dilimde %4.95. Ama MMSE kusurlu CSI
+   altında karşılığını veriyor (−20 dB'de 1.314 vs 1.310), ve varsayılanı
+   değiştirmek her sayıyı oynatır.
+2. **Kazançları anten ekseninde paylaştırmak.** Fizikçe doğru. Hızları
+   düşürür (çapa −%32, PGA −%8) ama optimizasyonun değerini 1.75×'ten
+   2.36×'e çıkarır. Ebeveyn sınıfta düzgün implementasyon + kendi
+   doğrulama betiği gerekir.
+3. **`unrolled.py`'de başlangıcı gerçekten küçültmek** (`step_init` ya da
+   kafaya öğrenilebilir genlik). Her açılmış modeli yeniden eğitmek gerekir.
+
+---
+
+# Ek — 27 Ekim
+
+## Temsil hipotezi: kuruldu, test edildi, REDDEDİLDİ
+
+`features.py`'ye iki opsiyonel kanal eklendi (`link_ratio=True`, varsayılan
+**kapalı**): normalizasyonun sildiği ölçeklerin logları.
+
+    C-2   log10(sG * sF / sH)        kaskad / doğrudan oranı
+    C-1   log10(sG * sF) + 8         mutlak kaskad ölçeği
+
+Bilgi gerçekten geri geldi: gerçek log güç oranıyla korelasyon
+**+0.031 → +1.0000**.
+
+Aynı kanal çekilişi (temel çizgiler birebir aynı: random 2.9767,
+su_average 3.4154, su_best_of 4.0461, cd 5.7945, pga 6.0783), aynı epok
+sayısı, tek fark iki kanal:
+
+| Mimari | Oran kanalı YOK | Oran kanalı VAR | Değişim |
+|---|---|---|---|
+| concat | 3.5368 | 3.4770 | −%1.69 |
+| deepsets | 3.5367 | 3.4233 | **−%3.21** |
+| exchange | 3.5260 | 3.4459 | −%2.27 |
+
+**Üçü de kötüleşti.** Düşüş iki modelde kendi epok-arası gürültüsünün
+dışında (deepsets gürültü %0.29, exchange %0.13). Yani eksik bilgi,
+stall'ın sebebi değildi.
+
+Bu, Bulgu 1'i **güçlendiriyor**: jürinin en doğal itirazı ("daha iyi
+öznitelik denediniz mi?") artık ölçümle kapalı.
+
+### Geriye dönük uyumluluk
+
+`link_ratio` varsayılan `False`. Doğrulandı: eski 37 kanal **bit-bit aynı**
+(fark 0.000e+00), 22 ağırlık dosyası yükleniyor, 41 denetim iddiası
+geçiyor. `MuMisoNet` ve `UnrolledMuMiso` bayrağı alıyor; `mumiso_run.py`
+`--link-ratio` ile çağrılıyor.
+
+## Gecikme hükmü düzeltildi
+
+Yukarıdaki gecikme bölümüne bakın: 23 Ekim'deki "L=4 cephede" satırı
+yanlıştı, CPU çekişmesiyle şişmiş bir zamanlamadan kaynaklanıyordu.
+Boş makinede beş turda **beş noktanın beşi de baskınlanmış**.
+
+## Yeni dosya
+
+`TEZ_YAZIM_REFERANSI.md` — teze atıf yapılacak her sayı, bölüm bölüm,
+kaynak dosyasıyla birlikte. `results/*.json` içinden **üretildi**, elle
+yazılmadı.
+
+## 27 Ekim — ikinci double check: "17 kat" yanlıştı
+
+Bölüm 5'in **yük taşıyan** varsayımı (hüzme taze, faz eskimiş) uzun süre
+"17 kat (4.718 / 0.279)" diye alıntılandı. O ölçüm betiğe yazılmamıştı.
+`scripts/mumiso_beam_staleness.py` ile ölçüldüğünde:
+
+| Faz seçimi | Taze hüzme | Eskimiş hüzme | Oran |
+|---|---|---|---|
+| su_average | 3.5862 | 0.3060 | **11.7×** |
+| su_best_of | 3.9243 | 0.3052 | **12.9×** |
+| adam8 | 4.3584 | 0.3066 | **14.2×** |
+
+Hiçbir faz seçimi 17 kat vermiyor; eskimiş değer her üçünde ~0.305, 0.279
+değil. **Nitel iddia sağlam** (bir büyüklük mertebesi) ama sayı yanlıştı.
+Bölüm 5b taslağı, yazım referansı ve bu kayıt düzeltildi.
+
+### Betiksiz kalan ölçümler betiğe taşındı
+
+Bu projenin kendi kuralı: *sonuç taşıyan ve arkasında betik olmayan bir
+sayı, ölçüm değildir.* Denetimde dört sayının betiği olmadığı görüldü.
+Yedi yeni betik:
+
+| Betik | Neyi üretiyor |
+|---|---|
+| `mumiso_beam_staleness.py` | Taze/eskimiş hüzme oranı (yukarıdaki) |
+| `mumiso_gain_source.py` | Kazancın kaynağı tablosu |
+| `mumiso_gain_sharing.py` | Anten ekseninde kazanç paylaşımının bedeli |
+| `mumiso_antenna_corr.py` | Anten/eleman ekseni korelasyonu |
+| `mumiso_precoder_cost.py` | Ön kodlayıcı varsayılanının maliyeti |
+| `mumiso_step_cost.py` | Adım başına gecikme |
+| `mumiso_latency_repeat.py` | Beş turluk gecikme tekrarı |
+| `verify_batch_dependence.py` | Prefix kararsızlığı gösterimi |
+| `make_writing_reference.py` | `TEZ_YAZIM_REFERANSI.md`'yi üretir |
+
+Kazancın kaynağı tablosu birebir yeniden üretildi: no_ris 1.0224,
+random 3.1002, su_average 3.5549, su_best_of 4.2151, pga 6.2147,
+random/pga = 0.50.
+
+---
+
+## 30 Ekim 2026 — kod devri
+
+### Yeni dosyalar
+
+- `scripts/dump_source.py` ve urettigi `KOD_SON_HALI.md`: 67 dosyanin
+  tam metni, her birinin satir sayisi ve sha256 ozetiyle. Elle
+  kopyalanmiyor, uretiliyor -- bu projede elle yazilan her seyin
+  eskimesi gibi elle kopyalanan kaynak da eskir.
+- `CLAUDE_CODE_PROMPT.md`: Claude Code'a verilecek acilis istemi.
+  Gorev kuyrugu, kabul olcutleri ve olcum tuzaklari.
+
+### Duzeltme: CLAUDE.md'nin oncelik bolumu celisiyordu
+
+`CLAUDE.md` "su anda olcum degil yazim asamasinda, istenmedikce uzun
+kosu baslatma" diyordu. Kullanici 30 Ekim'de sirayi tersine cevirdi:
+once bulgular, sonra yazim, yaklasik iki ay. Dosya oldugu gibi
+devredilseydi Claude Code siradaki uc deneyi reddederdi. Bolum
+yeniden yazildi; olcum fazi 20 Kasim'da kapaniyor.
+
+### BULGU: kazanc paylasimi prototipi ebeveyn sinifa oldugu gibi tasinamaz
+
+`scripts/mumiso_gain_sharing.py` paylasimi `_crandn`'in **seklinden
+tahmin ederek** aciyor (`len(shape)==3 and shape[1]==self.T`).
+`_crandn` uc yerden cagriliyor ve ikisinin sekli ayni tipte:
+
+| Cagri | Sekil | Paylasim acilmali mi |
+|---|---|---|
+| `_ris_link` BS->RIS | `(S,T,L)` | evet |
+| `_ris_link` UE->RIS | `(S,K,L)` | hayir |
+| `_direct_link` | `(S,K,L)` | hayir |
+
+Olcum (tahmin degil), cekilis cekilis:
+
+```
+T=8 K=4 : (100,8,6) ACILDI · (100,4,6) kapali · (100,1,8,6) ACILDI
+T=4 K=4 : (100,4,6) ACILDI · (100,4,6) ACILDI · (100,1,4,6) ACILDI
+```
+
+`T == K` iken paylasim **kullanici eksenine tasiyor**, ki fizikce
+sacma. Tezde T=4 konfigurasyonu var (anten korelasyonu tablosunun ilk
+satiri), yani tuzak gercekten tetiklenir.
+
+**Yayimlanan sayilar etkilenmedi**: -%31.98 / -%8.15 olcumu
+`n_bs_antennas=8, n_users=4` ile alindi, yani sezginin dogru calistigi
+rejimde. Ebeveyn sinifa gecirirken sekil tahmini birakilacak; paylasim
+cagri yerinde acik bir argumanla belirtilecek.

@@ -1,0 +1,34 @@
+{
+  "SharedMLP (control)": {
+    "params": 6626,
+    "val_rmse": 1.9651566743850708,
+    "test_rmse": 1.9234977960586548,
+    "test_sr5": 98.58854413032532,
+    "epochs_run": 40,
+    "minutes": 1.2440832058588664
+  },
+  "FC-DNN": {
+    "params": 238528,
+    "val_rmse": 81.32447814941406,
+    "test_rmse": 81.41818237304688,
+    "test_sr5": 9.779687225818634,
+    "epochs_run": 40,
+    "minutes": 1.042647087574005
+  },
+  "CNN-only": {
+    "params": 583296,
+    "val_rmse": 54.912498474121094,
+    "test_rmse": 54.93952941894531,
+    "test_sr5": 9.277604520320892,
+    "epochs_run": 40,
+    "minutes": 3.484655233224233
+  },
+  "CNN-LSTM (published)": {
+    "params": 822976,
+    "val_rmse": 27.881967544555664,
+    "test_rmse": 27.966514587402344,
+    "test_sr5": 17.592187225818634,
+    "epochs_run": 40,
+    "minutes": 19.420896418889363
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "matlab_rmse": 2.1094517707824707,
+  "matlab_sr5": 98.1765627861023,
+  "matlab_params": 162562,
+  "paper_rmse": 2.77,
+  "paper_params": 727360,
+  "repo_python_rmse": 27.97
+}

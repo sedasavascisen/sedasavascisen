@@ -1,0 +1,92 @@
+=== dataset: 12000 scenarios, T=8, K=4 ===
+  N=32 C=37  generated in 3.4s
+  features (12000, 4, 37, 32)  227 MB  in 0.3s
+  G rank(pooled) 20.99  G rank(user0) 18.85  F rank 15.84  G neigh 0.474
+  split  train 8400  val 1800  test 1800
+
+=== baselines on 400 test scenarios ===
+       no_ris  min  0.2750  sum   11.007   (0.1s)
+       random  min  0.9745  sum   14.345   (0.0s)
+   su_weakest  min  1.1902  sum   14.485   (0.0s)
+   su_average  min  1.1431  sum   15.163   (0.0s)
+           cd  min  3.6714  sum   19.467   (7.8s)
+          pga  min  5.1537  sum   23.871   (23.2s)
+           ao  min  5.1550  sum   23.865   (24.6s)
+  -> the number to beat is AO: 5.1550
+
+=== train mode=concat ===
+  parameters: 285058
+    epoch   1/20  loss  -1.1017  val min  1.1154  sum   15.085  (7.5s)  *
+    epoch   2/20  loss  -1.0962  val min  1.1178  sum   15.093  (6.9s)  *
+    epoch   3/20  loss  -1.1082  val min  1.1196  sum   15.099  (6.9s)  *
+    epoch   4/20  loss  -1.1080  val min  1.1225  sum   15.120  (6.6s)  *
+    epoch   5/20  loss  -1.1114  val min  1.1294  sum   15.146  (6.4s)  *
+    epoch   6/20  loss  -1.1122  val min  1.1234  sum   15.125  (7.0s)
+    epoch   7/20  loss  -1.1191  val min  1.1238  sum   15.133  (7.4s)
+    epoch   8/20  loss  -1.1131  val min  1.1238  sum   15.150  (7.0s)
+    epoch   9/20  loss  -1.1245  val min  1.1266  sum   15.154  (6.8s)
+    epoch  10/20  loss  -1.1262  val min  1.1250  sum   15.142  (6.8s)
+    epoch  11/20  loss  -1.0999  val min  1.1260  sum   15.164  (6.6s)
+    epoch  12/20  loss  -1.1157  val min  1.1260  sum   15.162  (7.1s)
+    epoch  13/20  loss  -1.1180  val min  1.1259  sum   15.159  (7.2s)
+    epoch  14/20  loss  -1.1178  val min  1.1259  sum   15.159  (7.4s)
+    epoch  15/20  loss  -1.1163  val min  1.1259  sum   15.158  (6.8s)
+    epoch  16/20  loss  -1.1169  val min  1.1259  sum   15.159  (7.4s)
+    epoch  17/20  loss  -1.1133  val min  1.1259  sum   15.158  (7.5s)
+    epoch  18/20  loss  -1.1153  val min  1.1259  sum   15.158  (7.8s)
+    epoch  19/20  loss  -1.1177  val min  1.1259  sum   15.158  (7.3s)
+    epoch  20/20  loss  -1.1153  val min  1.1259  sum   15.157  (7.2s)
+  TEST  min 1.1213  sum 14.934   (0.218x of AO)   [142s]
+  user-order spread over 6 permutations: 7.01e-03  (mean 1.1207)
+
+=== train mode=deepsets ===
+  parameters: 263746
+    epoch   1/20  loss  -1.1015  val min  1.1147  sum   15.083  (24.7s)  *
+    epoch   2/20  loss  -1.0974  val min  1.1152  sum   15.087  (24.4s)  *
+    epoch   3/20  loss  -1.1038  val min  1.1151  sum   15.086  (24.9s)
+    epoch   4/20  loss  -1.1001  val min  1.1095  sum   15.066  (24.4s)
+    epoch   5/20  loss  -1.1089  val min  1.1248  sum   15.141  (44.7s)  *
+    epoch   6/20  loss  -1.1112  val min  1.1255  sum   15.158  (24.8s)  *
+    epoch   7/20  loss  -1.1152  val min  1.1257  sum   15.166  (24.4s)  *
+    epoch   8/20  loss  -1.1143  val min  1.1260  sum   15.165  (24.8s)  *
+    epoch   9/20  loss  -1.1173  val min  1.1260  sum   15.162  (23.7s)  *
+    epoch  10/20  loss  -1.1159  val min  1.1260  sum   15.161  (24.7s)
+    epoch  11/20  loss  -1.1180  val min  1.1259  sum   15.157  (24.4s)
+    epoch  12/20  loss  -1.1165  val min  1.1259  sum   15.157  (25.0s)
+    epoch  13/20  loss  -1.1181  val min  1.1259  sum   15.156  (24.5s)
+    epoch  14/20  loss  -1.1182  val min  1.1259  sum   15.156  (24.0s)
+    epoch  15/20  loss  -1.1157  val min  1.1259  sum   15.156  (24.9s)
+    epoch  16/20  loss  -1.1176  val min  1.1259  sum   15.156  (25.2s)
+    epoch  17/20  loss  -1.1138  val min  1.1259  sum   15.156  (25.4s)
+    epoch  18/20  loss  -1.1155  val min  1.1259  sum   15.156  (24.9s)
+    epoch  19/20  loss  -1.1176  val min  1.1259  sum   15.156  (24.3s)
+    epoch  20/20  loss  -1.1156  val min  1.1259  sum   15.156  (26.2s)
+  TEST  min 1.1277  sum 14.991   (0.219x of AO)   [515s]
+  user-order spread over 6 permutations: 2.17e-06  (mean 1.1277)
+
+=== train mode=exchange ===
+  parameters: 272066
+    epoch   1/20  loss  -1.1012  val min  1.1147  sum   15.083  (26.0s)  *
+    epoch   2/20  loss  -1.0975  val min  1.1147  sum   15.083  (27.6s)  *
+    epoch   3/20  loss  -1.1040  val min  1.1149  sum   15.086  (28.5s)  *
+    epoch   4/20  loss  -1.0997  val min  1.1191  sum   15.103  (27.3s)  *
+    epoch   5/20  loss  -1.1086  val min  1.1241  sum   15.127  (26.3s)  *
+    epoch   6/20  loss  -1.1095  val min  1.1248  sum   15.136  (27.3s)  *
+    epoch   7/20  loss  -1.1115  val min  1.1204  sum   15.155  (26.8s)
+    epoch   8/20  loss  -1.1123  val min  1.1260  sum   15.160  (29.3s)  *
+    epoch   9/20  loss  -1.1173  val min  1.1259  sum   15.159  (28.8s)
+    epoch  10/20  loss  -1.1158  val min  1.1259  sum   15.159  (30.0s)
+    epoch  11/20  loss  -1.1175  val min  1.1259  sum   15.156  (30.1s)
+    epoch  12/20  loss  -1.1163  val min  1.1259  sum   15.156  (30.3s)
+    epoch  13/20  loss  -1.1181  val min  1.1259  sum   15.156  (30.0s)
+    epoch  14/20  loss  -1.1179  val min  1.1259  sum   15.155  (29.3s)
+    epoch  15/20  loss  -1.1161  val min  1.1259  sum   15.156  (28.9s)
+    epoch  16/20  loss  -1.1175  val min  1.1259  sum   15.156  (28.3s)
+    epoch  17/20  loss  -1.1136  val min  1.1259  sum   15.156  (29.2s)
+    epoch  18/20  loss  -1.1154  val min  1.1259  sum   15.156  (30.0s)
+    epoch  19/20  loss  -1.1178  val min  1.1259  sum   15.156  (29.2s)
+    epoch  20/20  loss  -1.1155  val min  1.1259  sum   15.156  (31.0s)
+  TEST  min 1.1274  sum 14.992   (0.219x of AO)   [576s]
+  user-order spread over 6 permutations: 1.48e-06  (mean 1.1274)
+
+=== done in 21.9 min -> results/mumiso_sec4.json ===

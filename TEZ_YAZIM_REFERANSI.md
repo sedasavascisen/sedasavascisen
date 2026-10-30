@@ -1,0 +1,228 @@
+# Tez Yazim Referansi — olculmus her sayi, kaynagiyla
+
+Bu dosya `results/*.json` icinden **uretildi**, elle yazilmadi.
+Her tablonun altinda hangi dosyadan geldigi yazili.
+
+> Bir sayiyi teze koymadan once kaynak dosyasini acin. Bu dosya
+> kolaylik icindir, otorite degil.
+
+## Bolum 4 — cok kullanicili ogrenmenin sinirlari
+
+### 4.1 Tek gecisli tahmin capada donuyor
+
+Capa (`su_average`, modellerin puanlandigi **ayni** 1800 senaryoluk test bolmesi): **3.5363**  
+`su_best_of` (bedava, K+1 adayin en iyisi): **4.1730**  
+`su_weakest`: 3.6919
+
+Hedef (en guclu klasik, olcumle secildi): **pga = 6.0783**
+
+| Mimari | Test min hiz | Capa orani | Permutasyon yayilimi | Parametre |
+| --- | --- | --- | --- | --- |
+| concat | 3.5368 | 1.0001 | 1.17e-03 | 285,058 |
+| deepsets | 3.5367 | 1.0001 | 5.93e-06 | 263,746 |
+| exchange | 3.5260 | 0.9971 | 9.83e-07 | 272,066 |
+
+Kaynak: `results/mumiso_sec4_fixzf.json`, capa `results/anchor_full_test.json`
+
+Egitilmemis ag ile su_average, 400 senaryoda dort ondaliga kadar ayni: **3.7230 / 3.7230**.  
+Artik kafasinin baslangic sapmasi: 0.013 derece.  
+En iyi epok (12 epoktan): concat **4**, deepsets **9**, exchange **2**.
+
+### 4.2 Nedeni: belirlenmis ama duzgun olmayan fonksiyon
+
+| Olcum | Deger |
+| --- | --- |
+| Ayni senaryo, iki farkli baslangic — cos uyusmasi | +0.58 / +0.81 / +0.57 |
+| Farkli senaryolar — cos uyusmasi | +0.005 / +0.009 / −0.003 |
+| Oracle hizi (Adam, 600 adim) | 6.1619 |
+| Capa (bu tanida) | 3.4350 |
+| Gozetimli uyum, egitim MSE (son epok) | 0.8958 |
+| Gozetimli uyum, dogrulama MSE | 0.9250 |
+| Gozetimli modelin test hizi | 3.4064 (capanin ALTINDA) |
+
+Kaynak: `results/learnability_fixzf.log`, `scripts/diagnose_learnability.py`
+
+Komsuluk testi: en yakin oznitelik komsusuna **+0.0047**, rastgele senaryoya **+0.0089**.
+Ikisi de sifirdan ayirt edilemez; aralarindaki sira gurultudur.
+
+### 4.3 Temsil hipotezi kuruldu ve REDDEDILDI
+
+Hipotez: `features.py` normalizasyonu RIS kaskadi / dogrudan yol guc oranini siliyor.
+
+| | gercek | agin gordugu |
+| --- | --- | --- |
+| Oranin senaryolar arasi yayilimi | 9.4 milyon kat | 1.000 kat |
+| Gercek oranla korelasyon | — | +0.031 |
+
+Bilgi geri verildi (iki kanal, `features.link_ratio=True`), yeni korelasyon **+1.0000**.
+Ayni kanal cekilisi, ayni epok sayisi, tek fark iki kanal:
+
+| Mimari | Oran kanali YOK | Oran kanali VAR | Degisim |
+| --- | --- | --- | --- |
+| concat | 3.5368 | 3.4770 | -1.69% |
+| deepsets | 3.5367 | 3.4233 | -3.21% |
+| exchange | 3.5260 | 3.4459 | -2.27% |
+
+Kaynak: `results/mumiso_sec4_fixzf.json` ve `results/mumiso_linkratio.json`
+
+**Sonuc:** eksik bilgi, stall'in sebebi degildi. Uc model de biraz kotulesti.
+Dusus iki modelde kendi epok-arasi gurultusunun disinda (deepsets gurultu %0.29,
+exchange %0.13).
+
+### 4.4 Ogrenilen guncelleme kurali
+
+| Gradyan girdi | Test min | Capaya gore | AO orani | Parametre |
+| --- | --- | --- | --- | --- |
+| **var** | 5.6359 | +57.6% | 0.880 | 272,842 |
+| **yok** | 3.6160 | +1.1% | 0.565 | 272,650 |
+
+Capa (her iki kol) 3.5758 · cd 6.1180 · AO 6.4020
+
+Adim izi (gradyan var): 4.451 → 4.611 → 4.905 → 5.092 → 4.599 → 5.343 → 5.251 → 5.636
+Adim izi (gradyan yok): 3.578 → 3.577 → 3.571 → 3.563 → 3.574 → 3.595 → 3.611 → 3.616
+
+Ogrenilen adim boylari: var 0.589 → 0.258 (azalan cizelge) · yok hepsi ~0.49 (duz)
+
+Kaynak: `results/mumiso_unrolled_fixzf.json`, `results/mumiso_nograd_fixzf.json`
+
+### 4.5 Esit adim vs esit milisaniye — ikisi CELISIYOR
+
+Capa 3.5386 · `su_best_of` 4.2371
+
+**Esit ADIM** — ogrenilen kural her butcede onde:
+
+| L | Ogrenilen | Ayarlanmis Adam | Oran | Eslest. fark − 2 s.e. | Kazanma orani |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 4.4599 | 4.3810 | 1.018 | +0.0608 | 74.8% |
+| 2 | 4.8792 | 4.6927 | 1.040 | +0.1602 | 83.2% |
+| 4 | 5.2855 | 5.0253 | 1.052 | +0.2279 | 83.7% |
+| 8 | 5.5932 | 5.3800 | 1.040 | +0.1840 | 83.2% |
+| 16 | 5.8003 | 5.7389 | 1.011 | +0.0393 | 68.3% |
+
+Adim boyu her butcede dogrulamada secildi; optimum her L'de **0.75**, onlu izgaranin
+yedinci konumu — yani kenarda degil, ic noktada. Yumusak/sert objektif farki 0.008–0.018.
+
+Kaynak: `results/mumiso_equal_step.json`
+
+**Esit MILISANIYE** — bes noktanin besi de baskinlanmis, bes turun besinde:
+
+| Ogrenilen L | Gecikme | Hiz | Baskinlayan Adam |
+| --- | --- | --- | --- |
+| 1 | 6.71 ms | 4.4599 | L=2: 4.48 ms, 4.6927 |
+| 2 | 14.59 ms | 4.8792 | L=4: 9.30 ms, 5.0253 |
+| 4 | 25.79 ms | 5.2855 | L=8: 17.48 ms, 5.3800 |
+| 8 | 52.34 ms | 5.5932 | L=16: 36.62 ms, 5.7389 |
+| 16 | 99.15 ms | 5.8003 | L=32: 76.57 ms, 6.0132 |
+
+Adim maliyeti orani: ~2.7× (bir ogrenilen adim = ~2.7 Adam adimi).
+Turlar arasi zamanlama oynamasi 1.06×–1.41× (bos makine, 5 tur).
+
+Kaynak: `results/mumiso_latency_parity.json`, `results/mumiso_latency_repeat.json`
+
+## Bolum 5 — hareketlilik ve gecikme-farkinda tasarim
+
+Tutarlilik suresi: 3 GHz, 1.5 m/s → f_d = 15.0 Hz → **T_c = 28.2 ms**
+
+| L | Gecikme | t=0 hizi | **Gecerli hiz** |
+| --- | --- | --- | --- |
+
+Elle dogrulanmis ana satirlar (bolum 5b taslagindan):
+
+| Yontem | t=0 hizi | Gecikme | Gecerli hiz |
+| --- | --- | --- | --- |
+| su_average | 4.624 | ~0 | 4.624 |
+| su_best_of | 5.276 | 0.05 ms | 5.276 |
+| Adam-8 | — | 13.3 ms | **5.849** |
+| Adam-16 | — | 26.6 ms | 5.324 |
+| koordinat inisi | — | ~1500 ms | 4.921 |
+| PGA | **7.117** | ~5600 ms | **4.667** |
+
+Icsel optimum: **L = 4** → 5.982. Yakinsamaya gore tasarlamak (L=48) **%14** kaybettiriyor.
+Eskimis faz tabani ~4.35 (sifira cokmuyor).
+
+### Yuk tasiyan varsayim: huzme taze, faz eskimis
+
+> **DUZELTME (27 Ekim).** Bu sayi uzun sure "17 kat (4.718 / 0.279)" diye
+> alintilandi. O olcum betige yazilmamisti ve **yeniden uretilemiyor**.
+> `scripts/mumiso_beam_staleness.py` ile olculdugunde hicbir faz secimi
+> 17 kat vermiyor. Nitel iddia -- bir buyukluk mertebesi -- saglam;
+> sayinin kendisi yanlisti.
+
+28.2 ms'de (tutarlilik suresi), faz t=0'da secilip huzme ya taze ya eskimis:
+
+| Faz secimi | Taze huzme | Eskimis huzme | Oran |
+| --- | --- | --- | --- |
+| su_average | 3.5862 | 0.3060 | **11.7x** |
+| su_best_of | 3.9243 | 0.3052 | **12.9x** |
+| adam8 | 4.3584 | 0.3066 | **14.2x** |
+
+Kaynak: `scripts/mumiso_beam_staleness.py`, `results/mumiso_beam_staleness*.json`
+
+Eskimis deger her uc faz seciminde de ~0.305; taze deger 3.59-4.36.
+Teze **11.7-14.2 kat** yazin, 17 degil.
+
+Modelin gecerlilik ufku: korelasyon tabani ~0.5 (bagimsiz cekiliste 0.10);
+sacici sayisi 6→60 tabani yalnizca 0.60→0.51 indiriyor. Guvenilir aralik **τ ≤ 200 ms**.
+
+Kaynak: `results/mumiso_aging_fixzf.json`, `results/mumiso_aging_sweep_fixzf.json`
+
+## Bolum 6 — gercekci senaryo
+
+### Kazancin kaynagi (hepsi ayni on kodlayiciyla, 1200 senaryo)
+
+| | min hiz |
+| --- | --- |
+| Pano yok | 1.0224 |
+| Rastgele faz | 3.1002 |
+| su_average | 3.5549 |
+| su_best_of | 4.2151 |
+| PGA | ~6.04 |
+
+Rastgele bir yuzey kazancin kabaca **yarisini** veriyor (olculen oran 0.50).
+
+Kaynak: `scripts/mumiso_gain_source.py` -> `results/mumiso_gain_source.json`
+
+### Anten ekseni korelasyonu — basliktaki iddia YANLISTI
+
+| Konfigurasyon | Eleman ekseni | Anten ekseni | Anten etkin rank |
+| --- | --- | --- | --- |
+| T=4, 600 ornek | 0.620 | 0.234 | 3.71 / 4 |
+| T=8, 1500 ornek | 0.639 | 0.204 | 7.26 / 8 |
+
+Anten ekseni LoS'ta 0.818, NLoS'ta 0.130 — korelasyonu neredeyse tamamen LoS tasiyor.
+Eski docstring 0.77 ve 2.32/4 diyordu; eksen karistiran bir dilimlemeden geliyordu.
+
+Kaynak: `scripts/mumiso_antenna_corr.py`
+
+### Kazanc paylasiminin bedeli (ayni senaryolar, akis korunarak)
+
+| | Mevcut | Fizikce dogru | Fark |
+| --- | --- | --- | --- |
+| NLoS anten korelasyonu | 0.095 | 0.279 | 2.9× |
+| Capa (su_average) | 3.5549 | 2.4180 | **−%31.98** |
+| PGA | 6.2147 | 5.7081 | **−%8.15** |
+
+Optimizasyonun degeri: **1.75× → 2.36×**. Fizigi duzeltmek katkinizi buyutuyor.
+
+Kaynak: `scripts/mumiso_gain_sharing.py` (akis korunarak, ayni senaryolar)
+
+## Ek — yeniden uretilebilirlik
+
+- `scripts/audit_claims.py` — 41 iddia, hepsi geciyor
+- Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**
+- Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor
+
+### On kodlayici varsayilaninin bedeli
+
+| | MMSE (varsayilan) | saf ZF | Fark |
+| --- | --- | --- | --- |
+| 1200 senaryo | 3.5549 | 3.6330 | %2.20 |
+| En zor %10 | 2.1391 | 2.2451 | **%4.95** |
+
+Kaynak: `scripts/mumiso_precoder_cost.py`
+
+### Alintilanirken dikkat
+
+- `effective_rank` ORNEK SAYISINA bagli (%32 yayilim, 250→1000 arasinda ters yonde). n belirtmeden yazmayin.
+- Veri seti prefix-kararli DEGIL: farkli `--samples` ile alinmis iki sayi ayni tabloya konamaz.
+- Gecikme olcumleri bos makinede alinmali; kirlilik tarafsiz degil.

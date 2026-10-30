@@ -1,0 +1,60 @@
+legacy dataset: 40000 samples, N=32
+split: 28000 / 6000 / 6000
+
+--- SharedMLP (control)  (6,626 params)
+    [SharedMLP] ep   1  loss=0.22533  rmse=7.912  sr5=72.316  *
+    [SharedMLP] ep   5  loss=0.00612  rmse=3.268  sr5=93.210  *
+    [SharedMLP] ep  10  loss=0.00272  rmse=2.569  sr5=96.318  *
+    [SharedMLP] ep  15  loss=0.00192  rmse=2.343  sr5=97.430  *
+    [SharedMLP] ep  20  loss=0.00164  rmse=2.200  sr5=97.891  *
+    [SharedMLP] ep  25  loss=0.00145  rmse=2.112  sr5=98.164  *
+    [SharedMLP] ep  30  loss=0.00131  rmse=2.046  sr5=98.417  *
+    [SharedMLP] ep  35  loss=0.00125  rmse=1.994  sr5=98.507  *
+    [SharedMLP] ep  40  loss=0.00119  rmse=1.974  sr5=98.605
+    test RMSE=1.923 deg   SR@5=98.59%   (1.2 min)
+
+--- FC-DNN  (238,528 params)
+    [FC-DNN] ep   1  loss=0.50047  rmse=103.217  sr5=2.870  *
+    [FC-DNN] ep   5  loss=0.49446  rmse=98.993  sr5=3.244  *
+    [FC-DNN] ep  10  loss=0.46905  rmse=92.792  sr5=4.436  *
+    [FC-DNN] ep  15  loss=0.44320  rmse=88.587  sr5=6.287  *
+    [FC-DNN] ep  20  loss=0.42844  rmse=86.075  sr5=7.371  *
+    [FC-DNN] ep  25  loss=0.41925  rmse=84.472  sr5=8.204  *
+    [FC-DNN] ep  30  loss=0.40994  rmse=82.818  sr5=9.095  *
+    [FC-DNN] ep  35  loss=0.40517  rmse=81.935  sr5=9.445  *
+    [FC-DNN] ep  40  loss=0.40159  rmse=81.324  sr5=9.796  *
+    test RMSE=81.418 deg   SR@5=9.78%   (1.0 min)
+
+--- CNN-only  (583,296 params)
+    [CNN-only] ep   1  loss=0.49601  rmse=87.054  sr5=4.605  *
+    [CNN-only] ep   5  loss=0.39890  rmse=63.544  sr5=7.991  *
+    [CNN-only] ep  10  loss=0.38558  rmse=60.641  sr5=8.444  *
+    [CNN-only] ep  15  loss=0.37676  rmse=58.451  sr5=8.760  *
+    [CNN-only] ep  20  loss=0.37096  rmse=57.208  sr5=9.078
+    [CNN-only] ep  25  loss=0.36632  rmse=56.431  sr5=9.148  *
+    [CNN-only] ep  30  loss=0.36234  rmse=55.646  sr5=9.276  *
+    [CNN-only] ep  35  loss=0.35953  rmse=55.241  sr5=9.302  *
+    [CNN-only] ep  40  loss=0.35723  rmse=54.912  sr5=9.385  *
+    test RMSE=54.940 deg   SR@5=9.28%   (3.5 min)
+
+--- CNN-LSTM (published)  (822,976 params)
+    [CNN-LSTM] ep   1  loss=0.48992  rmse=85.725  sr5=4.450  *
+    [CNN-LSTM] ep   5  loss=0.28177  rmse=34.697  sr5=14.723  *
+    [CNN-LSTM] ep  10  loss=0.25601  rmse=31.378  sr5=15.878  *
+    [CNN-LSTM] ep  15  loss=0.24708  rmse=30.187  sr5=16.486
+    [CNN-LSTM] ep  20  loss=0.24209  rmse=29.270  sr5=16.744
+    [CNN-LSTM] ep  25  loss=0.23995  rmse=28.771  sr5=16.864  *
+    [CNN-LSTM] ep  30  loss=0.23667  rmse=28.281  sr5=17.230  *
+    [CNN-LSTM] ep  35  loss=0.23528  rmse=28.109  sr5=17.163  *
+    [CNN-LSTM] ep  40  loss=0.23387  rmse=27.882  sr5=17.393  *
+    test RMSE=27.967 deg   SR@5=17.59%   (19.4 min)
+
+model                       params   test RMSE     SR@5
+-------------------------------------------------------
+SharedMLP (control)          6,626      1.923°   98.59%
+FC-DNN                     238,528     81.418°    9.78%
+CNN-only                   583,296     54.940°    9.28%
+CNN-LSTM (published)       822,976     27.967°   17.59%
+
+CNN-LSTM vs element-independent control: -1353.9% RMSE change
+saved -> results/step1_control.json
