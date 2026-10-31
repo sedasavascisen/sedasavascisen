@@ -1,0 +1,75 @@
+% SECTION V: MEASUREMENT METHODOLOGY
+% Reproducibility framework and measurement protocols
+
+\section{Measurement Methodology}
+\label{sec:measurements}
+
+This section describes the experimental methodology that ensures reproducibility of all reported measurements. We document the measurement traps encountered during this work and the validation protocols adopted to prevent contamination.
+
+\subsection{Reproducibility Framework}
+
+All numerical results in Section~\ref{sec:results} follow a strict reproducibility protocol summarized in Table~\ref{tab:reproducibility_checklist}.
+
+\begin{table}[t]
+\centering
+\caption{Experimental Reproducibility Checklist (All Criteria Enforced for Latency-Dependent Measurements)}
+\label{tab:reproducibility_checklist}
+\begin{tabular}{lp{5.5cm}c}
+\toprule
+\textbf{Criterion} & \textbf{Specification} & \textbf{Status} \\
+\midrule
+System Idle & Machine load average $< 0.50$ verified via \texttt{cat /proc/loadavg} before each measurement & \checkmark \\
+GPU Isolation & NVIDIA RTX 4090, CUDA Multi-Process Service (MPS) disabled to prevent context-switching overhead & \checkmark \\
+CUDA Warmup & 1000 dummy forward passes executed before timing to eliminate JIT compilation and cache effects & \checkmark \\
+Timing Mechanism & \texttt{torch.cuda.Event()} with \texttt{record()}/\texttt{synchronize()} for GPU-accurate microsecond precision & \checkmark \\
+Sample Size & $M = 10{,}000$ independent channel realizations per measurement point & \checkmark \\
+Random Seed & Deterministic seed 42 for channel generation, ensuring identical scenarios across method comparisons & \checkmark \\
+Script Archival & All measurements backed by executable Python scripts in \texttt{scripts/mumiso\_*.py} & \checkmark \\
+Audit Claims & 41 of 41 assertions pass \texttt{scripts/audit\_claims.py} with sabotage test validation & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{System Idle Verification.}
+Latency measurements are \textit{non-neutrally} affected by machine load: background processes slow down different optimization methods by varying amounts, potentially reversing conclusions. For example, running a training job in parallel inflated Adam's latency from 17.5 ms to 29.7 ms ($1.7\times$ slowdown) while leaving the learned update nearly unchanged, flipping the ranking. To prevent this, we verify \texttt{loadavg $<$ 0.5} (idle CPU) before each timing run and discard any measurement where load spikes during execution.
+
+\textbf{CUDA Warmup and GPU Isolation.}
+PyTorch's just-in-time (JIT) compiler and CUDA kernel cache introduce $\sim$100 ms overhead on first execution. We execute 1000 dummy forward passes before timing to ensure all kernels are compiled and cached. Additionally, CUDA Multi-Process Service (MPS) is disabled to prevent context-switching delays from concurrent GPU jobs.
+
+\textbf{Timing Jitter Quantification.}
+Even on an idle machine, timing measurements exhibit jitter due to OS scheduling and hardware interrupts. We run each latency measurement five times and report the median. Across five trials, the coefficient of variation is $< 15\%$ (1.06$\times$--1.41$\times$ range), confirming reproducibility.
+
+\subsection{Measurement Traps and Corrections}
+
+During the development of this work, we encountered two measurement errors where \textit{missing executable scripts} led to incorrect reported numbers:
+
+\textbf{Trap 1: Non-Reproducible ``17$\times$ Fresh Beam Gain.''}
+An early draft claimed fresh beamforming was ``17$\times$ more valuable'' than stale phase. Upon attempting to regenerate this number, we discovered no executable script existed---the number was manually copied from an intermediate notebook cell that could not be re-run. Re-measuring with proper scripts (\texttt{mumiso\_beam\_staleness.py}) yielded \textbf{11.7--14.2$\times$}, a 20--30\% discrepancy. The corrected value is reported in Table~\ref{tab:fresh_vs_stale}.
+
+\textbf{Trap 2: Prefix Non-Stability in Channel Generation.}
+Channel generation via \texttt{generate(N)} is \textit{not prefix-stable}: \texttt{generate(1000)} produces different realizations than \texttt{generate(2000)[:1000]} even with the same random seed. This caused validation-set results to change when \texttt{--samples} was modified. We enforce a strict rule: \textit{never compare numbers from different \texttt{--samples} values}, and always re-run validation when sample size changes.
+
+\textbf{Trap 3: Machine Load Contamination (Non-Neutral Slowdown).}
+As noted above, running latency measurements under load does not slow all methods equally. A background training job caused:
+\begin{itemize}
+    \item Adam: 17.5 ms $\to$ 29.7 ms ($1.7\times$ slowdown)
+    \item Learned update: 25.8 ms $\to$ 28.1 ms ($1.09\times$ slowdown)
+\end{itemize}
+This flipped the conclusion from ``Adam faster'' to ``learned faster,'' demonstrating that \textit{load contamination reverses findings}. Our protocol (Table~\ref{tab:reproducibility_checklist}) prevents this via strict idle-machine validation.
+
+\subsection{Sabotage Testing for Audit Integrity}
+
+To verify that our audit framework (\texttt{scripts/audit\_claims.py}) genuinely measures model quality rather than reporting cached constants, we performed \textit{sabotage testing}: trained model weights were overwritten with randomly initialized (untrained) weights, and the audit was re-run.
+
+\textbf{Result:} 7 out of 41 audited claims failed under sabotage (assertions checking learned-update performance), while 34 baseline claims (independent of learned weights) passed. This confirms the audit detects genuine model behavior rather than hard-coded values. After restoring trained weights, all 41/41 assertions pass.
+
+\subsection{Open Science and Data Availability}
+
+All code, trained models, and measurement scripts are publicly available:
+\begin{itemize}
+    \item Code repository: \texttt{https://github.com/sedasavascisen/sedasavascisen}
+    \item Trained model checkpoints: Zenodo DOI (to be assigned upon acceptance)
+    \item Raw measurement data (\texttt{results/*.json}): Included in repository
+\end{itemize}
+
+Each table and figure in Section~\ref{sec:results} cites the specific script that generated it, enabling independent verification of all reported numbers.
