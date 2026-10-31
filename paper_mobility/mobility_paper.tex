@@ -102,37 +102,7 @@ The remainder of this paper is organized as follows. Section~\ref{sec:system} pr
 %===============================================================================
 % SECTION III: SYSTEM MODEL
 %===============================================================================
-\section{System Model}
-\label{sec:system}
-
-\subsection{Network Topology}
-
-We consider a multi-user MISO downlink system with a base station (BS) serving $K=4$ single-antenna users with the aid of an RIS panel. The BS is equipped with $T=8$ antennas arranged in a uniform linear array (ULA) with half-wavelength spacing.
-
-The RIS is a planar array of $N = M \times K$ passive reflecting elements, where $M=8$ and $K=8$ (total $N=64$ elements). Each element applies a controllable phase shift $\theta_n \in [0, 2\pi)$ but has unit amplitude reflection. The RIS is wall-mounted in an indoor office environment with dimensions 40 m $\times$ 20 m $\times$ 6 m.
-
-\subsection{Channel Model}
-
-Unlike legacy models that draw independent Rayleigh coefficients per element~\cite{legacy_model}, we employ a geometry-based channel following 3GPP TR 38.901 InH-Office specifications~\cite{3gpp_channel}. This ensures spatial correlation consistent with aperture physics.
-
-% ... (continuing with channel model details)
-
-\subsection{Mobility Model}
-
-Users move at velocity $v = 1.5$ m/s (walking speed). At carrier frequency $f_c = 3$ GHz, the Doppler spread is:
-\begin{equation}
-    f_d = \frac{v f_c}{c} = 15.0~\text{Hz}
-\end{equation}
-yielding coherence time:
-\begin{equation}
-    T_c = \frac{1}{2 f_d} = 28.2~\text{ms}
-\end{equation}
-
-Channel correlation at delay $\tau$ follows the Jakes model:
-\begin{equation}
-    \rho(\tau) = J_0(2\pi f_d \tau)
-\end{equation}
-where $J_0$ is the zeroth-order Bessel function of the first kind.
+\input{sections/section_03_system_model}
 
 %===============================================================================
 % SECTION III: LATENCY-AWARE ANALYSIS
