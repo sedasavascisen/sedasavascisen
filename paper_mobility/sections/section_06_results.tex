@@ -43,7 +43,7 @@ adam8 (L=8)      & 4.358 bps/Hz & 0.307 bps/Hz & \textbf{14.2$\times$} \\
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig8_fresh_vs_stale.pdf}
+\includegraphics[width=\columnwidth]{figures/fig3_fresh_vs_stale.pdf}
 \caption{Fresh vs. stale beam performance at coherence time $T_c = 28.2$ ms. Fresh beamforming achieves 11.7--14.2$\times$ higher rate than stale optimized phase across three phase selection methods, validating Lemma~\ref{lem:fresh_dominance}. Channel correlation decay to $\rho(T_c) \approx -0.12$ causes near-total value collapse for stale configurations.}
 \label{fig:fresh_vs_stale}
 \end{figure}
@@ -77,7 +77,7 @@ Table~\ref{tab:intrinsic_optimum} and Figure~\ref{fig:intrinsic_optimum} demonst
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig10_intrinsic_optimum.pdf}
+\includegraphics[width=\columnwidth]{figures/fig5_intrinsic_optimum_corrected.pdf}
 \caption{Effective rate $R_A^{\text{eff}}(L)$ vs. iteration count under latency-aware evaluation. The intrinsic optimum occurs at $L^* \approx 8$ iterations (5.380 bps/Hz), validating Theorem~\ref{thm:intrinsic_optimum}. Deep convergence ($L=48$) costs 5.9\% despite superior $t=0$ quality due to channel aging during computation ($\rho(110.4\,\text{ms}) \approx -0.24$).}
 \label{fig:intrinsic_optimum}
 \end{figure}
