@@ -24,7 +24,7 @@ All methods are evaluated by effective rate $R_A^{\text{eff}}$ from \eqref{eq:ef
 
 \subsection{Fresh Beam Value Quantification}
 
-Table~\ref{tab:fresh_vs_stale} quantifies the value of fresh beamforming relative to stale optimized phase at coherence time $T_c = 28.2$ ms, validating Lemma~\ref{lem:fresh_dominance}.
+Table~\ref{tab:fresh_vs_stale} and Figure~\ref{fig:fresh_vs_stale} quantify the value of fresh beamforming relative to stale optimized phase at coherence time $T_c = 28.2$ ms, validating Lemma~\ref{lem:fresh_dominance}.
 
 \begin{table}[t]
 \centering
@@ -41,13 +41,20 @@ adam8 (L=8)      & 4.358 bps/Hz & 0.307 bps/Hz & \textbf{14.2$\times$} \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig8_fresh_vs_stale.pdf}
+\caption{Fresh vs. stale beam performance at coherence time $T_c = 28.2$ ms. Fresh beamforming achieves 11.7--14.2$\times$ higher rate than stale optimized phase across three phase selection methods, validating Lemma~\ref{lem:fresh_dominance}. Channel correlation decay to $\rho(T_c) \approx -0.12$ causes near-total value collapse for stale configurations.}
+\label{fig:fresh_vs_stale}
+\end{figure}
+
 \textbf{Key Finding 1:} Fresh beamforming is \textbf{11.7--14.2$\times$} more valuable than stale optimized phase when deployment delay reaches coherence time. This corrects a previously reported but non-reproducible claim of ``17$\times$ gain'' (scripts/mumiso\_beam\_staleness.py).
 
 The stale beam value collapses to $\approx 0.305$ bps/Hz across all three phase selections due to near-zero channel correlation $\rho(T_c) \approx -0.12$ at 28.2 ms delay, confirming the Jakes aging model prediction.
 
 \subsection{Intrinsic Optimum Discovery}
 
-Table~\ref{tab:intrinsic_optimum} demonstrates that effective rate $R_A^{\text{eff}}(L)$ peaks at $L^* = 4$--8 iterations and then degrades despite improving t=0 quality, validating Theorem~\ref{thm:intrinsic_optimum}.
+Table~\ref{tab:intrinsic_optimum} and Figure~\ref{fig:intrinsic_optimum} demonstrate that effective rate $R_A^{\text{eff}}(L)$ peaks at $L^* \approx 8$ iterations and then degrades despite improving t=0 quality, validating Theorem~\ref{thm:intrinsic_optimum}.
 
 \begin{table}[t]
 \centering
@@ -68,11 +75,27 @@ Table~\ref{tab:intrinsic_optimum} demonstrates that effective rate $R_A^{\text{e
 \end{tabular}
 \end{table}
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig10_intrinsic_optimum.pdf}
+\caption{Effective rate $R_A^{\text{eff}}(L)$ vs. iteration count under latency-aware evaluation. The intrinsic optimum occurs at $L^* \approx 8$ iterations (5.380 bps/Hz), validating Theorem~\ref{thm:intrinsic_optimum}. Deep convergence ($L=48$) costs 5.9\% despite superior $t=0$ quality due to channel aging during computation ($\rho(110.4\,\text{ms}) \approx -0.24$).}
+\label{fig:intrinsic_optimum}
+\end{figure}
+
 \textbf{Key Finding 2:} The intrinsic optimum occurs at $L^* = 8$ iterations ($R_A^{\text{eff}} = 5.380$ bps/Hz), achieving 5.9\% higher rate than deep convergence ($L=48$, $R_A^{\text{eff}} = 5.064$ bps/Hz). This contradicts the conventional ``more iterations $\Rightarrow$ better performance'' assumption and proves that designing for mathematical convergence \textit{systematically wastes} computational resources under mobility.
 
 The correlation decay $\rho(110.4\,\text{ms}) \approx -0.24$ at $L=48$ causes severe performance degradation despite near-optimal t=0 quality, confirming the latency-quality trade-off predicted by Theorem~\ref{thm:intrinsic_optimum}.
 
 \subsection{Method Ranking Under Equal Iterations vs. Equal Milliseconds}
+
+Figure~\ref{fig:ranking_reversal} visualizes the complete method ranking reversal when switching from equal-iteration to equal-millisecond comparison, validating Proposition~\ref{prop:ranking_reversal}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig6_ranking_reversal.pdf}
+\caption{Method ranking reversal under equal-millisecond constraints. Left: Equal-iteration comparison shows learned updates winning 5/5 budgets (68.3--83.7\% win rates). Right: Equal-millisecond comparison reveals all 5 learned configurations dominated by Adam optimizer. The 2.8$\times$ per-step latency variation (6.5 ms vs. 2.3 ms) causes complete ranking reversal, proving that per-iteration cost is a first-class design constraint.}
+\label{fig:ranking_reversal}
+\end{figure}
 
 Table~\ref{tab:equal_steps} compares learned gradient updates versus tuned Adam optimizer under \textit{equal iteration budgets}, demonstrating that learned updates achieve superior t=0 quality.
 

@@ -34,6 +34,13 @@ Even if $g_2 = 2g_1$ (stale method achieves 2$\times$ better t=0 quality), the f
 \end{equation}
 At $T_{\text{proc}} = T_c$, $\rho^2(T_c) \approx 0.015$, so even if $g_2/g_1 = 10$, we get $\rho^2 \cdot (g_2/g_1) = 0.15 < 1$, confirming fresh dominance. \hfill $\square$
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig7_jakes_correlation.pdf}
+\caption{Jakes correlation decay $\rho(\tau) = J_0(2\pi f_d \tau)$ for pedestrian mobility ($f_d = 15$ Hz, $T_c = 28.2$ ms). Critical iteration points marked: $L=4$ (9.2 ms, $\rho \approx 0.82$), $L=8$ (18.4 ms, $\rho \approx 0.38$), $L=16$ (36.8 ms, $\rho \approx -0.38$), $L=48$ (110.4 ms, $\rho \approx -0.24$). Green region: fresh beam regime ($\rho > 0.5$). Red region: stale beam regime ($|\rho| < 0.3$).}
+\label{fig:jakes_correlation}
+\end{figure}
+
 \textbf{Empirical Validation.}
 From measurements in Section~\ref{sec:results}, at $T_c = 28.2$ ms:
 \begin{itemize}
@@ -41,6 +48,8 @@ From measurements in Section~\ref{sec:results}, at $T_c = 28.2$ ms:
     \item Stale beam (adam8, $T_{\text{proc}} = T_c$): $R_A^{\text{eff}} = 0.306$ bps/Hz
     \item Ratio: $3.586/0.306 \approx 11.7\times$ (matches Lemma~\ref{lem:fresh_dominance} prediction)
 \end{itemize}
+
+Figure~\ref{fig:jakes_correlation} illustrates the correlation decay mechanism underlying Lemma~\ref{lem:fresh_dominance}.
 
 \subsection{Existence of Intrinsic Optimum}
 

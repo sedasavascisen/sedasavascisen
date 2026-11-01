@@ -30,8 +30,8 @@
 \maketitle
 
 \begin{abstract}
-Reconfigurable intelligent surfaces (RIS) promise significant performance gains for future wireless systems by dynamically controlling the propagation environment. However, existing work focuses primarily on convergence quality while largely ignoring computation delay—a critical constraint in mobile scenarios where channel coherence time is limited. This paper demonstrates that computation latency is not a secondary consideration but rather a first-class design constraint that fundamentally changes the ranking of optimization methods. Through rigorous measurements in a geometry-based channel model with multi-user MISO downlink, we show that: (1) fresh beamforming is 11.7-14.2$\times$ more valuable than stale phase optimization at coherence time $T_c=28.2$ ms, (2) the intrinsic optimum occurs at $L=4$ gradient steps rather than at convergence, with designing for convergence ($L=48$) costing 14\% in achievable rate, and (3) when methods are compared under equal milliseconds rather than equal iterations, the ranking systematically reverses. Our results reveal that the previously reported ``17$\times$ fresh beam gain'' was not reproducible due to missing experimental scripts; the corrected value is 11.7-14.2$\times$. These findings provide practical guidelines for real-world RIS deployment in mobile networks and highlight the importance of latency-aware design.
-\end{abstract}
+Reconfigurable intelligent surfaces (RIS) promise significant performance gains for future wireless systems by dynamically controlling the propagation environment. However, existing work focuses primarily on convergence quality while largely ignoring computation delay—a critical constraint in mobile scenarios where channel coherence time is limited. This paper demonstrates that computation latency is not a secondary consideration but rather a first-class design constraint that fundamentally changes the ranking of optimization methods. Through rigorous measurements in a geometry-based channel model with multi-user MISO downlink, we show that: (1) fresh beamforming is 11.7-14.2$\times$ more valuable than stale phase optimization at coherence time $T_c=28.2$ ms, (2) the intrinsic optimum occurs at $L^* \approx 8$ gradient steps for pedestrian scenarios, achieving 5.380 bps/Hz, with designing for deep convergence ($L=48$) costing 5.9\% despite superior $t=0$ quality, and (3) when methods are compared under equal milliseconds rather than equal iterations, the ranking systematically reverses due to 2.8$\times$ per-step latency variation. Our results reveal that the previously reported ``17$\times$ fresh beam gain'' was not reproducible due to missing experimental scripts; the corrected value is 11.7-14.2$\times$. These findings provide practical guidelines for real-world RIS deployment in mobile networks and highlight the importance of latency-aware design.
+\end{abstract>
 
 \begin{IEEEkeywords}
 Reconfigurable intelligent surface, latency-aware optimization, mobile communications, phase optimization, computation delay
@@ -40,59 +40,7 @@ Reconfigurable intelligent surface, latency-aware optimization, mobile communica
 %===============================================================================
 % SECTION I: INTRODUCTION
 %===============================================================================
-\section{Introduction}
-\label{sec:intro}
-
-\IEEEPARstart{R}{econfigurable} intelligent surfaces (RIS) have emerged as a promising technology for sixth-generation (6G) wireless networks, offering unprecedented control over the electromagnetic propagation environment through passive beamforming~\cite{ris_survey}. By dynamically adjusting the phase shifts of numerous low-cost reflecting elements, RIS can enhance coverage, improve spectral efficiency, and enable new applications in millimeter-wave and terahertz communications~\cite{ris_thz}.
-
-% SUBSECTION: Current State of RIS Optimization
-\subsection{Current State of RIS Optimization}
-
-The vast majority of RIS optimization research focuses on maximizing performance under the implicit assumption that computation time is negligible. Classical approaches include alternating optimization~\cite{wu_ris_2019}, semidefinite relaxation~\cite{huang_ris_sdr}, and gradient-based methods~\cite{guo_weighted_mmse}. Recent work has explored deep learning for direct phase prediction~\cite{dl_ris_1, dl_ris_2}, motivated by the potential to bypass iterative optimization entirely.
-
-However, these studies share a critical limitation: \textbf{they evaluate methods by convergence quality alone}, measuring performance at the endpoint of the optimization trajectory without considering the time required to reach it. In static channels, this evaluation is appropriate. In mobile scenarios, it is fundamentally flawed.
-
-% SUBSECTION: The Latency Problem in Mobile RIS
-\subsection{The Latency Problem in Mobile RIS}
-
-Mobile users experience time-varying channels with finite coherence time $T_c$. At carrier frequency $f_c = 3$ GHz and user velocity $v = 1.5$ m/s (walking speed), the coherence time is approximately 28.2 ms~\cite{rappaport_wireless}. Any computation exceeding this duration renders the optimized phase outdated before it can be applied.
-
-This creates a fundamental trade-off: \textit{converged solutions require many iterations, but by the time convergence is achieved, the channel has changed}. Classical projected gradient ascent (PGA) achieves near-optimal performance with 1000 iterations but requires approximately 5600 ms—199$\times$ longer than the coherence time. By the time the optimal phase is computed, it is applied to a completely different channel state.
-
-The consequence is striking: \textbf{designing for convergence systematically misallocates computational resources}. Methods are ranked by their quality at $t=0$ (when optimization begins) rather than their quality at $t=\tau$ (when results become available), where $\tau$ is the computation delay.
-
-% SUBSECTION: Gap in Existing Literature
-\subsection{Gap in Existing Literature}
-
-While mobility and channel aging have been studied extensively~\cite{aging_1, aging_2}, the interaction between \textit{computation delay} and \textit{channel aging} remains largely unexplored in the RIS literature. Existing mobility-aware RIS work~\cite{mobile_ris_1} typically assumes zero or negligible computation time, focusing instead on tracking accuracy or prediction horizons.
-
-To our knowledge, no prior work has:
-\begin{itemize}
-    \item Quantified the value of fresh beamforming relative to stale optimized phase in RIS systems
-    \item Identified the intrinsic optimum (best latency-performance trade-off) for gradient methods
-    \item Demonstrated that method ranking reverses under equal-millisecond comparison
-    \item Provided reproducible measurements with documented experimental scripts
-\end{itemize}
-
-% SUBSECTION: Contributions
-\subsection{Contributions}
-
-This paper fills this gap through a rigorous latency-aware analysis of RIS phase optimization in mobile multi-user scenarios. Our main contributions are:
-
-\begin{enumerate}
-    \item \textbf{Fresh Beam Value Quantification}: We measure that fresh beamforming (instantaneous channel estimate with zero-delay simple phase) is 11.7-14.2$\times$ more valuable than stale optimized phase at coherence time $T_c = 28.2$ ms. This corrects a previously reported but non-reproducible claim of ``17$\times$ gain.''
-
-    \item \textbf{Intrinsic Optimum Discovery}: We identify $L=4$ gradient steps as the intrinsic optimum, achieving 5.982 bps/Hz effective rate under latency constraints. Designing for convergence ($L=48$ steps) costs 14\% in achievable rate despite superior $t=0$ performance.
-
-    \item \textbf{Method Ranking Reversal}: Under equal-iteration comparison, learned gradient updates win at all five budget levels. Under equal-millisecond comparison (with latency measured on idle machines), all five points are dominated by classical methods across five independent trials—a complete reversal.
-
-    \item \textbf{Reproducibility Framework}: All claims are backed by executable scripts in a version-controlled repository with 56 audited assertions, including sabotage tests. We document measurement traps (machine load, timing jitter) that affect latency-dependent conclusions.
-\end{enumerate}
-
-% SUBSECTION: Organization
-\subsection{Paper Organization}
-
-The remainder of this paper is organized as follows. Section~\ref{sec:system} presents the system model, including the geometry-based channel, multi-user MISO downlink, and latency-mobility interaction. Section~\ref{sec:analysis} analyzes the latency-aware optimization problem and derives the intrinsic optimum. Section~\ref{sec:measurements} describes the measurement methodology and reproducibility framework. Section~\ref{sec:results} presents numerical results. Section~\ref{sec:conclusion} concludes the paper.
+\input{sections/section_01_introduction}
 
 %===============================================================================
 % SECTION II: RELATED WORK
@@ -120,20 +68,9 @@ The remainder of this paper is organized as follows. Section~\ref{sec:system} pr
 \input{sections/section_06_results}
 
 %===============================================================================
-% SECTION VI: CONCLUSION
+% SECTION VII: CONCLUSION
 %===============================================================================
-\section{Conclusion}
-\label{sec:conclusion}
-
-This paper has demonstrated that computation latency is a first-class design constraint in mobile RIS systems, fundamentally changing the ranking of optimization methods. Our key findings are:
-
-\begin{itemize}
-    \item Fresh beamforming is 11.7-14.2$\times$ more valuable than stale optimized phase
-    \item The intrinsic optimum is $L=4$ steps, not convergence
-    \item Method ranking reverses under equal-millisecond comparison
-\end{itemize}
-
-These results provide practical guidelines for latency-aware RIS deployment and highlight the critical importance of reproducible measurements.
+\input{sections/section_07_conclusion}
 
 % REFERENCES
 \bibliographystyle{IEEEtran}

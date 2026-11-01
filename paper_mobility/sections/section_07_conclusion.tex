@@ -1,0 +1,62 @@
+% SECTION VII: CONCLUSION
+% Summary and future directions
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+This paper has demonstrated that computation latency is not a secondary consideration but a \textit{first-class design constraint} in mobile RIS systems, fundamentally changing the ranking of optimization methods and overturning the conventional wisdom that ``more iterations are always better.''
+
+\subsection{Summary of Findings}
+
+Through rigorous mathematical analysis (Lemma~\ref{lem:fresh_dominance}, Theorem~\ref{thm:intrinsic_optimum}, Proposition~\ref{prop:ranking_reversal}) and extensive empirical validation (10{,}000 channel realizations per measurement point, 41/41 audited claims passing sabotage tests), we have established three main results:
+
+\textbf{Fresh beamforming dominates stale optimization.}
+Instantaneous channel-based phase design is 11.7--14.2$\times$ more valuable than stale converged phase when processing delay reaches coherence time ($T_c = 28.2$ ms at pedestrian speed). This quantifies, for the first time in RIS literature, the multiplicative value of channel freshness---a finding previously established only for active MIMO~\cite{Jindal2006IT}. The implication is stark: \textit{a simple zero-forcing phase computed instantly outperforms a mathematically optimal phase that arrives too late}.
+
+\textbf{An intrinsic optimum exists at finite iteration count.}
+The effective rate $R_A^{\text{eff}}(L)$ achieves its maximum at $L^* \approx 8$ iterations for pedestrian scenarios, achieving 5.380 bps/Hz. Deep convergence ($L=48$) costs 5.9\% despite superior t=0 quality, proving that convergence-driven design systematically wastes computational resources. This finding contradicts the pervasive assumption in RIS optimization literature that deeper iteration counts monotonically improve performance.
+
+\textbf{Method ranking reverses under equal-millisecond comparison.}
+Per-step latency variation (2.8$\times$ between learned updates and classical Adam) causes complete ranking reversal: learned updates win 5/5 budgets under equal iterations (68.3--83.7\% win rates) but are dominated at all 5 points under equal milliseconds. This demonstrates that \textit{methods must be ranked by latency-adjusted effective rate}, not convergence speed alone.
+
+\subsection{Practical Implications}
+
+For RIS controller designers, our results provide actionable guidelines:
+
+\begin{itemize}
+    \item \textbf{Stopping criterion:} For pedestrian users ($v \le 2$ m/s, $f_c = 3$ GHz), terminate gradient-based optimization at $L = 4$--$8$ iterations depending on latency budget. Use $L=4$ for conservative early stopping ($T_{\text{proc}} \approx 10$ ms), or $L=8$ to maximize rate under moderate budgets ($T_{\text{proc}} \approx 18$ ms). Deep convergence ($L \ge 16$) is counterproductive.
+
+    \item \textbf{Method selection:} Under real-time constraints ($T_{\text{budget}} < T_c$), select methods by latency-adjusted quality $\rho^2(T_{\text{proc}}) \cdot g(L)$, not t=0 quality $g(L)$ alone. Methods with lower per-iteration cost often dominate despite inferior convergence properties.
+
+    \item \textbf{When deep learning helps:} Direct phase prediction (single forward pass, $T_{\text{proc}} < 1$ ms) dominates iterative methods only if prediction accuracy satisfies $g_{\text{DL}} > 0.8 \cdot g_{\text{converged}}$. Our measurements show single-pass CNN achieves $g_{\text{DL}} \approx 0.45 \cdot g_{\text{converged}}$, insufficient to overcome the $L=4$--$8$ Adam baseline.
+\end{itemize}
+
+\subsection{Limitations and Future Work}
+
+Our analysis operates under pedestrian mobility ($v = 1.5$ m/s, $T_c = 28.2$ ms) and perfect channel state information. Future work should explore:
+
+\textbf{Imperfect CSI.}
+Preliminary results (Section~\ref{sec:results}, Figure~\ref{fig:imperfect_csi}) show the proposed unrolled framework exhibits superior robustness to CSI noise (11.2\% degradation at 20\% error variance) compared to classical PGD (38.4\% collapse). A rigorous study comparing two arms---training with noisy CSI versus deploying clean-trained models under noise---would establish whether learned regularization genuinely helps or whether simple classical methods with tuned step sizes suffice.
+
+\textbf{Discrete phase quantization.}
+Practical RIS panels employ discrete phase shifts (1-bit, 2-bit, 3-bit) controlled via PIN diodes or varactors~\cite{Yang2021TCOM}. Our preliminary results (Figure~\ref{fig:quantization}) show 2-bit quantization incurs minimal loss (3.18\%) under fresh CSI, far smaller than channel aging degradation (74.6\%). However, the \textit{compound effect} of quantization and staleness under realistic deployment ($T_{\text{proc}} > 0$, discrete phases) requires investigation. If quantization noise interacts non-linearly with channel aging, the intrinsic optimum $L^*$ may shift.
+
+\textbf{Predictive beamforming limits.}
+Predictive schemes forecast $\hat{\mbf{H}}(t + T_{\text{proc}})$ but prediction itself consumes time $T_{\text{pred}}$. The cumulative delay $T_{\text{pred}} + T_{\text{opt}}$ still causes staleness. A fundamental question remains: what is the \textit{theoretical bound} on achievable gain when both prediction and optimization are endogenous? Our conjecture is that $T_{\text{pred}} + T_{\text{opt}} \ge T_{\text{opt}}^{\text{classical}}$ due to prediction overhead, suggesting predictive beamforming offers limited value unless $T_{\text{pred}} \ll T_{\text{opt}}$.
+
+\textbf{Multi-user learning.}
+Per-user training (separate models for each $k \in \{1, \dots, K\}$) freezes at random initialization (achievable rate identical to untrained baseline: 3.7230 bps/Hz for both), suggesting a fundamental limitation or implementation issue. Understanding whether this is a gradient pathology (vanishing gradients, poor loss landscape) or a capacity constraint (insufficient model expressiveness for multi-user interference) would clarify when learning helps beyond single-user scenarios.
+
+\subsection{Closing Remarks}
+
+This work challenges the prevailing assumption in RIS optimization literature that convergence quality alone determines method superiority. By rigorously accounting for computation delay as an \textit{algorithm-dependent, endogenous variable} rather than an exogenous nuisance, we have shown that:
+
+\begin{itemize}
+    \item Freshness beats optimality when delay exceeds $T_c/2$
+    \item An intrinsic optimum exists at finite $L^*$, not at convergence
+    \item Method ranking depends critically on per-step latency
+\end{itemize}
+
+These findings underscore the importance of latency-aware design for real-world RIS deployment in mobile networks, and highlight the need for reproducible measurements with documented experimental protocols. All scripts, trained models, and audit frameworks are publicly available to enable independent verification of our reported numbers.
+
+As RIS technology transitions from simulation to hardware prototypes and field trials, accounting for computation delay will become increasingly critical. Our hope is that this work provides both the theoretical foundation and the practical measurement protocols to guide that transition.
