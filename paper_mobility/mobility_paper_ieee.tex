@@ -1,0 +1,91 @@
+\documentclass[journal]{IEEEtran}
+
+% Packages
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+
+% Macros
+\newcommand{\mbf}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+
+\begin{document}
+
+\title{Latency-Aware Phase Optimization for Reconfigurable Intelligent Surfaces in Mobile Scenarios}
+
+\author{Seda Savaşçı Şen%
+\thanks{This work was supported by [TÜBİTAK grant number if applicable].}%
+\thanks{S. Savaşçı Şen is with the Department of Electrical and Electronics Engineering, [Your University], Turkey (e-mail: sedasavascisen@gmail.com).}%
+\thanks{Manuscript received [date]; revised [date].}}
+
+\markboth{IEEE Transactions on Wireless Communications, Vol.~XX, No.~X, [Month] 2027}%
+{Savaşçı Şen: Latency-Aware Phase Optimization for RIS in Mobile Scenarios}
+
+\maketitle
+
+\begin{abstract}
+Reconfigurable intelligent surfaces (RIS) promise significant performance gains by dynamically controlling wireless propagation. However, existing work focuses on convergence quality while largely ignoring computation delay—a critical constraint when channel coherence time is finite. This paper demonstrates that latency is not secondary but a first-class design constraint fundamentally changing method rankings. Through rigorous analysis of multi-user MISO downlink with geometry-based channels, we prove three results: (1) fresh beamforming with instantaneous channel state information (CSI) outperforms stale converged phase by 11.7--14.2$\times$ at coherence time $T_c=28.2$ ms (Lemma~1); (2) an intrinsic optimum exists at $L^*\approx 8$ iterations for pedestrian mobility, with deep convergence ($L=48$) costing 5.9\% despite superior initial quality (Theorem~1); (3) per-step latency variation (2.8$\times$) causes complete ranking reversal when methods are compared under equal milliseconds rather than equal iterations (Proposition~1). All 41 claims are backed by executable scripts with sabotage-tested integrity. Results provide practical guidelines: terminate gradient descent at $L=4$--$8$ for pedestrian users, and rank methods by latency-adjusted effective rate $\rho^2(T_{\text{proc}})\cdot g(L)$, not $t=0$ quality alone.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Reconfigurable intelligent surface, latency-aware optimization, mobile communications, phase optimization, computation delay, channel aging, Jakes model
+\end{IEEEkeywords}
+
+%===============================================================================
+% SECTION I: INTRODUCTION
+%===============================================================================
+\input{sections/section_01_introduction}
+
+%===============================================================================
+% SECTION II: RELATED WORK
+%===============================================================================
+\input{sections/section_02_related_work}
+
+%===============================================================================
+% SECTION III: SYSTEM MODEL
+%===============================================================================
+\input{sections/section_03_system_model}
+
+%===============================================================================
+% SECTION IV: LATENCY-AWARE ANALYSIS
+%===============================================================================
+\input{sections/section_04_latency_analysis}
+
+%===============================================================================
+% SECTION V: MEASUREMENT METHODOLOGY
+%===============================================================================
+\input{sections/section_05_methodology}
+
+%===============================================================================
+% SECTION VI: NUMERICAL RESULTS
+%===============================================================================
+\input{sections/section_06_results}
+
+%===============================================================================
+% SECTION VII: CONCLUSION
+%===============================================================================
+\input{sections/section_07_conclusion}
+
+%===============================================================================
+% ACKNOWLEDGMENTS
+%===============================================================================
+\section*{Acknowledgments}
+The author thanks [Advisor Name] for valuable discussions and feedback. Computational resources were provided by [Your Institution].
+
+% REFERENCES
+\bibliographystyle{IEEEtran}
+\bibliography{references/references}
+
+%===============================================================================
+% BIOGRAPHY (Optional - uncomment if needed)
+%===============================================================================
+% \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{photo.jpg}}]{Seda Savaşçı Şen}
+% received the B.S. degree from [University] in [Year]. She is currently pursuing the Ph.D. degree in Electrical and Electronics Engineering at [University]. Her research interests include reconfigurable intelligent surfaces, mobile communications, and latency-aware optimization.
+% \end{IEEEbiography}
+
+\end{document}
