@@ -279,7 +279,7 @@ for k in ks:
     a2.annotate(f"{k}", (lm[k], lr_[k]), xytext=(3, -9), textcoords="offset points",
                 fontsize=6, color=C["learned"])
 a2.set_xscale("log")
-a2.set_xlabel("Measured latency (ms, median of 5 idle rounds)")
+a2.set_xlabel("Measured latency (ms, median of 5 rounds)")
 a2.set_title("(b) Equal milliseconds", fontsize=8)
 a2.legend(loc="lower right")
 fig.tight_layout()
