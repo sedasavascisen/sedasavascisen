@@ -364,6 +364,13 @@ q = np.array(at["rounds_armijo"]) / np.array(at["rounds_adam"])
 say(f"armijo ratio {at['ratio']:.2f} (per-scenario {q.min():.2f}-{q.max():.2f}); "
     f"ms/step {arm['ms_per_step']:.2f}; best L={arm['best_L']} eff {arm['best_eff']:.3f} "
     f"near={arm['not_sig_below_best']}; load {at['load_at_script_start']:.2f}/{at['load_before']:.2f}")
+say(f"armijo a0={arm['a0']} chosen from {arm['a0_grid']}: "
+    + ", ".join(f"{k}:{v:.3f}" for k, v in arm["best_eff_by_a0_at_adam_speed"].items()))
+say("armijo best by timing ratio: " + ", ".join(
+    f"{k}: {v['best']:.3f} (L={v['best_L']}, {v['minus_adam_best']:+.3f} vs Adam)"
+    for k, v in arm["best_eff_by_ratio"].items()))
+pr_ = stats["paired"]
+say("stats  paired " + ", ".join(f"{k} {v['diff']:.3f} [{v['ci'][0]:.3f}, {v['ci'][1]:.3f}]" for k, v in pr_.items()))
 av = scl["adam_vs_armijo_best"]
 say(f"armijo adam best minus armijo best {av['diff']:.3f} [{av['ci'][0]:.3f}, {av['ci'][1]:.3f}]; "
     f"t0 L=48 armijo {arm['t0_by_L']['48']:.3f} adam {scl['adam_t0_by_L']['48']:.3f}")
@@ -391,31 +398,28 @@ plt.close(fig)
 
 # ---------------------------------------------------------------- tracking
 trk = load("mumiso_tracking.json")
-tL = trk["steps"]
-ovs_t = trk["overheads"]
-lines = [r"\begin{tabular}{r" + "rr" * len(ovs_t) + "}", r"\toprule",
-         " & " + " & ".join(r"\multicolumn{2}{c}{$T_{\mathrm{ov}}=%g$~ms}" % o for o in ovs_t) + r" \\",
-         r"$L$ & " + " & ".join(["cold", "warm"] * len(ovs_t)) + r" \\", r"\midrule"]
-best = {}
-for o in ovs_t:
+fmtU = lambda U: "b2b" if U is None else f"{U:g}"
+lines = [r"\begin{tabular}{r|rrr|rrr|r}", r"\toprule",
+         r" & \multicolumn{3}{c|}{Cold start} & \multicolumn{3}{c|}{Warm start} & \\",
+         r"$T_{\mathrm{p}}$ (ms) & $U$ & $L$ & rate & $U$ & $L$ & rate & warm$-$cold \\", r"\midrule"]
+for tp in map(str, trk["pilots_ms"]):
+    c, w = trk["runs"][tp]["cold"], trk["runs"][tp]["warm"]
+    wc = trk["warm_minus_cold"][tp]
+    cell = lambda b: f"{fmtU(b['period'])} & {b['L']} & {b['rate']:.2f}"
+    lines.append(f"{float(tp):g} & {cell(c['best'])} & {cell(w['best'])} & "
+                 f"{wc['diff']:+.2f}" + (r"$^\S$" if wc['ci'][0] <= 0 <= wc['ci'][1] else "") + r" \\")
     for mode in ("cold", "warm"):
-        best[(o, mode)] = trk["runs"][f"{o}|{mode}"]
-for L in tL:
-    cells = []
-    for o in ovs_t:
-        for mode in ("cold", "warm"):
-            r = best[(o, mode)]
-            v = f"{r['mean_by_L'][str(L)]:.2f}"
-            cells.append(r"\textbf{%s}" % v if L in r["not_sig_below_best"] else v)
-    lines.append(f"{L} & " + " & ".join(cells) + r" \\")
+        r = trk["runs"][tp][mode]
+        nb = sorted((x["L"] for x in r["near_best"]))
+        small = [x for x in r["near_best"] if x["L"] <= 8]
+        say(f"track  T_p={tp} {mode}: best U={r['best']['period']} L={r['best']['L']} "
+            f"{r['best']['rate']:.3f} [{r['best']['ci'][0]:.3f}, {r['best']['ci'][1]:.3f}]; "
+            f"near-best L={nb}; any L<=8 near best: {bool(small)}; "
+            f"b2b best L={r['back_to_back']['best_L']} {r['back_to_back']['best']:.3f}; "
+            f"b2b L=48 {r['back_to_back']['by_L']['48']:.3f}")
+    say(f"track  T_p={tp} warm-cold {wc['diff']:.3f} [{wc['ci'][0]:.3f}, {wc['ci'][1]:.3f}]")
 lines += [r"\bottomrule", r"\end{tabular}"]
 (TAB / "tab_tracking.tex").write_text("\n".join(lines) + "\n")
-for o in ovs_t:
-    for mode in ("cold", "warm"):
-        r = best[(o, mode)]
-        say(f"track  T_ov={o} {mode}: best L={r['best_L']} {r['best']:.3f} "
-            f"[{r['ci_best'][0]:.3f}, {r['ci_best'][1]:.3f}] near={r['not_sig_below_best']} "
-            f"L48 {r['mean_by_L']['48']:.3f} ({1 - r['mean_by_L']['48'] / r['best']:.1%} below)")
 
 # ---------------------------------------------------------- pilot overhead
 Kp, Np, Mp = 4, 32, 8

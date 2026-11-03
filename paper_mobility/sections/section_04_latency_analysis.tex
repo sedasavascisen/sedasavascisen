@@ -26,27 +26,27 @@ so that $\Delta(L)$ is the rate lost to aging during the method's own run time. 
 \end{equation}
 and the effective rate peaks at the first $L$ where this inequality fails. We call that point the \emph{intrinsic optimum} $L^\star$. It is a property of the optimizer and its step size, the per-step latency and the speed of the channel together, not of the optimizer alone. A slower step or a faster user raises the right-hand side and moves $L^\star$ down. Equation~\eqref{eq:marginal} is a bookkeeping identity rather than a theorem: whether $R^{\mathrm{eff}}$ is unimodal is an empirical question, which we answer in Section~\ref{sec:res_optimum}.
 
-\subsection{Normalized Step Cost}
-Channel variation depends on how far a user moves in wavelengths, i.e., on $v\tau/\lambda = f_d\tau$. If an optimizer takes $\Delta T$ per step, its latency after $L$ steps in these units is $L\,x$ with
-\begin{equation}
-    x = \Delta T\, f_d .
-    \label{eq:x}
-\end{equation}
-For a given optimizer and geometry, the effective rate therefore depends on the step time, the carrier frequency and the speed only through $x$ (and the acquisition delay $T_{\mathrm{ov}} f_d$). A tenfold faster implementation is equivalent to a tenfold slower user, and moving from 3~GHz to 28~GHz at the same speed multiplies $x$ by about 9. The equivalence concerns how fast the channel decorrelates; a different carrier also changes path loss and the size of the surface, which this argument does not cover. We report the intrinsic optimum as a function of $x$ in Section~\ref{sec:res_scaling}.
-
-\subsection{Periodic Re-optimization}
-Definition~1 evaluates a phase at the instant it is delivered. A deployed controller instead runs in cycles: it takes a channel snapshot, spends $T_{\mathrm{ov}}$ on acquisition and $L\Delta T$ on optimization, deploys the result, and starts the next cycle, so each phase is used for a whole cycle while the channel keeps changing.
-
-\textbf{Definition 3 (Time-averaged effective rate).} For a controller with cycle length $T_{\mathrm{ov}}+L\Delta T$, let $\bs{\theta}(t)$ be the phase deployed at time $t$. Its time-averaged effective rate over a window $\mathcal{W}$ is
-\begin{equation}
-    \bar{R}^{\mathrm{eff}} = \frac{1}{|\mathcal{W}|}\int_{\mathcal{W}} \min_k R_k\big(\bs{\theta}(t);\,\mathcal{H}(t)\big)\,dt .
-    \label{eq:time_avg}
-\end{equation}
-Each cycle can start from scratch (\emph{cold start}) or from the phase currently deployed (\emph{warm start}). With warm starts, optimization progress accumulates across cycles, which favours short cycles even more.
-
 \subsection{Equal Steps versus Equal Milliseconds}
 Learned update rules are usually compared with classical optimizers at an equal number of steps. If one learned step costs $c$ times as much as one classical step, an equal-step comparison gives the learned method $c$ times the compute budget. We therefore also compare at equal measured time and use Pareto dominance.
 
 \textbf{Definition 2 (Dominance).} Configuration $B$ dominates configuration $A$ if $\tau_B\le\tau_A$ and $r_{0,B}\ge r_{0,A}$, with one inequality strict, where $r_0$ is the rate at $t=0$.
 
 If $B$ dominates $A$, there is no latency budget at which $A$ is the better choice. A learned configuration that is dominated by some configuration of the classical optimizer is therefore never worth deploying, regardless of how it compares step for step.
+
+\subsection{Normalized Step Cost}
+Channel variation depends on how far a user moves in wavelengths, i.e., on $v\tau/\lambda = f_d\tau$. If an optimizer takes $\Delta T$ per step, its latency after $L$ steps in these units is $L\,x$ with
+\begin{equation}
+    x = \Delta T\, f_d .
+    \label{eq:x}
+\end{equation}
+In our model the users move $v\tau$ metres in time $\tau$ while everything else is fixed, so scaling the step time $\Delta T$ by a factor is exactly equivalent to scaling the speed $v$ by the same factor at a fixed carrier; Section~\ref{sec:res_scaling} varies $\Delta T$. The same $x$ at a different carrier frequency is only approximately equivalent: at 28~GHz the user moves about 9 times fewer metres for the same $x$, which changes path loss, angles and the array's size in wavelengths.
+
+\subsection{Periodic Re-optimization}
+Definition~1 evaluates a phase at the instant it is delivered. A deployed controller instead repeats the optimization with period $U$: at each snapshot it spends $T_{\mathrm{p}}$ on pilots for the cascaded channel, during which no data is transmitted, then $L\Delta T$ on optimization, deploys the result, and waits for the next snapshot ($U \ge T_{\mathrm{p}}+L\Delta T$; \emph{back-to-back} operation means $U = T_{\mathrm{p}}+L\Delta T$).
+
+\textbf{Definition 3 (Time-averaged effective rate).} Let $\bs{\theta}(t)$ be the phase deployed at time $t$, and let $\mathcal{P}$ be the set of pilot intervals. The time-averaged effective rate over a window $\mathcal{W}$ is
+\begin{equation}
+    \bar{R}^{\mathrm{eff}} = \frac{1}{|\mathcal{W}|}\int_{\mathcal{W}\setminus\mathcal{P}} \min_k R_k\big(\bs{\theta}(t);\,\mathcal{H}(t)\big)\,dt .
+    \label{eq:time_avg}
+\end{equation}
+Each update can start from scratch (\emph{cold start}) or from the phase currently deployed (\emph{warm start}). The period trades pilot overhead against the age of the phase in use, and $L$ trades the quality of each update against its delay.

@@ -37,6 +37,7 @@ TIMES = (0.0, 1.0, 2.0, 5.0, 7.5, 10.0, 13.3, 15.0, 19.6, 20.0, 26.6, 28.2,
 MS_PER_STEP = 13.3 / 8
 ADAM_STEPS = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32, 48, 64, 96, 128, 192, 256]
 ARM_STEPS = [1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64]
+ARM_A0 = [0.1, 0.3, 1.0, 3.0, 10.0]     # initial step; best one kept (robustness)
 MULTS = [0.01, 0.03, 0.1, 0.3, 1.0, 3.0]
 NBOOT = 2000
 
@@ -102,7 +103,8 @@ def armijo_run(F_, G_, H_, start, steps, record=(), a0=1.0, c=1e-4, shrink=0.5,
                     break
                 step = torch.where(done, step, step * shrink)
             th = torch.where(done[:, None], th + step[:, None] * g, th)
-        a = torch.where(done, step * 2.0, step)     # try a larger step next time
+        # after success try a larger step; after a failed search restart at a0
+        a = torch.where(done, step * 2.0, torch.full_like(step, a0))
         if i in record:
             out[i] = th.clone()
     return out if record else th
@@ -111,9 +113,11 @@ def armijo_run(F_, G_, H_, start, steps, record=(), a0=1.0, c=1e-4, shrink=0.5,
 # ---------------------------------------------- per-scenario effective rates
 print("computing phases ...", flush=True)
 adam_ph = adam_run(F, G0, H0, TH_SU, ADAM_STEPS, record=set(ADAM_STEPS))
-arm_ph = armijo_run(F, G0, H0, TH_SU, ARM_STEPS, record=set(ARM_STEPS))
 adam_c = {L: curve(th) for L, th in adam_ph.items()}
-arm_c = {L: curve(th) for L, th in arm_ph.items()}
+arm_all = {}
+for a0_ in ARM_A0:
+    ph = armijo_run(F, G0, H0, TH_SU, ARM_STEPS, record=set(ARM_STEPS), a0=a0_)
+    arm_all[a0_] = {L: curve(th) for L, th in ph.items()}
 
 # check against the stored sweep (same construction, lr 0.5)
 sens = json.load(open(RES / "mumiso_aging_sensitivity.json"))
@@ -139,6 +143,16 @@ def med_ms(fn, reps=25, rounds=5):
     return float(np.median(out)), out
 
 
+# pick a0 by Armijo's own best effective rate at Adam's step time (robustness
+# check on the same scenarios, not a held-out selection); then time it
+def _best(curves, ms):
+    return max(np.interp(L * ms, TIMES, curves[L].mean(0)) for L in ARM_STEPS)
+
+
+A0_TIME = max(ARM_A0, key=lambda a: _best(arm_all[a], MS_PER_STEP))
+arm_c = arm_all[A0_TIME]
+print("armijo a0 -> best effective at 1.66 ms/step:",
+      {a: round(_best(arm_all[a], MS_PER_STEP), 3) for a in ARM_A0}, "chosen", A0_TIME)
 # Armijo's cost per step depends on how many backtracking evaluations a
 # scenario needs, so both methods are timed on 20 different scenarios (one
 # at a time) and the median over scenarios is used.
@@ -147,13 +161,13 @@ nthreads = torch.get_num_threads()
 pa, pr = [], []
 for s_ in range(20):
     o = slice(s_, s_ + 1)
-    pa.append(med_ms(lambda: adam_run(F[o], G0[o], H0[o], TH_SU[o], 16), reps=5, rounds=3)[0])
-    pr.append(med_ms(lambda: armijo_run(F[o], G0[o], H0[o], TH_SU[o], 16), reps=5, rounds=3)[0])
+    pa.append(med_ms(lambda: adam_run(F[o], G0[o], H0[o], TH_SU[o], 6), reps=7, rounds=3)[0])
+    pr.append(med_ms(lambda: armijo_run(F[o], G0[o], H0[o], TH_SU[o], 6, a0=A0_TIME), reps=7, rounds=3)[0])
 t_adam, t_arm = float(np.median(pa)), float(np.median(pr))
 r_adam, r_arm = pa, pr
 torch.set_num_threads(nthreads)
 ratio = t_arm / t_adam
-print(f"timing (16 steps, 1 thread, median of 20 scenarios): adam {t_adam:.2f} ms, armijo {t_arm:.2f} ms, "
+print(f"timing (6 steps, 1 thread, median of 20 scenarios): adam {t_adam:.2f} ms, armijo {t_arm:.2f} ms, "
       f"ratio {ratio:.2f}; load {load0}")
 
 rng = np.random.default_rng(0)
@@ -213,7 +227,9 @@ print("m=1: L=48 vs L=5 loss", res["paper_m1"])
 arm_ms = MS_PER_STEP * ratio
 Ea = eff_matrix(arm_c, ARM_STEPS, arm_ms)
 ma, iba, neara, _ = summarise(Ea, ARM_STEPS)
-res["armijo"] = dict(timing=dict(adam_16_ms=t_adam, armijo_16_ms=t_arm, ratio=ratio,
+res["armijo"] = dict(a0=A0_TIME, a0_grid=ARM_A0,
+                     best_eff_by_a0_at_adam_speed={str(a): float(_best(arm_all[a], MS_PER_STEP)) for a in ARM_A0},
+                     timing=dict(adam_6_ms=t_adam, armijo_6_ms=t_arm, ratio=ratio,
                                  rounds_adam=r_adam, rounds_armijo=r_arm, load_before=load0,
                                  load_at_script_start=LOAD_START),
                      ms_per_step=arm_ms, steps=ARM_STEPS,
@@ -221,6 +237,16 @@ res["armijo"] = dict(timing=dict(adam_16_ms=t_adam, armijo_16_ms=t_arm, ratio=ra
                      eff_by_L=dict(zip(map(str, ARM_STEPS), map(float, ma))),
                      best_L=ARM_STEPS[iba], best_eff=float(ma[iba]),
                      not_sig_below_best=neara)
+# how much does the Armijo-vs-Adam verdict depend on the timing ratio?
+res["armijo"]["best_eff_by_ratio"] = {}
+E_ad = E1.mean(1).max()
+for rr in (1.0, 1.2, 1.4, 1.6, 2.0):
+    Er = eff_matrix(arm_c, ARM_STEPS, MS_PER_STEP * rr)
+    res["armijo"]["best_eff_by_ratio"][str(rr)] = dict(
+        best=float(Er.mean(1).max()), best_L=ARM_STEPS[int(np.argmax(Er.mean(1)))],
+        minus_adam_best=float(Er.mean(1).max() - E_ad))
+print("armijo best eff by timing ratio:", {k: (round(v["best"], 3), v["best_L"], round(v["minus_adam_best"], 3))
+                                           for k, v in res["armijo"]["best_eff_by_ratio"].items()})
 res["adam_t0_by_L"] = {str(L): float(adam_c[L][:, 0].mean()) for L in ADAM_STEPS}
 # paired: best Adam vs best Armijo, both at m = 1
 ib1 = int(np.argmax(E1.mean(1)))

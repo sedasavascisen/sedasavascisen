@@ -81,17 +81,26 @@ def ci(x):
 
 
 rows = {}
+effs = {}
 for k, th in phases.items():
     c = curve(th)
     if k in ref["curve"]:
         dev = np.abs(c.mean(0) - np.array(ref["curve"][k])).max()
         assert dev < 1e-4, (k, dev)
     eff = np.array([np.interp(lat[k], TIMES, c[s]) for s in range(400)])
+    effs[k] = eff
     rows[k] = dict(latency_ms=lat[k], t0=float(c[:, 0].mean()), t0_ci=ci(c[:, 0]),
                    effective=float(eff.mean()), effective_ci=ci(eff),
                    at_Tc=float(c[:, TIMES.index(28.2)].mean()))
     print(f"{k:>11} lat {lat[k]:8.2f}  t0 {rows[k]['t0']:.3f} {rows[k]['t0_ci']}  "
           f"eff {rows[k]['effective']:.3f} {rows[k]['effective_ci']}")
+
+# paired: is the 2.5 ms heuristic really ahead of the slow methods?
+paired = {}
+for k in ("cd", "pga", "adam20"):
+    dd = effs["su_best_of"] - effs[k]
+    paired[f"su_best_of-{k}"] = dict(diff=float(dd.mean()), ci=ci(dd))
+    print(f"paired su_best_of - {k}: {dd.mean():.3f} {ci(dd)}")
 
 # no RIS: the direct channel alone, static (it ages too, but it is the floor)
 R_no = B.no_ris(F, G0, H0, pt, nv)[0].min(-1).values.numpy()
@@ -114,6 +123,6 @@ budget = dict(direct_only_db=snr_db(Hd), ris_path_su_average_db=snr_db(Hc),
 print("median per-user SNR (sum over BS antennas):", budget)
 
 json.dump(dict(source="aging set (seed 11, 20 scatterers, 400 scenarios)",
-               nboot=NBOOT, rows=rows, link_budget=budget),
+               nboot=NBOOT, rows=rows, link_budget=budget, paired=paired),
           open(RES / "mumiso_aging_stats.json", "w"), indent=1)
 print("wrote results/mumiso_aging_stats.json")
