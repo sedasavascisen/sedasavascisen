@@ -80,9 +80,22 @@ names = {"su_average": "SU-average", "su_best_of": "SU-best-of",
          "adam8": "Adam, $L=8$", "adam12": "Adam, $L=12$",
          "adam16": "Adam, $L=16$", "adam20": "Adam, $L=20$",
          "cd": "Coord. descent", "pga": "Long-run Adam"}
+stats = load("mumiso_aging_stats.json")
+for k in rows:      # the per-scenario run must reproduce the stored means
+    assert abs(stats["rows"][k]["effective"] - eff[k]["effective"]) < 1e-3, k
+hw = [(r["effective_ci"][1] - r["effective_ci"][0]) / 2 for r in stats["rows"].values()]
+say(f"stats  95% CI half-width of scenario means: {min(hw):.2f}-{max(hw):.2f} b/s/Hz")
+for k in ("no_ris", "random"):
+    r = stats["rows"][k]
+    say(f"stats  {k}: {r['t0']:.3f} [{r['t0_ci'][0]:.3f}, {r['t0_ci'][1]:.3f}]")
+lb = stats["link_budget"]
+say(f"budget median per-user SNR: direct only {lb['direct_only_db']:.1f} dB, RIS path "
+    f"(SU-average) {lb['ris_path_su_average_db']:.1f} dB, total {lb['total_su_average_db']:.1f} dB")
 lines = [r"\begin{tabular}{lrrrr}", r"\toprule",
          r"Method & $t{=}0$ & Latency & Effective & Stale \\",
-         r" & (b/s/Hz) & (ms) & (b/s/Hz) & (b/s/Hz) \\", r"\midrule"]
+         r" & (b/s/Hz) & (ms) & (b/s/Hz) & (b/s/Hz) \\", r"\midrule",
+         f"No RIS (direct link) & {stats['rows']['no_ris']['t0']:.3f} & -- & -- & -- \\\\",
+         f"Random phase & {stats['rows']['random']['t0']:.3f} & -- & -- & -- \\\\"]
 for k in rows:
     e = eff[k]
     lat = f"{e['latency_ms']:.2f}" if e["latency_ms"] < 1 else f"{e['latency_ms']:.1f}"
@@ -133,7 +146,13 @@ for r in sw:
 
 fig, ax = plt.subplots(figsize=(COL_W, 2.3))
 ax.plot(L, t0, "s--", color=C["grey"], mfc="white", label=r"$t{=}0$ rate (no aging)")
-ax.plot(L, ef, "o-", color=C["adam"], label="Effective rate")
+ax.plot(L, ef, "o-", color=C["adam"], label="Effective rate, Adam (1.66 ms/step)")
+scl = load("mumiso_step_scaling.json")
+arm = scl["armijo"]
+aL = np.array(arm["steps"]); aE = np.array([arm["eff_by_L"][str(x)] for x in arm["steps"]])
+keep = aL <= 48
+ax.plot(aL[keep], aE[keep], "^:", color=C["learned"], ms=3.5,
+        label=f"Effective rate, Armijo ({arm['ms_per_step']:.2f} ms/step)")
 ax.plot(L[ib], ef[ib], "*", color=C["learned"], ms=11, zorder=5)
 ax.annotate(f"best: $L={L[ib]}$, {ef[ib]:.3f}", (L[ib], ef[ib]),
             xytext=(6.5, 4.85), fontsize=7,
@@ -141,10 +160,10 @@ ax.annotate(f"best: $L={L[ib]}$, {ef[ib]:.3f}", (L[ib], ef[ib]),
 ax.annotate(f"$L={L[-1]}$: {ef[-1]:.3f}\n({-loss48:.1%} vs. best)", (L[-1], ef[-1]),
             xytext=(L[-1] - 20, ef[-1] - 0.38), fontsize=7,
             arrowprops=dict(arrowstyle="-", lw=0.6))
-ax.set_xlabel(r"Adam steps $L$ (latency $= 1.66\,L$ ms)")
+ax.set_xlabel(r"Optimizer steps $L$")
 ax.set_ylabel("Min-user rate (b/s/Hz)")
 ax.set_ylim(4.6, 7.3)
-ax.legend(loc="center", bbox_to_anchor=(0.68, 0.47))
+ax.legend(loc="center", bbox_to_anchor=(0.62, 0.47), fontsize=6)
 fig.savefig(FIG / "fig_intrinsic_optimum.pdf", metadata={"CreationDate": None})
 plt.close(fig)
 
@@ -320,6 +339,92 @@ ax.legend(ncol=2, fontsize=6, loc="upper center", bbox_to_anchor=(0.5, -0.28),
           frameon=False)
 fig.savefig(FIG / "fig_beam_staleness.pdf", metadata={"CreationDate": None})
 plt.close(fig)
+
+# ------------------------------------------------------- step-cost scaling
+sc = scl["scaling"]
+ms_ = sorted(sc, key=float)
+xs = np.array([sc[m]["x"] for m in ms_])
+Ls = np.array([sc[m]["best_L"] for m in ms_])
+lo_ = np.array([min(sc[m]["not_sig_below_best"]) for m in ms_])
+hi_ = np.array([max(sc[m]["not_sig_below_best"]) for m in ms_])
+loss = np.array([sc[m]["loss_L256"]["mean"] for m in ms_]) * 100
+lci = np.array([sc[m]["loss_L256"]["ci"] for m in ms_]) * 100
+for m in ms_:
+    v = sc[m]
+    say(f"scale  m={m} dT={v['ms_per_step']:.3f} ms x={v['x']:.4f} L*={v['best_L']} "
+        f"near={v['not_sig_below_best']} best={v['best_eff']:.3f} "
+        f"lossL256={100*v['loss_L256']['mean']:.1f}% [{100*v['loss_L256']['ci'][0]:.1f},"
+        f"{100*v['loss_L256']['ci'][1]:.1f}] beyond200={v['L256_beyond_trust']}")
+pm = scl["paper_m1"]
+say(f"scale  m=1 loss L48 vs L5 {100*pm['loss_L48_vs_L5']:.1f}% "
+    f"[{100*pm['ci'][0]:.1f}, {100*pm['ci'][1]:.1f}]")
+say(f"scale  adam t0 L64..256: " + ", ".join(f"{L}:{scl['adam_t0_by_L'][str(L)]:.3f}" for L in (48, 64, 96, 128, 256)))
+at = arm["timing"]
+q = np.array(at["rounds_armijo"]) / np.array(at["rounds_adam"])
+say(f"armijo ratio {at['ratio']:.2f} (per-scenario {q.min():.2f}-{q.max():.2f}); "
+    f"ms/step {arm['ms_per_step']:.2f}; best L={arm['best_L']} eff {arm['best_eff']:.3f} "
+    f"near={arm['not_sig_below_best']}; load {at['load_at_script_start']:.2f}/{at['load_before']:.2f}")
+av = scl["adam_vs_armijo_best"]
+say(f"armijo adam best minus armijo best {av['diff']:.3f} [{av['ci'][0]:.3f}, {av['ci'][1]:.3f}]; "
+    f"t0 L=48 armijo {arm['t0_by_L']['48']:.3f} adam {scl['adam_t0_by_L']['48']:.3f}")
+
+fig, (a1, a2) = plt.subplots(1, 2, figsize=(COL_W, 1.9))
+a1.fill_between(xs, lo_, hi_, color=C["adam"], alpha=0.18, lw=0)
+a1.plot(xs, Ls, "o-", color=C["adam"])
+a1.set_xscale("log"); a1.set_yscale("log")
+a1.set_xlabel(r"$x=\Delta T\, f_d$")
+a1.set_ylabel(r"Best step count $L^\star$")
+a1.set_title("(a) Optimum", fontsize=8)
+a2.errorbar(xs, loss, yerr=[loss - lci[:, 0], lci[:, 1] - loss], fmt="o-", color=C["adam"],
+            ms=3, capsize=2, lw=1.0)
+a2.set_xscale("log")
+a2.set_xlabel(r"$x=\Delta T\, f_d$")
+a2.set_ylabel(r"Loss of $L{=}256$ vs. $L^\star$ (%)")
+a2.set_title("(b) Cost of convergence", fontsize=8)
+x1 = sc["1.0"]["x"]
+for a_ in (a1, a2):
+    a_.axvline(x1, color="0.5", ls="--", lw=0.7)
+a1.text(x1 * 1.15, 60, "this\nsetup", fontsize=6, color="0.35", va="top")
+fig.tight_layout()
+fig.savefig(FIG / "fig_step_scaling.pdf", metadata={"CreationDate": None})
+plt.close(fig)
+
+# ---------------------------------------------------------------- tracking
+trk = load("mumiso_tracking.json")
+tL = trk["steps"]
+ovs_t = trk["overheads"]
+lines = [r"\begin{tabular}{r" + "rr" * len(ovs_t) + "}", r"\toprule",
+         " & " + " & ".join(r"\multicolumn{2}{c}{$T_{\mathrm{ov}}=%g$~ms}" % o for o in ovs_t) + r" \\",
+         r"$L$ & " + " & ".join(["cold", "warm"] * len(ovs_t)) + r" \\", r"\midrule"]
+best = {}
+for o in ovs_t:
+    for mode in ("cold", "warm"):
+        best[(o, mode)] = trk["runs"][f"{o}|{mode}"]
+for L in tL:
+    cells = []
+    for o in ovs_t:
+        for mode in ("cold", "warm"):
+            r = best[(o, mode)]
+            v = f"{r['mean_by_L'][str(L)]:.2f}"
+            cells.append(r"\textbf{%s}" % v if L in r["not_sig_below_best"] else v)
+    lines.append(f"{L} & " + " & ".join(cells) + r" \\")
+lines += [r"\bottomrule", r"\end{tabular}"]
+(TAB / "tab_tracking.tex").write_text("\n".join(lines) + "\n")
+for o in ovs_t:
+    for mode in ("cold", "warm"):
+        r = best[(o, mode)]
+        say(f"track  T_ov={o} {mode}: best L={r['best_L']} {r['best']:.3f} "
+            f"[{r['ci_best'][0]:.3f}, {r['ci_best'][1]:.3f}] near={r['not_sig_below_best']} "
+            f"L48 {r['mean_by_L']['48']:.3f} ({1 - r['mean_by_L']['48'] / r['best']:.1%} below)")
+
+# ---------------------------------------------------------- pilot overhead
+Kp, Np, Mp = 4, 32, 8
+n_min = Kp + Np + max(Kp - 1, int(np.ceil((Kp - 1) * Np / Mp)))
+n_sep = Kp * (Np + 1)
+for scs in (15, 30, 60):
+    tsym = 15.0 / (14 * scs)                 # ms per OFDM symbol: 14 per slot of 15/scs ms
+    say(f"pilot  SCS {scs} kHz: symbol {tsym*1e3:.1f} us; {n_min} symbols -> "
+        f"{n_min*tsym:.2f} ms; {n_sep} symbols -> {n_sep*tsym:.2f} ms")
 
 # ------------------------------------------------------------- scenario
 from matplotlib.lines import Line2D

@@ -3,13 +3,15 @@
 
 \subsection{Aging of a Fixed Phase and Effective Rates}
 \label{sec:res_aging}
+In this scenario the RIS carries most of the signal. With the direct links blocked, the median per-user SNR (channel gain over all BS antennas times $P/\sigma^2$) is 20.0~dB for the direct link alone and 31.1~dB for the RIS path with the SU-average phase. Without the RIS, the minimum user rate is 1.744~b/s/Hz; a random phase gives 4.072 (Table~\ref{tab:aging}).
+
 Fig.~\ref{fig:aging} fixes each method's phase at $t=0$ and tracks the minimum user rate as users walk, with the precoder refreshed at every instant. Rates are flat for the first few milliseconds, drop sharply between roughly 5 and 30~ms, i.e., around $T_c$, and level off above the stale floor. The more a phase has been optimized, the more it has to lose: by $\tau=T_c$ long-run Adam has fallen from 7.117 to 5.473~b/s/Hz and Adam with $L=8$ from 6.443 to 5.165, while SU-average has only moved from 4.624 to 4.503.
 
 Table~\ref{tab:aging} evaluates each method at its own measured latency (Definition~1). Long-run Adam and coordinate descent have the best $t=0$ rates but need 5.9~s and 0.88~s, by which time users have moved metres. Their effective rates lie beyond the 200~ms horizon where our model is reliable and are optimistic; the true values lie between the tabulated effective rate and the stale floor. Even the optimistic values are below that of SU-best-of, which takes 2.5~ms. Among the methods in Table~\ref{tab:aging}, Adam with $L=8$ has the highest effective rate (5.849~b/s/Hz); the step sweep below shows that fewer steps do better still.
 
 \begin{table}[t]
 \centering
-\caption{Rate at $t=0$, measured latency, and effective rate on the aging set (400 scenarios, $v=1.5$~m/s). Stale floor: $t=0$ phase on an independent channel. Adam rows use 1.66~ms per step; other latencies are measured (Section~\ref{sec:method}). $^\dagger$Beyond the 200~ms reliable horizon; optimistic. $^\ast$Beyond the last time-grid point (5.6~s); value at 5.6~s.}
+\caption{Rate at $t=0$, latency, and effective rate on the aging set (400 scenarios, $v=1.5$~m/s). Stale floor: $t=0$ phase on an independent channel. Adam rows use 1.66~ms per step; other latencies are measured (Section~\ref{sec:method}). 95\% CIs of these scenario means are $\pm$0.17--0.24~b/s/Hz; comparisons in the text use paired differences. $^\dagger$Beyond the 200~ms reliable horizon; optimistic. $^\ast$Beyond the last time-grid point (5.6~s); value at 5.6~s.}
 \label{tab:aging}
 \footnotesize
 \input{tables/tab_aging}
@@ -24,24 +26,39 @@ Table~\ref{tab:aging} evaluates each method at its own measured latency (Definit
 
 \subsection{The Intrinsic Optimum}
 \label{sec:res_optimum}
-Fig.~\ref{fig:optimum} sweeps the number of Adam steps, starting from SU-average (4.624~b/s/Hz); the point at $L=0$ shows SU-best-of for reference. The $t=0$ rate grows monotonically with $L$, from 5.412 at $L=1$ to 7.037~b/s/Hz at $L=48$. The effective rate does not. It has a flat top between $L=4$ and $L=6$ (5.980, 5.982 and 5.970~b/s/Hz, at 6.7--10.0~ms) and falls beyond it. The differences within the top are smaller than the interpolation resolution (Section~\ref{sec:method}), so we read the optimum as $L^\star\approx 4$--$6$ rather than as a single value. At $L=48$ (79.8~ms) it is 5.145~b/s/Hz, 14.0\% below the optimum, although the $t=0$ rate there is 13.2\% higher than at the best point ($L=5$).
+Fig.~\ref{fig:optimum} sweeps the number of optimizer steps, starting from SU-average (4.624~b/s/Hz); the point at $L=0$ shows SU-best-of for reference. Adam's $t=0$ rate grows monotonically with $L$, from 5.412 at $L=1$ to 7.037~b/s/Hz at $L=48$. The effective rate does not. It has a flat top between $L=4$ and $L=6$ (5.980, 5.982 and 5.970~b/s/Hz, at 6.7--10.0~ms); none of the three is significantly below the best, and every other step count is. At $L=48$ (79.8~ms) the effective rate is 5.145~b/s/Hz, 14.0\% (95\% CI 12.5--15.5\%) below the optimum, although the $t=0$ rate there is 13.2\% higher.
 
-In terms of~\eqref{eq:marginal}: going from $L=4$ to $L=6$ adds 0.188~b/s/Hz at $t=0$, but the additional 3.3~ms of aging cost 0.198~b/s/Hz. Beyond $L=6$ the effective rate declines; the only exception is a 0.006~b/s/Hz fluctuation between $L=20$ and $L=24$. Designing for convergence is therefore not neutral but harmful: the extra steps reduce the effective rate. In this sweep the latency is 1.66~ms per step, within the range of 1.49--2.02~ms per step measured on the same scenario (Section~\ref{sec:method}).
+In terms of~\eqref{eq:marginal}: going from $L=4$ to $L=6$ adds 0.188~b/s/Hz at $t=0$, but the additional 3.3~ms of aging cost 0.198~b/s/Hz. Beyond $L=6$ the effective rate declines; the only exception is a 0.006~b/s/Hz fluctuation between $L=20$ and $L=24$.
 
-The location of the optimum depends on how much each step gains, and therefore on Adam's step size, which is fixed at 0.5 here. Repeating the sweep with step sizes 0.25, 0.75 and 1.0 moves the best point to $L=6$, $4$ and $5$, respectively, and running to $L=48$ costs 11.5\%, 13.7\% and 11.3\% relative to each peak. The interior optimum at a handful of steps, and the double-digit cost of convergence, do not depend on the step size within this range.
+The optimum is not specific to Adam or to its step size. Armijo steepest ascent, at 2.36~ms per step, has its best effective rate at $L=6$ (5.820~b/s/Hz, with $L=4$ not significantly lower). It gains less per step than Adam (6.975 against 7.037~b/s/Hz at $L=48$) and costs more per step, so its best effective rate is 0.162~b/s/Hz (95\% CI 0.121--0.203) below Adam's. Repeating the Adam sweep with step sizes 0.25, 0.75 and 1.0 moves the best point to $L=6$, $4$ and $5$, and running to $L=48$ costs 11.5\%, 13.7\% and 11.3\%.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/fig_intrinsic_optimum.pdf}
-\caption{Adam step sweep on the aging set. The $t=0$ rate increases monotonically, while the effective rate (rate at the method's own completion time) has a flat top at $L=4$--$6$ and is 14.0\% below its best value at $L=48$. $L=0$: SU-best-of, for reference.}
+\caption{Step sweep on the aging set. Adam's $t=0$ rate increases monotonically, while the effective rate (rate at the method's own completion time) has a flat top at $L=4$--$6$ and is 14.0\% below its best value at $L=48$. Armijo steepest ascent shows the same shape at a lower level. $L=0$: SU-best-of, for reference.}
 \label{fig:optimum}
+\end{figure}
+
+\subsection{Dependence on the Step Cost}
+\label{sec:res_scaling}
+The latencies above are those of a single-threaded Python implementation; an optimized implementation would be much faster per step. Fig.~\ref{fig:scaling} therefore scales Adam's per-step latency from 0.01 to 3 times the measured value, which moves the normalized step cost $x=\Delta T f_d$ of~\eqref{eq:x} from $2\times10^{-4}$ to $7\times10^{-2}$; this setup sits at $x=0.025$.
+
+The best step count falls steadily with $x$: 96 steps at $x=2\times10^{-4}$, 48 at $7\times10^{-4}$, 24--32 at $2.5\times10^{-3}$, 12--16 at $7.5\times10^{-3}$, 4--6 here, and 2 at $x=0.075$. Adam's $t=0$ rate saturates near 100 steps (7.087~b/s/Hz at $L=96$, 7.096 at $L=256$), so at the smallest $x$ the optimum is essentially convergence, and running to $L=256$ costs only 1.5\% (95\% CI 1.3--1.8\%). The cost of convergence peaks at about 21\% for $x\approx 2.5\times10^{-3}$, where the optimizer is fast enough to gain much but convergence still takes long. It declines again for large $x$, where even the best policy has little left to gain. For $x\ge 0.025$, $L=256$ lies beyond the 200~ms horizon, so its cost is if anything understated.
+
+The claim that convergence hurts is thus a statement about a regime, not about RIS optimization in general. With a hundredfold faster implementation at pedestrian speed, convergence is nearly free. The same implementation at vehicular speed, or at a millimetre-wave carrier, moves $x$ in the opposite direction.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig_step_scaling.pdf}
+\caption{Adam on the aging set with its per-step latency scaled from 0.01 to 3 times the measured value. (a)~Best step count; shaded: step counts not significantly below the best. (b)~Effective-rate loss of running to $L=256$ instead of $L^\star$, with 95\% paired bootstrap CIs. Dashed: this setup.}
+\label{fig:scaling}
 \end{figure}
 
 \subsection{Sensitivity to Acquisition Delay and User Speed}
 \label{sec:res_sensitivity}
-The effective rate above charges each method only for its own run time. A deployed system also spends time on pilots, estimation and feedback before the optimizer starts. We therefore add an acquisition delay $T_{\mathrm{ov}}$ to every latency and repeat the sweep at four user speeds (Table~\ref{tab:sens}). The direction is the one predicted by~\eqref{eq:marginal}: a faster channel or a longer delay makes each additional step cost more aging, and the optimum moves to fewer steps: without delay, the near-optimal range shifts from $L=6$--$8$ at 1~m/s to $L=3$ at 3~m/s, and at 1.5~m/s it shifts from $L=4$--$6$ to $L=3$--$4$ as $T_{\mathrm{ov}}$ grows from 0 to 10~ms. The best effective rate falls with $T_{\mathrm{ov}}$ at every speed. We do not interpret cells with $T_{\mathrm{ov}} > T_c/2$, where the channel has largely changed before optimization starts. The only such cell is 3~m/s with 10~ms; there all step counts give rates within 0.26~b/s/Hz, and the maximum falls at $L=32$, which carries no meaning. In all other cells, running Adam to $L=48$ costs 2.9--14.7\% of the attainable effective rate. The cost is smallest where aging leaves the optimizer least to gain, i.e., for fast users and long delays.
+The effective rate above charges each method only for its own run time. A deployed system also spends time on pilots, estimation and feedback before the optimizer starts, which for this system is between about 1 and 10~ms (Section~\ref{sec:method}). We therefore add an acquisition delay $T_{\mathrm{ov}}$ to every latency and repeat the sweep at four user speeds (Table~\ref{tab:sens}). The direction is the one predicted by~\eqref{eq:marginal}: a faster channel or a longer delay makes each additional step cost more aging, and the optimum moves to fewer steps. Without delay, the near-optimal range shifts from $L=6$--$8$ at 1~m/s to $L=3$ at 3~m/s, and at 1.5~m/s it shifts from $L=4$--$6$ to $L=3$--$4$ as $T_{\mathrm{ov}}$ grows from 0 to 10~ms. The best effective rate falls with $T_{\mathrm{ov}}$ at every speed. We do not interpret cells with $T_{\mathrm{ov}} > T_c/2$, where the channel has largely changed before optimization starts. The only such cell is 3~m/s with 10~ms; there all step counts give rates within 0.26~b/s/Hz, and the maximum falls at $L=32$, which carries no meaning. In all other cells, running Adam to $L=48$ costs 2.9--14.7\% of the attainable effective rate.
 
-The optimum is also tolerant of an error in the assumed speed. Choosing $L$ for 1.5~m/s when users actually move at 1.8~m/s costs 0.46\% of the attainable effective rate, and the reverse error costs 0.04\%. The largest loss in our grid, 5.7\%, occurs when $L$ is chosen for 1~m/s and users move at 3~m/s.
+The optimum is also tolerant of an error in the assumed speed. Choosing $L$ for 1.5~m/s when users actually move at 1.8~m/s, or the reverse, costs less than 0.5\% of the attainable effective rate. The largest loss in our grid, 5.7\%, occurs when $L$ is chosen for 1~m/s and users move at 3~m/s.
 
 \begin{table}[t]
 \centering
@@ -52,8 +69,23 @@ The optimum is also tolerant of an error in the assumed speed. Choosing $L$ for 
 \input{tables/tab_sensitivity}
 \end{table}
 
+\subsection{Periodic Re-optimization}
+\label{sec:res_tracking}
+Table~\ref{tab:tracking} simulates a controller that re-optimizes continuously (Definition~3) on a 0.5~ms grid over 200~ms, averaging the minimum user rate over 50--200~ms so that the start-up cycles do not dominate. Each phase is now used for a whole cycle, which penalizes long cycles twice: the phase is older when it arrives and it stays in use longer. Accordingly, the best cold-start policy uses $L=3$ steps per cycle, fewer than the single-shot optimum. Warm starts accumulate progress across cycles, so even shorter cycles pay off. Two warm-started steps per cycle give 6.350~b/s/Hz at $T_{\mathrm{ov}}=0$, 0.52~b/s/Hz more than the best cold-start policy. The same ordering holds with 2 and 5~ms of acquisition delay. With 48 steps per cycle, warm starting no longer helps (5.02~b/s/Hz in both cases), and the time-averaged rate is 13.8\% (cold) and 20.9\% (warm) below the best policy.
+
+\begin{table}[t]
+\centering
+\caption{Time-averaged effective rate (Definition~3, b/s/Hz, 50--200~ms) of a controller that re-optimizes continuously with $L$ Adam steps per cycle, cold- or warm-started, for three acquisition delays (aging set). Bold: not significantly below the best $L$ of the column (paired bootstrap, 95\%).}
+\label{tab:tracking}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\input{tables/tab_tracking}
+\end{table}
+
 \subsection{Learned versus Classical: Equal Steps and Equal Milliseconds}
 \label{sec:res_reversal}
+This comparison is made on the static set, without mobility, and with $t=0$ rates. It isolates the question of compute efficiency, which the previous subsections show to be what matters once latency enters. The learned model was not evaluated on the aging set.
+
 Table~\ref{tab:eqstep} compares the learned update rule with tuned Adam at equal step counts on the static test set; both start from SU-average (3.539~b/s/Hz). The learned rule is ahead at every budget, the paired difference minus two standard errors is positive at every budget, and it wins on 68--84\% of test scenarios. On a step axis, the learned rule is the better optimizer.
 
 \begin{table}[t]
@@ -66,7 +98,7 @@ Table~\ref{tab:eqstep} compares the learned update rule with tuned Adam at equal
 
 Steps, however, are not equally expensive. One learned step takes 4.6--6.5~ms, one Adam step 1.60--1.71~ms, so a learned step costs 2.7--4.0 Adam steps. Table~\ref{tab:eqms} and Fig.~\ref{fig:eqms}(b) place both methods on the measured latency axis. Every learned configuration is dominated by an Adam configuration that is both faster and better. This holds in each of the five timing rounds separately, although not always by the configuration listed: for learned $L=16$, Adam with $L=48$ is slower in two rounds, and Adam with $L=32$ (6.013~b/s/Hz, at most 62.97~ms) dominates in every round. For example, the learned rule with $L=4$ needs 18.41~ms for 5.285~b/s/Hz, while Adam with $L=8$ needs 13.48~ms for 5.380~b/s/Hz. The ranking from the equal-step comparison reverses completely.
 
-Two remarks bound this result. First, the comparison uses $t=0$ rates on the static set. Aging was not included; since the learned configuration is the slower one in every pair, aging would be expected to widen rather than close the gap, but we have not measured this. Second, the learned timing excludes feature computation, so the latency gap is if anything understated.
+Three remarks bound this result. First, aging was not included; since the learned configuration is the slower one in every pair, aging would be expected to widen rather than close the gap, but we have not measured this. Second, the learned timing excludes feature computation, so the latency gap is if anything understated. Third, the cost ratio is a property of this implementation: on hardware that accelerates the network's matrix products more than Adam's step, the reversal could weaken.
 
 \begin{table}[t]
 \centering

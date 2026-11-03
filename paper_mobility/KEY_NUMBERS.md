@@ -19,6 +19,9 @@ Sources:
 | Precoder cost vs. one Adam step | `scripts/mumiso_precoder_vs_step.py` | `results/mumiso_precoder_vs_step.json` |
 | Latencies on the aging set (SU, CD, long-run Adam; Adam per-step check) | `scripts/mumiso_mobility_latency.py` | `results/mumiso_mobility_latency.json` |
 | Step-size robustness of the optimum | `scripts/mumiso_aging_sensitivity.py --velocities 1.5 --overheads 0 --lr X --tag aging_lrX` | `results/mumiso_aging_lr{0.25,0.75,1.0}.json` |
+| Aging table with CIs, no-RIS, random phase, link budget | `scripts/mumiso_aging_stats.py` | `results/mumiso_aging_stats.json` |
+| Step-cost scaling, Armijo baseline, paired bootstrap | `scripts/mumiso_step_scaling.py` | `results/mumiso_step_scaling.json` |
+| Periodic re-optimization (cold/warm) | `scripts/mumiso_tracking.py` | `results/mumiso_tracking.json` |
 | Equal steps | `scripts/mumiso_equal_step.py` | `results/mumiso_equal_step.json` |
 | Equal milliseconds (rates) | `scripts/mumiso_latency_parity.py` | `results/mumiso_latency_parity.json` |
 | Equal milliseconds (timings, 5 rounds) | `scripts/mumiso_latency_repeat.py` | `results/mumiso_latency_repeat.json` |

@@ -2,6 +2,10 @@ coherence time T_c = 28.2 ms; trust horizon 200 ms
 mlat   cpu Intel(R) Xeon(R) Processor @ 2.10GHz; load 0.20->0.86; su_average 0.423, su_best_of 2.541, adam1 2.022, adam2 3.895, adam4 7.759, adam8 13.930, adam16 28.221, adam32 47.827, adam48 74.028, cd 880.785, pga 5851.659
 mlat   adam per-step L1:2.02, L2:1.95, L4:1.94, L8:1.74, L16:1.76, L32:1.49, L48:1.54; slope 1.50 ms/step; model 1.663
 mlat   round spread 1.15-3.66
+stats  95% CI half-width of scenario means: 0.17-0.24 b/s/Hz
+stats  no_ris: 1.744 [1.569, 1.914]
+stats  random: 4.072 [3.854, 4.291]
+budget median per-user SNR: direct only 20.0 dB, RIS path (SU-average) 31.1 dB, total 33.6 dB
 aging  su_average  t0 4.624  lat    0.42  eff 4.623  stale 4.315  trusted True
 aging  su_best_of  t0 5.276  lat    2.54  eff 5.272  stale 4.336  trusted True
 aging  adam8       t0 6.443  lat   13.30  eff 5.849  stale 4.326  trusted True
@@ -94,4 +98,23 @@ round-to-round timing spread (max/min): 1.15-1.60
 beam   su_average  at 28.2 ms fresh 3.5862 stale 0.3060 ratio 11.72  (scen 400, tx 8)
 beam   su_best_of  at 28.2 ms fresh 3.9243 stale 0.3052 ratio 12.86  (scen 400, tx 8)
 beam   adam8       at 28.2 ms fresh 4.3584 stale 0.3066 ratio 14.21  (scen 400, tx 8)
+scale  m=0.01 dT=0.017 ms x=0.0002 L*=96 near=[96] best=7.062 lossL256=1.5% [1.3,1.8] beyond200=False
+scale  m=0.03 dT=0.050 ms x=0.0007 L*=48 near=[48] best=6.985 lossL256=9.6% [8.7,10.4] beyond200=False
+scale  m=0.1 dT=0.166 ms x=0.0025 L*=32 near=[24, 32] best=6.779 lossL256=21.1% [19.7,22.7] beyond200=False
+scale  m=0.3 dT=0.499 ms x=0.0075 L*=12 near=[12, 16] best=6.446 lossL256=19.7% [18.4,21.0] beyond200=False
+scale  m=1.0 dT=1.663 ms x=0.0249 L*=5 near=[4, 5, 6] best=5.982 lossL256=15.6% [14.0,17.1] beyond200=True
+scale  m=3.0 dT=4.988 ms x=0.0748 L*=2 near=[2] best=5.546 lossL256=10.6% [8.7,12.6] beyond200=True
+scale  m=1 loss L48 vs L5 14.0% [12.5, 15.5]
+scale  adam t0 L64..256: 48:7.037, 64:7.066, 96:7.087, 128:7.091, 256:7.096
+armijo ratio 1.42 (per-scenario 0.85-2.11); ms/step 2.36; best L=6 eff 5.820 near=[4, 6]; load 0.29/0.64
+armijo adam best minus armijo best 0.162 [0.121, 0.203]; t0 L=48 armijo 6.975 adam 7.037
+track  T_ov=0.0 cold: best L=3 5.832 [5.607, 6.068] near=[3, 4] L48 5.025 (13.8% below)
+track  T_ov=0.0 warm: best L=2 6.350 [6.121, 6.589] near=[2] L48 5.024 (20.9% below)
+track  T_ov=2.0 cold: best L=3 5.699 [5.473, 5.938] near=[3] L48 5.010 (12.1% below)
+track  T_ov=2.0 warm: best L=2 6.145 [5.916, 6.383] near=[2] L48 5.007 (18.5% below)
+track  T_ov=5.0 cold: best L=3 5.483 [5.261, 5.720] near=[3] L48 4.991 (9.0% below)
+track  T_ov=5.0 warm: best L=2 5.839 [5.612, 6.079] near=[2] L48 4.986 (14.6% below)
+pilot  SCS 15 kHz: symbol 71.4 us; 48 symbols -> 3.43 ms; 132 symbols -> 9.43 ms
+pilot  SCS 30 kHz: symbol 35.7 us; 48 symbols -> 1.71 ms; 132 symbols -> 4.71 ms
+pilot  SCS 60 kHz: symbol 17.9 us; 48 symbols -> 0.86 ms; 132 symbols -> 2.36 ms
 scen   aging set: seed 11, 20 scatterers, 400 scenarios, index 0; replay error 1.9e-06 m; LoS BS-RIS False, RIS-UE [True, False, False, False], direct [False, False, False, False]
