@@ -321,5 +321,114 @@ ax.legend(ncol=2, fontsize=6, loc="upper center", bbox_to_anchor=(0.5, -0.28),
 fig.savefig(FIG / "fig_beam_staleness.pdf", metadata={"CreationDate": None})
 plt.close(fig)
 
+# ------------------------------------------------------------- scenario
+from matplotlib.lines import Line2D
+from matplotlib.patches import Rectangle
+
+geo = load("mumiso_scenario_geometry.json")
+room = np.array(geo["room"])
+bs = np.array(geo["bs_pos"])
+ris = np.array(geo["ris_elements"])
+ris_c = ris.mean(0)
+ues = np.array(geo["users_t0"])
+scat = np.array(geo["scatterers"])
+head = np.array(geo["heading_rad"])
+UCOL = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"]   # validated categorical slots 1-4
+INK, GREY = "#2b2b2b", "#9a9a9a"
+say(f"scen   {geo['source']}, index {geo['index']}; replay error {geo['replay_max_error_m']:.1e} m; "
+    f"LoS BS-RIS {geo['los_ris_bs']}, RIS-UE {geo['los_ris_ue']}, direct {geo['los_direct']}")
+
+fig = plt.figure(figsize=(7.16, 3.05))
+gs = fig.add_gridspec(2, 2, width_ratios=[1.75, 1.0], height_ratios=[1.0, 1.0],
+                      wspace=0.16, hspace=0.62, left=0.06, right=0.99, top=0.93, bottom=0.2)
+ax = fig.add_subplot(gs[:, 0])
+ax.add_patch(Rectangle((0, 0), room[0], room[1], fill=False, lw=1.0, ec=INK))
+ax.plot([0, room[0]], [0, 0], color=INK, lw=2.2, solid_capstyle="butt")
+ax.scatter(scat[:, 0], scat[:, 1], s=7, c=GREY, marker="o", lw=0, zorder=2)
+ls_bs = "-" if geo["los_ris_bs"] else "--"
+ax.plot([bs[0], ris_c[0]], [bs[1], ris_c[1]], ls_bs, color=INK, lw=1.0, zorder=3)
+for k, u in enumerate(ues):
+    ax.plot([bs[0], u[0]], [bs[1], u[1]], ":", color=GREY, lw=0.8, zorder=1)
+    m = (bs[:2] + u[:2]) / 2
+    ax.plot(*m, marker="x", ms=4, mew=0.9, color=GREY, zorder=2)
+    ls = "-" if geo["los_ris_ue"][k] else "--"
+    ax.plot([ris_c[0], u[0]], [ris_c[1], u[1]], ls, color=UCOL[k], lw=1.1, zorder=3)
+    ax.plot(u[0], u[1], "o", ms=6.5, mfc=UCOL[k], mec="white", mew=1.0, zorder=5)
+    dx, dy = 1.5 * np.cos(head[k]), 1.5 * np.sin(head[k])
+    ax.annotate("", (u[0] + 2 * dx, u[1] + 2 * dy), (u[0], u[1]), zorder=6,
+                arrowprops=dict(arrowstyle="-|>", color=INK, lw=0.9, mutation_scale=7))
+    ax.annotate(f"U{k+1}", (u[0], u[1]), xytext=(5, -10) if dy > 0 else (5, 4),
+                textcoords="offset points", fontsize=7, color=INK, zorder=6)
+ax.plot(ris_c[0], ris_c[1], marker="s", ms=6, mfc=INK, mec="white", mew=0.8, zorder=6)
+ax.annotate(f"RIS ($N={len(ris)}$)", (ris_c[0], ris_c[1]), xytext=(-52, 5),
+            textcoords="offset points", fontsize=7)
+ax.plot(bs[0], bs[1], marker="^", ms=7.5, mfc=INK, mec="white", mew=0.8, zorder=6)
+ax.annotate("BS ($N_t=8$)", (bs[0], bs[1]), xytext=(-48, 2), textcoords="offset points",
+            fontsize=7)
+ax.text(0.7, room[1] - 0.7, f"$v={geo['velocity']:g}$ m/s, $f_c=3$ GHz\n"
+        f"$T_c={geo['coherence_ms']:.1f}$ ms ({geo['velocity']*geo['coherence_ms']:.0f} mm walked)",
+        fontsize=6.5, va="top", color=INK)
+ax.set_xlim(-0.5, room[0] + 0.5)
+ax.set_ylim(-0.8, room[1] + 1.2)
+ax.set_yticks([0, 5, 10, 15, 20])
+ax.set_aspect("equal")
+ax.set_xlabel("$x$ (m)", labelpad=1)
+ax.set_ylabel("$y$ (m)", labelpad=1)
+ax.set_title("(a) Top view", fontsize=8)
+ax.grid(False)
+handles = [Line2D([], [], color=INK, ls="-", lw=1.1, label="LoS link"),
+           Line2D([], [], color=INK, ls="--", lw=1.1, label="NLoS link"),
+           Line2D([], [], color=GREY, ls=":", lw=0.9, marker="x", ms=4,
+                  label="Direct link, blocked (+40 dB)"),
+           Line2D([], [], color=GREY, ls="", marker="o", ms=3, label="Scatterers (20)"),
+           Line2D([], [], color=INK, lw=0.9, marker=">", ms=3,
+                  label="Walking direction (2 s at 1.5 m/s)")]
+fig.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.5, 0.0), ncol=5,
+           fontsize=6.5, frameon=False, handlelength=2.2, columnspacing=1.2)
+
+sx = fig.add_subplot(gs[0, 1])
+sx.add_patch(Rectangle((0, 0), room[1], room[2], fill=False, lw=1.0, ec=INK))
+sx.plot([0, 0], [0, room[2]], color=INK, lw=2.2)
+sx.scatter(scat[:, 1], scat[:, 2], s=6, c=GREY, lw=0, zorder=2)
+sx.plot([bs[1], ris_c[1]], [bs[2], ris_c[2]], ls_bs, color=INK, lw=1.0)
+for k, u in enumerate(ues):
+    ls = "-" if geo["los_ris_ue"][k] else "--"
+    sx.plot([ris_c[1], u[1]], [ris_c[2], u[2]], ls, color=UCOL[k], lw=1.0)
+    sx.plot(u[1], u[2], "o", ms=5.5, mfc=UCOL[k], mec="white", mew=0.9, zorder=5)
+    off = {0: (2, -10), 1: (4, -9), 2: (-6, 5), 3: (-14, 4)}[k]
+    sx.annotate(f"U{k+1}", (u[1], u[2]), xytext=off, textcoords="offset points",
+                fontsize=6.5)
+sx.plot(ris_c[1], ris_c[2], marker="s", ms=5.5, mfc=INK, mec="white", mew=0.8, zorder=6)
+sx.plot(bs[1], bs[2], marker="^", ms=7, mfc=INK, mec="white", mew=0.8, zorder=6)
+sx.annotate("RIS", (ris_c[1], ris_c[2]), xytext=(4, 3), textcoords="offset points", fontsize=6.5)
+sx.annotate("BS", (bs[1], bs[2]), xytext=(4, 3), textcoords="offset points", fontsize=6.5)
+sx.set_xlim(-0.4, room[1] + 0.4)
+sx.set_ylim(-0.2, room[2] + 0.2)
+sx.set_yticks([0, 2, 4, 6])
+sx.set_xlabel("$y$ (m), distance from the RIS wall", labelpad=1)
+sx.set_ylabel("$z$ (m)", labelpad=1)
+sx.set_title("(b) Side view (axes not to equal scale)", fontsize=8)
+sx.grid(False)
+
+lam_cm = geo["wavelength_m"] * 100
+rx = fig.add_subplot(gs[1, 1])
+e = (ris - ris_c) * 100
+rx.scatter(e[:, 0], e[:, 2], s=10, marker="s", c=INK, lw=0)
+b = (np.array(geo["bs_array"]) - bs) * 100
+rx.scatter(b[:, 0], np.full(len(b), -16.0), s=16, marker="^", c=INK, lw=0)
+rx.text(21, 0, "RIS, $8\\times4$\n($x$--$z$ plane)", fontsize=6.5, va="center")
+rx.text(21, -16, "BS ULA\n(along $x$)", fontsize=6.5, va="center")
+rx.set_xlim(-22, 46)
+rx.set_ylim(-21, 9)
+rx.set_yticks([])
+for side in ("left", "right", "top"):
+    rx.spines[side].set_visible(False)
+rx.set_xticks([-20, -10, 0, 10, 20])
+rx.set_xlabel("$x$ (cm) relative to the array centre", labelpad=1)
+rx.set_title(f"(c) Arrays, element spacing $\\lambda/2={lam_cm/2:.1f}$ cm", fontsize=8)
+rx.grid(False)
+fig.savefig(FIG / "fig_scenario.pdf", metadata={"CreationDate": None})
+plt.close(fig)
+
 (HERE / "paper_numbers.txt").write_text("\n".join(out) + "\n")
 print(f"\nwrote {len(list(TAB.glob('*.tex')))} tables, figures, paper_numbers.txt")

@@ -94,3 +94,4 @@ round-to-round timing spread (max/min): 1.15-1.60
 beam   su_average  at 28.2 ms fresh 3.5862 stale 0.3060 ratio 11.72  (scen 400, tx 8)
 beam   su_best_of  at 28.2 ms fresh 3.9243 stale 0.3052 ratio 12.86  (scen 400, tx 8)
 beam   adam8       at 28.2 ms fresh 4.3584 stale 0.3066 ratio 14.21  (scen 400, tx 8)
+scen   aging set: seed 11, 20 scatterers, 400 scenarios, index 0; replay error 1.9e-06 m; LoS BS-RIS False, RIS-UE [True, False, False, False], direct [False, False, False, False]

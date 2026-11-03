@@ -19,7 +19,13 @@ For a given phase the precoder is regularized zero forcing on the effective chan
 which Adam and the learned update optimize through the smooth surrogate $-\tfrac{1}{\beta}\log\sum_k e^{-\beta R_k}$ with $\beta=8$, evaluated with a log-sum-exp for numerical stability; coordinate descent and the long-run Adam reference maximize the hard minimum directly.
 
 \subsection{Geometry and Propagation}
-The room is $40\times 20\times 6$~m. The RIS is mounted on a wall, centred at $(20, 0.1, 3)$~m and facing into the room; the BS is at $(20, 6, 4)$~m, in the panel's boresight and beyond its Fraunhofer distance. Users are dropped uniformly in the room at heights between 1 and 2~m. The carrier is $f_c=3$~GHz, the bandwidth 20~MHz, the transmit power 20~dBm, the BS antenna gain 5~dBi and the receiver noise figure 7~dB.
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_scenario.pdf}
+\caption{The simulated scenario, drawn from the first scenario of the aging set (seed~11) exactly as the channel generator produced it. (a)~Top view of the $40\times20\times6$~m office: the BS ($N_t=8$) at $(20,6,4)$~m, the wall-mounted RIS ($N=32$) centred at $(20,0.1,3)$~m, four users at 1--2~m height walking in straight lines at 1.5~m/s, and 20 point scatterers. Line style gives the LoS state drawn for each link from the 3GPP LoS probability. All direct links carry the 40~dB blockage. The arrows show 2~s of walking; within one coherence time a user moves only 42~mm. (b)~Side view. (c)~Element layouts of the RIS and the BS array.}
+\label{fig:scenario}
+\end{figure*}
+The room is $40\times 20\times 6$~m (Fig.~\ref{fig:scenario}). The RIS is mounted on a wall, centred at $(20, 0.1, 3)$~m and facing into the room; the BS is at $(20, 6, 4)$~m, in the panel's boresight and beyond its Fraunhofer distance. Users are dropped uniformly in the room at heights between 1 and 2~m. The carrier is $f_c=3$~GHz, the bandwidth 20~MHz, the transmit power 20~dBm, the BS antenna gain 5~dBi and the receiver noise figure 7~dB.
 
 All links follow the 3GPP TR~38.901 indoor-office model~\cite{3gpp_channel}: its path loss and LoS probability, a Ricean factor $K_R$ drawn from its distribution, and log-normal shadowing with Gudmundson spatial correlation~\cite{Gudmundson1991} at a 5~m decorrelation distance (TR~38.901 specifies 10~m for LoS and 6~m for NLoS indoor links). Non-LoS components are built from point scatterers placed in the room and shared by all links of a scenario. The cascaded BS--RIS--user amplitude follows the two-hop path-loss model of Tang et al.~\cite{Tang2021TWC} with a $\cos^q$ element pattern. Because an RIS is deployed where the direct path is obstructed, the direct link is attenuated by an additional 40~dB.
 

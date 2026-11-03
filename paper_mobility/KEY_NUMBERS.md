@@ -12,6 +12,7 @@ Sources:
 
 | Result | Script | Result file |
 |---|---|---|
+| Scenario figure (geometry of aging-set scenario 0) | `scripts/mumiso_scenario_geometry.py` | `results/mumiso_scenario_geometry.json` |
 | Effective rates, aging curves | `scripts/mumiso_aging.py --no-learned --tag aging_fixzf` | `results/mumiso_aging_fixzf.json` |
 | Intrinsic optimum (Adam step sweep; the paper plots the finer grid of the sensitivity run, which reproduces this file) | `scripts/mumiso_aging_sweep.py` | `results/mumiso_aging_sweep_repro.json` |
 | Sensitivity: speed, acquisition delay, speed mismatch | `scripts/mumiso_aging_sensitivity.py` | `results/mumiso_aging_sensitivity.json` |
