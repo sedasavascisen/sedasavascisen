@@ -1,51 +1,24 @@
-% SECTION I: INTRODUCTION
-% Polished with crisp contributions
-
 \section{Introduction}
 \label{sec:intro}
 
-\IEEEPARstart{R}{econfigurable} intelligent surfaces (RIS) have emerged as a transformative technology for sixth-generation (6G) wireless networks, offering unprecedented control over the electromagnetic propagation environment through passive beamforming~\cite{Basar2019Access}. By dynamically adjusting the phase shifts of numerous low-cost reflecting elements, RIS can enhance coverage, improve spectral efficiency, and enable new applications across millimeter-wave and terahertz bands~\cite{Wu2019TWC}.
+\IEEEPARstart{R}{econfigurable} intelligent surfaces (RIS) reshape the radio channel with a large number of passive, phase-controllable elements~\cite{Basar2019Access,Wu2019TWC}. In a multi-user downlink the phases must be optimized jointly with the base-station (BS) precoder, which is a non-convex problem usually attacked with alternating optimization and semidefinite relaxation, block coordinate descent, fractional programming or WMMSE~\cite{Wu2019TWC,Abeywickrama2020TCOM,Pan2020TWC,Guo2020TWC,Choi2024TCOM}, and, more recently, with learned policies~\cite{Huang2020JSAC}.
 
-\subsection{The Latency Blind Spot in RIS Optimization}
+These methods are almost always compared by the rate they reach on the channel they were given. That comparison is appropriate when the channel is static. When users move, it is not: a method delivers its phase configuration to the channel that exists \emph{when it finishes}, not to the channel it was handed. A slow method answers a question about a channel that is already gone.
 
-The vast majority of RIS optimization research focuses on maximizing performance under the implicit assumption that computation time is negligible or exogenous to algorithm design. Classical approaches include alternating optimization (AO)~\cite{Wu2019TWC}, weighted minimum mean-square error (WMMSE)~\cite{Guo2020TCOM}, and projected gradient descent (PGD). Recent work has explored deep learning for direct phase prediction~\cite{Huang2020TWC,Elbir2020WCL}, motivated by the potential to bypass iterative optimization entirely.
-
-However, these studies share a critical limitation: \textbf{they evaluate methods by convergence quality alone}, measuring performance at the endpoint of optimization without considering the time required to reach it. In static channels this evaluation is appropriate. In mobile scenarios it is fundamentally flawed.
-
-\subsection{The Mobility-Latency Paradox}
-
-Mobile users experience time-varying channels with finite coherence time $T_c$. At carrier frequency $f_c = 3$ GHz and pedestrian velocity $v = 1.5$ m/s, coherence time is approximately 28.2 ms~\cite{rappaport_wireless}. Any computation exceeding this duration renders the optimized phase outdated before deployment.
-
-This creates a fundamental trade-off: \textit{converged solutions require many iterations, but by the time convergence is achieved, the channel has changed}. Classical projected gradient ascent achieves near-optimal performance with 1000 iterations but requires approximately 5600 ms---199$\times$ longer than coherence time. By the time the optimal phase is computed, it is applied to a completely different channel state.
-
-The consequence is striking: \textbf{designing for convergence systematically misallocates computational resources}. Methods are ranked by their quality at $t=0$ (when optimization begins) rather than their quality at $t=\tau$ (when results become available), where $\tau$ is the algorithm-dependent processing delay.
-
-\subsection{Gap in Existing Literature}
-
-While mobility and channel aging have been studied extensively in MIMO systems~\cite{Jindal2006IT}, the interaction between \textit{computation delay} and \textit{channel aging} remains largely unexplored in the RIS literature. Existing mobility-aware RIS work~\cite{Huang2021TWC,Papazafeiropoulos2022TCOM} typically assumes zero or negligible computation time, focusing instead on tracking accuracy or channel prediction horizons. Predictive beamforming schemes~\cite{Ma2020WCL,Liu2022TCOM,Zhao2023WCL} forecast future channels $\hat{\mbf{H}}(t + T_{\text{proc}})$ but \textit{fail to eliminate staleness} because prediction itself consumes time---the cumulative delay $T_{\text{pred}} + T_{\text{opt}}$ still renders the phase configuration stale.
-
-To our knowledge, no prior work has:
-\begin{itemize}
-    \item \textbf{Quantified} the value of fresh beamforming relative to stale optimized phase in RIS systems
-    \item \textbf{Proven} the existence of an intrinsic optimum (finite iteration count that maximizes effective rate)
-    \item \textbf{Demonstrated} that method ranking systematically reverses under equal-millisecond comparison
-    \item \textbf{Provided} reproducible measurements with documented experimental scripts and sabotage-tested audit framework
-\end{itemize}
+This paper makes that observation quantitative for a multi-user MISO downlink assisted by a wall-mounted RIS in a 3GPP TR~38.901 indoor-office scenario~\cite{3gpp_channel} with pedestrian users ($v=1.5$~m/s, $f_c=3$~GHz, reference coherence time $T_c = 0.423/f_d = 28.2$~ms). Our thesis is that \emph{computation latency is not a secondary metric in mobile RIS systems but a first-class design constraint that decides the ranking of methods}. We support it with measurements, not with a channel-aging formula: every phase is computed on the channel at $t=0$ and evaluated on a geometrically evolved channel at the method's own measured latency.
 
 \subsection{Contributions}
 
-This paper fills this gap through rigorous latency-aware analysis of RIS phase optimization in mobile multi-user scenarios. Our main contributions are:
-
 \begin{enumerate}
-    \item \textbf{We prove fresh beamforming dominates stale optimized phase} (Lemma~\ref{lem:fresh_dominance}): Fresh beamforming with instantaneous CSI is 11.7--14.2$\times$ more valuable than stale converged phase at coherence time $T_c = 28.2$ ms. This corrects a previously reported but non-reproducible claim of ``17$\times$ gain'' for which no executable script existed. Our measurement is fully reproducible via scripts/mumiso\_beam\_staleness.py with 10{,}000 independent channel realizations.
+    \item \textbf{Effective-rate evaluation.} We define the effective rate of a method as its minimum user rate on the channel that exists at its own completion time (Section~\ref{sec:framework}) and measure it for single-user heuristics, Adam, coordinate descent and projected gradient ascent (PGA). PGA has the highest rate at $t=0$ (7.117~b/s/Hz) but needs about 5.6~s; its effective rate (4.667~b/s/Hz, an optimistic value of our channel model) falls below that of a 0.05~ms heuristic (5.276~b/s/Hz).
 
-    \item \textbf{We prove the existence of an intrinsic optimum at finite iteration count} (Theorem~\ref{thm:intrinsic_optimum}): We identify $L^* \approx 8$ gradient steps as the intrinsic optimum for pedestrian scenarios ($v = 1.5$ m/s, $f_c = 3$ GHz), achieving 5.380 bps/Hz effective rate. Designing for deep convergence ($L=48$ steps) costs 5.9\% in achievable rate despite superior t=0 performance, proving that \textit{mathematical convergence is not physically optimal} under mobility.
+    \item \textbf{An intrinsic optimum in the step count.} For Adam, the $t=0$ rate keeps increasing with the number of steps $L$, but the effective rate peaks at $L=4$ (5.980~b/s/Hz at 6.65~ms) and then declines. Running to $L=48$ costs 14.0\% of the effective rate although its $t=0$ rate is 14.8\% higher.
 
-    \item \textbf{We prove method ranking systematically reverses under equal-millisecond constraints} (Proposition~\ref{prop:ranking_reversal}): Per-step latency variation (2.8$\times$ between learned updates and Adam optimizer) causes \textit{complete ranking reversal}. Under equal-iteration comparison, learned gradient updates win at all five budgets ($L=1,2,4,8,16$) with 68.3--83.7\% win rates. Under equal-millisecond comparison, all five learned configurations are dominated by classical Adam optimizer across five independent trials, confirming that per-iteration latency is a first-class design constraint.
+    \item \textbf{Ranking reversal between equal steps and equal milliseconds.} A learned (deep-unfolded) update rule beats a step-size-tuned Adam at every budget $L\in\{1,2,4,8,16\}$ when both run the same number of steps (win rates 68--84\% of test scenarios). Measured on an idle machine in five independent rounds, every one of the five learned configurations is dominated, i.e., some Adam configuration is both faster and better, in all five rounds. One learned step costs 2.7--4.0 Adam steps.
 
-    \item \textbf{We provide a reproducibility framework with sabotage-tested integrity}: All 41 audited claims are backed by executable scripts in a version-controlled repository. Sabotage testing (writing untrained weights to trained checkpoints) caused 7 out of 41 assertions to fail, confirming the audit measures genuine model quality rather than cached constants. We document measurement traps (machine load contamination, timing jitter, prefix non-stability) that affect latency-dependent conclusions, and provide idle-machine validation protocols to prevent contamination.
+    \item \textbf{Pricing the modelling assumption.} All effective rates assume that the BS precoder is refreshed from current pilots while only the RIS phase ages. We measure what this assumption is worth: if the precoder aged together with the phase, the rate at $T_c$ would be 11.7--14.2$\times$ lower.
+
+    \item \textbf{Reproducibility.} Every number in the tables and figures is produced by a script from stored measurement files, and an audit script with 56 assertions checks the reported claims. We report the measurement traps that produced wrong numbers during this work, including a load-contaminated timing that inflated Adam's latency from 17.99~ms to 29.70~ms and flipped a conclusion.
 \end{enumerate}
 
-\subsection{Paper Organization}
-
-Section~\ref{sec:related_work} positions our work relative to classical optimization, deep learning, mobility-aware design, and predictive beamforming literature. Section~\ref{sec:system} presents the 3GPP-compliant system model, Jakes mobility framework, and latency-aware effective rate formulation. Section~\ref{sec:analysis} establishes the theoretical foundation through three main results (Lemma~\ref{lem:fresh_dominance}, Theorem~\ref{thm:intrinsic_optimum}, Proposition~\ref{prop:ranking_reversal}). Section~\ref{sec:measurements} describes the reproducibility framework and measurement protocols. Section~\ref{sec:results} validates the theoretical findings through extensive simulations. Section~\ref{sec:conclusion} concludes the paper and discusses future directions.
+Section~\ref{sec:related_work} reviews related work, Section~\ref{sec:system} gives the system and channel model, Section~\ref{sec:framework} defines the evaluation framework, Section~\ref{sec:method} the measurement protocol, Section~\ref{sec:results} the results, and Section~\ref{sec:conclusion} concludes.

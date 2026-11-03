@@ -1,99 +1,35 @@
-% SECTION III: SYSTEM MODEL AND PROBLEM FORMULATION
-% Mathematical foundations for latency-aware RIS optimization
-
-\section{System Model and Problem Formulation}
+\section{System and Channel Model}
 \label{sec:system}
 
-In this section, we present the network topology, the 3GPP-compliant propagation environment, the dynamic mobility framework under Doppler fading, and our proposed computation latency model.
+\subsection{Signal Model}
+A BS with a uniform linear array of $T=8$ antennas at half-wavelength spacing serves $K=4$ single-antenna users through a direct link and an RIS of $N=32$ passive elements (an $8\times 4$ planar array, half-wavelength spacing). With RIS phases $\bs{\theta}\in[0,2\pi)^N$, $\mbf{v}=e^{j\bs{\theta}}$, and precoder $\mbf{W}=[\mbf{w}_1,\dots,\mbf{w}_K]$, user $k$ receives
+\begin{equation}
+    y_k = \left(\mbf{h}_{d,k}^H + \mbf{g}_k^H \operatorname{diag}(\mbf{v})\mbf{F}\right)\sum_{j=1}^K \mbf{w}_j s_j + n_k ,
+    \label{eq:signal}
+\end{equation}
+where $\mbf{F}\in\mathbb{C}^{N\times T}$ is the BS--RIS channel, $\mbf{g}_k^H\in\mathbb{C}^{1\times N}$ the RIS--user channel, $\mbf{h}_{d,k}^H\in\mathbb{C}^{1\times T}$ the direct channel and $n_k\sim\mathcal{CN}(0,\sigma^2)$. Writing $\mbf{h}_k^H(\bs{\theta})$ for the bracketed effective channel, the rate of user $k$ is $R_k=\log_2(1+\mathrm{SINR}_k)$ with
+\begin{equation}
+    \mathrm{SINR}_k = \frac{|\mbf{h}_k^H \mbf{w}_k|^2}{\sum_{j\ne k}|\mbf{h}_k^H \mbf{w}_j|^2 + \sigma^2}.
+\end{equation}
+For a given phase the precoder is regularized zero forcing on the effective channel, with the MMSE regularizer $\lambda = K\sigma^2/P$ and total power $P$. The design objective is the minimum user rate,
+\begin{equation}
+    \max_{\bs{\theta}} \; \min_k R_k(\bs{\theta}),
+    \label{eq:maxmin}
+\end{equation}
+which gradient methods optimize through the smooth surrogate $-\tfrac{1}{\beta}\log\sum_k e^{-\beta R_k}$ with $\beta=8$, evaluated with a log-sum-exp for numerical stability.
 
-\subsection{Network Topology and Geometric Configuration}
+\subsection{Geometry and Propagation}
+The room is $40\times 20\times 6$~m. The RIS is mounted on a wall, centred at $(20, 0.1, 3)$~m and facing into the room; the BS is at $(20, 6, 4)$~m, in the panel's boresight and beyond its Fraunhofer distance. Users are dropped uniformly in the room at heights between 1 and 2~m. The carrier is $f_c=3$~GHz, the bandwidth 20~MHz, the transmit power 20~dBm, the BS antenna gain 5~dBi and the receiver noise figure 7~dB.
 
-We consider a multi-user multiple-input single-output (MU-MISO) downlink wireless network operating in a 3D indoor office/urban environment compliant with 3GPP TR 38.901 specifications~\cite{3gpp_channel}. The system comprises:
+All links follow the 3GPP TR~38.901 indoor-office model~\cite{3gpp_channel}: its path loss and LoS probability, a Ricean $K$-factor drawn from its distribution, and log-normal shadowing with Gudmundson spatial correlation (5~m decorrelation distance)~\cite{Gudmundson1991}. Non-LoS components are built from scattering clusters with explicit geometry. The cascaded BS--RIS--user amplitude follows the two-hop path-loss model of Tang et al.~\cite{Tang2021TWC} with a $\cos^q$ element pattern. Because an RIS is deployed where the direct path is obstructed, the direct link is attenuated by an additional 40~dB.
+
+\subsection{Mobility}
+Users walk in a straight line at $v=1.5$~m/s. Over the observation window the scatterer positions, per-path complex gains, LoS states, Ricean factors, shadowing values and the BS--RIS channel $\mbf{F}$ are held fixed; only the user positions move, and the channels $\mbf{g}_k(t)$ and $\mbf{h}_{d,k}(t)$ are recomputed from geometry at every time instant. Channel variation therefore comes from geometry rather than from a stochastic aging model. As a reference time scale we use the Doppler frequency $f_d=vf_c/c=15$~Hz and the coherence time $T_c=0.423/f_d=28.2$~ms~\cite{rappaport_wireless}.
+
+\subsection{Known Modelling Limitations}
+We state three limitations because each one biases the results in a known direction.
 \begin{itemize}
-    \item A Base Station (BS) equipped with a Uniform Linear Array (ULA) of $M = 8$ active antenna elements spaced at $d = \lambda/2$, located at position $\mbf{p}_{\text{BS}} = [1, 0, 3]^T$ m.
-    \item A Reconfigurable Intelligent Surface (RIS) consisting of $N = 64$ passive reflecting elements in an $8 \times 8$ Uniform Planar Array (UPA), deployed at $\mbf{p}_{\text{RIS}} = [20, 10, 4]^T$ m.
-    \item $K = 4$ single-antenna mobile User Equipments (UEs) moving dynamically within a $40$ m $\times$ $20$ m $\times$ $6$ m coverage region.
+    \item \emph{Frozen scatterers.} Over seconds a walking user would see new scatterers, but the model keeps them. The temporal correlation of the RIS--user channel therefore levels off near 0.5 instead of decaying further, which \emph{understates} the loss of slow methods. We treat latencies up to 200~ms as reliable and also report a stale floor, i.e., a $t=0$ phase evaluated on an independent channel, as the true asymptote.
+    \item \emph{Independent per-antenna cluster gains.} Cluster gains are drawn independently for each BS antenna instead of being shared across the array. This adds antenna diversity, makes interference nulling easier, and so makes all rates optimistic.
+    \item \emph{Perfect channel knowledge.} Each method is given the exact channel at $t=0$, and the channel-acquisition delay is not modelled. Imperfect CSI is left to future work.
 \end{itemize}
-
-\subsection{3GPP-Compliant Cascaded Channel Model}
-
-The composite effective channel vector $\mbf{h}_k(t) \in \mathbb{C}^{M \times 1}$ between the BS and the $k$-th mobile user at timestamp $t$ is modeled as the superposition of the direct link and the RIS-assisted reflected link:
-\begin{equation}
-    \mbf{h}_k(t) = \mbf{G}(t) \bs{\Phi}(t) \mbf{f}_k(t) + \mbf{h}_{d,k}(t), \quad \forall k \in \{1, \dots, K\},
-    \label{eq:cascaded_channel}
-\end{equation}
-where $\mbf{G}(t) \in \mathbb{C}^{M \times N}$ represents the static/quasi-static BS-to-RIS link, $\mbf{f}_k(t) \in \mathbb{C}^{N \times 1}$ denotes the time-varying RIS-to-$\text{UE}_k$ link, and $\mbf{h}_{d,k}(t) \in \mathbb{C}^{M \times 1}$ is the direct BS-to-$\text{UE}_k$ link. The diagonal phase control matrix of the RIS is defined as:
-\begin{equation}
-    \bs{\Phi}(t) = \text{diag}\left( e^{j\phi_1(t)}, e^{j\phi_2(t)}, \dots, e^{j\phi_N(t)} \right), \quad \phi_n(t) \in [0, 2\pi).
-\end{equation}
-
-To capture realistic spatial fading, each propagation link follows a Rician fading model characterized by a Rician $K$-factor $K_R = 3$ dB:
-\begin{equation}
-    \mbf{G} = \sqrt{\beta_{\text{BR}}} \left( \sqrt{\frac{K_R}{K_R + 1}} \mbf{G}^{\text{LoS}} + \sqrt{\frac{1}{K_R + 1}} \mbf{G}^{\text{NLoS}} \right),
-\end{equation}
-where $\beta_{\text{BR}}$ denotes the distance-dependent path loss following the 3GPP InH-Office model. The deterministic Line-of-Sight (LoS) component $\mbf{G}^{\text{LoS}}$ is constructed via array response vectors:
-\begin{equation}
-    \mbf{G}^{\text{LoS}} = \mbf{a}_M(\theta_{\text{BS}}^{\text{AoD}}) \mbf{a}_N^H(\theta_{\text{RIS}}^{\text{AoA}}, \psi_{\text{RIS}}^{\text{AoA}}),
-\end{equation}
-where $\mbf{a}_M(\cdot)$ represents the ULA steering vector at the BS:
-\begin{equation}
-    \mbf{a}_M(\theta) = \frac{1}{\sqrt{M}} \left[ 1, e^{-j\pi \sin\theta}, \dots, e^{-j(M-1)\pi \sin\theta} \right]^T,
-\end{equation}
-and $\mbf{a}_N(\cdot, \cdot)$ is the 2D UPA steering vector at the RIS, accounting for both azimuth and elevation angles.
-
-\subsection{Kinematic Mobility and Doppler Channel Aging}
-
-When users move at velocity $v = 1.5$ m/s (pedestrian speed), the wireless channel experiences temporal variation due to Doppler frequency shifts:
-\begin{equation}
-    f_d = \frac{v f_c}{c} = 15.0~\text{Hz},
-\end{equation}
-where $f_c = 3.0$ GHz is the carrier frequency and $c$ is the speed of light. This yields a physical channel coherence time:
-\begin{equation}
-    T_c = \frac{0.423}{f_d} = 28.2~\text{ms}.
-    \label{eq:coherence_time}
-\end{equation}
-
-According to Clarke's isotropic scattering model~\cite{rappaport_wireless}, the temporal auto-correlation between the channel state at time $t$ and time $t + \tau$ follows the zeroth-order Bessel function of the first kind:
-\begin{equation}
-    \rho(\tau) = J_0(2\pi f_d \tau).
-    \label{eq:jakes_correlation}
-\end{equation}
-
-Consequently, the time-varying channel evolution over delay $\tau$ is modeled via a first-order Gauss-Markov process:
-\begin{equation}
-    \mbf{h}_k(t + \tau) = \rho(\tau) \mbf{h}_k(t) + \sqrt{1 - \rho^2(\tau)} \mbf{e}_k(\tau),
-    \label{eq:gauss_markov}
-\end{equation}
-where $\mbf{e}_k(\tau) \sim \mathcal{CN}(\mbf{0}, \sigma_e^2 \mbf{I}_M)$ represents the uncorrelated channel innovation component due to mobility. This model ensures that $\mathbb{E}[\mbf{h}_k(t + \tau) \mbf{h}_k^H(t)] = \rho(\tau) \mathbb{E}[\mbf{h}_k(t) \mbf{h}_k^H(t)]$, capturing the correlation decay governed by \eqref{eq:jakes_correlation}.
-
-\subsection{Latency Model and Effective Rate Formulation}
-
-Unlike classical literature that assumes instantaneous phase deployment ($T_{\text{proc}} = 0$), we explicitly model the total processing and execution delay $T_{\text{proc}}(L)$ as an increasing function of the iteration count $L$:
-\begin{equation}
-    T_{\text{proc}}(L) = T_{\text{overhead}} + L \cdot \Delta T_{\text{iter}},
-    \label{eq:latency_model}
-\end{equation}
-where $T_{\text{overhead}}$ encapsulates channel estimation and feedback signaling delays, and $\Delta T_{\text{iter}}$ is the computational duration per optimization step. Critically, $\Delta T_{\text{iter}}$ is \textit{not uniform across methods}: gradient-based algorithms exhibit $2.7\times$ variation in per-iteration cost (Section~\ref{sec:results}).
-
-When an algorithm optimizes phase matrix $\bs{\Phi}(t)$ using CSI estimated at time $t$, the resulting phases are physically deployed on the RIS panel at time $t + T_{\text{proc}}(L)$. Due to user mobility governed by \eqref{eq:gauss_markov}, the physical channel has evolved to $\mbf{h}_k(t + T_{\text{proc}}(L))$ with correlation $\rho(T_{\text{proc}}(L))$ given by \eqref{eq:jakes_correlation}.
-
-\textbf{Definition 1 (Physical Effective Rate):} The actual achievable rate realized by the $k$-th user under latency-induced channel aging is:
-\begin{equation}
-    R_{A,k}^{\text{eff}}(L) = \log_2 \left( 1 + \frac{|\mbf{h}_{k}^H(t + T_{\text{proc}}(L)) \mbf{w}_k(t)|^2}{\sum_{j \neq k} |\mbf{h}_{k}^H(t + T_{\text{proc}}(L)) \mbf{w}_j(t)|^2 + \sigma_n^2} \right),
-    \label{eq:effective_rate}
-\end{equation}
-where $\mbf{w}_k(t) = \sqrt{p_k} \bs{\Phi}(t) \mbf{g}_k(t)$ is the composite transmit-reflect beamforming vector designed at time $t$ based on zero-forcing precoding $\mbf{g}_k(t)$, $p_k$ is the power allocation to user $k$, and $\sigma_n^2$ is the noise power.
-
-\subsection{Problem Formulation}
-
-The latency-aware sum-rate maximization problem is formulated as:
-\begin{subequations}
-    \begin{align}
-        \max_{L, \bs{\Phi}(t), \{p_k\}} \quad & \sum_{k=1}^K R_{A,k}^{\text{eff}}(L) \label{eq:obj_func} \\
-        \text{s.t.} \quad & |\phi_n(t)| = 1, \quad \forall n \in \{1, \dots, N\}, \label{eq:unit_modulus} \\
-        & \sum_{k=1}^K p_k \le P_{\text{max}}, \label{eq:power_constraint} \\
-        & T_{\text{proc}}(L) \le T_c. \label{eq:latency_constraint}
-    \end{align}
-\end{subequations}
-
-\textbf{Remark 1 (The Fundamental Latency Trade-off):} Increasing iterations $L$ improves nominal beamforming gain on the instantaneous channel $\mbf{h}(t)$, enabling convergence to near-optimal phase configurations. However, larger $L$ increases $T_{\text{proc}}(L)$ via \eqref{eq:latency_model}, which rapidly degrades correlation $\rho(T_{\text{proc}}(L))$ in \eqref{eq:jakes_correlation}. As demonstrated in Section~\ref{sec:results}, this causes $R_A^{\text{eff}}(L)$ to peak at an \textit{intrinsic optimum} $L^* = 4$ and then collapse for larger $L$, proving that mathematical convergence ($L \to \infty$) is \textbf{not} physically rate-optimal under mobility.

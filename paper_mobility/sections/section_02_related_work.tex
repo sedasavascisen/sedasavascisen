@@ -1,46 +1,16 @@
-% SECTION II: RELATED WORK
-% Condensed version for main paper (2 pages target)
-% Full version: ../FULL_LITERATURE_REVIEW.md
-
-\section{Related Work and Research Gaps}
+\section{Related Work}
 \label{sec:related_work}
 
-The design of phase shift matrices for Reconfigurable Intelligent Surfaces (RIS) has been extensively studied, yet existing literature operates primarily under static assumptions, ignoring algorithm execution latency. We categorize prior arts into four core domains to highlight our key contributions.
+\subsection{RIS Phase Optimization}
+Joint precoding and RIS phase design has been addressed with alternating optimization and semidefinite relaxation~\cite{Wu2019TWC}, beamforming under practical phase-dependent amplitude models~\cite{Abeywickrama2020TCOM}, block-coordinate-descent designs for multicell systems~\cite{Pan2020TWC}, fractional programming for weighted sum-rate maximization~\cite{Guo2020TWC} and WMMSE-based rate maximization~\cite{Choi2024TCOM}. These methods are evaluated by the objective value they reach; their run time, when discussed, is characterized by complexity order rather than by measured latency relative to the channel's coherence time.
 
-\subsection{Classical and Deep Learning-Based RIS Phase Optimization}
-Classical phase optimization focuses on achieving mathematical convergence quality on static or quasi-static channels. Frameworks leveraging Alternating Optimization (AO) and Semidefinite Relaxation (SDR) \cite{Wu2019TWC}, Coordinate Descent (CD) \cite{Abeywickrama2020TCOM}, Majorization-Minimization (MM) \cite{Pan2020TSP}, and Fractional Programming (FP) \cite{Guo2020TCOM} achieve near-optimal beamforming bounds. However, their per-iteration complexity---ranging from $\mathcal{O}(K \cdot N^2)$ to $\mathcal{O}(N^{3.5})$---requires dozens of iterations ($100+$ steps), incurring processing delays ($T_{\text{proc}}$) of tens to hundreds of milliseconds.
+Learning-based designs replace the iterative solver with a trained policy, for example deep reinforcement learning for joint precoding and phase design in multi-user MISO systems~\cite{Huang2020JSAC}. Their usual motivation is speed, yet that speed is rarely related to how fast the channel changes, and the classical solvers they are compared against are rarely tuned or timed under the same conditions.
 
-To bypass this iterative burden, Deep Learning (DL) approaches shift computation offline. Convolutional Neural Networks (CNNs) \cite{Elbir2020WCL, Feng2022TCOM}, Deep Reinforcement Learning (DRL) \cite{Huang2020TWC, Liu2021JSAC}, Graph Neural Networks (GNNs) \cite{Zhang2023TVT}, and Deep Unfolding Networks (DUNN) \cite{Song2022WCL} reduce online execution to sub-millisecond single-forward passes ($\mathcal{O}(N)$). Nevertheless, these DL models operate under the implicit assumption that "faster inference automatically yields higher physical performance," failing to benchmark model execution time ($T_{\text{proc}}$) against the physical channel coherence time ($T_{\text{coh}}$) under movement.
+\subsection{Mobility and Outdated Channel Knowledge}
+High mobility has been addressed by mounting the surface on the vehicle so that a fast-fading channel becomes slow-fading~\cite{Huang2022TWC}. The effect of channel aging~\cite{Papazafeiropoulos2023TVT} and of outdated channel state information~\cite{Zhang2022TCOM} on RIS-aided systems has been analysed, and predictive beamforming has been proposed to act on a forecast of the future channel~\cite{Liu2021WCL}. The cost of imperfect channel knowledge at the transmitter is classical in MIMO broadcast channels~\cite{Jindal2006IT}. In these works the delay between channel acquisition and use is a system parameter. The optimizer's own run time, which differs from method to method and from iteration count to iteration count, is not part of the model.
 
-\subsection{Mobility, Channel Aging, and Predictive Beamforming}
-In dynamic scenarios such as High-Speed Rail (HSR) \cite{Huang2021TWC} and Vehicular-to-Everything (V2X) \cite{Basar2019Access}, high Doppler shifts induce rapid channel aging \cite{Papazafeiropoulos2022TCOM, Ding2022TWC}. Phase matrices calculated based on instantaneous Channel State Information (CSI) at time $t$ become stale upon physical deployment at time $t + T_{\text{proc}}$.
+\subsection{Discrete Phases}
+Practical surfaces have a few bits of phase resolution~\cite{Wu2020TCOM}. This paper uses continuous phases; the latency dimension of discrete phase design is left to future work (Section~\ref{sec:conclusion}).
 
-To counter channel aging, predictive beamforming schemes using Recurrent Neural Networks (RNNs) \cite{Ma2020WCL}, trajectory tracking Kalman filters \cite{Liu2022TCOM}, and temporal Transformers \cite{Chen2024TVT, Zhao2023WCL} forecast future channels $\hat{\mathbf{H}}(t + T_{\text{proc}})$. However, \textbf{predictive beamforming fails to eliminate staleness because prediction itself consumes computation time}. The cumulative delay ($T_{\text{pred}} + T_{\text{opt}}$) still renders the phase configuration stale when applied to high-velocity propagation environments.
-
-\subsection{Quantization and Hardware Constraints}
-Practical hardware implementations deploy discrete phase shifts controlled via PIN diodes or varactors \cite{Abeywickrama2020TCOM}. Quantization-aware training and Straight-Through Estimator (STE) techniques \cite{Yang2021TCOM} demonstrate that 2-bit quantization (4 discrete levels) incurs minimal capacity loss ($\le 3\%$) under static CSI. However, prior works evaluate quantization noise in isolation, ignoring the compound degradation when 2-bit discrete phase shifts interact with outdated, stale channel states.
-
-\subsection{Summary of Gaps and Our Novelty}
-As summarized in Table~\ref{tab:lit_comparison}, prior arts exhibit fundamental research gaps:
-\begin{enumerate}
-    \item \textbf{Equal-Millisecond Misconception:} Existing works assume all algorithms share equal computational cost per step. We disprove this, showing a $2.7\times$ variation in per-iteration cost that completely reverses algorithm performance rankings under realistic time budgets.
-    \item \textbf{Quantified Value of Freshness:} While delayed feedback has been studied in active MIMO \cite{Jindal2006IT}, no prior work has quantified the trade-off between fresh, partially converged phases versus stale, optimal phases for RIS. We prove that a fresh phase design is $11.7\text{--}14.2\times$ more valuable than a stale, mathematically optimal phase configuration.
-    \item \textbf{Discovery of the Intrinsic Optimum ($L=4$):} Literature assumes deeper iteration counts ($L=48$) maximize effective rate. We prove that under mobility, mathematical convergence is \emph{not} physical rate optimal, establishing that truncating iterations at $L=4$ maximizes the physical Effective Rate ($R_A^{\text{eff}}$).
-\end{enumerate}
-
-% Comparison Table
-\begin{table*}[t]
-\centering
-\caption{Comparison of RIS Phase Optimization Paradigms under Mobility and Latency Constraints}
-\label{tab:lit_comparison}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|c|c|c|c|c|}
-\hline
-\textbf{Paradigm / Literature Category} & \textbf{Primary Focus} & \textbf{Computation Delay ($T_{\text{proc}}$)} & \textbf{Mobility / Aging} & \textbf{Latency-Aware Ranking} & \textbf{Identified Optimum} \\ \hline
-Classical Optimization \cite{Wu2019TWC, Abeywickrama2020TCOM, Choi2024TCOM} & Convergence Quality & Ignored ($T_{\text{proc}}=0$) & Static / Quasi-Static & $\times$ Not Evaluated & $L \to \infty$ (Full Convergence) \\ \hline
-Deep Learning / Unrolling \cite{Elbir2020WCL, Feng2022TCOM, Song2022WCL} & Sub-ms Inference & Evaluated as Speed Metric & Ignored & $\times$ Assumes Fast = Best & Static Layer Depth ($L=48$) \\ \hline
-Predictive Beamforming \cite{Ma2020WCL, Zhao2023WCL, Chen2024TVT} & Channel Forecasting & Ignores Prediction Time & Dynamic Doppler & $\times$ Stale Combined Delay & $L \to \infty$ (Forecasted State) \\ \hline
-\textbf{Proposed Work} & \textbf{Latency-Aware Design} & \textbf{1st-Class Constraint} & \textbf{High-Speed ($R_A^{\text{eff}}$)} & \textbf{\checkmark Ranking Reversal Proven} & \textbf{Intrinsic Optimum ($L=4$)} \\ \hline
-\end{tabular}%
-}
-\end{table*}
+\subsection{Gap Addressed Here}
+To our knowledge, no prior RIS work (i)~evaluates each method on the channel at its own measured completion time, (ii)~shows that this creates an interior optimum in the iteration count of a standard optimizer, or (iii)~compares a learned update rule with a tuned classical optimizer both at equal steps and at equal measured milliseconds and finds that the two comparisons rank them in opposite order.

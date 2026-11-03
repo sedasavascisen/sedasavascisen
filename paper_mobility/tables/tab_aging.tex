@@ -1,0 +1,15 @@
+\begin{tabular}{lrrrr}
+\toprule
+Method & $t{=}0$ & Latency & Effective & Stale \\
+ & (b/s/Hz) & (ms) & (b/s/Hz) & (b/s/Hz) \\
+\midrule
+SU-average & 4.624 & 0.03 & 4.624 & 4.315 \\
+SU-best-of & 5.276 & 0.05 & 5.276 & 4.336 \\
+Adam, $L=8$ & 6.443 & 13.3 & 5.849 & 4.326 \\
+Adam, $L=12$ & 6.631 & 19.6 & 5.533 & 4.370 \\
+Adam, $L=16$ & 6.754 & 26.6 & 5.324 & 4.381 \\
+Adam, $L=20$ & 6.835 & 34.6 & 5.262 & 4.364 \\
+Coord. descent & 6.925 & 1500.0 & 4.921$^\dagger$ & 4.352 \\
+PGA & 7.117 & 5600.0 & 4.667$^\dagger$ & 4.423 \\
+\bottomrule
+\end{tabular}

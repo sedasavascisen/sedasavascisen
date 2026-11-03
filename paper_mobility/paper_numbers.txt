@@ -1,0 +1,40 @@
+coherence time T_c = 28.2 ms; trust horizon 200 ms
+aging  su_average  t0 4.624  lat    0.03  eff 4.624  stale 4.315  trusted True
+aging  su_best_of  t0 5.276  lat    0.05  eff 5.276  stale 4.336  trusted True
+aging  adam8       t0 6.443  lat   13.30  eff 5.849  stale 4.326  trusted True
+aging  adam12      t0 6.631  lat   19.60  eff 5.533  stale 4.370  trusted True
+aging  adam16      t0 6.754  lat   26.60  eff 5.324  stale 4.381  trusted True
+aging  adam20      t0 6.835  lat   34.60  eff 5.262  stale 4.364  trusted True
+aging  cd          t0 6.925  lat 1500.00  eff 4.921  stale 4.352  trusted False
+aging  pga         t0 7.117  lat 5600.00  eff 4.667  stale 4.423  trusted False
+sweep  best L=4 eff 5.9798 at 6.65 ms;  L=48 eff 5.1451 (14.0% below);  t0 at L=48 7.0368
+sweep  L= 0 lat   0.05 t0 5.2762 eff 5.2763
+sweep  L= 2 lat   3.33 t0 5.7837 eff 5.7462
+sweep  L= 4 lat   6.65 t0 6.1280 eff 5.9798
+sweep  L= 6 lat   9.98 t0 6.3162 eff 5.9700
+sweep  L= 8 lat  13.30 t0 6.4428 eff 5.8486
+sweep  L=10 lat  16.62 t0 6.5407 eff 5.6832
+sweep  L=12 lat  19.95 t0 6.6313 eff 5.5149
+sweep  L=16 lat  26.60 t0 6.7542 eff 5.3244
+sweep  L=20 lat  33.25 t0 6.8354 eff 5.2762
+sweep  L=24 lat  39.90 t0 6.8970 eff 5.2824
+sweep  L=32 lat  53.20 t0 6.9698 eff 5.2300
+sweep  L=48 lat  79.80 t0 7.0368 eff 5.1451
+eqstep L= 1 learned 4.4599 adam 4.3810 ratio 1.018 lo +0.0608 win 74.8% lr 0.75 obj soft
+eqstep L= 2 learned 4.8792 adam 4.6927 ratio 1.040 lo +0.1602 win 83.2% lr 0.75 obj soft
+eqstep L= 4 learned 5.2855 adam 5.0253 ratio 1.052 lo +0.2279 win 83.7% lr 0.75 obj soft
+eqstep L= 8 learned 5.5932 adam 5.3800 ratio 1.040 lo +0.1840 win 83.2% lr 0.75 obj soft
+eqstep L=16 learned 5.8003 adam 5.7389 ratio 1.011 lo +0.0393 win 68.3% lr 0.75 obj soft
+eqstep anchor 3.5386; config samples=6000 eval_n=600 val_n=400
+eqms   learned L= 1   5.16 ms rate 4.4599 -> Adam L=2 3.20 ms 4.6927; dominated in 5/5 rounds
+eqms   learned L= 2  12.95 ms rate 4.8792 -> Adam L=4 6.49 ms 5.0253; dominated in 5/5 rounds
+eqms   learned L= 4  18.41 ms rate 5.2855 -> Adam L=8 13.48 ms 5.3800; dominated in 5/5 rounds
+eqms   learned L= 8  36.76 ms rate 5.5932 -> Adam L=16 27.31 ms 5.7389; dominated in 5/5 rounds
+eqms   learned L=16  83.80 ms rate 5.8003 -> Adam L=48 78.77 ms 6.1072; dominated in 5/5 rounds
+per-step ms learned L1:5.16, L2:6.47, L4:4.60, L8:4.60, L16:5.24
+per-step ms adam    L1:1.65, L2:1.60, L4:1.62, L8:1.69, L16:1.71, L24:1.62, L32:1.60, L48:1.64
+per-step cost ratio (L>=2): 2.73-4.05
+round-to-round timing spread (max/min): 1.15-1.60
+beam   su_average  at 28.2 ms fresh 3.5862 stale 0.3060 ratio 11.72  (scen 400, tx 8)
+beam   su_best_of  at 28.2 ms fresh 3.9243 stale 0.3052 ratio 12.86  (scen 400, tx 8)
+beam   adam8       at 28.2 ms fresh 4.3584 stale 0.3066 ratio 14.21  (scen 400, tx 8)

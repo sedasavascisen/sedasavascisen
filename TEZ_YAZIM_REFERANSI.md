@@ -108,11 +108,11 @@ Kaynak: `results/mumiso_equal_step.json`
 
 | Ogrenilen L | Gecikme | Hiz | Baskinlayan Adam |
 | --- | --- | --- | --- |
-| 1 | 6.71 ms | 4.4599 | L=2: 4.48 ms, 4.6927 |
-| 2 | 14.59 ms | 4.8792 | L=4: 9.30 ms, 5.0253 |
-| 4 | 25.79 ms | 5.2855 | L=8: 17.48 ms, 5.3800 |
-| 8 | 52.34 ms | 5.5932 | L=16: 36.62 ms, 5.7389 |
-| 16 | 99.15 ms | 5.8003 | L=32: 76.57 ms, 6.0132 |
+| 1 | 5.16 ms | 4.4599 | L=2: 3.20 ms, 4.6927 |
+| 2 | 12.95 ms | 4.8792 | L=4: 6.49 ms, 5.0253 |
+| 4 | 18.41 ms | 5.2855 | L=8: 13.48 ms, 5.3800 |
+| 8 | 36.76 ms | 5.5932 | L=16: 27.31 ms, 5.7389 |
+| 16 | 83.80 ms | 5.8003 | L=48: 78.77 ms, 6.1072 |
 
 Adim maliyeti orani: ~2.7× (bir ogrenilen adim = ~2.7 Adam adimi).
 Turlar arasi zamanlama oynamasi 1.06×–1.41× (bos makine, 5 tur).

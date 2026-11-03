@@ -1,75 +1,30 @@
-% SECTION V: MEASUREMENT METHODOLOGY
-% Reproducibility framework and measurement protocols
+\section{Measurement Protocol}
+\label{sec:method}
 
-\section{Measurement Methodology}
-\label{sec:measurements}
-
-This section describes the experimental methodology that ensures reproducibility of all reported measurements. We document the measurement traps encountered during this work and the validation protocols adopted to prevent contamination.
-
-\subsection{Reproducibility Framework}
-
-All numerical results in Section~\ref{sec:results} follow a strict reproducibility protocol summarized in Table~\ref{tab:reproducibility_checklist}.
-
-\begin{table}[t]
-\centering
-\caption{Experimental Reproducibility Checklist (All Criteria Enforced for Latency-Dependent Measurements)}
-\label{tab:reproducibility_checklist}
-\begin{tabular}{lp{5.5cm}c}
-\toprule
-\textbf{Criterion} & \textbf{Specification} & \textbf{Status} \\
-\midrule
-System Idle & Machine load average $< 0.50$ verified via \texttt{cat /proc/loadavg} before each measurement & \checkmark \\
-GPU Isolation & NVIDIA RTX 4090, CUDA Multi-Process Service (MPS) disabled to prevent context-switching overhead & \checkmark \\
-CUDA Warmup & 1000 dummy forward passes executed before timing to eliminate JIT compilation and cache effects & \checkmark \\
-Timing Mechanism & \texttt{torch.cuda.Event()} with \texttt{record()}/\texttt{synchronize()} for GPU-accurate microsecond precision & \checkmark \\
-Sample Size & $M = 10{,}000$ independent channel realizations per measurement point & \checkmark \\
-Random Seed & Deterministic seed 42 for channel generation, ensuring identical scenarios across method comparisons & \checkmark \\
-Script Archival & All measurements backed by executable Python scripts in \texttt{scripts/mumiso\_*.py} & \checkmark \\
-Audit Claims & 41 of 41 assertions pass \texttt{scripts/audit\_claims.py} with sabotage test validation & \checkmark \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{System Idle Verification.}
-Latency measurements are \textit{non-neutrally} affected by machine load: background processes slow down different optimization methods by varying amounts, potentially reversing conclusions. For example, running a training job in parallel inflated Adam's latency from 17.5 ms to 29.7 ms ($1.7\times$ slowdown) while leaving the learned update nearly unchanged, flipping the ranking. To prevent this, we verify \texttt{loadavg $<$ 0.5} (idle CPU) before each timing run and discard any measurement where load spikes during execution.
-
-\textbf{CUDA Warmup and GPU Isolation.}
-PyTorch's just-in-time (JIT) compiler and CUDA kernel cache introduce $\sim$100 ms overhead on first execution. We execute 1000 dummy forward passes before timing to ensure all kernels are compiled and cached. Additionally, CUDA Multi-Process Service (MPS) is disabled to prevent context-switching delays from concurrent GPU jobs.
-
-\textbf{Timing Jitter Quantification.}
-Even on an idle machine, timing measurements exhibit jitter due to OS scheduling and hardware interrupts. We run each latency measurement five times and report the median. Across five trials, the coefficient of variation is $< 15\%$ (1.06$\times$--1.41$\times$ range), confirming reproducibility.
-
-\subsection{Measurement Traps and Corrections}
-
-During the development of this work, we encountered two measurement errors where \textit{missing executable scripts} led to incorrect reported numbers:
-
-\textbf{Trap 1: Non-Reproducible ``17$\times$ Fresh Beam Gain.''}
-An early draft claimed fresh beamforming was ``17$\times$ more valuable'' than stale phase. Upon attempting to regenerate this number, we discovered no executable script existed---the number was manually copied from an intermediate notebook cell that could not be re-run. Re-measuring with proper scripts (\texttt{mumiso\_beam\_staleness.py}) yielded \textbf{11.7--14.2$\times$}, a 20--30\% discrepancy. The corrected value is reported in Table~\ref{tab:fresh_vs_stale}.
-
-\textbf{Trap 2: Prefix Non-Stability in Channel Generation.}
-Channel generation via \texttt{generate(N)} is \textit{not prefix-stable}: \texttt{generate(1000)} produces different realizations than \texttt{generate(2000)[:1000]} even with the same random seed. This caused validation-set results to change when \texttt{--samples} was modified. We enforce a strict rule: \textit{never compare numbers from different \texttt{--samples} values}, and always re-run validation when sample size changes.
-
-\textbf{Trap 3: Machine Load Contamination (Non-Neutral Slowdown).}
-As noted above, running latency measurements under load does not slow all methods equally. A background training job caused:
+\subsection{Scenario Sets}
+We use two scenario sets, generated with fixed seeds, and never combine numbers from the two in one table.
 \begin{itemize}
-    \item Adam: 17.5 ms $\to$ 29.7 ms ($1.7\times$ slowdown)
-    \item Learned update: 25.8 ms $\to$ 28.1 ms ($1.09\times$ slowdown)
+    \item \emph{Mobility set} (Tables~\ref{tab:aging} and~\ref{tab:beam}, Figs.~\ref{fig:aging}, \ref{fig:optimum} and~\ref{fig:beam}): 400 scenarios with walking users, seed 11. The aging experiments use 20 scattering clusters per link, close to the 15--19 of the 3GPP indoor-office model; the beam-staleness experiment uses the generator default.
+    \item \emph{Static set} (Tables~\ref{tab:eqstep} and~\ref{tab:eqms}, Fig.~\ref{fig:eqms}): 6000 training, 400 validation and 600 test scenarios. The channel generator is not prefix-stable, i.e., generating $n$ scenarios is not the same as taking the first $n$ of a larger draw, so every checkpoint is evaluated with the sample count it was trained with.
 \end{itemize}
-This flipped the conclusion from ``Adam faster'' to ``learned faster,'' demonstrating that \textit{load contamination reverses findings}. Our protocol (Table~\ref{tab:reproducibility_checklist}) prevents this via strict idle-machine validation.
+Absolute rates differ between the two sets because their cluster counts differ. Comparisons are always made within one set.
 
-\subsection{Sabotage Testing for Audit Integrity}
+\subsection{Methods}
+\emph{SU-average} and \emph{SU-best-of} are closed-form single-user phase alignments (the latter keeps the best of $K{+}1$ candidates). \emph{Adam} optimizes the soft-min surrogate starting from SU-average. \emph{Coordinate descent} and projected gradient ascent (\emph{PGA}) are run with their own stopping rules; their latencies (about 1.5~s and 5.6~s) were measured on an idle machine. The \emph{learned update} is a deep-unfolded network with $L$ learned steps. Each step receives the gradient of the soft-min rate as input and exchanges information across users, and a separate network is trained for each $L$ without supervision on the rate.
 
-To verify that our audit framework (\texttt{scripts/audit\_claims.py}) genuinely measures model quality rather than reporting cached constants, we performed \textit{sabotage testing}: trained model weights were overwritten with randomly initialized (untrained) weights, and the audit was re-run.
+\emph{Tuned baseline.} At every budget $L$, Adam's step size is selected on the validation set from ten values in $[0.02, 2.0]$, together with the objective (soft-min or hard min). The selected step size is 0.75 with the soft-min objective at every $L$, which is an interior point of the grid. Comparing the learned rule against an untuned optimizer would overstate its advantage.
 
-\textbf{Result:} 7 out of 41 audited claims failed under sabotage (assertions checking learned-update performance), while 34 baseline claims (independent of learned weights) passed. This confirms the audit detects genuine model behavior rather than hard-coded values. After restoring trained weights, all 41/41 assertions pass.
+\subsection{Timing}
+Latencies are wall-clock times on a CPU with one PyTorch thread, measured with \texttt{time.perf\_counter} for a single scenario, from the shared SU-average starting point to the returned phase. Each configuration is timed 25 times and the median is kept. The learned network gets three warm-up calls. Its input features are precomputed and excluded from the timing, which favours the learned method. The whole measurement is repeated in five independent rounds, and we report the median over rounds. The round-to-round spread is 1.15--1.60$\times$ (max/min).
 
-\subsection{Open Science and Data Availability}
+\subsection{Measurement Traps}
+Three errors occurred during this work. Each one produced a wrong number, and each led to a rule in the protocol.
 
-All code, trained models, and measurement scripts are publicly available:
-\begin{itemize}
-    \item Code repository: \texttt{https://github.com/sedasavascisen/sedasavascisen}
-    \item Trained model checkpoints: Zenodo DOI (to be assigned upon acceptance)
-    \item Raw measurement data (\texttt{results/*.json}): Included in repository
-\end{itemize}
+\emph{Timing under load.} One timing of Adam with $L=8$ gave 29.70~ms because a training job was running on the same machine. On the idle machine the same configuration measured 17.99~ms. The slowdown was not neutral: it hit Adam harder than the learned network, and it put a learned configuration on the latency--rate front. Latencies are therefore only measured on an idle machine and only reported with a dominance verdict that holds in every round.
 
-Each table and figure in Section~\ref{sec:results} cites the specific script that generated it, enabling independent verification of all reported numbers.
+\emph{A number without a script.} An earlier draft stated that a fresh beam is worth ``17$\times$'' a stale one. The figure had been computed once, interactively, and could not be regenerated. Measured with a script, the value is 11.7--14.2$\times$ (Table~\ref{tab:beam}). Every number in this paper is now produced by a script from stored result files; the tables and figures are generated directly from those files.
+
+\emph{Stale derived documents.} A human-readable summary of the results had not been regenerated after a latency re-measurement and still listed older timings. The dominance verdict was the same, but the milliseconds were not. Tables are therefore generated from the result files, never copied from summaries.
+
+\subsection{Audit}
+A separate audit script recomputes the reported claims from the result files and checks 56 assertions; all of them hold. To check that the audit can actually fail, we ran a sabotage test: when the unrolled model's rate was written into the slots of the one-shot models, seven assertions failed.

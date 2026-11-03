@@ -1,165 +1,86 @@
-% SECTION VI: NUMERICAL RESULTS
-% Experimental validation with statistical rigor
-
-\section{Numerical Results}
+\section{Results}
 \label{sec:results}
 
-We validate the theoretical findings of Section~\ref{sec:analysis} through extensive simulations on the multi-user MISO downlink system described in Section~\ref{sec:system}. All measurements follow the reproducibility framework of Section~\ref{sec:measurements}.
+\subsection{Aging of a Fixed Phase and Effective Rates}
+\label{sec:res_aging}
+Fig.~\ref{fig:aging} fixes each method's phase at $t=0$ and tracks the minimum user rate as users walk, with the precoder refreshed at every instant. Rates are flat for the first few milliseconds, drop sharply between roughly 5 and 30~ms, i.e., around $T_c$, and level off above the stale floor. The more a phase has been optimized, the more it has to lose: by $\tau=T_c$ PGA has fallen from 7.117 to 5.473~b/s/Hz and Adam with $L=8$ from 6.443 to 5.165, while SU-average has only moved from 4.624 to 4.503.
 
-\subsection{Experimental Setup}
-
-\textbf{Channel Scenarios:}
-We generate $M = 10{,}000$ independent channel realizations using the 3GPP TR 38.901 InH-Office geometry-based model. Each realization samples user positions uniformly within the coverage region, computes BS-RIS, RIS-user, and direct link channels via ray tracing, and applies Jakes temporal correlation for mobility simulation.
-
-\textbf{Optimization Methods:}
-We compare six phase optimization methods across three categories:
-\begin{itemize}
-    \item \textit{Zero-delay baselines}: su\_average (element-wise average phase), su\_best\_of (best single-user alignment)
-    \item \textit{Classical iterative}: Adam optimizer (tuned step size $\mu=0.75$), projected gradient ascent (PGD), coordinate descent (CD)
-    \item \textit{Deep learning}: Learned gradient update (8-layer unrolled network)
-\end{itemize}
-
-\textbf{Performance Metric:}
-All methods are evaluated by effective rate $R_A^{\text{eff}}$ from \eqref{eq:effective_rate}, which accounts for channel aging during computation. We report 95\% confidence intervals via bootstrap resampling ($B=10{,}000$ bootstrap samples).
-
-\subsection{Fresh Beam Value Quantification}
-
-Table~\ref{tab:fresh_vs_stale} and Figure~\ref{fig:fresh_vs_stale} quantify the value of fresh beamforming relative to stale optimized phase at coherence time $T_c = 28.2$ ms, validating Lemma~\ref{lem:fresh_dominance}.
+Table~\ref{tab:aging} evaluates each method at its own measured latency (Definition~1). PGA and coordinate descent have the best $t=0$ rates but need 5.6~s and 1.5~s, by which time users have moved metres. Their effective rates lie beyond the 200~ms horizon where our model is reliable and are optimistic; the true values lie between the tabulated effective rate and the stale floor. Even the optimistic values are below that of SU-best-of, which takes 0.05~ms. Among the methods in Table~\ref{tab:aging}, Adam with $L=8$ has the highest effective rate (5.849~b/s/Hz); the step sweep below shows that fewer steps do better still.
 
 \begin{table}[t]
 \centering
-\caption{Fresh vs. Stale Beam Performance at $T_c = 28.2$ ms ($f_c = 3$ GHz, $v = 1.5$ m/s, $K=4$ users, $N=64$ elements, $M=10{,}000$ scenarios)}
-\label{tab:fresh_vs_stale}
-\begin{tabular}{lccc}
-\toprule
-\textbf{Phase Selection} & \textbf{Fresh Beam} & \textbf{Stale Beam} & \textbf{Ratio} \\
-\midrule
-su\_average      & 3.586 bps/Hz & 0.306 bps/Hz & \textbf{11.7$\times$} \\
-su\_best\_of     & 3.924 bps/Hz & 0.305 bps/Hz & \textbf{12.9$\times$} \\
-adam8 (L=8)      & 4.358 bps/Hz & 0.307 bps/Hz & \textbf{14.2$\times$} \\
-\bottomrule
-\end{tabular}
+\caption{Rate at $t=0$, measured latency, and effective rate on the mobility set (400 scenarios, $v=1.5$~m/s). Stale floor: $t=0$ phase on an independent channel. $^\dagger$Beyond the 200~ms reliable horizon; optimistic.}
+\label{tab:aging}
+\footnotesize
+\input{tables/tab_aging}
 \end{table}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig3_fresh_vs_stale.pdf}
-\caption{Fresh vs. stale beam performance at coherence time $T_c = 28.2$ ms. Fresh beamforming achieves 11.7--14.2$\times$ higher rate than stale optimized phase across three phase selection methods, validating Lemma~\ref{lem:fresh_dominance}. Channel correlation decay to $\rho(T_c) \approx -0.12$ causes near-total value collapse for stale configurations.}
-\label{fig:fresh_vs_stale}
+\includegraphics[width=\columnwidth]{figures/fig_aging.pdf}
+\caption{Minimum user rate of a phase fixed at $t=0$ as users walk at 1.5~m/s, with the precoder refreshed at every instant. Dashed line: $T_c=28.2$~ms. Shaded: beyond 200~ms the frozen-scatterer model is optimistic.}
+\label{fig:aging}
 \end{figure}
 
-\textbf{Key Finding 1:} Fresh beamforming is \textbf{11.7--14.2$\times$} more valuable than stale optimized phase when deployment delay reaches coherence time. This corrects a previously reported but non-reproducible claim of ``17$\times$ gain'' (scripts/mumiso\_beam\_staleness.py).
+\subsection{The Intrinsic Optimum}
+\label{sec:res_optimum}
+Fig.~\ref{fig:optimum} sweeps the number of Adam steps. The $t=0$ rate grows monotonically, from 5.276 (SU-best-of, $L=0$) to 7.037~b/s/Hz at $L=48$. The effective rate does not: it rises to 5.980~b/s/Hz at $L=4$ (6.65~ms), stays almost flat at $L=6$ (5.970), and then falls. At $L=48$ (79.8~ms) it is 5.145~b/s/Hz, 14.0\% below the optimum, although the $t=0$ rate there is 14.8\% higher than at $L=4$.
 
-The stale beam value collapses to $\approx 0.305$ bps/Hz across all three phase selections due to near-zero channel correlation $\rho(T_c) \approx -0.12$ at 28.2 ms delay, confirming the Jakes aging model prediction.
+In terms of~\eqref{eq:marginal}: going from $L=4$ to $L=6$ adds 0.188~b/s/Hz at $t=0$, but the additional 3.3~ms of aging cost 0.198~b/s/Hz. Beyond $L=6$ the effective rate declines; the only exception is a 0.006~b/s/Hz fluctuation between $L=20$ and $L=24$. Designing for convergence is therefore not neutral but harmful: the extra steps reduce the effective rate. In this sweep the latency is scaled linearly from the measured Adam-8 latency (13.3~ms, i.e., 1.66~ms per step), which agrees with the per-step cost of 1.60--1.71~ms measured in Section~\ref{sec:res_reversal}.
 
-\subsection{Intrinsic Optimum Discovery}
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig_intrinsic_optimum.pdf}
+\caption{Adam step sweep on the mobility set. The $t=0$ rate increases monotonically, while the effective rate (rate at the method's own completion time) peaks at $L=4$ and is 14.0\% lower at $L=48$.}
+\label{fig:optimum}
+\end{figure}
 
-Table~\ref{tab:intrinsic_optimum} and Figure~\ref{fig:intrinsic_optimum} demonstrate that effective rate $R_A^{\text{eff}}(L)$ peaks at $L^* \approx 8$ iterations and then degrades despite improving t=0 quality, validating Theorem~\ref{thm:intrinsic_optimum}.
+\subsection{Learned versus Classical: Equal Steps and Equal Milliseconds}
+\label{sec:res_reversal}
+Table~\ref{tab:eqstep} compares the learned update rule with tuned Adam at equal step counts on the static test set; both start from SU-average (3.539~b/s/Hz). The learned rule is ahead at every budget, the paired difference minus two standard errors is positive at every budget, and it wins on 68--84\% of test scenarios. On a step axis, the learned rule is the better optimizer.
 
 \begin{table}[t]
 \centering
-\caption{Effective Rate vs. Iteration Count Under Latency-Aware Evaluation (Adam optimizer, $\mu=0.75$, $M=10{,}000$ scenarios)}
-\label{tab:intrinsic_optimum}
-\begin{tabular}{ccccc}
-\toprule
-\textbf{L} & \textbf{$T_{\text{proc}}$ (ms)} & \textbf{$\rho(T_{\text{proc}})$} & \textbf{$R_A^{\text{eff}}$ (bps/Hz)} & \textbf{Status} \\
-\midrule
-1  & 2.3   & 0.988 & 4.381 & Underfitted \\
-2  & 4.6   & 0.954 & 4.693 & Improving \\
-4  & 9.2   & 0.821 & \textbf{5.025} & \textbf{Near-optimal} \\
-8  & 18.4  & 0.378 & \textbf{5.380} & \textbf{Peak} \\
-16 & 36.8  & -0.376 & 5.739 & Aging \\
-32 & 73.6  & 0.299 & 6.013 & Stale \\
-48 & 110.4 & -0.243 & 5.064 & \textbf{-5.9\% loss} \\
-\bottomrule
-\end{tabular}
+\caption{Equal number of steps, static test set (600 scenarios). Adam step size and objective selected on 400 validation scenarios at each $L$.}
+\label{tab:eqstep}
+\footnotesize
+\input{tables/tab_equal_step}
+\end{table}
+
+Steps, however, are not equally expensive. One learned step takes 4.6--6.5~ms, one Adam step 1.60--1.71~ms, so a learned step costs 2.7--4.0 Adam steps. Table~\ref{tab:eqms} and Fig.~\ref{fig:eqms}(b) place both methods on the measured latency axis. Every learned configuration is dominated by an Adam configuration that is both faster and better, and this holds in each of the five timing rounds separately. For example, the learned rule with $L=4$ needs 18.41~ms for 5.285~b/s/Hz, while Adam with $L=8$ needs 13.48~ms for 5.380~b/s/Hz. The ranking from the equal-step comparison reverses completely.
+
+Two remarks bound this result. First, the comparison uses $t=0$ rates on the static set. Aging was not included; since the learned configuration is the slower one in every pair, aging would be expected to widen rather than close the gap, but we have not measured this. Second, the learned timing excludes feature computation, so the latency gap is if anything understated.
+
+\begin{table}[t]
+\centering
+\caption{Equal milliseconds: each learned configuration and the best Adam configuration that dominates it (lower median latency and higher rate). Medians over five idle rounds; the dominance holds in every round.}
+\label{tab:eqms}
+\footnotesize
+\input{tables/tab_equal_ms}
+\end{table}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_equal_step_vs_ms.pdf}
+\caption{Learned update rule versus tuned Adam on the static test set. (a)~At an equal number of steps, the learned rule is ahead at every budget. (b)~On the measured latency axis (numbers: steps), every learned configuration lies below and to the right of the Adam curve, i.e., it is dominated.}
+\label{fig:eqms}
+\end{figure*}
+
+\subsection{What the Fresh-Beam Assumption Is Worth}
+\label{sec:res_beam}
+All results above assume that the BS precoder is recomputed from the current channel while only the RIS phase ages (Section~\ref{sec:framework}). Table~\ref{tab:beam} and Fig.~\ref{fig:beam} measure the alternative in which the precoder ages too. Both curves use the same $t=0$ phase. With a fresh beam the rate decays moderately (Adam with $L=8$: from 5.342 to 4.358~b/s/Hz at $T_c$); with a stale beam it collapses within tens of milliseconds, and at $T_c$ it is 11.7--14.2$\times$ lower than with a fresh beam, for every phase choice. The assumption therefore matters, and it must hold in a deployment for the effective rates above to apply: the BS has to refresh its precoder at least once per coherence time. This is the usual frame-by-frame operation of a multi-antenna BS, but it is an assumption of our results rather than a finding.
+
+\begin{table}[t]
+\centering
+\caption{Fresh versus stale precoder at $\tau=T_c=28.2$~ms, phase fixed at $t=0$ in both (mobility set, 400 scenarios, $T=8$).}
+\label{tab:beam}
+\footnotesize
+\input{tables/tab_beam_staleness}
 \end{table}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig5_intrinsic_optimum_corrected.pdf}
-\caption{Effective rate $R_A^{\text{eff}}(L)$ vs. iteration count under latency-aware evaluation. The intrinsic optimum occurs at $L^* \approx 8$ iterations (5.380 bps/Hz), validating Theorem~\ref{thm:intrinsic_optimum}. Deep convergence ($L=48$) costs 5.9\% despite superior $t=0$ quality due to channel aging during computation ($\rho(110.4\,\text{ms}) \approx -0.24$).}
-\label{fig:intrinsic_optimum}
+\includegraphics[width=\columnwidth]{figures/fig_beam_staleness.pdf}
+\caption{Same $t=0$ phase evaluated with a precoder recomputed from the current channel (fresh) or kept from $t=0$ (stale). Dashed line: $T_c$.}
+\label{fig:beam}
 \end{figure}
-
-\textbf{Key Finding 2:} The intrinsic optimum occurs at $L^* = 8$ iterations ($R_A^{\text{eff}} = 5.380$ bps/Hz), achieving 5.9\% higher rate than deep convergence ($L=48$, $R_A^{\text{eff}} = 5.064$ bps/Hz). This contradicts the conventional ``more iterations $\Rightarrow$ better performance'' assumption and proves that designing for mathematical convergence \textit{systematically wastes} computational resources under mobility.
-
-The correlation decay $\rho(110.4\,\text{ms}) \approx -0.24$ at $L=48$ causes severe performance degradation despite near-optimal t=0 quality, confirming the latency-quality trade-off predicted by Theorem~\ref{thm:intrinsic_optimum}.
-
-\subsection{Method Ranking Under Equal Iterations vs. Equal Milliseconds}
-
-Figure~\ref{fig:ranking_reversal} visualizes the complete method ranking reversal when switching from equal-iteration to equal-millisecond comparison, validating Proposition~\ref{prop:ranking_reversal}.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{figures/fig6_ranking_reversal.pdf}
-\caption{Method ranking reversal under equal-millisecond constraints. Left: Equal-iteration comparison shows learned updates winning 5/5 budgets (68.3--83.7\% win rates). Right: Equal-millisecond comparison reveals all 5 learned configurations dominated by Adam optimizer. The 2.8$\times$ per-step latency variation (6.5 ms vs. 2.3 ms) causes complete ranking reversal, proving that per-iteration cost is a first-class design constraint.}
-\label{fig:ranking_reversal}
-\end{figure}
-
-Table~\ref{tab:equal_steps} compares learned gradient updates versus tuned Adam optimizer under \textit{equal iteration budgets}, demonstrating that learned updates achieve superior t=0 quality.
-
-\begin{table}[t]
-\centering
-\caption{Equal-Iteration Comparison: Learned vs. Adam Optimizer ($M=10{,}000$ scenarios, step sizes tuned on validation set)}
-\label{tab:equal_steps}
-\begin{tabular}{cccccc}
-\toprule
-\textbf{L} & \textbf{Learned} & \textbf{Adam} & \textbf{Ratio} & \textbf{Paired Diff} & \textbf{Win Rate} \\
- & \textbf{(bps/Hz)} & \textbf{(bps/Hz)} & & \textbf{$-2\sigma$} & \textbf{(\%)} \\
-\midrule
-1  & 4.460 & 4.381 & 1.018 & +0.061 & 74.8 \\
-2  & 4.879 & 4.693 & 1.040 & +0.160 & 83.2 \\
-4  & 5.286 & 5.025 & 1.052 & +0.228 & \textbf{83.7} \\
-8  & 5.593 & 5.380 & 1.040 & +0.184 & 83.2 \\
-16 & 5.800 & 5.739 & 1.011 & +0.039 & 68.3 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{Result:} Learned updates win at all five budgets ($L=1,2,4,8,16$) with win rates ranging from 68.3\% to 83.7\%, confirming their superior per-iteration quality. Paired t-tests show statistically significant differences at all budgets ($p < 0.001$).
-
-However, Table~\ref{tab:equal_milliseconds} reveals a \textit{complete ranking reversal} under equal-millisecond comparison, validating Proposition~\ref{prop:ranking_reversal}.
-
-\begin{table}[t]
-\centering
-\caption{Equal-Millisecond Comparison: Complete Ranking Reversal ($M=10{,}000$ scenarios, latency measured on idle machine with loadavg $< 0.5$)}
-\label{tab:equal_milliseconds}
-\begin{tabular}{ccccc}
-\toprule
-\textbf{Learned} & \textbf{$T_{\text{proc}}$} & \textbf{$R_A^{\text{eff}}$} & \multicolumn{2}{c}{\textbf{Dominating Adam}} \\
-\textbf{L} & \textbf{(ms)} & \textbf{(bps/Hz)} & \textbf{L} & \textbf{($T_{\text{proc}}$, $R_A^{\text{eff}}$)} \\
-\midrule
-1  & 6.71  & 4.460 & 2  & (4.48 ms, 4.693) \\
-2  & 14.59 & 4.879 & 4  & (9.30 ms, 5.025) \\
-4  & 25.79 & 5.286 & 8  & (17.48 ms, 5.380) \\
-8  & 52.34 & 5.593 & 16 & (36.62 ms, 5.739) \\
-16 & 99.15 & 5.800 & 32 & (76.57 ms, 6.013) \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{Key Finding 3:} All five learned-update configurations are \textit{dominated} by Adam optimizer under equal-millisecond comparison. The 2.8$\times$ per-step latency disadvantage ($\Delta T_{\text{learned}} \approx 6.5$ ms vs. $\Delta T_{\text{Adam}} \approx 2.3$ ms) allows Adam to execute more iterations \textit{and} deploy earlier, achieving both better convergence and fresher channel state.
-
-For example, at $T_{\text{budget}} \approx 25$ ms:
-\begin{itemize}
-    \item Learned reaches $L=4$ in 25.79 ms $\to$ $R_A^{\text{eff}} = 5.286$ bps/Hz
-    \item Adam reaches $L=8$ in 17.48 ms $\to$ $R_A^{\text{eff}} = 5.380$ bps/Hz (1.8\% higher)
-\end{itemize}
-
-This demonstrates that per-iteration latency is a \textit{first-class design constraint}, not a secondary consideration. Methods must be ranked by latency-adjusted effective rate, not convergence speed alone.
-
-\subsection{Statistical Significance and Reproducibility}
-
-All reported numbers are traceable to executable scripts:
-\begin{itemize}
-    \item Fresh beam value (Table~\ref{tab:fresh_vs_stale}): scripts/mumiso\_beam\_staleness.py
-    \item Intrinsic optimum (Table~\ref{tab:intrinsic_optimum}): scripts/mumiso\_equal\_step.py
-    \item Equal-millisecond reversal (Table~\ref{tab:equal_milliseconds}): scripts/mumiso\_latency\_parity.py
-\end{itemize}
-
-\textbf{Reproducibility Validation:}
-The measurement framework (Section~\ref{sec:measurements}) was validated via sabotage testing: writing untrained model weights to trained checkpoints caused 7 out of 41 audited claims to fail, confirming that measurements detect model quality rather than reporting cached constants. Full audit results: scripts/audit\_claims.py (41/41 passing with trained models).
-
-\textbf{Timing Jitter Analysis:}
-Five independent measurement trials on an idle machine (loadavg $< 0.5$) yielded latency variations of 1.06$\times$--1.41$\times$ (coefficient of variation $< 15\%$). All reported latencies are medians across five trials, with standard errors $< 0.5$ ms. Measurements under machine load (training jobs running) showed 1.7$\times$ inflation for Adam (17.5 ms $\to$ 29.7 ms) and completely reversed conclusions, confirming the importance of idle-machine validation.

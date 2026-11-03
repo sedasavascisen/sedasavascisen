@@ -1,202 +1,34 @@
-% SECTION IV: LATENCY-AWARE ANALYSIS
-% Mathematical proofs and theoretical framework
+\section{Latency-Aware Evaluation Framework}
+\label{sec:framework}
 
-\section{Latency-Aware Analysis}
-\label{sec:analysis}
+\subsection{Effective Rate}
+Let a method $A$ receive the channel $\mathcal{H}(0)=\{\mbf{F},\mbf{g}_k(0),\mbf{h}_{d,k}(0)\}$, return the phase $\bs{\theta}_A$, and need the wall-clock time $\tau_A$ to do so.
 
-This section establishes the theoretical foundation for latency-aware RIS optimization. We prove three main results: (1) fresh beamforming dominates stale optimized phase under mobility (Lemma~\ref{lem:fresh_dominance}), (2) an intrinsic optimum exists at finite iteration count (Theorem~\ref{thm:intrinsic_optimum}), and (3) per-step latency variation systematically reverses method ranking (Proposition~\ref{prop:ranking_reversal}).
-
-\subsection{Fresh Beam Dominance Under Mobility}
-
-We first establish the conditions under which instantaneous channel-based beamforming (``fresh beam'') outperforms stale but converged optimization.
-
-\textbf{Lemma~\ref{lem:fresh_dominance} (Fresh Beam Dominance Condition).}
-\textit{Let $\mbf{h}(t)$ denote the channel at time $t$, and let $\bs{\Phi}_1(t)$ be a simple phase design (e.g., zero-forcing, matched filtering) computed with zero delay, while $\bs{\Phi}_2(t)$ is a converged phase matrix optimized over $L_2 \gg 1$ iterations with processing delay $T_{\text{proc}}(L_2)$. If the aging delay satisfies $T_{\text{proc}}(L_2) \ge T_c/2$, then the fresh beam achieves higher effective rate:}
+\textbf{Definition 1 (Effective rate).} The effective rate of $A$ is its minimum user rate on the channel that exists when it finishes:
 \begin{equation}
-    R_A^{\text{eff}}(\bs{\Phi}_1, T_{\text{proc}} \approx 0) > R_A^{\text{eff}}(\bs{\Phi}_2, T_{\text{proc}}(L_2)),
-    \label{eq:fresh_dominance}
+    R^{\mathrm{eff}}_A = \min_k R_k\big(\bs{\theta}_A;\,\mathcal{H}(\tau_A)\big),
+    \label{eq:effective_rate}
 \end{equation}
-\textit{where the inequality holds with high probability over channel realizations.}
+where the precoder is recomputed from $\mathcal{H}(\tau_A)$.
 
-\textbf{Proof.}
-Let $g_1$ and $g_2$ denote the instantaneous (t=0) beamforming gains of $\bs{\Phi}_1$ and $\bs{\Phi}_2$, respectively, where $g_2 > g_1$ due to iterative refinement. The effective rates under channel aging are:
+The precoder is a closed-form digital computation that the BS can refresh every frame from pilots, whereas the RIS phase requires the iterative optimization whose latency is measured here. Definition~1 therefore lets the phase age and keeps the beam fresh. Section~\ref{sec:res_beam} measures how much this assumption is worth.
+
+\subsection{Gain--Aging Decomposition and the Intrinsic Optimum}
+For an iterative method run for $L$ steps, write $g(L)=\min_k R_k(\bs{\theta}_L;\mathcal{H}(0))$ for its rate at $t=0$, $\tau(L)$ for its latency and
 \begin{align}
-    R_A^{\text{eff}}(\bs{\Phi}_1) &\approx \log_2\left(1 + \rho^2(0) \cdot g_1 \right) = \log_2(1 + g_1), \label{eq:fresh_rate} \\
-    R_A^{\text{eff}}(\bs{\Phi}_2) &\approx \log_2\left(1 + \rho^2(T_{\text{proc}}(L_2)) \cdot g_2 \right), \label{eq:stale_rate}
+    R^{\mathrm{eff}}(L) &= g(L) - \Delta(L), \\
+    \Delta(L) &= g(L) - \min_k R_k\big(\bs{\theta}_L;\mathcal{H}(\tau(L))\big),
 \end{align}
-where $\rho(\tau) = J_0(2\pi f_d \tau)$ is the Jakes correlation from \eqref{eq:jakes_correlation}.
-
-At $\tau = T_c/2 = 14.1$ ms, the correlation is $\rho(T_c/2) \approx J_0(\pi f_d T_c) = J_0(\pi/2) \approx 0.05$. For heavily converged methods with $T_{\text{proc}}(L_2) \ge T_c$ (e.g., projected gradient ascent with $L=1000$ iterations requiring 5600 ms at 15 Hz Doppler), we have $\rho(T_{\text{proc}}) \approx 0$ and thus $\rho^2 \ll 1$.
-
-Even if $g_2 = 2g_1$ (stale method achieves 2$\times$ better t=0 quality), the fresh beam dominates when:
+so that $\Delta(L)$ is the rate lost to aging during the method's own run time. Additional steps raise $g$ with diminishing returns, while $\Delta$ grows with $\tau(L)$. An additional step pays off only while
 \begin{equation}
-    g_1 > \rho^2(T_{\text{proc}}(L_2)) \cdot g_2 \implies 1 > \rho^2(T_{\text{proc}}(L_2)) \cdot \frac{g_2}{g_1}.
+    g(L+1)-g(L) \;>\; \Delta(L+1)-\Delta(L),
+    \label{eq:marginal}
 \end{equation}
-At $T_{\text{proc}} = T_c$, $\rho^2(T_c) \approx 0.015$, so even if $g_2/g_1 = 10$, we get $\rho^2 \cdot (g_2/g_1) = 0.15 < 1$, confirming fresh dominance. \hfill $\square$
+and the effective rate peaks at the first $L$ where this inequality fails. We call that point the \emph{intrinsic optimum} $L^\star$. It is a property of the optimizer, the per-step latency and the speed of the channel together, not of the optimizer alone. A slower step or a faster user raises the right-hand side and moves $L^\star$ down. Equation~\eqref{eq:marginal} is a bookkeeping identity rather than a theorem: whether $R^{\mathrm{eff}}$ is unimodal is an empirical question, which we answer in Section~\ref{sec:res_optimum}.
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{figures/fig7_jakes_correlation.pdf}
-\caption{Jakes correlation decay $\rho(\tau) = J_0(2\pi f_d \tau)$ for pedestrian mobility ($f_d = 15$ Hz, $T_c = 28.2$ ms). Critical iteration points marked: $L=4$ (9.2 ms, $\rho \approx 0.82$), $L=8$ (18.4 ms, $\rho \approx 0.38$), $L=16$ (36.8 ms, $\rho \approx -0.38$), $L=48$ (110.4 ms, $\rho \approx -0.24$). Green region: fresh beam regime ($\rho > 0.5$). Red region: stale beam regime ($|\rho| < 0.3$).}
-\label{fig:jakes_correlation}
-\end{figure}
+\subsection{Equal Steps versus Equal Milliseconds}
+Learned update rules are usually compared with classical optimizers at an equal number of steps. If one learned step costs $c$ times as much as one classical step, an equal-step comparison gives the learned method $c$ times the compute budget. We therefore also compare at equal measured time and use Pareto dominance.
 
-\textbf{Empirical Validation.}
-From measurements in Section~\ref{sec:results}, at $T_c = 28.2$ ms:
-\begin{itemize}
-    \item Fresh beam (su\_average, $T_{\text{proc}} \approx 0$): $R_A^{\text{eff}} = 3.586$ bps/Hz
-    \item Stale beam (adam8, $T_{\text{proc}} = T_c$): $R_A^{\text{eff}} = 0.306$ bps/Hz
-    \item Ratio: $3.586/0.306 \approx 11.7\times$ (matches Lemma~\ref{lem:fresh_dominance} prediction)
-\end{itemize}
+\textbf{Definition 2 (Dominance).} Configuration $B$ dominates configuration $A$ if $\tau_B\le\tau_A$ and $g_B\ge g_A$, with one inequality strict.
 
-Figure~\ref{fig:jakes_correlation} illustrates the correlation decay mechanism underlying Lemma~\ref{lem:fresh_dominance}.
-
-\subsection{Existence of Intrinsic Optimum}
-
-We now prove that the effective rate $R_A^{\text{eff}}(L)$ achieves its maximum at a \textit{finite} iteration count $L^*$, contradicting the conventional wisdom that ``more iterations are always better.''
-
-\textbf{Modeling Assumptions.}
-Let the instantaneous (t=0) rate quality follow a saturating exponential model:
-\begin{equation}
-    g(L) = R_{\max}\left(1 - e^{-\alpha L}\right),
-    \label{eq:quality_model}
-\end{equation}
-where $R_{\max}$ is the converged rate ($L \to \infty$), and $\alpha > 0$ is the convergence rate parameter. Empirically, fitting \eqref{eq:quality_model} to measured optimization trajectories (Adam, PGD, coordinate descent) yields $\alpha \approx 0.35$--$0.45$ across methods, with $\alpha \approx 0.40$ as the representative value for gradient-based optimizers.
-
-The effective rate under aging is:
-\begin{equation}
-    R_A^{\text{eff}}(L) = \log_2\left(1 + \rho^2(T_{\text{proc}}(L)) \cdot g(L)\right),
-    \label{eq:effective_rate_model}
-\end{equation}
-where $T_{\text{proc}}(L) = T_{\text{overhead}} + L \cdot \Delta T_{\text{iter}}$ from \eqref{eq:latency_model}.
-
-\textbf{Theorem~\ref{thm:intrinsic_optimum} (Existence of Intrinsic Optimum).}
-\textit{Under the Jakes mobility model \eqref{eq:jakes_correlation} and latency model \eqref{eq:latency_model}, there exists a finite iteration count $L^* < \infty$ such that:}
-\begin{equation}
-    \frac{d R_A^{\text{eff}}}{dL}\bigg|_{L=L^*} = 0 \quad \text{and} \quad \frac{d^2 R_A^{\text{eff}}}{dL^2}\bigg|_{L=L^*} < 0,
-    \label{eq:optimality_condition}
-\end{equation}
-\textit{proving that the effective rate $R_A^{\text{eff}}(L)$ is neither monotone increasing nor decreasing, but achieves its maximum at finite $L^*$ before staleness-induced degradation dominates. For pedestrian scenarios ($v = 1.5$ m/s, $f_c = 3$ GHz, $f_d = 15$ Hz), measurements show $L^* \approx 8$ iterations for Adam optimizer with $\Delta T_{\text{iter}} \approx 2.3$ ms.}
-
-\textbf{Proof.}
-Taking the derivative of \eqref{eq:effective_rate_model} with respect to $L$:
-\begin{equation}
-    \frac{d R_A^{\text{eff}}}{dL} = \frac{1}{\ln 2} \cdot \frac{1}{1 + \rho^2 g} \cdot \frac{d(\rho^2 g)}{dL},
-\end{equation}
-where
-\begin{equation}
-    \frac{d(\rho^2 g)}{dL} = 2\rho \frac{d\rho}{dL} \cdot g + \rho^2 \frac{dg}{dL}.
-    \label{eq:product_rule}
-\end{equation}
-
-From \eqref{eq:quality_model}, $\frac{dg}{dL} = \alpha R_{\max} e^{-\alpha L} > 0$ (quality always improves with more iterations). However, from the Jakes model and chain rule:
-\begin{equation}
-    \frac{d\rho}{dL} = \frac{d\rho}{dT} \cdot \frac{dT}{dL} = J_0'(2\pi f_d T_{\text{proc}}) \cdot 2\pi f_d \cdot \Delta T_{\text{iter}},
-\end{equation}
-where $J_0'(x) = -J_1(x) < 0$ for $x > 0$. Thus $\frac{d\rho}{dL} < 0$ (correlation degrades with iterations due to increasing delay).
-
-Setting $\frac{d R_A^{\text{eff}}}{dL} = 0$ in \eqref{eq:product_rule}:
-\begin{equation}
-    2\rho \frac{d\rho}{dL} \cdot g + \rho^2 \frac{dg}{dL} = 0 \implies \frac{dg/dL}{g} = -2 \frac{d\rho/dL}{\rho}.
-    \label{eq:critical_point}
-\end{equation}
-
-Substituting the explicit forms:
-\begin{equation}
-    \frac{\alpha R_{\max} e^{-\alpha L}}{R_{\max}(1 - e^{-\alpha L})} = 2 \cdot \frac{2\pi f_d \Delta T_{\text{iter}} J_1(2\pi f_d T_{\text{proc}})}{J_0(2\pi f_d T_{\text{proc}})}.
-    \label{eq:transcendental}
-\end{equation}
-
-This transcendental equation has a unique solution in $(0, \infty)$ because:
-\begin{itemize}
-    \item Left side decreases monotonically from $+\infty$ (at $L=0$) to $0$ (as $L \to \infty$)
-    \item Right side oscillates but remains bounded
-\end{itemize}
-
-The transcendental equation \eqref{eq:transcendental} must be solved numerically for specific system parameters. However, the exact location of $L^*$ depends sensitively on $R_{\max}$ (which itself depends on convergence behavior) and the Bessel function ratio $J_1/J_0$, which oscillates. Empirical measurements (Section~\ref{sec:results}) directly observe the optimum without relying on this approximation.
-
-To verify Equation~\eqref{eq:optimality_condition} represents a maximum (not minimum or saddle point), we analyze the second derivative. At the critical point, the dominant term in $\frac{d^2 R_A^{\text{eff}}}{dL^2}$ is negative due to accelerating correlation decay ($\frac{d^2\rho}{dL^2} < 0$ from Bessel function curvature), confirming $L^*$ is a local maximum. Since $R_A^{\text{eff}}(L) \to 0$ as $L \to \infty$ (due to $\rho(T_{\text{proc}}(L)) \to 0$) and $R_A^{\text{eff}}(0) = 0$ (no optimization), the local maximum is also global. \hfill $\square$
-
-\textbf{Empirical Validation.}
-From measurements (scripts/mumiso\_equal\_step.py):
-\begin{itemize}
-    \item $L=4$ (Adam): $R_A^{\text{eff}} = 5.025$ bps/Hz (early stopping candidate)
-    \item $L=8$ (Adam): $R_A^{\text{eff}} = 5.380$ bps/Hz $\leftarrow$ \textbf{measured peak}
-    \item $L=16$ (Adam): $R_A^{\text{eff}} = 5.739$ bps/Hz (still increasing, but latency $36.8$ ms exceeds budget)
-    \item $L=48$ (deep convergence): $R_A^{\text{eff}} = 5.064$ bps/Hz (staleness degradation)
-\end{itemize}
-The measured optimum under reasonable latency constraints ($T_{\text{proc}} < 20$ ms) is $L^* = 8$, achieving 5.9\% higher rate than designing for deep convergence ($L=48$). This confirms Theorem~\ref{thm:intrinsic_optimum}: convergence-driven design systematically wastes computational resources under mobility.
-
-\textbf{Remark~\ref{rem:engineering}} (Engineering Guidelines for Pedestrian Scenarios).
-\textit{For RIS-assisted mobile networks with pedestrian users ($v \le 2$ m/s, $f_c = 3$ GHz), measured data suggests $L^* \approx 4$--$8$ iterations as a practical stopping range: $L=4$ provides conservative early stopping with 93\% of peak rate ($5.025/5.380$), while $L=8$ achieves measured peak under $T_{\text{proc}} < 20$ ms latency constraint. Choosing within this range balances convergence quality and channel freshness without requiring per-deployment optimization. For higher velocities (vehicular: $v = 30$ m/s, $f_d = 300$ Hz), $L^*$ shifts toward smaller values ($L \approx 1$--$2$) due to tighter coherence time ($T_c = 1.4$ ms).}
-
-\subsection{Method Ranking Reversal Under Equal Latency}
-
-Classical optimization literature compares methods under equal iteration budgets. We prove this produces systematically different rankings than equal-millisecond comparison, with complete reversal occurring when per-step latency varies significantly.
-
-\textbf{Proposition~\ref{prop:ranking_reversal} (Ranking Reversal Under Equal-Millisecond Constraint).}
-\textit{Let methods $\mathcal{A}$ and $\mathcal{B}$ have per-iteration latencies $\Delta T_A$ and $\Delta T_B$ with $\Delta T_A > \Delta T_B$. If method $\mathcal{A}$ achieves superior t=0 quality at equal iteration count $L$, but the latency ratio satisfies:}
-\begin{equation}
-    \frac{\Delta T_A}{\Delta T_B} > \frac{\rho^2(T_A(L)) \cdot g_A(L)}{\rho^2(T_B(L)) \cdot g_B(L)},
-    \label{eq:reversal_condition}
-\end{equation}
-\textit{then method $\mathcal{B}$ dominates under equal-millisecond comparison: $R_A^{\text{eff},B}(T_{\text{budget}}) > R_A^{\text{eff},A}(T_{\text{budget}})$.}
-
-\textbf{Proof.}
-Under equal iteration budget $L$, method $\mathcal{A}$ wins if $g_A(L) > g_B(L)$ (ignoring latency). However, under equal time budget $T_{\text{budget}}$, the methods reach different iteration counts:
-\begin{equation}
-    L_A = \left\lfloor \frac{T_{\text{budget}} - T_{\text{overhead}}}{\Delta T_A} \right\rfloor, \quad L_B = \left\lfloor \frac{T_{\text{budget}} - T_{\text{overhead}}}{\Delta T_B} \right\rfloor.
-\end{equation}
-
-Since $\Delta T_A > \Delta T_B$, we have $L_B > L_A$. Method $\mathcal{B}$ compensates for lower per-iteration quality by executing more steps and deploying earlier:
-\begin{itemize}
-    \item Method $\mathcal{A}$: fewer iterations ($L_A$), better per-step gain, but staler deployment
-    \item Method $\mathcal{B}$: more iterations ($L_B$), worse per-step gain, but fresher deployment
-\end{itemize}
-
-The effective rates are:
-\begin{align}
-    R_A^{\text{eff},A} &= \log_2\left(1 + \rho^2(T_{\text{budget}}) \cdot g_A(L_A)\right), \\
-    R_A^{\text{eff},B} &= \log_2\left(1 + \rho^2(T_{\text{budget}}) \cdot g_B(L_B)\right).
-\end{align}
-
-If $L_B \gg L_A$ (large latency ratio), method $\mathcal{B}$ achieves near-convergence ($g_B(L_B) \approx R_{\max}$) while method $\mathcal{A}$ remains underfitted ($g_A(L_A) < R_{\max}$). Combined with equal deployment delay (both methods deploy at $T_{\text{budget}}$, experiencing identical $\rho^2$), method $\mathcal{B}$ dominates: $g_B(L_B) > g_A(L_A) \implies R_A^{\text{eff},B} > R_A^{\text{eff},A}$. \hfill $\square$
-
-\textbf{Empirical Validation.}
-Measured per-iteration latencies (scripts/mumiso\_latency\_parity.py):
-\begin{itemize}
-    \item Learned gradient update: $\Delta T \approx 6.5$ ms/iteration
-    \item Adam optimizer: $\Delta T \approx 2.3$ ms/iteration
-    \item Latency ratio: $6.5/2.3 \approx 2.8\times$
-\end{itemize}
-
-Under \textbf{equal iteration budget} ($L=4$, from scripts/mumiso\_equal\_step.py):
-\begin{itemize}
-    \item Learned: $5.286$ bps/Hz $\leftarrow$ \textbf{wins} (better t=0 quality)
-    \item Adam: $5.025$ bps/Hz
-\end{itemize}
-
-Under \textbf{equal millisecond budget} ($T_{\text{budget}} \approx 25$ ms):
-\begin{itemize}
-    \item Learned $L=4$: $25.79$ ms $\to$ $5.286$ bps/Hz
-    \item Adam $L=8$: $17.48$ ms $\to$ $5.380$ bps/Hz $\leftarrow$ \textbf{dominates} (fresher + more iterations)
-\end{itemize}
-
-\textbf{Complete reversal}: across five iteration budgets ($L=1,2,4,8,16$), learned updates win 5/5 under equal-steps comparison but are dominated at all 5 points under equal-milliseconds comparison, confirming Proposition~\ref{prop:ranking_reversal}.
-
-\subsection{Practical Algorithm Selection Guidelines}
-
-Based on Theorem~\ref{thm:intrinsic_optimum} and Proposition~\ref{prop:ranking_reversal}, we provide actionable guidelines for RIS controller design:
-
-\textbf{Guideline 1 (Stopping Criterion).}
-For pedestrian scenarios ($v \le 2$ m/s, $f_c = 3$ GHz), terminate gradient-based optimization at $L = 4$--$8$ iterations depending on latency budget: use $L=4$ for conservative early stopping ($T_{\text{proc}} \approx 10$ ms), or $L=8$ to maximize rate under moderate budgets ($T_{\text{proc}} \approx 18$ ms). Deep convergence ($L \ge 16$) is counterproductive. For vehicular scenarios ($v > 10$ m/s), reduce to $L = 1$--$2$.
-
-\textbf{Guideline 2 (Method Selection).}
-Under real-time constraints ($T_{\text{budget}} < T_c$), select methods by \textit{latency-adjusted} quality:
-\begin{equation}
-    \text{score}(\mathcal{M}) = \rho^2\left(\frac{T_{\text{budget}}}{L_{\max}^\mathcal{M}} \cdot L_{\max}^\mathcal{M}\right) \cdot g^\mathcal{M}(L_{\max}^\mathcal{M}),
-\end{equation}
-where $L_{\max}^\mathcal{M} = \lfloor T_{\text{budget}}/\Delta T_{\text{iter}}^\mathcal{M} \rfloor$. Methods with lower per-iteration cost (e.g., Adam) often dominate over learned updates despite inferior t=0 quality.
-
-\textbf{Guideline 3 (When Deep Learning Helps).}
-Direct phase prediction (single forward pass, $T_{\text{proc}} < 1$ ms) dominates iterative methods only if prediction accuracy satisfies $g_{\text{DL}} > 0.8 \cdot g_{\text{converged}}$. Our measurements show single-pass CNN achieves $g_{\text{DL}} \approx 0.45 \cdot g_{\text{converged}}$, insufficient to overcome the $L=4$--$8$ Adam baseline (which achieves $R_A^{\text{eff}} = 5.025$--$5.380$ bps/Hz under $< 20$ ms latency).
+If $B$ dominates $A$, there is no latency budget at which $A$ is the better choice. A learned configuration that is dominated by some configuration of the classical optimizer is therefore never worth deploying, regardless of how it compares step for step.
