@@ -14,21 +14,21 @@ where the precoder is recomputed from $\mathcal{H}(\tau_A)$.
 The precoder is a closed-form digital computation that the BS can refresh every frame from pilots, whereas the RIS phase requires the iterative optimization whose latency is measured here. Definition~1 therefore lets the phase age and keeps the beam fresh. Section~\ref{sec:res_beam} measures how much this assumption is worth.
 
 \subsection{Gain--Aging Decomposition and the Intrinsic Optimum}
-For an iterative method run for $L$ steps, write $g(L)=\min_k R_k(\bs{\theta}_L;\mathcal{H}(0))$ for its rate at $t=0$, $\tau(L)$ for its latency and
+For an iterative method run for $L$ steps, write $r_0(L)=\min_k R_k(\bs{\theta}_L;\mathcal{H}(0))$ for its rate at $t=0$, $\tau(L)$ for its latency and
 \begin{align}
-    R^{\mathrm{eff}}(L) &= g(L) - \Delta(L), \\
-    \Delta(L) &= g(L) - \min_k R_k\big(\bs{\theta}_L;\mathcal{H}(\tau(L))\big),
+    R^{\mathrm{eff}}(L) &= r_0(L) - \Delta(L), \\
+    \Delta(L) &= r_0(L) - \min_k R_k\big(\bs{\theta}_L;\mathcal{H}(\tau(L))\big),
 \end{align}
-so that $\Delta(L)$ is the rate lost to aging during the method's own run time. Additional steps raise $g$ with diminishing returns, while $\Delta$ grows with $\tau(L)$. An additional step pays off only while
+so that $\Delta(L)$ is the rate lost to aging during the method's own run time. Additional steps raise $r_0$ with diminishing returns, while $\Delta$ grows with $\tau(L)$. An additional step pays off only while
 \begin{equation}
-    g(L+1)-g(L) \;>\; \Delta(L+1)-\Delta(L),
+    r_0(L+1)-r_0(L) \;>\; \Delta(L+1)-\Delta(L),
     \label{eq:marginal}
 \end{equation}
-and the effective rate peaks at the first $L$ where this inequality fails. We call that point the \emph{intrinsic optimum} $L^\star$. It is a property of the optimizer, the per-step latency and the speed of the channel together, not of the optimizer alone. A slower step or a faster user raises the right-hand side and moves $L^\star$ down. Equation~\eqref{eq:marginal} is a bookkeeping identity rather than a theorem: whether $R^{\mathrm{eff}}$ is unimodal is an empirical question, which we answer in Section~\ref{sec:res_optimum}.
+and the effective rate peaks at the first $L$ where this inequality fails. We call that point the \emph{intrinsic optimum} $L^\star$. It is a property of the optimizer and its step size, the per-step latency and the speed of the channel together, not of the optimizer alone. A slower step or a faster user raises the right-hand side and moves $L^\star$ down. Equation~\eqref{eq:marginal} is a bookkeeping identity rather than a theorem: whether $R^{\mathrm{eff}}$ is unimodal is an empirical question, which we answer in Section~\ref{sec:res_optimum}.
 
 \subsection{Equal Steps versus Equal Milliseconds}
 Learned update rules are usually compared with classical optimizers at an equal number of steps. If one learned step costs $c$ times as much as one classical step, an equal-step comparison gives the learned method $c$ times the compute budget. We therefore also compare at equal measured time and use Pareto dominance.
 
-\textbf{Definition 2 (Dominance).} Configuration $B$ dominates configuration $A$ if $\tau_B\le\tau_A$ and $g_B\ge g_A$, with one inequality strict.
+\textbf{Definition 2 (Dominance).} Configuration $B$ dominates configuration $A$ if $\tau_B\le\tau_A$ and $r_{0,B}\ge r_{0,A}$, with one inequality strict, where $r_0$ is the rate at $t=0$.
 
 If $B$ dominates $A$, there is no latency budget at which $A$ is the better choice. A learned configuration that is dominated by some configuration of the classical optimizer is therefore never worth deploying, regardless of how it compares step for step.

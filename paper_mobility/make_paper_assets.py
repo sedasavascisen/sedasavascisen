@@ -55,20 +55,38 @@ T_C = age["coherence_ms"]
 times = np.array(age["times_ms"])
 say(f"coherence time T_c = {T_C:.1f} ms; trust horizon {age['trust_ms']:.0f} ms")
 
-eff = age["effective"]
-rows = ["su_average", "su_best_of", "adam8", "adam12", "adam16", "adam20",
-        "cd", "pga"]
+# Latencies: SU heuristics, CD and long-run Adam as timed by
+# scripts/mumiso_mobility_latency.py (one protocol, one machine); Adam-L on the
+# same per-step model as the sweep (13.3 ms / 8), checked against that timing.
+mlat = load("mumiso_mobility_latency.json")
+MS_PER_STEP = 13.3 / 8
+GRID_END = times.max()
+eff = {}
+for k in ["su_average", "su_best_of", "adam8", "adam12", "adam16", "adam20", "cd", "pga"]:
+    lat = MS_PER_STEP * int(k[4:]) if k.startswith("adam") else mlat["median"][k]
+    curve = age["curve"][k]
+    eff[k] = dict(t0=curve[0], latency_ms=lat,
+                  effective=float(np.interp(lat, times, curve)),
+                  stale=age["stale"][k], trusted=lat <= age["trust_ms"],
+                  beyond_grid=lat > GRID_END)
+rows = list(eff)
+say(f"mlat   cpu {mlat['cpu']}; load {mlat['load_before']:.2f}->{mlat['load_after']:.2f}; "
+    + ", ".join(f"{k} {v:.3f}" for k, v in mlat["median"].items()))
+say(f"mlat   adam per-step " + ", ".join(f"L{k}:{v:.2f}" for k, v in mlat["per_step"].items())
+    + f"; slope {mlat['slope_ms_per_step']:.2f} ms/step; model {MS_PER_STEP:.3f}")
+sp = {k: max(v) / min(v) for k, v in mlat["rounds"].items()}
+say(f"mlat   round spread {min(sp.values()):.2f}-{max(sp.values()):.2f}")
 names = {"su_average": "SU-average", "su_best_of": "SU-best-of",
          "adam8": "Adam, $L=8$", "adam12": "Adam, $L=12$",
          "adam16": "Adam, $L=16$", "adam20": "Adam, $L=20$",
-         "cd": "Coord. descent", "pga": "PGA"}
+         "cd": "Coord. descent", "pga": "Long-run Adam"}
 lines = [r"\begin{tabular}{lrrrr}", r"\toprule",
          r"Method & $t{=}0$ & Latency & Effective & Stale \\",
          r" & (b/s/Hz) & (ms) & (b/s/Hz) & (b/s/Hz) \\", r"\midrule"]
 for k in rows:
     e = eff[k]
     lat = f"{e['latency_ms']:.2f}" if e["latency_ms"] < 1 else f"{e['latency_ms']:.1f}"
-    mark = "" if e["trusted"] else r"$^\dagger$"
+    mark = ("" if e["trusted"] else r"$^\dagger$") + (r"$^\ast$" if e["beyond_grid"] else "")
     lines.append(f"{names[k]} & {e['t0']:.3f} & {lat} & {e['effective']:.3f}{mark} "
                  f"& {e['stale']:.3f} \\\\")
     say(f"aging  {k:11s} t0 {e['t0']:.3f}  lat {e['latency_ms']:7.2f}  "
@@ -79,7 +97,7 @@ lines += [r"\bottomrule", r"\end{tabular}"]
 fig, ax = plt.subplots(figsize=(COL_W, 2.3))
 for k in ("pga", "adam8", "su_best_of", "su_average"):
     ax.plot(times, age["curve"][k], marker="o", ms=2.5, color=C[k],
-            label={"pga": "Projected gradient ascent"}.get(k, names[k].replace("$", "")))
+            label={"pga": "Long-run Adam (1000 steps, 3 starts)"}.get(k, names[k].replace("$", "")))
 ax.axvline(T_C, color="k", ls="--", lw=0.8)
 ax.text(T_C * 1.08, 7.0, r"$T_c$", fontsize=7)
 ax.axvspan(age["trust_ms"], times.max() * 1.2, color="0.9", zorder=0)
@@ -145,7 +163,10 @@ for v in vel:
     for o in ovs:
         e = blk["by_overhead"][o]
         flag = r"$^\ddagger$" if float(o) > blk["coherence_ms"] / 2 else ""
-        cells.append(f"{e['best_L']}{flag} ({e['best_eff']:.2f})")
+        near = [r["L"] for r in e["rows"] if r["L"] > 0 and r["effective"] >= 0.995 * e["best_eff"]]
+        rng = f"{min(near)}" if min(near) == max(near) else f"{min(near)}--{max(near)}"
+        cells.append(f"{e['best_L']}{flag} ({rng})")
+        say(f"sens   v={v} T_ov={o} L within 0.5%: {near}")
         say(f"sens   v={v} T_ov={o} best L={e['best_L']} eff {e['best_eff']:.4f} "
             f"spread {max(r['effective'] for r in e['rows'])-min(r['effective'] for r in e['rows']):.3f}")
     lines.append(f"{float(v):g}, {blk['coherence_ms']:.1f}~ms & " + " & ".join(cells) + r" \\")
@@ -159,6 +180,11 @@ for va, row in sens["mismatch"].items():
     say(f"mism   assumed {va} (L={row[va]['L']}): " +
         ", ".join(f"true {vt}: {x['loss']:.2%}" for vt, x in row.items()))
 
+for lr in ("0.25", "0.75", "1.0"):
+    e = load(f"mumiso_aging_lr{lr}.json")["by_velocity"]["1.5"]["by_overhead"]["0.0"]
+    r48 = [r for r in e["rows"] if r["L"] == 48][0]["effective"]
+    say(f"lr     {lr}: best L={e['best_L']} eff {e['best_eff']:.4f}; L=48 {r48:.4f} "
+        f"({1 - r48 / e['best_eff']:.1%} below)")
 pc = load("mumiso_precoder_vs_step.json")
 rr = [x["ratio"] for x in pc["rounds"]]
 say(f"precod median precoder {pc['median']['precoder_ms']*1e3:.0f} us, adam step "

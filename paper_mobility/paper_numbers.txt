@@ -1,12 +1,15 @@
 coherence time T_c = 28.2 ms; trust horizon 200 ms
-aging  su_average  t0 4.624  lat    0.03  eff 4.624  stale 4.315  trusted True
-aging  su_best_of  t0 5.276  lat    0.05  eff 5.276  stale 4.336  trusted True
+mlat   cpu Intel(R) Xeon(R) Processor @ 2.10GHz; load 0.20->0.86; su_average 0.423, su_best_of 2.541, adam1 2.022, adam2 3.895, adam4 7.759, adam8 13.930, adam16 28.221, adam32 47.827, adam48 74.028, cd 880.785, pga 5851.659
+mlat   adam per-step L1:2.02, L2:1.95, L4:1.94, L8:1.74, L16:1.76, L32:1.49, L48:1.54; slope 1.50 ms/step; model 1.663
+mlat   round spread 1.15-3.66
+aging  su_average  t0 4.624  lat    0.42  eff 4.623  stale 4.315  trusted True
+aging  su_best_of  t0 5.276  lat    2.54  eff 5.272  stale 4.336  trusted True
 aging  adam8       t0 6.443  lat   13.30  eff 5.849  stale 4.326  trusted True
-aging  adam12      t0 6.631  lat   19.60  eff 5.533  stale 4.370  trusted True
+aging  adam12      t0 6.631  lat   19.95  eff 5.515  stale 4.370  trusted True
 aging  adam16      t0 6.754  lat   26.60  eff 5.324  stale 4.381  trusted True
-aging  adam20      t0 6.835  lat   34.60  eff 5.262  stale 4.364  trusted True
-aging  cd          t0 6.925  lat 1500.00  eff 4.921  stale 4.352  trusted False
-aging  pga         t0 7.117  lat 5600.00  eff 4.667  stale 4.423  trusted False
+aging  adam20      t0 6.835  lat   33.25  eff 5.276  stale 4.364  trusted True
+aging  cd          t0 6.925  lat  880.78  eff 4.975  stale 4.352  trusted False
+aging  pga         t0 7.117  lat 5851.66  eff 4.667  stale 4.423  trusted False
 sweep  best L=5 eff 5.9820 at 8.31 ms;  L=48 eff 5.1451 (14.0% below);  t0 at L=48 7.0368
 sweep  L= 0 lat   0.05 t0 5.2762 eff 5.2763
 sweep  L= 1 lat   1.66 t0 5.4118 eff 5.4056
@@ -24,31 +27,54 @@ sweep  L=24 lat  39.90 t0 6.8970 eff 5.2824
 sweep  L=32 lat  53.20 t0 6.9698 eff 5.2300
 sweep  L=48 lat  79.80 t0 7.0368 eff 5.1451
 sweep  t0 at best L 6.2188; t0 rise best->48 13.2%
+sens   v=1.0 T_ov=0.0 L within 0.5%: [6, 8]
 sens   v=1.0 T_ov=0.0 best L=6 eff 6.1504 spread 0.904
+sens   v=1.0 T_ov=1.0 L within 0.5%: [6, 8]
 sens   v=1.0 T_ov=1.0 best L=6 eff 6.1155 spread 0.873
+sens   v=1.0 T_ov=2.0 L within 0.5%: [5, 6, 8]
 sens   v=1.0 T_ov=2.0 best L=6 eff 6.0805 spread 0.842
+sens   v=1.0 T_ov=5.0 L within 0.5%: [5, 6]
 sens   v=1.0 T_ov=5.0 best L=6 eff 5.9696 spread 0.743
+sens   v=1.0 T_ov=10.0 L within 0.5%: [4, 5, 6]
 sens   v=1.0 T_ov=10.0 best L=5 eff 5.7719 spread 0.565
+sens   v=1.5 T_ov=0.0 L within 0.5%: [4, 5, 6]
 sens   v=1.5 T_ov=0.0 best L=5 eff 5.9820 spread 0.837
+sens   v=1.5 T_ov=1.0 L within 0.5%: [4, 5]
 sens   v=1.5 T_ov=1.0 best L=4 eff 5.9403 spread 0.796
+sens   v=1.5 T_ov=2.0 L within 0.5%: [4, 5]
 sens   v=1.5 T_ov=2.0 best L=4 eff 5.8918 spread 0.748
+sens   v=1.5 T_ov=5.0 L within 0.5%: [3, 4]
 sens   v=1.5 T_ov=5.0 best L=4 eff 5.7421 spread 0.602
+sens   v=1.5 T_ov=10.0 L within 0.5%: [3, 4]
 sens   v=1.5 T_ov=10.0 best L=3 eff 5.4943 spread 0.358
+sens   v=1.8 T_ov=0.0 L within 0.5%: [4, 5]
 sens   v=1.8 T_ov=0.0 best L=4 eff 5.9218 spread 0.807
+sens   v=1.8 T_ov=1.0 L within 0.5%: [3, 4]
 sens   v=1.8 T_ov=1.0 best L=4 eff 5.8672 spread 0.749
+sens   v=1.8 T_ov=2.0 L within 0.5%: [3, 4]
 sens   v=1.8 T_ov=2.0 best L=4 eff 5.8066 spread 0.685
+sens   v=1.8 T_ov=5.0 L within 0.5%: [3, 4]
 sens   v=1.8 T_ov=5.0 best L=3 eff 5.6353 spread 0.504
+sens   v=1.8 T_ov=10.0 L within 0.5%: [3, 4]
 sens   v=1.8 T_ov=10.0 best L=3 eff 5.3543 spread 0.251
+sens   v=3.0 T_ov=0.0 L within 0.5%: [3]
 sens   v=3.0 T_ov=0.0 best L=3 eff 5.7262 spread 0.634
+sens   v=3.0 T_ov=1.0 L within 0.5%: [3]
 sens   v=3.0 T_ov=1.0 best L=3 eff 5.6338 spread 0.547
+sens   v=3.0 T_ov=2.0 L within 0.5%: [2, 3]
 sens   v=3.0 T_ov=2.0 best L=3 eff 5.5412 spread 0.459
+sens   v=3.0 T_ov=5.0 L within 0.5%: [2, 3]
 sens   v=3.0 T_ov=5.0 best L=2 eff 5.2706 spread 0.207
+sens   v=3.0 T_ov=10.0 L within 0.5%: [32, 48]
 sens   v=3.0 T_ov=10.0 best L=32 eff 5.1233 spread 0.257
 sens   L=48 loss vs optimum (unflagged cells): 2.9%-14.7%
 mism   assumed 1.0 (L=6): true 1.0: 0.00%, true 1.5: 0.20%, true 1.8: 1.19%, true 3.0: 5.68%
 mism   assumed 1.5 (L=5): true 1.0: 0.73%, true 1.5: 0.00%, true 1.8: 0.46%, true 3.0: 3.38%
 mism   assumed 1.8 (L=4): true 1.0: 1.50%, true 1.5: 0.04%, true 1.8: 0.00%, true 3.0: 1.20%
 mism   assumed 3.0 (L=3): true 1.0: 3.17%, true 1.5: 1.11%, true 1.8: 0.57%, true 3.0: 0.00%
+lr     0.25: best L=6 eff 5.8295; L=48 5.1573 (11.5% below)
+lr     0.75: best L=4 eff 5.9739; L=48 5.1570 (13.7% below)
+lr     1.0: best L=5 eff 5.8324; L=48 5.1746 (11.3% below)
 precod median precoder 123 us, adam step 1597 us, ratio median 13.4 range 8.0-15.0; load 0.46->0.46
 eqstep L= 1 learned 4.4599 adam 4.3810 ratio 1.018 lo +0.0608 win 74.8% lr 0.75 obj soft
 eqstep L= 2 learned 4.8792 adam 4.6927 ratio 1.040 lo +0.1602 win 83.2% lr 0.75 obj soft

@@ -2,12 +2,12 @@
 \label{sec:system}
 
 \subsection{Signal Model}
-A BS with a uniform linear array of $T=8$ antennas at half-wavelength spacing serves $K=4$ single-antenna users through a direct link and an RIS of $N=32$ passive elements (an $8\times 4$ planar array, half-wavelength spacing). With RIS phases $\bs{\theta}\in[0,2\pi)^N$, $\mbf{v}=e^{j\bs{\theta}}$, and precoder $\mbf{W}=[\mbf{w}_1,\dots,\mbf{w}_K]$, user $k$ receives
+A BS with a uniform linear array of $N_t=8$ antennas at half-wavelength spacing serves $K=4$ single-antenna users through a direct link and an RIS of $N=32$ passive elements (an $8\times 4$ planar array, half-wavelength spacing). With RIS phases $\bs{\theta}\in[0,2\pi)^N$, $\mbf{v}=e^{j\bs{\theta}}$, and precoder $\mbf{W}=[\mbf{w}_1,\dots,\mbf{w}_K]$, user $k$ receives
 \begin{equation}
     y_k = \left(\mbf{h}_{d,k}^H + \mbf{g}_k^H \operatorname{diag}(\mbf{v})\mbf{F}\right)\sum_{j=1}^K \mbf{w}_j s_j + n_k ,
     \label{eq:signal}
 \end{equation}
-where $\mbf{F}\in\mathbb{C}^{N\times T}$ is the BS--RIS channel, $\mbf{g}_k^H\in\mathbb{C}^{1\times N}$ the RIS--user channel, $\mbf{h}_{d,k}^H\in\mathbb{C}^{1\times T}$ the direct channel and $n_k\sim\mathcal{CN}(0,\sigma^2)$. Writing $\mbf{h}_k^H(\bs{\theta})$ for the bracketed effective channel, the rate of user $k$ is $R_k=\log_2(1+\mathrm{SINR}_k)$ with
+where $\mbf{F}\in\mathbb{C}^{N\times N_t}$ is the BS--RIS channel, $\mbf{g}_k^H\in\mathbb{C}^{1\times N}$ the RIS--user channel, $\mbf{h}_{d,k}^H\in\mathbb{C}^{1\times N_t}$ the direct channel and $n_k\sim\mathcal{CN}(0,\sigma^2)$. Writing $\mbf{h}_k^H(\bs{\theta})$ for the bracketed effective channel, the rate of user $k$ is $R_k=\log_2(1+\mathrm{SINR}_k)$ with
 \begin{equation}
     \mathrm{SINR}_k = \frac{|\mbf{h}_k^H \mbf{w}_k|^2}{\sum_{j\ne k}|\mbf{h}_k^H \mbf{w}_j|^2 + \sigma^2}.
 \end{equation}
@@ -16,21 +16,21 @@ For a given phase the precoder is regularized zero forcing on the effective chan
     \max_{\bs{\theta}} \; \min_k R_k(\bs{\theta}),
     \label{eq:maxmin}
 \end{equation}
-which gradient methods optimize through the smooth surrogate $-\tfrac{1}{\beta}\log\sum_k e^{-\beta R_k}$ with $\beta=8$, evaluated with a log-sum-exp for numerical stability.
+which Adam and the learned update optimize through the smooth surrogate $-\tfrac{1}{\beta}\log\sum_k e^{-\beta R_k}$ with $\beta=8$, evaluated with a log-sum-exp for numerical stability; coordinate descent and the long-run Adam reference maximize the hard minimum directly.
 
 \subsection{Geometry and Propagation}
 The room is $40\times 20\times 6$~m. The RIS is mounted on a wall, centred at $(20, 0.1, 3)$~m and facing into the room; the BS is at $(20, 6, 4)$~m, in the panel's boresight and beyond its Fraunhofer distance. Users are dropped uniformly in the room at heights between 1 and 2~m. The carrier is $f_c=3$~GHz, the bandwidth 20~MHz, the transmit power 20~dBm, the BS antenna gain 5~dBi and the receiver noise figure 7~dB.
 
-All links follow the 3GPP TR~38.901 indoor-office model~\cite{3gpp_channel}: its path loss and LoS probability, a Ricean $K$-factor drawn from its distribution, and log-normal shadowing with Gudmundson spatial correlation (5~m decorrelation distance)~\cite{Gudmundson1991}. Non-LoS components are built from scattering clusters with explicit geometry. The cascaded BS--RIS--user amplitude follows the two-hop path-loss model of Tang et al.~\cite{Tang2021TWC} with a $\cos^q$ element pattern. Because an RIS is deployed where the direct path is obstructed, the direct link is attenuated by an additional 40~dB.
+All links follow the 3GPP TR~38.901 indoor-office model~\cite{3gpp_channel}: its path loss and LoS probability, a Ricean factor $K_R$ drawn from its distribution, and log-normal shadowing with Gudmundson spatial correlation~\cite{Gudmundson1991} at a 5~m decorrelation distance (TR~38.901 specifies 10~m for LoS and 6~m for NLoS indoor links). Non-LoS components are built from point scatterers placed in the room and shared by all links of a scenario. The cascaded BS--RIS--user amplitude follows the two-hop path-loss model of Tang et al.~\cite{Tang2021TWC} with a $\cos^q$ element pattern. Because an RIS is deployed where the direct path is obstructed, the direct link is attenuated by an additional 40~dB.
 
 \subsection{Mobility}
-Users walk in a straight line at $v=1.5$~m/s. Over the observation window the scatterer positions, per-path complex gains, LoS states, Ricean factors, shadowing values and the BS--RIS channel $\mbf{F}$ are held fixed; only the user positions move, and the channels $\mbf{g}_k(t)$ and $\mbf{h}_{d,k}(t)$ are recomputed from geometry at every time instant. Channel variation therefore comes from geometry rather than from a stochastic aging model. As a reference time scale we use the Doppler frequency $f_d=vf_c/c=15$~Hz and the coherence time $T_c=0.423/f_d=28.2$~ms~\cite{rappaport_wireless}.
+Users walk in a straight line at $v=1.5$~m/s and are reflected at the walls. Over the observation window the scatterer positions, per-path complex gains, LoS states, Ricean factors, shadowing values and the BS--RIS channel $\mbf{F}$ are held fixed; only the user positions move, and the channels $\mbf{g}_k(t)$ and $\mbf{h}_{d,k}(t)$ are recomputed from geometry at every time instant. Channel variation therefore comes from geometry rather than from a stochastic aging model. As a reference time scale we use the Doppler frequency $f_d=vf_c/c=15$~Hz and the coherence time $T_c=0.423/f_d=28.2$~ms~\cite{rappaport_wireless}.
 
 \subsection{Known Modelling Limitations}
-We state three limitations because each one biases the results in a known direction.
+We state the following limitations; the first two bias the results in a known direction.
 \begin{itemize}
-    \item \emph{Frozen scatterers.} Over seconds a walking user would see new scatterers, but the model keeps them. The temporal correlation of the RIS--user channel therefore levels off near 0.5 instead of decaying further, which \emph{understates} the loss of slow methods. We treat latencies up to 200~ms as reliable and also report a stale floor, i.e., a $t=0$ phase evaluated on an independent channel, as the true asymptote.
-    \item \emph{Independent per-antenna cluster gains.} Cluster gains are drawn independently for each BS antenna instead of being shared across the array. This adds antenna diversity, makes interference nulling easier, and so makes all rates optimistic.
+    \item \emph{Frozen scatterers.} Over seconds a walking user would see new scatterers, but the model keeps them. Over long horizons the modelled channel therefore changes less than a real one would, which \emph{understates} the loss of slow methods. We treat latencies up to 200~ms as reliable and also report a stale floor, i.e., a $t=0$ phase evaluated on an independent channel, as the true asymptote.
+    \item \emph{Independent per-antenna path gains.} The complex gains of the scattered paths are drawn independently for each BS antenna instead of being shared across the array. This adds antenna diversity, makes interference nulling easier, and so makes all rates optimistic.
     \item \emph{Perfect channel knowledge.} Each method is given the exact channel at $t=0$. Imperfect CSI is left to future work. The channel-acquisition delay is not part of the main results; Section~\ref{sec:res_sensitivity} adds it as a parameter.
     \item \emph{Narrowband, far field.} The model is a single narrowband carrier, and the BS lies beyond the RIS's Fraunhofer distance. Wideband (OFDM) operation with beam squint and near-field operation of large surfaces are not covered.
 \end{itemize}
