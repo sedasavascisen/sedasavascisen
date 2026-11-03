@@ -90,7 +90,7 @@ ax.set_xlim(0, times.max() * 1.2)
 ax.set_xlabel(r"Time since the phase was computed, $\tau$ (ms)")
 ax.set_ylabel("Min-user rate (b/s/Hz)")
 ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=2, frameon=False)
-fig.savefig(FIG / "fig_aging.pdf")
+fig.savefig(FIG / "fig_aging.pdf", metadata={"CreationDate": None})
 plt.close(fig)
 
 # ------------------------------------------------------- intrinsic optimum
@@ -127,7 +127,7 @@ ax.set_xlabel(r"Adam steps $L$ (latency $= 1.66\,L$ ms)")
 ax.set_ylabel("Min-user rate (b/s/Hz)")
 ax.set_ylim(4.6, 7.3)
 ax.legend(loc="center", bbox_to_anchor=(0.68, 0.47))
-fig.savefig(FIG / "fig_intrinsic_optimum.pdf")
+fig.savefig(FIG / "fig_intrinsic_optimum.pdf", metadata={"CreationDate": None})
 plt.close(fig)
 
 say(f"sweep  t0 at best L {t0[ib]:.4f}; t0 rise best->48 {t0[-1]/t0[ib]-1:.1%}")
@@ -257,7 +257,7 @@ a2.set_xlabel("Measured latency (ms, median of 5 idle rounds)")
 a2.set_title("(b) Equal milliseconds", fontsize=8)
 a2.legend(loc="lower right")
 fig.tight_layout()
-fig.savefig(FIG / "fig_equal_step_vs_ms.pdf")
+fig.savefig(FIG / "fig_equal_step_vs_ms.pdf", metadata={"CreationDate": None})
 plt.close(fig)
 
 # ---------------------------------------------------------- beam staleness
@@ -292,7 +292,7 @@ ax.set_xlabel(r"Time since phase and beam were computed, $\tau$ (ms)")
 ax.set_ylabel("Min-user rate (b/s/Hz)")
 ax.legend(ncol=2, fontsize=6, loc="upper center", bbox_to_anchor=(0.5, -0.28),
           frameon=False)
-fig.savefig(FIG / "fig_beam_staleness.pdf")
+fig.savefig(FIG / "fig_beam_staleness.pdf", metadata={"CreationDate": None})
 plt.close(fig)
 
 (HERE / "paper_numbers.txt").write_text("\n".join(out) + "\n")
