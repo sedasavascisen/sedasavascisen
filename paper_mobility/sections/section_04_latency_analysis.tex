@@ -11,7 +11,7 @@ Let a method $A$ receive the channel $\mathcal{H}(0)=\{\mbf{F},\mbf{g}_k(0),\mbf
 \end{equation}
 where the precoder is recomputed from $\mathcal{H}(\tau_A)$.
 
-The precoder is a closed-form digital computation that the BS can refresh every frame from pilots, whereas the RIS phase requires the iterative optimization whose latency is measured here. Definition~1 therefore lets the phase age and keeps the beam fresh. Section~\ref{sec:res_beam} measures how much this assumption is worth.
+The precoder is a closed-form digital computation that the BS can refresh every frame from pilots, whereas the RIS phase requires the iterative optimization whose latency is measured here. The same split between a fast precoder update and a slower phase update underlies two-timescale RIS designs~\cite{Zhao2021TWC}. Definition~1 therefore lets the phase age and keeps the beam fresh. Section~\ref{sec:res_beam} measures how much this assumption is worth.
 
 \subsection{Gain--Aging Decomposition and the Intrinsic Optimum}
 For an iterative method run for $L$ steps, write $r_0(L)=\min_k R_k(\bs{\theta}_L;\mathcal{H}(0))$ for its rate at $t=0$, $\tau(L)$ for its latency and
