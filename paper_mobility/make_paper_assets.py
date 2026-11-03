@@ -94,7 +94,14 @@ fig.savefig(FIG / "fig_aging.pdf")
 plt.close(fig)
 
 # ------------------------------------------------------- intrinsic optimum
-sw = load("mumiso_aging_sweep_repro.json")
+# check: the finer sensitivity sweep must contain the reproduction run
+sens = load("mumiso_aging_sensitivity.json")
+base = sens["by_velocity"]["1.5"]["by_overhead"]["0.0"]["rows"]
+rep_rows = {r["L"]: r for r in load("mumiso_aging_sweep_repro.json")}
+for r in base:
+    if r["L"] in rep_rows:
+        assert abs(r["effective"] - rep_rows[r["L"]]["effective"]) < 1e-6, r["L"]
+sw = base
 L = np.array([r["L"] for r in sw])
 t0 = np.array([r["t0"] for r in sw])
 ef = np.array([r["effective"] for r in sw])
@@ -122,6 +129,41 @@ ax.set_ylim(4.6, 7.3)
 ax.legend(loc="center", bbox_to_anchor=(0.68, 0.47))
 fig.savefig(FIG / "fig_intrinsic_optimum.pdf")
 plt.close(fig)
+
+say(f"sweep  t0 at best L {t0[ib]:.4f}; t0 rise best->48 {t0[-1]/t0[ib]-1:.1%}")
+
+# ------------------------------------------------------------ sensitivity
+vel = list(sens["by_velocity"])
+ovs = list(sens["by_velocity"][vel[0]]["by_overhead"])
+lines = [r"\begin{tabular}{l" + "r" * len(ovs) + "}", r"\toprule",
+         r"& \multicolumn{%d}{c}{Acquisition delay $T_{\mathrm{ov}}$ (ms)} \\" % len(ovs),
+         r"$v$ (m/s), $T_c$ & " + " & ".join(f"{float(o):g}" for o in ovs) + r" \\",
+         r"\midrule"]
+for v in vel:
+    blk = sens["by_velocity"][v]
+    cells = []
+    for o in ovs:
+        e = blk["by_overhead"][o]
+        flag = r"$^\ddagger$" if float(o) > blk["coherence_ms"] / 2 else ""
+        cells.append(f"{e['best_L']}{flag} ({e['best_eff']:.2f})")
+        say(f"sens   v={v} T_ov={o} best L={e['best_L']} eff {e['best_eff']:.4f} "
+            f"spread {max(r['effective'] for r in e['rows'])-min(r['effective'] for r in e['rows']):.3f}")
+    lines.append(f"{float(v):g}, {blk['coherence_ms']:.1f}~ms & " + " & ".join(cells) + r" \\")
+lines += [r"\bottomrule", r"\end{tabular}"]
+(TAB / "tab_sensitivity.tex").write_text("\n".join(lines) + "\n")
+l48 = [1 - [r for r in e["rows"] if r["L"] == 48][0]["effective"] / e["best_eff"]
+       for v in vel for o, e in sens["by_velocity"][v]["by_overhead"].items()
+       if float(o) <= sens["by_velocity"][v]["coherence_ms"] / 2]
+say(f"sens   L=48 loss vs optimum (unflagged cells): {min(l48):.1%}-{max(l48):.1%}")
+for va, row in sens["mismatch"].items():
+    say(f"mism   assumed {va} (L={row[va]['L']}): " +
+        ", ".join(f"true {vt}: {x['loss']:.2%}" for vt, x in row.items()))
+
+pc = load("mumiso_precoder_vs_step.json")
+rr = [x["ratio"] for x in pc["rounds"]]
+say(f"precod median precoder {pc['median']['precoder_ms']*1e3:.0f} us, adam step "
+    f"{pc['median']['adam_step_ms']*1e3:.0f} us, ratio median {pc['median']['ratio']:.1f} "
+    f"range {min(rr):.1f}-{max(rr):.1f}; load {pc['load_before']:.2f}->{pc['load_after']:.2f}")
 
 # ------------------------------------------------------------ equal step
 eq = load("mumiso_equal_step.json")

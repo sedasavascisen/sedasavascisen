@@ -7,10 +7,13 @@ aging  adam16      t0 6.754  lat   26.60  eff 5.324  stale 4.381  trusted True
 aging  adam20      t0 6.835  lat   34.60  eff 5.262  stale 4.364  trusted True
 aging  cd          t0 6.925  lat 1500.00  eff 4.921  stale 4.352  trusted False
 aging  pga         t0 7.117  lat 5600.00  eff 4.667  stale 4.423  trusted False
-sweep  best L=4 eff 5.9798 at 6.65 ms;  L=48 eff 5.1451 (14.0% below);  t0 at L=48 7.0368
+sweep  best L=5 eff 5.9820 at 8.31 ms;  L=48 eff 5.1451 (14.0% below);  t0 at L=48 7.0368
 sweep  L= 0 lat   0.05 t0 5.2762 eff 5.2763
+sweep  L= 1 lat   1.66 t0 5.4118 eff 5.4056
 sweep  L= 2 lat   3.33 t0 5.7837 eff 5.7462
+sweep  L= 3 lat   4.99 t0 5.9865 eff 5.9157
 sweep  L= 4 lat   6.65 t0 6.1280 eff 5.9798
+sweep  L= 5 lat   8.31 t0 6.2188 eff 5.9820
 sweep  L= 6 lat   9.98 t0 6.3162 eff 5.9700
 sweep  L= 8 lat  13.30 t0 6.4428 eff 5.8486
 sweep  L=10 lat  16.62 t0 6.5407 eff 5.6832
@@ -20,6 +23,33 @@ sweep  L=20 lat  33.25 t0 6.8354 eff 5.2762
 sweep  L=24 lat  39.90 t0 6.8970 eff 5.2824
 sweep  L=32 lat  53.20 t0 6.9698 eff 5.2300
 sweep  L=48 lat  79.80 t0 7.0368 eff 5.1451
+sweep  t0 at best L 6.2188; t0 rise best->48 13.2%
+sens   v=1.0 T_ov=0.0 best L=6 eff 6.1504 spread 0.904
+sens   v=1.0 T_ov=1.0 best L=6 eff 6.1155 spread 0.873
+sens   v=1.0 T_ov=2.0 best L=6 eff 6.0805 spread 0.842
+sens   v=1.0 T_ov=5.0 best L=6 eff 5.9696 spread 0.743
+sens   v=1.0 T_ov=10.0 best L=5 eff 5.7719 spread 0.565
+sens   v=1.5 T_ov=0.0 best L=5 eff 5.9820 spread 0.837
+sens   v=1.5 T_ov=1.0 best L=4 eff 5.9403 spread 0.796
+sens   v=1.5 T_ov=2.0 best L=4 eff 5.8918 spread 0.748
+sens   v=1.5 T_ov=5.0 best L=4 eff 5.7421 spread 0.602
+sens   v=1.5 T_ov=10.0 best L=3 eff 5.4943 spread 0.358
+sens   v=1.8 T_ov=0.0 best L=4 eff 5.9218 spread 0.807
+sens   v=1.8 T_ov=1.0 best L=4 eff 5.8672 spread 0.749
+sens   v=1.8 T_ov=2.0 best L=4 eff 5.8066 spread 0.685
+sens   v=1.8 T_ov=5.0 best L=3 eff 5.6353 spread 0.504
+sens   v=1.8 T_ov=10.0 best L=3 eff 5.3543 spread 0.251
+sens   v=3.0 T_ov=0.0 best L=3 eff 5.7262 spread 0.634
+sens   v=3.0 T_ov=1.0 best L=3 eff 5.6338 spread 0.547
+sens   v=3.0 T_ov=2.0 best L=3 eff 5.5412 spread 0.459
+sens   v=3.0 T_ov=5.0 best L=2 eff 5.2706 spread 0.207
+sens   v=3.0 T_ov=10.0 best L=32 eff 5.1233 spread 0.257
+sens   L=48 loss vs optimum (unflagged cells): 2.9%-14.7%
+mism   assumed 1.0 (L=6): true 1.0: 0.00%, true 1.5: 0.20%, true 1.8: 1.19%, true 3.0: 5.68%
+mism   assumed 1.5 (L=5): true 1.0: 0.73%, true 1.5: 0.00%, true 1.8: 0.46%, true 3.0: 3.38%
+mism   assumed 1.8 (L=4): true 1.0: 1.50%, true 1.5: 0.04%, true 1.8: 0.00%, true 3.0: 1.20%
+mism   assumed 3.0 (L=3): true 1.0: 3.17%, true 1.5: 1.11%, true 1.8: 0.57%, true 3.0: 0.00%
+precod median precoder 123 us, adam step 1597 us, ratio median 13.4 range 8.0-15.0; load 0.46->0.46
 eqstep L= 1 learned 4.4599 adam 4.3810 ratio 1.018 lo +0.0608 win 74.8% lr 0.75 obj soft
 eqstep L= 2 learned 4.8792 adam 4.6927 ratio 1.040 lo +0.1602 win 83.2% lr 0.75 obj soft
 eqstep L= 4 learned 5.2855 adam 5.0253 ratio 1.052 lo +0.2279 win 83.7% lr 0.75 obj soft

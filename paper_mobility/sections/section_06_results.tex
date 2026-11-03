@@ -24,16 +24,31 @@ Table~\ref{tab:aging} evaluates each method at its own measured latency (Definit
 
 \subsection{The Intrinsic Optimum}
 \label{sec:res_optimum}
-Fig.~\ref{fig:optimum} sweeps the number of Adam steps. The $t=0$ rate grows monotonically, from 5.276 (SU-best-of, $L=0$) to 7.037~b/s/Hz at $L=48$. The effective rate does not: it rises to 5.980~b/s/Hz at $L=4$ (6.65~ms), stays almost flat at $L=6$ (5.970), and then falls. At $L=48$ (79.8~ms) it is 5.145~b/s/Hz, 14.0\% below the optimum, although the $t=0$ rate there is 14.8\% higher than at $L=4$.
+Fig.~\ref{fig:optimum} sweeps the number of Adam steps. The $t=0$ rate grows monotonically, from 5.276 (SU-best-of, $L=0$) to 7.037~b/s/Hz at $L=48$. The effective rate does not. It peaks at $L=5$ (5.982~b/s/Hz, 8.3~ms) on a flat top: $L=4$ gives 5.980 and $L=6$ gives 5.970. Beyond that it falls. At $L=48$ (79.8~ms) it is 5.145~b/s/Hz, 14.0\% below the optimum, although the $t=0$ rate there is 13.2\% higher than at $L=5$.
 
 In terms of~\eqref{eq:marginal}: going from $L=4$ to $L=6$ adds 0.188~b/s/Hz at $t=0$, but the additional 3.3~ms of aging cost 0.198~b/s/Hz. Beyond $L=6$ the effective rate declines; the only exception is a 0.006~b/s/Hz fluctuation between $L=20$ and $L=24$. Designing for convergence is therefore not neutral but harmful: the extra steps reduce the effective rate. In this sweep the latency is scaled linearly from the measured Adam-8 latency (13.3~ms, i.e., 1.66~ms per step), which agrees with the per-step cost of 1.60--1.71~ms measured in Section~\ref{sec:res_reversal}.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/fig_intrinsic_optimum.pdf}
-\caption{Adam step sweep on the mobility set. The $t=0$ rate increases monotonically, while the effective rate (rate at the method's own completion time) peaks at $L=4$ and is 14.0\% lower at $L=48$.}
+\caption{Adam step sweep on the mobility set. The $t=0$ rate increases monotonically, while the effective rate (rate at the method's own completion time) peaks at $L=5$ (flat between $L=4$ and $6$) and is 14.0\% lower at $L=48$.}
 \label{fig:optimum}
 \end{figure}
+
+\subsection{Sensitivity to Acquisition Delay and User Speed}
+\label{sec:res_sensitivity}
+The effective rate above charges each method only for its own run time. A deployed system also spends time on pilots, estimation and feedback before the optimizer starts. We therefore add an acquisition delay $T_{\mathrm{ov}}$ to every latency and repeat the sweep at four user speeds (Table~\ref{tab:sens}). The direction is the one predicted by~\eqref{eq:marginal}: a faster channel or a longer delay makes each additional step cost more aging, and the optimum moves to fewer steps, from $L=6$ at 1~m/s to $L=3$ at 3~m/s without delay, and from $L=5$ to $L=3$ at 1.5~m/s as $T_{\mathrm{ov}}$ grows from 0 to 10~ms. The effective rate falls with $T_{\mathrm{ov}}$ at every speed. Once $T_{\mathrm{ov}}$ exceeds about half the coherence time, the channel has largely changed before optimization starts: at 3~m/s with 10~ms, all step counts give rates within 0.26~b/s/Hz, and the location of the maximum carries no meaning. In all other cells, running Adam to $L=48$ costs 2.9--14.7\% of the attainable effective rate. The cost is smallest where aging leaves the optimizer least to gain, i.e., for fast users and long delays.
+
+The optimum is also tolerant of an error in the assumed speed. Choosing $L$ for 1.5~m/s when users actually move at 1.8~m/s costs 0.46\% of the attainable effective rate, and the reverse error costs 0.04\%. The largest loss in our grid, 5.7\%, occurs when $L$ is chosen for 1~m/s and users move at 3~m/s.
+
+\begin{table}[t]
+\centering
+\caption{Optimal number of Adam steps $L^\star$ (and its effective rate in b/s/Hz) for different user speeds and channel-acquisition delays $T_{\mathrm{ov}}$, mobility set. $^\ddagger$$T_{\mathrm{ov}} > T_c/2$: all step counts lie within 0.26~b/s/Hz, so the maximum is not meaningful.}
+\label{tab:sens}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\input{tables/tab_sensitivity}
+\end{table}
 
 \subsection{Learned versus Classical: Equal Steps and Equal Milliseconds}
 \label{sec:res_reversal}
@@ -68,7 +83,7 @@ Two remarks bound this result. First, the comparison uses $t=0$ rates on the sta
 
 \subsection{What the Fresh-Beam Assumption Is Worth}
 \label{sec:res_beam}
-All results above assume that the BS precoder is recomputed from the current channel while only the RIS phase ages (Section~\ref{sec:framework}). Table~\ref{tab:beam} and Fig.~\ref{fig:beam} measure the alternative in which the precoder ages too. Both curves use the same $t=0$ phase. With a fresh beam the rate decays moderately (Adam with $L=8$: from 5.342 to 4.358~b/s/Hz at $T_c$); with a stale beam it collapses within tens of milliseconds, and at $T_c$ it is 11.7--14.2$\times$ lower than with a fresh beam, for every phase choice. The assumption therefore matters, and it must hold in a deployment for the effective rates above to apply: the BS has to refresh its precoder at least once per coherence time. This is the usual frame-by-frame operation of a multi-antenna BS, but it is an assumption of our results rather than a finding.
+All results above assume that the BS precoder is recomputed from the current channel while only the RIS phase ages (Section~\ref{sec:framework}). Table~\ref{tab:beam} and Fig.~\ref{fig:beam} measure the alternative in which the precoder ages too. Both curves use the same $t=0$ phase. With a fresh beam the rate decays moderately (Adam with $L=8$: from 5.342 to 4.358~b/s/Hz at $T_c$); with a stale beam it collapses within tens of milliseconds, and at $T_c$ it is 11.7--14.2$\times$ lower than with a fresh beam, for every phase choice. The assumption therefore matters, and it must hold in a deployment for the effective rates above to apply: the BS has to refresh its precoder at least once per coherence time. Refreshing it is cheap. On one machine, single-threaded, computing the effective channel and the regularized ZF precoder takes a median of 0.12~ms, about 13$\times$ less than a single Adam step (8.0--15.0$\times$ across five rounds). We have not included this time in the effective rates. This is the usual frame-by-frame operation of a multi-antenna BS, but it is an assumption of our results rather than a finding.
 
 \begin{table}[t]
 \centering

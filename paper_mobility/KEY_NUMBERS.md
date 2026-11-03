@@ -13,7 +13,9 @@ Sources:
 | Result | Script | Result file |
 |---|---|---|
 | Effective rates, aging curves | `scripts/mumiso_aging.py --no-learned --tag aging_fixzf` | `results/mumiso_aging_fixzf.json` |
-| Intrinsic optimum (Adam step sweep) | `scripts/mumiso_aging_sweep.py` | `results/mumiso_aging_sweep_repro.json` |
+| Intrinsic optimum (Adam step sweep; the paper plots the finer grid of the sensitivity run, which reproduces this file) | `scripts/mumiso_aging_sweep.py` | `results/mumiso_aging_sweep_repro.json` |
+| Sensitivity: speed, acquisition delay, speed mismatch | `scripts/mumiso_aging_sensitivity.py` | `results/mumiso_aging_sensitivity.json` |
+| Precoder cost vs. one Adam step | `scripts/mumiso_precoder_vs_step.py` | `results/mumiso_precoder_vs_step.json` |
 | Equal steps | `scripts/mumiso_equal_step.py` | `results/mumiso_equal_step.json` |
 | Equal milliseconds (rates) | `scripts/mumiso_latency_parity.py` | `results/mumiso_latency_parity.json` |
 | Equal milliseconds (timings, 5 rounds) | `scripts/mumiso_latency_repeat.py` | `results/mumiso_latency_repeat.json` |
