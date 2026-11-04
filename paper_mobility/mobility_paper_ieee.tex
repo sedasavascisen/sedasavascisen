@@ -1,5 +1,6 @@
 \documentclass[journal]{IEEEtran}
 
+\usepackage[T1]{fontenc}
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{graphicx}
@@ -15,9 +16,9 @@
 
 \title{Latency Can Reverse the Ranking: Effective-Rate Evaluation of RIS Phase Optimization for Mobile Users}
 
-\author{\todo{Author names}%
-\thanks{\todo{Funding statement, e.g., TÜBİTAK project number, or remove.}}%
-\thanks{\todo{Authors} are with \todo{Department, University, City, Turkey} (e-mail: \todo{e-mail}).}}
+\author{Seda~Savaşçı~Şen\todo{, co-authors (e.g., advisor) if any}%
+\thanks{\todo{Funding statement (e.g., TÜBİTAK project number), or delete this line.}}%
+\thanks{S.~Savaşçı~Şen is with \todo{Department of \ldots}, Bursa Uludağ University, Bursa, Turkey (e-mail: sedasavascisen@gmail.com).}}
 
 \markboth{IEEE Transactions on Wireless Communications}%
 {Latency Can Reverse the Ranking: Effective-Rate Evaluation of RIS Phase Optimization}
@@ -44,7 +45,9 @@ Reconfigurable intelligent surface, mobility, computation latency, effective rat
 \input{sections/appendix_traps}
 
 \section*{Acknowledgment}
-\todo{Acknowledgment text, e.g., advisor and computing resources, or remove this section.}
+\todo{Thanks to the advisor and for computing resources, or delete this sentence.}
+
+\emph{Use of AI tools.} In accordance with IEEE policy, the author discloses that the AI assistant Claude (Anthropic), used through the Claude Code tool, was used to draft and revise the text of this article, to write the analysis, plotting and table-generation scripts and the additional experiment scripts reported here, to generate the figures and tables from the stored measurement results, and to search for and check references. Earlier AI-generated drafts contained errors, including references that do not exist; these were removed. Every number in this article is produced by a script from stored measurement files, every reference was checked against its publisher record, and automated independent audits compared the text with the code and data. \todo{Confirm, and state whether AI was also used for the simulation code in ris\_mu/.} The author reviewed all AI-generated content and takes full responsibility for the article.
 
 \section*{Data and Code Availability}
 The scripts that generate every table and figure, and the stored measurement files they read, are available at \todo{public repository URL or "upon request"}.
