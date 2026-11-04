@@ -514,6 +514,33 @@ else:
           int(_rp["miso"]["sincos"]["rate"]["mean"] < _ce["levels"]["0.0"]["static"]["test"]["CD-1"]),
           "the better representation does not close the gap to one CD sweep")
 
+# ------------------------------------------------ discrete phase (1/2/3 bit)
+section("saved results: discrete phases, single-user MISO")
+_dp = _load("sumiso_discrete_eval.json")
+if _dp is None:
+    print("  [skip] sumiso_discrete_eval.json missing")
+else:
+    _lv = _dp["levels"]
+    _cnn = lambda d: [k for k in d if k.startswith("CNN")]
+    claim("disc_1bit_discrete_cd10", "8", "exact", 12.0739, _lv["1"]["static"]["test"]["discrete CD-10"])
+    claim("disc_static_best_is_discrete_cd", "8", "exact", 1,
+          int(all(v["static"]["classical_selected_on_val"].startswith("discrete CD") for v in _lv.values())),
+          "validation selects discrete CD at every bit width")
+    claim("disc_1bit_search_beats_rounding", "8", "exact", 1,
+          int(_lv["1"]["static"]["test"]["discrete CD-10"] > _lv["1"]["static"]["test"]["CD-10 -> round"] + 0.1),
+          "at 1 bit, searching the grid beats rounding a continuous optimum by >0.1")
+    claim("disc_cnn_below_classical_mobility", "8", "exact", 1,
+          int(all(v["mobility"][f"diff_to_classical[{k}]"][2] < 0
+                  for v in _lv.values() for k in _cnn(v["mobility"]["test"]))),
+          "every learned arm below the selected classical arm, every bit width (CI)")
+    claim("disc_label_training_no_gain", "8", "exact", 1,
+          int(all(v["static"]["test"]["CNN (b) discrete labels"] <= v["static"]["test"]["CNN (a) continuous labels"] + 0.01
+                  for v in _lv.values())),
+          "training on discrete labels does not beat rounding the continuous model")
+    claim("disc_cnn_cd1_dominated", "8", "exact", 1,
+          int(all(len(v["mobility"]["dominated_by[CNN (c) straight-through + discrete CD-1]"]) > 0 for v in _lv.values())),
+          "network + 1 discrete sweep is dominated by a faster, better classical arm")
+
 # ----------------------------------------------------------------- report
 section("summary")
 fails = [r for r in RESULTS if r["ok"] is False]

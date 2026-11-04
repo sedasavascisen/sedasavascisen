@@ -267,9 +267,51 @@ sin/cos her iki senaryoda da 3 tohumun ucunde en dusuk RMSE.
 
 Kaynak: `scripts/sumiso_representation_summary.py` -> `results/sumiso_representation.json`
 
+### 6.5 Ayrik faz (1/2/3 bit), tek kullanicili MISO
+
+| Bit | Yontem | Gecikme (ms) | Statik hiz | Hareketli etkin hiz |
+| --- | --- | --- | --- | --- |
+| 1 | SU-align -> round | 0.06 | 11.547 | 11.523 |
+| 1 | CD-1 -> round | 2.53 | 11.894 | 11.775 |
+| 1 | CD-10 -> round | 24.76 | 11.922 | 11.229 |
+| 1 | discrete CD-1 | 3.07 | 11.998 | 11.870 |
+| 1 | discrete CD-2 | 5.97 | 12.053 | 11.888 |
+| 1 | discrete CD-10 | 29.91 | 12.074 | 11.296 |
+| 1 | CNN (a) continuous labels | 1.82 | 11.718 | 11.634 |
+| 1 | CNN (b) discrete labels | 1.82 | 11.589 | 11.483 |
+| 1 | CNN (c) straight-through | 1.82 | 11.589 | 11.483 |
+| 1 | CNN (c) straight-through + discrete CD-1 | 5.39 | 11.997 | 11.843 |
+| 1 | ayrik optimum (cevrimdisi) | — | 12.084 | |
+| 2 | SU-align -> round | 0.05 | 12.209 | 12.178 |
+| 2 | CD-1 -> round | 2.50 | 12.620 | 12.475 |
+| 2 | CD-10 -> round | 24.42 | 12.653 | 11.921 |
+| 2 | discrete CD-1 | 3.12 | 12.633 | 12.474 |
+| 2 | discrete CD-2 | 6.11 | 12.668 | 12.473 |
+| 2 | discrete CD-10 | 29.65 | 12.681 | 11.842 |
+| 2 | CNN (a) continuous labels | 2.39 | 12.306 | 12.174 |
+| 2 | CNN (b) discrete labels | 2.39 | 12.295 | 12.146 |
+| 2 | CNN (c) straight-through | 2.39 | 12.311 | 12.163 |
+| 2 | CNN (c) straight-through + discrete CD-1 | 5.72 | 12.640 | 12.446 |
+| 2 | ayrik optimum (cevrimdisi) | — | 12.688 | |
+| 3 | SU-align -> round | 0.05 | 12.377 | 12.335 |
+| 3 | CD-1 -> round | 2.45 | 12.799 | 12.642 |
+| 3 | CD-10 -> round | 24.52 | 12.833 | 12.057 |
+| 3 | discrete CD-1 | 3.19 | 12.802 | 12.638 |
+| 3 | discrete CD-2 | 6.65 | 12.830 | 12.617 |
+| 3 | discrete CD-10 | 30.98 | 12.839 | 11.958 |
+| 3 | CNN (a) continuous labels | 3.39 | 12.453 | 12.299 |
+| 3 | CNN (b) discrete labels | 3.39 | 12.446 | 12.290 |
+| 3 | CNN (c) straight-through | 3.39 | 12.460 | 12.309 |
+| 3 | CNN (c) straight-through + discrete CD-1 | 6.49 | 12.801 | 12.585 |
+| 3 | ayrik optimum (cevrimdisi) | — | 12.842 | |
+
+Statik: test 6000 (seed 2026). Hareketli: secim seed 12, rapor seed 11, 400 senaryo. Yuk 0.34 / 0.60 / 1.00.
+
+Kaynak: `scripts/sumiso_discrete_eval.py` -> `results/sumiso_discrete_eval.json`
+
 ## Ek — yeniden uretilebilirlik
 
-- `scripts/audit_claims.py` — 59 iddia (`--all` ile 74), hepsi geciyor
+- `scripts/audit_claims.py` — 65 iddia (`--all` ile 80), hepsi geciyor
 - Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**
 - Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor
 

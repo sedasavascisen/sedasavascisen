@@ -335,9 +335,29 @@ if _rp:
     W("Kaynak: `scripts/sumiso_representation_summary.py` -> `results/sumiso_representation.json`")
     W("")
 
+_dp = L("sumiso_discrete_eval.json")
+if _dp:
+    W("### 6.5 Ayrik faz (1/2/3 bit), tek kullanicili MISO")
+    W("")
+    W("| Bit | Yontem | Gecikme (ms) | Statik hiz | Hareketli etkin hiz |")
+    W("| --- | --- | --- | --- | --- |")
+    for b, v in _dp["levels"].items():
+        st, mo = v["static"], v["mobility"]
+        for k in ("SU-align -> round", "CD-1 -> round", "CD-10 -> round", "discrete CD-1", "discrete CD-2", "discrete CD-10",
+                  "CNN (a) continuous labels", "CNN (b) discrete labels", "CNN (c) straight-through",
+                  "CNN (c) straight-through + discrete CD-1"):
+            W(f"| {b} | {k} | {mo['latency_ms'][k]:.2f} | {st['test'][k]:.3f} | {mo['test'][k]:.3f} |")
+        W(f"| {b} | ayrik optimum (cevrimdisi) | — | {st['offline_discrete_optimum']:.3f} | |")
+    W("")
+    W(f"Statik: test 6000 (seed 2026). Hareketli: secim seed 12, rapor seed 11, 400 senaryo. "
+      f"Yuk {_dp['load_avg']['start']:.2f} / {_dp['load_avg']['before_timing']:.2f} / {_dp['load_avg']['after_timing']:.2f}.")
+    W("")
+    W("Kaynak: `scripts/sumiso_discrete_eval.py` -> `results/sumiso_discrete_eval.json`")
+    W("")
+
 W("## Ek — yeniden uretilebilirlik")
 W("")
-W("- `scripts/audit_claims.py` — 59 iddia (`--all` ile 74), hepsi geciyor")
+W("- `scripts/audit_claims.py` — 65 iddia (`--all` ile 80), hepsi geciyor")
 W("- Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**")
 W("- Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor")
 W("")

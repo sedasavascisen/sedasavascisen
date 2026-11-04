@@ -1,0 +1,590 @@
+{
+ "levels": {
+  "1": {
+   "static": {
+    "val": {
+     "SU-align -> round": 11.328986167907715,
+     "CD-1 -> round": 11.662698745727539,
+     "discrete CD-1": 11.767439842224121,
+     "CD-2 -> round": 11.684635162353516,
+     "discrete CD-2": 11.816975593566895,
+     "CD-3 -> round": 11.687792778015137,
+     "discrete CD-3": 11.829174041748047,
+     "CD-5 -> round": 11.687580108642578,
+     "discrete CD-5": 11.833613395690918,
+     "CD-10 -> round": 11.68838882446289,
+     "discrete CD-10": 11.833722114562988,
+     "CNN (a) continuous labels": 11.477693557739258,
+     "CNN (b) discrete labels": 11.376761436462402,
+     "CNN (b) discrete labels + discrete CD-1": 11.75748062133789,
+     "CNN (c) straight-through": 11.376761436462402,
+     "CNN (c) straight-through + discrete CD-1": 11.75748062133789
+    },
+    "test": {
+     "SU-align -> round": 11.546765327453613,
+     "CD-1 -> round": 11.894364356994629,
+     "discrete CD-1": 11.99803352355957,
+     "CD-2 -> round": 11.918258666992188,
+     "discrete CD-2": 12.05329418182373,
+     "CD-3 -> round": 11.921143531799316,
+     "discrete CD-3": 12.067480087280273,
+     "CD-5 -> round": 11.922063827514648,
+     "discrete CD-5": 12.073416709899902,
+     "CD-10 -> round": 11.922264099121094,
+     "discrete CD-10": 12.073894500732422,
+     "CNN (a) continuous labels": 11.718286514282227,
+     "CNN (b) discrete labels": 11.589479446411133,
+     "CNN (b) discrete labels + discrete CD-1": 11.996682167053223,
+     "CNN (c) straight-through": 11.589479446411133,
+     "CNN (c) straight-through + discrete CD-1": 11.996682167053223
+    },
+    "classical_selected_on_val": "discrete CD-10",
+    "offline_discrete_optimum": 12.083703994750977,
+    "continuous_optimum": 12.89298152923584
+   },
+   "mobility": {
+    "test": {
+     "SU-align -> round": 11.523105469992734,
+     "CD-1 -> round": 11.774827458424001,
+     "discrete CD-1": 11.869771253304172,
+     "CD-2 -> round": 11.764753045027922,
+     "discrete CD-2": 11.887994255620322,
+     "CD-3 -> round": 11.73079028385822,
+     "discrete CD-3": 11.849012459387657,
+     "CD-5 -> round": 11.623248147426398,
+     "discrete CD-5": 11.701834861764302,
+     "CD-10 -> round": 11.229238700711205,
+     "discrete CD-10": 11.296356748167453,
+     "CNN (a) continuous labels": 11.633658364785374,
+     "CNN (b) discrete labels": 11.483087481433044,
+     "CNN (b) discrete labels + discrete CD-1": 11.842945145899195,
+     "CNN (c) straight-through": 11.483087481433044,
+     "CNN (c) straight-through + discrete CD-1": 11.842945145899195
+    },
+    "classical_selected_on_val": "discrete CD-2",
+    "latency_ms": {
+     "SU-align -> round": 0.05576750004365749,
+     "CD-1 -> round": 2.526024500070889,
+     "discrete CD-1": 3.0728979999139483,
+     "CD-2 -> round": 4.988453500118339,
+     "discrete CD-2": 5.965523500094605,
+     "CD-3 -> round": 7.369139500042365,
+     "discrete CD-3": 8.70855699997719,
+     "CD-5 -> round": 11.888772999895991,
+     "discrete CD-5": 14.652945999841904,
+     "CD-10 -> round": 24.755422499993074,
+     "discrete CD-10": 29.90565149991653,
+     "CNN (a) continuous labels": 1.8234284999607553,
+     "CNN (b) discrete labels": 1.8234284999607553,
+     "CNN (b) discrete labels + discrete CD-1": 5.385259500144457,
+     "CNN (c) straight-through": 1.8234284999607553,
+     "CNN (c) straight-through + discrete CD-1": 5.385259500144457
+    },
+    "diff_to_classical[CNN (a) continuous labels]": [
+     -0.2543358908349478,
+     -0.29385363514923485,
+     -0.21617587946378491
+    ],
+    "dominated_by[CNN (a) continuous labels]": [],
+    "diff_to_classical[CNN (b) discrete labels]": [
+     -0.40490677418727744,
+     -0.46133963059132677,
+     -0.35037672578798285
+    ],
+    "dominated_by[CNN (b) discrete labels]": [
+     "SU-align -> round"
+    ],
+    "diff_to_classical[CNN (b) discrete labels + discrete CD-1]": [
+     -0.04504910972112713,
+     -0.06610368104304529,
+     -0.025841453133446567
+    ],
+    "dominated_by[CNN (b) discrete labels + discrete CD-1]": [
+     "discrete CD-1"
+    ],
+    "diff_to_classical[CNN (c) straight-through]": [
+     -0.40490677418727744,
+     -0.4644074960253681,
+     -0.348208459687199
+    ],
+    "dominated_by[CNN (c) straight-through]": [
+     "SU-align -> round"
+    ],
+    "diff_to_classical[CNN (c) straight-through + discrete CD-1]": [
+     -0.04504910972112713,
+     -0.06539027094645568,
+     -0.02461676690356291
+    ],
+    "dominated_by[CNN (c) straight-through + discrete CD-1]": [
+     "discrete CD-1"
+    ]
+   }
+  },
+  "2": {
+   "static": {
+    "val": {
+     "SU-align -> round": 11.97160530090332,
+     "CD-1 -> round": 12.376871109008789,
+     "discrete CD-1": 12.39021110534668,
+     "CD-2 -> round": 12.400357246398926,
+     "discrete CD-2": 12.426015853881836,
+     "CD-3 -> round": 12.403322219848633,
+     "discrete CD-3": 12.432518005371094,
+     "CD-5 -> round": 12.405279159545898,
+     "discrete CD-5": 12.434725761413574,
+     "CD-10 -> round": 12.406571388244629,
+     "discrete CD-10": 12.434967994689941,
+     "CNN (a) continuous labels": 12.066847801208496,
+     "CNN (b) discrete labels": 12.06091594696045,
+     "CNN (b) discrete labels + discrete CD-1": 12.389452934265137,
+     "CNN (c) straight-through": 12.072234153747559,
+     "CNN (c) straight-through + discrete CD-1": 12.394373893737793
+    },
+    "test": {
+     "SU-align -> round": 12.208885192871094,
+     "CD-1 -> round": 12.620059967041016,
+     "discrete CD-1": 12.6333646774292,
+     "CD-2 -> round": 12.645853996276855,
+     "discrete CD-2": 12.6683988571167,
+     "CD-3 -> round": 12.650059700012207,
+     "discrete CD-3": 12.67668628692627,
+     "CD-5 -> round": 12.65187931060791,
+     "discrete CD-5": 12.680424690246582,
+     "CD-10 -> round": 12.652565002441406,
+     "discrete CD-10": 12.680964469909668,
+     "CNN (a) continuous labels": 12.305635452270508,
+     "CNN (b) discrete labels": 12.295313835144043,
+     "CNN (b) discrete labels + discrete CD-1": 12.63873291015625,
+     "CNN (c) straight-through": 12.311308860778809,
+     "CNN (c) straight-through + discrete CD-1": 12.640233993530273
+    },
+    "classical_selected_on_val": "discrete CD-10",
+    "offline_discrete_optimum": 12.687784194946289,
+    "continuous_optimum": 12.89298152923584
+   },
+   "mobility": {
+    "test": {
+     "SU-align -> round": 12.178240143409854,
+     "CD-1 -> round": 12.475433495579091,
+     "discrete CD-1": 12.474474611638435,
+     "CD-2 -> round": 12.475738994591602,
+     "discrete CD-2": 12.473305418207497,
+     "CD-3 -> round": 12.439179713231152,
+     "discrete CD-3": 12.425896880897534,
+     "CD-5 -> round": 12.317147865119523,
+     "discrete CD-5": 12.20975821789614,
+     "CD-10 -> round": 11.921356798462067,
+     "discrete CD-10": 11.84188058580065,
+     "CNN (a) continuous labels": 12.17374208266297,
+     "CNN (b) discrete labels": 12.145574204936961,
+     "CNN (b) discrete labels + discrete CD-1": 12.445223919229479,
+     "CNN (c) straight-through": 12.163315259960255,
+     "CNN (c) straight-through + discrete CD-1": 12.445723322521888
+    },
+    "classical_selected_on_val": "discrete CD-1",
+    "latency_ms": {
+     "SU-align -> round": 0.05475400007526332,
+     "CD-1 -> round": 2.5031275001765607,
+     "discrete CD-1": 3.1157890000486077,
+     "CD-2 -> round": 5.000942499918892,
+     "discrete CD-2": 6.107950500108927,
+     "CD-3 -> round": 7.4517650000416324,
+     "discrete CD-3": 8.875654999883409,
+     "CD-5 -> round": 12.263008999752856,
+     "discrete CD-5": 16.031805500006158,
+     "CD-10 -> round": 24.416478999910396,
+     "discrete CD-10": 29.648101000020688,
+     "CNN (a) continuous labels": 2.393315000063012,
+     "CNN (b) discrete labels": 2.393315000063012,
+     "CNN (b) discrete labels + discrete CD-1": 5.717330500147,
+     "CNN (c) straight-through": 2.393315000063012,
+     "CNN (c) straight-through + discrete CD-1": 5.717330500147
+    },
+    "diff_to_classical[CNN (a) continuous labels]": [
+     -0.3007325289754611,
+     -0.3488153428990095,
+     -0.25514985390462525
+    ],
+    "dominated_by[CNN (a) continuous labels]": [
+     "SU-align -> round"
+    ],
+    "diff_to_classical[CNN (b) discrete labels]": [
+     -0.3289004067014716,
+     -0.38061892481563336,
+     -0.28115692362161954
+    ],
+    "dominated_by[CNN (b) discrete labels]": [
+     "SU-align -> round"
+    ],
+    "diff_to_classical[CNN (b) discrete labels + discrete CD-1]": [
+     -0.029250692408954743,
+     -0.045745793197078034,
+     -0.014370770958552128
+    ],
+    "dominated_by[CNN (b) discrete labels + discrete CD-1]": [
+     "CD-1 -> round",
+     "discrete CD-1",
+     "CD-2 -> round"
+    ],
+    "diff_to_classical[CNN (c) straight-through]": [
+     -0.31115935167817943,
+     -0.35519596336759673,
+     -0.26341867641277816
+    ],
+    "dominated_by[CNN (c) straight-through]": [
+     "SU-align -> round"
+    ],
+    "diff_to_classical[CNN (c) straight-through + discrete CD-1]": [
+     -0.028751289116546848,
+     -0.044296116457039944,
+     -0.013619683272673178
+    ],
+    "dominated_by[CNN (c) straight-through + discrete CD-1]": [
+     "CD-1 -> round",
+     "discrete CD-1",
+     "CD-2 -> round"
+    ]
+   }
+  },
+  "3": {
+   "static": {
+    "val": {
+     "SU-align -> round": 12.138838768005371,
+     "CD-1 -> round": 12.55354118347168,
+     "discrete CD-1": 12.555767059326172,
+     "CD-2 -> round": 12.578448295593262,
+     "discrete CD-2": 12.583234786987305,
+     "CD-3 -> round": 12.581470489501953,
+     "discrete CD-3": 12.588500022888184,
+     "CD-5 -> round": 12.583250999450684,
+     "discrete CD-5": 12.590629577636719,
+     "CD-10 -> round": 12.583937644958496,
+     "discrete CD-10": 12.590900421142578,
+     "CNN (a) continuous labels": 12.212501525878906,
+     "CNN (b) discrete labels": 12.21291446685791,
+     "CNN (b) discrete labels + discrete CD-1": 12.55112075805664,
+     "CNN (c) straight-through": 12.223995208740234,
+     "CNN (c) straight-through + discrete CD-1": 12.549346923828125
+    },
+    "test": {
+     "SU-align -> round": 12.37692928314209,
+     "CD-1 -> round": 12.799003601074219,
+     "discrete CD-1": 12.801875114440918,
+     "CD-2 -> round": 12.825519561767578,
+     "discrete CD-2": 12.830221176147461,
+     "CD-3 -> round": 12.829792976379395,
+     "discrete CD-3": 12.835774421691895,
+     "CD-5 -> round": 12.831622123718262,
+     "discrete CD-5": 12.838339805603027,
+     "CD-10 -> round": 12.832529067993164,
+     "discrete CD-10": 12.838895797729492,
+     "CNN (a) continuous labels": 12.45300006866455,
+     "CNN (b) discrete labels": 12.44621467590332,
+     "CNN (b) discrete labels + discrete CD-1": 12.79978084564209,
+     "CNN (c) straight-through": 12.460206985473633,
+     "CNN (c) straight-through + discrete CD-1": 12.800958633422852
+    },
+    "classical_selected_on_val": "discrete CD-10",
+    "offline_discrete_optimum": 12.842089653015137,
+    "continuous_optimum": 12.89298152923584
+   },
+   "mobility": {
+    "test": {
+     "SU-align -> round": 12.33528533061261,
+     "CD-1 -> round": 12.642135940722993,
+     "discrete CD-1": 12.63758971444943,
+     "CD-2 -> round": 12.644581044079272,
+     "discrete CD-2": 12.616775739523787,
+     "CD-3 -> round": 12.603179018706395,
+     "discrete CD-3": 12.561539003411957,
+     "CD-5 -> round": 12.479124249800067,
+     "discrete CD-5": 12.394969087883505,
+     "CD-10 -> round": 12.057080785147578,
+     "discrete CD-10": 11.958458912389547,
+     "CNN (a) continuous labels": 12.298599354520679,
+     "CNN (b) discrete labels": 12.290015426868841,
+     "CNN (b) discrete labels + discrete CD-1": 12.582670171138325,
+     "CNN (c) straight-through": 12.309255262556926,
+     "CNN (c) straight-through + discrete CD-1": 12.584908474292343
+    },
+    "classical_selected_on_val": "CD-1 -> round",
+    "latency_ms": {
+     "SU-align -> round": 0.054454000064652064,
+     "CD-1 -> round": 2.453929999774118,
+     "discrete CD-1": 3.1915575000311946,
+     "CD-2 -> round": 4.936961499879544,
+     "discrete CD-2": 6.648499499988247,
+     "CD-3 -> round": 7.503950999989684,
+     "discrete CD-3": 9.386036500018236,
+     "CD-5 -> round": 12.174097000070105,
+     "discrete CD-5": 14.8479120000502,
+     "CD-10 -> round": 24.521097000160808,
+     "discrete CD-10": 30.9803530001318,
+     "CNN (a) continuous labels": 3.3862775001125556,
+     "CNN (b) discrete labels": 3.3862775001125556,
+     "CNN (b) discrete labels + discrete CD-1": 6.49155500013876,
+     "CNN (c) straight-through": 3.3862775001125556,
+     "CNN (c) straight-through + discrete CD-1": 6.49155500013876
+    },
+    "diff_to_classical[CNN (a) continuous labels]": [
+     -0.34353658620231314,
+     -0.39207053588755286,
+     -0.29819717970589554
+    ],
+    "dominated_by[CNN (a) continuous labels]": [
+     "SU-align -> round",
+     "CD-1 -> round",
+     "discrete CD-1"
+    ],
+    "diff_to_classical[CNN (b) discrete labels]": [
+     -0.35212051385414966,
+     -0.40439763271321716,
+     -0.3047698592464084
+    ],
+    "dominated_by[CNN (b) discrete labels]": [
+     "SU-align -> round",
+     "CD-1 -> round",
+     "discrete CD-1"
+    ],
+    "diff_to_classical[CNN (b) discrete labels + discrete CD-1]": [
+     -0.059465769584665706,
+     -0.0766115013448298,
+     -0.0434463892794834
+    ],
+    "dominated_by[CNN (b) discrete labels + discrete CD-1]": [
+     "CD-1 -> round",
+     "discrete CD-1",
+     "CD-2 -> round"
+    ],
+    "diff_to_classical[CNN (c) straight-through]": [
+     -0.3328806781660667,
+     -0.38158719444433864,
+     -0.2884845774058077
+    ],
+    "dominated_by[CNN (c) straight-through]": [
+     "SU-align -> round",
+     "CD-1 -> round",
+     "discrete CD-1"
+    ],
+    "diff_to_classical[CNN (c) straight-through + discrete CD-1]": [
+     -0.057227466430649555,
+     -0.07302158361489852,
+     -0.04184081519962131
+    ],
+    "dominated_by[CNN (c) straight-through + discrete CD-1]": [
+     "CD-1 -> round",
+     "discrete CD-1",
+     "CD-2 -> round"
+    ]
+   }
+  }
+ },
+ "load_avg": {
+  "start": 0.34423828125,
+  "before_timing": 0.60302734375,
+  "after_timing": 1.0
+ },
+ "latency_rounds_ms": {
+  "1": {
+   "SU-align -> round": [
+    0.0825950000944431,
+    0.05576750004365749,
+    0.055423500043616514
+   ],
+   "CD-1 -> round": [
+    2.5444144999937635,
+    2.526024500070889,
+    2.512006999950245
+   ],
+   "discrete CD-1": [
+    3.1086029998732556,
+    3.0728979999139483,
+    3.0358245001025352
+   ],
+   "CD-2 -> round": [
+    4.988453500118339,
+    4.880338500015569,
+    5.009860000086519
+   ],
+   "discrete CD-2": [
+    5.965523500094605,
+    5.9191290000626395,
+    6.0452104999058065
+   ],
+   "CD-3 -> round": [
+    7.369139500042365,
+    7.823657000017192,
+    7.179549999932533
+   ],
+   "discrete CD-3": [
+    8.701669499942,
+    8.70855699997719,
+    8.751714499908303
+   ],
+   "CD-5 -> round": [
+    11.955400000033478,
+    11.776373999964562,
+    11.888772999895991
+   ],
+   "discrete CD-5": [
+    14.488682499973038,
+    14.652945999841904,
+    14.682854999932715
+   ],
+   "CD-10 -> round": [
+    24.762958000110302,
+    24.028919499983203,
+    24.755422499993074
+   ],
+   "discrete CD-10": [
+    29.835804999947868,
+    30.802389500081517,
+    29.90565149991653
+   ],
+   "CNN (deployed, any training)": [
+    1.8234284999607553,
+    1.927004000094712,
+    1.799652500267257
+   ],
+   "CNN + discrete CD-1": [
+    5.293304500128215,
+    5.485580999902595,
+    5.385259500144457
+   ]
+  },
+  "2": {
+   "SU-align -> round": [
+    0.05529300005946425,
+    0.05475400007526332,
+    0.0545514999430452
+   ],
+   "CD-1 -> round": [
+    2.530214500211514,
+    2.501490999748057,
+    2.5031275001765607
+   ],
+   "discrete CD-1": [
+    3.1157890000486077,
+    2.9954679998809297,
+    3.1464265000522573
+   ],
+   "CD-2 -> round": [
+    4.795938499910335,
+    5.000942499918892,
+    5.010333999962313
+   ],
+   "discrete CD-2": [
+    6.0950924998905975,
+    6.296518500221282,
+    6.107950500108927
+   ],
+   "CD-3 -> round": [
+    7.4517650000416324,
+    7.62122899982387,
+    7.151613999894835
+   ],
+   "discrete CD-3": [
+    8.940726999981052,
+    8.875654999883409,
+    8.720174000018233
+   ],
+   "CD-5 -> round": [
+    12.30785550001201,
+    12.263008999752856,
+    12.193161000141117
+   ],
+   "discrete CD-5": [
+    15.320820999932039,
+    17.24278750020858,
+    16.031805500006158
+   ],
+   "CD-10 -> round": [
+    24.416478999910396,
+    23.68798800011973,
+    24.582210500057045
+   ],
+   "discrete CD-10": [
+    29.538008000145055,
+    29.648101000020688,
+    31.4758734998577
+   ],
+   "CNN (deployed, any training)": [
+    2.2874884998600464,
+    2.411178499869493,
+    2.393315000063012
+   ],
+   "CNN + discrete CD-1": [
+    6.869440499940538,
+    5.717330500147,
+    5.658476000007795
+   ]
+  },
+  "3": {
+   "SU-align -> round": [
+    0.054454000064652064,
+    0.05436199990072055,
+    0.054846499779159785
+   ],
+   "CD-1 -> round": [
+    2.4365129997931945,
+    2.453929999774118,
+    2.615122999941377
+   ],
+   "discrete CD-1": [
+    3.9969740000742604,
+    3.1915575000311946,
+    3.049364499929652
+   ],
+   "CD-2 -> round": [
+    5.44740350005668,
+    4.936961499879544,
+    4.935382999974536
+   ],
+   "discrete CD-2": [
+    6.648499499988247,
+    6.699846499941486,
+    5.900738500031366
+   ],
+   "CD-3 -> round": [
+    8.198296499813296,
+    7.503950999989684,
+    7.200346999979956
+   ],
+   "discrete CD-3": [
+    9.125450000055935,
+    9.386036500018236,
+    9.759591499914677
+   ],
+   "CD-5 -> round": [
+    12.362759499865206,
+    12.174097000070105,
+    12.005984499865008
+   ],
+   "discrete CD-5": [
+    14.992846499808365,
+    14.8479120000502,
+    14.570824999736942
+   ],
+   "CD-10 -> round": [
+    24.786655999832874,
+    24.521097000160808,
+    24.426108500165356
+   ],
+   "discrete CD-10": [
+    30.987454500063905,
+    30.9803530001318,
+    30.055673000106253
+   ],
+   "CNN (deployed, any training)": [
+    2.715120999937426,
+    3.3862775001125556,
+    3.6135765001290565
+   ],
+   "CNN + discrete CD-1": [
+    6.097571500049526,
+    6.49155500013876,
+    6.569146999709119
+   ]
+  }
+ }
+}
