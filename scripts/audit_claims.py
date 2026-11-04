@@ -490,6 +490,30 @@ else:
     claim("csi_b_minus_best_e2_0.3", "8", "exact", -0.6490,
           _lv["0.3"]["static"]["b_minus_best_classical"])
 
+# --------------------------------------- representation ablation (sin/cos)
+# scripts/sumiso_representation_summary.py: same network, sin/cos output
+# (published) vs direct angle with MSE vs direct angle with 1 - cos loss,
+# SISO and MISO, 3 seeds each.
+section("saved results: phase representation ablation")
+_rp = _load("sumiso_representation.json")
+if _rp is None or _ce is None:
+    print("  [skip] sumiso_representation.json or sumiso_csi_eval.json missing")
+else:
+    claim("rep_siso_sincos_rmse", "8", "statistical", 14.63, _rp["siso"]["sincos"]["rmse"]["mean"])
+    claim("rep_miso_sincos_rmse", "8", "statistical", 61.49, _rp["miso"]["sincos"]["rmse"]["mean"])
+    for _sc in ("siso", "miso"):
+        claim(f"rep_{_sc}_sincos_best_every_seed", "8", "exact", 1,
+              int(_rp[_sc]["sincos_better_than_angle_mse_all_seeds"]
+                  and _rp[_sc]["sincos_better_than_angle_circ_all_seeds"]),
+              "sin/cos has the lowest RMSE in each of the 3 seeds")
+    claim("rep_siso_loss_is_at_the_wrap", "8", "exact", 1,
+          int(_rp["siso"]["angle_mse"]["rmse_near_wrap"]["mean"] > 3 * _rp["siso"]["sincos"]["rmse_near_wrap"]["mean"]
+              and _rp["siso"]["angle_mse"]["rmse_far_from_wrap"]["mean"] < 1.2 * _rp["siso"]["sincos"]["rmse_far_from_wrap"]["mean"]),
+          "direct-angle MSE fails near +-pi, not elsewhere")
+    claim("rep_miso_sincos_still_below_cd1", "8", "exact", 1,
+          int(_rp["miso"]["sincos"]["rate"]["mean"] < _ce["levels"]["0.0"]["static"]["test"]["CD-1"]),
+          "the better representation does not close the gap to one CD sweep")
+
 # ----------------------------------------------------------------- report
 section("summary")
 fails = [r for r in RESULTS if r["ok"] is False]

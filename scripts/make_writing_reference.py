@@ -317,9 +317,27 @@ if _ce:
     W("Kaynak: `scripts/sumiso_csi_eval.py` -> `results/sumiso_csi_eval.json`")
     W("")
 
+_rp = L("sumiso_representation.json")
+if _rp:
+    W("### 6.4 Gosterim karsilastirmasi: sin/cos mu, dogrudan aci mi? (3 tohum, ortalama ± std)")
+    W("")
+    W("| Senaryo | Cikis | RMSE (derece) | SR@5 | ±pi yakininda RMSE | ±pi'den uzakta RMSE | Hiz |")
+    W("| --- | --- | --- | --- | --- | --- | --- |")
+    for sc, lbl in (("siso", "SISO"), ("miso", "MISO N_t=8")):
+        for o, ol in (("sincos", "sin/cos (yayimlanmis)"), ("angle_circ", "aci, 1−cos kaybi"), ("angle_mse", "aci, duz MSE")):
+            v = _rp[sc][o]
+            W(f"| {lbl} | {ol} | {v['rmse']['mean']:.2f} ± {v['rmse']['std']:.2f} | %{100*v['sr5']['mean']:.1f} | "
+              f"{v['rmse_near_wrap']['mean']:.2f} | {v['rmse_far_from_wrap']['mean']:.2f} | {v['rate']['mean']:.3f} |")
+    W("")
+    W("±pi yakini: |etiket| > 150 derece (SISO test elemanlarinin %" + f"{100*_rp['siso']['_reference']['frac_near_wrap']:.1f}" + ").")
+    W("sin/cos her iki senaryoda da 3 tohumun ucunde en dusuk RMSE.")
+    W("")
+    W("Kaynak: `scripts/sumiso_representation_summary.py` -> `results/sumiso_representation.json`")
+    W("")
+
 W("## Ek — yeniden uretilebilirlik")
 W("")
-W("- `scripts/audit_claims.py` — 53 iddia (`--all` ile 68), hepsi geciyor")
+W("- `scripts/audit_claims.py` — 59 iddia (`--all` ile 74), hepsi geciyor")
 W("- Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**")
 W("- Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor")
 W("")

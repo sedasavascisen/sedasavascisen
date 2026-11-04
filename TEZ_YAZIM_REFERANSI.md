@@ -251,9 +251,25 @@ Klasik kolun secilen ayari her hata seviyesinde yakinsamis bir ayar: erken durdu
 
 Kaynak: `scripts/sumiso_csi_eval.py` -> `results/sumiso_csi_eval.json`
 
+### 6.4 Gosterim karsilastirmasi: sin/cos mu, dogrudan aci mi? (3 tohum, ortalama ± std)
+
+| Senaryo | Cikis | RMSE (derece) | SR@5 | ±pi yakininda RMSE | ±pi'den uzakta RMSE | Hiz |
+| --- | --- | --- | --- | --- | --- | --- |
+| SISO | sin/cos (yayimlanmis) | 14.63 ± 0.38 | %72.7 | 16.00 | 13.46 | 10.334 |
+| SISO | aci, 1−cos kaybi | 21.35 ± 0.30 | %61.6 | 28.82 | 18.41 | 10.310 |
+| SISO | aci, duz MSE | 30.33 ± 0.02 | %56.2 | 62.65 | 12.37 | 10.239 |
+| MISO N_t=8 | sin/cos (yayimlanmis) | 61.49 ± 0.10 | %25.2 | 64.92 | 59.22 | 12.486 |
+| MISO N_t=8 | aci, 1−cos kaybi | 63.67 ± 0.26 | %20.5 | 64.91 | 62.62 | 12.426 |
+| MISO N_t=8 | aci, duz MSE | 73.76 ± 0.17 | %20.7 | 122.68 | 38.52 | 11.775 |
+
+±pi yakini: |etiket| > 150 derece (SISO test elemanlarinin %16.7).
+sin/cos her iki senaryoda da 3 tohumun ucunde en dusuk RMSE.
+
+Kaynak: `scripts/sumiso_representation_summary.py` -> `results/sumiso_representation.json`
+
 ## Ek — yeniden uretilebilirlik
 
-- `scripts/audit_claims.py` — 53 iddia (`--all` ile 68), hepsi geciyor
+- `scripts/audit_claims.py` — 59 iddia (`--all` ile 74), hepsi geciyor
 - Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**
 - Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor
 
