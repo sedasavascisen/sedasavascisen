@@ -137,3 +137,15 @@ pilot  SCS 15 kHz: symbol 71.4 us; 48 symbols -> 3.43 ms; 132 symbols -> 9.43 ms
 pilot  SCS 30 kHz: symbol 35.7 us; 48 symbols -> 1.71 ms; 132 symbols -> 4.71 ms
 pilot  SCS 60 kHz: symbol 17.9 us; 48 symbols -> 0.86 ms; 132 symbols -> 2.36 ms
 scen   aging set: seed 11, 20 scatterers, 400 scenarios, index 0; replay error 1.9e-06 m; LoS BS-RIS False, RIS-UE [True, False, False, False], direct [False, False, False, False]
+cnn    eval load 0.66/0.81/1.02; Adam lr per L {'1': 0.35, '2': 0.75, '4': 0.35, '8': 0.35, '16': 0.5, '32': 0.35, '64': 1.5}
+cnn    train_flat: params 828352, RMSE 66.45 deg, SR@5 14.3%, rate 12.241 (+1 sweep 12.849), SU-align 12.431, label 12.893
+cnn    train_seq: params 167938, RMSE 61.32 deg, SR@5 24.9%, rate 12.490 (+1 sweep 12.855), SU-align 12.431, label 12.893
+cnn    train_raw: params 828736, RMSE 83.84 deg, SR@5 10.2%, rate 11.201 (+1 sweep 12.835), SU-align 12.431, label 12.893
+cnn    train_siso_published: params 822976, RMSE 30.74 deg, SR@5 24.3%, rate 10.142 (+1 sweep 10.348), SU-align 10.349, label 10.349
+cnn    train_siso_published_seq: params 162562, RMSE 14.99 deg, SR@5 72.1%, rate 10.334 (+1 sweep 10.349), SU-align 10.349, label 10.349
+cnn    Tov 0: best CD-2 12.702; best Adam Adam-8 12.661; CNN 12.354 (diff -0.348 CI -0.400..-0.300); CNN+CD-1 12.672 (diff -0.030 CI -0.041..-0.020); SU-align 12.389
+cnn    Tov 1.71: best CD-1 12.683; best Adam Adam-8 12.637; CNN 12.342 (diff -0.341 CI -0.392..-0.292); CNN+CD-1 12.648 (diff -0.035 CI -0.049..-0.022); SU-align 12.385
+cnn    Tov 3.43: best CD-1 12.660; best Adam Adam-8 12.606; CNN 12.325 (diff -0.335 CI -0.385..-0.286); CNN+CD-1 12.616 (diff -0.043 CI -0.057..-0.029); SU-align 12.369
+cnn    Tov 10: best CD-1 12.497; best Adam Adam-4 12.436; CNN 12.192 (diff -0.306 CI -0.353..-0.259); CNN+CD-1 12.428 (diff -0.069 CI -0.085..-0.053); SU-align 12.249
+cnn    latency ms: SU-align 0.038, CNN-LSTM 1.183, CD-1 2.255, CD-2 4.717, CD-3 6.941, CD-5 11.491, CD-10 22.551, CNN-LSTM+CD-1 4.153, CNN-LSTM+CD-2 6.609, Adam-1 0.638, Adam-2 1.131, Adam-4 2.166, Adam-8 4.171, Adam-16 7.993, Adam-32 16.025, Adam-64 32.351
+cnn    CD-10 t=0 12.742 -> effective 12.167

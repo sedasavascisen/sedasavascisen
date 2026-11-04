@@ -589,5 +589,48 @@ rx.grid(False)
 fig.savefig(FIG / "fig_scenario.pdf", metadata={"CreationDate": None})
 plt.close(fig)
 
+# ------------------------------------------------- published CNN-LSTM, SU
+ev = load("sumiso_mobility_eval.json")
+trn = {k: load(f"sumiso_cnnlstm{k}.json") for k in ("", "_seq", "_raw", "_siso_published", "_siso_published_seq")}
+say(f"cnn    eval load {ev['load_avg']['start']:.2f}/{ev['load_avg']['before_timing']:.2f}/{ev['load_avg']['after_timing']:.2f}; "
+    f"Adam lr per L {ev['adam_lr']}")
+for k, r in trn.items():
+    say(f"cnn    train{k or '_flat'}: params {r['params']}, RMSE {r['test_rmse_deg']:.2f} deg, SR@5 {100*r['SR@5']:.1f}%, "
+        f"rate {r['rate_cnnlstm']:.3f} (+1 sweep {r['rate_cnnlstm_plus_1_sweep']:.3f}), "
+        f"SU-align {r['rate_su_align']:.3f}, label {r['rate_label']:.3f}")
+TOVS = [k for k in ev["effective"]]
+adam_keys = [k for k in ev["latency_ms"] if k.startswith("Adam-")]
+best_adam = {t: max(adam_keys, key=lambda k: ev["effective"][t][k]["effective"]) for t in TOVS}
+for t in TOVS:
+    e = ev["effective"][t]
+    say(f"cnn    Tov {float(t):g}: best {e['_best']} {e[e['_best']]['effective']:.3f}; best Adam {best_adam[t]} "
+        f"{e[best_adam[t]]['effective']:.3f}; CNN {e['CNN-LSTM']['effective']:.3f} "
+        f"(diff {e['CNN-LSTM']['diff_to_best']:.3f} CI {e['CNN-LSTM']['ci95'][0]:.3f}..{e['CNN-LSTM']['ci95'][1]:.3f}); "
+        f"CNN+CD-1 {e['CNN-LSTM+CD-1']['effective']:.3f} (diff {e['CNN-LSTM+CD-1']['diff_to_best']:.3f} "
+        f"CI {e['CNN-LSTM+CD-1']['ci95'][0]:.3f}..{e['CNN-LSTM+CD-1']['ci95'][1]:.3f}); SU-align {e['SU-align']['effective']:.3f}")
+lat = ev["latency_ms"]
+say("cnn    latency ms: " + ", ".join(f"{k} {v:.3f}" for k, v in lat.items() if v is not None))
+say(f"cnn    CD-10 t=0 {ev['rate_t0']['CD-10']:.3f} -> effective {ev['effective']['0.0']['CD-10']['effective']:.3f}")
+show_t = ["0.0", "3.43", "10.0"]
+lines = [r"\begin{tabular}{lrr|rrr}", r"\toprule",
+         r" & & & \multicolumn{3}{c}{Effective, $T_{\mathrm{ov}}$ (ms)} \\",
+         r"Method & ms & $t{=}0$ & " + " & ".join(f"{float(t):g}" for t in show_t) + r" \\", r"\midrule"]
+ROWS = [("SU alignment", "SU-align"), ("CD, 1 sweep", "CD-1"), ("CD, 2 sweeps", "CD-2"),
+        ("CD, 10 sweeps", "CD-10"), (f"Adam, $L{{=}}{best_adam['0.0'].split('-')[1]}$", best_adam["0.0"]),
+        ("CNN--LSTM", "CNN-LSTM"), ("CNN--LSTM + CD, 1 sweep", "CNN-LSTM+CD-1")]
+for lbl, k in ROWS:
+    cells = []
+    for t in show_t:
+        v = ev["effective"][t][k]["effective"]
+        c = f"{v:.3f}"
+        if ev["effective"][t]["_best"] == k:
+            c = r"\textbf{" + c + "}"
+        cells.append(c)
+    lines.append(f"{lbl} & {lat[k]:.2f} & {ev['rate_t0'][k]:.3f} & " + " & ".join(cells) + r" \\")
+lines.append(r"\midrule")
+lines.append(f"CD, converged (offline) & -- & {ev['rate_t0']['CD-converged (offline)']:.3f} & & & \\\\")
+lines += [r"\bottomrule", r"\end{tabular}"]
+(TAB / "tab_cnnlstm.tex").write_text("\n".join(lines) + "\n")
+
 (HERE / "paper_numbers.txt").write_text("\n".join(out) + "\n")
 print(f"\nwrote {len(list(TAB.glob('*.tex')))} tables, figures, paper_numbers.txt")

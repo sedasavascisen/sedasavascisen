@@ -1,0 +1,16 @@
+\begin{tabular}{lrr|rrr}
+\toprule
+ & & & \multicolumn{3}{c}{Effective, $T_{\mathrm{ov}}$ (ms)} \\
+Method & ms & $t{=}0$ & 0 & 3.43 & 10 \\
+\midrule
+SU alignment & 0.04 & 12.389 & 12.389 & 12.369 & 12.249 \\
+CD, 1 sweep & 2.26 & 12.709 & 12.701 & \textbf{12.660} & \textbf{12.497} \\
+CD, 2 sweeps & 4.72 & 12.736 & \textbf{12.702} & 12.639 & 12.442 \\
+CD, 10 sweeps & 22.55 & 12.742 & 12.167 & 12.063 & 11.987 \\
+Adam, $L{=}8$ & 4.17 & 12.690 & 12.661 & 12.606 & 12.417 \\
+CNN--LSTM & 1.18 & 12.355 & 12.354 & 12.325 & 12.192 \\
+CNN--LSTM + CD, 1 sweep & 4.15 & 12.700 & 12.672 & 12.616 & 12.428 \\
+\midrule
+CD, converged (offline) & -- & 12.745 & & & \\
+\bottomrule
+\end{tabular}

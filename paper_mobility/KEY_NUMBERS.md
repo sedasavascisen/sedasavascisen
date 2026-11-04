@@ -18,6 +18,8 @@ Sources:
 | Sensitivity: speed, acquisition delay, speed mismatch | `scripts/mumiso_aging_sensitivity.py` | `results/mumiso_aging_sensitivity.json` |
 | Precoder cost vs. one Adam step | `scripts/mumiso_precoder_vs_step.py` | `results/mumiso_precoder_vs_step.json` |
 | Latencies on the aging set (SU, CD, long-run Adam; Adam per-step check) | `scripts/mumiso_mobility_latency.py` | `results/mumiso_mobility_latency.json` |
+| Published CNN-LSTM, training and static test (Sec. VI-G); dataset from `scripts/sumiso_dataset.py` | `scripts/sumiso_train.py` (variants: `--head seq`, `--features raw`, `--data sumiso_siso --label published`) | `results/sumiso_cnnlstm*.json` |
+| Published CNN-LSTM under mobility, Table VII | `scripts/sumiso_mobility_eval.py --ckpt sumiso_cnnlstm_seq` | `results/sumiso_mobility_eval.json` |
 | Step-size robustness of the optimum | `scripts/mumiso_aging_sensitivity.py --velocities 1.5 --overheads 0 --lr X --tag aging_lrX` | `results/mumiso_aging_lr{0.25,0.75,1.0}.json` |
 | Aging table with CIs, no-RIS, random phase, link budget | `scripts/mumiso_aging_stats.py` | `results/mumiso_aging_stats.json` |
 | Step-cost scaling, Armijo baseline, paired bootstrap | `scripts/mumiso_step_scaling.py` | `results/mumiso_step_scaling.json` |

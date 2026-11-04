@@ -94,8 +94,8 @@ def check_abstract():
 
 def check_numbers():
     src = (PAPER / "paper_numbers.txt").read_text()
-    for f in glob.glob(str(ROOT / "results" / "mumiso_*.json")):
-        if any(k in f for k in RESULT_KEYS):
+    for f in glob.glob(str(ROOT / "results" / "mumiso_*.json")) + glob.glob(str(ROOT / "results" / "sumiso_*.json")):
+        if "sumiso_" in f or any(k in f for k in RESULT_KEYS):
             src += " " + " ".join(re.findall(r"-?\d+\.\d+(?:e-?\d+)?", open(f).read()))
     nums = set()
     for x in re.findall(r"-?\d+\.\d+(?:e-?\d+)?", src):

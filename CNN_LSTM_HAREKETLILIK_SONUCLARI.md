@@ -15,7 +15,7 @@ aynı parametre sayısını verir (822 976).
   göre sabitlenir, ortak faz çıkarımda kapalı formda geri konur: φ = ∠(cᴴa).
 - Değerlendirme: ayrı çekiliş (seed 11), 400 senaryo; her yöntemin fazı, kendi
   ölçülen gecikmesindeki kanalda değerlendirilir (etkin hız). Boş makine
-  (yük 0.39 / 0.48 / 0.99), tek iş parçacığı.
+  (yük 0.66 / 0.81 / 1.02), tek iş parçacığı.
 
 ## Statik sonuçlar (test, 6000 senaryo) — `scripts/sumiso_train.py`
 | Kurulum | Baş | RMSE (°) | SR@5° | Hız (b/s/Hz) | Kapalı form | Optimum |
@@ -27,15 +27,22 @@ aynı parametre sayısını verir (822 976).
 | MISO, ham girdi (ayrı F, G) | PyTorch (düz) | 83.84 | %10.2 | 11.201 | 12.431 | 12.893 |
 
 ## Hareketli etkin hız (400 senaryo, seed 11) — `scripts/sumiso_mobility_eval.py`
+Adam adım boyu her L için doğrulamada 10 değerden ([0.02, 2.0]) seçildi; seçimler ızgara içinde.
+Yük: 0.66 (başta) / 0.81 / 1.02 (ölçüm sonunda; betiğin kendi iş parçacığı).
+
 | Yöntem | Gecikme (ms) | R(t=0) | T_ov=0 | 1.71 ms | 3.43 ms | 10 ms |
 |---|---|---|---|---|---|---|
-| SU-hizalama (kapalı form) | 0.038 | 12.389 | 12.389 | 12.385 | 12.369 | 12.250 |
-| **CD-1** (1 tarama) | 2.38 | 12.709 | 12.699 | **12.682** | **12.658** | **12.494** |
-| **CD-2** | 4.62 | 12.736 | **12.703** | 12.675 | 12.641 | 12.446 |
-| Adam-8 (adım boyu doğrulamada seçildi) | 4.37 | 12.681 | 12.651 | 12.625 | 12.593 | 12.400 |
+| SU-hizalama (kapalı form) | 0.038 | 12.389 | 12.389 | 12.385 | 12.369 | 12.249 |
+| **CD-1** (1 tarama) | 2.26 | 12.709 | 12.701 | **12.683** | **12.660** | **12.497** |
+| **CD-2** | 4.72 | 12.736 | **12.702** | 12.673 | 12.639 | 12.442 |
+| CD-10 | 22.55 | 12.742 | 12.167 | 12.115 | 12.063 | 11.987 |
+| Adam-8 (en iyi Adam, T_ov=0) | 4.17 | 12.690 | 12.661 | 12.637 | 12.606 | 12.417 |
 | CNN–LSTM (tek geçiş) | 1.18 | 12.355 | 12.354 | 12.342 | 12.325 | 12.192 |
-| CNN–LSTM + CD-1 | 4.14 | 12.700 | 12.672 | 12.648 | 12.617 | 12.428 |
+| CNN–LSTM + CD-1 | 4.15 | 12.700 | 12.672 | 12.648 | 12.616 | 12.428 |
 | CD yakınsamış (çevrimdışı tavan) | — | 12.745 | | | | |
+
+En iyiye göre eşleştirilmiş fark (%95 GA sıfırı dışlıyor): CNN–LSTM −0.306…−0.348,
+CNN–LSTM + CD-1 −0.030…−0.069 b/s/Hz.
 
 ## Hüküm
 1. Tek geçişli CNN–LSTM, 0.04 ms'lik kapalı formun **altında** kalıyor (12.355 < 12.389).
@@ -60,3 +67,6 @@ kullanıcılı MISO'ya genişletir. Yeniden "çalışıyor" diye çerçevelenmem
 - MISO test kümesinde (seed 2026) CNN–LSTM SU-hizalamanın üstünde (12.490 > 12.431),
   değerlendirme kümesinde (seed 11) altında (12.355 < 12.389). Fark küçük, işaret kararsız.
 - Gecikme: Python/PyTorch, tek iş parçacığı, 20 senaryo × 25 tekrar × 3 tur.
+
+## Makaleye eklenme
+Hareketlilik makalesi §VI-G ve Tablo VII (`tables/tab_cnnlstm.tex`, make_paper_assets.py üretir).

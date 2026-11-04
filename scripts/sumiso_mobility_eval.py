@@ -104,7 +104,7 @@ def cnn(Fx, Gx, Hx, A, B):
 z = np.load(ROOT / "data_sumiso" / "sumiso_train.npz")
 vidx = np.random.default_rng(0).permutation(len(z["theta"]))[28000:28400]
 Av, Bv = SV.cascade(torch.as_tensor(z["F"][vidx]), torch.as_tensor(z["G"][vidx]), torch.as_tensor(z["hd"][vidx]))
-LRS = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5]
+LRS = [0.02, 0.05, 0.1, 0.2, 0.35, 0.5, 0.75, 1.0, 1.5, 2.0]
 ADAM_L = [1, 2, 4, 8, 16, 32, 64]
 lr_of = {}
 for L in ADAM_L:
