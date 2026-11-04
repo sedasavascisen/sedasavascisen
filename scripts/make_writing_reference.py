@@ -263,9 +263,63 @@ W("")
 W("Kaynak: `scripts/mumiso_gain_sharing.py` (akis korunarak, ayni senaryolar)")
 W("")
 
+W("## Bolum 6 (tez) — yayimlanmis faz-farkinda CNN–LSTM, tek kullanicili MISO")
+W("")
+_tr = {k: L(f"sumiso_cnnlstm{k}.json") for k in ("_seq", "", "_raw", "_siso_published_seq", "_siso_published")}
+if all(_tr.values()):
+    W("### 6.1 Statik test (6000 senaryo, seed 2026, egitim cekilisinin test bolmesi)")
+    W("")
+    W("| Kurulum | Parametre | RMSE (derece) | SR@5 | Hiz | SU-hizalama | Optimum |")
+    W("| --- | --- | --- | --- | --- | --- | --- |")
+    for k, lbl in (("_siso_published_seq", "SISO, yayimlanmis etiket, MATLAB basi"),
+                   ("_siso_published", "SISO, yayimlanmis etiket, PyTorch basi"),
+                   ("_seq", "MISO N_t=8, kaskat girdi, MATLAB basi"),
+                   ("", "MISO, kaskat girdi, PyTorch basi"),
+                   ("_raw", "MISO, ham F/G girdi, PyTorch basi")):
+        r = _tr[k]
+        W(f"| {lbl} | {r['params']} | {r['test_rmse_deg']:.2f} | %{100*r['SR@5']:.1f} | {r['rate_cnnlstm']:.3f} | {r['rate_su_align']:.3f} | {r['rate_label']:.3f} |")
+    W("")
+    W("Kaynak: `scripts/sumiso_train.py` -> `results/sumiso_cnnlstm*.json`")
+    W("")
+_me = L("sumiso_mobility_eval.json")
+if _me:
+    W("### 6.2 Hareketli etkin hiz (400 senaryo, seed 11)")
+    W("")
+    W("| Yontem | Gecikme (ms) | t=0 | " + " | ".join(f"T_ov={float(t):g} ms" for t in _me["effective"]) + " |")
+    W("| --- | --- | --- | " + " | ".join("---" for _ in _me["effective"]) + " |")
+    for k in ("SU-align", "CD-1", "CD-2", "CD-10", "Adam-8", "CNN-LSTM", "CNN-LSTM+CD-1"):
+        W(f"| {k} | {_me['latency_ms'][k]:.2f} | {_me['rate_t0'][k]:.3f} | "
+          + " | ".join(f"{v[k]['effective']:.3f}" for v in _me["effective"].values()) + " |")
+    W("")
+    W(f"Yuk: {_me['load_avg']['start']:.2f} / {_me['load_avg']['before_timing']:.2f} / {_me['load_avg']['after_timing']:.2f}. "
+      "Her T_ov'de en iyi: " + ", ".join(v["_best"] for v in _me["effective"].values()) + ".")
+    W("")
+    W("Kaynak: `scripts/sumiso_mobility_eval.py --ckpt sumiso_cnnlstm_seq`")
+    W("")
+_ce = L("sumiso_csi_eval.json")
+if _ce:
+    W("### 6.3 Kusurlu CSI (iki kol ayri)")
+    W("")
+    W("| e2 | Klasik (dogrulamada secilen) | (a) temiz egitilmis | (b) gurultuyle egitilmis | (b)+CD-1 | (b) − klasik [%95 GA] | Hareketli: klasik | Hareketli: (b) |")
+    W("| --- | --- | --- | --- | --- | --- | --- | --- |")
+    for e, v in _ce["levels"].items():
+        st, mo = v["static"], v["mobility"]
+        bc, bm = st["classical_selected_on_val"], mo["classical_selected_on_val"]
+        ci = st["b_minus_best_classical_ci"]
+        W(f"| {e} | {bc} {st['test'][bc]:.3f} | {st['test']['CNN (a) clean-trained']:.3f} | "
+          f"{st['test']['CNN (b) noise-trained']:.3f} | {st['test']['CNN (b) + CD-1']:.3f} | "
+          f"{st['b_minus_best_classical']:+.3f} [{ci[0]:+.3f}, {ci[1]:+.3f}] | {bm} {mo['test'][bm]:.3f} | "
+          f"{mo['test']['CNN (b) noise-trained']:.3f} |")
+    W("")
+    W("Statik: dogrulama 1000, test 6000 (seed 2026). Hareketli: secim seed 12, rapor seed 11, 400'er senaryo.")
+    W("Klasik kolun secilen ayari her hata seviyesinde yakinsamis bir ayar: erken durdurma kazanc getirmiyor.")
+    W("")
+    W("Kaynak: `scripts/sumiso_csi_eval.py` -> `results/sumiso_csi_eval.json`")
+    W("")
+
 W("## Ek — yeniden uretilebilirlik")
 W("")
-W("- `scripts/audit_claims.py` — 41 iddia, hepsi geciyor")
+W("- `scripts/audit_claims.py` — 53 iddia (`--all` ile 68), hepsi geciyor")
 W("- Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**")
 W("- Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor")
 W("")

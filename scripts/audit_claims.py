@@ -447,6 +447,49 @@ else:
           int(max(_mins) < 0.75 * _un["test_min"]),
           "one-shot models are nowhere near the unrolled model")
 
+# ------------------------------------------------------ SU-MISO CNN-LSTM
+# The published phase-aware CNN-LSTM ported to single-user mobility MISO
+# (scripts/sumiso_mobility_eval.py) and under imperfect CSI
+# (scripts/sumiso_csi_eval.py). Consistency of the saved results; the
+# verdicts are written as 0/1 so that swapping two numbers flips them.
+section("saved results: published CNN-LSTM, single-user MISO")
+_me = _load("sumiso_mobility_eval.json")
+_ce = _load("sumiso_csi_eval.json")
+if _me is None or _ce is None:
+    print("  [skip] sumiso_mobility_eval.json or sumiso_csi_eval.json missing")
+else:
+    claim("su_cnn_rate_t0", "8", "exact", 12.3554, _me["rate_t0"]["CNN-LSTM"])
+    claim("su_align_rate_t0", "8", "exact", 12.3892, _me["rate_t0"]["SU-align"])
+    claim("su_cnn_below_closed_form_t0", "8", "exact", 1,
+          int(_me["rate_t0"]["CNN-LSTM"] < _me["rate_t0"]["SU-align"]),
+          "one forward pass is below closed-form alignment already at t=0")
+    claim("su_cnn_cd1_below_cd1_all_tov", "8", "exact", 1,
+          int(all(v["CNN-LSTM+CD-1"]["effective"] < v["CD-1"]["effective"]
+                  for v in _me["effective"].values())),
+          "the network is a worse start for one CD sweep than alignment")
+    claim("su_classical_best_all_tov", "8", "exact", 1,
+          int(all(v["_best"].startswith("CD-") for v in _me["effective"].values())),
+          "best arm at every acquisition delay is coordinate ascent")
+    _lv = _ce["levels"]
+    claim("csi_levels", "8", "exact", 5, len(_lv), "five error levels")
+    claim("csi_b_below_classical_static", "8", "exact", 1,
+          int(all(v["static"]["b_minus_best_classical_ci"][1] < 0 for v in _lv.values())),
+          "noise-trained model below tuned classical at every e2 (CI)")
+    claim("csi_bcd1_below_classical_static", "8", "exact", 1,
+          int(all(v["static"]["bcd_minus_best_classical_ci"][1] < 0 for v in _lv.values())),
+          "network + 1 sweep below tuned classical at every e2 (CI)")
+    claim("csi_b_dominated_mobility", "8", "exact", 1,
+          int(all(len(v["mobility"]["dominated_by[CNN (b) noise-trained]"]) > 0 for v in _lv.values())),
+          "a faster classical arm with higher effective rate exists at every e2")
+    claim("csi_b_below_classical_mobility", "8", "exact", 1,
+          int(all(v["mobility"]["b_minus_best_classical_ci"][1] < 0 for v in _lv.values())))
+    claim("csi_no_early_stopping_gain", "8", "exact", 1,
+          int(all(v["static"]["classical_selected_on_val"] in ("Adam-64", "CD-30", "CD-10")
+                  for v in _lv.values())),
+          "under CSI error the selected classical arm is still a converged one")
+    claim("csi_b_minus_best_e2_0.3", "8", "exact", -0.6490,
+          _lv["0.3"]["static"]["b_minus_best_classical"])
+
 # ----------------------------------------------------------------- report
 section("summary")
 fails = [r for r in RESULTS if r["ok"] is False]

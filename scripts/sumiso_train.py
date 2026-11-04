@@ -22,6 +22,8 @@ import torch
 from ris_mu.sumiso.cnn_lstm import (PhaseAwareCNNLSTM, phase, phase_aware_loss, features,
                                     canonical, restore_common_phase)
 from ris_mu.sumiso import solver as SV
+from ris_mu.sumiso import csi as CSI
+from ris_mu.sumiso.cnn_lstm import features_ab
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--data", default="sumiso_train")
@@ -31,6 +33,8 @@ ap.add_argument("--seed", type=int, default=0)
 ap.add_argument("--threads", type=int, default=4)
 ap.add_argument("--tag", default="sumiso_cnnlstm")
 ap.add_argument("--features", default="cascade", choices=["cascade", "raw"])
+ap.add_argument("--csi_e2", type=float, default=0.0,
+                help="train on estimated channels with this error power (fresh draw per epoch); labels stay the true optimum")
 ap.add_argument("--head", default="flat", choices=["flat", "seq"])
 ap.add_argument("--label", default="ref1", choices=["ref1", "published"],
                 help="ref1: optimum with element 1 at zero; published: -angle(G_n F_n) (SISO only)")
@@ -52,6 +56,14 @@ S, C, N = X.shape
 idx = np.random.default_rng(0).permutation(S)
 ntr, nva = int(0.7 * S), int(0.15 * S)
 tr, va, te = idx[:ntr], idx[ntr:ntr + nva], idx[ntr + nva:]
+A_all, B_all = SV.cascade(F, G, H)
+if a.csi_e2 > 0:
+    assert a.features == "cascade"
+    gen_noise = torch.Generator().manual_seed(12345)
+    def noisy_X():
+        ah, Bh = CSI.estimate(A_all, B_all, a.csi_e2, gen_noise)
+        return features_ab(ah, Bh)
+    X = noisy_X()          # val/test keep this draw; train is redrawn every epoch
 mu = X[tr].mean(0, keepdim=True)
 sd = X[tr].std(0, keepdim=True)
 Xn = (X - mu) / (sd + 1e-9)
@@ -79,6 +91,8 @@ def predict(ix):
 print(f"S={S} C={C} N={N} params={nparam}  train {len(tr)} / val {len(va)} / test {len(te)}", flush=True)
 hist, best, best_state = [], 1e9, None
 for ep in range(1, a.epochs + 1):
+    if a.csi_e2 > 0 and ep > 1:
+        Xn[tr] = ((noisy_X()[tr]) - mu) / (sd + 1e-9)
     model.train()
     t0 = time.time()
     perm = torch.as_tensor(np.random.default_rng(ep).permutation(tr))

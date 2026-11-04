@@ -206,9 +206,54 @@ Optimizasyonun degeri: **1.75× → 2.36×**. Fizigi duzeltmek katkinizi buyutuy
 
 Kaynak: `scripts/mumiso_gain_sharing.py` (akis korunarak, ayni senaryolar)
 
+## Bolum 6 (tez) — yayimlanmis faz-farkinda CNN–LSTM, tek kullanicili MISO
+
+### 6.1 Statik test (6000 senaryo, seed 2026, egitim cekilisinin test bolmesi)
+
+| Kurulum | Parametre | RMSE (derece) | SR@5 | Hiz | SU-hizalama | Optimum |
+| --- | --- | --- | --- | --- | --- | --- |
+| SISO, yayimlanmis etiket, MATLAB basi | 162562 | 14.99 | %72.1 | 10.334 | 10.349 | 10.349 |
+| SISO, yayimlanmis etiket, PyTorch basi | 822976 | 30.74 | %24.3 | 10.142 | 10.349 | 10.349 |
+| MISO N_t=8, kaskat girdi, MATLAB basi | 167938 | 61.32 | %24.9 | 12.490 | 12.431 | 12.893 |
+| MISO, kaskat girdi, PyTorch basi | 828352 | 66.45 | %14.3 | 12.241 | 12.431 | 12.893 |
+| MISO, ham F/G girdi, PyTorch basi | 828736 | 83.84 | %10.2 | 11.201 | 12.431 | 12.893 |
+
+Kaynak: `scripts/sumiso_train.py` -> `results/sumiso_cnnlstm*.json`
+
+### 6.2 Hareketli etkin hiz (400 senaryo, seed 11)
+
+| Yontem | Gecikme (ms) | t=0 | T_ov=0 ms | T_ov=1.71 ms | T_ov=3.43 ms | T_ov=10 ms |
+| --- | --- | --- | --- | --- | --- | --- |
+| SU-align | 0.04 | 12.389 | 12.389 | 12.385 | 12.369 | 12.249 |
+| CD-1 | 2.26 | 12.709 | 12.701 | 12.683 | 12.660 | 12.497 |
+| CD-2 | 4.72 | 12.736 | 12.702 | 12.673 | 12.639 | 12.442 |
+| CD-10 | 22.55 | 12.742 | 12.167 | 12.115 | 12.063 | 11.987 |
+| Adam-8 | 4.17 | 12.690 | 12.661 | 12.637 | 12.606 | 12.417 |
+| CNN-LSTM | 1.18 | 12.355 | 12.354 | 12.342 | 12.325 | 12.192 |
+| CNN-LSTM+CD-1 | 4.15 | 12.700 | 12.672 | 12.648 | 12.616 | 12.428 |
+
+Yuk: 0.66 / 0.81 / 1.02. Her T_ov'de en iyi: CD-2, CD-1, CD-1, CD-1.
+
+Kaynak: `scripts/sumiso_mobility_eval.py --ckpt sumiso_cnnlstm_seq`
+
+### 6.3 Kusurlu CSI (iki kol ayri)
+
+| e2 | Klasik (dogrulamada secilen) | (a) temiz egitilmis | (b) gurultuyle egitilmis | (b)+CD-1 | (b) − klasik [%95 GA] | Hareketli: klasik | Hareketli: (b) |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.0 | Adam-64 12.892 | 12.490 | 12.490 | 12.855 | -0.402 [-0.415, -0.390] | CD-1 12.701 | 12.354 |
+| 0.01 | Adam-64 12.886 | 12.475 | 12.469 | 12.849 | -0.417 [-0.430, -0.404] | CD-1 12.693 | 12.331 |
+| 0.03 | Adam-64 12.876 | 12.447 | 12.437 | 12.837 | -0.439 [-0.453, -0.425] | CD-1 12.676 | 12.296 |
+| 0.1 | CD-30 12.833 | 12.345 | 12.334 | 12.790 | -0.500 [-0.516, -0.484] | CD-1 12.633 | 12.188 |
+| 0.3 | Adam-64 12.675 | 12.017 | 12.026 | 12.612 | -0.649 [-0.669, -0.628] | CD-2 12.464 | 11.885 |
+
+Statik: dogrulama 1000, test 6000 (seed 2026). Hareketli: secim seed 12, rapor seed 11, 400'er senaryo.
+Klasik kolun secilen ayari her hata seviyesinde yakinsamis bir ayar: erken durdurma kazanc getirmiyor.
+
+Kaynak: `scripts/sumiso_csi_eval.py` -> `results/sumiso_csi_eval.json`
+
 ## Ek — yeniden uretilebilirlik
 
-- `scripts/audit_claims.py` — 41 iddia, hepsi geciyor
+- `scripts/audit_claims.py` — 53 iddia (`--all` ile 68), hepsi geciyor
 - Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**
 - Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor
 

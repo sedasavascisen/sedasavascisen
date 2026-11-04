@@ -4,3 +4,4 @@ data_sumiso/
 # sumiso checkpoints: only the one read by sumiso_mobility_eval.py is kept
 results/sumiso_cnnlstm*.pt
 !results/sumiso_cnnlstm_seq.pt
+!results/sumiso_cnnlstm_seq_csi*.pt

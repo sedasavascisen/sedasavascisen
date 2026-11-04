@@ -101,3 +101,10 @@ def features(F, G, hd, kind="cascade"):
         b = g[..., None] * F
         parts = [b.real, b.imag, hdb.real, hdb.imag]
     return torch.cat(parts, -1).transpose(1, 2).contiguous().float()
+
+
+def features_ab(a, B):
+    """Cascade features from (a [S,T], B [S,N,T]); equals features(..., 'cascade')."""
+    S, N, T = B.shape
+    ab = a[:, None, :].expand(S, N, T)
+    return torch.cat([B.real, B.imag, ab.real, ab.imag], -1).transpose(1, 2).contiguous().float()
