@@ -11,7 +11,8 @@ wavelengths. Two empirical laws are fitted on the measured curves:
   (i)  convergence:   R_inf - r0(L) = D * L^(-gamma)          (L in the fit range)
   (ii) small-delay aging:  Delta(L, u) = kappa_L * u^2       (tau <= 10 ms)
 
-(ii) is the leading term of the Clarke/Jakes correlation 1 - (pi u)^2 + ...;
+(ii) has the form of the leading term of the Clarke correlation 1 - (pi u)^2 for
+isotropic scattering; for this geometric channel kappa_L is fitted, not derived;
 kappa_L grows with how far the phase has been optimised. With latency
 tau = L * dT, i.e. u = x * L with x = dT * f_d, the effective rate is
 

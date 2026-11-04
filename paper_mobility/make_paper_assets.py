@@ -391,6 +391,14 @@ for nm, pnl in om["panels"].items():
         f"t0 +{pnl['m1']['t0_L48_over_best']:.1%}; dT {pnl['ms_per_step']:.2f} ms")
 say("model  u* = x L* (measured) max: " + ", ".join(
     f"{nm} {max(v['x'] * v['L_measured'] for v in pnl['by_mult'].values()):.3f}" for nm, pnl in om["panels"].items()))
+chk = load("mumiso_optimum_model_checks.json")
+say("check  predicted exponent by fit range: " + ", ".join(f"1..{k}: {v['exponent']:.3f} (gamma {v['gamma']:.2f})" for k, v in chk["fit_range"].items()))
+say(f"check  kappa ~ L^{chk['kappa_growth']['beta']:.3f}; exponent with growing kappa {chk['kappa_growth']['exponent_with_growing_kappa']:.3f}")
+say(f"check  measured slope {chk['measured_slope']['point']:.3f} CI [{chk['measured_slope']['ci95'][0]:.3f}, {chk['measured_slope']['ci95'][1]:.3f}]")
+br = [v["ratio"] for v in chk["balance"].values()]
+say(f"check  balance ratio at measured L*: {min(br):.2f}-{max(br):.2f} (model {chk['balance_predicted']:.2f})")
+say("check  Fraunhofer: " + ", ".join(f"{k} 2D^2/lam {v['fraunhofer_m']:.2f} m vs BS {v['bs_distance_m']:.2f} m" for k, v in chk["fraunhofer"].items()))
+say("check  tau* = L* dT (ms): " + ", ".join(f"{sc[m]['best_L'] * sc[m]['ms_per_step']:.1f}" for m in ms_))
 tm = om["timing"]
 say(f"model  timing N32 {tm['adam_step_ms_N32']:.2f} ms, N64 {tm['adam_step_ms_N64']:.2f} ms, ratio {tm['ratio']:.2f}; "
     f"load {om['load_at_start']}->{tm['load_after']}")

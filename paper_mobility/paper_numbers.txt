@@ -114,6 +114,12 @@ armijo adam best minus armijo best -0.033 [-0.064, 0.001]; t0 L=48 armijo 6.978 
 model  8x4 N=32: gamma=0.932 D=3.28 R_inf=7.096 R2(log gap)=0.895 kappa_bar=18.8 kappa R2 min 0.985; exponent model -0.682 measured -0.675; closed form within factor 1.27; semi hits 4/6, worst eff loss 0.14%; kappa L1 7.8 L8 17.2 L48 25.1; m1 best L=5 5.982 L48 loss 14.0% t0 +13.2%; dT 1.66 ms
 model  8x8 N=64: gamma=0.930 D=4.11 R_inf=8.477 R2(log gap)=0.901 kappa_bar=22.0 kappa R2 min 0.991; exponent model -0.683 measured -0.675; closed form within factor 1.27; semi hits 6/6, worst eff loss 0.00%; kappa L1 9.8 L8 20.9 L48 28.4; m1 best L=5 7.085 L48 loss 14.8% t0 +14.0%; dT 1.73 ms
 model  u* = x L* (measured) max: 8x4 0.150, 8x8 0.156
+check  predicted exponent by fit range: 1..16: -0.782 (gamma 0.56), 1..24: -0.751 (gamma 0.66), 1..32: -0.733 (gamma 0.73), 1..48: -0.708 (gamma 0.83), 1..64: -0.682 (gamma 0.93), 1..96: -0.650 (gamma 1.08), 1..128: -0.626 (gamma 1.19)
+check  kappa ~ L^0.238; exponent with growing kappa -0.631
+check  measured slope -0.675 CI [-0.692, -0.655]
+check  balance ratio at measured L*: 0.19-1.65 (model 0.47)
+check  Fraunhofer: 8x4 2D^2/lam 4.00 m vs BS 5.98 m, 8x8 2D^2/lam 6.40 m vs BS 5.98 m
+check  tau* = L* dT (ms): 1.6, 2.4, 5.3, 6.0, 8.3, 10.0
 model  timing N32 1.56 ms, N64 1.63 ms, ratio 1.04; load 0.4->0.5
 track  T_p=0.0 cold: best U=None L=3 5.833 [5.608, 6.069]; near-best L=[3, 4]; any L<=8 near best: True; b2b best L=3 5.833; b2b L=48 5.169
 track  T_p=0.0 warm: best U=None L=2 6.357 [6.126, 6.596]; near-best L=[2]; any L<=8 near best: True; b2b best L=2 6.357; b2b L=48 5.167
