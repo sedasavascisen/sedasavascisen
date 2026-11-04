@@ -33,7 +33,7 @@ All links follow the 3GPP TR~38.901 indoor-office model~\cite{3gpp_channel}: its
 Users walk in a straight line at $v=1.5$~m/s and are reflected at the walls. Over the observation window the scatterer positions, per-path complex gains, LoS states, Ricean factors, shadowing values and the BS--RIS channel $\mbf{F}$ are held fixed; only the user positions move, and the channels $\mbf{g}_k(t)$ and $\mbf{h}_{d,k}(t)$ are recomputed from geometry at every time instant. Channel variation therefore comes from geometry rather than from a stochastic aging model. As a reference time scale we use the Doppler frequency $f_d=vf_c/c=15$~Hz and the coherence time $T_c=0.423/f_d=28.2$~ms~\cite{rappaport_wireless}.
 
 \subsection{Known Modelling Limitations}
-We state the following limitations; the first two bias the results in a known direction.
+We state the following limitations; the first two bias the rates in a known direction, while their effect on the optimal step count and on the rankings is not known.
 \begin{itemize}
     \item \emph{Frozen scatterers.} Over seconds a walking user would see new scatterers, but the model keeps them. Over long horizons the modelled channel therefore changes less than a real one would, which \emph{understates} the loss of slow methods. We treat latencies up to 200~ms as reliable and also report a stale floor, i.e., a $t=0$ phase evaluated on an independent channel, as the true asymptote.
     \item \emph{Independent per-antenna path gains.} The complex gains of the scattered paths are drawn independently for each BS antenna instead of being shared across the array. This adds antenna diversity, makes interference nulling easier, and so makes all rates optimistic.

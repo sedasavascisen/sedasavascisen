@@ -1,6 +1,6 @@
 Three errors occurred during this work. Each produced a wrong number, and each led to a rule in the protocol of Section~\ref{sec:method}.
 
-\emph{Timing under load.} A timing of Adam with $L=8$ taken while a training job was running gave 29.70~ms; on the idle machine the same configuration measured 17.48~ms. The slowdown was not neutral: it hit Adam harder than the learned network and put a learned configuration on the latency--rate front. We now time only on an idle machine and report a dominance verdict only if it holds in every round.
+\emph{Timing under load.} A timing of Adam with $L=8$ taken while a training job was running gave 29.70~ms; without the training job the same configuration had measured 17.48~ms, as recorded in the project log (Table~\ref{tab:eqms} gives 13.48~ms, the median of five later rounds). The slowdown was not neutral: it hit Adam harder than the learned network and put a learned configuration on the latency--rate front. We now check that no other job is running before timing, record the load average where the timing script allows it (Section~\ref{sec:method} states where it does not), and report a dominance verdict only if it holds in every round.
 
 \emph{A number without a script.} An earlier draft stated that a fresh beam is worth ``17$\times$'' a stale one. The figure had been computed once, interactively, and could not be regenerated; measured with a script, it is 11.7--14.2$\times$ (Table~\ref{tab:beam}).
 

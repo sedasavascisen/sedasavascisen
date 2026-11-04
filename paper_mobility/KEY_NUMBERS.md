@@ -31,7 +31,7 @@ Sources:
 
 Note: the timings stored in `mumiso_latency_parity.json` include a
 load-contaminated Adam L=8 (29.7 ms). The paper therefore takes latencies
-from `mumiso_latency_repeat.json` (median of five idle rounds) and only the
+from `mumiso_latency_repeat.json` (median of five rounds; that script does not record the load) and only the
 rates from `mumiso_latency_parity.json`.
 
 Not yet run (needs the weights archive): `scripts/mumiso_latency_replicate.py`
