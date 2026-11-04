@@ -5,3 +5,5 @@ data_sumiso/
 results/sumiso_cnnlstm*.pt
 !results/sumiso_cnnlstm_seq.pt
 !results/sumiso_cnnlstm_seq_csi*.pt
+!results/sumiso_cnnlstm_seq_disc*.pt
+!results/sumiso_cnnlstm_seq_ste*.pt

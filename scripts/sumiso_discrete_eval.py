@@ -9,8 +9,8 @@ Three approaches, as the task requires:
                           (b) CNN-LSTM trained on discrete labels (--disc_bits)
                           (c) (b) fine-tuned straight-through on the rate
                           and (b)/(c) + one discrete CD sweep
-Every network output is deployed as: closed-form common phase -> round ->
-best of the 2^b grid rotations.
+Every network output is deployed as the better (per scenario) of: round -> best
+of the 2^b grid rotations, and closed-form common phase -> round -> same.
 Offline reference: the discrete label (best of discrete CD from two starts).
 
 Axis 1, static: validation 1000 / test 6000 of the training draw's split.
@@ -61,8 +61,11 @@ def net_phase(pack, a, B, bits):
     with torch.no_grad():
         th = torch.cat([phase(net((features_ab(a[i:i + 2000], B[i:i + 2000]) - mu) / (sd + 1e-9)))
                         for i in range(0, len(a), 2000)])
-    th = restore_common_phase(th, a, B)
-    return SV.best_grid_rotation(SV.quantise(th, bits), a, B, bits)
+    # two deployments, the better one per scenario (known channel, so this is allowed):
+    # round then best grid rotation, or closed-form common phase first, then the same
+    t1 = SV.best_grid_rotation(SV.quantise(th, bits), a, B, bits)
+    t2 = SV.best_grid_rotation(SV.quantise(restore_common_phase(th, a, B), bits), a, B, bits)
+    return torch.where((SV.gain(t2, a, B) > SV.gain(t1, a, B))[:, None], t2, t1)
 
 
 def arms(a, B, bits, nets):
