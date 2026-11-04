@@ -37,6 +37,8 @@ ap.add_argument("--csi_e2", type=float, default=0.0,
                 help="train on estimated channels with this error power (fresh draw per epoch); labels stay the true optimum")
 ap.add_argument("--output", default="sincos", choices=["sincos", "angle_mse", "angle_circ"],
                 help="sincos: published; angle_*: direct angle output (representation ablation)")
+ap.add_argument("--disc_bits", type=int, default=0,
+                help="train on the discrete-phase labels data_sumiso/<data>_disc<b>.npz; evaluate on the grid")
 ap.add_argument("--head", default="flat", choices=["flat", "seq"])
 ap.add_argument("--label", default="ref1", choices=["ref1", "published"],
                 help="ref1: optimum with element 1 at zero; published: -angle(G_n F_n) (SISO only)")
@@ -48,6 +50,8 @@ torch.set_num_threads(a.threads)
 z = np.load(ROOT / "data_sumiso" / f"{a.data}.npz")
 F = torch.as_tensor(z["F"]); G = torch.as_tensor(z["G"]); H = torch.as_tensor(z["hd"])
 TH_raw = torch.as_tensor(z["theta"]).float()
+if a.disc_bits:
+    TH_raw = torch.as_tensor(np.load(ROOT / "data_sumiso" / f"{a.data}_disc{a.disc_bits}.npz")["theta"]).float()
 if a.label == "published":       # the published SISO label, -angle(G_n F_n)
     assert F.shape[2] == 1
     TH = -torch.angle(G[:, 0, :] * F[:, :, 0]).float()
@@ -127,6 +131,16 @@ th_net = restore_common_phase(th_te, A, Bc)
 th_net1, _ = SV.coord_ascent(A, Bc, th_net, sweeps=1)
 r_lab, r_net, r_net1, r_al = rate(TH_raw[te]), rate(th_net), rate(th_net1), rate(SV.su_align(A, Bc))
 r_noref = rate(th_te)
+disc = {}
+if a.disc_bits:
+    b = a.disc_bits
+    th_q = SV.best_grid_rotation(SV.quantise(th_te, b), A, Bc, b)
+    th_q1, _ = SV.discrete_cd(A, Bc, th_q, b, sweeps=1, tol=-1)
+    th_al_q = SV.quantise(SV.su_align(A, Bc), b)
+    disc = dict(bits=b, rate_cnnlstm_grid=float(rate(th_q).mean()),
+                rate_cnnlstm_grid_plus_1_discrete_sweep=float(rate(th_q1).mean()),
+                rate_su_align_rounded=float(rate(th_al_q).mean()),
+                rate_discrete_cd1=float(rate(SV.discrete_cd(A, Bc, th_al_q, b, sweeps=1, tol=-1)[0]).mean()))
 den = float(r_lab.mean() - r_al.mean())   # 0 in SISO, where SU alignment is the optimum
 gap = lambda r: float((r.mean() - r_al.mean()) / den) if den > 1e-4 else None
 res = dict(config=vars(a), params=nparam, n=dict(train=len(tr), val=len(va), test=len(te)),
@@ -136,7 +150,7 @@ res = dict(config=vars(a), params=nparam, n=dict(train=len(tr), val=len(va), tes
            rate_cnnlstm_plus_1_sweep=float(r_net1.mean()),
            rate_su_align=float(r_al.mean()),
            gap_closed_cnnlstm=gap(r_net), gap_closed_cnnlstm_plus_1_sweep=gap(r_net1),
-           history=hist)
+           discrete=disc, history=hist)
 torch.save(dict(state=best_state, mu=mu, sd=sd, C=C, N=N, head=a.head, n_out=model.n_out), ROOT / "results" / f"{a.tag}.pt")
 json.dump(res, open(ROOT / "results" / f"{a.tag}.json", "w"), indent=1)
 print(json.dumps({k: v for k, v in res.items() if k != "history"}, indent=1))
