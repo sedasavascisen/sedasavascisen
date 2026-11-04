@@ -41,6 +41,34 @@ Channel variation depends on how far a user moves in wavelengths, i.e., on $v\ta
 \end{equation}
 In our model the users move $v\tau$ metres in time $\tau$ while everything else is fixed, so scaling the step time $\Delta T$ by a factor is exactly equivalent to scaling the speed $v$ by the same factor at a fixed carrier; Section~\ref{sec:res_scaling} varies $\Delta T$. The same $x$ at a different carrier frequency is only approximately equivalent: at 28~GHz the user moves about 9 times fewer metres for the same $x$, which changes path loss, angles and the array's size in wavelengths.
 
+\subsection{A Small-Delay Model of the Optimum}
+Two empirical regularities, both verified in Section~\ref{sec:res_scaling}, make~\eqref{eq:marginal} explicit. First, the gap of Adam's $t=0$ rate to its converged value decays as a power law,
+\begin{equation}
+    R_\infty - r_0(L) \approx D\,L^{-\gamma}.
+    \label{eq:conv_law}
+\end{equation}
+Second, for small delays the aging loss is quadratic in the distance moved, $u=f_d\tau$ wavelengths,
+\begin{equation}
+    \Delta(L,u) \approx \kappa_L\, u^2 ,
+    \label{eq:aging_law}
+\end{equation}
+the same form as the leading term of the Clarke correlation $J_0(2\pi u)\approx 1-\pi^2u^2$~\cite{rappaport_wireless}. The coefficient $\kappa_L$ grows with $L$: a more strongly optimized phase relies more on a coherent combination that motion destroys. With $\tau = L\Delta T$ we have $u = xL$, and the effective rate becomes
+\begin{equation}
+    R^{\mathrm{eff}}(L) \approx R_\infty - D\,L^{-\gamma} - \kappa\, x^2 L^2 .
+    \label{eq:reff_model}
+\end{equation}
+
+\textbf{Proposition 1 (Scaling of the intrinsic optimum).} Under~\eqref{eq:conv_law}--\eqref{eq:aging_law} with $\kappa_L=\kappa$, the model~\eqref{eq:reff_model} has a unique maximizer over $L>0$,
+\begin{equation}
+    L^\star = \left(\frac{\gamma D}{2\kappa}\right)^{\frac{1}{\gamma+2}} x^{-\frac{2}{\gamma+2}} ,
+    \label{eq:Lstar}
+\end{equation}
+at which the aging loss equals $\gamma/2$ times the remaining convergence gap, $\kappa x^2 L^{\star 2} = \tfrac{\gamma}{2} D L^{\star\,-\gamma}$.
+
+\emph{Proof.} The derivative of~\eqref{eq:reff_model} is $\gamma D L^{-\gamma-1} - 2\kappa x^2 L$. It is positive for small $L$, negative for large $L$, and vanishes only where $L^{\gamma+2}=\gamma D/(2\kappa x^2)$, which gives~\eqref{eq:Lstar}. The second derivative, $-\gamma(\gamma+1)D L^{-\gamma-2} - 2\kappa x^2$, is negative, so the stationary point is the maximum. Substituting~\eqref{eq:Lstar} into $\kappa x^2 L^2$ gives the stated balance. \hfill$\square$
+
+The proposition makes three predictions that do not depend on the fitted constants: the optimum is a power law in $x$; its exponent $-2/(\gamma+2)$ lies in $(-1,0)$, so a faster optimizer should run more steps, but less than proportionally more; and at the optimum the two losses are of the same order. Since the derivation uses only small-delay aging, it also requires $u^\star = xL^\star \ll 1$, which holds over the range we test ($u^\star\le 0.16$).
+
 \subsection{Periodic Re-optimization}
 Definition~1 evaluates a phase at the instant it is delivered. A deployed controller instead repeats the optimization with period $U$: at each snapshot it spends $T_{\mathrm{p}}$ on pilots for the cascaded channel, during which no data is transmitted, then $L\Delta T$ on optimization, deploys the result, and waits for the next snapshot ($U \ge T_{\mathrm{p}}+L\Delta T$; \emph{back-to-back} operation means $U = T_{\mathrm{p}}+L\Delta T$).
 

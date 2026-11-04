@@ -22,6 +22,7 @@ Sources:
 | Aging table with CIs, no-RIS, random phase, link budget | `scripts/mumiso_aging_stats.py` | `results/mumiso_aging_stats.json` |
 | Step-cost scaling, Armijo baseline, paired bootstrap | `scripts/mumiso_step_scaling.py` | `results/mumiso_step_scaling.json` |
 | Periodic re-optimization (cold/warm) | `scripts/mumiso_tracking.py` | `results/mumiso_tracking.json` |
+| Small-delay model of L*(x) (Proposition 1); N=64 second scenario | `scripts/mumiso_optimum_model.py` | `results/mumiso_optimum_model.json` |
 | Equal steps | `scripts/mumiso_equal_step.py` | `results/mumiso_equal_step.json` |
 | Equal milliseconds (rates) | `scripts/mumiso_latency_parity.py` | `results/mumiso_latency_parity.json` |
 | Equal milliseconds (timings, 5 rounds) | `scripts/mumiso_latency_repeat.py` | `results/mumiso_latency_repeat.json` |

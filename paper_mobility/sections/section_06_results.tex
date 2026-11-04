@@ -47,10 +47,23 @@ The best step count falls steadily with $x$: 96 steps at $x=2.5\times10^{-4}$, 4
 
 The claim that convergence hurts is thus a statement about a regime, not about RIS optimization in general. With a hundredfold faster implementation at pedestrian speed, convergence is nearly free. The same implementation at vehicular speed, or at a millimetre-wave carrier, moves $x$ in the opposite direction.
 
+
+\emph{Model versus measurement.} Both empirical laws behind Proposition~1 hold on the aging set. The convergence gap follows~\eqref{eq:conv_law} with $\gamma=0.93$ ($R^2=0.90$ on a log scale, $1\le L\le 64$, $R_\infty$ taken at $L=256$). The aging loss follows~\eqref{eq:aging_law} with $R^2\ge 0.985$ for every $L$ (fitted for $\tau\le 10$~ms), and $\kappa_L$ grows from 7.8 at $L=1$ to 25.1 at $L=48$. The predicted exponent $-2/(\gamma+2)=-0.682$ agrees with the measured slope of $L^\star(x)$, $-0.675$ (Table~\ref{tab:model}, Fig.~\ref{fig:scaling}(a)). With $\kappa$ set to the median of $\kappa_L$ over $2\le L\le 48$, the closed form~\eqref{eq:Lstar} is within a factor of 1.27 of the measured optimum at every $x$; at this setup it predicts $L^\star=5.3$ against a measured 5. Keeping the measured $r_0(L)$ and $\kappa_L$ instead and maximizing~\eqref{eq:reff_model} over the step grid recovers the measured optimum in 10 of 12 cases (both surfaces, six values of $x$), and in the other two it picks a step count whose measured effective rate is within 0.14\% of the best. The small-delay model therefore captures where the optimum lies, not only that it exists.
+
+\emph{A larger surface.} To check that these results are not specific to one configuration, we repeat the sweep with a $8\times 8$ RIS ($N=64$) in the same room, with the same BS, users and seed. The larger surface raises the converged rate ($R_\infty=8.48$ against 7.10~b/s/Hz), but the optimum is the same: $L^\star=5$ at this setup, running to $L=48$ costs 14.8\%, and the scaling exponent is again $-0.675$ (predicted $-0.683$). In our implementation an Adam step costs only 1.04 times more at $N=64$ than at $N=32$, because the per-step time is dominated by fixed overhead rather than by arithmetic; an implementation whose cost grows with $N$ would place the larger surface at a larger $x$ and hence at a smaller $L^\star$, as~\eqref{eq:Lstar} predicts.
+
+\begin{table}[t]
+\centering
+\caption{Small-delay model (Proposition~1) against measurement, for two RIS sizes on the aging-set geometry.}
+\label{tab:model}
+\footnotesize
+\input{tables/tab_model}
+\end{table}
+
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/fig_step_scaling.pdf}
-\caption{Adam on the aging set with its per-step latency scaled from 0.01 to 3 times the measured value. (a)~Best step count; shaded: step counts not significantly below the best. (b)~Effective-rate loss of running to $L=256$ instead of $L^\star$, with 95\% paired bootstrap CIs. Dashed: this setup.}
+\caption{Adam on the aging set with its per-step latency scaled from 0.01 to 3 times the measured value. (a)~Best step count for $N=32$ (shaded: step counts not significantly below the best) and $N=64$, with the scaling law of Proposition~1. (b)~Effective-rate loss of running to $L=256$ instead of $L^\star$, with 95\% paired bootstrap CIs. Dashed: this setup.}
 \label{fig:scaling}
 \end{figure}
 

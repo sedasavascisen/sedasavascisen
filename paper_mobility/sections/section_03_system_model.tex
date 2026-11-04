@@ -2,7 +2,7 @@
 \label{sec:system}
 
 \subsection{Signal Model}
-A BS with a uniform linear array of $N_t=8$ antennas at half-wavelength spacing serves $K=4$ single-antenna users through a direct link and an RIS of $N=32$ passive elements (an $8\times 4$ planar array, half-wavelength spacing). With RIS phases $\bs{\theta}\in[0,2\pi)^N$, $\mbf{v}=e^{j\bs{\theta}}$, and precoder $\mbf{W}=[\mbf{w}_1,\dots,\mbf{w}_K]$, user $k$ receives
+A BS with a uniform linear array of $N_t=8$ antennas at half-wavelength spacing serves $K=4$ single-antenna users through a direct link and an RIS of $N=32$ passive elements (an $8\times 4$ planar array, half-wavelength spacing); Section~\ref{sec:res_scaling} repeats the main sweep with an $8\times 8$ surface ($N=64$). With RIS phases $\bs{\theta}\in[0,2\pi)^N$, $\mbf{v}=e^{j\bs{\theta}}$, and precoder $\mbf{W}=[\mbf{w}_1,\dots,\mbf{w}_K]$, user $k$ receives
 \begin{equation}
     y_k = \left(\mbf{h}_{d,k}^H + \mbf{g}_k^H \operatorname{diag}(\mbf{v})\mbf{F}\right)\sum_{j=1}^K \mbf{w}_j s_j + n_k ,
     \label{eq:signal}

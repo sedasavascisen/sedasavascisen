@@ -375,10 +375,52 @@ av = scl["adam_vs_armijo_best"]
 say(f"armijo adam best minus armijo best {av['diff']:.3f} [{av['ci'][0]:.3f}, {av['ci'][1]:.3f}]; "
     f"t0 L=48 armijo {arm['t0_by_L']['48']:.3f} adam {scl['adam_t0_by_L']['48']:.3f}")
 
-fig, (a1, a2) = plt.subplots(1, 2, figsize=(COL_W, 1.9))
+om = load("mumiso_optimum_model.json")
+for nm, pnl in om["panels"].items():
+    bm = pnl["by_mult"]
+    fac = max(max(v["L_closed_form"] / v["L_measured"], v["L_measured"] / v["L_closed_form"]) for v in bm.values())
+    semi_hit = sum(v["L_semi_analytic"] == v["L_measured"] for v in bm.values())
+    worst = max(1 - v["eff_measured_at_semi_best"] / v["eff_measured_best"] for v in bm.values())
+    k2 = min(pnl["kappa_r2_by_L"].values())
+    say(f"model  {nm} N={pnl['N']}: gamma={pnl['gamma']:.3f} D={pnl['D']:.2f} R_inf={pnl['R_inf']:.3f} "
+        f"R2(log gap)={pnl['r2_logGap']:.3f} kappa_bar={pnl['kappa_bar']:.1f} kappa R2 min {k2:.3f}; "
+        f"exponent model {pnl['exponent_model']:.3f} measured {pnl['exponent_measured_fit']:.3f}; "
+        f"closed form within factor {fac:.2f}; semi hits {semi_hit}/{len(bm)}, worst eff loss {worst:.2%}; "
+        f"kappa L1 {pnl['kappa_by_L']['1']:.1f} L8 {pnl['kappa_by_L']['8']:.1f} L48 {pnl['kappa_by_L']['48']:.1f}; "
+        f"m1 best L={pnl['m1']['best_L']} {pnl['m1']['best_eff']:.3f} L48 loss {pnl['m1']['loss_L48']:.1%} "
+        f"t0 +{pnl['m1']['t0_L48_over_best']:.1%}; dT {pnl['ms_per_step']:.2f} ms")
+say("model  u* = x L* (measured) max: " + ", ".join(
+    f"{nm} {max(v['x'] * v['L_measured'] for v in pnl['by_mult'].values()):.3f}" for nm, pnl in om["panels"].items()))
+tm = om["timing"]
+say(f"model  timing N32 {tm['adam_step_ms_N32']:.2f} ms, N64 {tm['adam_step_ms_N64']:.2f} ms, ratio {tm['ratio']:.2f}; "
+    f"load {om['load_at_start']}->{tm['load_after']}")
+lines = [r"\begin{tabular}{lrr}", r"\toprule", r" & $N=32$ & $N=64$ \\", r"\midrule"]
+P1, P2 = om["panels"]["8x4"], om["panels"]["8x8"]
+def row(lbl, f):
+    lines.append(f"{lbl} & {f(P1)} & {f(P2)} \\\\")
+row(r"Convergence exponent $\gamma$", lambda p: f"{p['gamma']:.2f}")
+row(r"Aging coefficient $\bar\kappa$", lambda p: f"{p['kappa_bar']:.1f}")
+row(r"Predicted exponent $-2/(\gamma{+}2)$", lambda p: f"${p['exponent_model']:.3f}$")
+row(r"Measured exponent of $L^\star(x)$", lambda p: f"${p['exponent_measured_fit']:.3f}$")
+row(r"$L^\star$ at this setup (measured)", lambda p: f"{p['m1']['best_L']}")
+row(r"$L^\star$, closed form~\eqref{eq:Lstar}", lambda p: f"{p['by_mult']['1.0']['L_closed_form']:.1f}")
+row(r"Loss of $L{=}48$ vs. $L^\star$", lambda p: f"{100*p['m1']['loss_L48']:.1f}\\%")
+lines += [r"\bottomrule", r"\end{tabular}"]
+(TAB / "tab_model.tex").write_text("\n".join(lines) + "\n")
+
+fig, (a1, a2) = plt.subplots(1, 2, figsize=(COL_W, 2.0))
 a1.fill_between(xs, lo_, hi_, color=C["adam"], alpha=0.18, lw=0)
-a1.plot(xs, Ls, "o-", color=C["adam"])
+a1.plot(xs, Ls, "o", color=C["adam"], label="measured, $N=32$")
+b8 = P2["by_mult"]
+a1.plot([b8[m]["x"] for m in ms_], [b8[m]["L_measured"] for m in ms_], "s", mfc="none",
+        color=C["learned"], ms=5, label="measured, $N=64$")
+xx = np.logspace(np.log10(xs.min() * 0.8), np.log10(xs.max() * 1.25), 50)
+cst = (P1["gamma"] * P1["D"] / (2 * P1["kappa_bar"])) ** (1 / (P1["gamma"] + 2))
+a1.plot(xx, cst * xx ** P1["exponent_model"], "-", color="0.35", lw=0.9,
+        label=r"model $\propto x^{-2/(\gamma+2)}$")
+a1.legend(fontsize=5.2, loc="lower left", handlelength=1.0, borderpad=0.3, labelspacing=0.2)
 a1.set_xscale("log"); a1.set_yscale("log")
+a1.set_ylim(0.45, 220)
 a1.set_xlabel(r"$x=\Delta T\, f_d$")
 a1.set_ylabel(r"Best step count $L^\star$")
 a1.set_title("(a) Optimum", fontsize=8)
@@ -391,7 +433,7 @@ a2.set_title("(b) Cost of convergence", fontsize=8)
 x1 = sc["1.0"]["x"]
 for a_ in (a1, a2):
     a_.axvline(x1, color="0.5", ls="--", lw=0.7)
-a1.text(x1 * 1.15, 60, "this\nsetup", fontsize=6, color="0.35", va="top")
+a1.text(x1 * 1.15, 90, "this\nsetup", fontsize=6, color="0.35", va="top")
 fig.tight_layout()
 fig.savefig(FIG / "fig_step_scaling.pdf", metadata={"CreationDate": None})
 plt.close(fig)
