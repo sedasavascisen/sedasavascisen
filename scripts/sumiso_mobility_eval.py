@@ -87,7 +87,7 @@ def adam(A, B, th0, L, lr):
 
 # ---- network ---------------------------------------------------------------
 ck = torch.load(ROOT / "results" / f"{a.ckpt}.pt")
-net = PhaseAwareCNNLSTM(ck["C"], ck["N"], ck.get("head", "flat"))
+net = PhaseAwareCNNLSTM(ck["C"], ck["N"], ck.get("head", "flat"), ck.get("n_out", 2))
 net.load_state_dict(ck["state"])
 net.eval()
 kind = json.load(open(ROOT / "results" / f"{a.ckpt}.json"))["config"]["features"]

@@ -27,17 +27,18 @@ class PhaseAwareCNNLSTM(nn.Module):
     head='seq' : the authors' MATLAB code (theta_NN_multioutput.m): Conv+BN+ReLU
                  x2, Dropout(0.2), LSTM(128), LSTM(64), Dropout(0.3), and a
                  per-element FC(64->2) on the sequence output (no flattening)."""
-    def __init__(self, c_in, n_elem, head="flat"):
+    def __init__(self, c_in, n_elem, head="flat", n_out=2):
         super().__init__()
         self.n = n_elem
         self.head = head
+        self.n_out = n_out          # 2: (sin, cos) as published; 1: the angle itself (ablation)
         if head == "seq":
             self.cnn = nn.Sequential(
                 nn.Conv1d(c_in, 64, 3, padding=1), nn.BatchNorm1d(64), nn.ReLU(),
                 nn.Conv1d(64, 64, 3, padding=1), nn.BatchNorm1d(64), nn.ReLU(), nn.Dropout(0.2))
             self.lstm1 = nn.LSTM(64, 128, batch_first=True)
             self.lstm2 = nn.LSTM(128, 64, batch_first=True)
-            self.out = nn.Sequential(nn.Dropout(0.3), nn.Linear(64, 2))
+            self.out = nn.Sequential(nn.Dropout(0.3), nn.Linear(64, n_out))
             return
         self.cnn = nn.Sequential(
             nn.Conv1d(c_in, 64, 3, padding=1), nn.BatchNorm1d(64), nn.ReLU(), nn.Dropout(0.2),
@@ -48,7 +49,7 @@ class PhaseAwareCNNLSTM(nn.Module):
             nn.Linear(64 * n_elem, 256), nn.ReLU(), nn.Dropout(0.3),
             nn.Linear(256, 128), nn.ReLU(), nn.Dropout(0.2),
             nn.Linear(128, 64), nn.ReLU(),
-            nn.Linear(64, 2 * n_elem))
+            nn.Linear(64, n_out * n_elem))
 
     def forward(self, x):
         h = self.cnn(x).transpose(1, 2)
@@ -58,11 +59,23 @@ class PhaseAwareCNNLSTM(nn.Module):
             return self.out(h)
         h, _ = self.lstm(h)
         h = self.lstm_proj(h)
-        return self.fc(h.reshape(h.shape[0], -1)).view(-1, self.n, 2)
+        return self.fc(h.reshape(h.shape[0], -1)).view(-1, self.n, self.n_out)
 
 
 def phase(out):
+    if out.shape[-1] == 1:                      # direct angle output (ablation)
+        return torch.angle(torch.exp(1j * out[..., 0].to(torch.complex64)))
     return torch.atan2(out[..., 0], out[..., 1])
+
+
+def angle_mse_loss(out, theta):
+    """Direct regression of the wrapped angle: has the +-pi discontinuity."""
+    return ((out[..., 0] - theta) ** 2).mean()
+
+
+def angle_circular_loss(out, theta):
+    """Direct angle output with a periodic loss 1 - cos(error): no discontinuity in the loss."""
+    return (1 - torch.cos(out[..., 0] - theta)).mean()
 
 
 def phase_aware_loss(out, theta):

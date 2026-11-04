@@ -35,6 +35,8 @@ ap.add_argument("--tag", default="sumiso_cnnlstm")
 ap.add_argument("--features", default="cascade", choices=["cascade", "raw"])
 ap.add_argument("--csi_e2", type=float, default=0.0,
                 help="train on estimated channels with this error power (fresh draw per epoch); labels stay the true optimum")
+ap.add_argument("--output", default="sincos", choices=["sincos", "angle_mse", "angle_circ"],
+                help="sincos: published; angle_*: direct angle output (representation ablation)")
 ap.add_argument("--head", default="flat", choices=["flat", "seq"])
 ap.add_argument("--label", default="ref1", choices=["ref1", "published"],
                 help="ref1: optimum with element 1 at zero; published: -angle(G_n F_n) (SISO only)")
@@ -68,7 +70,9 @@ mu = X[tr].mean(0, keepdim=True)
 sd = X[tr].std(0, keepdim=True)
 Xn = (X - mu) / (sd + 1e-9)
 
-model = PhaseAwareCNNLSTM(C, N, a.head)
+model = PhaseAwareCNNLSTM(C, N, a.head, n_out=2 if a.output == "sincos" else 1)
+from ris_mu.sumiso.cnn_lstm import angle_mse_loss, angle_circular_loss
+LOSS = {"sincos": phase_aware_loss, "angle_mse": angle_mse_loss, "angle_circ": angle_circular_loss}[a.output]
 nparam = sum(p.numel() for p in model.parameters())
 opt = torch.optim.Adam(model.parameters(), lr=1e-3, betas=(0.9, 0.999), eps=1e-8)
 sched = torch.optim.lr_scheduler.MultiStepLR(opt, milestones=[15, 30, 45], gamma=0.5)
@@ -95,11 +99,11 @@ for ep in range(1, a.epochs + 1):
         Xn[tr] = ((noisy_X()[tr]) - mu) / (sd + 1e-9)
     model.train()
     t0 = time.time()
-    perm = torch.as_tensor(np.random.default_rng(ep).permutation(tr))
+    perm = torch.as_tensor(np.random.default_rng(ep + 1000 * a.seed).permutation(tr))   # seed 0: unchanged order
     tot = 0.0
     for i in range(0, len(perm), a.batch):
         b = perm[i:i + a.batch]
-        loss = phase_aware_loss(model(Xn[b]), TH[b])
+        loss = LOSS(model(Xn[b]), TH[b])
         opt.zero_grad()
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
@@ -133,6 +137,6 @@ res = dict(config=vars(a), params=nparam, n=dict(train=len(tr), val=len(va), tes
            rate_su_align=float(r_al.mean()),
            gap_closed_cnnlstm=gap(r_net), gap_closed_cnnlstm_plus_1_sweep=gap(r_net1),
            history=hist)
-torch.save(dict(state=best_state, mu=mu, sd=sd, C=C, N=N, head=a.head), ROOT / "results" / f"{a.tag}.pt")
+torch.save(dict(state=best_state, mu=mu, sd=sd, C=C, N=N, head=a.head, n_out=model.n_out), ROOT / "results" / f"{a.tag}.pt")
 json.dump(res, open(ROOT / "results" / f"{a.tag}.json", "w"), indent=1)
 print(json.dumps({k: v for k, v in res.items() if k != "history"}, indent=1))

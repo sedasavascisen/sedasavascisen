@@ -65,7 +65,7 @@ def cas(idx):
 
 def load_net(tag):
     ck = torch.load(ROOT / "results" / f"{tag}.pt")
-    net = PhaseAwareCNNLSTM(ck["C"], ck["N"], ck.get("head", "flat"))
+    net = PhaseAwareCNNLSTM(ck["C"], ck["N"], ck.get("head", "flat"), ck.get("n_out", 2))
     net.load_state_dict(ck["state"])
     net.eval()
     return net, ck["mu"], ck["sd"]
