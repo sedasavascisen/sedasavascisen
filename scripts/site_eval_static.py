@@ -10,6 +10,7 @@ effective channel, which one effective-channel pilot provides):
 Position error sigma (m, per axis) is applied to the position-based arms'
 input; the network used is the one trained at that sigma if it exists
 (results/site<s>_cnn_err<sigma>.pt), else the sigma = 0 network (marked).
+Also the CNN trained on 2000 / 5000 / 20000 positions (sigma = 0).
 Paired bootstrap over test positions, per site; results also split by
 RIS-user LoS / NLoS. Writes results/site_eval_static.json.
 """
@@ -81,6 +82,18 @@ for s in SITES:
                      oracle=float(R["oracle"][los].mean())),
             nlos=dict(geometric=float(rg[~los].mean()), cnn=float(rc[~los].mean()), cd1=float(R["CD-1"][~los].mean()),
                       oracle=float(R["oracle"][~los].mean())))
+    # training-set size (sigma = 0): how many surveyed positions are needed
+    out["by_n_train"] = {}
+    for ntr in (2000, 5000, 20000):
+        pth = ROOT / "results" / (f"site{s}_cnn_err0.pt" if ntr == 20000 else f"site{s}_cnn_err0_n{ntr}.pt")
+        if not pth.exists():
+            continue
+        ck = torch.load(pth)
+        net = PhaseAwareCNNLSTM(ck["C"], ck["N"], "seq"); net.load_state_dict(ck["state"]); net.eval()
+        with torch.no_grad():
+            th = phase(net((position_features(site, z["test_pos"]) - ck["mu"]) / ck["sd"]))
+        rc = rate(pick_common_phase(th, A, B))
+        out["by_n_train"][str(ntr)] = dict(cnn=float(rc.mean()), cnn_minus_geometric=paired(rc, rate(pick_common_phase(geometric_phase(site, z["test_pos"]), A, B))))
     res[str(s)] = out
     b0 = out["by_sigma"]["0.0"]
     print(f"site {s}: oracle {out['csi']['oracle']:.3f} CD-1 {out['csi']['CD-1']:.3f} SU {out['csi']['SU-align']:.3f} | "
