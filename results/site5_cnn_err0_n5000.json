@@ -1,0 +1,213 @@
+{
+ "config": {
+  "site": 5,
+  "pos_err": 0.0,
+  "n_train": 5000,
+  "epochs": 50,
+  "threads": 1,
+  "seed": 0
+ },
+ "best_val_rmse_deg": 67.67228698730469,
+ "history": [
+  {
+   "epoch": 1,
+   "val_rmse_deg": 98.78300476074219
+  },
+  {
+   "epoch": 2,
+   "val_rmse_deg": 96.85668182373047
+  },
+  {
+   "epoch": 3,
+   "val_rmse_deg": 95.14720153808594
+  },
+  {
+   "epoch": 4,
+   "val_rmse_deg": 92.29448699951172
+  },
+  {
+   "epoch": 5,
+   "val_rmse_deg": 88.28739166259766
+  },
+  {
+   "epoch": 6,
+   "val_rmse_deg": 84.12069702148438
+  },
+  {
+   "epoch": 7,
+   "val_rmse_deg": 81.8521957397461
+  },
+  {
+   "epoch": 8,
+   "val_rmse_deg": 79.84169006347656
+  },
+  {
+   "epoch": 9,
+   "val_rmse_deg": 77.63158416748047
+  },
+  {
+   "epoch": 10,
+   "val_rmse_deg": 76.82272338867188
+  },
+  {
+   "epoch": 11,
+   "val_rmse_deg": 75.76978302001953
+  },
+  {
+   "epoch": 12,
+   "val_rmse_deg": 77.1455307006836
+  },
+  {
+   "epoch": 13,
+   "val_rmse_deg": 74.35431671142578
+  },
+  {
+   "epoch": 14,
+   "val_rmse_deg": 73.78138732910156
+  },
+  {
+   "epoch": 15,
+   "val_rmse_deg": 74.07479095458984
+  },
+  {
+   "epoch": 16,
+   "val_rmse_deg": 72.4604721069336
+  },
+  {
+   "epoch": 17,
+   "val_rmse_deg": 72.14501953125
+  },
+  {
+   "epoch": 18,
+   "val_rmse_deg": 71.88872528076172
+  },
+  {
+   "epoch": 19,
+   "val_rmse_deg": 71.8387451171875
+  },
+  {
+   "epoch": 20,
+   "val_rmse_deg": 71.22669219970703
+  },
+  {
+   "epoch": 21,
+   "val_rmse_deg": 71.07801818847656
+  },
+  {
+   "epoch": 22,
+   "val_rmse_deg": 71.06616973876953
+  },
+  {
+   "epoch": 23,
+   "val_rmse_deg": 70.61209869384766
+  },
+  {
+   "epoch": 24,
+   "val_rmse_deg": 70.54859161376953
+  },
+  {
+   "epoch": 25,
+   "val_rmse_deg": 70.05731201171875
+  },
+  {
+   "epoch": 26,
+   "val_rmse_deg": 69.97525787353516
+  },
+  {
+   "epoch": 27,
+   "val_rmse_deg": 70.40171813964844
+  },
+  {
+   "epoch": 28,
+   "val_rmse_deg": 70.24040222167969
+  },
+  {
+   "epoch": 29,
+   "val_rmse_deg": 69.17658996582031
+  },
+  {
+   "epoch": 30,
+   "val_rmse_deg": 68.97270202636719
+  },
+  {
+   "epoch": 31,
+   "val_rmse_deg": 68.95082092285156
+  },
+  {
+   "epoch": 32,
+   "val_rmse_deg": 68.52284240722656
+  },
+  {
+   "epoch": 33,
+   "val_rmse_deg": 68.43753814697266
+  },
+  {
+   "epoch": 34,
+   "val_rmse_deg": 68.48797607421875
+  },
+  {
+   "epoch": 35,
+   "val_rmse_deg": 68.2309799194336
+  },
+  {
+   "epoch": 36,
+   "val_rmse_deg": 68.34150695800781
+  },
+  {
+   "epoch": 37,
+   "val_rmse_deg": 68.35775756835938
+  },
+  {
+   "epoch": 38,
+   "val_rmse_deg": 68.10914611816406
+  },
+  {
+   "epoch": 39,
+   "val_rmse_deg": 68.156982421875
+  },
+  {
+   "epoch": 40,
+   "val_rmse_deg": 68.13910675048828
+  },
+  {
+   "epoch": 41,
+   "val_rmse_deg": 68.11955261230469
+  },
+  {
+   "epoch": 42,
+   "val_rmse_deg": 68.2069320678711
+  },
+  {
+   "epoch": 43,
+   "val_rmse_deg": 68.0126953125
+  },
+  {
+   "epoch": 44,
+   "val_rmse_deg": 67.93165588378906
+  },
+  {
+   "epoch": 45,
+   "val_rmse_deg": 67.8759765625
+  },
+  {
+   "epoch": 46,
+   "val_rmse_deg": 67.74566650390625
+  },
+  {
+   "epoch": 47,
+   "val_rmse_deg": 67.6965103149414
+  },
+  {
+   "epoch": 48,
+   "val_rmse_deg": 67.69733428955078
+  },
+  {
+   "epoch": 49,
+   "val_rmse_deg": 67.72074890136719
+  },
+  {
+   "epoch": 50,
+   "val_rmse_deg": 67.67228698730469
+  }
+ ]
+}
