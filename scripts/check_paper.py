@@ -71,7 +71,7 @@ def check_build():
     with tempfile.TemporaryDirectory() as d:
         dst = pathlib.Path(d) / "p"
         shutil.copytree(PAPER, dst, ignore=shutil.ignore_patterns("*.aux", "*.log", "*.bbl", "*.blg", "*.out"))
-        run = lambda *c: subprocess.run(c, cwd=dst, capture_output=True, text=True)
+        run = lambda *c: subprocess.run(c, cwd=dst, capture_output=True, text=True, errors="replace")
         run("pdflatex", "-interaction=nonstopmode", MAIN)
         run("bibtex", MAIN)
         for _ in range(3):
