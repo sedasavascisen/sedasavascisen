@@ -375,58 +375,50 @@ if _dp:
     W("")
 
 _ss = L("site_eval_static.json")
-_sd = {k: L(f"site_eval_dynamic{k}.json") for k in ("", "_err0.3", "_err1.0", "_scs60")}
-if _ss and all(_sd.values()):
+_rm = L("site_radio_map.json")
+_sd = L("site_eval_dynamic.json")
+if _ss and _rm and _sd:
     W("### 6.6 Konumdan faz tahmini, yere ozgu oda (tek kullanici)")
     W("")
-    W("Yere ozgu kanal: `ris_mu/sumiso/site.py` (sabit saciclar, geometrik LoS, sabit golgeleme alani). 5 oda.")
+    W("**HUKUM: konum tabanli kazanc OGRENMEYE OZGU DEGIL.** Ayni olcum noktalarindan egitimsiz radyo haritasi CNN'i her odada "
+      "geciyor; BS-RIS kanali bilinirse klasik yontem az pilotla (9) cogu odada CNN'i geciyor. 'Modelim ise yariyor' diye YAZILMAMALI.")
     W("")
-    W("**Statik (4000 test konumu/oda), CNN − geometrik LoS yonlendirmesi [%95 GA]:**")
+    W("Yere ozgu kanal: `ris_mu/sumiso/site.py` (sabit saciclar, geometrik LoS, sabit golgeleme alani; h_d konum basina "
+      "normalize, 6 Kasim duzeltmesi). 5 oda; eski sonuclar `results/stale_pre_hdfix/`.")
     W("")
-    W("| Oda | LoS | CD-1 (tam CSI) | Geometrik | CNN | CNN − geometrik | CNN, 1 m konum hatasi |")
-    W("| --- | --- | --- | --- | --- | --- | --- |")
-    for s_, v in _ss.items():
-        b0, b1 = v["by_sigma"]["0.0"], v["by_sigma"]["1.0"]
-        W(f"| {s_} | {v['los_fraction']:.2f} | {v['csi']['CD-1']:.3f} | {b0['geometric']:.3f} | {b0['cnn']:.3f} | "
-          f"{b0['cnn_minus_geometric'][0]:+.3f} [{b0['cnn_minus_geometric'][1]:+.3f}, {b0['cnn_minus_geometric'][2]:+.3f}] | {b1['cnn']:.3f} |")
+    W("**Statik (2000 test konumu):**")
     W("")
-    W("Egitim konumu sayisi (CNN hizi, 2000 / 5000 / 20000): " + "; ".join(
-        f"oda {s_}: " + " / ".join(f"{v['by_n_train'][n]['cnn']:.2f}" for n in ("2000", "5000", "20000")) for s_, v in _ss.items()))
+    W("| Oda | LoS | CD-1 (tam CSI) | Geometrik | Sabit oda fazi | En yakin komsu | CNN | Radyo haritasi | CNN − radyo haritasi [%95 GA] |")
+    W("| --- | --- | --- | --- | --- | --- | --- | --- | --- |")
+    for s_, v in _rm.items():
+        c = _ss[s_]
+        W(f"| {s_} | {c['los_fraction']:.2f} | {c['csi']['CD-1']:.3f} | {v['geometric']:.3f} | {v['fixed_site_phase']:.3f} | "
+          f"{v['nn_lookup']:.3f} | {v['cnn']:.3f} | {v['radio_map_lookup']:.3f} | "
+          "{:+.3f} [{:+.3f}, {:+.3f}] |".format(*v['cnn_minus_radio_map_lookup']))
     W("")
-    W("**Pilot maliyeti dahil verim (yuruyen kullanicilar, 300/oda), CNN − CSI+CD-1 [%95 GA]:**")
+    W("CD-1 sutunu 4000 test konumunda (site_eval_static), digerleri ayni bolmenin ilk 2000'inde (site_radio_map).")
     W("")
-    W("| Kosul | " + " | ".join(f"Oda {s_}" for s_ in _sd[""]["sites"]) + " |")
-    W("| --- | " + " | ".join("---" for _ in _sd[""]["sites"]) + " |")
-    for k, lbl in (("", "30 kHz, konum kusursuz"), ("_err0.3", "30 kHz, 0.3 m hata"), ("_err1.0", "30 kHz, 1 m hata"), ("_scs60", "60 kHz, kusursuz")):
-        W(f"| {lbl} | " + " | ".join(
-            "{:+.2f} [{:+.2f}, {:+.2f}]".format(*v["policies"]["position + CNN"]["minus_csi_cd1"]) for v in _sd[k]["sites"].values()) + " |")
+    W("**Pilot maliyeti dahil verim (yuruyen kullanicilar, 300/oda, 30 kHz):**")
     W("")
-    W("Pilot: CSI 33 sembol, konum kollari 4 sembol (ortak faz adaylari). Guncelleme periyodu her politika icin dogrulama kullanicilarinda secildi. "
-      "Klasik kol icin kanal kestirimi kusursuz varsayildi (klasigin lehine).")
+    pols = list(_sd["pilots"])
+    W("| Politika | " + " | ".join(f"Oda {s_}" for s_ in _sd["sites"]) + " |")
+    W("| --- | " + " | ".join("---" for _ in _sd["sites"]) + " |")
+    for pol in pols:
+        W(f"| {pol} | " + " | ".join(f"{v['policies'][pol]['test']:.3f} (U={v['policies'][pol]['best_U_on_val']})" for v in _sd["sites"].values()) + " |")
     W("")
-    _rm = L("site_radio_map.json")
-    if _rm:
-        W("**Egitimsiz rakipler, ayni olcum noktalarindan (2000 test konumu):**")
-        W("")
-        W("| Oda | kNN-20 radyo haritasi | CNN | En yakin komsu etiketi | Sabit oda fazi | CNN − kNN [%95 GA] |")
-        W("| --- | --- | --- | --- | --- | --- |")
-        for s_, v in _rm.items():
-            W(f"| {s_} | {v['knn']:.3f} | {v['cnn']:.3f} | {v['nn_lookup']:.3f} | {v['fixed_site_phase']:.3f} | "
-              f"{v['cnn_minus_knn'][0]:+.3f} [{v['cnn_minus_knn'][1]:+.3f}, {v['cnn_minus_knn'][2]:+.3f}] |")
-        W("")
-    W("**HUKUM (bagimsiz denetim, 6 Kasim):** Konum tabanli kazanc OGRENMEYE OZGU DEGIL. Ayni olcumlerden egitimsiz kNN "
-      "radyo haritasi CNN'i her odada geciyor. CSI koluna 33 pilot yazildi; F oda icin sabit ve bilinirse ~5-17 pilot yeter "
-      "ve CNN'in ustunlugu ~9 pilotta kayboluyor (denetcinin olcumu, betigi yok). Ustunluk, CNN'in mekansal ortalamali ve "
-      "yavas eskiyen bir faz uretmesinden geliyor; klasik iki zaman olcekli tasarim karsilastirilmadi. "
-      "Ayrica bilinen hata: site.py'de h_d normalizasyonu parca (chunk) bazli, yani h_d konumun tam belirlenimci fonksiyonu degil. "
-      "Bu bolum 'modelim ise yariyor' diye YAZILMAMALI.")
+    for y in ("CSI + CD-1 (33 pilots)", "CSI + CD-1 (9 pilots)", "position + radio map"):
+        W(f"- CNN − {y}: " + "; ".join("{:+.2f} [{:+.2f}, {:+.2f}]".format(*v["cnn_minus"][y]) for v in _sd["sites"].values()))
     W("")
-    W("Kaynak: `scripts/site_dataset.py`, `scripts/site_train.py`, `scripts/site_eval_static.py`, `scripts/site_eval_dynamic.py`, `scripts/site_radio_map.py`")
+    W("Pilot: 33 = N+1 (yapisiz kaskat kestirim); 17/9/5 = F oda icin bilinir, yalnizca g ve h_d (5 = gurultusuz alt sinir). "
+      "Konum kollari 4 sembol (ortak faz adaylari, gercek kanalla ve gurultusuz puanlaniyor). Klasik icin kestirim kusursuz. "
+      "Guncelleme periyodu dogrulama kullanicilarinda secildi. Kullanicilar engellerin icinden gecebiliyor.")
+    W("")
+    W("Kaynak: `scripts/site_dataset.py`, `scripts/site_train.py`, `scripts/site_eval_static.py`, `scripts/site_radio_map.py`, `scripts/site_eval_dynamic.py`")
     W("")
 
 W("## Ek — yeniden uretilebilirlik")
 W("")
-W("- `scripts/audit_claims.py` — 85 iddia (`--all` ile 100), hepsi geciyor")
+W("- `scripts/audit_claims.py` — 77 iddia (`--all` ile 92), hepsi geciyor")
 W("- Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**")
 W("- Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor")
 W("")

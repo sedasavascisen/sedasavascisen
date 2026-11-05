@@ -480,3 +480,16 @@ Denetim bunun dayanaksiz oldugunu gosterdi; dogrulandi:
 
 Denetim iddialari: `site_knn_beats_cnn_all_sites`, `site_cnn_beats_nn_lookup_all_sites`.
 `TEZ_YAZIM_REFERANSI.md` 6.6'ya hukum notu eklendi.
+
+### 2026-11-06 (devam) — duzeltme ve yeniden olcum
+
+- `site.py`: h_d artik konum basina normalize (`Site._direct_link`); parca bagimsizligi
+  sinandi (chunk 1 / 777 / 2000 ayni). Yorungeler oda duvarlarindan yansiyor.
+- Eski site sonuclari `results/stale_pre_hdfix/` altina tasindi (alintilanmayacak).
+  Konum hatasi ve egitim boyutu kosulari yeniden YAPILMADI.
+- Yeniden olcum (5 oda): radyo haritasi (egitimsiz, kullanim bicimi) CNN'i statikte
+  (−0.07…−0.19) ve pilot maliyeti dahil dinamikte (−0.06…−0.18) her odada geciyor.
+  F bilinirse CSI kolu 9 pilotla CNN'i 5 odanin 4'unde geciyor.
+- Hukum degismedi: konum tabanli kazanc ogrenmeye ozgu degil.
+- Denetim: eski site iddialari kaldirildi, 7 yeni iddia (6'si sabotaj testli).
+  Toplam 77 (`--all` 92).

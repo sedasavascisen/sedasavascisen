@@ -564,39 +564,32 @@ else:
           "network + 1 discrete sweep is dominated by a faster, better classical arm")
 
 # ------------------------------------------- position-based phases (site)
+# Regenerated 2026-11-06 after the h_d fix; pre-fix results are in
+# results/stale_pre_hdfix/ and are not checked. Verdict: the position-based
+# gain is NOT specific to learning (a training-free radio map beats the CNN).
 section("saved results: position-based phases in a fixed site")
 _ss = _load("site_eval_static.json")
-_sd = {k: _load(f"site_eval_dynamic{k}.json") for k in ("", "_err0.3", "_err1.0", "_scs60")}
-if _ss is None or any(v is None for v in _sd.values()):
-    print("  [skip] site_eval_static.json or a site_eval_dynamic*.json missing")
+_rm = _load("site_radio_map.json")
+_sd = _load("site_eval_dynamic.json")
+if _ss is None or _rm is None or _sd is None:
+    print("  [skip] site_eval_static / site_radio_map / site_eval_dynamic missing")
 else:
     claim("site_los_fraction_mean", "8", "statistical", 0.247,
           float(np.mean([v["los_fraction"] for v in _ss.values()])), "RIS-user LoS fraction, 5 test sets")
     claim("site_cnn_beats_geometric_static", "8", "exact", 1,
-          int(all(b["cnn_minus_geometric"][1] > 0 for v in _ss.values() for b in v["by_sigma"].values())),
-          "every site, every position error 0-1 m (CI above zero)")
-    claim("site_ntrain_matters", "8", "exact", 1,
-          int(all(v["by_n_train"]["20000"]["cnn"] > v["by_n_train"]["5000"]["cnn"] > v["by_n_train"]["2000"]["cnn"]
-                  for v in _ss.values())), "more surveyed positions, higher rate, every site")
-    claim("site_cnn_dyn_site1", "8", "exact", 13.0909, _sd[""]["sites"]["1"]["policies"]["position + CNN"]["test"])
-    _cnt = lambda r, sgn: sum(1 for v in r["sites"].values()
-                              if (v["policies"]["position + CNN"]["minus_csi_cd1"][1] > 0 if sgn > 0
-                                  else v["policies"]["position + CNN"]["minus_csi_cd1"][2] < 0))
-    for _k, _w, _l in (("", 3, 1), ("_err0.3", 3, 1), ("_err1.0", 2, 2), ("_scs60", 2, 3)):
-        claim(f"site_cnn_wins_vs_csi{_k or '_base'}", "8", "exact", _w, _cnt(_sd[_k], +1), "sites where CNN - CSI+CD-1 CI > 0")
-        claim(f"site_cnn_loses_vs_csi{_k or '_base'}", "8", "exact", _l, _cnt(_sd[_k], -1), "sites where CI < 0")
-    # Independent audit 2026-11-06: a training-free radio map from the same
-    # survey beats the CNN; the position result is NOT specific to learning.
-    _rm = _load("site_radio_map.json")
-    if _rm is not None:
-        claim("site_knn_beats_cnn_all_sites", "8", "exact", 1,
-              int(all(v["cnn_minus_knn"][2] < 0 for v in _rm.values())),
-              "kNN radio map (no training) above the CNN in every site (CI)")
-        claim("site_cnn_beats_nn_lookup_all_sites", "8", "exact", 1,
-              int(all(v["cnn_minus_nn"][1] > 0 for v in _rm.values())),
-              "CNN above the nearest-neighbour label lookup in every site (CI)")
+          int(all(v["by_sigma"]["0.0"]["cnn_minus_geometric"][1] > 0 for v in _ss.values())))
+    claim("site_radio_map_beats_cnn_static", "8", "exact", 1,
+          int(all(v["cnn_minus_radio_map_lookup"][2] < 0 for v in _rm.values())),
+          "deployed kNN radio map (no training) above the CNN in every site (CI)")
+    claim("site_cnn_beats_nn_lookup_static", "8", "exact", 1,
+          int(all(v["cnn_minus_nn"][1] > 0 for v in _rm.values())))
+    claim("site_fixed_phase_beats_geometric_site1", "8", "exact", 1,
+          int(_rm["1"]["fixed_site_phase"] > _rm["1"]["geometric"]), "the geometric arm is a weak baseline")
+    claim("site_dyn_radio_map_beats_cnn", "8", "exact", 1,
+          int(all(v["cnn_minus"]["position + radio map"][2] < 0 for v in _sd["sites"].values())),
+          "with pilot overhead too, the radio map is above the CNN in every site")
     claim("site_timing_started_idle", "8", "exact", 1,
-          int(all(v["load_before_timing"] < 0.5 for r in _sd.values() for v in r["sites"].values())))
+          int(all(v["load_before_timing"] < 0.5 for v in _sd["sites"].values())))
 
 # ----------------------------------------------------------------- report
 section("summary")

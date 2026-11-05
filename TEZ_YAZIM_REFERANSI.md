@@ -324,48 +324,46 @@ Kaynak: `scripts/sumiso_discrete_eval.py` -> `results/sumiso_discrete_eval.json`
 
 ### 6.6 Konumdan faz tahmini, yere ozgu oda (tek kullanici)
 
-Yere ozgu kanal: `ris_mu/sumiso/site.py` (sabit saciclar, geometrik LoS, sabit golgeleme alani). 5 oda.
+**HUKUM: konum tabanli kazanc OGRENMEYE OZGU DEGIL.** Ayni olcum noktalarindan egitimsiz radyo haritasi CNN'i her odada geciyor; BS-RIS kanali bilinirse klasik yontem az pilotla (9) cogu odada CNN'i geciyor. 'Modelim ise yariyor' diye YAZILMAMALI.
 
-**Statik (4000 test konumu/oda), CNN − geometrik LoS yonlendirmesi [%95 GA]:**
+Yere ozgu kanal: `ris_mu/sumiso/site.py` (sabit saciclar, geometrik LoS, sabit golgeleme alani; h_d konum basina normalize, 6 Kasim duzeltmesi). 5 oda; eski sonuclar `results/stale_pre_hdfix/`.
 
-| Oda | LoS | CD-1 (tam CSI) | Geometrik | CNN | CNN − geometrik | CNN, 1 m konum hatasi |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 | 0.21 | 13.890 | 12.432 | 13.340 | +0.908 [+0.865, +0.953] | 13.108 |
-| 2 | 0.28 | 13.219 | 12.446 | 12.865 | +0.419 [+0.385, +0.454] | 12.595 |
-| 3 | 0.12 | 13.623 | 11.771 | 12.488 | +0.717 [+0.674, +0.762] | 12.260 |
-| 4 | 0.20 | 14.024 | 12.522 | 13.054 | +0.532 [+0.490, +0.572] | 12.833 |
-| 5 | 0.42 | 15.203 | 13.801 | 14.246 | +0.445 [+0.406, +0.483] | 13.928 |
+**Statik (2000 test konumu):**
 
-Egitim konumu sayisi (CNN hizi, 2000 / 5000 / 20000): oda 1: 12.89 / 13.21 / 13.34; oda 2: 12.48 / 12.72 / 12.86; oda 3: 11.88 / 12.38 / 12.49; oda 4: 12.59 / 12.93 / 13.05; oda 5: 13.67 / 13.88 / 14.25
+| Oda | LoS | CD-1 (tam CSI) | Geometrik | Sabit oda fazi | En yakin komsu | CNN | Radyo haritasi | CNN − radyo haritasi [%95 GA] |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 0.21 | 13.887 | 12.519 | 12.700 | 13.022 | 13.354 | 13.465 | -0.111 [-0.141, -0.083] |
+| 2 | 0.28 | 13.240 | 12.423 | 11.439 | 12.617 | 12.830 | 12.902 | -0.073 [-0.097, -0.050] |
+| 3 | 0.12 | 13.723 | 12.098 | 11.343 | 12.414 | 12.772 | 12.861 | -0.090 [-0.126, -0.055] |
+| 4 | 0.20 | 14.019 | 12.580 | 12.469 | 12.791 | 13.079 | 13.269 | -0.190 [-0.225, -0.156] |
+| 5 | 0.42 | 15.213 | 13.678 | 11.543 | 13.987 | 14.103 | 14.263 | -0.160 [-0.199, -0.120] |
 
-**Pilot maliyeti dahil verim (yuruyen kullanicilar, 300/oda), CNN − CSI+CD-1 [%95 GA]:**
+CD-1 sutunu 4000 test konumunda (site_eval_static), digerleri ayni bolmenin ilk 2000'inde (site_radio_map).
 
-| Kosul | Oda 1 | Oda 2 | Oda 3 | Oda 4 | Oda 5 |
+**Pilot maliyeti dahil verim (yuruyen kullanicilar, 300/oda, 30 kHz):**
+
+| Politika | Oda 1 | Oda 2 | Oda 3 | Oda 4 | Oda 5 |
 | --- | --- | --- | --- | --- | --- |
-| 30 kHz, konum kusursuz | +0.36 [+0.30, +0.42] | +0.54 [+0.48, +0.60] | -0.01 [-0.11, +0.09] | +0.21 [+0.12, +0.29] | -0.09 [-0.17, -0.00] |
-| 30 kHz, 0.3 m hata | +0.33 [+0.26, +0.40] | +0.50 [+0.43, +0.56] | -0.02 [-0.12, +0.07] | +0.18 [+0.09, +0.26] | -0.12 [-0.20, -0.04] |
-| 30 kHz, 1 m hata | +0.17 [+0.07, +0.25] | +0.31 [+0.21, +0.41] | -0.23 [-0.34, -0.13] | +0.00 [-0.09, +0.09] | -0.44 [-0.54, -0.32] |
-| 60 kHz, kusursuz | +0.10 [+0.02, +0.16] | +0.31 [+0.24, +0.38] | -0.40 [-0.48, -0.31] | -0.16 [-0.25, -0.06] | -0.35 [-0.46, -0.25] |
+| CSI + CD-1 (33 pilots) | 12.758 (U=80) | 11.774 (U=160) | 12.849 (U=20) | 13.098 (U=40) | 14.375 (U=80) |
+| CSI + CD-1 (17 pilots) | 13.023 (U=20) | 11.989 (U=20) | 13.250 (U=20) | 13.466 (U=20) | 14.626 (U=20) |
+| CSI + CD-1 (9 pilots) | 13.230 (U=20) | 12.181 (U=20) | 13.460 (U=20) | 13.683 (U=10) | 14.852 (U=20) |
+| CSI + CD-1 (5 pilots) | 13.412 (U=10) | 12.374 (U=10) | 13.638 (U=10) | 13.884 (U=10) | 14.963 (U=10) |
+| CSI + SU-align (33 pilots) | 12.066 (U=80) | 11.061 (U=160) | 12.416 (U=40) | 12.447 (U=40) | 13.768 (U=40) |
+| position + geometric | 12.223 (U=40) | 11.876 (U=160) | 12.193 (U=20) | 12.690 (U=80) | 13.864 (U=160) |
+| position + CNN | 13.128 (U=80) | 12.302 (U=160) | 12.871 (U=40) | 13.304 (U=160) | 14.287 (U=160) |
+| position + radio map | 13.277 (U=80) | 12.363 (U=160) | 12.972 (U=40) | 13.438 (U=160) | 14.470 (U=160) |
 
-Pilot: CSI 33 sembol, konum kollari 4 sembol (ortak faz adaylari). Guncelleme periyodu her politika icin dogrulama kullanicilarinda secildi. Klasik kol icin kanal kestirimi kusursuz varsayildi (klasigin lehine).
+- CNN − CSI + CD-1 (33 pilots): +0.37 [+0.31, +0.43]; +0.53 [+0.47, +0.59]; +0.02 [-0.07, +0.11]; +0.21 [+0.12, +0.29]; -0.09 [-0.18, -0.01]
+- CNN − CSI + CD-1 (9 pilots): -0.10 [-0.18, -0.03]; +0.12 [+0.05, +0.20]; -0.59 [-0.68, -0.51]; -0.38 [-0.49, -0.28]; -0.57 [-0.67, -0.46]
+- CNN − position + radio map: -0.15 [-0.19, -0.11]; -0.06 [-0.10, -0.02]; -0.10 [-0.16, -0.04]; -0.13 [-0.18, -0.09]; -0.18 [-0.25, -0.11]
 
-**Egitimsiz rakipler, ayni olcum noktalarindan (2000 test konumu):**
+Pilot: 33 = N+1 (yapisiz kaskat kestirim); 17/9/5 = F oda icin bilinir, yalnizca g ve h_d (5 = gurultusuz alt sinir). Konum kollari 4 sembol (ortak faz adaylari, gercek kanalla ve gurultusuz puanlaniyor). Klasik icin kestirim kusursuz. Guncelleme periyodu dogrulama kullanicilarinda secildi. Kullanicilar engellerin icinden gecebiliyor.
 
-| Oda | kNN-20 radyo haritasi | CNN | En yakin komsu etiketi | Sabit oda fazi | CNN − kNN [%95 GA] |
-| --- | --- | --- | --- | --- | --- |
-| 1 | 13.462 | 13.327 | 12.986 | 12.692 | -0.135 [-0.165, -0.106] |
-| 2 | 12.885 | 12.802 | 12.577 | 11.404 | -0.083 [-0.106, -0.059] |
-| 3 | 12.728 | 12.594 | 12.230 | 11.143 | -0.133 [-0.170, -0.098] |
-| 4 | 13.282 | 13.062 | 12.767 | 12.471 | -0.220 [-0.257, -0.184] |
-| 5 | 14.274 | 14.086 | 13.973 | 11.483 | -0.188 [-0.229, -0.148] |
-
-**HUKUM (bagimsiz denetim, 6 Kasim):** Konum tabanli kazanc OGRENMEYE OZGU DEGIL. Ayni olcumlerden egitimsiz kNN radyo haritasi CNN'i her odada geciyor. CSI koluna 33 pilot yazildi; F oda icin sabit ve bilinirse ~5-17 pilot yeter ve CNN'in ustunlugu ~9 pilotta kayboluyor (denetcinin olcumu, betigi yok). Ustunluk, CNN'in mekansal ortalamali ve yavas eskiyen bir faz uretmesinden geliyor; klasik iki zaman olcekli tasarim karsilastirilmadi. Ayrica bilinen hata: site.py'de h_d normalizasyonu parca (chunk) bazli, yani h_d konumun tam belirlenimci fonksiyonu degil. Bu bolum 'modelim ise yariyor' diye YAZILMAMALI.
-
-Kaynak: `scripts/site_dataset.py`, `scripts/site_train.py`, `scripts/site_eval_static.py`, `scripts/site_eval_dynamic.py`, `scripts/site_radio_map.py`
+Kaynak: `scripts/site_dataset.py`, `scripts/site_train.py`, `scripts/site_eval_static.py`, `scripts/site_radio_map.py`, `scripts/site_eval_dynamic.py`
 
 ## Ek — yeniden uretilebilirlik
 
-- `scripts/audit_claims.py` — 85 iddia (`--all` ile 100), hepsi geciyor
+- `scripts/audit_claims.py` — 77 iddia (`--all` ile 92), hepsi geciyor
 - Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**
 - Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor
 

@@ -7,207 +7,207 @@
   "threads": 1,
   "seed": 0
  },
- "best_val_rmse_deg": 63.80867385864258,
+ "best_val_rmse_deg": 63.69707107543945,
  "history": [
   {
    "epoch": 1,
-   "val_rmse_deg": 95.86897277832031
+   "val_rmse_deg": 95.91265869140625
   },
   {
    "epoch": 2,
-   "val_rmse_deg": 88.13826751708984
+   "val_rmse_deg": 88.27350616455078
   },
   {
    "epoch": 3,
-   "val_rmse_deg": 73.18328857421875
+   "val_rmse_deg": 73.00874328613281
   },
   {
    "epoch": 4,
-   "val_rmse_deg": 70.3000259399414
+   "val_rmse_deg": 70.44000244140625
   },
   {
    "epoch": 5,
-   "val_rmse_deg": 69.18055725097656
+   "val_rmse_deg": 69.341796875
   },
   {
    "epoch": 6,
-   "val_rmse_deg": 69.06734466552734
+   "val_rmse_deg": 70.20706939697266
   },
   {
    "epoch": 7,
-   "val_rmse_deg": 68.23065185546875
+   "val_rmse_deg": 67.80221557617188
   },
   {
    "epoch": 8,
-   "val_rmse_deg": 68.92813110351562
+   "val_rmse_deg": 68.14602661132812
   },
   {
    "epoch": 9,
-   "val_rmse_deg": 68.12350463867188
+   "val_rmse_deg": 68.36609649658203
   },
   {
    "epoch": 10,
-   "val_rmse_deg": 66.8358383178711
+   "val_rmse_deg": 66.28832244873047
   },
   {
    "epoch": 11,
-   "val_rmse_deg": 65.8140869140625
+   "val_rmse_deg": 65.90090942382812
   },
   {
    "epoch": 12,
-   "val_rmse_deg": 66.96342468261719
+   "val_rmse_deg": 67.13523864746094
   },
   {
    "epoch": 13,
-   "val_rmse_deg": 65.86981964111328
+   "val_rmse_deg": 65.96070861816406
   },
   {
    "epoch": 14,
-   "val_rmse_deg": 66.38790893554688
+   "val_rmse_deg": 66.43620300292969
   },
   {
    "epoch": 15,
-   "val_rmse_deg": 65.52041625976562
+   "val_rmse_deg": 65.43683624267578
   },
   {
    "epoch": 16,
-   "val_rmse_deg": 65.1111068725586
+   "val_rmse_deg": 64.97777557373047
   },
   {
    "epoch": 17,
-   "val_rmse_deg": 64.96798706054688
+   "val_rmse_deg": 64.82299041748047
   },
   {
    "epoch": 18,
-   "val_rmse_deg": 64.840576171875
+   "val_rmse_deg": 64.79068756103516
   },
   {
    "epoch": 19,
-   "val_rmse_deg": 64.85814666748047
+   "val_rmse_deg": 64.74185180664062
   },
   {
    "epoch": 20,
-   "val_rmse_deg": 65.42668914794922
+   "val_rmse_deg": 65.34915924072266
   },
   {
    "epoch": 21,
-   "val_rmse_deg": 64.7631607055664
+   "val_rmse_deg": 64.70706939697266
   },
   {
    "epoch": 22,
-   "val_rmse_deg": 64.88719940185547
+   "val_rmse_deg": 64.88514709472656
   },
   {
    "epoch": 23,
-   "val_rmse_deg": 64.7112045288086
+   "val_rmse_deg": 64.6399917602539
   },
   {
    "epoch": 24,
-   "val_rmse_deg": 64.749267578125
+   "val_rmse_deg": 64.64916229248047
   },
   {
    "epoch": 25,
-   "val_rmse_deg": 64.73866271972656
+   "val_rmse_deg": 64.64382934570312
   },
   {
    "epoch": 26,
-   "val_rmse_deg": 64.55824279785156
+   "val_rmse_deg": 64.51538848876953
   },
   {
    "epoch": 27,
-   "val_rmse_deg": 64.68209838867188
+   "val_rmse_deg": 64.68216705322266
   },
   {
    "epoch": 28,
-   "val_rmse_deg": 65.4065933227539
+   "val_rmse_deg": 65.15093994140625
   },
   {
    "epoch": 29,
-   "val_rmse_deg": 64.5252685546875
+   "val_rmse_deg": 64.50225830078125
   },
   {
    "epoch": 30,
-   "val_rmse_deg": 64.56983947753906
+   "val_rmse_deg": 64.47115325927734
   },
   {
    "epoch": 31,
-   "val_rmse_deg": 64.47453308105469
+   "val_rmse_deg": 64.40435028076172
   },
   {
    "epoch": 32,
-   "val_rmse_deg": 64.26038360595703
+   "val_rmse_deg": 64.22145080566406
   },
   {
    "epoch": 33,
-   "val_rmse_deg": 64.49618530273438
+   "val_rmse_deg": 64.45375061035156
   },
   {
    "epoch": 34,
-   "val_rmse_deg": 64.34423065185547
+   "val_rmse_deg": 64.30783081054688
   },
   {
    "epoch": 35,
-   "val_rmse_deg": 64.11539459228516
+   "val_rmse_deg": 64.17225646972656
   },
   {
    "epoch": 36,
-   "val_rmse_deg": 64.068603515625
+   "val_rmse_deg": 64.0754165649414
   },
   {
    "epoch": 37,
-   "val_rmse_deg": 64.23605346679688
+   "val_rmse_deg": 64.27698516845703
   },
   {
    "epoch": 38,
-   "val_rmse_deg": 64.29582214355469
+   "val_rmse_deg": 64.2428970336914
   },
   {
    "epoch": 39,
-   "val_rmse_deg": 64.12519836425781
+   "val_rmse_deg": 64.0318603515625
   },
   {
    "epoch": 40,
-   "val_rmse_deg": 64.30461120605469
+   "val_rmse_deg": 64.26253509521484
   },
   {
    "epoch": 41,
-   "val_rmse_deg": 63.884185791015625
+   "val_rmse_deg": 63.830528259277344
   },
   {
    "epoch": 42,
-   "val_rmse_deg": 64.0509033203125
+   "val_rmse_deg": 63.95600891113281
   },
   {
    "epoch": 43,
-   "val_rmse_deg": 64.38516998291016
+   "val_rmse_deg": 64.34407806396484
   },
   {
    "epoch": 44,
-   "val_rmse_deg": 64.01498413085938
+   "val_rmse_deg": 63.962867736816406
   },
   {
    "epoch": 45,
-   "val_rmse_deg": 64.06143951416016
+   "val_rmse_deg": 64.07431030273438
   },
   {
    "epoch": 46,
-   "val_rmse_deg": 63.907440185546875
+   "val_rmse_deg": 63.848724365234375
   },
   {
    "epoch": 47,
-   "val_rmse_deg": 63.921875
+   "val_rmse_deg": 63.82416534423828
   },
   {
    "epoch": 48,
-   "val_rmse_deg": 64.14717102050781
+   "val_rmse_deg": 64.09803009033203
   },
   {
    "epoch": 49,
-   "val_rmse_deg": 63.80867385864258
+   "val_rmse_deg": 63.69707107543945
   },
   {
    "epoch": 50,
-   "val_rmse_deg": 64.12770080566406
+   "val_rmse_deg": 64.07083892822266
   }
  ]
 }
