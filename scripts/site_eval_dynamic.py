@@ -4,8 +4,11 @@ for walking users in a fixed site (the periodic controller of the mobility
 paper, Definition 3, single user).
 
 Users start at test (report) or validation (selection) positions, walk at
-1.5 m/s in a straight line, channel on a 1 ms grid over 200 ms; the rate is
-averaged over 100-200 ms and counted only outside pilot intervals.
+1.5 m/s in a straight line, channel on a 0.5 ms grid over 400 ms; the rate is
+averaged over 200-400 ms, each grid cell weighted by the fraction of it that
+is not pilot time (pilot intervals are shorter than a cell for 4 symbols).
+(The scatterers are fixed objects of the site, so long horizons are
+consistent here, unlike the mobility generator.)
 Every policy re-optimizes every U ms (U selected per policy on the
 validation users from U_GRID):
   CSI + CD-1 / CSI + SU-align   cascaded-channel pilots, N+1 = 33 symbols,
@@ -46,8 +49,10 @@ ap.add_argument("--tag", default="site_eval_dynamic")
 a = ap.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 torch.set_num_threads(1)
-GRID = np.arange(0, 201, 1.0)              # ms
-U_GRID = [2, 5, 10, 20, 40, 80]
+DT = 0.5                                    # ms, as in the mobility paper
+GRID = np.arange(0, 400 + DT / 2, DT)
+WIN = (GRID >= 200) & (GRID < 400)
+U_GRID = [2, 5, 10, 20, 40, 80, 160]
 sym_ms = 15.0 / a.scs / 14.0
 PILOTS = {"CSI + CD-1": 33, "CSI + SU-align": 33, "position + geometric": 4, "position + CNN": 4}
 lat_ev = json.load(open(ROOT / "results" / "sumiso_mobility_eval.json"))["latency_ms"]
@@ -109,7 +114,7 @@ for s in a.sites:
                 rates = np.zeros((U_, M))
                 pending = []
                 for m, t in enumerate(GRID):
-                    if t % U == 0:                                  # update instant: compute from this snapshot
+                    if abs(t / U - round(t / U)) < 1e-9:                                  # update instant: compute from this snapshot
                         a_, b_ = A[:, m], B[:, m]
                         if pol == "CSI + CD-1":
                             th = SV.coord_ascent(a_, b_, SV.su_align(a_, b_), sweeps=1, tol=-1)[0]
@@ -126,9 +131,11 @@ for s in a.sites:
                         pending.append((t + tp + COMP[pol], th))
                     while pending and pending[0][0] <= t:
                         th_cur = pending.pop(0)[1]
-                    in_pilot = (t % U) < tp
-                    rates[:, m] = 0.0 if in_pilot else torch.log2(1 + snr * SV.gain(th_cur, A[:, m], B[:, m])).numpy()
-                out[pol][U] = rates[:, (GRID >= 100) & (GRID <= 200)].mean(1)
+                    k0 = np.floor(t / U + 1e-9) * U                     # last update instant
+                    pilot = max(0.0, min(t + DT, k0 + tp) - max(t, k0)) # pilot time inside [t, t+DT)
+                    w = 1.0 - pilot / DT
+                    rates[:, m] = w * torch.log2(1 + snr * SV.gain(th_cur, A[:, m], B[:, m])).numpy()
+                out[pol][U] = rates[:, WIN].mean(1)
         return out
 
     val = run(z["val_pos"][:a.users], 11 * s)
