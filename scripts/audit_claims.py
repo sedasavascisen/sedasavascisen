@@ -585,6 +585,16 @@ else:
     for _k, _w, _l in (("", 3, 1), ("_err0.3", 3, 1), ("_err1.0", 2, 2), ("_scs60", 2, 3)):
         claim(f"site_cnn_wins_vs_csi{_k or '_base'}", "8", "exact", _w, _cnt(_sd[_k], +1), "sites where CNN - CSI+CD-1 CI > 0")
         claim(f"site_cnn_loses_vs_csi{_k or '_base'}", "8", "exact", _l, _cnt(_sd[_k], -1), "sites where CI < 0")
+    # Independent audit 2026-11-06: a training-free radio map from the same
+    # survey beats the CNN; the position result is NOT specific to learning.
+    _rm = _load("site_radio_map.json")
+    if _rm is not None:
+        claim("site_knn_beats_cnn_all_sites", "8", "exact", 1,
+              int(all(v["cnn_minus_knn"][2] < 0 for v in _rm.values())),
+              "kNN radio map (no training) above the CNN in every site (CI)")
+        claim("site_cnn_beats_nn_lookup_all_sites", "8", "exact", 1,
+              int(all(v["cnn_minus_nn"][1] > 0 for v in _rm.values())),
+              "CNN above the nearest-neighbour label lookup in every site (CI)")
     claim("site_timing_started_idle", "8", "exact", 1,
           int(all(v["load_before_timing"] < 0.5 for r in _sd.values() for v in r["sites"].values())))
 

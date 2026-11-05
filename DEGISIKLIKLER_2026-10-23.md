@@ -452,3 +452,31 @@ T_ov=0'da eski "CD-2" ile CD-1 arasindaki fark 0.003, yani beraberlik.
 - PyTorch kodundan alinan uc tercih (z-skor, kirpma, en iyi checkpoint) aciklandi.
 - Ayrik faz: 1 bitte straight-through modeli (b) ile ayni; baskinlik listeleri
   ortalamaya dayali — referansa not dusuldu.
+
+---
+
+## 2026-11-06 — Bagimsiz denetim: konumdan faz tahmini (yere ozgu oda)
+
+**Kullaniciya bildirildi.** Kullaniciya "modeliniz kosullu olarak ise yariyor" denmisti.
+Denetim bunun dayanaksiz oldugunu gosterdi; dogrulandi:
+
+- **Ogrenmeye ozgu degil.** Ayni olcum noktalarindan egitimsiz kNN-20 radyo haritasi
+  CNN'i 5 odanin 5'inde geciyor (−0.08 ile −0.22, GA sifiri disliyor;
+  `scripts/site_radio_map.py`). CNN yalnizca en yakin komsu etiketini geciyor.
+- **"Geometrik" rakip zayifti.** 1. odada konum kullanmayan tek sabit faz (12.69)
+  geometrik yonlendirmeyi (12.43) geciyor. "CNN − geometrik +0.42…+0.91" ogrenmenin
+  katkisini abartiyor.
+- **Pilot varsayimi sonucu belirliyor.** CSI koluna 33 pilot (N+1) yazildi. F oda icin
+  sabit ve bilinirse yalnizca g ve h_d kestirilir; ~5–17 pilot yeter. Denetcinin
+  olcumunde CNN ustunlugu ~9 pilotta kayboluyor (bu olcumun proje betigi YOK).
+- **Mekanizma:** CNN kucuk olcekli sonumlenmeyi izlemiyor; mekansal ortalamali, yavas
+  eskiyen bir faz uretiyor. Klasik karsiligi (iki zaman olcekli, istatistiksel CSI)
+  karsilastirilmadi.
+- **Hata:** `site.py` h_d'yi ebeveynin `_direct_link_g`'si ile uretiyor; bu fonksiyon
+  normalizasyonu parca (chunk) uzerinden yapiyor, yani h_d konumun tam belirlenimci
+  fonksiyonu degil (%2–39 fark). Site sonuclarinin hepsi bu hatayi tasiyor; duzeltilmedi.
+- Ayrica: yorungeler engellerin icinden geciyor; LoS kalibrasyonunun betigi yok;
+  golgeleme cekirdegi ebeveynden farkli (Gauss).
+
+Denetim iddialari: `site_knn_beats_cnn_all_sites`, `site_cnn_beats_nn_lookup_all_sites`.
+`TEZ_YAZIM_REFERANSI.md` 6.6'ya hukum notu eklendi.

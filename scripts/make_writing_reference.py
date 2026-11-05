@@ -404,12 +404,29 @@ if _ss and all(_sd.values()):
     W("Pilot: CSI 33 sembol, konum kollari 4 sembol (ortak faz adaylari). Guncelleme periyodu her politika icin dogrulama kullanicilarinda secildi. "
       "Klasik kol icin kanal kestirimi kusursuz varsayildi (klasigin lehine).")
     W("")
-    W("Kaynak: `scripts/site_dataset.py`, `scripts/site_train.py`, `scripts/site_eval_static.py`, `scripts/site_eval_dynamic.py`")
+    _rm = L("site_radio_map.json")
+    if _rm:
+        W("**Egitimsiz rakipler, ayni olcum noktalarindan (2000 test konumu):**")
+        W("")
+        W("| Oda | kNN-20 radyo haritasi | CNN | En yakin komsu etiketi | Sabit oda fazi | CNN − kNN [%95 GA] |")
+        W("| --- | --- | --- | --- | --- | --- |")
+        for s_, v in _rm.items():
+            W(f"| {s_} | {v['knn']:.3f} | {v['cnn']:.3f} | {v['nn_lookup']:.3f} | {v['fixed_site_phase']:.3f} | "
+              f"{v['cnn_minus_knn'][0]:+.3f} [{v['cnn_minus_knn'][1]:+.3f}, {v['cnn_minus_knn'][2]:+.3f}] |")
+        W("")
+    W("**HUKUM (bagimsiz denetim, 6 Kasim):** Konum tabanli kazanc OGRENMEYE OZGU DEGIL. Ayni olcumlerden egitimsiz kNN "
+      "radyo haritasi CNN'i her odada geciyor. CSI koluna 33 pilot yazildi; F oda icin sabit ve bilinirse ~5-17 pilot yeter "
+      "ve CNN'in ustunlugu ~9 pilotta kayboluyor (denetcinin olcumu, betigi yok). Ustunluk, CNN'in mekansal ortalamali ve "
+      "yavas eskiyen bir faz uretmesinden geliyor; klasik iki zaman olcekli tasarim karsilastirilmadi. "
+      "Ayrica bilinen hata: site.py'de h_d normalizasyonu parca (chunk) bazli, yani h_d konumun tam belirlenimci fonksiyonu degil. "
+      "Bu bolum 'modelim ise yariyor' diye YAZILMAMALI.")
+    W("")
+    W("Kaynak: `scripts/site_dataset.py`, `scripts/site_train.py`, `scripts/site_eval_static.py`, `scripts/site_eval_dynamic.py`, `scripts/site_radio_map.py`")
     W("")
 
 W("## Ek — yeniden uretilebilirlik")
 W("")
-W("- `scripts/audit_claims.py` — 83 iddia (`--all` ile 98), hepsi geciyor")
+W("- `scripts/audit_claims.py` — 85 iddia (`--all` ile 100), hepsi geciyor")
 W("- Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**")
 W("- Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor")
 W("")

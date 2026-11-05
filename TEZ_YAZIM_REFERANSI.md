@@ -349,11 +349,23 @@ Egitim konumu sayisi (CNN hizi, 2000 / 5000 / 20000): oda 1: 12.89 / 13.21 / 13.
 
 Pilot: CSI 33 sembol, konum kollari 4 sembol (ortak faz adaylari). Guncelleme periyodu her politika icin dogrulama kullanicilarinda secildi. Klasik kol icin kanal kestirimi kusursuz varsayildi (klasigin lehine).
 
-Kaynak: `scripts/site_dataset.py`, `scripts/site_train.py`, `scripts/site_eval_static.py`, `scripts/site_eval_dynamic.py`
+**Egitimsiz rakipler, ayni olcum noktalarindan (2000 test konumu):**
+
+| Oda | kNN-20 radyo haritasi | CNN | En yakin komsu etiketi | Sabit oda fazi | CNN − kNN [%95 GA] |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 13.462 | 13.327 | 12.986 | 12.692 | -0.135 [-0.165, -0.106] |
+| 2 | 12.885 | 12.802 | 12.577 | 11.404 | -0.083 [-0.106, -0.059] |
+| 3 | 12.728 | 12.594 | 12.230 | 11.143 | -0.133 [-0.170, -0.098] |
+| 4 | 13.282 | 13.062 | 12.767 | 12.471 | -0.220 [-0.257, -0.184] |
+| 5 | 14.274 | 14.086 | 13.973 | 11.483 | -0.188 [-0.229, -0.148] |
+
+**HUKUM (bagimsiz denetim, 6 Kasim):** Konum tabanli kazanc OGRENMEYE OZGU DEGIL. Ayni olcumlerden egitimsiz kNN radyo haritasi CNN'i her odada geciyor. CSI koluna 33 pilot yazildi; F oda icin sabit ve bilinirse ~5-17 pilot yeter ve CNN'in ustunlugu ~9 pilotta kayboluyor (denetcinin olcumu, betigi yok). Ustunluk, CNN'in mekansal ortalamali ve yavas eskiyen bir faz uretmesinden geliyor; klasik iki zaman olcekli tasarim karsilastirilmadi. Ayrica bilinen hata: site.py'de h_d normalizasyonu parca (chunk) bazli, yani h_d konumun tam belirlenimci fonksiyonu degil. Bu bolum 'modelim ise yariyor' diye YAZILMAMALI.
+
+Kaynak: `scripts/site_dataset.py`, `scripts/site_train.py`, `scripts/site_eval_static.py`, `scripts/site_eval_dynamic.py`, `scripts/site_radio_map.py`
 
 ## Ek — yeniden uretilebilirlik
 
-- `scripts/audit_claims.py` — 83 iddia (`--all` ile 98), hepsi geciyor
+- `scripts/audit_claims.py` — 85 iddia (`--all` ile 100), hepsi geciyor
 - Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**
 - Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor
 
