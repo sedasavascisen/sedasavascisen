@@ -493,3 +493,25 @@ Denetim iddialari: `site_knn_beats_cnn_all_sites`, `site_cnn_beats_nn_lookup_all
 - Hukum degismedi: konum tabanli kazanc ogrenmeye ozgu degil.
 - Denetim: eski site iddialari kaldirildi, 7 yeni iddia (6'si sabotaj testli).
   Toplam 77 (`--all` 92).
+
+---
+
+## 2026-11-07 — Standart kullanici hizlari ve makalenin tam bagimsiz denetimi
+
+- Danisman elestirisi (1.5 m/s yavas): standartlar dogrulandi (3GPP TR 38.913: 3 km/h;
+  ITU-R M.2410-0 §4.11: yaya sinifi 0-10 km/h, ic mekan hareketlilik testi 10 km/h).
+  `scripts/mumiso_standard_speeds.py` ile 3 / 5.4 / 10 / 30 km/h olculdu; makaleye
+  Tablo IV ve paragraf eklendi. Kaynaklar `HIZ_STANDARTLARI.md`.
+- Tam bagimsiz denetim: sayi hatasi yok. Duzeltilenler:
+  - Tablo IV'te 1.5 m/s satiri (L*=4, %14.2) ana taramayla (L*=5, %14.0) celisiyordu:
+    ince izgarada L=4 ve 5 esit; metinde aciklandi.
+  - Ozet: CNN cumlesi "tek kullaniciya tasinmis" diye kapsamlandi; "yavas yontemler"
+    "varsayilan butceleriyle" diye nitelendi; periyodik guncellemede "en fazla 8 adim
+    yeterli" (govdedeki istatistiksel ifadeyle uyumlu); 191 kelime.
+  - "Her hizda gecerli" -> T_ov=0 icin; 30 km/h'de L>=24 guvenilir ufkun otesinde.
+  - Denetim kapsami cumlesi guncellendi; YZ beyanina "onceki calismadan/proje
+    gunlugunden alintilanan degerler disinda" eklendi.
+  - Tablo sirasi atif sirasina getirildi; Tablo VIII basligina T_ov=1.71 notu.
+  - Bolum V'e iki 6000 senaryoluk cekilis eklendi; sinirliliklara CD/uzun Adam
+    butcelerinin sabit oldugu eklendi.
+  - Depodaki PDF yeniden derlendi (eskimisti).

@@ -75,16 +75,8 @@ The effective rate above charges each method only for its own run time. A deploy
 
 The optimum also tolerates an error in the assumed speed: choosing $L$ for 1.5~m/s when users move at 1.8~m/s, or the reverse, costs less than 0.5\%, and at most 5.7\% (chosen for 1~m/s, users at 3~m/s).
 
-\emph{Standardized speeds.} Table~\ref{tab:speeds} repeats the main measurements on the same 400 scenarios, on a 0.5~ms grid up to 40~ms, at the speeds of the standards: 3~km/h, used in the 3GPP indoor-hotspot evaluation~\cite{3gpp_tr38913}; 10~km/h, the upper end of the IMT-2020 pedestrian class at which indoor mobility is evaluated~\cite{itu_m2410}; and, as a stress test outside the indoor classes, the 30~km/h of the dense-urban evaluation. Both findings hold at every speed. The optimum moves from 8 steps at 3~km/h to 3 at 10~km/h and 1 at 30~km/h, and running to $L=48$ costs 14.5\% (95\% CI 13.1--16.1\%) at 3~km/h and 10.5\% (9.0--11.9\%) at 10~km/h. SU-best-of is ahead of coordinate descent by 0.25--0.42~b/s/Hz and of long-run Adam by 0.45--0.64 at every speed, with paired CIs above zero. At 30~km/h with an acquisition delay the rate is almost flat in $L$, and the optimum is not interpreted.
+\emph{Standardized speeds.} Table~\ref{tab:speeds} repeats the main measurements on the same 400 scenarios, on a 0.5~ms grid up to 40~ms, at the speeds of the standards: 3~km/h, used in the 3GPP indoor-hotspot evaluation~\cite{3gpp_tr38913}; 10~km/h, the upper end of the IMT-2020 pedestrian class at which indoor mobility is evaluated~\cite{itu_m2410}; and, as a stress test outside the indoor classes, the 30~km/h of the dense-urban evaluation. With $T_{\mathrm{ov}}=0$, both findings hold at every speed. The optimum moves from 8 steps at 3~km/h to 3 at 10~km/h and 1 at 30~km/h, and running to $L=48$ costs 14.5\% (95\% CI 13.1--16.1\%) at 3~km/h and 10.5\% (9.0--11.9\%) at 10~km/h. SU-best-of is ahead of coordinate descent by 0.25--0.42~b/s/Hz and of long-run Adam by 0.45--0.64 at every speed, with paired CIs above zero. At 30~km/h, $L\ge 24$ lies beyond the reliable horizon (36~ms), so the $L=48$ cost is approximate, and with an acquisition delay nothing is resolved. At 1.5~m/s the finer grid makes $L=4$ and $5$ tie ($L^\star=4$, 14.2\%; main sweep 5, 14.0\%).
 
-\begin{table}[t]
-\centering
-\caption{The main measurements at standardized user speeds (aging-set scenarios, $T_{\mathrm{ov}}=0$): coherence time, normalized step cost, best step count (range within 0.5\%), cost of running Adam to $L=48$, and $\Delta$: SU-best-of minus coordinate descent in effective rate (b/s/Hz).}
-\label{tab:speeds}
-\footnotesize
-\setlength{\tabcolsep}{3pt}
-\input{tables/tab_speeds}
-\end{table}
 
 \begin{table}[t]
 \centering
@@ -93,6 +85,15 @@ The optimum also tolerates an error in the assumed speed: choosing $L$ for 1.5~m
 \footnotesize
 \setlength{\tabcolsep}{4pt}
 \input{tables/tab_sensitivity}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{The main measurements at standardized user speeds (aging-set scenarios, $T_{\mathrm{ov}}=0$): coherence time, normalized step cost, best step count (range within 0.5\%), cost of running Adam to $L=48$, and $\Delta$: SU-best-of minus coordinate descent in effective rate (b/s/Hz). At 30~km/h, $L=48$ lies beyond the reliable horizon.}
+\label{tab:speeds}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\input{tables/tab_speeds}
 \end{table}
 
 \subsection{Periodic Re-optimization}
@@ -155,7 +156,7 @@ Table~\ref{tab:cnn} gives the effective rates. At $t=0$ the network cannot be di
 
 \begin{table}[t]
 \centering
-\caption{Single-user set (400 scenarios): latency, $t=0$ rate and effective rate (b/s/Hz) of the ported CNN--LSTM and of classical methods. Bold: best method at each $T_{\mathrm{ov}}$, selected on a separate draw. Adam's step size selected on validation scenarios at each $L$; shown are $L=1$ and the best $L$ at $T_{\mathrm{ov}}=0$.}
+\caption{Single-user set (400 scenarios): latency, $t=0$ rate and effective rate (b/s/Hz) of the ported CNN--LSTM and of classical methods. Bold: best method at each $T_{\mathrm{ov}}$, selected on a separate draw. Adam's step size selected on validation scenarios at each $L$; shown are $L=1$ and the best $L$ at $T_{\mathrm{ov}}=0$. Ranges in the text also include $T_{\mathrm{ov}}=1.71$~ms.}
 \label{tab:cnn}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
