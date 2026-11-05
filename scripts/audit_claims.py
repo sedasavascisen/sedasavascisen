@@ -608,6 +608,11 @@ else:
     claim("speeds_reversal_every_speed", "8", "exact", 1,
           int(all(b["su_best_minus_cd"][1] > 0 and b["su_best_minus_pga"][1] > 0 for b in _b0.values())),
           "2.5 ms SU-best-of above CD and long-run Adam at every speed (CI)")
+    _m10 = _load("sumiso_mobility_eval_10kmh.json")
+    if _m10 is not None:
+        claim("speeds_10kmh_cnn_verdict", "8", "exact", 1,
+              int(all(v["_best"] == "CD-1" and "Adam-1" in v["_dominated_by[CNN-LSTM]"] for v in _m10["effective"].values())),
+              "single-user CNN-LSTM at 10 km/h: CD-1 best, Adam-1 dominates the CNN, every T_ov")
     claim("speeds_paper_speed_consistent", "8", "statistical", 14.0, _b0["5.4"]["loss_L48_pct"][0],
           "finer grid at 1.5 m/s agrees with the main sweep's 14.0%")
 

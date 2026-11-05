@@ -47,6 +47,8 @@ ap.add_argument("--rounds", type=int, default=3)
 ap.add_argument("--n_time", type=int, default=20, help="scenarios used for timing")
 ap.add_argument("--tov", type=float, nargs="*", default=[0.0, 1.71, 3.43, 10.0])
 ap.add_argument("--tag", default="sumiso_mobility_eval")
+ap.add_argument("--velocity", type=float, default=1.5, help="m/s")
+ap.add_argument("--reuse_latency", default="", help="take latencies from this results/*.json instead of timing")
 ap.add_argument("--idle", type=float, default=0.5, help="timing starts only once the 1-min load average is below this")
 a = ap.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -58,7 +60,7 @@ TIMES = (0.0, 1.0, 2.0, 5.0, 7.5, 10.0, 13.3, 15.0, 19.6, 20.0, 26.6, 28.2,
 def draw(seed):
     torch.manual_seed(0)
     panel, base = make_mumiso_scenario(n_users=1, n_bs_antennas=8, seed=seed)
-    cfg = MobileConfig(**{**base.__dict__, "velocity": 1.5, "times_ms": TIMES, "n_clusters": 20})
+    cfg = MobileConfig(**{**base.__dict__, "velocity": a.velocity, "times_ms": TIMES, "n_clusters": 20})
     d = MobileMuMisoChannel(panel, cfg).generate(a.n)
     F = torch.as_tensor(d["F"], dtype=torch.complex64)
     cas = [SV.cascade(F, torch.as_tensor(d["G_t"][:, m], dtype=torch.complex64),
@@ -170,12 +172,18 @@ for s in (1, 2):
     fns[f"CNN-LSTM+CD-{s}"] = cd_fn(s, "cnn")
 for L in ADAM_L:
     fns[f"Adam-{L}"] = (lambda L: lambda Fx, Gx, Hx, A, B: adam(A, B, SV.su_align(A, B), L, lr_of[L]))(L)
-t_wait = time.time()
-while os.getloadavg()[0] >= a.idle:          # CLAUDE.md: never time under load
-    time.sleep(10)
-load1 = os.getloadavg()[0]
-print(f"timing starts at load {load1:.2f} after waiting {time.time()-t_wait:.0f} s", flush=True)
-lat_rounds = {k: timeit(f) for k, f in fns.items()}
+if a.reuse_latency:                         # same code, no re-timing (e.g. another speed)
+    _prev = json.load(open(ROOT / "results" / a.reuse_latency))
+    lat_rounds = _prev["latency_rounds_ms"]
+    load1 = _prev["load_avg"]["before_timing"]
+    print(f"latencies reused from {a.reuse_latency}", flush=True)
+else:
+    t_wait = time.time()
+    while os.getloadavg()[0] >= a.idle:          # CLAUDE.md: never time under load
+        time.sleep(10)
+    load1 = os.getloadavg()[0]
+    print(f"timing starts at load {load1:.2f} after waiting {time.time()-t_wait:.0f} s", flush=True)
+    lat_rounds = {k: timeit(f) for k, f in fns.items()}
 load2 = os.getloadavg()[0]
 lat = {k: float(np.median(v)) for k, v in lat_rounds.items()}
 lat["CD-converged (offline)"] = None
