@@ -55,6 +55,7 @@ KNOWN = {
     "29.70": "results/mumiso_latency_parity.json (contaminated Adam L=8)",
     "0.025": "x at this setup", "0.075": "x at m=3", "6.0": "BS distance 5.98 m",
     "6.4": "Fraunhofer distance 6.40 m",
+    "2.77": "RMSE reported by the published CNN-LSTM paper (quoted, not measured here)",
 }
 RESULT_KEYS = ("aging", "beam", "precoder", "mobility_latency", "latency_repeat",
                "latency_parity", "step_scaling", "tracking", "optimum_model",

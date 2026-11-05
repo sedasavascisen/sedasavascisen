@@ -17,11 +17,11 @@ güncelletme sadece üzerine eklemeler yapıp doktora tezimi şekillendir."*
 ## Her oturumun ilk komutu
 
 ```bash
-python3 scripts/audit_claims.py        # 65 iddia
-python3 scripts/audit_claims.py --all  # §5 dahil, 80 iddia
+python3 scripts/audit_claims.py        # 70 iddia
+python3 scripts/audit_claims.py --all  # §5 dahil, 85 iddia
 ```
 
-`80/80` görmeden hiçbir sayıya güvenme. Bir şey kırıldıysa burada görünür.
+`85/85` görmeden hiçbir sayıya güvenme. Bir şey kırıldıysa burada görünür.
 
 ---
 
@@ -155,7 +155,7 @@ Ayrıntılı görev tanımları ve kabul ölçütleri: `CLAUDE_CODE_PROMPT.md`.
 | `DEGISIKLIKLER_2026-10-23.md` | Düzeltilen her hatanın kaydı |
 | `README_MUMISO.md` | Bulguların uzun anlatımı |
 | `ris_mu/mumiso/system.py` | Sistem denklemleri — tek doğruluk kaynağı |
-| `scripts/audit_claims.py` | 80 iddia; sabotaj testiyle doğrulandı |
+| `scripts/audit_claims.py` | 85 iddia; sabotaj testiyle doğrulandı |
 | `scripts/make_writing_reference.py` | Referansı yeniden üretir |
 
 Yeni bir ölçüm yaptıysan: betiği `scripts/` altına koy, sonucu

@@ -393,3 +393,62 @@ satiri), yani tuzak gercekten tetiklenir.
 `n_bs_antennas=8, n_users=4` ile alindi, yani sezginin dogru calistigi
 rejimde. Ebeveyn sinifa gecirirken sekil tahmini birakilacak; paylasim
 cagri yerinde acik bir argumanla belirtilecek.
+
+---
+
+## 2026-11-05 — Bagimsiz denetim: tek kullanicili MISO (CNN–LSTM) sonuclari
+
+Bagimsiz bir denetim ajani 4 Kasim'da eklenen sumiso calismasini inceledi.
+Bulgular dogrulandi ve duzeltildi. **Kullaniciya da bildirildi.**
+
+### HATA (kritik): "CNN–LSTM t=0'da bile kapali formun altinda"
+
+Makalede (ozet, giris, VI-G, sonuc), `CNN_LSTM_HAREKETLILIK_SONUCLARI.md`'de ve
+kullaniciya verilen raporda boyle yazildi. **Yanlis.**
+
+| Orneklem | CNN − SU-align [%95 GA] |
+|---|---|
+| 400 (seed 11, makale kumesi) | −0.034 [−0.094, +0.026] — anlamsiz |
+| 6000 (seed 11) | **+0.059** [+0.041, +0.077] |
+| 6000 (seed 13) | **+0.040** [+0.023, +0.059] |
+
+Dogru ifade: **tek bir Adam adimi** (0.59 ms, CNN 1.12 ms) CNN'i her uc cekiliste
+anlamli bicimde baskinliyor (−0.143, −0.090, −0.104). Olumsuz hukum degismedi,
+gerekcesi degisti. Kaynak: `scripts/sumiso_mobility_eval.py` (`paired_t0`),
+`scripts/sumiso_t0_robustness.py`. Denetim iddiasi `su_cnn_below_closed_form_t0`
+kaldirildi; yerine `su_cnn_vs_align_t0_not_significant`,
+`su_cnn_above_align_large_draws`, `su_cnn_dominated_by_adam1` (sabotaj testli).
+
+### HATA: "iki hukum de t=0'da gecerli, zamanlamaya bagli degil"
+
+(CNN + CD-1) − CD-1 t=0'da anlamsiz (−0.009 [−0.021, +0.004]). Hukum yalnizca
+gecikmeyle (4.26 ms'ye 2.48 ms) gecerli. Cumle kaldirildi.
+
+### HATA: gecikme yuk altinda olculdu
+
+`sumiso_mobility_eval` yuk 0.66'dan, `sumiso_discrete_eval` 0.43 bekleme sonrasi
+0.60'tan basladi (kural: < 0.5). Iki betik artik yuk < 0.5 olana kadar bekliyor ve
+yeniden olculdu (0.16 ve 0.43'te basladi). `sumiso_csi_eval` yeni gecikmelerle yeniden
+kostu. Hukumler degismedi; sayilar guncellendi (orn. CNN 1.18 → 1.12 ms).
+
+### HATA: en iyi yontem test kumesinde seciliyordu
+
+`sumiso_mobility_eval` artik seed 12 cekilisinde seciyor (her T_ov'de CD-1).
+T_ov=0'da eski "CD-2" ile CD-1 arasindaki fark 0.003, yani beraberlik.
+
+### Betiksiz iki sayi
+
+- Etiket kalitesi "1.3e-3 icinde": betigi yoktu. `scripts/sumiso_label_check.py`
+  yazildi: Adam etiketi senaryo basina en fazla **0.0048** geciyor (300 senaryo).
+- MD'deki "CD-10 23 ms'de 12.154": satir ici enterpolasyondu; JSON'daki deger kullaniliyor.
+
+### Asiri iddia ve eksik aciklamalar (duzeltildi)
+
+- "Avantaj cok antenli hareketli durumda tasinmiyor": SISO'da da kapali form kesin
+  optimum; makaledeki 2.77° bu ureteçte uretilemedi (14.99°). Metin bunu acikca soyluyor.
+- "Ag baglasimi ogrenmiyor" → "kucuk bir kismini yakaliyor" (aradaki farkin %12.8'i).
+- Ham girdi (83.84°) duz basla egitildi; 66.45° ile kiyaslanmali.
+- Egitim 40 000 degil 28 000 senaryo (6000 secim, 6000 test).
+- PyTorch kodundan alinan uc tercih (z-skor, kirpma, en iyi checkpoint) aciklandi.
+- Ayrik faz: 1 bitte straight-through modeli (b) ile ayni; baskinlik listeleri
+  ortalamaya dayali — referansa not dusuldu.

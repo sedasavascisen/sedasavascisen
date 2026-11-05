@@ -460,10 +460,30 @@ if _me is None or _ce is None:
 else:
     claim("su_cnn_rate_t0", "8", "exact", 12.3554, _me["rate_t0"]["CNN-LSTM"])
     claim("su_align_rate_t0", "8", "exact", 12.3892, _me["rate_t0"]["SU-align"])
-    claim("su_cnn_below_closed_form_t0", "8", "exact", 1,
-          int(_me["rate_t0"]["CNN-LSTM"] < _me["rate_t0"]["SU-align"]),
-          "one forward pass is below closed-form alignment already at t=0")
-    claim("su_cnn_cd1_below_cd1_all_tov", "8", "exact", 1,
+    # Corrected 2026-11-05 (independent audit): the network is NOT below
+    # closed-form alignment -- not significant on the 400 set, slightly ABOVE
+    # it on 6000-scenario draws. What holds is dominance by one Adam step.
+    _rb = _load("sumiso_t0_robustness.json")
+    _p0 = _me["paired_t0"]
+    claim("su_cnn_vs_align_t0_not_significant", "8", "exact", 1,
+          int(_p0["CNN-LSTM - SU-align"][1] < 0 < _p0["CNN-LSTM - SU-align"][2]),
+          "400 set: CI of CNN - SU-align contains zero")
+    claim("su_cnn_above_align_large_draws", "8", "exact", 1,
+          int(_rb is not None and all(v["cnn_minus_su_align"]["ci95"][0] > 0 for v in _rb["draws"].values())),
+          "6000-scenario draws (seeds 11, 13): CNN slightly above SU-align")
+    claim("su_cnn_dominated_by_adam1", "8", "exact", 1,
+          int(_me["latency_ms"]["Adam-1"] < _me["latency_ms"]["CNN-LSTM"]
+              and _p0["CNN-LSTM - Adam-1"][2] < 0
+              and _rb is not None and all(v["cnn_minus_adam1"]["ci95"][1] < 0 for v in _rb["draws"].values())),
+          "one Adam step is faster and significantly better, on all three draws")
+    claim("su_timing_started_idle", "8", "exact", 1,
+          int(_me["load_avg"]["before_timing"] < 0.5),
+          "latency timing began below load 0.5")
+    _lc = _load("sumiso_label_check.json")
+    if _lc is not None:
+        claim("su_label_vs_long_adam", "8", "statistical", 0.0, _lc["max_adam_minus_label"],
+              "3-start 1000-step Adam beats a CD label by at most this (300 scenarios)", at_most=0.01)
+    claim("su_cnn_cd1_below_cd1_all_tov", "8", "exact", 1,   # effective rates, i.e. with latency
           int(all(v["CNN-LSTM+CD-1"]["effective"] < v["CD-1"]["effective"]
                   for v in _me["effective"].values())),
           "the network is a worse start for one CD sweep than alignment")
@@ -537,7 +557,9 @@ else:
           int(all(v["static"]["test"]["CNN (b) discrete labels"] <= v["static"]["test"]["CNN (a) continuous labels"] + 0.01
                   for v in _lv.values())),
           "training on discrete labels does not beat rounding the continuous model")
-    claim("disc_cnn_cd1_dominated", "8", "exact", 1,
+    claim("disc_timing_started_idle", "8", "exact", 1, int(_dp["load_avg"]["before_timing"] < 0.5),
+          "latency timing began below load 0.5")
+    claim("disc_cnn_cd1_dominated", "8", "exact", 1,   # mean-based dominance (faster and higher mean)
           int(all(len(v["mobility"]["dominated_by[CNN (c) straight-through + discrete CD-1]"]) > 0 for v in _lv.values())),
           "network + 1 discrete sweep is dominated by a faster, better classical arm")
 

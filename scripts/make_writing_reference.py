@@ -287,14 +287,29 @@ if _me:
     W("")
     W("| Yontem | Gecikme (ms) | t=0 | " + " | ".join(f"T_ov={float(t):g} ms" for t in _me["effective"]) + " |")
     W("| --- | --- | --- | " + " | ".join("---" for _ in _me["effective"]) + " |")
-    for k in ("SU-align", "CD-1", "CD-2", "CD-10", "Adam-8", "CNN-LSTM", "CNN-LSTM+CD-1"):
+    for k in ("SU-align", "CD-1", "CD-2", "CD-10", "Adam-1", "Adam-8", "CNN-LSTM", "CNN-LSTM+CD-1"):
         W(f"| {k} | {_me['latency_ms'][k]:.2f} | {_me['rate_t0'][k]:.3f} | "
           + " | ".join(f"{v[k]['effective']:.3f}" for v in _me["effective"].values()) + " |")
     W("")
     W(f"Yuk: {_me['load_avg']['start']:.2f} / {_me['load_avg']['before_timing']:.2f} / {_me['load_avg']['after_timing']:.2f}. "
       "Her T_ov'de en iyi: " + ", ".join(v["_best"] for v in _me["effective"].values()) + ".")
     W("")
-    W("Kaynak: `scripts/sumiso_mobility_eval.py --ckpt sumiso_cnnlstm_seq`")
+    _p0 = _me["paired_t0"]
+    W("En iyi yontem ayri bir cekiliste (seed 12) secildi. t=0'da eslestirilmis farklar (ortalama [%95 GA]):")
+    W("")
+    for k, v in _p0.items():
+        W(f"- {k}: {v[0]:+.3f} [{v[1]:+.3f}, {v[2]:+.3f}]")
+    _rb = L("sumiso_t0_robustness.json")
+    if _rb:
+        for sd_, v in _rb["draws"].items():
+            W(f"- 6000 senaryo, seed {sd_}: CNN − SU-align {v['cnn_minus_su_align']['mean']:+.3f} "
+              f"[{v['cnn_minus_su_align']['ci95'][0]:+.3f}, {v['cnn_minus_su_align']['ci95'][1]:+.3f}], "
+              f"CNN − Adam-1 {v['cnn_minus_adam1']['mean']:+.3f} [{v['cnn_minus_adam1']['ci95'][0]:+.3f}, {v['cnn_minus_adam1']['ci95'][1]:+.3f}]")
+    W("")
+    W("**Dikkat:** CNN'in kapalı formun ALTINDA oldugu YAZILMAMALI (400'de anlamsiz, 6000'de hafif USTUNDE). "
+      "Dogru ifade: tek, daha hizli bir Adam adimi CNN'i baskinliyor.")
+    W("")
+    W("Kaynak: `scripts/sumiso_mobility_eval.py` (varsayilan `--ckpt sumiso_cnnlstm_seq`), `scripts/sumiso_t0_robustness.py`")
     W("")
 _ce = L("sumiso_csi_eval.json")
 if _ce:
@@ -352,12 +367,16 @@ if _dp:
     W(f"Statik: test 6000 (seed 2026). Hareketli: secim seed 12, rapor seed 11, 400 senaryo. "
       f"Yuk {_dp['load_avg']['start']:.2f} / {_dp['load_avg']['before_timing']:.2f} / {_dp['load_avg']['after_timing']:.2f}.")
     W("")
+    W("Not: 1 bitte straight-through ince ayar dogrulamada iyilestirme bulmadi; (c) satirlari (b) ile ayni model. "
+      "Baskinlik listeleri ortalamaya dayali; 'kapali form + yuvarlama ag'i baskinliyor' farklari gurultu icinde, guclu iddia olarak yazmayin. "
+      "1 bitte surekli egitilmis CNN (a) baskinlanmiyor ama secilen klasigin altinda (GA sifiri disliyor).")
+    W("")
     W("Kaynak: `scripts/sumiso_discrete_eval.py` -> `results/sumiso_discrete_eval.json`")
     W("")
 
 W("## Ek — yeniden uretilebilirlik")
 W("")
-W("- `scripts/audit_claims.py` — 65 iddia (`--all` ile 80), hepsi geciyor")
+W("- `scripts/audit_claims.py` — 70 iddia (`--all` ile 85), hepsi geciyor")
 W("- Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**")
 W("- Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor")
 W("")

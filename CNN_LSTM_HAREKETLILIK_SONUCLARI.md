@@ -1,21 +1,28 @@
-# Faz-farkında CNN–LSTM'in hareketli MISO senaryosuna taşınması — sonuçlar (4 Kasım 2026)
+# Faz-farkında CNN–LSTM'in hareketli MISO senaryosuna taşınması — sonuçlar
+
+*İlk sürüm 4 Kasım 2026. 5 Kasım 2026'da bağımsız denetim sonrası düzeltildi;
+düzeltmelerin kaydı `DEGISIKLIKLER_2026-10-23.md` sonunda.*
 
 Yayımlanmış model: Savaşçı Şen vd., *Adv. Intell. Syst.* 2026, doi:10.1002/aisy.70460.
-Yazarların kodundan (train_cnn_lstm.py ve theta_NN_multioutput.m) birebir taşındı;
-yalnızca girdi kanal sayısı değişti. 4 kanalla PyTorch portu yazarların sınıfıyla
-aynı parametre sayısını verir (822 976).
+Yazarların MATLAB koduyla (theta_NN_multioutput.m) aynı mimari kullanıldı. PyTorch kodundan
+(train_cnn_lstm.py) üç tercih alındı: z-skor girdi, gradyan kırpma (1.0), en iyi doğrulama
+checkpoint'i. Yalnızca girdi kanal sayısı değişti. 4 kanalla PyTorch sınıfı 822 976,
+MATLAB yapısı 162 562 parametre veriyor; makaledeki 727K ikisine de uymuyor.
 
 ## Kurgu
-- Senaryo: hareketlilik makalesinin yaşlanma kümesi, tek kullanıcı. 3GPP InH-Office,
+- **Senaryo:** hareketlilik makalesinin yaşlanma kümesi, tek kullanıcıyla. 3GPP InH-Office,
   8 antenli BS, 8×4 RIS (N=32), 20 saçıcı, doğrudan bağlantı 40 dB bloklu, 3 GHz, 1.5 m/s.
-- Veri seti: 40 000 statik anlık görüntü (seed 2026), %70/15/15. Etiket: kesin
-  eleman-bazlı koordinat yükselişi (1000 adımlı Adam'la 1.3e-3 b/s/Hz içinde).
-  Üretici: `scripts/sumiso_dataset.py` (veri depoya konmadı, yeniden üretilir).
-- MISO'da etiketin ortak fazı belirsizdir (zayıf doğrudan bağlantı). Etiket 1. elemana
-  göre sabitlenir, ortak faz çıkarımda kapalı formda geri konur: φ = ∠(cᴴa).
-- Değerlendirme: ayrı çekiliş (seed 11), 400 senaryo; her yöntemin fazı, kendi
-  ölçülen gecikmesindeki kanalda değerlendirilir (etkin hız). Boş makine
-  (yük 0.66 / 0.81 / 1.02), tek iş parçacığı.
+- **Veri seti:** 40 000 statik anlık görüntü (seed 2026). 28 000'i eğitim, 6000'i
+  checkpoint seçimi ve Adam ayarı, 6000'i statik test.
+- **Etiket:** kesin eleman-bazlı koordinat yükselişi. 3 başlangıçlı, 1000 adımlı Adam
+  etiketi senaryo başına en fazla 0.0048 b/s/Hz geçiyor (300 senaryo,
+  `scripts/sumiso_label_check.py`).
+- **Ortak faz:** MISO'da etiketin ortak fazı belirsiz (zayıf doğrudan bağlantı). Etiket 1.
+  elemana göre sabitleniyor, ortak faz çıkarımda kapalı formda geri konuyor: φ = ∠(cᴴa).
+- **Değerlendirme:** ayrı çekiliş (seed 11), 400 senaryo. En iyi yöntem üçüncü bir
+  çekilişte (seed 12) seçiliyor.
+- **Gecikme:** yük 0.5'in altına inene kadar beklendi; ölçüm 0.16'da başladı, 0.97'de
+  bitti (betiğin kendi iş parçacığı). Tek iş parçacığı.
 
 ## Statik sonuçlar (test, 6000 senaryo) — `scripts/sumiso_train.py`
 | Kurulum | Baş | RMSE (°) | SR@5° | Hız (b/s/Hz) | Kapalı form | Optimum |
@@ -26,47 +33,59 @@ aynı parametre sayısını verir (822 976).
 | MISO, kaskat girdi | PyTorch (düz) | 66.45 | %14.3 | 12.241 | 12.431 | 12.893 |
 | MISO, ham girdi (ayrı F, G) | PyTorch (düz) | 83.84 | %10.2 | 11.201 | 12.431 | 12.893 |
 
-## Hareketli etkin hız (400 senaryo, seed 11) — `scripts/sumiso_mobility_eval.py`
-Adam adım boyu her L için doğrulamada 10 değerden ([0.02, 2.0]) seçildi; seçimler ızgara içinde.
-Yük: 0.66 (başta) / 0.81 / 1.02 (ölçüm sonunda; betiğin kendi iş parçacığı).
+Ham girdi satırı PyTorch başıyla eğitildi, bu yüzden 66.45° ile karşılaştırılmalı.
 
+## Hareketli etkin hız (400 senaryo, seed 11) — `scripts/sumiso_mobility_eval.py`
 | Yöntem | Gecikme (ms) | R(t=0) | T_ov=0 | 1.71 ms | 3.43 ms | 10 ms |
 |---|---|---|---|---|---|---|
-| SU-hizalama (kapalı form) | 0.038 | 12.389 | 12.389 | 12.385 | 12.369 | 12.249 |
-| **CD-1** (1 tarama) | 2.26 | 12.709 | 12.701 | **12.683** | **12.660** | **12.497** |
-| **CD-2** | 4.72 | 12.736 | **12.702** | 12.673 | 12.639 | 12.442 |
-| CD-10 | 22.55 | 12.742 | 12.167 | 12.115 | 12.063 | 11.987 |
-| Adam-8 (en iyi Adam, T_ov=0) | 4.17 | 12.690 | 12.661 | 12.637 | 12.606 | 12.417 |
-| CNN–LSTM (tek geçiş) | 1.18 | 12.355 | 12.354 | 12.342 | 12.325 | 12.192 |
-| CNN–LSTM + CD-1 | 4.15 | 12.700 | 12.672 | 12.648 | 12.616 | 12.428 |
+| SU-hizalama (kapalı form) | 0.04 | 12.389 | 12.389 | 12.385 | 12.369 | 12.249 |
+| **CD-1** (1 tarama) | 2.48 | 12.709 | **12.698** | **12.681** | **12.656** | **12.491** |
+| CD-2 | 4.76 | 12.736 | 12.701 | 12.673 | 12.638 | 12.441 |
+| CD-10 | 23.06 | 12.742 | 12.152 | 12.099 | 12.047 | 11.984 |
+| **Adam-1** (tek adım) | 0.59 | 12.499 | 12.498 | 12.490 | 12.472 | 12.339 |
+| Adam-8 | 3.89 | 12.690 | 12.664 | 12.642 | 12.611 | 12.427 |
+| CNN–LSTM (tek geçiş) | 1.12 | 12.355 | 12.354 | 12.342 | 12.326 | 12.193 |
+| CNN–LSTM + CD-1 | 4.26 | 12.700 | 12.671 | 12.646 | 12.614 | 12.424 |
 | CD yakınsamış (çevrimdışı tavan) | — | 12.745 | | | | |
 
-En iyiye göre eşleştirilmiş fark (%95 GA sıfırı dışlıyor): CNN–LSTM −0.306…−0.348,
-CNN–LSTM + CD-1 −0.030…−0.069 b/s/Hz.
+Kalın: seed 12'de seçilen en iyi yöntem (her T_ov'de CD-1). T_ov=0'da test kümesinde CD-2
+ile CD-1 arasındaki fark 0.003 b/s/Hz, yani pratikte beraberlik.
+
+**t=0'da eşleştirilmiş farklar** (ortalama [%95 GA]):
+
+| Karşılaştırma | 400 senaryo (seed 11) | 6000 senaryo (seed 11) | 6000 senaryo (seed 13) |
+|---|---|---|---|
+| CNN − kapalı form | −0.034 [−0.094, +0.026] | +0.059 [+0.041, +0.077] | +0.040 [+0.023, +0.059] |
+| CNN − Adam-1 | −0.143 [−0.197, −0.089] | −0.090 [−0.106, −0.074] | −0.104 [−0.120, −0.088] |
+| (CNN + CD-1) − CD-1 | −0.009 [−0.021, +0.004] | — | — |
+
+6000 senaryoluk sütunlar `scripts/sumiso_t0_robustness.py`'den geliyor.
 
 ## Hüküm
-1. Tek geçişli CNN–LSTM, 0.04 ms'lik kapalı formun **altında** kalıyor (12.355 < 12.389).
-2. CNN–LSTM + CD-1, SU-hizalamadan başlayan CD-1'in hem hızında hem gecikmesinde altında.
-   Ağ, iyileştirme için de iyi bir başlangıç vermiyor.
-3. Her T_ov'de en iyi yöntem klasik (CD-1/CD-2). Gecikme sıralamayı yine belirliyor:
-   CD-10 t=0'da 12.742 iken 23 ms gecikmeyle 12.154'e düşüyor.
-4. Mekanizma: SISO'da optimum eleman başına kapalı formdadır (−∠bₙ + ∠a); ağ, 0.04 ms'de
-   kesin hesaplanan bir fonksiyonu yaklaşık öğreniyor. MISO'da optimum BS hüzmesi
-   üzerinden tüm elemanlara bağlı (küresel) hale geliyor ve yayımlanmış mimariler bunu
-   yakalayamıyor. Ham F, G girdisiyle ağ gₙ·Fₙ çarpımını kendisi kuramıyor.
+1. **Tek geçişli CNN–LSTM'i, tek bir Adam adımı baskınlıyor.** Adam-1 daha hızlı
+   (0.59 ms, CNN 1.12 ms) ve her üç çekilişte anlamlı biçimde daha iyi.
+2. **CNN, kapalı formun altında DEĞİL.** 400 senaryoda fark anlamsız; 6000 senaryoda
+   ağ, kapalı formun biraz **üstünde** (+0.04 ile +0.06). Kapalı formla optimum
+   arasındaki farkın %12.8'ini kapatıyor.
+3. **CNN, CD için iyi bir başlangıç değil.** t=0'da hiçbir şey eklemiyor (fark anlamsız).
+   Gecikmesi daha yüksek olduğu için (4.26 ms'ye 2.48 ms) etkin hızda her T_ov'de en iyinin
+   0.028–0.066 b/s/Hz altında kalıyor.
+4. **Gecikme sıralamayı yine belirliyor.** CD-10 t=0'da 12.742 iken 23 ms gecikmeyle
+   12.152'ye düşüyor; en iyisi tek tarama.
+5. **Mekanizma:** MISO'da her elemanın en iyi fazı, diğer elemanların oluşturduğu BS
+   hüzmesine bağlı. Ağ bu bağlaşımın küçük bir kısmını yakalıyor.
 
-Bu, tezdeki "yapay zekâ ekseni kapandı ve olumsuz" sonucunu yayımlanmış modelle ve tek
-kullanıcılı MISO'ya genişletir. Yeniden "çalışıyor" diye çerçevelenmemelidir.
+Bu sonuç, tezdeki "yapay zekâ ekseni olumsuz" bulgusunu yayımlanmış modelle tek
+kullanıcılı MISO'ya genişletiyor. Yeniden "çalışıyor" diye çerçevelenmemelidir.
 
 ## Uyarılar
-- SISO kontrolünde 2.77° yeniden üretilemedi (en iyi 14.99°). Veri üreteci farklı
-  (3GPP geometrisi + LoS vs. makaledeki Rayleigh + 6 saçıcı), yani bu bir çelişki
-  değil, ama jüri sorabilir.
-- Makalede 727K parametre yazıyor; yazarların PyTorch sınıfı N=32'de 822 976 veriyor,
-  MATLAB yapısı ~162K. Hangi modelin raporlandığı kontrol edilmeli.
-- MISO test kümesinde (seed 2026) CNN–LSTM SU-hizalamanın üstünde (12.490 > 12.431),
-  değerlendirme kümesinde (seed 11) altında (12.355 < 12.389). Fark küçük, işaret kararsız.
-- Gecikme: Python/PyTorch, tek iş parçacığı, 20 senaryo × 25 tekrar × 3 tur.
+- **SISO kontrolü:** makaledeki 2.77° yeniden üretilemedi (en iyi 14.99°). Veri üreteci
+  farklı (3GPP geometrisi ve LoS; makalede Rayleigh ve 6 saçıcı), yani mutlak hata iki
+  çalışma arasında karşılaştırılamaz. SISO'da kapalı form zaten kesin optimum.
+- **Ölçüm yükü:** ilk ölçümde (4 Kasım) yük 0.66'dan başlamıştı. 5 Kasım'da yük 0.5'in
+  altına inene kadar beklenerek yeniden ölçüldü; bu dosyadaki gecikmeler yeni ölçüm.
+- **Gecikme ortamı:** Python/PyTorch, tek iş parçacığı, 20 senaryo × 25 tekrar × 3 tur.
 
 ## Makaleye eklenme
-Hareketlilik makalesi §VI-G ve Tablo VII (`tables/tab_cnnlstm.tex`, make_paper_assets.py üretir).
+Hareketlilik makalesi §VI-G ve Tablo VII (`tables/tab_cnnlstm.tex`, `make_paper_assets.py`
+tarafından üretiliyor).

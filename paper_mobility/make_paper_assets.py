@@ -616,7 +616,8 @@ lines = [r"\begin{tabular}{lrr|rrr}", r"\toprule",
          r" & & & \multicolumn{3}{c}{Effective, $T_{\mathrm{ov}}$ (ms)} \\",
          r"Method & ms & $t{=}0$ & " + " & ".join(f"{float(t):g}" for t in show_t) + r" \\", r"\midrule"]
 ROWS = [("SU alignment", "SU-align"), ("CD, 1 sweep", "CD-1"), ("CD, 2 sweeps", "CD-2"),
-        ("CD, 10 sweeps", "CD-10"), (f"Adam, $L{{=}}{best_adam['0.0'].split('-')[1]}$", best_adam["0.0"]),
+        ("CD, 10 sweeps", "CD-10"), ("Adam, $L{=}1$", "Adam-1"),
+        (f"Adam, $L{{=}}{best_adam['0.0'].split('-')[1]}$", best_adam["0.0"]),
         ("CNN--LSTM", "CNN-LSTM"), ("CNN--LSTM + CD, 1 sweep", "CNN-LSTM+CD-1")]
 for lbl, k in ROWS:
     cells = []

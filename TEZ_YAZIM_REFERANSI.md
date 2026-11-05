@@ -225,26 +225,37 @@ Kaynak: `scripts/sumiso_train.py` -> `results/sumiso_cnnlstm*.json`
 | Yontem | Gecikme (ms) | t=0 | T_ov=0 ms | T_ov=1.71 ms | T_ov=3.43 ms | T_ov=10 ms |
 | --- | --- | --- | --- | --- | --- | --- |
 | SU-align | 0.04 | 12.389 | 12.389 | 12.385 | 12.369 | 12.249 |
-| CD-1 | 2.26 | 12.709 | 12.701 | 12.683 | 12.660 | 12.497 |
-| CD-2 | 4.72 | 12.736 | 12.702 | 12.673 | 12.639 | 12.442 |
-| CD-10 | 22.55 | 12.742 | 12.167 | 12.115 | 12.063 | 11.987 |
-| Adam-8 | 4.17 | 12.690 | 12.661 | 12.637 | 12.606 | 12.417 |
-| CNN-LSTM | 1.18 | 12.355 | 12.354 | 12.342 | 12.325 | 12.192 |
-| CNN-LSTM+CD-1 | 4.15 | 12.700 | 12.672 | 12.648 | 12.616 | 12.428 |
+| CD-1 | 2.48 | 12.709 | 12.698 | 12.681 | 12.656 | 12.491 |
+| CD-2 | 4.76 | 12.736 | 12.701 | 12.673 | 12.638 | 12.441 |
+| CD-10 | 23.06 | 12.742 | 12.152 | 12.099 | 12.047 | 11.984 |
+| Adam-1 | 0.59 | 12.499 | 12.498 | 12.490 | 12.472 | 12.339 |
+| Adam-8 | 3.89 | 12.690 | 12.664 | 12.642 | 12.611 | 12.427 |
+| CNN-LSTM | 1.12 | 12.355 | 12.354 | 12.342 | 12.326 | 12.193 |
+| CNN-LSTM+CD-1 | 4.26 | 12.700 | 12.671 | 12.646 | 12.614 | 12.424 |
 
-Yuk: 0.66 / 0.81 / 1.02. Her T_ov'de en iyi: CD-2, CD-1, CD-1, CD-1.
+Yuk: 0.01 / 0.16 / 0.97. Her T_ov'de en iyi: CD-1, CD-1, CD-1, CD-1.
 
-Kaynak: `scripts/sumiso_mobility_eval.py --ckpt sumiso_cnnlstm_seq`
+En iyi yontem ayri bir cekiliste (seed 12) secildi. t=0'da eslestirilmis farklar (ortalama [%95 GA]):
+
+- CNN-LSTM - SU-align: -0.034 [-0.094, +0.026]
+- CNN-LSTM - Adam-1: -0.143 [-0.197, -0.089]
+- CNN-LSTM+CD-1 - CD-1: -0.009 [-0.021, +0.004]
+- 6000 senaryo, seed 11: CNN − SU-align +0.059 [+0.041, +0.077], CNN − Adam-1 -0.090 [-0.106, -0.074]
+- 6000 senaryo, seed 13: CNN − SU-align +0.040 [+0.023, +0.059], CNN − Adam-1 -0.104 [-0.120, -0.088]
+
+**Dikkat:** CNN'in kapalı formun ALTINDA oldugu YAZILMAMALI (400'de anlamsiz, 6000'de hafif USTUNDE). Dogru ifade: tek, daha hizli bir Adam adimi CNN'i baskinliyor.
+
+Kaynak: `scripts/sumiso_mobility_eval.py` (varsayilan `--ckpt sumiso_cnnlstm_seq`), `scripts/sumiso_t0_robustness.py`
 
 ### 6.3 Kusurlu CSI (iki kol ayri)
 
 | e2 | Klasik (dogrulamada secilen) | (a) temiz egitilmis | (b) gurultuyle egitilmis | (b)+CD-1 | (b) − klasik [%95 GA] | Hareketli: klasik | Hareketli: (b) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 0.0 | Adam-64 12.892 | 12.490 | 12.490 | 12.855 | -0.402 [-0.415, -0.390] | CD-1 12.701 | 12.354 |
-| 0.01 | Adam-64 12.886 | 12.475 | 12.469 | 12.849 | -0.417 [-0.430, -0.404] | CD-1 12.693 | 12.331 |
-| 0.03 | Adam-64 12.876 | 12.447 | 12.437 | 12.837 | -0.439 [-0.453, -0.425] | CD-1 12.676 | 12.296 |
-| 0.1 | CD-30 12.833 | 12.345 | 12.334 | 12.790 | -0.500 [-0.516, -0.484] | CD-1 12.633 | 12.188 |
-| 0.3 | Adam-64 12.675 | 12.017 | 12.026 | 12.612 | -0.649 [-0.669, -0.628] | CD-2 12.464 | 11.885 |
+| 0.0 | Adam-64 12.892 | 12.490 | 12.490 | 12.855 | -0.402 [-0.415, -0.390] | CD-1 12.698 | 12.354 |
+| 0.01 | Adam-64 12.886 | 12.475 | 12.469 | 12.849 | -0.417 [-0.430, -0.404] | CD-1 12.691 | 12.331 |
+| 0.03 | Adam-64 12.876 | 12.447 | 12.437 | 12.837 | -0.439 [-0.453, -0.425] | CD-1 12.674 | 12.296 |
+| 0.1 | CD-30 12.833 | 12.345 | 12.334 | 12.790 | -0.500 [-0.516, -0.484] | CD-2 12.639 | 12.188 |
+| 0.3 | Adam-64 12.675 | 12.017 | 12.026 | 12.612 | -0.649 [-0.669, -0.628] | CD-2 12.463 | 11.885 |
 
 Statik: dogrulama 1000, test 6000 (seed 2026). Hareketli: secim seed 12, rapor seed 11, 400'er senaryo.
 Klasik kolun secilen ayari her hata seviyesinde yakinsamis bir ayar: erken durdurma kazanc getirmiyor.
@@ -271,47 +282,49 @@ Kaynak: `scripts/sumiso_representation_summary.py` -> `results/sumiso_representa
 
 | Bit | Yontem | Gecikme (ms) | Statik hiz | Hareketli etkin hiz |
 | --- | --- | --- | --- | --- |
-| 1 | SU-align -> round | 0.06 | 11.547 | 11.523 |
-| 1 | CD-1 -> round | 2.53 | 11.894 | 11.775 |
-| 1 | CD-10 -> round | 24.76 | 11.922 | 11.229 |
-| 1 | discrete CD-1 | 3.07 | 11.998 | 11.870 |
-| 1 | discrete CD-2 | 5.97 | 12.053 | 11.888 |
-| 1 | discrete CD-10 | 29.91 | 12.074 | 11.296 |
-| 1 | CNN (a) continuous labels | 1.82 | 11.718 | 11.634 |
-| 1 | CNN (b) discrete labels | 1.82 | 11.589 | 11.483 |
-| 1 | CNN (c) straight-through | 1.82 | 11.589 | 11.483 |
-| 1 | CNN (c) straight-through + discrete CD-1 | 5.39 | 11.997 | 11.843 |
+| 1 | SU-align -> round | 0.05 | 11.547 | 11.523 |
+| 1 | CD-1 -> round | 2.38 | 11.894 | 11.776 |
+| 1 | CD-10 -> round | 22.54 | 11.922 | 11.285 |
+| 1 | discrete CD-1 | 2.83 | 11.998 | 11.872 |
+| 1 | discrete CD-2 | 5.56 | 12.053 | 11.894 |
+| 1 | discrete CD-10 | 26.80 | 12.074 | 11.334 |
+| 1 | CNN (a) continuous labels | 1.69 | 11.718 | 11.634 |
+| 1 | CNN (b) discrete labels | 1.69 | 11.589 | 11.484 |
+| 1 | CNN (c) straight-through | 1.69 | 11.589 | 11.484 |
+| 1 | CNN (c) straight-through + discrete CD-1 | 5.01 | 11.997 | 11.849 |
 | 1 | ayrik optimum (cevrimdisi) | — | 12.084 | |
 | 2 | SU-align -> round | 0.05 | 12.209 | 12.178 |
-| 2 | CD-1 -> round | 2.50 | 12.620 | 12.475 |
-| 2 | CD-10 -> round | 24.42 | 12.653 | 11.921 |
-| 2 | discrete CD-1 | 3.12 | 12.633 | 12.474 |
-| 2 | discrete CD-2 | 6.11 | 12.668 | 12.473 |
-| 2 | discrete CD-10 | 29.65 | 12.681 | 11.842 |
-| 2 | CNN (a) continuous labels | 2.39 | 12.306 | 12.174 |
-| 2 | CNN (b) discrete labels | 2.39 | 12.295 | 12.146 |
-| 2 | CNN (c) straight-through | 2.39 | 12.311 | 12.163 |
-| 2 | CNN (c) straight-through + discrete CD-1 | 5.72 | 12.640 | 12.446 |
+| 2 | CD-1 -> round | 2.35 | 12.620 | 12.477 |
+| 2 | CD-10 -> round | 22.30 | 12.653 | 11.979 |
+| 2 | discrete CD-1 | 2.80 | 12.633 | 12.478 |
+| 2 | discrete CD-2 | 5.53 | 12.668 | 12.483 |
+| 2 | discrete CD-10 | 27.12 | 12.681 | 11.867 |
+| 2 | CNN (a) continuous labels | 2.08 | 12.306 | 12.177 |
+| 2 | CNN (b) discrete labels | 2.08 | 12.295 | 12.148 |
+| 2 | CNN (c) straight-through | 2.08 | 12.311 | 12.166 |
+| 2 | CNN (c) straight-through + discrete CD-1 | 5.38 | 12.640 | 12.452 |
 | 2 | ayrik optimum (cevrimdisi) | — | 12.688 | |
 | 3 | SU-align -> round | 0.05 | 12.377 | 12.335 |
-| 3 | CD-1 -> round | 2.45 | 12.799 | 12.642 |
-| 3 | CD-10 -> round | 24.52 | 12.833 | 12.057 |
-| 3 | discrete CD-1 | 3.19 | 12.802 | 12.638 |
-| 3 | discrete CD-2 | 6.65 | 12.830 | 12.617 |
-| 3 | discrete CD-10 | 30.98 | 12.839 | 11.958 |
-| 3 | CNN (a) continuous labels | 3.39 | 12.453 | 12.299 |
-| 3 | CNN (b) discrete labels | 3.39 | 12.446 | 12.290 |
-| 3 | CNN (c) straight-through | 3.39 | 12.460 | 12.309 |
-| 3 | CNN (c) straight-through + discrete CD-1 | 6.49 | 12.801 | 12.585 |
+| 3 | CD-1 -> round | 2.33 | 12.799 | 12.643 |
+| 3 | CD-10 -> round | 22.13 | 12.833 | 12.129 |
+| 3 | discrete CD-1 | 2.79 | 12.802 | 12.642 |
+| 3 | discrete CD-2 | 5.50 | 12.830 | 12.637 |
+| 3 | discrete CD-10 | 26.85 | 12.839 | 12.000 |
+| 3 | CNN (a) continuous labels | 2.52 | 12.453 | 12.307 |
+| 3 | CNN (b) discrete labels | 2.52 | 12.446 | 12.299 |
+| 3 | CNN (c) straight-through | 2.52 | 12.460 | 12.318 |
+| 3 | CNN (c) straight-through + discrete CD-1 | 5.81 | 12.801 | 12.597 |
 | 3 | ayrik optimum (cevrimdisi) | — | 12.842 | |
 
-Statik: test 6000 (seed 2026). Hareketli: secim seed 12, rapor seed 11, 400 senaryo. Yuk 0.34 / 0.60 / 1.00.
+Statik: test 6000 (seed 2026). Hareketli: secim seed 12, rapor seed 11, 400 senaryo. Yuk 0.98 / 0.43 / 1.00.
+
+Not: 1 bitte straight-through ince ayar dogrulamada iyilestirme bulmadi; (c) satirlari (b) ile ayni model. Baskinlik listeleri ortalamaya dayali; 'kapali form + yuvarlama ag'i baskinliyor' farklari gurultu icinde, guclu iddia olarak yazmayin. 1 bitte surekli egitilmis CNN (a) baskinlanmiyor ama secilen klasigin altinda (GA sifiri disliyor).
 
 Kaynak: `scripts/sumiso_discrete_eval.py` -> `results/sumiso_discrete_eval.json`
 
 ## Ek — yeniden uretilebilirlik
 
-- `scripts/audit_claims.py` — 65 iddia (`--all` ile 80), hepsi geciyor
+- `scripts/audit_claims.py` — 70 iddia (`--all` ile 85), hepsi geciyor
 - Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**
 - Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor
 

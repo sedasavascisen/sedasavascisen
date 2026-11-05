@@ -8,13 +8,13 @@ different seed (2026) from the evaluation set (seed 11), 40 000 scenarios
 as in the published model, split 70/15/15.
 
 Labels: exact element-wise coordinate ascent (ris_mu.sumiso.solver), best of
-SU-alignment and 3 random starts; it matches 3-start, 1000-step Adam to
-within 1.3e-3 b/s/Hz per scenario (checked on 300 scenarios).
+SU-alignment and 3 random starts; checked against 3-start, 1000-step Adam by
+scripts/sumiso_label_check.py (results/sumiso_label_check.json).
 
 Output: data_sumiso/sumiso_<tag>.npz (not committed; regenerate with this
-script). Input features follow the published model's per-element layout,
-extended to a multi-antenna BS: Re/Im of g_n (2), Re/Im of F_n (2T) and
-Re/Im of h_d broadcast to every element (2T) -> 2 + 4T channels x N.
+script): the channels F, G, hd, the labels and the SNR scale. The network's
+input features are built from these by ris_mu.sumiso.cnn_lstm.features
+(default 'cascade': Re/Im of b_n = g_n F_n and of h_d, 4T channels x N).
 """
 import sys
 import pathlib

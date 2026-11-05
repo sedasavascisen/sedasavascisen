@@ -17,7 +17,7 @@ Axis 1, static: validation 1000 / test 6000 of the training draw's split.
 Axis 2, mobility: effective rate at the measured latency on the single-user
 set (seed 11), configuration selected on seed 12.
 Latency: single scenario, one thread, median of 25 calls, 3 rounds, 20
-scenarios; load average recorded. Run on an idle machine.
+scenarios; timing waits until the load average is below 0.5 and records it.
 """
 import sys
 import os
@@ -138,7 +138,11 @@ def timeit(fn, A0, B0, rounds=3, reps=25, n=20):
 
 
 A0t, B0t = MOB["test"][0]
+t_wait = time.time()
+while os.getloadavg()[0] >= 0.5:              # CLAUDE.md: never time under load
+    time.sleep(10)
 load1 = os.getloadavg()[0]
+print(f"timing starts at load {load1:.2f} after waiting {time.time()-t_wait:.0f} s", flush=True)
 lat_rounds = {}
 for b in BITS:
     nets = pre[b]
