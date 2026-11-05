@@ -322,9 +322,38 @@ Not: 1 bitte straight-through ince ayar dogrulamada iyilestirme bulmadi; (c) sat
 
 Kaynak: `scripts/sumiso_discrete_eval.py` -> `results/sumiso_discrete_eval.json`
 
+### 6.6 Konumdan faz tahmini, yere ozgu oda (tek kullanici)
+
+Yere ozgu kanal: `ris_mu/sumiso/site.py` (sabit saciclar, geometrik LoS, sabit golgeleme alani). 5 oda.
+
+**Statik (4000 test konumu/oda), CNN − geometrik LoS yonlendirmesi [%95 GA]:**
+
+| Oda | LoS | CD-1 (tam CSI) | Geometrik | CNN | CNN − geometrik | CNN, 1 m konum hatasi |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 0.21 | 13.890 | 12.432 | 13.340 | +0.908 [+0.865, +0.953] | 13.108 |
+| 2 | 0.28 | 13.219 | 12.446 | 12.865 | +0.419 [+0.385, +0.454] | 12.595 |
+| 3 | 0.12 | 13.623 | 11.771 | 12.488 | +0.717 [+0.674, +0.762] | 12.260 |
+| 4 | 0.20 | 14.024 | 12.522 | 13.054 | +0.532 [+0.490, +0.572] | 12.833 |
+| 5 | 0.42 | 15.203 | 13.801 | 14.246 | +0.445 [+0.406, +0.483] | 13.928 |
+
+Egitim konumu sayisi (CNN hizi, 2000 / 5000 / 20000): oda 1: 12.89 / 13.21 / 13.34; oda 2: 12.48 / 12.72 / 12.86; oda 3: 11.88 / 12.38 / 12.49; oda 4: 12.59 / 12.93 / 13.05; oda 5: 13.67 / 13.88 / 14.25
+
+**Pilot maliyeti dahil verim (yuruyen kullanicilar, 300/oda), CNN − CSI+CD-1 [%95 GA]:**
+
+| Kosul | Oda 1 | Oda 2 | Oda 3 | Oda 4 | Oda 5 |
+| --- | --- | --- | --- | --- | --- |
+| 30 kHz, konum kusursuz | +0.36 [+0.30, +0.42] | +0.54 [+0.48, +0.60] | -0.01 [-0.11, +0.09] | +0.21 [+0.12, +0.29] | -0.09 [-0.17, -0.00] |
+| 30 kHz, 0.3 m hata | +0.33 [+0.26, +0.40] | +0.50 [+0.43, +0.56] | -0.02 [-0.12, +0.07] | +0.18 [+0.09, +0.26] | -0.12 [-0.20, -0.04] |
+| 30 kHz, 1 m hata | +0.17 [+0.07, +0.25] | +0.31 [+0.21, +0.41] | -0.23 [-0.34, -0.13] | +0.00 [-0.09, +0.09] | -0.44 [-0.54, -0.32] |
+| 60 kHz, kusursuz | +0.10 [+0.02, +0.16] | +0.31 [+0.24, +0.38] | -0.40 [-0.48, -0.31] | -0.16 [-0.25, -0.06] | -0.35 [-0.46, -0.25] |
+
+Pilot: CSI 33 sembol, konum kollari 4 sembol (ortak faz adaylari). Guncelleme periyodu her politika icin dogrulama kullanicilarinda secildi. Klasik kol icin kanal kestirimi kusursuz varsayildi (klasigin lehine).
+
+Kaynak: `scripts/site_dataset.py`, `scripts/site_train.py`, `scripts/site_eval_static.py`, `scripts/site_eval_dynamic.py`
+
 ## Ek — yeniden uretilebilirlik
 
-- `scripts/audit_claims.py` — 70 iddia (`--all` ile 85), hepsi geciyor
+- `scripts/audit_claims.py` — 83 iddia (`--all` ile 98), hepsi geciyor
 - Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**
 - Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor
 

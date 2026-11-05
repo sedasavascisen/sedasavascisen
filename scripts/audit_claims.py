@@ -563,6 +563,31 @@ else:
           int(all(len(v["mobility"]["dominated_by[CNN (c) straight-through + discrete CD-1]"]) > 0 for v in _lv.values())),
           "network + 1 discrete sweep is dominated by a faster, better classical arm")
 
+# ------------------------------------------- position-based phases (site)
+section("saved results: position-based phases in a fixed site")
+_ss = _load("site_eval_static.json")
+_sd = {k: _load(f"site_eval_dynamic{k}.json") for k in ("", "_err0.3", "_err1.0", "_scs60")}
+if _ss is None or any(v is None for v in _sd.values()):
+    print("  [skip] site_eval_static.json or a site_eval_dynamic*.json missing")
+else:
+    claim("site_los_fraction_mean", "8", "statistical", 0.247,
+          float(np.mean([v["los_fraction"] for v in _ss.values()])), "RIS-user LoS fraction, 5 test sets")
+    claim("site_cnn_beats_geometric_static", "8", "exact", 1,
+          int(all(b["cnn_minus_geometric"][1] > 0 for v in _ss.values() for b in v["by_sigma"].values())),
+          "every site, every position error 0-1 m (CI above zero)")
+    claim("site_ntrain_matters", "8", "exact", 1,
+          int(all(v["by_n_train"]["20000"]["cnn"] > v["by_n_train"]["5000"]["cnn"] > v["by_n_train"]["2000"]["cnn"]
+                  for v in _ss.values())), "more surveyed positions, higher rate, every site")
+    claim("site_cnn_dyn_site1", "8", "exact", 13.0909, _sd[""]["sites"]["1"]["policies"]["position + CNN"]["test"])
+    _cnt = lambda r, sgn: sum(1 for v in r["sites"].values()
+                              if (v["policies"]["position + CNN"]["minus_csi_cd1"][1] > 0 if sgn > 0
+                                  else v["policies"]["position + CNN"]["minus_csi_cd1"][2] < 0))
+    for _k, _w, _l in (("", 3, 1), ("_err0.3", 3, 1), ("_err1.0", 2, 2), ("_scs60", 2, 3)):
+        claim(f"site_cnn_wins_vs_csi{_k or '_base'}", "8", "exact", _w, _cnt(_sd[_k], +1), "sites where CNN - CSI+CD-1 CI > 0")
+        claim(f"site_cnn_loses_vs_csi{_k or '_base'}", "8", "exact", _l, _cnt(_sd[_k], -1), "sites where CI < 0")
+    claim("site_timing_started_idle", "8", "exact", 1,
+          int(all(v["load_before_timing"] < 0.5 for r in _sd.values() for v in r["sites"].values())))
+
 # ----------------------------------------------------------------- report
 section("summary")
 fails = [r for r in RESULTS if r["ok"] is False]

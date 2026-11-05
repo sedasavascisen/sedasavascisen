@@ -374,9 +374,42 @@ if _dp:
     W("Kaynak: `scripts/sumiso_discrete_eval.py` -> `results/sumiso_discrete_eval.json`")
     W("")
 
+_ss = L("site_eval_static.json")
+_sd = {k: L(f"site_eval_dynamic{k}.json") for k in ("", "_err0.3", "_err1.0", "_scs60")}
+if _ss and all(_sd.values()):
+    W("### 6.6 Konumdan faz tahmini, yere ozgu oda (tek kullanici)")
+    W("")
+    W("Yere ozgu kanal: `ris_mu/sumiso/site.py` (sabit saciclar, geometrik LoS, sabit golgeleme alani). 5 oda.")
+    W("")
+    W("**Statik (4000 test konumu/oda), CNN − geometrik LoS yonlendirmesi [%95 GA]:**")
+    W("")
+    W("| Oda | LoS | CD-1 (tam CSI) | Geometrik | CNN | CNN − geometrik | CNN, 1 m konum hatasi |")
+    W("| --- | --- | --- | --- | --- | --- | --- |")
+    for s_, v in _ss.items():
+        b0, b1 = v["by_sigma"]["0.0"], v["by_sigma"]["1.0"]
+        W(f"| {s_} | {v['los_fraction']:.2f} | {v['csi']['CD-1']:.3f} | {b0['geometric']:.3f} | {b0['cnn']:.3f} | "
+          f"{b0['cnn_minus_geometric'][0]:+.3f} [{b0['cnn_minus_geometric'][1]:+.3f}, {b0['cnn_minus_geometric'][2]:+.3f}] | {b1['cnn']:.3f} |")
+    W("")
+    W("Egitim konumu sayisi (CNN hizi, 2000 / 5000 / 20000): " + "; ".join(
+        f"oda {s_}: " + " / ".join(f"{v['by_n_train'][n]['cnn']:.2f}" for n in ("2000", "5000", "20000")) for s_, v in _ss.items()))
+    W("")
+    W("**Pilot maliyeti dahil verim (yuruyen kullanicilar, 300/oda), CNN − CSI+CD-1 [%95 GA]:**")
+    W("")
+    W("| Kosul | " + " | ".join(f"Oda {s_}" for s_ in _sd[""]["sites"]) + " |")
+    W("| --- | " + " | ".join("---" for _ in _sd[""]["sites"]) + " |")
+    for k, lbl in (("", "30 kHz, konum kusursuz"), ("_err0.3", "30 kHz, 0.3 m hata"), ("_err1.0", "30 kHz, 1 m hata"), ("_scs60", "60 kHz, kusursuz")):
+        W(f"| {lbl} | " + " | ".join(
+            "{:+.2f} [{:+.2f}, {:+.2f}]".format(*v["policies"]["position + CNN"]["minus_csi_cd1"]) for v in _sd[k]["sites"].values()) + " |")
+    W("")
+    W("Pilot: CSI 33 sembol, konum kollari 4 sembol (ortak faz adaylari). Guncelleme periyodu her politika icin dogrulama kullanicilarinda secildi. "
+      "Klasik kol icin kanal kestirimi kusursuz varsayildi (klasigin lehine).")
+    W("")
+    W("Kaynak: `scripts/site_dataset.py`, `scripts/site_train.py`, `scripts/site_eval_static.py`, `scripts/site_eval_dynamic.py`")
+    W("")
+
 W("## Ek — yeniden uretilebilirlik")
 W("")
-W("- `scripts/audit_claims.py` — 70 iddia (`--all` ile 85), hepsi geciyor")
+W("- `scripts/audit_claims.py` — 83 iddia (`--all` ile 98), hepsi geciyor")
 W("- Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**")
 W("- Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor")
 W("")
