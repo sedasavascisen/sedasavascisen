@@ -416,9 +416,26 @@ if _ss and _rm and _sd:
     W("Kaynak: `scripts/site_dataset.py`, `scripts/site_train.py`, `scripts/site_eval_static.py`, `scripts/site_radio_map.py`, `scripts/site_eval_dynamic.py`")
     W("")
 
+_sp = L("mumiso_standard_speeds.json")
+if _sp:
+    W("## Kullanici hizi: standartlar (makale Tablo, `HIZ_STANDARTLARI.md`)")
+    W("")
+    W("| km/h | Kaynak | T_c (ms) | x | L* (0.5% icinde) | L=48 bedeli [%95 GA] | SU-best − CD [%95 GA] | SU-best − uzun Adam |")
+    W("| --- | --- | --- | --- | --- | --- | --- | --- |")
+    for k, v in _sp["speeds"].items():
+        b = v["by_t_ov"]["0.0"]
+        W(f"| {k} | {_sp['sources'][k]} | {v['coherence_ms']:.1f} | {v['x']:.3f} | {b['best_L']} ({', '.join(map(str, b['within_half_percent']))}) | "
+          "{:.1f}% [{:.1f}, {:.1f}] | ".format(*b['loss_L48_pct']) + "{:+.3f} [{:+.3f}, {:+.3f}] | ".format(*b['su_best_minus_cd'])
+          + "{:+.3f} |".format(b['su_best_minus_pga'][0]))
+    W("")
+    W("T_ov = 0. 400 yaslanma senaryosu, 0.5 ms izgara (40 ms'ye kadar). 30 km/h'de T_ov > 0 iken egri L'de duz; yorumlanmaz.")
+    W("")
+    W("Kaynak: `scripts/mumiso_standard_speeds.py` -> `results/mumiso_standard_speeds.json`")
+    W("")
+
 W("## Ek — yeniden uretilebilirlik")
 W("")
-W("- `scripts/audit_claims.py` — 77 iddia (`--all` ile 92), hepsi geciyor")
+W("- `scripts/audit_claims.py` — 82 iddia (`--all` ile 97), hepsi geciyor")
 W("- Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**")
 W("- Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor")
 W("")

@@ -73,7 +73,18 @@ With $\kappa$ set to the median of $\kappa_L$ over $2\le L\le 48$, the closed fo
 \label{sec:res_sensitivity}
 The effective rate above charges each method only for its own run time. A deployed system also spends time on pilots, estimation and feedback before the optimizer starts, which for this system is between about 1 and 10~ms (Section~\ref{sec:method}). We therefore add an acquisition delay $T_{\mathrm{ov}}$ to every latency and repeat the sweep at four user speeds (Table~\ref{tab:sens}). The direction is the one predicted by~\eqref{eq:marginal}: a faster channel or a longer delay makes each additional step cost more aging, and the optimum moves to fewer steps. Without delay, the range of $L$ within 0.5\% of the best shifts from $L=6$--$8$ at 1~m/s to $L=3$ at 3~m/s, and at 1.5~m/s it shifts from $L=4$--$6$ to $L=3$--$4$ as $T_{\mathrm{ov}}$ grows from 0 to 10~ms. The best effective rate falls with $T_{\mathrm{ov}}$ at every speed. We do not interpret cells with $T_{\mathrm{ov}} > T_c/2$, where the channel has largely changed before optimization starts. The only such cell is 3~m/s with 10~ms; there all step counts give rates within 0.26~b/s/Hz, and the maximum falls at $L=32$, which carries no meaning. In all other cells, running Adam to $L=48$ costs 2.9--14.7\% of the attainable effective rate.
 
-The optimum is also tolerant of an error in the assumed speed. Choosing $L$ for 1.5~m/s when users actually move at 1.8~m/s, or the reverse, costs less than 0.5\% of the attainable effective rate. The largest loss in our grid, 5.7\%, occurs when $L$ is chosen for 1~m/s and users move at 3~m/s.
+The optimum also tolerates an error in the assumed speed: choosing $L$ for 1.5~m/s when users move at 1.8~m/s, or the reverse, costs less than 0.5\%, and at most 5.7\% (chosen for 1~m/s, users at 3~m/s).
+
+\emph{Standardized speeds.} Table~\ref{tab:speeds} repeats the main measurements on the same 400 scenarios, on a 0.5~ms grid up to 40~ms, at the speeds of the standards: 3~km/h, used in the 3GPP indoor-hotspot evaluation~\cite{3gpp_tr38913}; 10~km/h, the upper end of the IMT-2020 pedestrian class at which indoor mobility is evaluated~\cite{itu_m2410}; and, as a stress test outside the indoor classes, the 30~km/h of the dense-urban evaluation. Both findings hold at every speed. The optimum moves from 8 steps at 3~km/h to 3 at 10~km/h and 1 at 30~km/h, and running to $L=48$ costs 14.5\% (95\% CI 13.1--16.1\%) at 3~km/h and 10.5\% (9.0--11.9\%) at 10~km/h. SU-best-of is ahead of coordinate descent by 0.25--0.42~b/s/Hz and of long-run Adam by 0.45--0.64 at every speed, with paired CIs above zero. At 30~km/h with an acquisition delay the rate is almost flat in $L$, and the optimum is not interpreted.
+
+\begin{table}[t]
+\centering
+\caption{The main measurements at standardized user speeds (aging-set scenarios, $T_{\mathrm{ov}}=0$): coherence time, normalized step cost, best step count (range within 0.5\%), cost of running Adam to $L=48$, and $\Delta$: SU-best-of minus coordinate descent in effective rate (b/s/Hz).}
+\label{tab:speeds}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\input{tables/tab_speeds}
+\end{table}
 
 \begin{table}[t]
 \centering
@@ -153,7 +164,7 @@ Table~\ref{tab:cnn} gives the effective rates. At $t=0$ the network cannot be di
 
 \subsection{What the Fresh-Beam Assumption Is Worth}
 \label{sec:res_beam}
-All results above assume that the BS precoder is recomputed from the current channel while only the RIS phase ages (Section~\ref{sec:framework}). Table~\ref{tab:beam} and Fig.~\ref{fig:beam} measure the alternative in which the precoder ages too, on the separate beam set (Section~\ref{sec:method}), whose absolute rates are not comparable with Table~\ref{tab:aging}. Both curves use the same $t=0$ phase. With a fresh beam the rate decays moderately (Adam with $L=8$: from 5.342 to 4.358~b/s/Hz at $T_c$); with a stale beam it collapses within tens of milliseconds, and at $T_c$ it is 11.7--14.2$\times$ lower than with a fresh beam, for every phase choice. The assumption therefore matters, and it is demanding: with the phase of Adam ($L=8$), a precoder only 5~ms old already lowers the rate from 5.228 to 1.736~b/s/Hz. For the effective rates above to apply, the BS has to recompute its precoder within a few milliseconds of every change, which requires effective-channel pilots at that rate; their airtime is not charged in our results. Refreshing it is cheap: single-threaded, computing the effective channel and the regularized ZF precoder takes a median of 0.12~ms, about 13$\times$ less than a single Adam step (8.0--15.0$\times$ across five rounds). We have not included this time in the effective rates. This is the usual frame-by-frame operation of a multi-antenna BS, but it is an assumption of our results rather than a finding.
+All results above assume that the BS precoder is recomputed from the current channel while only the RIS phase ages (Section~\ref{sec:framework}). Table~\ref{tab:beam} measures the alternative in which the precoder ages too, on the separate beam set (Section~\ref{sec:method}), whose absolute rates are not comparable with Table~\ref{tab:aging}. Both curves use the same $t=0$ phase. With a fresh beam the rate decays moderately (Adam with $L=8$: from 5.342 to 4.358~b/s/Hz at $T_c$); with a stale beam it collapses within tens of milliseconds, and at $T_c$ it is 11.7--14.2$\times$ lower than with a fresh beam, for every phase choice. The assumption therefore matters, and it is demanding: with the phase of Adam ($L=8$), a precoder only 5~ms old already lowers the rate from 5.228 to 1.736~b/s/Hz. For the effective rates above to apply, the BS has to recompute its precoder within a few milliseconds of every change, which requires effective-channel pilots at that rate; their airtime is not charged in our results. Refreshing it is cheap: single-threaded, computing the effective channel and the regularized ZF precoder takes a median of 0.12~ms, about 13$\times$ less than a single Adam step (8.0--15.0$\times$ across five rounds). We have not included this time in the effective rates. This is the usual frame-by-frame operation of a multi-antenna BS, but it is an assumption of our results rather than a finding.
 
 \begin{table}[t]
 \centering
@@ -163,9 +174,3 @@ All results above assume that the BS precoder is recomputed from the current cha
 \input{tables/tab_beam_staleness}
 \end{table}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{figures/fig_beam_staleness.pdf}
-\caption{Same $t=0$ phase evaluated with a precoder recomputed from the current channel (fresh) or kept from $t=0$ (stale). Dashed line: $T_c$.}
-\label{fig:beam}
-\end{figure}

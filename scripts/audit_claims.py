@@ -591,6 +591,26 @@ else:
     claim("site_timing_started_idle", "8", "exact", 1,
           int(all(v["load_before_timing"] < 0.5 for v in _sd["sites"].values())))
 
+# ---------------------------------------------------- standardised speeds
+# scripts/mumiso_standard_speeds.py: 3 km/h (3GPP TR 38.913), 10 km/h
+# (ITU-R M.2410 indoor mobility), 30 km/h (stress test), and the paper's 5.4.
+section("saved results: standardised user speeds")
+_sp = _load("mumiso_standard_speeds.json")
+if _sp is None:
+    print("  [skip] mumiso_standard_speeds.json missing")
+else:
+    _b0 = {k: v["by_t_ov"]["0.0"] for k, v in _sp["speeds"].items()}
+    claim("speeds_Lstar_pattern", "8", "exact", 1,
+          int([_b0[k]["best_L"] for k in ("3", "5.4", "10", "30")] == [8, 4, 3, 1]),
+          "best step count 8 / 4 / 3 / 1 at 3 / 5.4 / 10 / 30 km/h")
+    claim("speeds_loss48_10kmh", "8", "exact", 10.5, _b0["10"]["loss_L48_pct"][0], "% cost of L=48 at 10 km/h")
+    claim("speeds_loss48_3kmh", "8", "exact", 14.52, _b0["3"]["loss_L48_pct"][0], "% cost of L=48 at 3 km/h")
+    claim("speeds_reversal_every_speed", "8", "exact", 1,
+          int(all(b["su_best_minus_cd"][1] > 0 and b["su_best_minus_pga"][1] > 0 for b in _b0.values())),
+          "2.5 ms SU-best-of above CD and long-run Adam at every speed (CI)")
+    claim("speeds_paper_speed_consistent", "8", "statistical", 14.0, _b0["5.4"]["loss_L48_pct"][0],
+          "finer grid at 1.5 m/s agrees with the main sweep's 14.0%")
+
 # ----------------------------------------------------------------- report
 section("summary")
 fails = [r for r in RESULTS if r["ok"] is False]
