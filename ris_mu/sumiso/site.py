@@ -1,6 +1,6 @@
 """
 Site-specific channel: one fixed room in which the channel is a deterministic
-function of the user position.
+function of the user position (h_d too, since the 2026-11-06 fix).
 
 Why a new generator
 -------------------
@@ -156,6 +156,29 @@ class Site:
             Fs.append(F); Gs.append(G); Hs.append(H)
         return np.concatenate(Fs), np.concatenate(Gs), np.concatenate(Hs)
 
+    def _direct_link(self, pos, los):
+        """
+        Direct BS-UE small-scale channel [n,1,T]. Same construction as the
+        parent's _direct_link_g, except that the NLoS part is normalised PER
+        POSITION (mean power over the BS antennas), so the channel is a
+        deterministic function of the position. The parent normalises over the
+        whole chunk, which made h_d depend on the batch (independent audit,
+        2026-11-06).
+        """
+        k = self.ch.k
+        a = self.bsa[None]                                         # [1,T,3]
+        b = pos[:, None, :]                                        # [n,1,3]
+        d = np.linalg.norm(a - b, axis=-1)                         # [n,T]
+        h_los = np.exp(-1j * k * d)
+        d1 = np.linalg.norm(self.bsa[:, None, :] - self.scat[None], axis=-1)        # [T,L]
+        d2 = np.linalg.norm(self.scat[None] - pos[:, None, :], axis=-1)             # [n,L]
+        h_nlos = np.sum(self.rho * np.exp(-1j * k * (d1[None] + d2[:, None])) /
+                        np.maximum(d1[None] * d2[:, None], 1.0), axis=-1)           # [n,T]
+        h_nlos = h_nlos / np.sqrt(np.maximum(np.mean(np.abs(h_nlos) ** 2, axis=-1, keepdims=True), 1e-30))
+        kap = np.where(los, self.k_dir, 0.0)[:, None]
+        h = np.sqrt(kap / (kap + 1)) * h_los + np.sqrt(1.0 / (kap + 1)) * h_nlos
+        return h[:, None, :]
+
     def _channels(self, pos):
         P, pl, cfg = self.panel, self.pl, self.cfg
         n = len(pos)
@@ -165,9 +188,7 @@ class Site:
         ue = pos[:, None, :]                                               # [n,1,3]
         G_s = self.ch._ris_link_g(ue, self.scat[None, None], los_ue[:, None],
                                   np.full((n, 1), self.k_ue), np.tile(self.rho, (n, 1, 1)))      # [n,1,N]
-        hd_s = self.ch._direct_link_g(self.bsa[None, None], ue[:, :, None], self.scat[None, None, None],
-                                      los_dir[:, None, None], np.full((n, 1, 1), self.k_dir),
-                                      np.tile(self.rho, (n, 1, T, 1)))                           # [n,1,T]
+        hd_s = self._direct_link(pos, los_dir)                                                  # [n,1,T]
         gr = 10 ** (cfg.ue_gain_dbi / 20)
         d3_ue = np.linalg.norm(pos - self.ris_c, axis=-1)
         d3_dir = np.linalg.norm(pos - self.bs, axis=-1)

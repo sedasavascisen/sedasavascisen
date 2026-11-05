@@ -11,10 +11,13 @@ is not pilot time (pilot intervals are shorter than a cell for 4 symbols).
 consistent here, unlike the mobility generator.)
 Every policy re-optimizes every U ms (U selected per policy on the
 validation users from U_GRID):
-  CSI + CD-1 / CSI + SU-align   cascaded-channel pilots, N+1 = 33 symbols,
+  CSI + CD-1 / CSI + SU-align   P pilot symbols, P in {33 (N+1, unstructured
+                                cascaded estimation), 17, 9, 5 (F known for the
+                                site: only g and h_d; 5 = noiseless minimum)},
                                 then the measured compute time; the phase
                                 uses the channel at the update instant
-  position + geometric / CNN    4 pilot symbols (common-phase candidates),
+  position + geometric / CNN / radio map (training-free kNN map from the same
+  survey, ris_mu.sumiso.radio_map)   4 pilot symbols (common-phase candidates),
                                 then the compute time; position known at the
                                 update instant (optionally with error)
 Symbols: 5G NR, 14 per slot of 15/SCS ms (SCS = 30 kHz unless --scs).
@@ -39,6 +42,7 @@ from ris_mu.sumiso.site import Site
 from ris_mu.sumiso import solver as SV
 from ris_mu.sumiso.cnn_lstm import PhaseAwareCNNLSTM, phase
 from ris_mu.sumiso.position import geometric_phase, position_features, pick_common_phase
+from ris_mu.sumiso.radio_map import RadioMap
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--sites", type=int, nargs="*", default=[1, 2, 3, 4, 5])
@@ -54,7 +58,9 @@ GRID = np.arange(0, 400 + DT / 2, DT)
 WIN = (GRID >= 200) & (GRID < 400)
 U_GRID = [2, 5, 10, 20, 40, 80, 160]
 sym_ms = 15.0 / a.scs / 14.0
-PILOTS = {"CSI + CD-1": 33, "CSI + SU-align": 33, "position + geometric": 4, "position + CNN": 4}
+PILOTS = {"CSI + CD-1 (33 pilots)": 33, "CSI + CD-1 (17 pilots)": 17, "CSI + CD-1 (9 pilots)": 9,
+          "CSI + CD-1 (5 pilots)": 5, "CSI + SU-align (33 pilots)": 33,
+          "position + geometric": 4, "position + CNN": 4, "position + radio map": 4}
 lat_ev = json.load(open(ROOT / "results" / "sumiso_mobility_eval.json"))["latency_ms"]
 
 
@@ -69,7 +75,12 @@ def timeit(f, reps=50):
 def trajectories(site, start, rng):
     ang = rng.uniform(0, 2 * np.pi, len(start))
     v = 1.5 * np.c_[np.cos(ang), np.sin(ang), np.zeros_like(ang)]
-    return start[:, None, :] + v[:, None, :] * GRID[None, :, None] / 1e3       # [U,M,3]
+    p = start[:, None, :] + v[:, None, :] * GRID[None, :, None] / 1e3       # [U,M,3]
+    for ax in (0, 1):                     # reflect at the room walls (obstacles are not avoided)
+        lo, hi = 0.5, site.room[ax] - 0.5
+        x = np.mod(p[..., ax] - lo, 2 * (hi - lo))
+        p[..., ax] = lo + np.where(x > hi - lo, 2 * (hi - lo) - x, x)
+    return p
 
 
 res = dict(config=vars(a), symbol_ms=sym_ms, pilots=PILOTS, U_grid=U_GRID, sites={})
@@ -93,8 +104,13 @@ for s in a.sites:
     t_geo = timeit(lambda: geometric_phase(site, p1))
     with torch.no_grad():
         t_cnn = timeit(lambda: phase(net((position_features(site, p1) - ck["mu"]) / ck["sd"])))
-    COMP = {"CSI + CD-1": lat_ev["CD-1"], "CSI + SU-align": lat_ev["SU-align"],
-            "position + geometric": t_geo, "position + CNN": t_cnn}
+    Fm = torch.as_tensor(z["F"])
+    Atr, Btr = SV.cascade(Fm.expand(len(z["train_G"]), *Fm.shape), torch.as_tensor(z["train_G"]), torch.as_tensor(z["train_hd"]))
+    rmap = RadioMap(z["train_pos"], Atr, Btr)               # offline, from the same survey
+    t_rm = timeit(lambda: rmap.lookup(p1))
+    COMP = {k: lat_ev["CD-1"] for k in PILOTS if k.startswith("CSI + CD-1")}
+    COMP.update({"CSI + SU-align (33 pilots)": lat_ev["SU-align"], "position + geometric": t_geo,
+                 "position + CNN": t_cnn, "position + radio map": t_rm})
 
     def run(start, seed):
         traj = trajectories(site, start, np.random.default_rng(seed))
@@ -116,14 +132,16 @@ for s in a.sites:
                 for m, t in enumerate(GRID):
                     if abs(t / U - round(t / U)) < 1e-9:                                  # update instant: compute from this snapshot
                         a_, b_ = A[:, m], B[:, m]
-                        if pol == "CSI + CD-1":
+                        if pol.startswith("CSI + CD-1"):
                             th = SV.coord_ascent(a_, b_, SV.su_align(a_, b_), sweeps=1, tol=-1)[0]
-                        elif pol == "CSI + SU-align":
+                        elif pol.startswith("CSI + SU-align"):
                             th = SV.su_align(a_, b_)
                         else:
                             pos = traj[:, m] + a.pos_err * perr.standard_normal((U_, 3))
                             if pol == "position + geometric":
                                 th = geometric_phase(site, pos)
+                            elif pol == "position + radio map":
+                                th = rmap.lookup(pos)
                             else:
                                 with torch.no_grad():
                                     th = phase(net((position_features(site, pos) - ck["mu"]) / ck["sd"]))
@@ -145,15 +163,14 @@ for s in a.sites:
     for pol in PILOTS:
         site_res["policies"][pol] = dict(best_U_on_val=best_U[pol], test_by_U={str(U): float(v.mean()) for U, v in test[pol].items()},
                                          test=float(test[pol][best_U[pol]].mean()))
-    ref = test["CSI + CD-1"][best_U["CSI + CD-1"]]
-    for pol in ("position + geometric", "position + CNN", "CSI + SU-align"):
-        d = test[pol][best_U[pol]] - ref
+    def pd(x, y):
+        d = test[x][best_U[x]] - test[y][best_U[y]]
         bs = [d[rng_bs.integers(0, len(d), len(d))].mean() for _ in range(2000)]
-        site_res["policies"][pol]["minus_csi_cd1"] = [float(d.mean()), float(np.percentile(bs, 2.5)), float(np.percentile(bs, 97.5))]
-    d = test["position + CNN"][best_U["position + CNN"]] - test["position + geometric"][best_U["position + geometric"]]
-    bs = [d[rng_bs.integers(0, len(d), len(d))].mean() for _ in range(2000)]
-    site_res["cnn_minus_geometric"] = [float(d.mean()), float(np.percentile(bs, 2.5)), float(np.percentile(bs, 97.5))]
+        return [float(d.mean()), float(np.percentile(bs, 2.5)), float(np.percentile(bs, 97.5))]
+    site_res["cnn_minus"] = {y: pd("position + CNN", y) for y in PILOTS if y != "position + CNN"}
+    site_res["radio_map_minus"] = {y: pd("position + radio map", y) for y in PILOTS if y.startswith("CSI")}
+    site_res["cnn_minus_geometric"] = site_res["cnn_minus"]["position + geometric"]
     res["sites"][str(s)] = site_res
     print(f"site {s}: " + " | ".join(f"{p} U={site_res['policies'][p]['best_U_on_val']} {site_res['policies'][p]['test']:.3f}"
-                                     for p in PILOTS) + f" | CNN-geom {site_res['cnn_minus_geometric'][0]:+.3f}", flush=True)
+                                     for p in PILOTS), flush=True)
     json.dump(res, open(ROOT / "results" / f"{a.tag}.json", "w"), indent=1)

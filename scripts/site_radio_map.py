@@ -10,6 +10,8 @@ CNN (independent audit, 2026-11-06):
                   (+ best of 4 common phases)
   fixed phase     one phase for the whole site: the optimum of the stacked
                   channels of 2000 surveyed positions
+  radio map lookup  the deployed form: kNN phases precomputed at the surveyed
+                  positions, nearest stored phase at run time (ris_mu.sumiso.radio_map)
 compared with the CNN on the same test positions. No timing.
 Writes results/site_radio_map.json.
 """
@@ -25,7 +27,8 @@ import torch
 from ris_mu.sumiso.site import Site
 from ris_mu.sumiso import solver as SV
 from ris_mu.sumiso.cnn_lstm import PhaseAwareCNNLSTM, phase
-from ris_mu.sumiso.position import position_features, pick_common_phase
+from ris_mu.sumiso.position import position_features, pick_common_phase, geometric_phase
+from ris_mu.sumiso.radio_map import RadioMap
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--sites", type=int, nargs="*", default=[1, 2, 3, 4, 5])
@@ -78,7 +81,10 @@ for s in a.sites:
     with torch.no_grad():
         th = phase(net((position_features(site, pte) - ck["mu"]) / ck["sd"]))
     r_cnn = rate(pick_common_phase(th, At, Bt))
-    res[str(s)] = dict(n_test=n, k=a.k, knn=float(r_knn.mean()), nn_lookup=float(r_nn.mean()),
+    r_rm = rate(pick_common_phase(RadioMap(ptr, Atr, Btr, k=a.k).lookup(pte), At, Bt))
+    r_geo = rate(pick_common_phase(geometric_phase(site, pte), At, Bt))
+    res[str(s)] = dict(n_test=n, k=a.k, knn=float(r_knn.mean()), radio_map_lookup=float(r_rm.mean()),
+                       geometric=float(r_geo.mean()), cnn_minus_radio_map_lookup=paired(r_cnn, r_rm), nn_lookup=float(r_nn.mean()),
                        fixed_site_phase=float(r_fix.mean()), cnn=float(r_cnn.mean()),
                        cnn_minus_knn=paired(r_cnn, r_knn), cnn_minus_nn=paired(r_cnn, r_nn),
                        median_nn_distance_m=float(np.sqrt(d2.min(1)).mean()))
