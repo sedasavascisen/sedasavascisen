@@ -610,6 +610,11 @@ else:
           "2.5 ms SU-best-of above CD and long-run Adam at every speed (CI)")
     _m10 = _load("sumiso_mobility_eval_10kmh.json")
     if _m10 is not None:
+        _m18 = _load("sumiso_mobility_eval_18kmh.json")
+        if _m18 is not None:
+            claim("speeds_18kmh_cnn_dominated", "8", "exact", 1,
+                  int(all("Adam-1" in v["_dominated_by[CNN-LSTM]"] for v in _m18["effective"].values())),
+                  "single-user CNN-LSTM at 5 m/s: dominated by Adam-1 at every T_ov")
         claim("speeds_10kmh_cnn_verdict", "8", "exact", 1,
               int(all(v["_best"] == "CD-1" and "Adam-1" in v["_dominated_by[CNN-LSTM]"] for v in _m10["effective"].values())),
               "single-user CNN-LSTM at 10 km/h: CD-1 best, Adam-1 dominates the CNN, every T_ov")

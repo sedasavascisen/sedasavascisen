@@ -430,14 +430,18 @@ if _sp:
     W("")
     W("T_ov = 0. 400 yaslanma senaryosu, 0.5 ms izgara (40 ms'ye kadar). 30 km/h'de T_ov > 0 iken egri L'de duz; yorumlanmaz.")
     W("")
-    _m10 = L("sumiso_mobility_eval_10kmh.json")
-    if _m10:
-        W("**Tek kullanicili CNN–LSTM, 10 km/h (etkin hiz, T_ov = 0 / 1.71 / 3.43 / 10 ms):**")
+    for _tag, _lbl in (("10kmh", "10 km/h"), ("18kmh", "18 km/h (5 m/s)")):
+        _m10 = L(f"sumiso_mobility_eval_{_tag}.json")
+        if not _m10:
+            continue
+        W(f"**Tek kullanicili CNN–LSTM, {_lbl} (etkin hiz, T_ov = 0 / 1.71 / 3.43 / 10 ms):**")
         W("")
-        for k in ("CD-1", "Adam-1", "SU-align", "CNN-LSTM", "CNN-LSTM+CD-1"):
+        for k in ("CD-1", "Adam-1", "Adam-2", "SU-align", "CNN-LSTM", "CNN-LSTM+CD-1"):
             W(f"- {k}: " + " / ".join(f"{v[k]['effective']:.3f}" for v in _m10["effective"].values()))
         W("")
-        W("Her T_ov'de en iyi: " + ", ".join(v["_best"] for v in _m10["effective"].values()) + ". Gecikmeler 1.5 m/s olcumunden (bos makine) alindi.")
+        W("Her T_ov'de en iyi (seed 12'de secildi): " + ", ".join(v["_best"] for v in _m10["effective"].values())
+          + "; CNN'i baskinlayanlar: " + ", ".join(",".join(v["_dominated_by[CNN-LSTM]"]) for v in _m10["effective"].values())
+          + ". Gecikmeler 1.5 m/s olcumunden (bos makine) alindi.")
         W("")
     W("Kaynak: `scripts/mumiso_standard_speeds.py` -> `results/mumiso_standard_speeds.json`; "
       "`scripts/sumiso_mobility_eval.py --velocity 2.7778 --reuse_latency sumiso_mobility_eval.json --tag sumiso_mobility_eval_10kmh`")
@@ -445,7 +449,7 @@ if _sp:
 
 W("## Ek — yeniden uretilebilirlik")
 W("")
-W("- `scripts/audit_claims.py` — 83 iddia (`--all` ile 98), hepsi geciyor")
+W("- `scripts/audit_claims.py` — 84 iddia (`--all` ile 99), hepsi geciyor")
 W("- Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**")
 W("- Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor")
 W("")

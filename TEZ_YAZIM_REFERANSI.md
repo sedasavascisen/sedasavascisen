@@ -377,17 +377,29 @@ T_ov = 0. 400 yaslanma senaryosu, 0.5 ms izgara (40 ms'ye kadar). 30 km/h'de T_o
 
 - CD-1: 12.672 / 12.614 / 12.535 / 12.108
 - Adam-1: 12.496 / 12.468 / 12.410 / 12.025
+- Adam-2: 12.602 / 12.561 / 12.503 / 12.099
 - SU-align: 12.389 / 12.374 / 12.321 / 11.959
 - CNN-LSTM: 12.349 / 12.311 / 12.257 / 11.899
 - CNN-LSTM+CD-1: 12.603 / 12.523 / 12.424 / 12.022
 
-Her T_ov'de en iyi: CD-1, CD-1, CD-1, CD-1. Gecikmeler 1.5 m/s olcumunden (bos makine) alindi.
+Her T_ov'de en iyi (seed 12'de secildi): CD-1, CD-1, CD-1, CD-1; CNN'i baskinlayanlar: SU-align,Adam-1,Adam-2, SU-align,Adam-1,Adam-2, SU-align,Adam-1,Adam-2, SU-align,Adam-1,Adam-2. Gecikmeler 1.5 m/s olcumunden (bos makine) alindi.
+
+**Tek kullanicili CNN–LSTM, 18 km/h (5 m/s) (etkin hiz, T_ov = 0 / 1.71 / 3.43 / 10 ms):**
+
+- CD-1: 12.596 / 12.422 / 12.233 / 11.947
+- Adam-1: 12.489 / 12.404 / 12.231 / 11.757
+- Adam-2: 12.588 / 12.464 / 12.291 / 11.863
+- SU-align: 12.389 / 12.338 / 12.182 / 11.664
+- CNN-LSTM: 12.335 / 12.220 / 12.064 / 11.684
+- CNN-LSTM+CD-1: 12.409 / 12.224 / 12.041 / 11.948
+
+Her T_ov'de en iyi (seed 12'de secildi): CD-1, Adam-2, Adam-2, CD-1; CNN'i baskinlayanlar: SU-align,Adam-1,Adam-2, SU-align,Adam-1,Adam-2, SU-align,Adam-1,Adam-2, Adam-1,Adam-2. Gecikmeler 1.5 m/s olcumunden (bos makine) alindi.
 
 Kaynak: `scripts/mumiso_standard_speeds.py` -> `results/mumiso_standard_speeds.json`; `scripts/sumiso_mobility_eval.py --velocity 2.7778 --reuse_latency sumiso_mobility_eval.json --tag sumiso_mobility_eval_10kmh`
 
 ## Ek — yeniden uretilebilirlik
 
-- `scripts/audit_claims.py` — 83 iddia (`--all` ile 98), hepsi geciyor
+- `scripts/audit_claims.py` — 84 iddia (`--all` ile 99), hepsi geciyor
 - Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**
 - Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor
 
