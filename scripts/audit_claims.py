@@ -601,8 +601,8 @@ if _sp is None:
 else:
     _b0 = {k: v["by_t_ov"]["0.0"] for k, v in _sp["speeds"].items()}
     claim("speeds_Lstar_pattern", "8", "exact", 1,
-          int([_b0[k]["best_L"] for k in ("3", "5.4", "10", "30")] == [8, 4, 3, 1]),
-          "best step count 8 / 4 / 3 / 1 at 3 / 5.4 / 10 / 30 km/h")
+          int([_b0[k]["best_L"] for k in ("3", "5.4", "10", "18", "30")] == [8, 4, 3, 2, 1]),
+          "best step count 8 / 4 / 3 / 2 / 1 at 3 / 5.4 / 10 / 18 / 30 km/h")
     claim("speeds_loss48_10kmh", "8", "exact", 10.5, _b0["10"]["loss_L48_pct"][0], "% cost of L=48 at 10 km/h")
     claim("speeds_loss48_3kmh", "8", "exact", 14.52, _b0["3"]["loss_L48_pct"][0], "% cost of L=48 at 3 km/h")
     claim("speeds_reversal_every_speed", "8", "exact", 1,

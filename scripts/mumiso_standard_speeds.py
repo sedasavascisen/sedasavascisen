@@ -8,7 +8,9 @@ indoor hotspot in the standards:
            the Indoor Hotspot-eMBB mobility requirement is evaluated at 10 km/h
   30 km/h  ITU-R M.2410 Dense Urban-eMBB mobility evaluation speed; beyond
            the pedestrian class, used here only as a stress test
-so this script repeats the aging measurements at 3, 5.4, 10 and 30 km/h on
+so this script repeats the aging measurements at 3, 5.4, 10 and 30 km/h, and at
+18 km/h (5 m/s, requested by the advisor; listed last so the other rows stay
+bit-identical), on
 the same 400 aging-set scenarios (seed 11, 4 users, 20 scatterers).
 
 The t=0 channels do not depend on the speed (the generator draws the same
@@ -38,7 +40,7 @@ from ris_mu.mumiso import system as S, baselines as B
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--scenarios", type=int, default=400)
-ap.add_argument("--kmh", default="3,5.4,10,30")
+ap.add_argument("--kmh", default="3,5.4,10,30,18")
 ap.add_argument("--steps", default="1,2,3,4,5,6,8,10,12,16,20,24,32,48")
 ap.add_argument("--lr", type=float, default=0.5)
 ap.add_argument("--threads", type=int, default=4)
@@ -105,7 +107,8 @@ res = dict(config=vars(a), times_ms=TIMES.tolist(), latency_ms=LAT, t_ov_ms=TOVS
            sources={"3": "3GPP TR 38.913 Table 6.1.1-1 (Indoor hotspot, 3 km/h)",
                     "10": "ITU-R M.2410: pedestrian class 0-10 km/h; Indoor Hotspot-eMBB mobility at 10 km/h",
                     "30": "ITU-R M.2410: Dense Urban-eMBB mobility at 30 km/h (stress test, not indoor)",
-                    "5.4": "this paper (1.5 m/s)"}, speeds={})
+                    "5.4": "this paper (1.5 m/s)",
+                    "18": "5 m/s (running/cycling; ITU-R M.2410 vehicular class 10-120 km/h), requested comparison"}, speeds={})
 for kmh in [float(x) for x in a.kmh.split(",")]:
     v = v_of(kmh)
     _, _, d = gen(v)

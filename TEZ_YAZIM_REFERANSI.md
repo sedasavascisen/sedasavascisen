@@ -368,6 +368,7 @@ Kaynak: `scripts/site_dataset.py`, `scripts/site_train.py`, `scripts/site_eval_s
 | 3 | 3GPP TR 38.913 Table 6.1.1-1 (Indoor hotspot, 3 km/h) | 50.8 | 0.014 | 8 (6, 8) | 14.5% [13.1, 16.1] | +0.267 [+0.171, +0.366] | +0.472 |
 | 5.4 | this paper (1.5 m/s) | 28.2 | 0.025 | 4 (4, 5, 6) | 14.2% [12.5, 15.8] | +0.307 [+0.198, +0.414] | +0.644 |
 | 10 | ITU-R M.2410: pedestrian class 0-10 km/h; Indoor Hotspot-eMBB mobility at 10 km/h | 15.2 | 0.046 | 3 (3) | 10.5% [9.0, 11.9] | +0.246 [+0.136, +0.366] | +0.582 |
+| 18 | 5 m/s (running/cycling; ITU-R M.2410 vehicular class 10-120 km/h), requested comparison | 8.5 | 0.083 | 2 (2) | 8.0% [6.2, 9.7] | +0.418 [+0.278, +0.562] | +0.693 |
 | 30 | ITU-R M.2410: Dense Urban-eMBB mobility at 30 km/h (stress test, not indoor) | 5.1 | 0.139 | 1 (1) | 4.3% [2.2, 6.3] | +0.423 [+0.246, +0.586] | +0.448 |
 
 T_ov = 0. 400 yaslanma senaryosu, 0.5 ms izgara (40 ms'ye kadar). 30 km/h'de T_ov > 0 iken egri L'de duz; yorumlanmaz.

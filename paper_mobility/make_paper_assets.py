@@ -636,10 +636,10 @@ lines += [r"\bottomrule", r"\end{tabular}"]
 # ------------------------------------------------------ standardised speeds
 spd = load("mumiso_standard_speeds.json")
 SRC = {"3": r"3GPP~\cite{3gpp_tr38913}", "5.4": "ours", "10": r"ITU~\cite{itu_m2410}",
-       "30": r"ITU, urban"}
+       "18": r"5~m/s", "30": r"ITU, urban"}
 lines = [r"\begin{tabular}{rlrrlrr}", r"\toprule",
          r"km/h & Source & $T_c$ (ms) & $x$ & $L^\star$ & $L{=}48$ & $\Delta$ \\", r"\midrule"]
-for k, v in spd["speeds"].items():
+for k, v in sorted(spd["speeds"].items(), key=lambda kv: float(kv[0])):
     b = v["by_t_ov"]["0.0"]
     rng_ = b["within_half_percent"]
     Ls = f"{b['best_L']}" + (f" ({min(rng_)}--{max(rng_)})" if len(rng_) > 1 else "")

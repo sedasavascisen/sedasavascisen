@@ -9,7 +9,7 @@ One command that tells you whether the mobility paper is consistent.
 Checks, each PASS/FAIL:
   build      pdflatex+bibtex in a temporary copy: no errors, no undefined
              references or citations, no overfull boxes, no ignored sections
-  pages      at most 13 pages (IEEE TWC limit, references included)
+  pages      at most 10 pages (author's limit; TWC charges beyond 10)
   abstract   75-200 words (IEEE TWC)
   numbers    every decimal number in the text occurs in paper_numbers.txt or
              in a results/*.json the paper uses (or is in KNOWN below, each
@@ -153,7 +153,7 @@ def main():
 
     bad, pages = check_build()
     report("build", not bad and pages is not None, f"{len(bad)} problem lines" + ("".join(f"\n            {b}" for b in bad[:8])))
-    report("pages", pages is not None and pages <= 13, f"{pages} pages (limit 13; >10 incurs page charges)")
+    report("pages", pages is not None and pages <= 10, f"{pages} pages (limit 10)")
     w = check_abstract()
     report("abstract", 75 <= w <= 200, f"{w} words (75-200)")
     miss = check_numbers()

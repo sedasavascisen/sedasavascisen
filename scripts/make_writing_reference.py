@@ -422,7 +422,7 @@ if _sp:
     W("")
     W("| km/h | Kaynak | T_c (ms) | x | L* (0.5% icinde) | L=48 bedeli [%95 GA] | SU-best − CD [%95 GA] | SU-best − uzun Adam |")
     W("| --- | --- | --- | --- | --- | --- | --- | --- |")
-    for k, v in _sp["speeds"].items():
+    for k, v in sorted(_sp["speeds"].items(), key=lambda kv: float(kv[0])):
         b = v["by_t_ov"]["0.0"]
         W(f"| {k} | {_sp['sources'][k]} | {v['coherence_ms']:.1f} | {v['x']:.3f} | {b['best_L']} ({', '.join(map(str, b['within_half_percent']))}) | "
           "{:.1f}% [{:.1f}, {:.1f}] | ".format(*b['loss_L48_pct']) + "{:+.3f} [{:+.3f}, {:+.3f}] | ".format(*b['su_best_minus_cd'])

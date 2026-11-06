@@ -1,7 +1,7 @@
 {
  "config": {
   "scenarios": 400,
-  "kmh": "3,5.4,10,30",
+  "kmh": "3,5.4,10,30,18",
   "steps": "1,2,3,4,5,6,8,10,12,16,20,24,32,48",
   "lr": 0.5,
   "threads": 4
@@ -138,7 +138,8 @@
   "3": "3GPP TR 38.913 Table 6.1.1-1 (Indoor hotspot, 3 km/h)",
   "10": "ITU-R M.2410: pedestrian class 0-10 km/h; Indoor Hotspot-eMBB mobility at 10 km/h",
   "30": "ITU-R M.2410: Dense Urban-eMBB mobility at 30 km/h (stress test, not indoor)",
-  "5.4": "this paper (1.5 m/s)"
+  "5.4": "this paper (1.5 m/s)",
+  "18": "5 m/s (running/cycling; ITU-R M.2410 vehicular class 10-120 km/h), requested comparison"
  },
  "speeds": {
   "3": {
@@ -1832,6 +1833,427 @@
       0.2761712677397206,
       0.18863488847986334,
       0.36867541098222273
+     ]
+    }
+   }
+  },
+  "18": {
+   "v_ms": 5.0,
+   "f_d_hz": 50.0,
+   "coherence_ms": 8.46,
+   "x": 0.083125,
+   "trust_ms": 60.0,
+   "by_t_ov": {
+    "0.0": {
+     "methods": {
+      "su_average": {
+       "t0": 4.624037265777588,
+       "latency_ms": 0.4227385000490358,
+       "effective": 4.621561446694933,
+       "trusted": true
+      },
+      "su_best_of": {
+       "t0": 5.276238918304443,
+       "latency_ms": 2.5405210000144507,
+       "effective": 5.189292845370887,
+       "trusted": true
+      },
+      "adam1": {
+       "t0": 5.411805629730225,
+       "latency_ms": 1.6625,
+       "effective": 5.351547422574834,
+       "trusted": true
+      },
+      "adam2": {
+       "t0": 5.783671855926514,
+       "latency_ms": 3.325,
+       "effective": 5.501874697021209,
+       "trusted": true
+      },
+      "adam3": {
+       "t0": 5.986532688140869,
+       "latency_ms": 4.987500000000001,
+       "effective": 5.417262218568706,
+       "trusted": true
+      },
+      "adam4": {
+       "t0": 6.127992630004883,
+       "latency_ms": 6.65,
+       "effective": 5.237445939887315,
+       "trusted": true
+      },
+      "adam5": {
+       "t0": 6.218757152557373,
+       "latency_ms": 8.3125,
+       "effective": 5.111628759795567,
+       "trusted": true
+      },
+      "adam6": {
+       "t0": 6.316224575042725,
+       "latency_ms": 9.975000000000001,
+       "effective": 5.0721531260944905,
+       "trusted": true
+      },
+      "adam8": {
+       "t0": 6.442808151245117,
+       "latency_ms": 13.3,
+       "effective": 5.047262409970164,
+       "trusted": true
+      },
+      "adam10": {
+       "t0": 6.540684700012207,
+       "latency_ms": 16.625,
+       "effective": 5.020725407768041,
+       "trusted": true
+      },
+      "adam12": {
+       "t0": 6.631292819976807,
+       "latency_ms": 19.950000000000003,
+       "effective": 5.007854973189066,
+       "trusted": true
+      },
+      "adam16": {
+       "t0": 6.754217624664307,
+       "latency_ms": 26.6,
+       "effective": 5.0341713951881975,
+       "trusted": true
+      },
+      "adam20": {
+       "t0": 6.835373401641846,
+       "latency_ms": 33.25,
+       "effective": 5.051048757629469,
+       "trusted": true
+      },
+      "adam24": {
+       "t0": 6.897000789642334,
+       "latency_ms": 39.900000000000006,
+       "effective": 5.081694018337876,
+       "trusted": true
+      },
+      "adam32": {
+       "t0": 6.969772815704346,
+       "latency_ms": 53.2,
+       "effective": 5.043848766082525,
+       "trusted": true
+      },
+      "adam48": {
+       "t0": 7.036767959594727,
+       "latency_ms": 79.80000000000001,
+       "effective": 5.062948728781193,
+       "trusted": false
+      },
+      "cd": {
+       "t0": 6.925277233123779,
+       "latency_ms": 880.784626000036,
+       "effective": 4.771637356260325,
+       "trusted": false
+      },
+      "pga": {
+       "t0": 7.117066860198975,
+       "latency_ms": 5851.659214499989,
+       "effective": 4.495869628991931,
+       "trusted": false
+      }
+     },
+     "best_L": 2,
+     "within_half_percent": [
+      2
+     ],
+     "best_eff": 5.501874697021209,
+     "loss_L48_pct": [
+      7.977752900800447,
+      6.233271623105447,
+      9.72690001428116
+     ],
+     "su_best_minus_cd": [
+      0.41765548911056166,
+      0.27834208920890097,
+      0.5615269575496992
+     ],
+     "su_best_minus_pga": [
+      0.6934232163789557,
+      0.46785968711821446,
+      0.9173784229332885
+     ],
+     "adam_best_minus_su_best": [
+      0.3125818516503213,
+      0.25458813066172953,
+      0.37094076723997566
+     ]
+    },
+    "1.71": {
+     "methods": {
+      "su_average": {
+       "t0": 4.624037265777588,
+       "latency_ms": 2.1327385000490358,
+       "effective": 4.604748718333812,
+       "trusted": true
+      },
+      "su_best_of": {
+       "t0": 5.276238918304443,
+       "latency_ms": 4.250521000014451,
+       "effective": 5.052926137357885,
+       "trusted": true
+      },
+      "adam1": {
+       "t0": 5.411805629730225,
+       "latency_ms": 3.3725,
+       "effective": 5.20341167107285,
+       "trusted": true
+      },
+      "adam2": {
+       "t0": 5.783671855926514,
+       "latency_ms": 5.035,
+       "effective": 5.263075651251386,
+       "trusted": true
+      },
+      "adam3": {
+       "t0": 5.986532688140869,
+       "latency_ms": 6.697500000000001,
+       "effective": 5.174172579667414,
+       "trusted": true
+      },
+      "adam4": {
+       "t0": 6.127992630004883,
+       "latency_ms": 8.36,
+       "effective": 5.083544404049591,
+       "trusted": true
+      },
+      "adam5": {
+       "t0": 6.218757152557373,
+       "latency_ms": 10.0225,
+       "effective": 5.046393520961516,
+       "trusted": true
+      },
+      "adam6": {
+       "t0": 6.316224575042725,
+       "latency_ms": 11.685000000000002,
+       "effective": 5.0413857962653035,
+       "trusted": true
+      },
+      "adam8": {
+       "t0": 6.442808151245117,
+       "latency_ms": 15.010000000000002,
+       "effective": 5.02049991838187,
+       "trusted": true
+      },
+      "adam10": {
+       "t0": 6.540684700012207,
+       "latency_ms": 18.335,
+       "effective": 4.990239149891027,
+       "trusted": true
+      },
+      "adam12": {
+       "t0": 6.631292819976807,
+       "latency_ms": 21.660000000000004,
+       "effective": 5.0130178943685255,
+       "trusted": true
+      },
+      "adam16": {
+       "t0": 6.754217624664307,
+       "latency_ms": 28.310000000000002,
+       "effective": 5.0085866362791505,
+       "trusted": true
+      },
+      "adam20": {
+       "t0": 6.835373401641846,
+       "latency_ms": 34.96,
+       "effective": 5.058862710127979,
+       "trusted": true
+      },
+      "adam24": {
+       "t0": 6.897000789642334,
+       "latency_ms": 41.61000000000001,
+       "effective": 5.0870936614853886,
+       "trusted": true
+      },
+      "adam32": {
+       "t0": 6.969772815704346,
+       "latency_ms": 54.910000000000004,
+       "effective": 5.0590529012947165,
+       "trusted": true
+      },
+      "adam48": {
+       "t0": 7.036767959594727,
+       "latency_ms": 81.51,
+       "effective": 5.068903857668173,
+       "trusted": false
+      },
+      "cd": {
+       "t0": 6.925277233123779,
+       "latency_ms": 882.4946260000361,
+       "effective": 4.771229135385197,
+       "trusted": false
+      },
+      "pga": {
+       "t0": 7.117066860198975,
+       "latency_ms": 5853.369214499989,
+       "effective": 4.495806707624163,
+       "trusted": false
+      }
+     },
+     "best_L": 2,
+     "within_half_percent": [
+      2
+     ],
+     "best_eff": 5.263075651251386,
+     "loss_L48_pct": [
+      3.689321728389839,
+      2.0151445231671876,
+      5.440693237669157
+     ],
+     "su_best_minus_cd": [
+      0.28169700197268843,
+      0.13845752134196146,
+      0.42569518578321486
+     ],
+     "su_best_minus_pga": [
+      0.557119429733723,
+      0.3206228899473727,
+      0.7776153648963748
+     ],
+     "adam_best_minus_su_best": [
+      0.2101495138934995,
+      0.14204389979826706,
+      0.27833582067629975
+     ]
+    },
+    "3.43": {
+     "methods": {
+      "su_average": {
+       "t0": 4.624037265777588,
+       "latency_ms": 3.852738500049036,
+       "effective": 4.570695623907665,
+       "trusted": true
+      },
+      "su_best_of": {
+       "t0": 5.276238918304443,
+       "latency_ms": 5.97052100001445,
+       "effective": 4.9272441585047995,
+       "trusted": true
+      },
+      "adam1": {
+       "t0": 5.411805629730225,
+       "latency_ms": 5.0925,
+       "effective": 5.019395381521364,
+       "trusted": true
+      },
+      "adam2": {
+       "t0": 5.783671855926514,
+       "latency_ms": 6.755000000000001,
+       "effective": 5.051443408818637,
+       "trusted": true
+      },
+      "adam3": {
+       "t0": 5.986532688140869,
+       "latency_ms": 8.4175,
+       "effective": 5.032133002777118,
+       "trusted": true
+      },
+      "adam4": {
+       "t0": 6.127992630004883,
+       "latency_ms": 10.08,
+       "effective": 5.01189686563313,
+       "trusted": true
+      },
+      "adam5": {
+       "t0": 6.218757152557373,
+       "latency_ms": 11.7425,
+       "effective": 5.021464264359255,
+       "trusted": true
+      },
+      "adam6": {
+       "t0": 6.316224575042725,
+       "latency_ms": 13.405000000000001,
+       "effective": 5.006946122534899,
+       "trusted": true
+      },
+      "adam8": {
+       "t0": 6.442808151245117,
+       "latency_ms": 16.73,
+       "effective": 4.983450179699622,
+       "trusted": true
+      },
+      "adam10": {
+       "t0": 6.540684700012207,
+       "latency_ms": 20.055,
+       "effective": 4.977408769264445,
+       "trusted": true
+      },
+      "adam12": {
+       "t0": 6.631292819976807,
+       "latency_ms": 23.380000000000003,
+       "effective": 5.02691344706025,
+       "trusted": true
+      },
+      "adam16": {
+       "t0": 6.754217624664307,
+       "latency_ms": 30.03,
+       "effective": 5.01661888480559,
+       "trusted": true
+      },
+      "adam20": {
+       "t0": 6.835373401641846,
+       "latency_ms": 36.68,
+       "effective": 5.067434860460461,
+       "trusted": true
+      },
+      "adam24": {
+       "t0": 6.897000789642334,
+       "latency_ms": 43.330000000000005,
+       "effective": 5.0943302836105975,
+       "trusted": true
+      },
+      "adam32": {
+       "t0": 6.969772815704346,
+       "latency_ms": 56.63,
+       "effective": 5.059365455892543,
+       "trusted": true
+      },
+      "adam48": {
+       "t0": 7.036767959594727,
+       "latency_ms": 83.23000000000002,
+       "effective": 5.0772862450647915,
+       "trusted": false
+      },
+      "cd": {
+       "t0": 6.925277233123779,
+       "latency_ms": 884.214626000036,
+       "effective": 4.770818527253489,
+       "trusted": false
+      },
+      "pga": {
+       "t0": 7.117066860198975,
+       "latency_ms": 5855.089214499989,
+       "effective": 4.495743418295178,
+       "trusted": false
+      }
+     },
+     "best_L": 24,
+     "within_half_percent": [
+      24,
+      48
+     ],
+     "best_eff": 5.0943302836105975,
+     "loss_L48_pct": [
+      0.33456877738453106,
+      -1.2897409924539,
+      1.9628372596100856
+     ],
+     "su_best_minus_cd": [
+      0.1564256312513108,
+      0.010797219131224316,
+      0.3000493308625922
+     ],
+     "su_best_minus_pga": [
+      0.4315007402096212,
+      0.19765312994097622,
+      0.6533575768524509
+     ],
+     "adam_best_minus_su_best": [
+      0.16708612510579784,
+      0.06914025661798437,
+      0.26675836233674954
      ]
     }
    }

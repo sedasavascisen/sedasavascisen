@@ -4,77 +4,71 @@
 \subsection{Effective Rate}
 Let a method $A$ receive the channel $\mathcal{H}(0)=\{\mbf{F},\mbf{g}_k(0),\mbf{h}_{d,k}(0)\}$, return the phase $\bs{\theta}_A$, and need the wall-clock time $\tau_A$ to do so.
 
-\textbf{Definition 1 (Effective rate).} The effective rate of $A$ is its minimum user rate on the channel that exists when it finishes:
+\textbf{Definition 1 (Effective rate).} The effective rate of $A$ is its minimum user rate on the channel that exists when it finishes,
 \begin{equation}
     R^{\mathrm{eff}}_A = \min_k R_k\big(\bs{\theta}_A;\,\mathcal{H}(\tau_A)\big),
     \label{eq:effective_rate}
 \end{equation}
-where the precoder is recomputed from $\mathcal{H}(\tau_A)$.
+with the precoder recomputed from $\mathcal{H}(\tau_A)$.
 
-The precoder is a closed-form digital computation that the BS can recompute whenever it has fresh effective-channel pilots, whereas the RIS phase requires the iterative optimization whose latency is measured here. The same split between a fast precoder update and a slower phase update underlies two-timescale RIS designs~\cite{Zhao2021TWC}. Definition~1 therefore lets the phase age and keeps the beam fresh. Section~\ref{sec:res_beam} measures how much this assumption is worth.
+The precoder is a closed-form computation that the BS repeats whenever it has fresh pilots; the RIS phase needs the iterative optimization whose latency we measure. Definition~1 therefore lets the phase age and keeps the beam fresh, the same split as in two-timescale designs~\cite{Zhao2021TWC}. Section~\ref{sec:res_beam} prices this assumption.
 
-\subsection{Gain--Aging Decomposition and the Intrinsic Optimum}
-For an iterative method run for $L$ steps, write $r_0(L)=\min_k R_k(\bs{\theta}_L;\mathcal{H}(0))$ for its rate at $t=0$, $\tau(L)$ for its latency and
-\begin{align}
-    R^{\mathrm{eff}}(L) &= r_0(L) - \Delta(L), \\
-    \Delta(L) &= r_0(L) - \min_k R_k\big(\bs{\theta}_L;\mathcal{H}(\tau(L))\big),
-\end{align}
-so that $\Delta(L)$ is the rate lost to aging during the method's own run time. Additional steps raise $r_0$ with diminishing returns, while $\Delta$ grows with $\tau(L)$. An additional step pays off only while
+\subsection{Why an Optimal Number of Steps Exists}
+For an iterative method run for $L$ steps, write $r_0(L)$ for its minimum rate at $t=0$, $\tau(L)$ for its latency, and $\Delta(L)=r_0(L)-\min_k R_k(\bs{\theta}_L;\mathcal{H}(\tau(L)))$ for the rate lost to aging during its own run time, so that $R^{\mathrm{eff}}(L)=r_0(L)-\Delta(L)$. Each step raises $r_0$ with diminishing returns, while $\Delta$ grows with $\tau$. A step pays off only while
 \begin{equation}
     r_0(L+1)-r_0(L) \;>\; \Delta(L+1)-\Delta(L),
     \label{eq:marginal}
 \end{equation}
-and the effective rate peaks at the first $L$ where this inequality fails. We call that point the \emph{intrinsic optimum} $L^\star$. It is a property of the optimizer and its step size, the per-step latency and the speed of the channel together, not of the optimizer alone. A slower step or a faster user raises the right-hand side and moves $L^\star$ down. Equation~\eqref{eq:marginal} is a bookkeeping identity rather than a theorem: whether $R^{\mathrm{eff}}$ is unimodal is an empirical question, which we answer in Section~\ref{sec:res_optimum}.
+and the effective rate peaks where this fails: the \emph{intrinsic optimum} $L^\star$. It depends on the optimizer, its per-step latency and the speed of the channel together. Whether $R^{\mathrm{eff}}$ is unimodal is an empirical question (Section~\ref{sec:res_optimum}).
 
 \subsection{Equal Steps versus Equal Milliseconds}
-Learned update rules are usually compared with classical optimizers at an equal number of steps. If one learned step costs $c$ times as much as one classical step, an equal-step comparison gives the learned method $c$ times the compute budget. We therefore also compare at equal measured time and use Pareto dominance.
+If one learned step costs $c$ classical steps, an equal-step comparison gives the learned method $c$ times the budget. We therefore also compare at equal measured time.
 
-\textbf{Definition 2 (Dominance).} Configuration $B$ dominates configuration $A$ if $\tau_B\le\tau_A$ and $r_{0,B}\ge r_{0,A}$, with one inequality strict, where $r_0$ is the rate at $t=0$.
+\textbf{Definition 2 (Dominance).} Configuration $B$ dominates $A$ if $\tau_B\le\tau_A$ and $r_{0,B}\ge r_{0,A}$, with one inequality strict.
 
-If $B$ dominates $A$, there is no latency budget at which $A$ is the better choice. A learned configuration that is dominated by some configuration of the classical optimizer is therefore never worth deploying, regardless of how it compares step for step.
+A dominated configuration is never the better choice, at any latency budget.
 
-\subsection{Normalized Step Cost}
-Channel variation depends on how far a user moves in wavelengths, i.e., on $v\tau/\lambda = f_d\tau$. If an optimizer takes $\Delta T$ per step, its latency after $L$ steps in these units is $L\,x$ with
+\subsection{Normalized Step Cost and a Small-Delay Model}
+Channel variation depends on how far a user moves in wavelengths, $f_d\tau$. If an optimizer takes $\Delta T$ per step, its latency after $L$ steps in these units is $Lx$, with
 \begin{equation}
     x = \Delta T\, f_d .
     \label{eq:x}
 \end{equation}
-In our model the users move $v\tau$ metres in time $\tau$ while everything else is fixed, so scaling the step time $\Delta T$ by a factor is exactly equivalent to scaling the speed $v$ by the same factor at a fixed carrier; Section~\ref{sec:res_scaling} varies $\Delta T$. The same $x$ at a different carrier frequency is only approximately equivalent: at 28~GHz the user moves about 9 times fewer metres for the same $x$, which changes path loss, angles and the array's size in wavelengths.
+In our model, scaling $\Delta T$ is exactly equivalent to scaling the speed $v$; other carriers are only approximately equivalent, since path loss and the array's size in wavelengths change.
 
-\subsection{A Small-Delay Model of the Optimum}
-Two approximate empirical regularities, examined in Section~\ref{sec:res_scaling}, make~\eqref{eq:marginal} explicit. First, over the step counts of interest the gap of Adam's $t=0$ rate to its converged value decays roughly as a power law,
+Two approximate regularities, checked in Section~\ref{sec:res_scaling}, make~\eqref{eq:marginal} explicit. The convergence gap decays roughly as a power law,
 \begin{equation}
-    R_\infty - r_0(L) \approx D\,L^{-\gamma}.
+    R_\infty - r_0(L) \approx D\,L^{-\gamma},
     \label{eq:conv_law}
 \end{equation}
-Second, for small delays the aging loss is quadratic in the distance moved, $u=f_d\tau$ wavelengths,
+and for small delays the aging loss is quadratic in the distance moved, $u=f_d\tau$,
 \begin{equation}
     \Delta(L,u) \approx \kappa_L\, u^2 ,
     \label{eq:aging_law}
 \end{equation}
-A quadratic leading term is generic for a loss that is smooth in $u$ and whose linear term cancels on average over directions of motion; for isotropic scattering it is the leading term of the Clarke correlation $J_0(2\pi u)\approx 1-\pi^2u^2$~\cite{Clarke1968BSTJ,rappaport_wireless}. Our channel is geometric, so we fit $\kappa_L$ rather than derive it. The coefficient grows with $L$: a more strongly optimized phase relies more on a coherent combination that motion destroys. With $\tau = L\Delta T$ we have $u = xL$, and the effective rate becomes
+as in the leading term of the Clarke correlation, $J_0(2\pi u)\approx 1-\pi^2u^2$~\cite{Clarke1968BSTJ,rappaport_wireless}. With $u = xL$,
 \begin{equation}
     R^{\mathrm{eff}}(L) \approx R_\infty - D\,L^{-\gamma} - \kappa\, x^2 L^2 .
     \label{eq:reff_model}
 \end{equation}
 
-\textbf{Proposition 1 (Scaling of the intrinsic optimum).} Let $\gamma, D, \kappa, x > 0$. Under~\eqref{eq:conv_law}--\eqref{eq:aging_law} with $\kappa_L=\kappa$, the model~\eqref{eq:reff_model} has a unique maximizer over $L>0$,
+\textbf{Proposition 1 (Scaling of the optimum).} For $\gamma, D, \kappa, x > 0$ and $\kappa_L=\kappa$, \eqref{eq:reff_model} has a unique maximizer over $L>0$,
 \begin{equation}
     L^\star = \left(\frac{\gamma D}{2\kappa}\right)^{\frac{1}{\gamma+2}} x^{-\frac{2}{\gamma+2}} ,
     \label{eq:Lstar}
 \end{equation}
-at which the aging loss equals $\gamma/2$ times the remaining convergence gap, $\kappa x^2 L^{\star 2} = \tfrac{\gamma}{2} D L^{\star\,-\gamma}$.
+at which the aging loss equals $\gamma/2$ times the remaining convergence gap.
 
-\emph{Proof.} The derivative of~\eqref{eq:reff_model} is $\gamma D L^{-\gamma-1} - 2\kappa x^2 L$. Since all constants are positive, it is positive for small $L$ and negative for large $L$, and vanishes only where $L^{\gamma+2}=\gamma D/(2\kappa x^2)$, which gives~\eqref{eq:Lstar}. The second derivative, $-\gamma(\gamma+1)D L^{-\gamma-2} - 2\kappa x^2$, is negative, so the stationary point is the maximum. Substituting~\eqref{eq:Lstar} into $\kappa x^2 L^2$ gives the stated balance. \hfill$\square$
+\emph{Proof.} The derivative $\gamma D L^{-\gamma-1} - 2\kappa x^2 L$ is positive for small $L$, negative for large $L$, and vanishes only at $L^{\gamma+2}=\gamma D/(2\kappa x^2)$; the second derivative is negative. Substituting gives the balance. \hfill$\square$
 
-Two qualitative consequences follow. The optimum is a power law in $x$, and because $\gamma>0$ its exponent lies in $(-1,0)$: a faster optimizer should run more steps, but less than proportionally more. The balance identity is a property of the model; Section~\ref{sec:res_scaling} shows that the data do not follow it quantitatively, which marks where the model stops being accurate. The derivation uses only small-delay aging and so requires $u^\star = xL^\star \ll 1$, which holds over the range we test ($u^\star\le 0.16$). With fitted constants, \eqref{eq:Lstar} is a description of the measurements rather than an independent prediction; its value lies in explaining why the optimum shifts as it does.
+The optimum is thus a power law in $x$ with exponent in $(-1,0)$: a faster optimizer should run more steps, but less than proportionally more. The derivation assumes $xL^\star \ll 1$, which holds in our range ($xL^\star\le 0.16$). With fitted constants, \eqref{eq:Lstar} explains the measurements rather than predicting them independently.
 
 \subsection{Periodic Re-optimization}
-Definition~1 evaluates a phase at the instant it is delivered. A deployed controller instead repeats the optimization with period $U$: at each snapshot it spends $T_{\mathrm{p}}$ on pilots for the cascaded channel, during which no data is transmitted, then $L\Delta T$ on optimization, deploys the result, and waits for the next snapshot ($U \ge T_{\mathrm{p}}+L\Delta T$; \emph{back-to-back} operation means $U = T_{\mathrm{p}}+L\Delta T$).
+A deployed controller repeats the optimization with period $U$: it spends $T_{\mathrm{p}}$ on pilots, without data, then $L\Delta T$ on optimization, deploys the result and waits ($U \ge T_{\mathrm{p}}+L\Delta T$; \emph{back-to-back} means equality).
 
-\textbf{Definition 3 (Time-averaged effective rate).} Let $\bs{\theta}(t)$ be the phase deployed at time $t$, and let $\mathcal{P}$ be the set of pilot intervals. The time-averaged effective rate over a window $\mathcal{W}$ is
+\textbf{Definition 3 (Time-averaged effective rate).} With $\bs{\theta}(t)$ the deployed phase and $\mathcal{P}$ the pilot intervals, over a window $\mathcal{W}$
 \begin{equation}
     \bar{R}^{\mathrm{eff}} = \frac{1}{|\mathcal{W}|}\int_{\mathcal{W}\setminus\mathcal{P}} \min_k R_k\big(\bs{\theta}(t);\,\mathcal{H}(t)\big)\,dt .
     \label{eq:time_avg}
 \end{equation}
-Each update can start from scratch (\emph{cold start}) or from the phase currently deployed (\emph{warm start}). The period trades pilot overhead against the age of the phase in use, and $L$ trades the quality of each update against its delay.
+Each update starts from scratch (\emph{cold}) or from the deployed phase (\emph{warm}).
