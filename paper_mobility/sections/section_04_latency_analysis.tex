@@ -61,7 +61,7 @@ at which the aging loss equals $\gamma/2$ times the remaining convergence gap.
 
 \emph{Proof.} The derivative $\gamma D L^{-\gamma-1} - 2\kappa x^2 L$ is positive for small $L$, negative for large $L$, and vanishes only at $L^{\gamma+2}=\gamma D/(2\kappa x^2)$; the second derivative is negative. Substituting gives the balance. \hfill$\square$
 
-The optimum is thus a power law in $x$ with exponent in $(-1,0)$: a faster optimizer should run more steps, but less than proportionally more. The derivation assumes $xL^\star \ll 1$, which holds in our range ($xL^\star\le 0.16$). With fitted constants, \eqref{eq:Lstar} explains the measurements rather than predicting them independently.
+The optimum is thus a power law in $x$ with exponent in $(-1,0)$: a faster optimizer should run more steps, but less than proportionally more. The derivation assumes $xL^\star \ll 1$, which holds in our range ($xL^\star\le 0.16$). With fitted constants, \eqref{eq:Lstar} describes the measurements rather than predicting them independently; its value lies in explaining why the optimum shifts as it does.
 
 \subsection{Periodic Re-optimization}
 A deployed controller repeats the optimization with period $U$: it spends $T_{\mathrm{p}}$ on pilots, without data, then $L\Delta T$ on optimization, deploys the result and waits ($U \ge T_{\mathrm{p}}+L\Delta T$; \emph{back-to-back} means equality).

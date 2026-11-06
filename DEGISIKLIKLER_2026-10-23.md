@@ -515,3 +515,18 @@ Denetim iddialari: `site_knn_beats_cnn_all_sites`, `site_cnn_beats_nn_lookup_all
   - Bolum V'e iki 6000 senaryoluk cekilis eklendi; sinirliliklara CD/uzun Adam
     butcelerinin sabit oldugu eklendi.
   - Depodaki PDF yeniden derlendi (eskimisti).
+
+---
+
+## 2026-11-07 — 10 sayfa yeniden yazim ve denetimi
+
+- Kullanici istegi: en fazla 10 sayfa, vurucu giris, sade dil, dogrudan sonuclar.
+  Makale 9 sayfaya indi; bes ikincil tablo ve ek cikarildi (ek: `paper_mobility/unused/`).
+- 5 m/s (18 km/h) hiz calismasina eklendi (L*=2, L=48 bedeli %8.0, guvenilir ufkun otesinde).
+- Bagimsiz denetim (sayi hatasi yok) kisaltmada dusen cekinceleri buldu; geri kondu:
+  ozet ve sonucta on kodlayici varsayimi; "gecikme karar verir" yalnizca olculen rejim
+  icin; CNN tek kullaniciya tasindi; hiz tablosunda 18 ve 30 km/h icin guvenilir ufuk
+  isareti; gecikme eklenince 18/30 km/h'de optimum cozulemiyor; 1.66 ms'nin kaynagi;
+  donanim ve maliyet orani cekincesi; CNN kontrol deneyi (14.99° / 2.77°); modelin
+  orneklem ici kontrolu ve ±0.08; pilot varsayimlari; N=64 icin yakin alan; Gudmundson
+  sapmasi; L=24-64 ayar izgarasi; zamanlama yayilimlari; denetim sayisi 99.

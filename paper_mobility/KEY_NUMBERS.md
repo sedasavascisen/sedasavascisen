@@ -38,4 +38,4 @@ rates from `mumiso_latency_parity.json`.
 
 Not yet run (needs the weights archive): `scripts/mumiso_latency_replicate.py`
 re-times the equal-millisecond comparison and records load and CPU model.
-| Standardized user speeds (3, 5.4, 10, 30 km/h), Table speeds | `scripts/mumiso_standard_speeds.py` | `results/mumiso_standard_speeds.json` |
+| Standardized user speeds (3, 5.4, 10, 18, 30 km/h), Table speeds | `scripts/mumiso_standard_speeds.py` | `results/mumiso_standard_speeds.json` |

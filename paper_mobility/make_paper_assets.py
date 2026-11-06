@@ -636,15 +636,16 @@ lines += [r"\bottomrule", r"\end{tabular}"]
 # ------------------------------------------------------ standardised speeds
 spd = load("mumiso_standard_speeds.json")
 SRC = {"3": r"3GPP~\cite{3gpp_tr38913}", "5.4": "ours", "10": r"ITU~\cite{itu_m2410}",
-       "18": r"5~m/s", "30": r"ITU, urban"}
+       "18": r"ITU, veh.", "30": r"ITU, urban"}
 lines = [r"\begin{tabular}{rlrrlrr}", r"\toprule",
          r"km/h & Source & $T_c$ (ms) & $x$ & $L^\star$ & $L{=}48$ & $\Delta$ \\", r"\midrule"]
 for k, v in sorted(spd["speeds"].items(), key=lambda kv: float(kv[0])):
     b = v["by_t_ov"]["0.0"]
     rng_ = b["within_half_percent"]
     Ls = f"{b['best_L']}" + (f" ({min(rng_)}--{max(rng_)})" if len(rng_) > 1 else "")
+    dag = "" if b["methods"]["adam48"]["trusted"] else r"$^\dagger$"
     lines.append(f"{k} & {SRC[k]} & {v['coherence_ms']:.1f} & {v['x']:.3f} & {Ls} & "
-                 f"{b['loss_L48_pct'][0]:.1f}\\% & ${b['su_best_minus_cd'][0]:+.2f}$ \\\\")
+                 f"{b['loss_L48_pct'][0]:.1f}\\%{dag} & ${b['su_best_minus_cd'][0]:+.2f}$ \\\\")
     say(f"speed  {k} km/h: Tc {v['coherence_ms']:.1f} ms, x {v['x']:.4f}, L* {b['best_L']} {rng_}, best eff {b['best_eff']:.3f}, "
         f"L48 {b['loss_L48_pct'][0]:.1f}% [{b['loss_L48_pct'][1]:.1f}, {b['loss_L48_pct'][2]:.1f}], "
         f"SU-best - CD {b['su_best_minus_cd'][0]:+.3f} [{b['su_best_minus_cd'][1]:+.3f}, {b['su_best_minus_cd'][2]:+.3f}], "
