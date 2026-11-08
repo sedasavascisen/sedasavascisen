@@ -642,6 +642,20 @@ else:
     claim("partial_mob_full_csi_best", "8", "exact", 32, int(_bestM),
           "at 1.5 m/s, paying for all 33 pilots beats every reduced-pilot arm (validation)")
 
+# ------------------------------- AISY 2026 baseline-fairness check (aisy_paket/)
+section("saved results: AISY coordinate-descent check (published ris_CD.m)")
+_ak = _load("aisy_cd_k_check.json")
+if _ak is None:
+    print("  [skip] aisy_cd_k_check.json missing")
+else:
+    claim("aisy_n", "8", "exact", 6000, _ak["n"])
+    claim("aisy_cd5_rmse_published_def", "8", "statistical", 103.8, _ak["K"]["5"]["rmse_deg"],
+          "published RMSE definition: CD differs from the label by a common phase")
+    claim("aisy_cd5_rmse_common_removed", "8", "statistical", 1.10, _ak["K"]["5"]["rmse_without_common_phase_deg"])
+    claim("aisy_cd_beats_label_power", "8", "exact", 1,
+          int(_ak["K"]["20"]["cd_power_over_label_db_mean"] > 2.0),
+          "CD receives >2 dB more power than the published label (label ignores h_d)")
+
 # ---------------------------------------------------- standardised speeds
 # scripts/mumiso_standard_speeds.py: 3 km/h (3GPP TR 38.913), 10 km/h
 # (ITU-R M.2410 indoor mobility), 30 km/h (stress test), and the paper's 5.4.

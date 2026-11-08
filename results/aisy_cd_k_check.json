@@ -1,0 +1,32 @@
+{
+ "n": 6000,
+ "seed": 42,
+ "note": "NumPy draw of the published generator; not MATLAB's rng(42) samples",
+ "label_power_db_median": -13.100440155692862,
+ "K": {
+  "1": {
+   "rmse_deg": 104.02865009374646,
+   "rmse_without_common_phase_deg": 5.9237378544561325,
+   "cd_power_over_label_db_mean": 1.923191681276725,
+   "frac_cd_power_ge_label": 0.8035
+  },
+  "5": {
+   "rmse_deg": 103.81272558001591,
+   "rmse_without_common_phase_deg": 1.1016472267745152,
+   "cd_power_over_label_db_mean": 2.123521443447144,
+   "frac_cd_power_ge_label": 0.9166666666666666
+  },
+  "20": {
+   "rmse_deg": 103.62185046747929,
+   "rmse_without_common_phase_deg": 0.2596079179897593,
+   "cd_power_over_label_db_mean": 2.1928918754601283,
+   "frac_cd_power_ge_label": 0.982
+  },
+  "50": {
+   "rmse_deg": 103.53674622713743,
+   "rmse_without_common_phase_deg": 0.048451308719191635,
+   "cd_power_over_label_db_mean": 2.199093412408623,
+   "frac_cd_power_ge_label": 0.997
+  }
+ }
+}

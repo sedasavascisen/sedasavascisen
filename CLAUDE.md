@@ -17,11 +17,11 @@ güncelletme sadece üzerine eklemeler yapıp doktora tezimi şekillendir."*
 ## Her oturumun ilk komutu
 
 ```bash
-python3 scripts/audit_claims.py        # 104 iddia
-python3 scripts/audit_claims.py --all  # §5 dahil, 119 iddia
+python3 scripts/audit_claims.py        # 108 iddia
+python3 scripts/audit_claims.py --all  # §5 dahil, 123 iddia
 ```
 
-`119/119` görmeden hiçbir sayıya güvenme. Bir şey kırıldıysa burada görünür.
+`123/123` görmeden hiçbir sayıya güvenme. Bir şey kırıldıysa burada görünür.
 
 ---
 
@@ -155,8 +155,10 @@ Ayrıntılı görev tanımları ve kabul ölçütleri: `CLAUDE_CODE_PROMPT.md`.
 | `DEGISIKLIKLER_2026-10-23.md` | Düzeltilen her hatanın kaydı |
 | `README_MUMISO.md` | Bulguların uzun anlatımı |
 | `ris_mu/mumiso/system.py` | Sistem denklemleri — tek doğruluk kaynağı |
-| `scripts/audit_claims.py` | 119 iddia; sabotaj testiyle doğrulandı |
+| `scripts/audit_claims.py` | 123 iddia; sabotaj testiyle doğrulandı |
 | `scripts/make_writing_reference.py` | Referansı yeniden üretir |
+| `aisy_paket/` | AISY makalesinin temiz MATLAB paketi ve bulunan tutarsızlıklar (`README_TR.md`); `orijinal/` dokunulmaz |
+| `ON_KAYIT_KISMI_CSI.md` | Ön kayıtlı kısmi CSI deneyi ve sonucu |
 
 Yeni bir ölçüm yaptıysan: betiği `scripts/` altına koy, sonucu
 `results/*.json`'a yaz, sonra `python3 scripts/make_writing_reference.py`.

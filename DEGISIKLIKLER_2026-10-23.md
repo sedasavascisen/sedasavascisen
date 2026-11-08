@@ -561,3 +561,14 @@ Denetim iddialari: `site_knn_beats_cnn_all_sites`, `site_cnn_beats_nn_lookup_all
   alinmisti; betigi yazildi (0.57 -> 0.558, 6000 senaryo), referans ondan uretiliyor.
 - Denetim 104 / 119 iddia (14 yeni `partial_*`; sabotaj testi: 8 hedefli bozulmanin 8'i yakalandi).
   Makalede "105 assertions" -> "119 assertions".
+
+## 2026-11-08 (gece) — AISY makalesinin MATLAB paketi temizlendi
+
+- Kullanici istegi: tez Sekil 4'u (baseline fairness) duzelt, makale sonuclarini ureten dosyayi bul, temizle, derle.
+- `aisy_paket/`: orijinaller degistirilmeden `orijinal/`'de; yeni adim1–5 betikleri,
+  sayilar dosyadan okunuyor, gecikmeler olculuyor. MATLAB burada yok: betikler kosturulmadi.
+- Bulunan: yayimlanan ris_CD.m makaledeki RMSE tanimiyla ~104 derece veriyor (3.50 degil);
+  ortak faz cikarilinca 1.10/0.26/0.05 derece (`scripts/aisy_cd_k_check.py`, NumPy cekilisi).
+  Etiket h_d'yi yok sayiyor (CD +2.1 dB). Olceklenebilirlik seklinin olcum betigi yok; uc surum celisiyor.
+  Ayrinti: `aisy_paket/README_TR.md`.
+- Denetim 108 / 123 (4 yeni `aisy_*`). Makalede "119 assertions" -> "123".
