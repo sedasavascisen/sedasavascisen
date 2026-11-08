@@ -38,6 +38,8 @@ This reproduces the paper's tables exactly from the stored results.
 | Paired statistics | `scripts/mumiso_aging_stats.py` | `mumiso_aging_stats.json` |
 | Step-cost scaling and small-delay model (Fig. 4) | `scripts/mumiso_step_scaling.py`, `scripts/mumiso_optimum_model.py`, `scripts/mumiso_optimum_model_checks.py` | `mumiso_step_scaling.json`, `mumiso_optimum_model*.json` |
 | Standardized user speeds (Table II) | `scripts/mumiso_standard_speeds.py` | `mumiso_standard_speeds.json` |
+| Coordinate descent with 1–8 sweeps (Sec. VI-A) | `scripts/mumiso_cd_budget.py` | `mumiso_cd_budget.json` |
+| Shared scattering gains (Sec. VI-D) | `scripts/mumiso_standard_speeds.py --share_gains --kmh 5.4,10 --tag standard_speeds_shared` | `mumiso_standard_speeds_shared.json` |
 | Periodic re-optimization (Table III) | `scripts/mumiso_tracking.py` | `mumiso_tracking.json` |
 | Learned update rule vs. Adam (Fig. 5) | `scripts/mumiso_equal_step.py`, `scripts/mumiso_latency_parity.py`, `scripts/mumiso_latency_repeat.py` | `mumiso_equal_step.json`, `mumiso_latency_*.json` |
 | Ported CNN–LSTM (Table IV) | `scripts/sumiso_dataset.py`, `scripts/sumiso_train.py`, `scripts/sumiso_mobility_eval.py`, `scripts/sumiso_t0_robustness.py`, `scripts/sumiso_label_check.py` | `sumiso_*.json`, `sumiso_cnnlstm_seq.pt` |

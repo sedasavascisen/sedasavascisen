@@ -397,9 +397,25 @@ Her T_ov'de en iyi (seed 12'de secildi): CD-1, Adam-2, Adam-2, CD-1; CNN'i baski
 
 Kaynak: `scripts/mumiso_standard_speeds.py` -> `results/mumiso_standard_speeds.json`; `scripts/sumiso_mobility_eval.py --velocity 2.7778 --reuse_latency sumiso_mobility_eval.json --tag sumiso_mobility_eval_10kmh`
 
+## Saglamlik: ayarli CD butcesi ve paylasilan kazanclar (makale VI-A, VI-D)
+
+| CD tarama | Gecikme (ms) | t=0 | Etkin, 1.5 m/s | Etkin, 10 km/h |
+| --- | --- | --- | --- | --- |
+| 1 | 107 | 6.306 | 4.934 | 4.897 |
+| 2 | 201 | 6.643 | 5.014 | 4.963 |
+| 3 | 300 | 6.764 | 5.007 | 4.951 |
+| 4 | 403 | 6.827 | 4.995 | 4.993 |
+| 8 | 763 | 6.925 | 4.997 | 4.988 |
+- 5.4 km/h: SU-best-of 5.274, en iyi CD cd2 5.014, fark +0.260 [+0.167, +0.358]
+- 10 km/h: SU-best-of 5.255, en iyi CD cd4 4.993, fark +0.262 [+0.173, +0.358]
+
+**Paylasilan kazanclar** (`--share_gains`): 5.4 km/h: L*=5 [4, 5, 6], en iyi 5.398, L=48 bedeli 17.7%, SU-best − CD +0.220, SU-best − uzun Adam +0.563; 10 km/h: L*=3 [3], en iyi 5.159, L=48 bedeli 14.2%, SU-best − CD +0.251, SU-best − uzun Adam +0.478
+
+Kaynak: `scripts/mumiso_cd_budget.py`, `scripts/mumiso_standard_speeds.py --share_gains --kmh 5.4,10 --tag standard_speeds_shared`
+
 ## Ek — yeniden uretilebilirlik
 
-- `scripts/audit_claims.py` — 84 iddia (`--all` ile 99), hepsi geciyor
+- `scripts/audit_claims.py` — 90 iddia (`--all` ile 105), hepsi geciyor
 - Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**
 - Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor
 

@@ -7,7 +7,7 @@ In this scenario the RIS carries most of the signal: with the direct links block
 
 Fig.~\ref{fig:aging} fixes each method's phase at $t=0$ and follows the minimum rate as users walk. Rates hold for a few milliseconds, drop sharply around $T_c$ and level off above the stale floor. The better a phase was optimized, the more it loses: by $T_c$ long-run Adam falls from 7.117 to 5.473~b/s/Hz, while SU-average only moves from 4.624 to 4.503.
 
-Table~\ref{tab:aging} evaluates each method at its own latency. Long-run Adam and coordinate descent have the best $t=0$ rates of the table, but they need 5.9~s and 0.88~s. By then users have moved metres, and even their optimistic effective rates fall below that of SU-best-of, which takes 2.5~ms: SU-best-of is ahead of coordinate descent by 0.297~b/s/Hz (95\% CI 0.204--0.390) and of long-run Adam by 0.604 (0.415--0.805).
+Table~\ref{tab:aging} evaluates each method at its own latency. Long-run Adam and coordinate descent have the best $t=0$ rates of the table, but they need 5.9~s and 0.88~s. By then users have moved metres, and even their optimistic effective rates fall below that of SU-best-of, which takes 2.5~ms: SU-best-of is ahead of coordinate descent by 0.297~b/s/Hz (95\% CI 0.204--0.390) and of long-run Adam by 0.604 (0.415--0.805). This is not an artefact of a fixed budget: one multi-user coordinate sweep already takes 107~ms, about four coherence times, and the best of one to eight sweeps (5.014~b/s/Hz, two sweeps) stays 0.26~b/s/Hz below SU-best-of (CI 0.17--0.36).
 
 \begin{table}[t]
 \centering
@@ -19,7 +19,7 @@ Table~\ref{tab:aging} evaluates each method at its own latency. Long-run Adam an
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig_aging.pdf}
+\includegraphics[width=0.92\columnwidth]{figures/fig_aging.pdf}
 \caption{Minimum user rate of a phase fixed at $t=0$ as users walk at 1.5~m/s, with the precoder refreshed. Dashed: $T_c=28.2$~ms. Shaded: beyond 200~ms the model is optimistic.}
 \label{fig:aging}
 \end{figure}
@@ -32,7 +32,7 @@ The optimum is not an artefact of Adam or its step size. Step sizes 0.25, 0.75 a
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig_intrinsic_optimum.pdf}
+\includegraphics[width=0.92\columnwidth]{figures/fig_intrinsic_optimum.pdf}
 \caption{Step sweep (aging set). The $t=0$ rate increases with $L$; the effective rate peaks at $L=4$--$6$ and is 14.0\% lower at $L=48$. Armijo (2.09~ms per step) shows the same shape. $L=0$: SU-best-of at 0.05~ms (5.276; 5.272 at its measured 2.5~ms).}
 \label{fig:optimum}
 \end{figure}
@@ -66,6 +66,8 @@ Table~\ref{tab:speeds} repeats the main measurements on the same scenarios, on a
 \end{table}
 
 A deployed system also spends time on pilots and feedback before optimizing. On the main grid, adding an acquisition delay of 0--10~ms at 1--3~m/s moves the optimum the way~\eqref{eq:marginal} predicts (at 1.5~m/s from $L=4$--$6$ to $L=3$--$4$); excluding delays above $T_c/2$ (only 3~m/s with 10~ms), running to $L=48$ costs 2.9--14.7\%. The optimum also tolerates a wrong speed assumption: choosing $L$ for 1.5~m/s when users move at 1.8~m/s costs less than 0.5\%, and at most 5.7\% in our grid.
+
+\emph{Shared scattering gains.} With one gain per scatterer for all BS antennas, as in a physical channel, absolute rates fall (Adam's best effective rate at 1.5~m/s: 5.398 instead of 5.984~b/s/Hz), but the findings hold: $L^\star$ stays at 4--6 at 1.5~m/s and 3 at 10~km/h, running to $L=48$ costs 17.7\% (CI 15.8--19.5\%) and 14.2\%, and SU-best-of stays ahead of coordinate descent and long-run Adam (paired CIs above zero).
 
 \subsection{Periodic Operation: Pilots Set the Period, Updates Stay Short}
 \label{sec:res_tracking}

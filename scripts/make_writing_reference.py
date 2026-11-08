@@ -447,9 +447,31 @@ if _sp:
       "`scripts/sumiso_mobility_eval.py --velocity 2.7778 --reuse_latency sumiso_mobility_eval.json --tag sumiso_mobility_eval_10kmh`")
     W("")
 
+_cdb = L("mumiso_cd_budget.json"); _shg = L("mumiso_standard_speeds_shared.json")
+if _cdb and _shg:
+    W("## Saglamlik: ayarli CD butcesi ve paylasilan kazanclar (makale VI-A, VI-D)")
+    W("")
+    W("| CD tarama | Gecikme (ms) | t=0 | Etkin, 1.5 m/s | Etkin, 10 km/h |")
+    W("| --- | --- | --- | --- | --- |")
+    for k in [k for k in _cdb["latency_ms"] if k.startswith("cd")]:
+        W(f"| {k[2:]} | {_cdb['latency_ms'][k]:.0f} | {_cdb['speeds']['5.4']['t0'][k]:.3f} | "
+          f"{_cdb['speeds']['5.4']['effective'][k]:.3f} | {_cdb['speeds']['10']['effective'][k]:.3f} |")
+    for sp in ("5.4", "10"):
+        v = _cdb["speeds"][sp]
+        W(f"- {sp} km/h: SU-best-of {v['effective']['su_best_of']:.3f}, en iyi CD {v['best_cd']} {v['effective'][v['best_cd']]:.3f}, "
+          f"fark " + "{:+.3f} [{:+.3f}, {:+.3f}]".format(*v["su_best_minus_best_cd"]))
+    W("")
+    W("**Paylasilan kazanclar** (`--share_gains`): " + "; ".join(
+        f"{k} km/h: L*={v['by_t_ov']['0.0']['best_L']} {v['by_t_ov']['0.0']['within_half_percent']}, en iyi {v['by_t_ov']['0.0']['best_eff']:.3f}, "
+        f"L=48 bedeli {v['by_t_ov']['0.0']['loss_L48_pct'][0]:.1f}%, SU-best − CD {v['by_t_ov']['0.0']['su_best_minus_cd'][0]:+.3f}, "
+        f"SU-best − uzun Adam {v['by_t_ov']['0.0']['su_best_minus_pga'][0]:+.3f}" for k, v in _shg["speeds"].items()))
+    W("")
+    W("Kaynak: `scripts/mumiso_cd_budget.py`, `scripts/mumiso_standard_speeds.py --share_gains --kmh 5.4,10 --tag standard_speeds_shared`")
+    W("")
+
 W("## Ek — yeniden uretilebilirlik")
 W("")
-W("- `scripts/audit_claims.py` — 84 iddia (`--all` ile 99), hepsi geciyor")
+W("- `scripts/audit_claims.py` — 90 iddia (`--all` ile 105), hepsi geciyor")
 W("- Sabotaj testi: tek gecisli modellere acilmis modelin sayisi yazildiginda **7 iddia patliyor**")
 W("- Bilinen bosluk betikte yazili: modellerin test bolmesindeki capa yeniden olculmuyor, JSON'dan okunuyor")
 W("")

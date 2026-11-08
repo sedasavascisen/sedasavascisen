@@ -530,3 +530,20 @@ Denetim iddialari: `site_knn_beats_cnn_all_sites`, `site_cnn_beats_nn_lookup_all
   donanim ve maliyet orani cekincesi; CNN kontrol deneyi (14.99° / 2.77°); modelin
   orneklem ici kontrolu ve ±0.08; pilot varsayimlari; N=64 icin yakin alan; Gudmundson
   sapmasi; L=24-64 ayar izgarasi; zamanlama yayilimlari; denetim sayisi 99.
+
+---
+
+## 2026-11-08 — Iki saglamlik deneyi (TWC oncesi)
+
+- `ris_mu/mumiso/mobile.py`: `share_gains` bayragi hareketli ureteçte de calisiyor
+  (once yok sayiliyordu). Tam diziler once cekiliyor, sonra ilk anten yayiliyor;
+  rastgele akis degismiyor. Varsayilan (False) bit duzeyinde ayni (sinandi; tam
+  denetim 105/105).
+- Paylasilan kazanclar (`--share_gains`): mutlak hizlar dusuyor (1.5 m/s'de 5.984 →
+  5.398) ama L* ayni (4–6; 10 km/h'de 3), L=48 bedeli artiyor (%17.7, %14.2),
+  SU-best-of CD ve uzun Adam'i geciyor.
+- CD butcesi (`scripts/mumiso_cd_budget.py`): cok kullanicili tek tarama 107 ms
+  (~4 T_c); 1–8 taramanin en iyisi (2 tarama, 5.014) SU-best-of'un 0.26 altinda
+  [0.17, 0.36]. "Yavas yontemler kaybeder" sabit butcenin urunu degil.
+- Makale VI-A ve VI-D'ye eklendi; 9 sayfa (yol haritasi cumlesi cikarildi, iki
+  sekil %92 genislik).

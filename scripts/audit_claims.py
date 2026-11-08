@@ -621,6 +621,27 @@ else:
     claim("speeds_paper_speed_consistent", "8", "statistical", 14.0, _b0["5.4"]["loss_L48_pct"][0],
           "finer grid at 1.5 m/s agrees with the main sweep's 14.0%")
 
+# ------------------------------------- robustness: CD budget, shared gains
+section("saved results: tuned coordinate-descent budget and shared gains")
+_cdb = _load("mumiso_cd_budget.json")
+_shg = _load("mumiso_standard_speeds_shared.json")
+if _cdb is None or _shg is None:
+    print("  [skip] mumiso_cd_budget.json or mumiso_standard_speeds_shared.json missing")
+else:
+    claim("cd_one_sweep_ms", "8", "statistical", 107.0, _cdb["latency_ms"]["cd1"], "one multi-user CD sweep, idle timing")
+    claim("cd_budget_su_best_wins", "8", "exact", 1,
+          int(all(v["su_best_minus_best_cd"][1] > 0 for v in _cdb["speeds"].values())),
+          "SU-best-of above the best CD budget (1-8 sweeps) at 1.5 m/s and 10 km/h (CI)")
+    claim("cd_budget_timing_idle", "8", "exact", 1, int(_cdb["load_avg"]["before_timing"] < 0.5))
+    _sb = {k: v["by_t_ov"]["0.0"] for k, v in _shg["speeds"].items()}
+    claim("shared_gains_Lstar", "8", "exact", 1,
+          int(set([4, 5, 6]) <= set(_sb["5.4"]["within_half_percent"]) and _sb["10"]["best_L"] == 3),
+          "shared gains: L* 4-6 at 1.5 m/s, 3 at 10 km/h")
+    claim("shared_gains_loss48", "8", "exact", 17.7, round(_sb["5.4"]["loss_L48_pct"][0], 1))
+    claim("shared_gains_reversal", "8", "exact", 1,
+          int(all(b["su_best_minus_cd"][1] > 0 and b["su_best_minus_pga"][1] > 0 for b in _sb.values())),
+          "shared gains: SU-best-of above CD and long-run Adam (CI)")
+
 # ----------------------------------------------------------------- report
 section("summary")
 fails = [r for r in RESULTS if r["ok"] is False]

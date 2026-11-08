@@ -44,6 +44,8 @@ ap.add_argument("--kmh", default="3,5.4,10,30,18")
 ap.add_argument("--steps", default="1,2,3,4,5,6,8,10,12,16,20,24,32,48")
 ap.add_argument("--lr", type=float, default=0.5)
 ap.add_argument("--threads", type=int, default=4)
+ap.add_argument("--share_gains", action="store_true", help="one scatterer gain for all BS antennas (physically correct)")
+ap.add_argument("--tag", default="standard_speeds")
 a = ap.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 torch.set_num_threads(a.threads)
@@ -61,7 +63,8 @@ rng = np.random.default_rng(0)
 def gen(v):
     torch.manual_seed(0)
     panel, base = make_mumiso_scenario(n_users=4, n_bs_antennas=8, seed=11)
-    cfg = MobileConfig(**{**base.__dict__, "velocity": v, "times_ms": tuple(TIMES), "n_clusters": 20})
+    cfg = MobileConfig(**{**base.__dict__, "velocity": v, "times_ms": tuple(TIMES), "n_clusters": 20,
+                          "share_gains": a.share_gains})
     return panel, cfg, MobileMuMisoChannel(panel, cfg).generate(a.scenarios)
 
 
@@ -120,7 +123,7 @@ for kmh in [float(x) for x in a.kmh.split(",")]:
     Ht = [torch.as_tensor(d["hd_t"][:, m], dtype=torch.complex64) for m in range(len(TIMES))]
     curves = {k: np.stack([S.rates(F, Gt[m], Ht[m], torch.cos(th), torch.sin(th), pt, nv, "zf").min(-1).values.numpy()
                            for m in range(len(TIMES))], 1) for k, th in phases.items()}
-    if abs(v - 1.5) < 1e-9:
+    if abs(v - 1.5) < 1e-9 and not a.share_gains:
         for k_ref, k in (("su_best_of", "su_best_of"), ("cd", "cd"), ("pga", "pga"), ("adam8", "adam8")):
             assert abs(curves[k][:, 0].mean() - ref["curve"][k_ref][0]) < 1e-3, f"t=0 rate of {k} does not reproduce"
     eff = lambda k, ov: np.array([np.interp(LAT[k] + ov, TIMES, row) for row in curves[k]])
@@ -145,5 +148,5 @@ for kmh in [float(x) for x in a.kmh.split(",")]:
           f"(within 0.5%: {b0['within_half_percent']}) eff {b0['best_eff']:.3f}; L=48 costs {b0['loss_L48_pct'][0]:.1f}% "
           f"[{b0['loss_L48_pct'][1]:.1f},{b0['loss_L48_pct'][2]:.1f}]; SU-best {b0['methods']['su_best_of']['effective']:.3f} "
           f"CD {b0['methods']['cd']['effective']:.3f} long-Adam {b0['methods']['pga']['effective']:.3f}", flush=True)
-    json.dump(res, open(ROOT / "results" / "mumiso_standard_speeds.json", "w"), indent=1)
-print("wrote results/mumiso_standard_speeds.json")
+    json.dump(res, open(ROOT / "results" / f"mumiso_{a.tag}.json", "w"), indent=1)
+print(f"wrote results/mumiso_{a.tag}.json")

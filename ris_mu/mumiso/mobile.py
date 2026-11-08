@@ -171,6 +171,12 @@ class MobileMuMisoChannel(MuMisoChannel):
         k_dir = 10 ** (pl.rice_k_db(rng, (S, K)) / 10)
         gG_sc = self._crandn((S, K, L))
         gD_sc = self._crandn((S, K, T, L))
+        if c.share_gains:
+            # one reflection coefficient per scatterer for all BS antennas
+            # (physically correct); the full arrays are drawn first so the
+            # random stream, and with it every other draw, is unchanged
+            gF_sc = np.broadcast_to(gF_sc[:, :1, :], gF_sc.shape).copy()
+            gD_sc = np.broadcast_to(gD_sc[:, :, :1, :], gD_sc.shape).copy()
         sf_ue = self._sf_corr(los_ue, ue0)
         sf_dir = self._sf_corr(los_dir, ue0)
         sf_bs = 10 ** (pl.sigma_sf_db(los_bs) * rng.standard_normal(S) / 20)
