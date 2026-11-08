@@ -132,3 +132,40 @@ rakibi güçlendirir; öğrenilen modelin aleyhinedir.
 normuyla normalize edilmiş örneklerle yapılır (dosyada yazılan yöntem).
 Normalize edilmemiş uydurma doğrulamada daha kötüydü (CD-30 sonrası
 10.74'e karşı 10.94 b/s/Hz), bu nedenle normalize hali kullanılır.
+
+**3 (8 Kasım 2026, sonuçtan sonra; tasarımı etkilemez): gecikme ölçümü.**
+Hareketlilik eksenindeki bütün gecikmeler, `sumiso_mobility_eval.json`'dan
+alınmak yerine bu betikte aynı oturumda yeniden ölçüldü. Böylece yeni kollar ve CD/Adam
+aynı makine durumunda zamanlandı. Bu makinede CD-1 yaklaşık 2 kat daha hızlı
+ölçüldü; iki dosyanın gecikmeleri aynı tabloya konmaz.
+
+## Sonuç (8 Kasım 2026; test kümesine tek bakış)
+
+**Birincil ölçüt SAĞLANMADI.** 9 pilotta B (tohum 0) − en iyi klasik
+(doğrulamada seçilen: 1×4 sütun gruplama) = **−1.207 b/s/Hz**, %97.5 GA
+[−1.244, −1.172]. A için −1.091 [−1.124, −1.059]. Üç tohumun hepsinde aynı.
+
+- En iyi klasik kol her pilot sayısında **eleman gruplama** (9: 12.110,
+  17: 12.595, 33: tam çözüm 12.893). Önceden kaydedilen 2×2 gruplama bile
+  (11.698) iki modeli geçiyor. LMMSE ailesinin en iyisi (11.126) A'ya
+  (11.019) eşit ya da biraz üstünde.
+- **B − A** (2B mimari katkısı): 9 pilotta −0.116 [−0.140, −0.092] (3
+  tohumda da negatif), 17 ve 33 pilotta sıfır. Yeni mimari bir şey
+  kazandırmadı.
+- **B − C** (sin/cos katkısı): 9/17/33 pilotta +0.442 / +0.747 / +0.688,
+  hepsinin GA'sı sıfırın üstünde, her tohumda. **Yayımlanmış sin/cos
+  gösterimi bu problemde de açıkça gerekli.**
+- Melez (B + LMMSE üzerinde CD-3) 9 pilotta 11.120: hâlâ −0.990.
+- Hareketlilik (1.5 m/s): her öğrenilen kol, daha hızlı ve daha iyi bir
+  klasik kol tarafından baskınlanıyor. En iyisi 33 pilotun tamamını ödeyip
+  CD-2 koşturmak (12.708); az pilot bu hızda kazandırmıyor.
+
+Neden (yorum): kaskat kanal yatayda komşu elemanlar arasında neredeyse
+ilişkisiz (|ρ| = 0.055), dikeyde ilişkili (0.558)
+(`scripts/sumiso_partial_correlation.py`, doğrulama 6000). Tek tek gözlenen
+8 eleman, gözlenmeyen 24'ü hakkında az bilgi taşıyor; gruplama ise aynı
+pilot sayısıyla 32 elemanın hepsinin enerjisini ölçüyor. Sınır mimaride
+değil, **gözlem modelinde**.
+
+Kaynak: `results/sumiso_partial_static.json`,
+`results/sumiso_partial_mobility.json`; denetim `partial_*` iddiaları.

@@ -361,6 +361,35 @@ Pilot: 33 = N+1 (yapisiz kaskat kestirim); 17/9/5 = F oda icin bilinir, yalnizca
 
 Kaynak: `scripts/site_dataset.py`, `scripts/site_train.py`, `scripts/site_eval_static.py`, `scripts/site_radio_map.py`, `scripts/site_eval_dynamic.py`
 
+### 6.7 Az pilotla kismi kanal bilgisi (ON KAYITLI, `ON_KAYIT_KISMI_CSI.md`)
+
+**HUKUM: birincil olcut SAGLANMADI.** 9 pilotta yeni model B (2B-CNN–BiLSTM) en iyi klasik kolun altinda: -1.207 b/s/Hz, %97.5 GA [-1.244, -1.172]. En iyi klasik kol her pilot sayisinda eleman GRUPLAMA. Olumlu ve saglam tek bulgu: sin/cos, dogrudan aciyi her pilot sayisinda ve her tohumda geciyor.
+
+**Statik (test 6000, seed 2026; her klasik ayar dogrulama 6000'de secildi):**
+
+| Pilot | En iyi klasik (dogrulamada) | Klasik | A (CNN–LSTM) | B (2B-CNN–BiLSTM) | C (B, dogrudan aci) | B+CD (LMMSE ust.) | B − A [%95 GA] | B − C [%95 GA] | Etiket optimumu |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 9 | Group1x4 | 12.110 | 11.019 | 10.903 | 10.461 | 11.120 (CD-3) | -0.116 [-0.140, -0.092] | +0.442 [+0.409, +0.476] | 12.893 |
+| 17 | Group1x2 | 12.595 | 12.024 | 12.031 | 11.283 | 12.358 (CD-3) | +0.006 [-0.000, +0.013] | +0.747 [+0.727, +0.768] | 12.893 |
+| 33 | Group1x1 | 12.893 | 12.492 | 12.492 | 11.804 | 12.885 (CD-3) | +0.000 [-0.006, +0.006] | +0.688 [+0.670, +0.706] | 12.893 |
+
+9 pilotta 3 tohum: A 11.019, 11.029, 11.011; B 10.903, 10.902, 10.906; C 10.461, 10.451, 10.454.
+Onceden kayitli 2x2 gruplama (sapma 1'den once) 9 pilotta 11.698; LMMSE ailesinin en iyisi LMMSE+Adam-64 11.126: A ve B bunlarin da altinda ya da esit.
+
+**Hareketli etkin hiz (1.5 m/s, secim seed 12, rapor seed 11, 400 senaryo; pilot suresi + olculmus gecikme):**
+
+| Pilot | Pilot suresi (ms) | En iyi klasik | Gecikme (ms) | Etkin hiz | B (gecikme) | B − klasik [%95 GA] | B baskinlaniyor mu |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 9 | 0.64 | Group1x4+CD-3 | 1.23 | 11.984 | 11.002 (1.47 ms) | -0.982 [-1.097, -0.879] | evet (11 kol) |
+| 17 | 1.21 | Group1x2+CD-3 | 1.63 | 12.446 | 11.913 (1.47 ms) | -0.533 [-0.603, -0.464] | evet (4 kol) |
+| 33 | 2.36 | Interp+CD-2 | 1.96 | 12.708 | 12.344 (1.37 ms) | -0.364 [-0.412, -0.316] | evet (6 kol) |
+
+Yuk 2.36 / 0.47 / 1.00. Bu betigin gecikmeleri kendi icinde tutarli; `sumiso_mobility_eval.json` gecikmeleriyle (baska bir oturum) AYNI TABLOYA KONMAZ. 1.5 m/s'de 33 pilotun tamamini odemek, her az pilotlu koldan iyi: pilot suresi (2.36 ms) koherans suresinin (28 ms) yaninda kucuk.
+
+Neden: kaskat kanal yatayda komsu elemanlar arasinda neredeyse iliskisiz (|rho| = 0.055), dikeyde iliskili (0.558; dogrulama 6000, `scripts/sumiso_partial_correlation.py`). Tek tek gozlenen 8 eleman, gozlenmeyen 24'u hakkinda az bilgi tasiyor; gruplama ise ayni pilotla 32 elemanin hepsinin enerjisini olcuyor. Kisit mimaride degil, gozlem modelinde. Gruplu gozlemi modele vermek ON KAYIT DISI bir fikir; denenirse ayri bir on kayitla.
+
+Kaynak: `scripts/sumiso_partial_train.py`, `scripts/sumiso_partial_eval.py` -> `results/sumiso_partial_static.json`, `results/sumiso_partial_mobility.json`
+
 ## Kullanici hizi: standartlar (makale Tablo, `HIZ_STANDARTLARI.md`)
 
 | km/h | Kaynak | T_c (ms) | x | L* (0.5% icinde) | L=48 bedeli [%95 GA] | SU-best − CD [%95 GA] | SU-best − uzun Adam |

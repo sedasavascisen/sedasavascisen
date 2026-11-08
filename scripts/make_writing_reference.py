@@ -416,6 +416,61 @@ if _ss and _rm and _sd:
     W("Kaynak: `scripts/site_dataset.py`, `scripts/site_train.py`, `scripts/site_eval_static.py`, `scripts/site_radio_map.py`, `scripts/site_eval_dynamic.py`")
     W("")
 
+_pc = L("sumiso_partial_static.json")
+_pm = L("sumiso_partial_mobility.json")
+if _pc and _pm:
+    W("### 6.7 Az pilotla kismi kanal bilgisi (ON KAYITLI, `ON_KAYIT_KISMI_CSI.md`)")
+    W("")
+    W("**HUKUM: birincil olcut SAGLANMADI.** 9 pilotta yeni model B (2B-CNN–BiLSTM) en iyi klasik kolun altinda: "
+      "{:+.3f} b/s/Hz, %97.5 GA [{:+.3f}, {:+.3f}]. En iyi klasik kol her pilot sayisinda eleman GRUPLAMA. "
+      "Olumlu ve saglam tek bulgu: sin/cos, dogrudan aciyi her pilot sayisinda ve her tohumda geciyor.".format(
+          _pc["levels"]["8"]["primary"]["mean"], *_pc["levels"]["8"]["primary"]["ci975"]))
+    W("")
+    W("**Statik (test 6000, seed 2026; her klasik ayar dogrulama 6000'de secildi):**")
+    W("")
+    W("| Pilot | En iyi klasik (dogrulamada) | Klasik | A (CNN–LSTM) | B (2B-CNN–BiLSTM) | C (B, dogrudan aci) | B+CD (LMMSE ust.) | B − A [%95 GA] | B − C [%95 GA] | Etiket optimumu |")
+    W("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
+    for M, l in _pc["levels"].items():
+        t, b = l["test"], l["classical_selected_on_val"]
+        h = l["hybrid_selected_on_val"]["B-s0"]
+        ba, bc = l["diffs"]["B-s0 - A-s0"], l["diffs"]["B-s0 - C-s0"]
+        W(f"| {l['pilots']} | {b} | {t[b]:.3f} | {t['A-s0']:.3f} | {t['B-s0']:.3f} | {t['C-s0']:.3f} | {t[h]:.3f} ({h.split('+')[1]}) | "
+          f"{ba['mean']:+.3f} [{ba['ci95'][0]:+.3f}, {ba['ci95'][1]:+.3f}] | {bc['mean']:+.3f} [{bc['ci95'][0]:+.3f}, {bc['ci95'][1]:+.3f}] | {l['oracle_label']:.3f} |")
+    W("")
+    l8 = _pc["levels"]["8"]
+    W("9 pilotta 3 tohum: A " + ", ".join(f"{l8['test'][f'A-s{s}']:.3f}" for s in range(3)) +
+      "; B " + ", ".join(f"{l8['test'][f'B-s{s}']:.3f}" for s in range(3)) +
+      "; C " + ", ".join(f"{l8['test'][f'C-s{s}']:.3f}" for s in range(3)) + ".")
+    W("Onceden kayitli 2x2 gruplama (sapma 1'den once) 9 pilotta {:.3f}; LMMSE ailesinin en iyisi {} {:.3f}: "
+      "A ve B bunlarin da altinda ya da esit.".format(l8["test"]["Group2x2"],
+          max([k for k in l8["val"] if k.startswith("LMMSE")], key=l8["val"].get),
+          l8["test"][max([k for k in l8["val"] if k.startswith("LMMSE")], key=l8["val"].get)]))
+    W("")
+    W("**Hareketli etkin hiz (1.5 m/s, secim seed 12, rapor seed 11, 400 senaryo; pilot suresi + olculmus gecikme):**")
+    W("")
+    W("| Pilot | Pilot suresi (ms) | En iyi klasik | Gecikme (ms) | Etkin hiz | B (gecikme) | B − klasik [%95 GA] | B baskinlaniyor mu |")
+    W("| --- | --- | --- | --- | --- | --- | --- | --- |")
+    for M, l in _pm["levels"].items():
+        b = l["classical_selected_on_val"]
+        d = l["diffs"]["B-s0 - best classical"]
+        W(f"| {l['pilots']} | {l['pilot_ms']:.2f} | {b} | {l['latency_ms'][b]:.2f} | {l['test'][b]:.3f} | "
+          f"{l['test']['B-s0']:.3f} ({l['latency_ms']['B-s0']:.2f} ms) | {d['mean']:+.3f} [{d['ci95'][0]:+.3f}, {d['ci95'][1]:+.3f}] | "
+          f"{'evet' if l['dominated_by']['B-s0'] else 'hayir'} ({len(l['dominated_by']['B-s0'])} kol) |")
+    W("")
+    W(f"Yuk {_pm['load_avg']['start']:.2f} / {_pm['load_avg']['before_timing']:.2f} / {_pm['load_avg']['after_timing']:.2f}. "
+      "Bu betigin gecikmeleri kendi icinde tutarli; `sumiso_mobility_eval.json` gecikmeleriyle (baska bir oturum) AYNI TABLOYA KONMAZ. "
+      "1.5 m/s'de 33 pilotun tamamini odemek, her az pilotlu koldan iyi: pilot suresi (2.36 ms) koherans suresinin (28 ms) yaninda kucuk.")
+    W("")
+    _cr = L("sumiso_partial_correlation.json")["val_6000"]
+    W("Neden: kaskat kanal yatayda komsu elemanlar arasinda neredeyse iliskisiz (|rho| = {:.3f}), dikeyde iliskili ({:.3f}; dogrulama {}, "
+      "`scripts/sumiso_partial_correlation.py`). ".format(_cr["horizontal_lag4"], _cr["vertical_lag1"], _cr["n"]) +
+      "Tek tek gozlenen 8 eleman, gozlenmeyen 24'u hakkinda az bilgi tasiyor; gruplama ise ayni pilotla 32 elemanin hepsinin "
+      "enerjisini olcuyor. Kisit mimaride degil, gozlem modelinde. Gruplu gozlemi modele vermek ON KAYIT DISI bir fikir; "
+      "denenirse ayri bir on kayitla.")
+    W("")
+    W("Kaynak: `scripts/sumiso_partial_train.py`, `scripts/sumiso_partial_eval.py` -> `results/sumiso_partial_static.json`, `results/sumiso_partial_mobility.json`")
+    W("")
+
 _sp = L("mumiso_standard_speeds.json")
 if _sp:
     W("## Kullanici hizi: standartlar (makale Tablo, `HIZ_STANDARTLARI.md`)")

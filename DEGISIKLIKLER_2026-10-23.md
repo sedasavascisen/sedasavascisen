@@ -547,3 +547,17 @@ Denetim iddialari: `site_knn_beats_cnn_all_sites`, `site_cnn_beats_nn_lookup_all
   [0.17, 0.36]. "Yavas yontemler kaybeder" sabit butcenin urunu degil.
 - Makale VI-A ve VI-D'ye eklendi; 9 sayfa (yol haritasi cumlesi cikarildi, iki
   sekil %92 genislik).
+
+## 2026-11-08 — On kayitli kismi CSI deneyi (az pilot)
+
+- On kayit `ON_KAYIT_KISMI_CSI.md` sonuc gorulmeden commit'lendi (b7bd747).
+  Sapma 1–2 (gruplama sekli ve LMMSE uydurmasi doğrulamada secildi; klasik
+  kolu guclendirir) hicbir model egitilmeden kaydedildi; sapma 3 gecikmeler.
+- Yeni: `ris_mu/sumiso/partial.py`, `scripts/sumiso_partial_train.py`
+  (15 model), `scripts/sumiso_partial_eval.py`, `scripts/sumiso_partial_correlation.py`.
+- Sonuc: birincil olcut saglanmadi; B, 9 pilotta en iyi klasik koldan 1.207 b/s/Hz
+  asagida; sin/cos dogrudan aciyi her pilot sayisinda geciyor.
+- Kendi hatam yakalandi: komsu eleman korelasyonu once betiksiz bir kontrolden
+  alinmisti; betigi yazildi (0.57 -> 0.558, 6000 senaryo), referans ondan uretiliyor.
+- Denetim 104 / 119 iddia (14 yeni `partial_*`; sabotaj testi: 8 hedefli bozulmanin 8'i yakalandi).
+  Makalede "105 assertions" -> "119 assertions".

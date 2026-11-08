@@ -591,6 +591,57 @@ else:
     claim("site_timing_started_idle", "8", "exact", 1,
           int(all(v["load_before_timing"] < 0.5 for v in _sd["sites"].values())))
 
+# ------------------------------------- partial CSI (pre-registered, 9/17/33 pilots)
+# ON_KAYIT_KISMI_CSI.md; scripts/sumiso_partial_train.py, sumiso_partial_eval.py.
+section("saved results: partial CSI from reduced pilots (pre-registered)")
+_pc = _load("sumiso_partial_static.json")
+if _pc is None:
+    print("  [skip] sumiso_partial_static.json missing")
+else:
+    _l8, _l16, _l32 = (_pc["levels"][k] for k in ("8", "16", "32"))
+    claim("partial_primary_not_met", "8", "exact", 0, int(_l8["primary"]["met"]),
+          "B does not beat the best classical arm at 9 pilots (97.5% CI)")
+    claim("partial_primary_B_minus_best", "8", "exact", -1.2069, _l8["primary"]["mean"])
+    claim("partial_best_classical_9", "8", "exact", 12.1099, _l8["test"][_l8["classical_selected_on_val"]],
+          _l8["classical_selected_on_val"])
+    claim("partial_best_is_grouping", "8", "exact", 1,
+          int(all(l["classical_selected_on_val"].startswith("Group") for l in (_l8, _l16, _l32))),
+          "validation selects element grouping at every pilot count")
+    claim("partial_every_net_below_classical", "8", "exact", 1,
+          int(all(v["ci95"][1] < 0 for l in (_l8, _l16, _l32) for k, v in l["diffs"].items()
+                  if k.endswith(" - best classical"))),
+          "every learned and hybrid arm below the best classical arm (CI), all pilot counts")
+    claim("partial_sincos_beats_angle", "8", "exact", 1,
+          int(all(v["ci95"][0] > 0 for l in (_l8, _l16, _l32) for k, v in l["diffs"].items() if " - C-" in k)),
+          "B (sin/cos) above C (direct angle) at every pilot count and seed (CI)")
+    claim("partial_B_minus_C_9", "8", "exact", 0.442, _l8["diffs"]["B-s0 - C-s0"]["mean"])
+    claim("partial_2d_no_gain_9", "8", "exact", 1,
+          int(all(_l8["diffs"][f"B-s{s} - A-s{s}"]["ci95"][1] < 0 for s in (0, 1, 2))),
+          "the 2D-BiLSTM is below the published CNN-LSTM at 9 pilots, every seed (CI)")
+
+_pr = _load("sumiso_partial_correlation.json")
+if _pr is not None:
+    claim("partial_corr_horizontal", "8", "statistical", 0.055, _pr["val_6000"]["horizontal_lag4"],
+          "|rho| horizontal neighbours, cascaded channel (val 6000)")
+    claim("partial_corr_vertical", "8", "statistical", 0.558, _pr["val_6000"]["vertical_lag1"],
+          "|rho| vertical neighbours")
+_pm = _load("sumiso_partial_mobility.json")
+if _pm is None:
+    print("  [skip] sumiso_partial_mobility.json missing")
+else:
+    _ml = _pm["levels"]
+    claim("partial_mob_timing_idle", "8", "exact", 1, int(_pm["load_avg"]["before_timing"] < 0.5),
+          "latency timing began below load 0.5")
+    claim("partial_mob_every_net_dominated", "8", "exact", 1,
+          int(all(len(v) > 0 for l in _ml.values() for v in l["dominated_by"].values())),
+          "every learned arm has a faster classical arm with a higher effective rate")
+    claim("partial_mob_every_net_below", "8", "exact", 1,
+          int(all(v["ci95"][1] < 0 for l in _ml.values() for v in l["diffs"].values())),
+          "every learned arm below the selected classical arm at its pilot count (CI)")
+    _bestM = max(_ml, key=lambda M: _ml[M]["val"][_ml[M]["classical_selected_on_val"]])
+    claim("partial_mob_full_csi_best", "8", "exact", 32, int(_bestM),
+          "at 1.5 m/s, paying for all 33 pilots beats every reduced-pilot arm (validation)")
+
 # ---------------------------------------------------- standardised speeds
 # scripts/mumiso_standard_speeds.py: 3 km/h (3GPP TR 38.913), 10 km/h
 # (ITU-R M.2410 indoor mobility), 30 km/h (stress test), and the paper's 5.4.
