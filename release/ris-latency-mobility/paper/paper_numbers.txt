@@ -1,0 +1,166 @@
+coherence time T_c = 28.2 ms; trust horizon 200 ms
+mlat   cpu Intel(R) Xeon(R) Processor @ 2.10GHz; load 0.20->0.86; su_average 0.423, su_best_of 2.541, adam1 2.022, adam2 3.895, adam4 7.759, adam8 13.930, adam16 28.221, adam32 47.827, adam48 74.028, cd 880.785, pga 5851.659
+mlat   adam per-step L1:2.02, L2:1.95, L4:1.94, L8:1.74, L16:1.76, L32:1.49, L48:1.54; slope 1.50 ms/step; model 1.663
+mlat   round spread 1.15-3.66
+stats  95% CI half-width of scenario means: 0.17-0.24 b/s/Hz
+stats  no_ris: 1.744 [1.569, 1.914]
+stats  random: 4.072 [3.854, 4.291]
+budget median per-user SNR: direct only 20.0 dB, RIS path (SU-average) 31.1 dB, total 33.6 dB
+aging  su_average  t0 4.624  lat    0.42  eff 4.623  stale 4.315  trusted True
+aging  su_best_of  t0 5.276  lat    2.54  eff 5.272  stale 4.336  trusted True
+aging  adam8       t0 6.443  lat   13.30  eff 5.849  stale 4.326  trusted True
+aging  adam12      t0 6.631  lat   19.95  eff 5.515  stale 4.370  trusted True
+aging  adam16      t0 6.754  lat   26.60  eff 5.324  stale 4.381  trusted True
+aging  adam20      t0 6.835  lat   33.25  eff 5.276  stale 4.364  trusted True
+aging  cd          t0 6.925  lat  880.78  eff 4.975  stale 4.352  trusted False
+aging  pga         t0 7.117  lat 5851.66  eff 4.667  stale 4.423  trusted False
+sweep  best L=5 eff 5.9820 at 8.31 ms;  L=48 eff 5.1451 (14.0% below);  t0 at L=48 7.0368
+sweep  L= 0 lat   0.05 t0 5.2762 eff 5.2763
+sweep  L= 1 lat   1.66 t0 5.4118 eff 5.4056
+sweep  L= 2 lat   3.33 t0 5.7837 eff 5.7462
+sweep  L= 3 lat   4.99 t0 5.9865 eff 5.9157
+sweep  L= 4 lat   6.65 t0 6.1280 eff 5.9798
+sweep  L= 5 lat   8.31 t0 6.2188 eff 5.9820
+sweep  L= 6 lat   9.98 t0 6.3162 eff 5.9700
+sweep  L= 8 lat  13.30 t0 6.4428 eff 5.8486
+sweep  L=10 lat  16.62 t0 6.5407 eff 5.6832
+sweep  L=12 lat  19.95 t0 6.6313 eff 5.5149
+sweep  L=16 lat  26.60 t0 6.7542 eff 5.3244
+sweep  L=20 lat  33.25 t0 6.8354 eff 5.2762
+sweep  L=24 lat  39.90 t0 6.8970 eff 5.2824
+sweep  L=32 lat  53.20 t0 6.9698 eff 5.2300
+sweep  L=48 lat  79.80 t0 7.0368 eff 5.1451
+sweep  t0 at best L 6.2188; t0 rise best->48 13.2%
+sens   v=1.0 T_ov=0.0 L within 0.5%: [6, 8]
+sens   v=1.0 T_ov=0.0 best L=6 eff 6.1504 spread 0.904
+sens   v=1.0 T_ov=1.0 L within 0.5%: [6, 8]
+sens   v=1.0 T_ov=1.0 best L=6 eff 6.1155 spread 0.873
+sens   v=1.0 T_ov=2.0 L within 0.5%: [5, 6, 8]
+sens   v=1.0 T_ov=2.0 best L=6 eff 6.0805 spread 0.842
+sens   v=1.0 T_ov=5.0 L within 0.5%: [5, 6]
+sens   v=1.0 T_ov=5.0 best L=6 eff 5.9696 spread 0.743
+sens   v=1.0 T_ov=10.0 L within 0.5%: [4, 5, 6]
+sens   v=1.0 T_ov=10.0 best L=5 eff 5.7719 spread 0.565
+sens   v=1.5 T_ov=0.0 L within 0.5%: [4, 5, 6]
+sens   v=1.5 T_ov=0.0 best L=5 eff 5.9820 spread 0.837
+sens   v=1.5 T_ov=1.0 L within 0.5%: [4, 5]
+sens   v=1.5 T_ov=1.0 best L=4 eff 5.9403 spread 0.796
+sens   v=1.5 T_ov=2.0 L within 0.5%: [4, 5]
+sens   v=1.5 T_ov=2.0 best L=4 eff 5.8918 spread 0.748
+sens   v=1.5 T_ov=5.0 L within 0.5%: [3, 4]
+sens   v=1.5 T_ov=5.0 best L=4 eff 5.7421 spread 0.602
+sens   v=1.5 T_ov=10.0 L within 0.5%: [3, 4]
+sens   v=1.5 T_ov=10.0 best L=3 eff 5.4943 spread 0.358
+sens   v=1.8 T_ov=0.0 L within 0.5%: [4, 5]
+sens   v=1.8 T_ov=0.0 best L=4 eff 5.9218 spread 0.807
+sens   v=1.8 T_ov=1.0 L within 0.5%: [3, 4]
+sens   v=1.8 T_ov=1.0 best L=4 eff 5.8672 spread 0.749
+sens   v=1.8 T_ov=2.0 L within 0.5%: [3, 4]
+sens   v=1.8 T_ov=2.0 best L=4 eff 5.8066 spread 0.685
+sens   v=1.8 T_ov=5.0 L within 0.5%: [3, 4]
+sens   v=1.8 T_ov=5.0 best L=3 eff 5.6353 spread 0.504
+sens   v=1.8 T_ov=10.0 L within 0.5%: [3, 4]
+sens   v=1.8 T_ov=10.0 best L=3 eff 5.3543 spread 0.251
+sens   v=3.0 T_ov=0.0 L within 0.5%: [3]
+sens   v=3.0 T_ov=0.0 best L=3 eff 5.7262 spread 0.634
+sens   v=3.0 T_ov=1.0 L within 0.5%: [3]
+sens   v=3.0 T_ov=1.0 best L=3 eff 5.6338 spread 0.547
+sens   v=3.0 T_ov=2.0 L within 0.5%: [2, 3]
+sens   v=3.0 T_ov=2.0 best L=3 eff 5.5412 spread 0.459
+sens   v=3.0 T_ov=5.0 L within 0.5%: [2, 3]
+sens   v=3.0 T_ov=5.0 best L=2 eff 5.2706 spread 0.207
+sens   v=3.0 T_ov=10.0 L within 0.5%: [32, 48]
+sens   v=3.0 T_ov=10.0 best L=32 eff 5.1233 spread 0.257
+sens   L=48 loss vs optimum (unflagged cells): 2.9%-14.7%
+mism   assumed 1.0 (L=6): true 1.0: 0.00%, true 1.5: 0.20%, true 1.8: 1.19%, true 3.0: 5.68%
+mism   assumed 1.5 (L=5): true 1.0: 0.73%, true 1.5: 0.00%, true 1.8: 0.46%, true 3.0: 3.38%
+mism   assumed 1.8 (L=4): true 1.0: 1.50%, true 1.5: 0.04%, true 1.8: 0.00%, true 3.0: 1.20%
+mism   assumed 3.0 (L=3): true 1.0: 3.17%, true 1.5: 1.11%, true 1.8: 0.57%, true 3.0: 0.00%
+lr     0.25: best L=6 eff 5.8295; L=48 5.1573 (11.5% below)
+lr     0.75: best L=4 eff 5.9739; L=48 5.1570 (13.7% below)
+lr     1.0: best L=5 eff 5.8324; L=48 5.1746 (11.3% below)
+precod median precoder 123 us, adam step 1597 us, ratio median 13.4 range 8.0-15.0; load 0.46->0.46
+eqstep L= 1 learned 4.4599 adam 4.3810 ratio 1.018 lo +0.0608 win 74.8% lr 0.75 obj soft
+eqstep L= 2 learned 4.8792 adam 4.6927 ratio 1.040 lo +0.1602 win 83.2% lr 0.75 obj soft
+eqstep L= 4 learned 5.2855 adam 5.0253 ratio 1.052 lo +0.2279 win 83.7% lr 0.75 obj soft
+eqstep L= 8 learned 5.5932 adam 5.3800 ratio 1.040 lo +0.1840 win 83.2% lr 0.75 obj soft
+eqstep L=16 learned 5.8003 adam 5.7389 ratio 1.011 lo +0.0393 win 68.3% lr 0.75 obj soft
+eqstep anchor 3.5386; config samples=6000 eval_n=600 val_n=400
+eqms   learned L= 1   5.16 ms rate 4.4599 -> Adam L=2 3.20 ms 4.6927; dominated in 5/5 rounds
+eqms   learned L= 2  12.95 ms rate 4.8792 -> Adam L=4 6.49 ms 5.0253; dominated in 5/5 rounds
+eqms   learned L= 4  18.41 ms rate 5.2855 -> Adam L=8 13.48 ms 5.3800; dominated in 5/5 rounds
+eqms   learned L= 8  36.76 ms rate 5.5932 -> Adam L=16 27.31 ms 5.7389; dominated in 5/5 rounds
+eqms   learned L=16  83.80 ms rate 5.8003 -> Adam L=48 78.77 ms 6.1072; dominated in 5/5 rounds
+per-step ms learned L1:5.16, L2:6.47, L4:4.60, L8:4.60, L16:5.24
+per-step ms adam    L1:1.65, L2:1.60, L4:1.62, L8:1.69, L16:1.71, L24:1.62, L32:1.60, L48:1.64
+per-step cost ratio (L>=2): 2.73-4.05
+round-to-round timing spread (max/min): 1.15-1.60
+beam   su_average  at 28.2 ms fresh 3.5862 stale 0.3060 ratio 11.72  (scen 400, tx 8)
+beam   su_best_of  at 28.2 ms fresh 3.9243 stale 0.3052 ratio 12.86  (scen 400, tx 8)
+beam   adam8       at 28.2 ms fresh 4.3584 stale 0.3066 ratio 14.21  (scen 400, tx 8)
+scale  m=0.01 dT=0.017 ms x=0.0002 L*=96 near=[96] best=7.062 lossL256=1.5% [1.3,1.8] beyond200=False
+scale  m=0.03 dT=0.050 ms x=0.0007 L*=48 near=[48] best=6.985 lossL256=9.6% [8.7,10.4] beyond200=False
+scale  m=0.1 dT=0.166 ms x=0.0025 L*=32 near=[24, 32] best=6.779 lossL256=21.1% [19.7,22.7] beyond200=False
+scale  m=0.3 dT=0.499 ms x=0.0075 L*=12 near=[12, 16] best=6.446 lossL256=19.7% [18.4,21.0] beyond200=False
+scale  m=1.0 dT=1.663 ms x=0.0249 L*=5 near=[4, 5, 6] best=5.982 lossL256=15.6% [14.0,17.1] beyond200=True
+scale  m=3.0 dT=4.988 ms x=0.0748 L*=2 near=[2] best=5.546 lossL256=10.6% [8.7,12.6] beyond200=True
+scale  m=1 loss L48 vs L5 14.0% [12.5, 15.5]
+scale  adam t0 L64..256: 48:7.037, 64:7.066, 96:7.087, 128:7.091, 256:7.096
+armijo ratio 1.26 (per-scenario 0.81-1.97); ms/step 2.09; best L=4 eff 6.015 near=[4]; load 0.18/0.83
+armijo a0=3.0 chosen from [0.1, 0.3, 1.0, 3.0, 10.0]: 0.1:5.780, 0.3:5.913, 1.0:6.061, 3.0:6.129, 10.0:6.126
+armijo best by timing ratio: 1.0: 6.129 (L=6, +0.147 vs Adam), 1.2: 6.032 (L=4, +0.050 vs Adam), 1.4: 5.969 (L=4, -0.013 vs Adam), 1.6: 5.903 (L=4, -0.079 vs Adam), 2.0: 5.785 (L=3, -0.197 vs Adam)
+stats  paired su_best_of-cd 0.297 [0.204, 0.390], su_best_of-pga 0.604 [0.415, 0.805], su_best_of-adam20 -0.004 [-0.095, 0.085]
+armijo adam best minus armijo best -0.033 [-0.064, 0.001]; t0 L=48 armijo 6.978 adam 7.037
+model  8x4 N=32: gamma=0.932 D=3.28 R_inf=7.096 R2(log gap)=0.895 kappa_bar=18.8 kappa R2 min 0.985; exponent model -0.682 measured -0.675; closed form within factor 1.27; semi hits 4/6, worst eff loss 0.14%; kappa L1 7.8 L8 17.2 L48 25.1; m1 best L=5 5.982 L48 loss 14.0% t0 +13.2%; dT 1.66 ms
+model  8x8 N=64: gamma=0.930 D=4.11 R_inf=8.477 R2(log gap)=0.901 kappa_bar=22.0 kappa R2 min 0.991; exponent model -0.683 measured -0.675; closed form within factor 1.27; semi hits 6/6, worst eff loss 0.00%; kappa L1 9.8 L8 20.9 L48 28.4; m1 best L=5 7.085 L48 loss 14.8% t0 +14.0%; dT 1.73 ms
+model  u* = x L* (measured) max: 8x4 0.150, 8x8 0.156
+check  predicted exponent by fit range: 1..16: -0.782 (gamma 0.56), 1..24: -0.751 (gamma 0.66), 1..32: -0.733 (gamma 0.73), 1..48: -0.708 (gamma 0.83), 1..64: -0.682 (gamma 0.93), 1..96: -0.650 (gamma 1.08), 1..128: -0.626 (gamma 1.19)
+check  kappa ~ L^0.238; exponent with growing kappa -0.631
+check  measured slope -0.675 CI [-0.692, -0.655]
+check  balance ratio at measured L*: 0.19-1.65 (model 0.47)
+check  Fraunhofer: 8x4 2D^2/lam 4.00 m vs BS 5.98 m, 8x8 2D^2/lam 6.40 m vs BS 5.98 m
+check  tau* = L* dT (ms): 1.6, 2.4, 5.3, 6.0, 8.3, 10.0
+model  timing N32 1.56 ms, N64 1.63 ms, ratio 1.04; load 0.4->0.5
+track  T_p=0.0 cold: best U=None L=3 5.833 [5.608, 6.069]; near-best L=[3, 4]; any L<=8 near best: True; b2b best L=3 5.833; b2b L=48 5.169
+track  T_p=0.0 warm: best U=None L=2 6.357 [6.126, 6.596]; near-best L=[2]; any L<=8 near best: True; b2b best L=2 6.357; b2b L=48 5.167
+track  T_p=0.0 warm-cold 0.524 [0.495, 0.554]
+track  T_p=0.86 cold: best U=20.0 L=4 5.200 [4.986, 5.423]; near-best L=[3, 4, 6]; any L<=8 near best: True; b2b best L=6 5.185; b2b L=48 5.136
+track  T_p=0.86 warm: best U=10.0 L=3 5.422 [5.217, 5.635]; near-best L=[2, 3]; any L<=8 near best: True; b2b best L=6 5.389; b2b L=48 5.133
+track  T_p=0.86 warm-cold 0.222 [0.192, 0.253]
+track  T_p=1.71 cold: best U=None L=48 5.088 [4.863, 5.322]; near-best L=[3, 6, 8, 8, 12, 16, 24, 48]; any L<=8 near best: True; b2b best L=48 5.088; b2b L=48 5.088
+track  T_p=1.71 warm: best U=20.0 L=3 5.234 [5.021, 5.452]; near-best L=[3]; any L<=8 near best: True; b2b best L=48 5.080; b2b L=48 5.080
+track  T_p=1.71 warm-cold 0.146 [0.097, 0.198]
+track  T_p=3.43 cold: best U=None L=48 4.978 [4.757, 5.209]; near-best L=[8, 12, 16, 24, 48]; any L<=8 near best: True; b2b best L=48 4.978; b2b L=48 4.978
+track  T_p=3.43 warm: best U=80.0 L=8 4.986 [4.773, 5.212]; near-best L=[4, 6, 8, 12, 16, 24, 48]; any L<=8 near best: True; b2b best L=48 4.969; b2b L=48 4.969
+track  T_p=3.43 warm-cold 0.008 [-0.035, 0.050]
+pilot  SCS 15 kHz: symbol 71.4 us; 48 symbols -> 3.43 ms; 132 symbols -> 9.43 ms
+pilot  SCS 30 kHz: symbol 35.7 us; 48 symbols -> 1.71 ms; 132 symbols -> 4.71 ms
+pilot  SCS 60 kHz: symbol 17.9 us; 48 symbols -> 0.86 ms; 132 symbols -> 2.36 ms
+scen   aging set: seed 11, 20 scatterers, 400 scenarios, index 0; replay error 1.9e-06 m; LoS BS-RIS False, RIS-UE [True, False, False, False], direct [False, False, False, False]
+cnn    eval load 0.01/0.16/0.97; Adam lr per L {'1': 0.35, '2': 0.75, '4': 0.35, '8': 0.35, '16': 0.5, '32': 0.35, '64': 1.5}
+cnn    train_flat: params 828352, RMSE 66.45 deg, SR@5 14.3%, rate 12.241 (+1 sweep 12.849), SU-align 12.431, label 12.893
+cnn    train_seq: params 167938, RMSE 61.32 deg, SR@5 24.9%, rate 12.490 (+1 sweep 12.855), SU-align 12.431, label 12.893
+cnn    train_raw: params 828736, RMSE 83.84 deg, SR@5 10.2%, rate 11.201 (+1 sweep 12.835), SU-align 12.431, label 12.893
+cnn    train_siso_published: params 822976, RMSE 30.74 deg, SR@5 24.3%, rate 10.142 (+1 sweep 10.348), SU-align 10.349, label 10.349
+cnn    train_siso_published_seq: params 162562, RMSE 14.99 deg, SR@5 72.1%, rate 10.334 (+1 sweep 10.349), SU-align 10.349, label 10.349
+cnn    Tov 0: best CD-1 12.698; best Adam Adam-8 12.664; CNN 12.354 (diff -0.344 CI -0.396..-0.296); CNN+CD-1 12.671 (diff -0.028 CI -0.040..-0.015); SU-align 12.389
+cnn    Tov 1.71: best CD-1 12.681; best Adam Adam-8 12.642; CNN 12.342 (diff -0.338 CI -0.389..-0.289); CNN+CD-1 12.646 (diff -0.035 CI -0.048..-0.022); SU-align 12.385
+cnn    Tov 3.43: best CD-1 12.656; best Adam Adam-8 12.611; CNN 12.326 (diff -0.330 CI -0.380..-0.281); CNN+CD-1 12.614 (diff -0.042 CI -0.056..-0.028); SU-align 12.369
+cnn    Tov 10: best CD-1 12.491; best Adam Adam-4 12.439; CNN 12.193 (diff -0.297 CI -0.345..-0.250); CNN+CD-1 12.424 (diff -0.066 CI -0.082..-0.050); SU-align 12.249
+cnn    latency ms: SU-align 0.039, CNN-LSTM 1.116, CD-1 2.477, CD-2 4.757, CD-3 7.004, CD-5 11.509, CD-10 23.058, CNN-LSTM+CD-1 4.263, CNN-LSTM+CD-2 6.477, Adam-1 0.595, Adam-2 1.068, Adam-4 2.069, Adam-8 3.888, Adam-16 7.778, Adam-32 15.667, Adam-64 30.950
+cnn    CD-10 t=0 12.742 -> effective 12.152
+speed  3 km/h: Tc 50.8 ms, x 0.0139, L* 8 [6, 8], best eff 6.222, L48 14.5% [13.1, 16.1], SU-best - CD +0.267 [+0.171, +0.366], SU-best - long-run Adam +0.472 [+0.330, +0.608], SU-best eff 5.278
+speed  3 km/h T_ov 1.71: L* 8 [6, 8], L48 13.9%, SU-best - CD +0.265 [+0.166, +0.363]
+speed  3 km/h T_ov 3.43: L* 6 [6, 8], L48 13.2%, SU-best - CD +0.259 [+0.162, +0.353]
+speed  5.4 km/h: Tc 28.2 ms, x 0.0249, L* 4 [4, 5, 6], best eff 5.984, L48 14.2% [12.5, 15.8], SU-best - CD +0.307 [+0.198, +0.414], SU-best - long-run Adam +0.644 [+0.450, +0.830], SU-best eff 5.274
+speed  5.4 km/h T_ov 1.71: L* 4 [4, 5], L48 13.1%, SU-best - CD +0.294 [+0.174, +0.403]
+speed  5.4 km/h T_ov 3.43: L* 4 [3, 4, 5], L48 11.9%, SU-best - CD +0.271 [+0.156, +0.381]
+speed  10 km/h: Tc 15.2 ms, x 0.0462, L* 3 [3], best eff 5.759, L48 10.5% [9.0, 11.9], SU-best - CD +0.246 [+0.136, +0.366], SU-best - long-run Adam +0.582 [+0.332, +0.818], SU-best eff 5.255
+speed  10 km/h T_ov 1.71: L* 3 [3], L48 8.4%, SU-best - CD +0.194 [+0.078, +0.305]
+speed  10 km/h T_ov 3.43: L* 3 [2, 3], L48 6.2%, SU-best - CD +0.120 [+0.009, +0.239]
+speed  18 km/h: Tc 8.5 ms, x 0.0831, L* 2 [2], best eff 5.502, L48 8.0% [6.2, 9.7], SU-best - CD +0.418 [+0.278, +0.562], SU-best - long-run Adam +0.693 [+0.468, +0.917], SU-best eff 5.189
+speed  18 km/h T_ov 1.71: L* 2 [2], L48 3.7%, SU-best - CD +0.282 [+0.138, +0.426]
+speed  18 km/h T_ov 3.43: L* 24 [24, 48], L48 0.3%, SU-best - CD +0.156 [+0.011, +0.300]
+speed  30 km/h: Tc 5.1 ms, x 0.1385, L* 1 [1], best eff 5.261, L48 4.3% [2.2, 6.3], SU-best - CD +0.423 [+0.246, +0.586], SU-best - long-run Adam +0.448 [+0.228, +0.649], SU-best eff 5.054
+speed  30 km/h T_ov 1.71: L* 24 [20, 24, 32, 48], L48 0.5%, SU-best - CD +0.233 [+0.057, +0.406]
+speed  30 km/h T_ov 3.43: L* 24 [20, 24, 32, 48], L48 0.4%, SU-best - CD +0.137 [-0.028, +0.312]

@@ -1,0 +1,5 @@
+# Versions used for the reported results
+numpy>=2.0
+torch>=2.0          # results produced with 2.15 on CPU
+matplotlib>=3.6     # only for paper/make_paper_assets.py
+scipy>=1.10         # only for exporting .mat files (not needed here)
