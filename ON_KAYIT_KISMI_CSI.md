@@ -118,4 +118,17 @@ kurallarla ikincil olarak eklenebilir; birincil ölçütü etkilemez.
 
 ## Sapmalar
 
-(henüz yok)
+**1 (8 Kasım 2026, öğrenilen hiçbir model eğitilmeden önce): klasik kol
+güçlendirildi.** Doğrulama kümesinde (1000 senaryo) yapılan kurulum
+kontrolü, kaskad kanalın yatayda komşu elemanlar arasında neredeyse
+ilişkisiz (|ρ| = 0.05), dikeyde ilişkili (|ρ| = 0.57) olduğunu gösterdi.
+Bu durumda önceden kaydedilen 2×2 gruplama, gruplama ailesinin en iyi
+üyesi değil. CLAUDE.md'nin "zayıf taban çizgisi" kuralı gereği grup
+şekli de doğrulamada seçilen bir ayar yapıldı: M = 8 için {2×2, 1×4
+(sütun), 4×1}, M = 16 için {2×1, 1×2}. Bu değişiklik yalnızca klasik
+rakibi güçlendirir; öğrenilen modelin aleyhinedir.
+
+**2 (aynı gün, aynı kontrol): LMMSE uydurması** senaryo başına gözlem
+normuyla normalize edilmiş örneklerle yapılır (dosyada yazılan yöntem).
+Normalize edilmemiş uydurma doğrulamada daha kötüydü (CD-30 sonrası
+10.74'e karşı 10.94 b/s/Hz), bu nedenle normalize hali kullanılır.
