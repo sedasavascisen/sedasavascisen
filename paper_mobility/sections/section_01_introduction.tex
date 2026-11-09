@@ -12,6 +12,6 @@ This paper measures that race. We evaluate every method on the channel that exis
     \item \textbf{A latency-aware criterion.} We define the effective rate (Section~\ref{sec:framework}) and show that under it the solvers with the best rate on paper lose to a single-user heuristic that takes milliseconds, for pedestrian users at the measured step cost.
     \item \textbf{An optimal number of iterations.} More iterations help only up to a point. The best number of steps is set by a single quantity, the time per step relative to the Doppler frequency, and a small-delay model explains how it scales. The optimum persists for a second classical optimizer, a larger surface and every standardized indoor user speed.
     \item \textbf{Periodic operation.} When the BS re-optimizes continuously, the pilot overhead decides how often to update, and each update should still be short.
-    \item \textbf{Learning on the clock.} A learned update rule that beats a tuned classical optimizer step for step, loses to it millisecond for millisecond. A published phase-aware CNN--LSTM~\cite{SavasciSen2026AISY}, ported to a single-user version of the scenario, is dominated by a single, faster Adam step.
+    \item \textbf{Learning on the clock.} A learned update rule that beats a tuned classical optimizer step for step, loses to it millisecond for millisecond.
     \item \textbf{The price of the main assumption.} All results assume that the BS refreshes its precoder from the current channel; we measure what this assumption is worth.
 \end{enumerate}

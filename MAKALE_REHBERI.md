@@ -1,4 +1,6 @@
-# Makale Rehberi — "Latency Can Reverse the Ranking"
+# Makale Rehberi — "Latency-Aware Phase Optimization for RIS Serving Mobile Users"
+
+> **9 Kasım 2026 güncellemesi:** Başlık değişti (aşağıdaki eski başlık açıklaması tarihsel). VI-G (CNN–LSTM) bölümü makaleden çıkarıldı ve teze taşındı (`paper_mobility/unused/section_cnn_lstm_tez.tex`); bu rehberdeki VI-G anlatımı artık tez bölümü içindir.
 
 *Makalenin son hali (9 sayfa) üzerinden, paragraf paragraf, sade Türkçe ile.
 Sorular ve tez kurgusu en sonda.*
@@ -22,7 +24,11 @@ odaklanırsanız net bir fotoğraf alırsınız. Makale bu dengeyi RIS için öl
 ## 1. Makale, bölüm bölüm
 
 ### Başlık
-**"Latency Can Reverse the Ranking: Effective-Rate Evaluation of RIS Phase
+Yeni başlık: **"Latency-Aware Phase Optimization for Reconfigurable Intelligent
+Surfaces Serving Mobile Users"** = "Hareketli kullanıcılara hizmet veren
+akıllı yansıtıcı yüzeyler için gecikme-farkında faz optimizasyonu".
+
+Eski başlık (tarihsel): **"Latency Can Reverse the Ranking: Effective-Rate Evaluation of RIS Phase
 Optimization for Mobile Users"**
 - *Latency can reverse the ranking* = "Gecikme sıralamayı tersine çevirebilir."
   Yani kâğıt üzerinde en iyi olan yöntem, süre hesaba katılınca en kötü

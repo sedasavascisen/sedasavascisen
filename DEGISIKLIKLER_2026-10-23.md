@@ -572,3 +572,13 @@ Denetim iddialari: `site_knn_beats_cnn_all_sites`, `site_cnn_beats_nn_lookup_all
   Etiket h_d'yi yok sayiyor (CD +2.1 dB). Olceklenebilirlik seklinin olcum betigi yok; uc surum celisiyor.
   Ayrinti: `aisy_paket/README_TR.md`.
 - Denetim 108 / 123 (4 yeni `aisy_*`). Makalede "119 assertions" -> "123".
+
+## 2026-11-09 — Makale: VI-G teze tasindi, baslik degisti
+
+- Kullanici karari: CNN–LSTM bolumu (VI-G) makaleden cikarildi, teze tasindi
+  (`paper_mobility/unused/section_cnn_lstm_tez.tex`); ozet, giris, yontem, sistem modeli,
+  sonuc ve on yazi buna gore duzeltildi. Makale 9 sayfa, ozet 188 kelime, tum kontroller geciyor.
+- Yeni baslik: "Latency-Aware Phase Optimization for Reconfigurable Intelligent Surfaces Serving Mobile Users".
+- Kullanici: AISY makalesinde duzeltme gerekmiyor. `aisy_paket/README_TR.md`'deki teknik
+  bulgular kayitta duruyor; teze girecek CD/CNN karsilastirmasi MATLAB olcumuyle (adim 2–3) yapilacak.
+- Kismi CSI'da gruplu gozlem fikri denenmeyecek (kullanici karari).

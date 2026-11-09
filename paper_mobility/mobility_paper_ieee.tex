@@ -14,7 +14,7 @@
 
 \begin{document}
 
-\title{Latency Can Reverse the Ranking: Effective-Rate Evaluation of RIS Phase Optimization for Mobile Users}
+\title{Latency-Aware Phase Optimization for Reconfigurable Intelligent Surfaces Serving Mobile Users}
 
 \author{Seda~Savaşçı~Şen, Ali~Çalhan, and Murtaza~Cicioğlu%
 \thanks{(Corresponding author: Seda Savaşçı Şen.)}%
@@ -23,12 +23,12 @@
 \thanks{M.~Cicioğlu is with the Department of Computer Engineering, Bursa Uludağ University, Bursa, Türkiye (e-mail: murtazacicioglu@uludag.edu.tr).}}
 
 \markboth{IEEE Transactions on Wireless Communications}%
-{Latency Can Reverse the Ranking: Effective-Rate Evaluation of RIS Phase Optimization}
+{Latency-Aware Phase Optimization for RIS Serving Mobile Users}
 
 \maketitle
 
 \begin{abstract}
-A walking user changes the radio channel within tens of milliseconds, yet reconfigurable intelligent surface (RIS) phase optimizers are compared by the rate they reach on the channel they were given. We instead evaluate each method on the channel that exists when it finishes, its \emph{effective rate}, with measured latencies, in a 3GPP indoor-office multi-user MISO downlink with a 32-element RIS. First, coordinate descent and long-run Adam, the methods with the highest rate at $t=0$, need 0.9--5.9~s and lose to a 2.5~ms single-user heuristic. Second, more iterations help only up to a point: at 1.5~m/s Adam's effective rate peaks at 4--6 steps and running it to 48 steps costs 14.0\%; at 10~km/h the peak is at 3 steps. The optimum is set by the step time relative to the Doppler frequency, and a small-delay model explains how it scales. Third, a learned update rule that beats tuned Adam at equal steps, and a published phase-aware CNN--LSTM ported to a single user, are both dominated by faster Adam configurations. All results assume the precoder is recomputed from the current channel. For pedestrian users at the measured step cost, latency, not convergence, decides which method is best.
+A walking user changes the radio channel within tens of milliseconds, yet reconfigurable intelligent surface (RIS) phase optimizers are compared by the rate they reach on the channel they were given. We instead evaluate each method on the channel that exists when it finishes, its \emph{effective rate}, with measured latencies, in a 3GPP indoor-office multi-user MISO downlink with a 32-element RIS. First, coordinate descent and long-run Adam, the methods with the highest rate at $t=0$, need 0.9--5.9~s and lose to a 2.5~ms single-user heuristic. Second, more iterations help only up to a point: at 1.5~m/s Adam's effective rate peaks at 4--6 steps and running it to 48 steps costs 14.0\%; at 10~km/h the peak is at 3 steps. The optimum is set by the step time relative to the Doppler frequency, and a small-delay model explains how it scales. Third, a learned update rule that beats tuned Adam at equal steps is dominated by faster Adam configurations once latency is measured. All results assume the precoder is recomputed from the current channel. For pedestrian users at the measured step cost, latency, not convergence, decides which method is best.
 \end{abstract}
 
 \begin{IEEEkeywords}

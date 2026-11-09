@@ -93,23 +93,6 @@ This comparison uses the static set and $t=0$ rates, to isolate compute efficien
 \label{fig:eqms}
 \end{figure*}
 
-\subsection{A Published Phase Predictor Is Beaten by One Gradient Step}
-\label{sec:res_cnn}
-We also test a learned predictor published earlier by the authors for a single-antenna BS, the phase-aware CNN--LSTM of~\cite{SavasciSen2026AISY}, which predicts $(\sin\theta_n,\cos\theta_n)$ for every element. We keep the architecture and training recipe of its released code (with z-scored inputs, gradient clipping and best-validation checkpointing from its PyTorch version) and change the input, per element the cascaded channel $g_n\mbf{F}_n$ and the direct channel, and the label convention. With $N_t>1$ the common phase of the optimum is barely fixed by the weak direct link, so labels set element~1 to zero and the common phase is restored in closed form, $\phi=\angle(\mbf{c}^H\mbf{h}_d)$. The network predicts one user's phase, so we use $K=1$ and a maximum-ratio precoder; exact element-wise coordinate ascent (CD) provides labels and baseline.
-
-On 6000 static test scenarios the network reaches a phase RMSE of 61.32$^\circ$ and a rate of 12.490~b/s/Hz, between closed-form alignment (12.431) and the optimum (12.893). As a control, on the published single-antenna task the same code reaches 14.99$^\circ$ in our generator, against 2.77$^\circ$ reported in~\cite{SavasciSen2026AISY} for its own generator, so absolute errors are not comparable across the two studies. With $N_t=8$ each element's optimal phase depends on the beam formed by all others, and the network captures only a small part of this coupling.
-
-Table~\ref{tab:cnn} gives the effective rates. A single Adam step takes 0.59~ms against the network's 1.12~ms and is better by 0.143~b/s/Hz at $t=0$ (CI 0.089--0.197), and by 0.090 and 0.104 on two larger draws of 6000 scenarios: the network is dominated. At every acquisition delay it is 0.297--0.344~b/s/Hz below the best method, one CD sweep. Used as the start of that sweep, it adds nothing at $t=0$ and loses 0.028--0.066~b/s/Hz through its extra latency. Against closed-form alignment the network is not significantly different on these 400 scenarios and slightly better on the larger draws. Imperfect channel knowledge does not change the picture. When the cascaded and direct channels are estimated with an error of 1--30\% of their power, and both phase and beam are computed from the estimate, a network retrained on noisy estimates stays 0.42--0.65~b/s/Hz below the tuned classical optimizer on the static test set (paired CIs below zero) and differs from the clean-trained network by at most 0.011. Its original study~\cite{SavasciSen2026AISY} evaluated a static single-antenna channel; with several BS antennas and moving users, one forward pass buys less than one classical step of half the cost.
-
-\begin{table}[t]
-\centering
-\caption{Single-user set (400 scenarios): latency, $t=0$ rate and effective rate (b/s/Hz) of the ported CNN--LSTM and of classical methods. Bold: best at each $T_{\mathrm{ov}}$, selected on a separate draw.}
-\label{tab:cnn}
-\footnotesize
-\setlength{\tabcolsep}{4pt}
-\input{tables/tab_cnnlstm}
-\end{table}
-
 \subsection{The Fresh-Beam Assumption Matters}
 \label{sec:res_beam}
 All results assume that the BS refreshes its precoder from the current channel while only the RIS phase ages. On the beam set, keeping the precoder from $t=0$ instead makes the rate collapse within tens of milliseconds: at $T_c$ it is 11.7--14.2$\times$ lower than with a fresh beam, for every phase choice, and with the phase of Adam ($L=8$) a precoder only 5~ms old already lowers the rate from 5.228 to 1.736~b/s/Hz (beam-set rates are not comparable with Table~\ref{tab:aging}). Refreshing it is cheap (0.12~ms, about 13$\times$ less than one Adam step), but it requires effective-channel pilots every few milliseconds, whose airtime we do not charge.

@@ -11,8 +11,8 @@ yazarlara onaylatın.*
 
 Dear Editor,
 
-We are pleased to submit our manuscript entitled **"Latency Can Reverse the
-Ranking: Effective-Rate Evaluation of RIS Phase Optimization for Mobile
+We are pleased to submit our manuscript entitled **"Latency-Aware Phase
+Optimization for Reconfigurable Intelligent Surfaces Serving Mobile
 Users"** by Seda Savaşçı Şen, Ali Çalhan and Murtaza Cicioğlu for
 consideration as a regular paper in the *IEEE Transactions on Wireless
 Communications*.
@@ -36,9 +36,7 @@ The main findings are:
    is governed by a single quantity, the step time relative to the Doppler
    frequency, and a small-delay model explains how it scales.
 3. A learned update rule that beats a tuned classical optimizer step for step
-   loses to it millisecond for millisecond, and a published phase-aware
-   CNN–LSTM, ported to the scenario, is dominated by a single, faster
-   gradient step.
+   loses to it millisecond for millisecond.
 
 We believe the manuscript fits the scope of the Transactions because it
 addresses a practical question at the core of RIS-aided wireless system
@@ -54,10 +52,7 @@ files, and the code and results are publicly available at
 https://github.com/sedasavascisen/ris-latency-mobility. The use of AI tools is
 disclosed in the Acknowledgment, in accordance with IEEE policy.
 
-The phase-aware CNN–LSTM evaluated in Section VI-G was published earlier by
-the authors in *Advanced Intelligent Systems* (doi:10.1002/aisy.70460); that
-work addressed static single-antenna channels, and the present manuscript has
-no overlap with its text or results beyond the citation. This manuscript is
+This manuscript is
 original, has not been published, and is not under consideration elsewhere.
 All authors have approved the submission.
 
