@@ -96,6 +96,6 @@ Durum değerleri: **uygun**, **uygun değil**, **kullanıcı yapacak**, **belirs
 | YZ beyanında bölümlerin belirtilmesi | **Düzeltildi.** "to draft and edit the text of all sections". |
 | Taslaklardaki eski başlık, ScholarOne, [Date] | **Düzeltildi.** Yeni başlık, IEEE Author Portal, tarih. |
 | Önerilen hakemlerden ikisi TWC editörü | **Kullanıcı yapacak.** Papazafeiropoulos ve C. Huang listede "çıkarın" olarak işaretlendi; yerlerine iki isim gerekiyor. |
-| Sorumlu yazarın ORCID'i | **Kullanıcı yapacak.** |
+| Sorumlu yazarın ORCID'i | **Tamam.** 0000-0001-8569-6454 |
 | AISY 2026 makalesini portalda ilgili yayın olarak bildirmek | **Kullanıcı yapacak.** |
 | GitHub bağlantısı | **Kullanıcı yapacak.** Depo açılmadan gönderilmemeli; makale bu adresi veriyor. |
