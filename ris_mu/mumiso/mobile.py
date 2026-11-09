@@ -77,6 +77,7 @@ class MobileMuMisoChannel(MuMisoChannel):
 
     def __init__(self, panel, cfg: MobileConfig = None):
         super().__init__(panel, cfg or MobileConfig())
+        self._freq_offsets = None
 
     # ------------------------------------------------- gain-injected links
     def _ris_link_g(self, pts, scat, los, kappa, gains):
@@ -112,6 +113,56 @@ class MobileMuMisoChannel(MuMisoChannel):
         kap = np.where(los, kappa, 0.0)
         return (np.sqrt(kap / (kap + 1)) * h_los
                 + np.sqrt(1.0 / (kap + 1)) * h_nlos)
+
+    # ------------------------------------------- wideband (opt-in) links
+    # Narrow-fractional-bandwidth approximation: for a subcarrier at
+    # fc + df only the propagation PHASE is re-evaluated, with
+    # k_f = 2*pi*(fc + df)/c in exp(-1j*k_f*d). Amplitudes, path loss,
+    # element pattern, Ricean split AND the unit-power normalisation
+    # factors are all held at their fc values (B/fc <= 100 MHz / 3 GHz =
+    # 3.3 %, so the amplitude change is << 1 dB). Beam squint and
+    # multipath delay spread are both captured, since both live in the
+    # phase. These methods are only called when generate() is given
+    # freq_offsets_hz; they make no random draws.
+    def _ris_link_wb(self, pts, scat, los, kappa, gains, ks):
+        P = self.panel
+        d_el = P.distances(pts)
+        gain = P.pattern(pts)
+        amp_los = np.sqrt(gain) / np.maximum(d_el, 1.0)
+        n_los = np.sqrt(np.maximum(np.mean(np.abs(
+            amp_los * np.exp(-1j * self.k * d_el)) ** 2, -1, keepdims=True),
+            1e-30))
+        d1 = np.linalg.norm(pts[..., None, :] - scat, axis=-1)
+        d2 = P.distances(scat)
+        g_s = P.pattern(scat)
+        amp = gains[..., None] * np.sqrt(g_s) / np.maximum(d1[..., None] * d2, 1.0)
+        dd = d1[..., None] + d2
+        n_nlos = np.sqrt(np.maximum(np.mean(np.abs(
+            np.sum(amp * np.exp(-1j * self.k * dd), axis=-2)) ** 2, -1,
+            keepdims=True), 1e-30))
+        kap = np.where(los, kappa, 0.0)[..., None]
+        out = []
+        for kf in ks:
+            h_los = amp_los * np.exp(-1j * kf * d_el) / n_los
+            h_nlos = np.sum(amp * np.exp(-1j * kf * dd), axis=-2) / n_nlos
+            out.append(np.sqrt(kap / (kap + 1)) * h_los
+                       + np.sqrt(1.0 / (kap + 1)) * h_nlos)
+        return out
+
+    def _direct_link_wb(self, a, b, scat, los, kappa, gains, ks):
+        d = np.linalg.norm(a - b, axis=-1)
+        d1 = np.linalg.norm(a[..., None, :] - scat, axis=-1)
+        d2 = np.linalg.norm(scat - b[..., None, :], axis=-1)
+        amp = gains / np.maximum(d1 * d2, 1.0)
+        h0 = np.sum(amp * np.exp(-1j * self.k * (d1 + d2)), axis=-1)
+        nrm = np.sqrt(np.maximum(np.mean(np.abs(h0) ** 2), 1e-30))
+        kap = np.where(los, kappa, 0.0)
+        out = []
+        for kf in ks:
+            h_nlos = np.sum(amp * np.exp(-1j * kf * (d1 + d2)), axis=-1) / nrm
+            out.append(np.sqrt(kap / (kap + 1)) * np.exp(-1j * kf * d)
+                       + np.sqrt(1.0 / (kap + 1)) * h_nlos)
+        return out
 
     # ------------------------------------------------------------- chunk
     def _generate_chunk(self, S):
@@ -198,6 +249,7 @@ class MobileMuMisoChannel(MuMisoChannel):
         N = P.positions.shape[0]
         G_t = np.zeros((S, M, K, N), np.complex64)
         hd_t = np.zeros((S, M, K, T), np.complex64)
+        A_G_all, A_d_all = [], []
         for m in range(M):
             ue = ue_t[:, m]                                      # [S,K,3]
             G_s = self._ris_link_g(ue, scat[:, None], los_ue, k_ue, gG_sc)
@@ -217,10 +269,35 @@ class MobileMuMisoChannel(MuMisoChannel):
             if m == 0:
                 self._blocked = blocked
             A_d = A_d * 10 ** (-c.direct_blockage_db * blocked / 20)
+            A_G_all.append(A_G)
+            A_d_all.append(A_d)
             G_t[:, m] = (G_s * A_G[..., None]).astype(np.complex64)
             hd_t[:, m] = (hd_s * A_d[..., None]).astype(np.complex64)
 
-        return dict(F=F.astype(np.complex64), G_t=G_t, hd_t=hd_t,
+        wb = {}
+        if self._freq_offsets is not None:
+            # same draws, phases re-evaluated per subcarrier; no rng calls
+            ks = [2 * np.pi * (P.fc + df) / P.c for df in self._freq_offsets]
+            Fw = self._ris_link_wb(bsa, scat[:, None], los_bs[:, None],
+                                   k_bs[:, None], gF_sc, ks)
+            wb["F_f"] = np.stack([(x * A_F[:, None, None]).transpose(0, 2, 1)
+                                  for x in Fw], 1).astype(np.complex64)
+            G_tf = np.zeros((S, M, len(ks), K, N), np.complex64)
+            hd_tf = np.zeros((S, M, len(ks), K, T), np.complex64)
+            for m in range(M):
+                ue = ue_t[:, m]
+                Gw = self._ris_link_wb(ue, scat[:, None], los_ue, k_ue,
+                                       gG_sc, ks)
+                Hw = self._direct_link_wb(bsa[:, None], ue[:, :, None],
+                                          scat[:, None, None],
+                                          los_dir[..., None],
+                                          k_dir[..., None], gD_sc, ks)
+                for j in range(len(ks)):
+                    G_tf[:, m, j] = Gw[j] * A_G_all[m][..., None]
+                    hd_tf[:, m, j] = Hw[j] * A_d_all[m][..., None]
+            wb["G_tf"], wb["hd_tf"] = G_tf, hd_tf
+
+        return dict(**wb, F=F.astype(np.complex64), G_t=G_t, hd_t=hd_t,
                     G=G_t[:, 0], hd=hd_t[:, 0],
                     ue_t=ue_t.astype(np.float32),
                     bs_pos=bs.astype(np.float32),
@@ -228,9 +305,26 @@ class MobileMuMisoChannel(MuMisoChannel):
                     ue_pos=ue_t[:, 0].astype(np.float32),
                     los_ris_bs=los_bs, los_ris_ue=los_ue, los_direct=los_dir)
 
-    def generate(self, n_samples: int, chunk: int = 500):
+    def generate(self, n_samples: int, chunk: int = 500,
+                 freq_offsets_hz=None):
+        """
+        freq_offsets_hz (opt-in, default None = unchanged narrowband output):
+        a list of subcarrier offsets df from fc. The SAME draws are then
+        also evaluated at each fc + df (phase-only re-evaluation, see
+        `_ris_link_wb`), adding
+            F_f   : [S, Nf, N, T]
+            G_tf  : [S, L, Nf, K, N]
+            hd_tf : [S, L, Nf, K, T]
+        The random stream is untouched, so every default key is
+        bit-identical with and without the option
+        (scripts/wideband_bitidentity_check.py).
+        """
+        self._freq_offsets = (None if freq_offsets_hz is None
+                              else np.asarray(freq_offsets_hz, float))
         keys = ("F", "G_t", "hd_t", "G", "hd", "ue_t", "bs_pos", "bs_array",
                 "ue_pos", "los_ris_bs", "los_ris_ue", "los_direct")
+        if self._freq_offsets is not None:
+            keys = keys + ("F_f", "G_tf", "hd_tf")
         out = {k: [] for k in keys}
         done = 0
         while done < n_samples:

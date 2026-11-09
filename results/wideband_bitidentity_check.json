@@ -1,0 +1,342 @@
+{
+ "ref_commit": "8defb93",
+ "all_ok": true,
+ "cases": [
+  {
+   "n_users": 1,
+   "seed": 11,
+   "chunk": 500,
+   "n": 64,
+   "ref_vs_off": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "ref_vs_on": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "df0_max_rel_err": {
+    "F": 0.0,
+    "G": 0.0,
+    "hd": 0.0
+   },
+   "ok": true
+  },
+  {
+   "n_users": 1,
+   "seed": 11,
+   "chunk": 37,
+   "n": 64,
+   "ref_vs_off": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "ref_vs_on": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "df0_max_rel_err": {
+    "F": 0.0,
+    "G": 0.0,
+    "hd": 0.0
+   },
+   "ok": true
+  },
+  {
+   "n_users": 1,
+   "seed": 2026,
+   "chunk": 500,
+   "n": 64,
+   "ref_vs_off": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "ref_vs_on": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "df0_max_rel_err": {
+    "F": 0.0,
+    "G": 0.0,
+    "hd": 0.0
+   },
+   "ok": true
+  },
+  {
+   "n_users": 1,
+   "seed": 2026,
+   "chunk": 37,
+   "n": 64,
+   "ref_vs_off": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "ref_vs_on": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "df0_max_rel_err": {
+    "F": 2.6779471110245645e-13,
+    "G": 0.0,
+    "hd": 0.0
+   },
+   "ok": true
+  },
+  {
+   "n_users": 4,
+   "seed": 11,
+   "chunk": 500,
+   "n": 64,
+   "ref_vs_off": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "ref_vs_on": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "df0_max_rel_err": {
+    "F": 0.0,
+    "G": 0.0,
+    "hd": 0.0
+   },
+   "ok": true
+  },
+  {
+   "n_users": 4,
+   "seed": 11,
+   "chunk": 37,
+   "n": 64,
+   "ref_vs_off": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "ref_vs_on": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "df0_max_rel_err": {
+    "F": 0.0,
+    "G": 8.488899583269927e-10,
+    "hd": 0.0
+   },
+   "ok": true
+  },
+  {
+   "n_users": 4,
+   "seed": 2026,
+   "chunk": 500,
+   "n": 64,
+   "ref_vs_off": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "ref_vs_on": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "df0_max_rel_err": {
+    "F": 0.0,
+    "G": 0.0,
+    "hd": 5.648946154596102e-12
+   },
+   "ok": true
+  },
+  {
+   "n_users": 4,
+   "seed": 2026,
+   "chunk": 37,
+   "n": 64,
+   "ref_vs_off": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "ref_vs_on": {
+    "F": true,
+    "G_t": true,
+    "hd_t": true,
+    "G": true,
+    "hd": true,
+    "ue_t": true,
+    "bs_pos": true,
+    "bs_array": true,
+    "ue_pos": true,
+    "los_ris_bs": true,
+    "los_ris_ue": true,
+    "los_direct": true,
+    "times_ms": true
+   },
+   "df0_max_rel_err": {
+    "F": 0.0,
+    "G": 0.0,
+    "hd": 0.0
+   },
+   "ok": true
+  }
+ ]
+}

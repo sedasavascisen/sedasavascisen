@@ -1,0 +1,588 @@
+{
+ "cost": {
+  "load_avg_1min_at_start": 0.13,
+  "op_counts": {
+   "K1": {
+    "forward_complex_mac": 256,
+    "forward_plus_grad_complex_mac": 768,
+    "cd_sweep_complex_mac": 768,
+    "log_evals": 1
+   },
+   "K16": {
+    "forward_complex_mac": 4096,
+    "forward_plus_grad_complex_mac": 12288,
+    "cd_sweep_complex_mac": 12288,
+    "log_evals": 16
+   },
+   "K64": {
+    "forward_complex_mac": 16384,
+    "forward_plus_grad_complex_mac": 49152,
+    "cd_sweep_complex_mac": 49152,
+    "log_evals": 64
+   }
+  },
+  "note": "All per-step costs are linear in K_sub*N*T; the narrowband problem is K_sub = 1.",
+  "timing": {
+   "batch1_K1": {
+    "grad_step_ms": 0.2102309999827412,
+    "cd_sweep_ms": 1.5223254999341407
+   },
+   "batch1_K16": {
+    "grad_step_ms": 0.23278650002112045,
+    "cd_sweep_ms": 1.565730500033169
+   },
+   "batch1_K64": {
+    "grad_step_ms": 0.30674300001010124,
+    "cd_sweep_ms": 1.5948205000313465
+   },
+   "batch300_K1": {
+    "grad_step_ms": 0.5704874999992171,
+    "cd_sweep_ms": 2.8409705000171925
+   },
+   "batch300_K16": {
+    "grad_step_ms": 4.204428000036842,
+    "cd_sweep_ms": 6.198134999976901
+   },
+   "batch300_K64": {
+    "grad_step_ms": 12.483185500059335,
+    "cd_sweep_ms": 18.979277499965974
+   }
+  },
+  "load_avg_1min_at_end": 0.52,
+  "threads": 4
+ },
+ "_meta": {
+  "scenario": "make_mumiso_scenario(n_users=1, n_bs_antennas=8, seed=11), MobileConfig(velocity=1.5, times_ms=(0.0,), n_clusters=20)",
+  "approximation": "phase-only re-evaluation at fc+df (k_f = 2 pi (fc+df)/c); amplitudes / path loss / normalisation at fc",
+  "script": "scripts/wideband_feasibility.py"
+ },
+ "beam_squint": {
+  "formula": "phase spread across aperture D over band B = 2 pi B D / c (end-fire worst case); edge subcarrier vs centre = half that; gain loss for a linear ramp phi: -10 log10 sinc^2(phi/2)",
+  "rows": [
+   {
+    "case": "3 GHz, 8x4 (N=32), D=0.4 m (task value)",
+    "fc_hz": 3000000000.0,
+    "N": 32,
+    "D_m": 0.4,
+    "B_hz": 100000000.0,
+    "fractional_bw": 0.03333333333333333,
+    "phase_spread_full_band_rad": 0.8383380087806727,
+    "phase_spread_full_band_deg": 48.033229708533895,
+    "phase_err_edge_vs_centre_deg": 24.016614854266948,
+    "edge_gain_loss_db_factor1": 0.06368227768959929,
+    "edge_gain_loss_db_factor2": 0.2558621835217529
+   },
+   {
+    "case": "3 GHz, 8x4 (N=32), D=0.4 m (task value)",
+    "fc_hz": 3000000000.0,
+    "N": 32,
+    "D_m": 0.4,
+    "B_hz": 400000000.0,
+    "fractional_bw": 0.13333333333333333,
+    "phase_spread_full_band_rad": 3.3533520351226906,
+    "phase_spread_full_band_deg": 192.13291883413558,
+    "phase_err_edge_vs_centre_deg": 96.06645941706779,
+    "edge_gain_loss_db_factor1": 1.0423807982460496,
+    "edge_gain_loss_db_factor2": 4.537760909900965
+   },
+   {
+    "case": "3 GHz, 8x4 (N=32), D = side 8*lambda/2",
+    "fc_hz": 3000000000.0,
+    "N": 32,
+    "D_m": 0.39972327733333335,
+    "B_hz": 100000000.0,
+    "fractional_bw": 0.03333333333333333,
+    "phase_spread_full_band_rad": 0.8377580409572781,
+    "phase_spread_full_band_deg": 48.0,
+    "phase_err_edge_vs_centre_deg": 24.0,
+    "edge_gain_loss_db_factor1": 0.06359406719856904,
+    "edge_gain_loss_db_factor2": 0.25550618724366536
+   },
+   {
+    "case": "3 GHz, 8x4 (N=32), D = side 8*lambda/2",
+    "fc_hz": 3000000000.0,
+    "N": 32,
+    "D_m": 0.39972327733333335,
+    "B_hz": 400000000.0,
+    "fractional_bw": 0.13333333333333333,
+    "phase_spread_full_band_rad": 3.3510321638291125,
+    "phase_spread_full_band_deg": 192.0,
+    "phase_err_edge_vs_centre_deg": 96.0,
+    "edge_gain_loss_db_factor1": 1.040902936457607,
+    "edge_gain_loss_db_factor2": 4.530685032972606
+   },
+   {
+    "case": "28 GHz, 16x16 (N=256), D = side 16*lambda/2",
+    "fc_hz": 28000000000.0,
+    "N": 256,
+    "D_m": 0.085654988,
+    "B_hz": 100000000.0,
+    "fractional_bw": 0.0035714285714285713,
+    "phase_spread_full_band_rad": 0.17951958020513104,
+    "phase_spread_full_band_deg": 10.285714285714286,
+    "phase_err_edge_vs_centre_deg": 5.142857142857143,
+    "edge_gain_loss_db_factor1": 0.0029160561569069737,
+    "edge_gain_loss_db_factor2": 0.011666575386948649
+   },
+   {
+    "case": "28 GHz, 16x16 (N=256), D = side 16*lambda/2",
+    "fc_hz": 28000000000.0,
+    "N": 256,
+    "D_m": 0.085654988,
+    "B_hz": 400000000.0,
+    "fractional_bw": 0.014285714285714285,
+    "phase_spread_full_band_rad": 0.7180783208205241,
+    "phase_spread_full_band_deg": 41.142857142857146,
+    "phase_err_edge_vs_centre_deg": 20.571428571428573,
+    "edge_gain_loss_db_factor1": 0.04670398603122389,
+    "edge_gain_loss_db_factor2": 0.18742356978651978
+   },
+   {
+    "case": "28 GHz, 32x32 (N=1024), D = side 32*lambda/2",
+    "fc_hz": 28000000000.0,
+    "N": 1024,
+    "D_m": 0.171309976,
+    "B_hz": 100000000.0,
+    "fractional_bw": 0.0035714285714285713,
+    "phase_spread_full_band_rad": 0.35903916041026207,
+    "phase_spread_full_band_deg": 20.571428571428573,
+    "phase_err_edge_vs_centre_deg": 10.285714285714286,
+    "edge_gain_loss_db_factor1": 0.011666575386948649,
+    "edge_gain_loss_db_factor2": 0.04670398603122389
+   },
+   {
+    "case": "28 GHz, 32x32 (N=1024), D = side 32*lambda/2",
+    "fc_hz": 28000000000.0,
+    "N": 1024,
+    "D_m": 0.171309976,
+    "B_hz": 400000000.0,
+    "fractional_bw": 0.014285714285714285,
+    "phase_spread_full_band_rad": 1.4361566416410483,
+    "phase_spread_full_band_deg": 82.28571428571429,
+    "phase_err_edge_vs_centre_deg": 41.142857142857146,
+    "edge_gain_loss_db_factor1": 0.18742356978651978,
+    "edge_gain_loss_db_factor2": 0.7597273166671182
+   }
+  ]
+ },
+ "delay_spread": {
+  "grid": {
+   "n_freq": 512,
+   "span_hz": 400000000.0,
+   "df_hz": 781250.0,
+   "delay_window_s": 1.28e-06,
+   "resolution_s": 2.5e-09
+  },
+  "users1": {
+   "scenarios": 300,
+   "users": {
+    "user0": {
+     "tau_rms_ns_cascade_links": {
+      "mean": 21.627362232393505,
+      "median": 21.26794297186011,
+      "p5": 11.49833879570793,
+      "p95": 32.655048682214094
+     },
+     "tau_rms_ns_effective_at_theta_c": {
+      "mean": 15.25175217079438,
+      "median": 13.430817003968722,
+      "p5": 3.629444282673748,
+      "p95": 31.77650923050646
+     },
+     "Bc90_hz_cascade_links": 3125000.0,
+     "Bc50_hz_cascade_links": 14062500.0,
+     "Bc90_hz_effective": 5468750.0,
+     "Bc50_hz_effective": 75000000.0,
+     "Bc_rule_1_over_5tau_hz": 9403824.350320227,
+     "Bc_rule_1_over_50tau_hz": 940382.4350320229
+    }
+   },
+   "seconds": 53.361335039138794
+  },
+  "users4": {
+   "scenarios": 100,
+   "users": {
+    "user0": {
+     "tau_rms_ns_cascade_links": {
+      "mean": 21.42621378292812,
+      "median": 21.451429384837134,
+      "p5": 11.033778077229435,
+      "p95": 32.49964190811116
+     },
+     "tau_rms_ns_effective_at_theta_c": {
+      "mean": 15.286027595261382,
+      "median": 14.923503550487096,
+      "p5": 2.7073801670341866,
+      "p95": 32.42856500130107
+     },
+     "Bc90_hz_cascade_links": 4687500.0,
+     "Bc50_hz_cascade_links": 23437500.0,
+     "Bc90_hz_effective": 7812500.0,
+     "Bc50_hz_effective": 28906250.0,
+     "Bc_rule_1_over_5tau_hz": 9323388.032191891,
+     "Bc_rule_1_over_50tau_hz": 932338.803219189
+    },
+    "user1": {
+     "tau_rms_ns_cascade_links": {
+      "mean": 21.9913336827011,
+      "median": 22.343426753119406,
+      "p5": 11.374209260240212,
+      "p95": 31.10502328124923
+     },
+     "tau_rms_ns_effective_at_theta_c": {
+      "mean": 16.0673340085773,
+      "median": 14.608323698246519,
+      "p5": 3.9525026698668015,
+      "p95": 34.504347231389076
+     },
+     "Bc90_hz_cascade_links": 3125000.0,
+     "Bc50_hz_cascade_links": 11718750.0,
+     "Bc90_hz_effective": 5468750.0,
+     "Bc50_hz_effective": 17187500.0,
+     "Bc_rule_1_over_5tau_hz": 8951178.4476872,
+     "Bc_rule_1_over_50tau_hz": 895117.8447687197
+    },
+    "user2": {
+     "tau_rms_ns_cascade_links": {
+      "mean": 21.414967858783587,
+      "median": 21.176473896224234,
+      "p5": 8.66315769386157,
+      "p95": 33.404308467258815
+     },
+     "tau_rms_ns_effective_at_theta_c": {
+      "mean": 14.599644513820847,
+      "median": 12.361753813481505,
+      "p5": 2.9913227929266997,
+      "p95": 32.519575595304175
+     },
+     "Bc90_hz_cascade_links": 2343750.0,
+     "Bc50_hz_cascade_links": 9375000.0,
+     "Bc90_hz_effective": 4687500.0,
+     "Bc50_hz_effective": 14843750.0,
+     "Bc_rule_1_over_5tau_hz": 9444442.969122449,
+     "Bc_rule_1_over_50tau_hz": 944444.2969122448
+    },
+    "user3": {
+     "tau_rms_ns_cascade_links": {
+      "mean": 21.891579805917342,
+      "median": 22.13750968109525,
+      "p5": 13.813564742300494,
+      "p95": 33.03916188575728
+     },
+     "tau_rms_ns_effective_at_theta_c": {
+      "mean": 16.00214351407501,
+      "median": 15.380965859262771,
+      "p5": 5.200563172357365,
+      "p95": 29.387746794171193
+     },
+     "Bc90_hz_cascade_links": 3125000.0,
+     "Bc50_hz_cascade_links": 9375000.0,
+     "Bc90_hz_effective": 5468750.0,
+     "Bc50_hz_effective": 25781250.0,
+     "Bc_rule_1_over_5tau_hz": 9034439.866142388,
+     "Bc_rule_1_over_50tau_hz": 903443.9866142388
+    }
+   },
+   "seconds": 30.531423330307007
+  }
+ },
+ "gain_loss": {
+  "B1MHz": {
+   "K16": {
+    "rate_per_subcarrier_opt": 12.974377632141113,
+    "rate_single_wideband_phase": 12.972648620605469,
+    "rate_narrowband_phase": 12.9725923538208,
+    "rate_random_phase": 9.616668701171875,
+    "rate_loss_pct_wideband_vs_ub": 0.013327598571777344,
+    "rate_loss_pct_narrowband_vs_ub": 0.013762712478637695,
+    "rate_loss_pct_narrowband_vs_wideband": 0.00043511390686035156,
+    "gain_loss_db_wideband_vs_ub": {
+     "mean": 0.0052148221405877845,
+     "median": 0.00369054707698524,
+     "p5": 0.0004692354690632783,
+     "p95": 0.014800835261121395
+    },
+    "gain_loss_db_narrowband_vs_ub": {
+     "mean": 0.0053858483464864545,
+     "median": 0.0037606379482895136,
+     "p5": 0.0005947411409579219,
+     "p95": 0.014833443285897377
+    },
+    "gain_loss_db_random_vs_ub": {
+     "mean": 10.160208237965902,
+     "median": 10.624578475952148,
+     "p5": 1.8218399226665498,
+     "p95": 16.602079582214355
+    },
+    "adam_refine_gain_db_over_sumpower_cd": 4.4199732744702033e-05
+   },
+   "K64": {
+    "rate_per_subcarrier_opt": 12.97437858581543,
+    "rate_single_wideband_phase": 12.972643852233887,
+    "rate_narrowband_phase": 12.972586631774902,
+    "rate_random_phase": 9.457704544067383,
+    "rate_loss_pct_wideband_vs_ub": 0.013369321823120117,
+    "rate_loss_pct_narrowband_vs_ub": 0.013810396194458008,
+    "rate_loss_pct_narrowband_vs_wideband": 0.0004410743713378906,
+    "gain_loss_db_wideband_vs_ub": {
+     "mean": 0.005237662805836104,
+     "median": 0.0037052896805107594,
+     "p5": 0.00046977904858067635,
+     "p95": 0.014854107191786174
+    },
+    "gain_loss_db_narrowband_vs_ub": {
+     "mean": 0.005408633777406067,
+     "median": 0.003778742393478751,
+     "p5": 0.0006035411526681856,
+     "p95": 0.014886637870222333
+    },
+    "gain_loss_db_random_vs_ub": {
+     "mean": 10.64102525651455,
+     "median": 10.878090858459473,
+     "p5": 1.7651849925518037,
+     "p95": 18.86278486251831
+    },
+    "adam_refine_gain_db_over_sumpower_cd": 4.671532123659091e-05
+   },
+   "seconds": 49.214640617370605
+  },
+  "B5MHz": {
+   "K16": {
+    "rate_per_subcarrier_opt": 12.975908279418945,
+    "rate_single_wideband_phase": 12.936199188232422,
+    "rate_narrowband_phase": 12.932955741882324,
+    "rate_random_phase": 9.552970886230469,
+    "rate_loss_pct_wideband_vs_ub": 0.30602216720581055,
+    "rate_loss_pct_narrowband_vs_ub": 0.3310203552246094,
+    "rate_loss_pct_narrowband_vs_wideband": 0.025069713592529297,
+    "gain_loss_db_wideband_vs_ub": {
+     "mean": 0.11801308210783948,
+     "median": 0.08910958096385002,
+     "p5": 0.01733548501506448,
+     "p95": 0.3030890047550202
+    },
+    "gain_loss_db_narrowband_vs_ub": {
+     "mean": 0.12669118620144823,
+     "median": 0.09335070475935936,
+     "p5": 0.01861967295408249,
+     "p95": 0.3238863602280617
+    },
+    "gain_loss_db_random_vs_ub": {
+     "mean": 10.337373600006103,
+     "median": 10.732131004333496,
+     "p5": 1.7052844643592837,
+     "p95": 17.387272930145265
+    },
+    "adam_refine_gain_db_over_sumpower_cd": -0.00034396922665494526
+   },
+   "K64": {
+    "rate_per_subcarrier_opt": 12.975907325744629,
+    "rate_single_wideband_phase": 12.936077117919922,
+    "rate_narrowband_phase": 12.932817459106445,
+    "rate_random_phase": 9.557114601135254,
+    "rate_loss_pct_wideband_vs_ub": 0.3069579601287842,
+    "rate_loss_pct_narrowband_vs_ub": 0.3320753574371338,
+    "rate_loss_pct_narrowband_vs_wideband": 0.025200843811035156,
+    "gain_loss_db_wideband_vs_ub": {
+     "mean": 0.11835013144183903,
+     "median": 0.08940095826983452,
+     "p5": 0.017393624782562258,
+     "p95": 0.30387008190155035
+    },
+    "gain_loss_db_narrowband_vs_ub": {
+     "mean": 0.1270625755439202,
+     "median": 0.09368588402867317,
+     "p5": 0.01868599206209183,
+     "p95": 0.3247211366891861
+    },
+    "gain_loss_db_random_vs_ub": {
+     "mean": 10.322756082713603,
+     "median": 11.147019863128662,
+     "p5": 1.8267268657684326,
+     "p95": 17.254628944396973
+    },
+    "adam_refine_gain_db_over_sumpower_cd": -0.0003597601240984327
+   },
+   "seconds": 23.43566107749939
+  },
+  "B20MHz": {
+   "K16": {
+    "rate_per_subcarrier_opt": 12.983345985412598,
+    "rate_single_wideband_phase": 12.72415542602539,
+    "rate_narrowband_phase": 12.586212158203125,
+    "rate_random_phase": 9.551011085510254,
+    "rate_loss_pct_wideband_vs_ub": 1.9963324069976807,
+    "rate_loss_pct_narrowband_vs_ub": 3.0587971210479736,
+    "rate_loss_pct_narrowband_vs_wideband": 1.0841071605682373,
+    "gain_loss_db_wideband_vs_ub": {
+     "mean": 0.7513846852754553,
+     "median": 0.6508402228355408,
+     "p5": 0.1270194847136736,
+     "p95": 1.689866012334824
+    },
+    "gain_loss_db_narrowband_vs_ub": {
+     "mean": 1.0487541305522123,
+     "median": 0.8905573189258575,
+     "p5": 0.1718431189656258,
+     "p95": 2.4865934848785405
+    },
+    "gain_loss_db_random_vs_ub": {
+     "mean": 10.234144333302975,
+     "median": 10.77293586730957,
+     "p5": 1.8105762898921967,
+     "p95": 17.12489233016968
+    },
+    "adam_refine_gain_db_over_sumpower_cd": -0.0065730491943870786
+   },
+   "K64": {
+    "rate_per_subcarrier_opt": 12.983354568481445,
+    "rate_single_wideband_phase": 12.723740577697754,
+    "rate_narrowband_phase": 12.585907936096191,
+    "rate_random_phase": 9.615838050842285,
+    "rate_loss_pct_wideband_vs_ub": 1.9995927810668945,
+    "rate_loss_pct_narrowband_vs_ub": 3.061199188232422,
+    "rate_loss_pct_narrowband_vs_wideband": 1.0832726955413818,
+    "gain_loss_db_wideband_vs_ub": {
+     "mean": 0.7524488104507328,
+     "median": 0.6515189111232758,
+     "p5": 0.12722526267170906,
+     "p95": 1.6928871810436252
+    },
+    "gain_loss_db_narrowband_vs_ub": {
+     "mean": 1.049285869449377,
+     "median": 0.891042560338974,
+     "p5": 0.1717788673937321,
+     "p95": 2.4881883263587956
+    },
+    "gain_loss_db_random_vs_ub": {
+     "mean": 10.010915658672651,
+     "median": 10.45661449432373,
+     "p5": 1.6818719387054444,
+     "p95": 17.05283136367798
+    },
+    "adam_refine_gain_db_over_sumpower_cd": -0.006575326073063509
+   },
+   "seconds": 23.325650691986084
+  },
+  "B50MHz": {
+   "K16": {
+    "rate_per_subcarrier_opt": 13.00189208984375,
+    "rate_single_wideband_phase": 12.575455665588379,
+    "rate_narrowband_phase": 12.255369186401367,
+    "rate_random_phase": 9.47999382019043,
+    "rate_loss_pct_wideband_vs_ub": 3.2798051834106445,
+    "rate_loss_pct_narrowband_vs_ub": 5.741649627685547,
+    "rate_loss_pct_narrowband_vs_wideband": 2.5453269481658936,
+    "gain_loss_db_wideband_vs_ub": {
+     "mean": 1.2192123715827863,
+     "median": 1.1651621460914612,
+     "p5": 0.2463031865656376,
+     "p95": 2.583641636371613
+    },
+    "gain_loss_db_narrowband_vs_ub": {
+     "mean": 1.9520479389031729,
+     "median": 1.8163602948188782,
+     "p5": 0.40502585768699645,
+     "p95": 4.478836345672607
+    },
+    "gain_loss_db_random_vs_ub": {
+     "mean": 10.394291786452134,
+     "median": 11.004011154174805,
+     "p5": 1.7772234439849854,
+     "p95": 17.031671619415285
+    },
+    "adam_refine_gain_db_over_sumpower_cd": -0.009250200942430167
+   },
+   "K64": {
+    "rate_per_subcarrier_opt": 13.001775741577148,
+    "rate_single_wideband_phase": 12.574210166931152,
+    "rate_narrowband_phase": 12.255648612976074,
+    "rate_random_phase": 9.623588562011719,
+    "rate_loss_pct_wideband_vs_ub": 3.2885193824768066,
+    "rate_loss_pct_narrowband_vs_ub": 5.7386579513549805,
+    "rate_loss_pct_narrowband_vs_wideband": 2.5334537029266357,
+    "gain_loss_db_wideband_vs_ub": {
+     "mean": 1.221157312616706,
+     "median": 1.1655400395393372,
+     "p5": 0.24728673025965692,
+     "p95": 2.5930282115936283
+    },
+    "gain_loss_db_narrowband_vs_ub": {
+     "mean": 1.951795193652312,
+     "median": 1.8161125779151917,
+     "p5": 0.4049018755555153,
+     "p95": 4.465442371368408
+    },
+    "gain_loss_db_random_vs_ub": {
+     "mean": 10.001740391751131,
+     "median": 10.763735294342041,
+     "p5": 1.7635372281074524,
+     "p95": 15.675599241256714
+    },
+    "adam_refine_gain_db_over_sumpower_cd": -0.009256786847518498
+   },
+   "seconds": 23.374297380447388
+  },
+  "B100MHz": {
+   "K16": {
+    "rate_per_subcarrier_opt": 13.003243446350098,
+    "rate_single_wideband_phase": 12.467126846313477,
+    "rate_narrowband_phase": 12.07577133178711,
+    "rate_random_phase": 9.521943092346191,
+    "rate_loss_pct_wideband_vs_ub": 4.122942924499512,
+    "rate_loss_pct_narrowband_vs_ub": 7.132619857788086,
+    "rate_loss_pct_narrowband_vs_wideband": 3.1391024589538574,
+    "gain_loss_db_wideband_vs_ub": {
+     "mean": 1.513701780065894,
+     "median": 1.4677830338478088,
+     "p5": 0.32970541417598725,
+     "p95": 3.0658407092094424
+    },
+    "gain_loss_db_narrowband_vs_ub": {
+     "mean": 2.462407821118832,
+     "median": 2.2663016319274902,
+     "p5": 0.4839139744639397,
+     "p95": 5.190951728820801
+    },
+    "gain_loss_db_random_vs_ub": {
+     "mean": 10.244245376288891,
+     "median": 10.915713787078857,
+     "p5": 1.8406522274017334,
+     "p95": 16.683226490020754
+    },
+    "adam_refine_gain_db_over_sumpower_cd": -0.015944622878903556
+   },
+   "K64": {
+    "rate_per_subcarrier_opt": 13.003458976745605,
+    "rate_single_wideband_phase": 12.464908599853516,
+    "rate_narrowband_phase": 12.074594497680664,
+    "rate_random_phase": 9.561744689941406,
+    "rate_loss_pct_wideband_vs_ub": 4.141592979431152,
+    "rate_loss_pct_narrowband_vs_ub": 7.143211364746094,
+    "rate_loss_pct_narrowband_vs_wideband": 3.1313061714172363,
+    "gain_loss_db_wideband_vs_ub": {
+     "mean": 1.5169879967719317,
+     "median": 1.475667119026184,
+     "p5": 0.3320551231503487,
+     "p95": 3.078093242645264
+    },
+    "gain_loss_db_narrowband_vs_ub": {
+     "mean": 2.4601914457480114,
+     "median": 2.2680368423461914,
+     "p5": 0.48167752027511596,
+     "p95": 5.194004154205323
+    },
+    "gain_loss_db_random_vs_ub": {
+     "mean": 10.120750509301821,
+     "median": 10.935487270355225,
+     "p5": 1.807641714811325,
+     "p95": 15.679384660720826
+    },
+    "adam_refine_gain_db_over_sumpower_cd": -0.01582558603456901
+   },
+   "seconds": 55.37242865562439
+  },
+  "scenarios": 300,
+  "snr_scale": 250593616813.6357
+ }
+}

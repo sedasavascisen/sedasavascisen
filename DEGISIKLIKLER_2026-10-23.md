@@ -582,3 +582,14 @@ Denetim iddialari: `site_knn_beats_cnn_all_sites`, `site_cnn_beats_nn_lookup_all
 - Kullanici: AISY makalesinde duzeltme gerekmiyor. `aisy_paket/README_TR.md`'deki teknik
   bulgular kayitta duruyor; teze girecek CD/CNN karsilastirmasi MATLAB olcumuyle (adim 2–3) yapilacak.
 - Kismi CSI'da gruplu gozlem fikri denenmeyecek (kullanici karari).
+
+## 2026-11-09 (gece) — Geniş bant fizibilitesi (keşif, ön kayıtsız)
+
+- `ris_mu/mumiso/mobile.py`: `generate(..., freq_offsets_hz=None)` seçeneği; varsayılan bit düzeyinde aynı
+  (`scripts/wideband_bitidentity_check.py`, 13 anahtar, iki tohum, iki chunk).
+- `scripts/wideband_feasibility.py` → `results/wideband_feasibility.json`: kaskat gecikme yayılımı medyanı 21.3 ns;
+  tek faz vektörünün alt taşıyıcı başına optimuma göre kaybı 20 MHz'te 0.75 dB, 100 MHz'te 1.52 dB;
+  hüzme sapması 3 GHz/28 GHz parametrelerinde ihmal edilebilir; tek senaryoda adım maliyeti K_sub=64'te ~1.5 kat.
+- Hüküm: ayrı tez bölümü taşımaz; bir alt bölüm. Gönderilen makale "narrowband" sınırlılığını zaten yazıyor.
+- Denetim 111 / 126 (3 yeni `wideband_*`). Gönderilen makale PDF'i "123 assertions" diyor; bu, gönderim anındaki sayıdır.
+- `LITERATUR_GENIS_BANT.md`: 25 doğrulanmış künye (yalnızca özetler okundu).

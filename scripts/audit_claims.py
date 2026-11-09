@@ -656,6 +656,20 @@ else:
           int(_ak["K"]["20"]["cd_power_over_label_db_mean"] > 2.0),
           "CD receives >2 dB more power than the published label (label ignores h_d)")
 
+# ------------------------------------------- wideband feasibility (exploratory)
+section("saved results: wideband OFDM feasibility")
+_wb = _load("wideband_feasibility.json")
+_wi = _load("wideband_bitidentity_check.json")
+if _wb is None or _wi is None:
+    print("  [skip] wideband_feasibility.json / wideband_bitidentity_check.json missing")
+else:
+    claim("wideband_default_bit_identical", "8", "exact", 1, int(_wi["all_ok"]),
+          "wideband option off (and on at df=0) reproduces the published generator exactly")
+    claim("wideband_tau_rms_cascade_median_ns", "8", "statistical", 21.27,
+          _wb["delay_spread"]["users1"]["users"]["user0"]["tau_rms_ns_cascade_links"]["median"],
+          "RMS delay spread of the cascaded links, single user, 300 scenarios")
+    claim("wideband_timing_started_idle", "8", "exact", 1, int(_wb["cost"]["load_avg_1min_at_start"] < 0.5))
+
 # ---------------------------------------------------- standardised speeds
 # scripts/mumiso_standard_speeds.py: 3 km/h (3GPP TR 38.913), 10 km/h
 # (ITU-R M.2410 indoor mobility), 30 km/h (stress test), and the paper's 5.4.
