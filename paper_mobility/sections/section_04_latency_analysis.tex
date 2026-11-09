@@ -11,7 +11,7 @@ Let a method $A$ receive the channel $\mathcal{H}(0)=\{\mbf{F},\mbf{g}_k(0),\mbf
 \end{equation}
 with the precoder recomputed from $\mathcal{H}(\tau_A)$.
 
-The precoder is a closed-form computation that the BS repeats whenever it has fresh pilots; the RIS phase needs the iterative optimization whose latency we measure. Definition~1 therefore lets the phase age and keeps the beam fresh, the same split as in two-timescale designs~\cite{Zhao2021TWC}. Section~\ref{sec:res_beam} prices this assumption.
+The precoder is a closed-form computation that the BS repeats whenever it has fresh pilots; the RIS phase needs the iterative optimization whose latency we measure. Definition~1 therefore lets the phase age and keeps the beam fresh, a split similar to that of two-timescale designs~\cite{Zhao2021TWC}. Section~\ref{sec:res_beam} prices this assumption.
 
 \subsection{Why an Optimal Number of Steps Exists}
 For an iterative method run for $L$ steps, write $r_0(L)$ for its minimum rate at $t=0$, $\tau(L)$ for its latency, and $\Delta(L)=r_0(L)-\min_k R_k(\bs{\theta}_L;\mathcal{H}(\tau(L)))$ for the rate lost to aging during its own run time, so that $R^{\mathrm{eff}}(L)=r_0(L)-\Delta(L)$. Each step raises $r_0$ with diminishing returns, while $\Delta$ grows with $\tau$. A step pays off only while
@@ -19,22 +19,22 @@ For an iterative method run for $L$ steps, write $r_0(L)$ for its minimum rate a
     r_0(L+1)-r_0(L) \;>\; \Delta(L+1)-\Delta(L),
     \label{eq:marginal}
 \end{equation}
-and the effective rate peaks where this fails: the \emph{intrinsic optimum} $L^\star$. It depends on the optimizer, its per-step latency and the speed of the channel together. Whether $R^{\mathrm{eff}}$ is unimodal is an empirical question (Section~\ref{sec:res_optimum}).
+and the effective rate peaks where this fails: the \emph{intrinsic optimum} $L^\star$. It depends jointly on the optimizer, its per-step latency and the rate of channel variation. Whether $R^{\mathrm{eff}}$ is unimodal is an empirical question (Section~\ref{sec:res_optimum}).
 
 \subsection{Equal Steps versus Equal Milliseconds}
-If one learned step costs $c$ classical steps, an equal-step comparison gives the learned method $c$ times the budget. We therefore also compare at equal measured time.
+If one learned step costs as much time as $c$ classical steps, an equal-step comparison gives the learned method $c$ times the time budget. We therefore also compare at equal measured time.
 
 \textbf{Definition 2 (Dominance).} Configuration $B$ dominates $A$ if $\tau_B\le\tau_A$ and $r_{0,B}\ge r_{0,A}$, with one inequality strict.
 
-A dominated configuration is never the better choice, at any latency budget.
+A dominated configuration is never the better choice at any latency budget.
 
 \subsection{Normalized Step Cost and a Small-Delay Model}
-Channel variation depends on how far a user moves in wavelengths, $f_d\tau$. If an optimizer takes $\Delta T$ per step, its latency after $L$ steps in these units is $Lx$, with
+Channel variation depends on the distance a user moves in wavelengths, $f_d\tau$. If an optimizer takes $\Delta T$ per step, its latency after $L$ steps in these units is $Lx$, with
 \begin{equation}
     x = \Delta T\, f_d .
     \label{eq:x}
 \end{equation}
-In our model, scaling $\Delta T$ is exactly equivalent to scaling the speed $v$; other carriers are only approximately equivalent, since path loss and the array's size in wavelengths change.
+In our model, scaling $\Delta T$ is exactly equivalent to scaling the speed $v$; a change of carrier is only approximately equivalent, since the path loss and the array size in wavelengths change with it.
 
 Two approximate regularities, checked in Section~\ref{sec:res_scaling}, make~\eqref{eq:marginal} explicit. The convergence gap decays roughly as a power law,
 \begin{equation}
@@ -61,7 +61,7 @@ at which the aging loss equals $\gamma/2$ times the remaining convergence gap.
 
 \emph{Proof.} The derivative $\gamma D L^{-\gamma-1} - 2\kappa x^2 L$ is positive for small $L$, negative for large $L$, and vanishes only at $L^{\gamma+2}=\gamma D/(2\kappa x^2)$; the second derivative is negative. Substituting gives the balance. \hfill$\square$
 
-The optimum is thus a power law in $x$ with exponent in $(-1,0)$: a faster optimizer should run more steps, but less than proportionally more. The derivation assumes $xL^\star \ll 1$, which holds in our range ($xL^\star\le 0.16$). With fitted constants, \eqref{eq:Lstar} describes the measurements rather than predicting them independently; its value lies in explaining why the optimum shifts as it does.
+The optimum is thus a power law in $x$ with exponent in $(-1,0)$: a faster optimizer should run more steps, but less than proportionally more. The derivation assumes $xL^\star \ll 1$, which holds over our range ($xL^\star\le 0.16$). With fitted constants, \eqref{eq:Lstar} describes the measurements rather than predicting them independently; its value lies in explaining how the optimum shifts.
 
 \subsection{Periodic Re-optimization}
 A deployed controller repeats the optimization with period $U$: it spends $T_{\mathrm{p}}$ on pilots, without data, then $L\Delta T$ on optimization, deploys the result and waits ($U \ge T_{\mathrm{p}}+L\Delta T$; \emph{back-to-back} means equality).

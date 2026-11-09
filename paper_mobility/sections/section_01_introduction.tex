@@ -1,17 +1,17 @@
 \section{Introduction}
 \label{sec:intro}
 
-\IEEEPARstart{A}{} reconfigurable intelligent surface (RIS) can turn a blocked corner of a building into a covered one~\cite{Basar2019Access,Wu2019TWC,DiRenzo2020JSAC,Wu2021TCOM}, and prototypes have shown that it works~\cite{Dai2020Access,Pei2021TCOM}. But it works only if its passive elements steer the signal towards where the user \emph{is}, not towards where the user \emph{was}. Choosing those phases is a hard, non-convex problem, attacked with iterative solvers~\cite{Wu2019TWC,Abeywickrama2020TCOM,Pan2020TWC,Guo2020TWC,Choi2024TCOM} and, increasingly, with learned policies~\cite{Huang2020JSAC}. Almost without exception, these methods are compared by the rate they reach on the channel they were given.
+\IEEEPARstart{A}{} reconfigurable intelligent surface (RIS) can turn a blocked corner of a building into a covered one~\cite{Basar2019Access,Wu2019TWC,DiRenzo2020JSAC,Wu2021TCOM}, and prototypes have shown that it works~\cite{Dai2020Access,Pei2021TCOM}. But it works only if its passive elements steer the signal towards where the user \emph{is}, not towards where the user \emph{was}. Choosing those phases is a hard, non-convex problem, attacked with iterative solvers~\cite{Wu2019TWC,Abeywickrama2020TCOM,Pan2020TWC,Guo2020TWC,Choi2024TCOM} and, increasingly, with learned policies~\cite{Huang2020JSAC}. These methods are usually compared by the rate they reach on the channel they were given.
 
 That comparison hides a race. A person walking through an office changes the radio channel within tens of milliseconds; a careful solver may need seconds. By the time the best answer is ready, the question has changed. A rough phase delivered on time can then beat an excellent phase delivered late, and running more iterations can make the result worse, not better.
 
-This paper measures that race. We evaluate every method on the channel that exists when it finishes, its \emph{effective rate}, with latencies measured on a real processor, in the 3GPP indoor-office scenario with walking users~\cite{3gpp_channel}. The question is the one a base station (BS) faces: once time is counted, which method should it run, and for how long?
+This paper measures that race. We evaluate every method on the channel that exists when it finishes, its \emph{effective rate}, with latencies measured on a CPU, in the 3GPP indoor-office scenario with walking users~\cite{3gpp_channel}. The question is the one a base station (BS) faces: once time is counted, which method should it run, and for how long?
 
 \subsection{Contributions}
 \begin{enumerate}
     \item \textbf{A latency-aware criterion.} We define the effective rate (Section~\ref{sec:framework}) and show that under it the solvers with the best rate on paper lose to a single-user heuristic that takes milliseconds, for pedestrian users at the measured step cost.
     \item \textbf{An optimal number of iterations.} More iterations help only up to a point. The best number of steps is set by a single quantity, the time per step relative to the Doppler frequency, and a small-delay model explains how it scales. The optimum persists for a second classical optimizer, a larger surface and every standardized indoor user speed.
     \item \textbf{Periodic operation.} When the BS re-optimizes continuously, the pilot overhead decides how often to update, and each update should still be short.
-    \item \textbf{Learning on the clock.} A learned update rule that beats a tuned classical optimizer step for step, loses to it millisecond for millisecond.
-    \item \textbf{The price of the main assumption.} All results assume that the BS refreshes its precoder from the current channel; we measure what this assumption is worth.
+    \item \textbf{Learning on the clock.} A learned update rule that beats a tuned classical optimizer step for step loses to it millisecond for millisecond.
+    \item \textbf{The price of the main assumption.} All results assume that the BS refreshes its precoder from the current channel; we quantify how much the results depend on it.
 \end{enumerate}
