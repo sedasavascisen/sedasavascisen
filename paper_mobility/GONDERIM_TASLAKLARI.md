@@ -98,7 +98,7 @@ bırakın.*
 | E-postalar | sedasavascisen@duzce.edu.tr; alicalhan@gmail.com; murtazacicioglu@uludag.edu.tr |
 | ORCID | Seda Savaşçı Şen: 0000-0001-8569-6454 · Ali Çalhan: 0000-0002-5798-3103 · Murtaza Cicioğlu: 0000-0002-5657-7402 |
 | Sayfa sayısı | 9 (çift sütun) |
-| Dosyalar | PDF (IEEE PDF eXpress uyumlu), LaTeX kaynağı (zip), şekiller |
+| Dosyalar | İlk gönderimde PDF yeterli (fontlar gömülü, kontrol edildi). LaTeX kaynağı ve şekiller kabulden sonra istenir. IEEE PDF eXpress ilk gönderimde gerekmez. |
 | Kod/veri | https://github.com/sedasavascisen/ris-latency-mobility |
 | Fon | Yok |
 | Çıkar çatışması | Yok |
