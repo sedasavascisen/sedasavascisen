@@ -3,11 +3,11 @@
 
 We asked which RIS phase optimizer a base station should run when users move, and for how long. Counting the time each method needs, we find the following.
 \begin{enumerate}
-    \item \textbf{Speed beats precision.} Coordinate descent and long-run Adam need 0.9--5.9~s and lose to a 2.5~ms single-user heuristic, even with a tuned number of coordinate sweeps; without acquisition delay, this holds at every speed from 3 to 30~km/h (with optimistic values for the slow solvers).
-    \item \textbf{A few steps are optimal.} At 1.5~m/s Adam's effective rate peaks at 4--6 steps; running it to 48 steps costs 14.0\%. The optimum falls to 3 steps at 10~km/h, the upper end of the IMT-2020 pedestrian class.
+    \item \textbf{Speed beats precision.} The solvers with the best rate on paper lose to a single-user heuristic that takes milliseconds, even with a tuned number of coordinate sweeps; without acquisition delay, this holds at every speed from 3 to 30~km/h (with optimistic values for the slow solvers).
+    \item \textbf{A few steps are optimal.} Adam's effective rate peaks after a handful of steps and falls with further iterations; the optimum moves from 8 steps at 3~km/h to 3 at 10~km/h, the upper end of the IMT-2020 pedestrian class.
     \item \textbf{One number sets the optimum.} The best step count is governed by the step time relative to the Doppler frequency, $x=\Delta T f_d$, and scales approximately as $x^{-2/(\gamma+2)}$ (measured exponent $-0.675$); with a hundredfold faster implementation, convergence becomes nearly free.
     \item \textbf{Pilots set the update period.} In continuous operation the pilot overhead decides how often to update; each update should still be short.
-    \item \textbf{Learning must win on the clock.} A learned update rule that wins at equal steps (static set, one CPU thread) is dominated by faster classical steps once latency is measured.
+    \item \textbf{Learning must win on the clock.} Winning at equal steps is not enough: the learned update rule (static set, one CPU thread) is dominated once each step is charged its measured time.
 \end{enumerate}
 In the regime quantified here, latency is therefore not a secondary metric for mobile RIS: it decides which method is best.
 
