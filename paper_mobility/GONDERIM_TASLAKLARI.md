@@ -96,7 +96,7 @@ bırakın.*
 | Anahtar kelimeler | Reconfigurable intelligent surface; mobility; computation latency; effective rate; channel aging; deep unfolding; multi-user MISO |
 | Yazarlar ve sıra | Seda Savaşçı Şen (sorumlu), Ali Çalhan, Murtaza Cicioğlu |
 | E-postalar | sedasavascisen@duzce.edu.tr; alicalhan@gmail.com; murtazacicioglu@uludag.edu.tr |
-| ORCID | [üç yazar için] |
+| ORCID | Seda Savaşçı Şen: [eksik] · Ali Çalhan: 0000-0002-5798-3103 · Murtaza Cicioğlu: 0000-0002-5657-7402 |
 | Sayfa sayısı | 9 (çift sütun) |
 | Dosyalar | PDF (IEEE PDF eXpress uyumlu), LaTeX kaynağı (zip), şekiller |
 | Kod/veri | https://github.com/sedasavascisen/ris-latency-mobility |
