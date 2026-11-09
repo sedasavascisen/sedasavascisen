@@ -32,6 +32,9 @@ Reconfigurable Intelligent Surfaces Serving Mobile Users"*.
   depoda yer alacak.
 - CNN–LSTM bölümünü makaleden çıkarıp teze taşıdım. Böylece makale
   yalnızca gecikme çerçevesine odaklanıyor.
+- Göndermeden önce makaleyi dört kez editör gözüyle satır satır okuttum,
+  48 kaynağın her birini orijinal metinle tek tek doğruladım ve TWC'nin
+  güncel yazar kurallarına göre kontrol listesinden geçirdim.
 - Uygun görürseniz bu hafta göndermeyi planlıyorum.
 
 **4. Öğrenme ekseni (titiz olumsuz sonuç).** Öğrenilen yöntemleri,
