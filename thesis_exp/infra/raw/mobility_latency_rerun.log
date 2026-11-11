@@ -1,0 +1,20 @@
+round 1/5: su_average 0.53  su_best_of 1.48  adam1 1.51  adam2 3.32  adam4 6.58  adam8 10.06  adam16 21.28  adam32 42.63  adam48 62.51  cd 702.97  pga 5050.67
+round 2/5: su_average 0.32  su_best_of 1.77  adam1 1.30  adam2 2.56  adam4 5.55  adam8 11.63  adam16 22.09  adam32 41.91  adam48 63.40  cd 636.55  pga 4891.62
+round 3/5: su_average 0.28  su_best_of 1.91  adam1 1.33  adam2 2.74  adam4 5.50  adam8 8.59  adam16 21.45  adam32 42.42  adam48 94.54  cd 758.84  pga 4950.35
+round 4/5: su_average 0.30  su_best_of 1.26  adam1 1.28  adam2 2.57  adam4 5.04  adam8 10.63  adam16 19.70  adam32 40.86  adam48 65.80  cd 660.85  pga 4931.30
+round 5/5: su_average 0.30  su_best_of 1.63  adam1 1.52  adam2 3.20  adam4 6.25  adam8 10.86  adam16 20.24  adam32 43.21  adam48 63.91  cd 714.04  pga 5148.77
+
+CPU Intel(R) Xeon(R) Processor @ 2.10GHz; load 0.45 -> 0.88 (per round [0.45, 0.61, 0.69, 0.78, 0.83])
+ su_average median      0.297 ms   spread 1.90x
+ su_best_of median      1.629 ms   spread 1.51x
+      adam1 median      1.326 ms   spread 1.18x
+      adam2 median      2.740 ms   spread 1.30x
+      adam4 median      5.546 ms   spread 1.31x
+      adam8 median     10.633 ms   spread 1.35x
+     adam16 median     21.285 ms   spread 1.12x
+     adam32 median     42.419 ms   spread 1.06x
+     adam48 median     63.908 ms   spread 1.51x
+         cd median    702.966 ms   spread 1.19x
+        pga median   4950.350 ms   spread 1.05x
+per step: L1:1.33, L2:1.37, L4:1.39, L8:1.33, L16:1.33, L32:1.33, L48:1.33;  least-squares slope 1.328 ms/step
+wrote results/mumiso_mobility_latency_rerun.json
