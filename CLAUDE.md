@@ -146,6 +146,21 @@ Ayrıntılı görev tanımları ve kabul ölçütleri: `CLAUDE_CODE_PROMPT.md`.
 
 ---
 
+## Denetim ve tez deneyi kuralları (kullanıcı, 11 Kasım 2026) — eskilerden önce gelir
+
+1. Hiçbir sayı uydurulmaz, tahmin edilmez, makaledeki değere "yaklaştırılmaz". Yeniden üretilemeyen her sonuç **"ÜRETİLEMEDİ"** olarak, nedeniyle raporlanır.
+2. Makale metinlerine, yayımlanmış tablo/şekil dosyalarına ve mevcut sonuç dosyalarına (`results/`, `paper_mobility/`) dokunulmaz. **Yeni çıktılar yalnızca `audit/` ve `thesis_exp/` altına** yazılır (yukarıdaki "betiği scripts/'e, sonucu results/'a" talimatının yerini alır).
+3. Her sayı bir betiğe ve bir ham çıktı dosyasına bağlanır (yol + commit + tohum).
+4. Tohumlar sabit ve kayıtlı. Karşılaştırmalar eşli bootstrap (2000 yeniden örnekleme, %95 GA).
+5. Zamanlama: tek iş parçacığı, aynı makine, medyan + tur-arası yayılım; ölçüm öncesi/sonrası yük ortalaması kaydedilir.
+6. Ayrı dal: `audit/...` veya `thesis/...`; main'e commit/push yok.
+7. 30 dakikadan uzun eğitim/taramadan önce süre tahminiyle dur, onay iste.
+8. MATLAB yok: MATLAB betiğini çalıştırmış gibi yapma; Python aktarımı onayla yapılır ve varsa kayıtlı `.mat` çıktısıyla küçük örnekte doğrulanır.
+9. Tez veya makale metni yazılmaz; çıktı kod, ham veri, tablo ve teknik rapordur.
+10. Makaledeki iddiayla çelişen bulgu yumuşatılmaz; raporun en üstüne yazılır.
+
+---
+
 ## Dosya haritası
 
 | Dosya | Ne |
