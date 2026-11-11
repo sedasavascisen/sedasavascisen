@@ -28,3 +28,57 @@ cnnlstm_N32_s0_perm ep 27 loss 0.01358 val 4.60 (12s)
 cnnlstm_N32_s0_perm ep 28 loss 0.01343 val 4.61 (13s)
 cnnlstm_N32_s0_perm ep 29 loss 0.01324 val 4.79 (13s)
 cnnlstm_N32_s0_perm ep 30 loss 0.01333 val 5.96 (13s)
+cnnlstm_N32_s0_perm ep 31 loss 0.01285 val 4.13 (14s)
+cnnlstm_N32_s0_perm ep 32 loss 0.01287 val 3.72 (13s)
+cnnlstm_N32_s0_perm ep 33 loss 0.01328 val 3.74 (13s)
+cnnlstm_N32_s0_perm ep 34 loss 0.01280 val 3.50 (12s)
+cnnlstm_N32_s0_perm ep 35 loss 0.01297 val 3.69 (12s)
+cnnlstm_N32_s0_perm ep 36 loss 0.01271 val 3.82 (12s)
+cnnlstm_N32_s0_perm ep 37 loss 0.01263 val 3.96 (12s)
+cnnlstm_N32_s0_perm ep 38 loss 0.01282 val 3.62 (12s)
+cnnlstm_N32_s0_perm ep 39 loss 0.01292 val 3.69 (12s)
+cnnlstm_N32_s0_perm ep 40 loss 0.01265 val 3.50 (12s)
+cnnlstm_N32_s0_perm ep 41 loss 0.01288 val 3.41 (12s)
+cnnlstm_N32_s0_perm ep 42 loss 0.01275 val 3.66 (13s)
+cnnlstm_N32_s0_perm ep 43 loss 0.01261 val 4.08 (13s)
+cnnlstm_N32_s0_perm ep 44 loss 0.01256 val 3.37 (13s)
+cnnlstm_N32_s0_perm ep 45 loss 0.01281 val 3.79 (13s)
+cnnlstm_N32_s0_perm ep 46 loss 0.01236 val 3.42 (12s)
+cnnlstm_N32_s0_perm ep 47 loss 0.01233 val 3.47 (12s)
+cnnlstm_N32_s0_perm ep 48 loss 0.01245 val 3.44 (12s)
+cnnlstm_N32_s0_perm ep 49 loss 0.01270 val 3.61 (12s)
+cnnlstm_N32_s0_perm ep 50 loss 0.01238 val 3.23 (13s)
+{
+ "tag": "cnnlstm_N32_s0_perm",
+ "config": {
+  "arch": "cnnlstm",
+  "n": 40000,
+  "N": 32,
+  "data_seed": 42,
+  "seed": 0,
+  "epochs": 50,
+  "threads": 2,
+  "permute": true,
+  "hidden_scale": "none",
+  "tag": ""
+ },
+ "params": 162562,
+ "commit": "0eef304eb887e4cc79da27d22d319ddf2b6e0139",
+ "data": "audit/raw/data/m1_N32_n40000_seed42.npz",
+ "n_train": 28000,
+ "n_val": 6000,
+ "n_test": 6000,
+ "test_rmse_deg": 3.396132230758667,
+ "sr": {
+  "SR@1": 0.3776979166666667,
+  "SR@3": 0.8280260416666667,
+  "SR@5": 0.9452604166666667,
+  "SR@10": 0.99015625
+ },
+ "err_deg_p95": 5.198801040649414,
+ "power_vs_label_db": {
+  "mean": -0.006885422278372597,
+  "median": -0.0059961173288562
+ },
+ "train_minutes": 11.393828467528026
+}

@@ -33,3 +33,52 @@ cnnlstm_N32_s0 ep 32 loss 0.01294 val 3.52 (12s)
 cnnlstm_N32_s0 ep 33 loss 0.01326 val 3.72 (12s)
 cnnlstm_N32_s0 ep 34 loss 0.01281 val 3.54 (13s)
 cnnlstm_N32_s0 ep 35 loss 0.01292 val 3.76 (13s)
+cnnlstm_N32_s0 ep 36 loss 0.01273 val 3.65 (14s)
+cnnlstm_N32_s0 ep 37 loss 0.01267 val 3.70 (13s)
+cnnlstm_N32_s0 ep 38 loss 0.01285 val 3.52 (12s)
+cnnlstm_N32_s0 ep 39 loss 0.01289 val 3.72 (12s)
+cnnlstm_N32_s0 ep 40 loss 0.01272 val 3.52 (12s)
+cnnlstm_N32_s0 ep 41 loss 0.01288 val 3.47 (12s)
+cnnlstm_N32_s0 ep 42 loss 0.01276 val 3.69 (12s)
+cnnlstm_N32_s0 ep 43 loss 0.01261 val 3.98 (12s)
+cnnlstm_N32_s0 ep 44 loss 0.01254 val 3.35 (12s)
+cnnlstm_N32_s0 ep 45 loss 0.01282 val 3.81 (13s)
+cnnlstm_N32_s0 ep 46 loss 0.01235 val 3.53 (13s)
+cnnlstm_N32_s0 ep 47 loss 0.01234 val 3.37 (14s)
+cnnlstm_N32_s0 ep 48 loss 0.01246 val 3.42 (13s)
+cnnlstm_N32_s0 ep 49 loss 0.01271 val 3.41 (13s)
+cnnlstm_N32_s0 ep 50 loss 0.01239 val 3.21 (13s)
+{
+ "tag": "cnnlstm_N32_s0",
+ "config": {
+  "arch": "cnnlstm",
+  "n": 40000,
+  "N": 32,
+  "data_seed": 42,
+  "seed": 0,
+  "epochs": 50,
+  "threads": 2,
+  "permute": false,
+  "hidden_scale": "none",
+  "tag": ""
+ },
+ "params": 162562,
+ "commit": "0eef304eb887e4cc79da27d22d319ddf2b6e0139",
+ "data": "audit/raw/data/m1_N32_n40000_seed42.npz",
+ "n_train": 28000,
+ "n_val": 6000,
+ "n_test": 6000,
+ "test_rmse_deg": 3.177320718765259,
+ "sr": {
+  "SR@1": 0.37716666666666665,
+  "SR@3": 0.8310052083333334,
+  "SR@5": 0.9481979166666666,
+  "SR@10": 0.9911822916666667
+ },
+ "err_deg_p95": 5.0698370933532715,
+ "power_vs_label_db": {
+  "mean": -0.007303163002764885,
+  "median": -0.006342906009512303
+ },
+ "train_minutes": 11.438247855504354
+}

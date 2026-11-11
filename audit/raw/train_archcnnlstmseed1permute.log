@@ -1,0 +1,2 @@
+cnnlstm_N32_s1_perm ep  1 loss 0.24981 val 26.43 (13s)
+cnnlstm_N32_s1_perm ep  2 loss 0.05879 val 18.41 (13s)
