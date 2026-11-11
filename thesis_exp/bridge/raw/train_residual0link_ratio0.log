@@ -1,0 +1,31 @@
+    epoch   1/12  loss  -3.9091  val min  4.0184  sum   18.727  (17.8s)  *
+    epoch   2/12  loss  -3.8941  val min  4.0288  sum   18.753  (16.9s)  *
+    epoch   3/12  loss  -3.9296  val min  4.0423  sum   18.814  (16.8s)  *
+    epoch   4/12  loss  -3.9212  val min  3.9655  sum   18.572  (16.5s)
+    epoch   5/12  loss  -3.9121  val min  3.9658  sum   18.572  (17.7s)
+    epoch   6/12  loss  -3.9138  val min  3.9663  sum   18.572  (16.6s)
+    epoch   7/12  loss  -3.9085  val min  3.9664  sum   18.572  (16.9s)
+    epoch   8/12  loss  -3.9066  val min  3.9662  sum   18.572  (17.0s)
+    epoch   9/12  loss  -3.9141  val min  3.9662  sum   18.572  (17.0s)
+    epoch  10/12  loss  -3.9088  val min  3.9661  sum   18.572  (17.4s)
+    epoch  11/12  loss  -3.9100  val min  3.9662  sum   18.572  (17.5s)
+    epoch  12/12  loss  -3.9172  val min  3.9662  sum   18.572  (17.2s)
+{
+ "tag": "net_res0_lr0_s0",
+ "config": {
+  "residual": 0,
+  "link_ratio": 0,
+  "seed": 0,
+  "epochs": 12,
+  "samples": 6000,
+  "data_seed": 2027,
+  "static_paper": false,
+  "threads": 1
+ },
+ "commit": "349d253cbd21685437b61ed845fe84e3a6c93d22",
+ "params": 272066,
+ "val_min": 4.042269558376736,
+ "test_min": 4.002029215494792,
+ "val_su_average": 4.270852088928223,
+ "train_minutes": 3.4727287610371906
+}
