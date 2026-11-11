@@ -1,0 +1,1470 @@
+{
+ "meta": {
+  "date": "2026-11-11",
+  "method": "pdftotext -layout ile kaynakça birebir aktarıldı (ilk denetimin basılı alanlarıyla karşılaştırıldı; yalnızca tire normalizasyonu farkı). 54 basılı DOI: doi.org/api/handles + api.crossref.org/works (+ doi.org HTTP kontrolü). Wiley'nin Crossref'e yatırdığı 64 kaynaklık liste (api.crossref.org/works/10.1002/aisy.70460) karşılaştırıldı. İlk denetimin önerdiği tüm doğru DOI'ler yeniden çözümlendi. 8 'bulunamayan' kaynak: Crossref (başlık, yazar+ISSN+yıl, cilt/sayfa konum taraması), arXiv API, Semantic Scholar (search/match), OpenAlex (429 — sonuç alınamadı).",
+  "summary": {
+   "printed_dois": 54,
+   "registered": 24,
+   "not_registered": 30,
+   "registered_but_points_to_other_work": [
+    31,
+    33,
+    43
+   ],
+   "unverifiable_8_rechecked": {
+    "bulundu": [
+     29
+    ],
+    "bulunamadı": [
+     15,
+     33,
+     37,
+     41,
+     43,
+     44,
+     59
+    ]
+   },
+   "disagreements_with_first_audit": [
+    29
+   ],
+   "nuances": {
+    "33": "yazar grubu/dergi/cilt gerçek; başlık uydurulmuş/bozuk",
+    "43": "yazar dizisi DCN cell-free survey ile aynı",
+    "11": "ISBN doğrulandı"
+   }
+  }
+ },
+ "references": [
+  {
+   "n": 1,
+   "printed": "M. Di Renzo, A. Zappone, M. Debbah, et al., “Smart Radio Environments Empowered by Reconfigurable Intelligent Surfaces: How Much Does Intelligence Cost?,” IEEE Journal on Selected Areas in Communications 38 (2020): 2450, https://doi.org/10.1109/JSAC.2020.3007211.",
+   "printed_doi": "10.1109/JSAC.2020.3007211",
+   "doi_registered": true,
+   "doi_points_to": "Smart Radio Environments Empowered by Reconfigurable Intelligent Surfaces: How It Works, State of Research, and The Road Ahead — Marco Di Renzo, Alessio Zappone, Merouane Debbah, Mohamed-Slim Alouini et al.; IEEE Journal on Selected Areas in Communications 38(11) 2450-2525 (2020); doi:10.1109/JSAC.2020.3007211",
+   "found_record": {
+    "doi": "10.1109/jsac.2020.3007211",
+    "title": "Smart Radio Environments Empowered by Reconfigurable Intelligent Surfaces: How It Works, State of Research, and The Road Ahead",
+    "authors": [
+     "Marco Di Renzo",
+     "Alessio Zappone",
+     "Merouane Debbah",
+     "Mohamed-Slim Alouini",
+     "Chau Yuen",
+     "Julien de Rosny",
+     "Sergei Tretyakov"
+    ],
+    "venue": "IEEE Journal on Selected Areas in Communications",
+    "volume": "38",
+    "issue": "11",
+    "pages": "2450-2525",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "Başlık yanlış — DOĞRULANDI. DOI kayıtlı ve doğru esere gidiyor; Crossref başlığı '...: How It Works, State of Research, and The Road Ahead' (JSAC 38(11) 2450–2525). 'How Much Does Intelligence Cost?' alt başlığı bu makalede yok."
+  },
+  {
+   "n": 2,
+   "printed": "E. Basar, M. Di Renzo, J. De Rosny, M. Debbah, M.-S. Alouini, and R. Zhang, “Wireless Communications Through Reconfigurable Intelligent Surfaces,” IEEE Access 7 (2019): 116753, https://doi.org/10.1109/ACCESS.2019.2935192.",
+   "printed_doi": "10.1109/ACCESS.2019.2935192",
+   "doi_registered": true,
+   "doi_points_to": "Wireless Communications Through Reconfigurable Intelligent Surfaces — Ertugrul Basar, Marco Di Renzo, Julien De Rosny, Merouane Debbah et al.; IEEE Access 7 116753-116773 (2019); doi:10.1109/ACCESS.2019.2935192",
+   "found_record": {
+    "doi": "10.1109/access.2019.2935192",
+    "title": "Wireless Communications Through Reconfigurable Intelligent Surfaces",
+    "authors": [
+     "Ertugrul Basar",
+     "Marco Di Renzo",
+     "Julien De Rosny",
+     "Merouane Debbah",
+     "Mohamed-Slim Alouini",
+     "Rui Zhang"
+    ],
+    "venue": "IEEE Access",
+    "volume": "7",
+    "issue": null,
+    "pages": "116753-116773",
+    "year": 2019
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 3,
+   "printed": "Q. Wu and R. Zhang, “Intelligent Reflecting Surface Enhanced Wireless Network via Joint Active and Passive Beamforming,” EEE Transactions on Wireless Communications 18 (2019): 5394, https://doi.org/10.1109/TWC.2019.2912559.",
+   "printed_doi": "10.1109/TWC.2019.2912559",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/twc.2019.2936025",
+    "title": "Intelligent Reflecting Surface Enhanced Wireless Network via Joint Active and Passive Beamforming",
+    "authors": [
+     "Qingqing Wu",
+     "Rui Zhang"
+    ],
+    "venue": "IEEE Transactions on Wireless Communications",
+    "volume": "18",
+    "issue": "11",
+    "pages": "5394-5409",
+    "year": 2019
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): Dergi adında yazım hatası: 'EEE' → 'IEEE'. DOI kayıtlı değil (doi.org: handle yok); doğru DOI 10.1109/TWC.2019.2936025. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 4,
+   "printed": "M. A. ElMossallamy, H. Zhang, L. Song, K. G. Seddik, Z. Han, and G. Y. Li, “Reconfigurable Intelligent Surfaces for Wireless Communications: Principles, Challenges, and Opportunities,” IEEE Transactions on Cognitive Communications and Networking 6 (2020): 990, https://doi.org/10.1109/TCCN.2020.2990249.",
+   "printed_doi": "10.1109/TCCN.2020.2990249",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/tccn.2020.2992604",
+    "title": "Reconfigurable Intelligent Surfaces for Wireless Communications: Principles, Challenges, and Opportunities",
+    "authors": [
+     "Mohamed A. ElMossallamy",
+     "Hongliang Zhang",
+     "Lingyang Song",
+     "Karim G. Seddik",
+     "Zhu Han",
+     "Geoffrey Ye Li"
+    ],
+    "venue": "IEEE Transactions on Cognitive Communications and Networking",
+    "volume": "6",
+    "issue": "3",
+    "pages": "990-1002",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): DOI kayıtlı değil; doğru DOI 10.1109/TCCN.2020.2992604. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 5,
+   "printed": "Y. Liu, X. Liu, X. Mu, et al., “Reconfigurable Intelligent Surfaces: Principles and Opportunities,” IEEE Communications Surveys & Tutorials 23 (2021): 1546, https://doi.org/10.1109/COMST.2021.3077737.",
+   "printed_doi": "10.1109/COMST.2021.3077737",
+   "doi_registered": true,
+   "doi_points_to": "Reconfigurable Intelligent Surfaces: Principles and Opportunities — Yuanwei Liu, Xiao Liu, Xidong Mu, Tianwei Hou et al.; IEEE Communications Surveys & Tutorials 23(3) 1546-1577 (2021); doi:10.1109/COMST.2021.3077737",
+   "found_record": {
+    "doi": "10.1109/comst.2021.3077737",
+    "title": "Reconfigurable Intelligent Surfaces: Principles and Opportunities",
+    "authors": [
+     "Yuanwei Liu",
+     "Xiao Liu",
+     "Xidong Mu",
+     "Tianwei Hou",
+     "Jiaqi Xu",
+     "Marco Di Renzo",
+     "Naofal Al-Dhahir"
+    ],
+    "venue": "IEEE Communications Surveys & Tutorials",
+    "volume": "23",
+    "issue": "3",
+    "pages": "1546-1577",
+    "year": 2021
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 6,
+   "printed": "M. Z. Chowdhury, M. Shahjalal, S. Ahmed, and Y. M. Jang, “6G Wireless Communication Systems: Applications, Requirements, Technologies, Challenges, and Research Directions,” IEEE Open Journal of the Communications Society 1 (2020): 957, https://doi.org/10.1109/OJCOMS.2020.3010270.",
+   "printed_doi": "10.1109/OJCOMS.2020.3010270",
+   "doi_registered": true,
+   "doi_points_to": "6G Wireless Communication Systems: Applications, Requirements, Technologies, Challenges, and Research Directions — Mostafa Zaman Chowdhury, Md. Shahjalal, Shakil Ahmed, Yeong Min Jang; IEEE Open Journal of the Communications Society 1 957-975 (2020); doi:10.1109/OJCOMS.2020.3010270",
+   "found_record": {
+    "doi": "10.1109/ojcoms.2020.3010270",
+    "title": "6G Wireless Communication Systems: Applications, Requirements, Technologies, Challenges, and Research Directions",
+    "authors": [
+     "Mostafa Zaman Chowdhury",
+     "Md. Shahjalal",
+     "Shakil Ahmed",
+     "Yeong Min Jang"
+    ],
+    "venue": "IEEE Open Journal of the Communications Society",
+    "volume": "1",
+    "issue": null,
+    "pages": "957-975",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 7,
+   "printed": "W. Jiang, B. Han, M. A. Habibi, and H. D. Schotten, “The Road Towards 6G: A Comprehensive Survey,” IEEE Open Journal of the Communications Society 2 (2021): 334, https://doi.org/10.1109/OJCOMS.2021.3057679.",
+   "printed_doi": "10.1109/OJCOMS.2021.3057679",
+   "doi_registered": true,
+   "doi_points_to": "The Road Towards 6G: A Comprehensive Survey — Wei Jiang, Bin Han, Mohammad Asif Habibi, Hans Dieter Schotten; IEEE Open Journal of the Communications Society 2 334-366 (2021); doi:10.1109/OJCOMS.2021.3057679",
+   "found_record": {
+    "doi": "10.1109/ojcoms.2021.3057679",
+    "title": "The Road Towards 6G: A Comprehensive Survey",
+    "authors": [
+     "Wei Jiang",
+     "Bin Han",
+     "Mohammad Asif Habibi",
+     "Hans Dieter Schotten"
+    ],
+    "venue": "IEEE Open Journal of the Communications Society",
+    "volume": "2",
+    "issue": null,
+    "pages": "334-366",
+    "year": 2021
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 8,
+   "printed": "C. Pan, H. Ren, K. Wang, et al., “Reconfigurable Intelligent Surfaces for 6G Systems: Principles, Applications, and Research Directions,” IEEE Communications Magazine 59 (2021): 14, https://doi.org/10.1109/MCOM.001.2000308.",
+   "printed_doi": "10.1109/MCOM.001.2000308",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/mcom.001.2001076",
+    "title": "Reconfigurable Intelligent Surfaces for 6G Systems: Principles, Applications, and Research Directions",
+    "authors": [
+     "Cunhua Pan",
+     "Hong Ren",
+     "Kezhi Wang",
+     "Jonas Florentin Kolb",
+     "Maged Elkashlan",
+     "Ming Chen",
+     "Marco Di Renzo",
+     "Yang Hao",
+     "Jiangzhou Wang",
+     "A. Lee Swindlehurst",
+     "Xiaohu You",
+     "Lajos Hanzo"
+    ],
+    "venue": "IEEE Communications Magazine",
+    "volume": "59",
+    "issue": "6",
+    "pages": "14-20",
+    "year": 2021
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): DOI kayıtlı değil; doğru DOI 10.1109/MCOM.001.2001076. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 9,
+   "printed": "C. Huang, S. Hu, G. C. Alexandropoulos, et al., “Holographic MIMO Surfaces for 6G Wireless Networks: Opportunities, Challenges, and Trends,” IEEE Wireless Communications 27 (2020): 118, https://doi.org/10.1109/MWC.001.1900534.",
+   "printed_doi": "10.1109/MWC.001.1900534",
+   "doi_registered": true,
+   "doi_points_to": "Holographic MIMO Surfaces for 6G Wireless Networks: Opportunities, Challenges, and Trends — Chongwen Huang, Sha Hu, George C. Alexandropoulos, Alessio Zappone et al.; IEEE Wireless Communications 27(5) 118-125 (2020); doi:10.1109/MWC.001.1900534",
+   "found_record": {
+    "doi": "10.1109/mwc.001.1900534",
+    "title": "Holographic MIMO Surfaces for 6G Wireless Networks: Opportunities, Challenges, and Trends",
+    "authors": [
+     "Chongwen Huang",
+     "Sha Hu",
+     "George C. Alexandropoulos",
+     "Alessio Zappone",
+     "Chau Yuen",
+     "Rui Zhang",
+     "Marco Di Renzo",
+     "Merouane Debbah"
+    ],
+    "venue": "IEEE Wireless Communications",
+    "volume": "27",
+    "issue": "5",
+    "pages": "118-125",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 10,
+   "printed": "Q. Wu and R. Zhang, “Towards Smart and Reconfigurable Environment: Intelligent Reflecting Surface Aided Wireless Network,” IEEE Communications Magazine 58 (2020): 106, https://doi.org/10.1109/MCOM.001.1900107.",
+   "printed_doi": "10.1109/MCOM.001.1900107",
+   "doi_registered": true,
+   "doi_points_to": "Towards Smart and Reconfigurable Environment: Intelligent Reflecting Surface Aided Wireless Network — Qingqing Wu, Rui Zhang; IEEE Communications Magazine 58(1) 106-112 (2020); doi:10.1109/MCOM.001.1900107",
+   "found_record": {
+    "doi": "10.1109/mcom.001.1900107",
+    "title": "Towards Smart and Reconfigurable Environment: Intelligent Reflecting Surface Aided Wireless Network",
+    "authors": [
+     "Qingqing Wu",
+     "Rui Zhang"
+    ],
+    "venue": "IEEE Communications Magazine",
+    "volume": "58",
+    "issue": "1",
+    "pages": "106-112",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 11,
+   "printed": "Y. S. Cho, J. Kim, W. Y. Yang, and C. G. Kang, MIMO-OFDM Wireless Communications with MATLAB (John Wiley & Sons, 2010): ISBN 978-0-470-82561-7.",
+   "printed_doi": null,
+   "doi_registered": null,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1002/9780470825631",
+    "title": "MIMO-OFDM Wireless Communications with MATLAB®",
+    "authors": [
+     "Yong Soo Cho",
+     "Jaekwon Kim",
+     "Won Young Yang",
+     "Chung G. Kang"
+    ],
+    "venue": "John Wiley & Sons (monograph)",
+    "year": 2010,
+    "isbn_print": "9780470825617"
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "Kitap; DOI basılmamış. Wiley'nin yatırdığı kaynakçada 10.1002/9780470825631; Crossref basılı ISBN 9780470825617 = basılı 978-0-470-82561-7 (ISBN doğrulandı; ilk denetim 'doğrulanmadı' demişti). Yazarlar eşleşiyor."
+  },
+  {
+   "n": 12,
+   "printed": "A. Alkhateeb, “DeepMIMO: A Generic Deep Learning Dataset for Millimeter Wave and Sub-6 GHz Communications,” in Proceedings of the Information Theory and Applications Workshop (ITA) (IEEE, 2019): 1–8, https://doi.org/10.1109/ITA.2019.8761423.",
+   "printed_doi": "10.1109/ITA.2019.8761423",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "arxiv": "1902.06435",
+    "title": "DeepMIMO: A Generic Deep Learning Dataset for Millimeter Wave and Massive MIMO Applications",
+    "authors": [
+     "Ahmed Alkhateeb"
+    ],
+    "venue": "Proc. ITA 2019 (arXiv comment)",
+    "year": 2019
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "Başlık yanlış — DOĞRULANDI. arXiv:1902.06435 başlığı 'DeepMIMO: A Generic Deep Learning Dataset for Millimeter Wave and Massive MIMO Applications' (yorum: 'to appear in Proc. of ITA, Feb. 2019'). Basılı DOI 10.1109/ITA.2019.8761423 kayıtlı değil; Crossref'te ITA 2019 DeepMIMO kaydı bulunamadı (Wiley de bu kaynağı DOI'siz, yapılandırılmamış yatırmış)."
+  },
+  {
+   "n": 13,
+   "printed": "E. Björnson, Ö. Özdogan, and E. G. Larsson, “Reconfigurable Intelligent Surfaces: Three Myths and Two Critical Questions,” IEEE Communications Magazine 58 (2020): 90, https://doi.org/10.1109/MCOM.001.2000407.",
+   "printed_doi": "10.1109/MCOM.001.2000407",
+   "doi_registered": true,
+   "doi_points_to": "Reconfigurable Intelligent Surfaces: Three Myths and Two Critical Questions — Emil Bjornson, Ozgecan Ozdogan, Erik G. Larsson; IEEE Communications Magazine 58(12) 90-96 (2020); doi:10.1109/MCOM.001.2000407",
+   "found_record": {
+    "doi": "10.1109/mcom.001.2000407",
+    "title": "Reconfigurable Intelligent Surfaces: Three Myths and Two Critical Questions",
+    "authors": [
+     "Emil Bjornson",
+     "Ozgecan Ozdogan",
+     "Erik G. Larsson"
+    ],
+    "venue": "IEEE Communications Magazine",
+    "volume": "58",
+    "issue": "12",
+    "pages": "90-96",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 14,
+   "printed": "C. Pan, G. Zhou, K. Zhi, et al., “An Overview of Signal Processing Techniques for RIS/IRS-Aided Wireless Systems,” IEEE Journal of Selected Topics in Signal Processing 16 (2022): 883, https://doi.org/10.1109/JSTSP.2022.3172024.",
+   "printed_doi": "10.1109/JSTSP.2022.3172024",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/jstsp.2022.3195671",
+    "title": "An Overview of Signal Processing Techniques for RIS/IRS-Aided Wireless Systems",
+    "authors": [
+     "Cunhua Pan",
+     "Gui Zhou",
+     "Kangda Zhi",
+     "Sheng Hong",
+     "Tuo Wu",
+     "Yijin Pan",
+     "Hong Ren",
+     "Marco Di Renzo",
+     "A. Lee Swindlehurst",
+     "Rui Zhang",
+     "Angela Yingjun Zhang"
+    ],
+    "venue": "IEEE Journal of Selected Topics in Signal Processing",
+    "volume": "16",
+    "issue": "5",
+    "pages": "883-917",
+    "year": 2022
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): DOI kayıtlı değil; doğru DOI 10.1109/JSTSP.2022.3195671. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 15,
+   "printed": "C. Liaskos, S. Nie, A. Tsioliaridou, A. Pitsillides, S. Ioannidis, and I. Akyildiz, “End-to-End Programmable Network Environments: A Pragmatic Look at a Futuristic Vision,” Proceedings of the IEEE 110 (2022): 1102, https://doi.org/10.1109/JPROC.2022.3165589.",
+   "printed_doi": "10.1109/JPROC.2022.3165589",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": null,
+   "agrees_with_first_audit": true,
+   "note_tr": "bulunamadı. Bu başlıkta eser yok. Liaskos grubunun Proc. IEEE 110 (2022) makalesi başka: 'Software-Defined Reconfigurable Intelligent Surfaces: From Theory to End-to-End Implementation', 1466–1493, doi:10.1109/JPROC.2022.3169917 (Akyildiz ve Nie yazar listesinde yok). Proc. IEEE 110 s. 1102'yi kapsayan makale ilgisiz: 'Transfer Learning for Wireless Networks: A Comprehensive Survey' (s. 1073–1115, doi:10.1109/JPROC.2022.3175942). DOI kayıtlı değil. Aranan: Crossref query.bibliographic (tam başlık; yazar+dergi+yıl), Crossref query.author + ISSN + yıl filtresi, basılı cilt/sayfa konumunun Crossref'te ISSN+yıl taramasıyla kontrolü, arXiv API (başlık/yazar), Semantic Scholar /paper/search/match (tam başlık: 'Title match not found'; /paper/search çağrıları çoğunlukla HTTP 429), OpenAlex search (tümü HTTP 429 — bütçe aşımı, sonuç alınamadı)."
+  },
+  {
+   "n": 16,
+   "printed": "C. Huang, G. C. Alexandropoulos, C. Yuen, and M. Debbah, “Indoor Channel Estimation for Reconfigurable Intelligent Surfaces With Millimeter Wave Signals,” in Proceedings of the IEEE SPAWC (IEEE, 2019): 1–5, https://doi.org/10.1109/SPAWC.2019.8815607.",
+   "printed_doi": "10.1109/SPAWC.2019.8815607",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/spawc.2019.8815412",
+    "title": "Indoor Signal Focusing with Deep Learning Designed Reconfigurable Intelligent Surfaces",
+    "authors": [
+     "Chongwen Huang",
+     "George C. Alexandropoulos",
+     "Chau Yuen",
+     "Merouane Debbah"
+    ],
+    "venue": "2019 IEEE 20th International Workshop on Signal Processing Advances in Wireless Communications (SPAWC)",
+    "volume": null,
+    "issue": null,
+    "pages": "1-5",
+    "year": 2019
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil. Crossref'in yatırılan kaynakça için otomatik eşleştirmesi de [16]'yı 10.1109/SPAWC.2019.8815412'ye bağlamış: aynı dört yazarın SPAWC 2019 bildirisi 'Indoor Signal Focusing with Deep Learning Designed Reconfigurable Intelligent Surfaces' — başlık farklı. İlk denetimle uyumlu."
+  },
+  {
+   "n": 17,
+   "printed": "H. Guo, Y.-C. Liang, J. Chen, and E. G. Larsson, “Weighted Sum-Rate Maximization for Reconfigurable Intelligent Surface Aided Wireless Networks,” IEEE Transactions on Wireless Communications 19 (2020): 3064, https://doi.org/10.1109/TWC.2020.2970061.",
+   "printed_doi": "10.1109/TWC.2020.2970061",
+   "doi_registered": true,
+   "doi_points_to": "Weighted Sum-Rate Maximization for Reconfigurable Intelligent Surface Aided Wireless Networks — Huayan Guo, Ying-Chang Liang, Jie Chen, Erik G. Larsson; IEEE Transactions on Wireless Communications 19(5) 3064-3076 (2020); doi:10.1109/TWC.2020.2970061",
+   "found_record": {
+    "doi": "10.1109/twc.2020.2970061",
+    "title": "Weighted Sum-Rate Maximization for Reconfigurable Intelligent Surface Aided Wireless Networks",
+    "authors": [
+     "Huayan Guo",
+     "Ying-Chang Liang",
+     "Jie Chen",
+     "Erik G. Larsson"
+    ],
+    "venue": "IEEE Transactions on Wireless Communications",
+    "volume": "19",
+    "issue": "5",
+    "pages": "3064-3076",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 18,
+   "printed": "N. S. Perović, L.-N. Tran, M. Di Renzo, and M. F. Flanagan, “Achievable Rate Optimization for MIMO Systems With Reconfigurable Intelligent Surfaces,” IEEE Transactions on Wireless Communications 20 (2021): 3865, https://doi.org/10.1109/TWC.2021.3054038.",
+   "printed_doi": "10.1109/TWC.2021.3054038",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/twc.2021.3054121",
+    "title": "Achievable Rate Optimization for MIMO Systems With Reconfigurable Intelligent Surfaces",
+    "authors": [
+     "Nemanja Stefan Perović",
+     "Le-Nam Tran",
+     "Marco Di Renzo",
+     "Mark F. Flanagan"
+    ],
+    "venue": "IEEE Transactions on Wireless Communications",
+    "volume": "20",
+    "issue": "6",
+    "pages": "3865-3882",
+    "year": 2021
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): DOI kayıtlı değil; doğru DOI 10.1109/TWC.2021.3054121. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 19,
+   "printed": "G. Zhou, C. Pan, H. Ren, K. Wang, and A. Nallanathan, “A Framework of Robust Transmission Design for IRS-Aided MISO Communications With Imperfect Cascaded Channels,” IEEE Transactions on Wireless Communications 22 (2023): 3712, https://doi.org/10.1109/TWC.2022.3218396.",
+   "printed_doi": "10.1109/TWC.2022.3218396",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/tsp.2020.3019666",
+    "title": "A Framework of Robust Transmission Design for IRS-Aided MISO Communications With Imperfect Cascaded Channels",
+    "authors": [
+     "Gui Zhou",
+     "Cunhua Pan",
+     "Hong Ren",
+     "Kezhi Wang",
+     "Arumugam Nallanathan"
+    ],
+    "venue": "IEEE Transactions on Signal Processing",
+    "volume": "68",
+    "issue": null,
+    "pages": "5092-5106",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): Dergi/cilt/yıl/sayfa yanlış: IEEE TWC 22 (2023) 3712 değil, IEEE Trans. Signal Processing 68 (2020) 5092–5106. DOI kayıtlı değil; doğru DOI 10.1109/TSP.2020.3019666. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 20,
+   "printed": "Ö.T. Demir and E. Björnson, “Channel Modeling and Channel Estimation for Holographic Massive MIMO With Planar Arrays,” IEEE Transactions on Wireless Communications 21 (2022): 9537, https://doi.org/10.1109/TWC.2022.3177538.",
+   "printed_doi": "10.1109/TWC.2022.3177538",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/lwc.2022.3152600",
+    "title": "Channel Modeling and Channel Estimation for Holographic Massive MIMO With Planar Arrays",
+    "authors": [
+     "Ozlem Tugfe Demir",
+     "Emil Bjornson",
+     "Luca Sanguinetti"
+    ],
+    "venue": "IEEE Wireless Communications Letters",
+    "volume": "11",
+    "issue": "5",
+    "pages": "997-1001",
+    "year": 2022
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): Dergi/cilt/sayfa yanlış: IEEE TWC 21, 9537 değil, IEEE Wireless Communications Letters 11(5) (2022) 997–1001. Yazar eksik: üçüncü yazar L. Sanguinetti. DOI kayıtlı değil; doğru DOI 10.1109/LWC.2022.3152600. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 21,
+   "printed": "S. Abeywickrama, R. Zhang, Q. Wu, and C. Yuen, “Intelligent Reflecting Surface: Practical Phase Shift Model and Beamforming Optimization,” IEEE Transactions on Communications 68 (2020): 5849, https://doi.org/10.1109/TCOMM.2020.3001125.",
+   "printed_doi": "10.1109/TCOMM.2020.3001125",
+   "doi_registered": true,
+   "doi_points_to": "Intelligent Reflecting Surface: Practical Phase Shift Model and Beamforming Optimization — Samith Abeywickrama, Rui Zhang, Qingqing Wu, Chau Yuen; IEEE Transactions on Communications 68(9) 5849-5863 (2020); doi:10.1109/TCOMM.2020.3001125",
+   "found_record": {
+    "doi": "10.1109/tcomm.2020.3001125",
+    "title": "Intelligent Reflecting Surface: Practical Phase Shift Model and Beamforming Optimization",
+    "authors": [
+     "Samith Abeywickrama",
+     "Rui Zhang",
+     "Qingqing Wu",
+     "Chau Yuen"
+    ],
+    "venue": "IEEE Transactions on Communications",
+    "volume": "68",
+    "issue": "9",
+    "pages": "5849-5863",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 22,
+   "printed": "H. Choi, A. L. Swindlehurst, and J. Choi, “Weighted Minimum Mean Square Error Approach to Beamforming for RIS-Assisted Systems,” IEEE Transactions on Communications 72 (2024): 456, https://doi.org/10.1109/TCOMM.2023.3320019.",
+   "printed_doi": "10.1109/TCOMM.2023.3320019",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/tcomm.2024.3381707",
+    "title": "WMMSE-Based Rate Maximization for RIS-Assisted MU-MIMO Systems",
+    "authors": [
+     "Hyuckjin Choi",
+     "A. Lee Swindlehurst",
+     "Junil Choi"
+    ],
+    "venue": "IEEE Transactions on Communications",
+    "volume": "72",
+    "issue": "8",
+    "pages": "5194-5208",
+    "year": 2024
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "Başlık yanlış — DOĞRULANDI. Aynı yazarların (Hyuckjin Choi, A. Lee Swindlehurst, Junil Choi) IEEE TCOM 72(8) 2024 makalesi 'WMMSE-Based Rate Maximization for RIS-Assisted MU-MIMO Systems', s. 5194–5208, doi:10.1109/TCOMM.2024.3381707. Basılı DOI 10.1109/TCOMM.2023.3320019 kayıtlı değil; sayfa 456 yanlış."
+  },
+  {
+   "n": 23,
+   "printed": "H. Guo, Y.-C. Liang, J. Chen, and E. G. Larsson, “Weighted Sum-Rate Optimization for Intelligent Reflecting Surface Enhanced Wireless Networks,” in Proceedings of the IEEE GLOBECOM (IEEE, 2019): 1–6, https://doi.org/10.1109/GLOBECOM38437.2019.9013288.",
+   "printed_doi": "10.1109/GLOBECOM38437.2019.9013288",
+   "doi_registered": true,
+   "doi_points_to": "Weighted Sum-Rate Maximization for Intelligent Reflecting Surface Enhanced Wireless Networks — Huayan Guo, Ying-Chang Liang, Jie Chen, Erik G. Larsson; 2019 IEEE Global Communications Conference (GLOBECOM)  1-6 (2019); doi:10.1109/GLOBECOM38437.2019.9013288",
+   "found_record": {
+    "doi": "10.1109/globecom38437.2019.9013288",
+    "title": "Weighted Sum-Rate Maximization for Intelligent Reflecting Surface Enhanced Wireless Networks",
+    "authors": [
+     "Huayan Guo",
+     "Ying-Chang Liang",
+     "Jie Chen",
+     "Erik G. Larsson"
+    ],
+    "venue": "2019 IEEE Global Communications Conference (GLOBECOM)",
+    "volume": null,
+    "issue": null,
+    "pages": "1-6",
+    "year": 2019
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (minor): Başlıkta tek kelime farkı: 'Optimization' değil 'Maximization'. Diğer alanlar ve DOI doğru. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 24,
+   "printed": "K. Feng, Q. Wang, X. Li, and C.-K. Wen, “Deep Reinforcement Learning Based Intelligent Reflecting Surface Optimization for MISO Communication Systems,” IEEE Wireless Communications Letters 9 (2020): 745, https://doi.org/10.1109/LWC.2020.2969167.",
+   "printed_doi": "10.1109/LWC.2020.2969167",
+   "doi_registered": true,
+   "doi_points_to": "Deep Reinforcement Learning Based Intelligent Reflecting Surface Optimization for MISO Communication Systems — Keming Feng, Qisheng Wang, Xiao Li, Chao-Kai Wen; IEEE Wireless Communications Letters 9(5) 745-749 (2020); doi:10.1109/LWC.2020.2969167",
+   "found_record": {
+    "doi": "10.1109/lwc.2020.2969167",
+    "title": "Deep Reinforcement Learning Based Intelligent Reflecting Surface Optimization for MISO Communication Systems",
+    "authors": [
+     "Keming Feng",
+     "Qisheng Wang",
+     "Xiao Li",
+     "Chao-Kai Wen"
+    ],
+    "venue": "IEEE Wireless Communications Letters",
+    "volume": "9",
+    "issue": "5",
+    "pages": "745-749",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 25,
+   "printed": "C. Huang, G. C. Alexandropoulos, C. Yuen, and M. Debbah, “Reconfigurable Intelligent Surface Assisted Multiuser MISO Systems Exploiting Deep Reinforcement Learning,” IEEE Transactions on Wireless Communications 18 (2019): 4395, https://doi.org/10.1109/TWC.2019.2914672.",
+   "printed_doi": "10.1109/TWC.2019.2914672",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/jsac.2020.3000835",
+    "title": "Reconfigurable Intelligent Surface Assisted Multiuser MISO Systems Exploiting Deep Reinforcement Learning",
+    "authors": [
+     "Chongwen Huang",
+     "Ronghong Mo",
+     "Chau Yuen"
+    ],
+    "venue": "IEEE Journal on Selected Areas in Communications",
+    "volume": "38",
+    "issue": "8",
+    "pages": "1839-1850",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): Yazarlar yanlış: C. Huang, R. Mo, C. Yuen (Alexandropoulos ve Debbah bu makalede yok). Dergi/cilt/yıl/sayfa yanlış: IEEE TWC 18 (2019) 4395 değil, IEEE JSAC 38(8) (2020) 1839–1850. DOI kayıtlı değil; doğru DOI 10.1109/JSAC.2020.3000835. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 26,
+   "printed": "M. F. Jassim, A. T. Mohammed, and O. Abdullah, “Deep Learning-Based Beamforming for Reconfigurable Intelligent Surface-Assisted Wireless Systems,” Iraqi Journal for Computer Science and Mathematics 6 (2025): 1.",
+   "printed_doi": null,
+   "doi_registered": null,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.52866/2788-7421.1233",
+    "title": "Retracted: Deep Learning-Based Beamforming Optimization for Reconfigurable Intelligent Surface-Assisted Wireless Communication Systems",
+    "authors": [
+     "Mohammed Firas Jassim",
+     "Alhamzah Taher Mohammed",
+     "Osamah Abdullah"
+    ],
+    "venue": "Iraqi Journal for Computer Science and Mathematics",
+    "volume": "6",
+    "issue": "1",
+    "pages": "Article 7",
+    "year": 2025,
+    "retraction_notice": {
+     "doi": "10.52866/2788-7421.1361",
+     "venue": "IJCSM 7(1), Article 16",
+     "date": "2026-02-05",
+     "url": "https://ijcsm.researchcommons.org/ijcsm/vol7/iss1/16"
+    }
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "Geri çekme DOĞRULANDI ve bu makaleye ait. Bildirim (doi:10.52866/2788-7421.1361, IJCSM 7(1), 5 Şubat 2026) açıkça 'NOTICE OF RETRACTION FOR: Jassim, Mohammed Firas; Mohammed, Alhamzah Taher; and Abdullah, Osamah (2025) ... Vol. 6: Iss. 1, Article 7. DOI: 10.52866/2788-7421.1233' diyor; yazarlar, dergi, cilt 6, yıl 2025 basılı kaynakla aynı. Wiley'nin Crossref'e yatırdığı kaynakçada [26] için tam bu DOI (10.52866/2788-7421.1233) var. Gerekçe (bildirim sayfası): COPE kapsamında editoryal soruşturma; açıklanmamış yapay zekâ üretimi metin/veri, bozulmuş hakem süreci, uygunsuz/şişirilmiş atıflar, sonradan yazar ekleme. Basılı başlıkta 'Optimization' ve 'Communication' eksik; DOI basılmamış."
+  },
+  {
+   "n": 27,
+   "printed": "A. M. Elbir, A. Papazafeiropoulos, P. Kourtessis, and S. Chatzinotas, “Deep Channel Learning for Large Intelligent Surfaces Aided Mm-Wave Massive MIMO Systems,” IEEE Transactions on Wireless Communications 9 (2020): 1447, https://doi.org/10.1109/LWC.2020.2994598.",
+   "printed_doi": "10.1109/LWC.2020.2994598",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/lwc.2020.2993699",
+    "title": "Deep Channel Learning for Large Intelligent Surfaces Aided mm-Wave Massive MIMO Systems",
+    "authors": [
+     "Ahmet M. Elbir",
+     "Anastasios Papazafeiropoulos",
+     "Pandelis Kourtessis",
+     "Symeon Chatzinotas"
+    ],
+    "venue": "IEEE Wireless Communications Letters",
+    "volume": "9",
+    "issue": "9",
+    "pages": "1447-1451",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "Dergi yanlış — DOĞRULANDI. Eser IEEE Wireless Communications Letters 9(9) (2020) 1447–1451, doi:10.1109/LWC.2020.2993699; basılı 'IEEE Transactions on Wireless Communications' yanlış (basılı DOI ön eki 'LWC' bile bunu gösteriyor; TWC'nin 2020 cildi 19'dur, 9 değil). Basılı DOI ...2994598 kayıtlı değil."
+  },
+  {
+   "n": 28,
+   "printed": "C. Nguyen, T. M. Hoang, and A. A. Cheema, “CNN-LSTM Based Channel Estimation for RIS-Assisted NOMA Networks in 6G,” IEEE Transactions on Machine Learning in Communications and Networking 1 (2023): 43, https://doi.org/10.1109/TMLCN.2023.3266695.",
+   "printed_doi": "10.1109/TMLCN.2023.3266695",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/tmlcn.2023.3278232",
+    "title": "Channel Estimation Using CNN-LSTM in RIS-NOMA Assisted 6G Network",
+    "authors": [
+     "Chi Nguyen",
+     "Tiep M. Hoang",
+     "Adnan A. Cheema"
+    ],
+    "venue": "IEEE Transactions on Machine Learning in Communications and Networking",
+    "volume": "1",
+    "pages": "43-60",
+    "year": 2023
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "Başlık yanlış — DOĞRULANDI. Crossref: 'Channel Estimation Using CNN-LSTM in RIS-NOMA Assisted 6G Network', Chi Nguyen, Tiep M. Hoang, Adnan A. Cheema, IEEE TMLCN 1 (2023) 43–60, doi:10.1109/TMLCN.2023.3278232. Basılı DOI 10.1109/TMLCN.2023.3266695 kayıtlı değil. (Atıf-destek kontrolü bu ikinci denetimin kapsamı dışında.)"
+  },
+  {
+   "n": 29,
+   "printed": "H. Kim, S. Kim, J. Wu, and B. Shim, “Deep Learning Approach for RIS-Assisted Cognitive Communication Networks,” IEEE Transactions on Cognitive Communications and Networking 10 (2024): 1414, https://doi.org/10.1109/TCCN.2024.3350894.",
+   "printed_doi": "10.1109/TCCN.2024.3350894",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/tccn.2024.3375523",
+    "title": "Transformer-Based RIS Phase Shift Control for Ultra-Low Latency V2X Systems",
+    "authors": [
+     "Hyunsoo Kim",
+     "Seungnyun Kim",
+     "Jiao Wu",
+     "Byonghyo Shim"
+    ],
+    "venue": "IEEE Transactions on Cognitive Communications and Networking",
+    "volume": "10",
+    "issue": "4",
+    "pages": "1414-1429",
+    "year": 2024
+   },
+   "agrees_with_first_audit": false,
+   "note_tr": "bulundu (başlık yanlış). Basılı dört yazar (aynı sırayla), dergi, cilt 10, ilk sayfa 1414 ve yıl gerçek bir makaleyle birebir örtüşüyor: H. Kim, S. Kim, J. Wu, B. Shim, 'Transformer-Based RIS Phase Shift Control for Ultra-Low Latency V2X Systems', IEEE TCCN 10(4) (2024) 1414–1429, doi:10.1109/TCCN.2024.3375523. Basılı başlık ('Deep Learning Approach for RIS-Assisted Cognitive Communication Networks') ve DOI (10.1109/TCCN.2024.3350894, kayıtlı değil) yanlış. İlk denetim 'muhtemelen var olmayan' demişti; Crossref'te query.author+ISSN aramasıyla bulundu. Tür: var olmayan değil, yanlış başlıklı büyük hata."
+  },
+  {
+   "n": 30,
+   "printed": "I. Koralege, A. S. de Sena, N. H. Mahmood, F. Karim, D. Lesthuruge, and S. Gunarathne, “Transformer-Based Phase Optimization for Reconfigurable Intelligent Surface-Assisted Systems,” ArXiv: 2502.18280 (2025), https://arxiv.org/abs/2502.18280.",
+   "printed_doi": null,
+   "doi_registered": null,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.3384/ecp212.060",
+    "title": "A Deep-Unfolding Approach to RIS Phase Shift Optimization Via Transformer-Based Channel Prediction",
+    "authors": [
+     "Ishan Rangajith Koralege",
+     "Arthur Sousa De Sena",
+     "Nurul Huda Mahmood",
+     "Farjam Karim",
+     "Dimuthu Lesthuruge",
+     "Samitha Gunarathne"
+    ],
+    "venue": "Linköping Electronic Conference Proceedings",
+    "volume": "211",
+    "issue": null,
+    "pages": null,
+    "year": 2025
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI yok (arXiv). arXiv API: 2502.18280 = 'A Deep-Unfolding Approach to RIS Phase Shift Optimization Via Transformer-Based Channel Prediction' (yazarlar eşleşiyor); hakemli sürüm doi:10.3384/ecp212.060 kayıtlı ve aynı başlık. Basılı başlık yanlış — ilk denetimle uyumlu."
+  },
+  {
+   "n": 31,
+   "printed": "A. K. Gizzini, M. Chafii, A. Nimr, and G. Fettweis, “Deep Learning Based Channel Estimation Schemes for IEEE. 802.11p Standard,” in Proceedings of the IEEE GLOBECOM (IEEE, 2021): 1–6, https://doi.org/10.1109/GLOBECOM46510.2021.9685516.",
+   "printed_doi": "10.1109/GLOBECOM46510.2021.9685516",
+   "doi_registered": true,
+   "doi_points_to": "Ernie: Data Center Multicast Source Routing — Jarallah Alqahtani, Bechir Hamdaoui; 2021 IEEE Global Communications Conference (GLOBECOM)  1-6 (2021); doi:10.1109/GLOBECOM46510.2021.9685516",
+   "found_record": {
+    "doi": "10.1109/access.2020.3003286",
+    "title": "Deep Learning Based Channel Estimation Schemes for IEEE 802.11p Standard",
+    "authors": [
+     "Abdul Karim Gizzini",
+     "Marwa Chafii",
+     "Ahmad Nimr",
+     "Gerhard Fettweis"
+    ],
+    "venue": "IEEE Access",
+    "volume": "8",
+    "issue": null,
+    "pages": "113751-113765",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "Basılı DOI kayıtlı ama BAŞKA esere gidiyor ('Ernie: Data Center Multicast Source Routing', GLOBECOM 2021). Basılı başlık birebir IEEE Access 8 (2020) 113751–113765, doi:10.1109/ACCESS.2020.3003286 (aynı yazarlar). Not: Crossref'in otomatik eşleştirmesi bu kaynağı aynı yazarların başka bir bildirisine (10.1109/GCWkshps50303.2020.9367412, 'Joint TRFI and Deep Learning for Vehicular Channel Estimation') bağlamış — bu yanlış eşleşme; başlık Access makalesiyle örtüşüyor. İlk denetimle uyumlu."
+  },
+  {
+   "n": 32,
+   "printed": "M. Ghassemi, M. Gursoy, T. Erpek, and Y. E. Sagduyu, “Foundation Models for Intelligent Wireless Networks,” ArXiv: 2506.09855 (2025), https://arxiv.org/abs/2506.09855.",
+   "printed_doi": null,
+   "doi_registered": null,
+   "doi_points_to": null,
+   "found_record": {
+    "arxiv": "2506.09855",
+    "title": "Foundation Model-Aided Deep Reinforcement Learning for RIS-Assisted Wireless Communication",
+    "authors": [
+     "Mohammad Ghassemi",
+     "Sara Farrag Mobarak",
+     "Han Zhang",
+     "Ali Afana",
+     "Akram Bin Sediq",
+     "Melike Erol-Kantarci"
+    ],
+    "source": "arXiv API"
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI yok (arXiv). arXiv API: 2506.09855 = 'Foundation Model-Aided Deep Reinforcement Learning for RIS-Assisted Wireless Communication', M. Ghassemi, S. F. Mobarak, H. Zhang, A. Afana, A. Bin Sediq, M. Erol-Kantarci. Basılı başlık ve Gursoy/Erpek/Sagduyu yazarları yanlış — ilk denetimle uyumlu."
+  },
+  {
+   "n": 33,
+   "printed": "A. Megahed, M. M. Elmesalawy, A. M. Abd El-Haleem, and I. I. Ibrahim, “Leveraging Federated Learning for Privacy-Preserving RIS Optimization in Distributed Wireless Networks,” Transactions on Emerging Telecommunications Technologies 36 (2025): e4938, https://doi.org/10.1002/ett.4938.",
+   "printed_doi": "10.1002/ett.4938",
+   "doi_registered": true,
+   "doi_points_to": "An artificial immune system‐based algorithm for selfish node detection in Mobile Ad Hoc Networks (MANETs) — M. S. Gowtham, M. Vigenesh, M. Ramkumar; Transactions on Emerging Telecommunications Technologies 35(2)  (2024); doi:10.1002/ett.4938",
+   "found_record": null,
+   "agrees_with_first_audit": true,
+   "note_tr": "bulunamadı (basılı başlıkla). Basılı DOI 10.1002/ett.4938 kayıtlı ama başka bir makaleye çözümleniyor (Gowtham, Vigenesh, Ramkumar, MANET selfish node detection, ETT 35(2) 2024). Fakat aynı dört yazar aynı sırayla (Megahed, Elmesalawy, Abd El-Haleem, Ibrahim) ETT'de gerçek RIS makalelerine sahip: 'Leveraging Active and Nearly Passive Reconfigurable Intelligent Surfaces Using Deep Learning Algorithm for 6G Wireless Networks', ETT 36 (2025) e70163, doi:10.1002/ett.70163 (yazar sırası, dergi, cilt 36, yıl 2025 ve başlığın 'Leveraging' ile başlaması örtüşüyor) ve 'Deep learning-assisted RIS for enhancing 6G mobile networks', ETT 35 (2023/24) e4895, doi:10.1002/ett.4895. Federated learning başlıklı bir eser yok; büyük olasılıkla e70163'ün bozulmuş/uydurulmuş başlıklı atfı. İlk denetimin 'eser bulunamadı' tespitine katılıyorum; 'muhtemelen var olmayan' yerine 'gerçek bir yazar grubuna bozulmuş atıf' demek daha doğru. Aranan: Crossref query.bibliographic (tam başlık; yazar+dergi+yıl), Crossref query.author + ISSN + yıl filtresi, basılı cilt/sayfa konumunun Crossref'te ISSN+yıl taramasıyla kontrolü, arXiv API (başlık/yazar), Semantic Scholar /paper/search/match (tam başlık: 'Title match not found'; /paper/search çağrıları çoğunlukla HTTP 429), OpenAlex search (tümü HTTP 429 — bütçe aşımı, sonuç alınamadı)."
+  },
+  {
+   "n": 34,
+   "printed": "J. Gao, C. Zhong, X. Chen, H. Lin, and Z. Zhang, “Unsupervised Learning for Passive Beamforming,” IEEE Communications Letters 24 (2020): 1052, https://doi.org/10.1109/LCOMM.2020.2983551.",
+   "printed_doi": "10.1109/LCOMM.2020.2983551",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/lcomm.2020.2965532",
+    "title": "Unsupervised Learning for Passive Beamforming",
+    "authors": [
+     "Jiabao Gao",
+     "Caijun Zhong",
+     "Xiaoming Chen",
+     "Hai Lin",
+     "Zhaoyang Zhang"
+    ],
+    "venue": "IEEE Communications Letters",
+    "volume": "24",
+    "issue": "5",
+    "pages": "1052-1056",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): DOI kayıtlı değil; doğru DOI 10.1109/LCOMM.2020.2965532. Diğer alanlar doğru. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 35,
+   "printed": "H. Song, M. Zhang, J. Gao, and C. Zhong, “Unsupervised Learning-Based Joint Active and Passive Beamforming Design for RIS-Assisted Wireless Networks,” IEEE Communications Letters 25 (2021): 892, https://doi.org/10.1109/LCOMM.2020.3040549.",
+   "printed_doi": "10.1109/LCOMM.2020.3040549",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/lcomm.2020.3041510",
+    "title": "Unsupervised Learning-Based Joint Active and Passive Beamforming Design for Reconfigurable Intelligent Surfaces Aided Wireless Networks",
+    "authors": [
+     "Haobo Song",
+     "Mianyi Zhang",
+     "Jiabao Gao",
+     "Caijun Zhong"
+    ],
+    "venue": "IEEE Communications Letters",
+    "volume": "25",
+    "issue": "3",
+    "pages": "892-896",
+    "year": 2021
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "Başlık yanlış/kısaltılmış — DOĞRULANDI. Crossref: 'Unsupervised Learning-Based Joint Active and Passive Beamforming Design for Reconfigurable Intelligent Surfaces Aided Wireless Networks', IEEE COMML 25(3) 2021 892–896, doi:10.1109/LCOMM.2020.3041510. Basılı DOI ...3040549 kayıtlı değil."
+  },
+  {
+   "n": 36,
+   "printed": "M. B. Mashhadi and D. Gündüz, “Pruning the Pilots: Deep Learning-Based Pilot Design and Channel Estimation for MIMO-OFDM Systems,” IEEE Transactions on Wireless Communications 20 (2021): 6315, https://doi.org/10.1109/TWC.2021.3074113.",
+   "printed_doi": "10.1109/TWC.2021.3074113",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/twc.2021.3073309",
+    "title": "Pruning the Pilots: Deep Learning-Based Pilot Design and Channel Estimation for MIMO-OFDM Systems",
+    "authors": [
+     "Mahdi Boloursaz Mashhadi",
+     "Deniz Gunduz"
+    ],
+    "venue": "IEEE Transactions on Wireless Communications",
+    "volume": "20",
+    "issue": "10",
+    "pages": "6315-6328",
+    "year": 2021
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): DOI kayıtlı değil; doğru DOI 10.1109/TWC.2021.3073309. Diğer alanlar doğru. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 37,
+   "printed": "Y. Liu, X. Liu, X. Mu, et al., “Reconfigurable Intelligent Surfaces: Electromagnetic Information Theory and Experimental Prototype,” EEE Communications Surveys & Tutorials 26 (2024): 1265, https://doi.org/10.1109/COMST.2023.3347988.",
+   "printed_doi": "10.1109/COMST.2023.3347988",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": null,
+   "agrees_with_first_audit": true,
+   "note_tr": "bulunamadı. Bu başlıkta COMST (veya başka) yayını yok; DOI kayıtlı değil. COMST 26 (2024) s. 1265'i kapsayan makale ilgisiz: Ali, Naeem, Kaddoum, Hossain, 'Metaverse Communications, Networking, Security, and Applications...', s. 1238–1278, doi:10.1109/COMST.2023.3347172. Yazar dizisi [5] ile aynı; Y. Liu–X. Mu ekibinin 2023–2025 COMST makaleleri arasında da yok. Aranan: Crossref query.bibliographic (tam başlık; yazar+dergi+yıl), Crossref query.author + ISSN + yıl filtresi, basılı cilt/sayfa konumunun Crossref'te ISSN+yıl taramasıyla kontrolü, arXiv API (başlık/yazar), Semantic Scholar /paper/search/match (tam başlık: 'Title match not found'; /paper/search çağrıları çoğunlukla HTTP 429), OpenAlex search (tümü HTTP 429 — bütçe aşımı, sonuç alınamadı)."
+  },
+  {
+   "n": 38,
+   "printed": "W. Tang, X. Chen, M. Z. Chen, et al., “Path Loss Modeling and Measurements for Reconfigurable Intelligent Surfaces in the Millimeter-Wave Frequency Band,” IEEE Transactions on Wireless Communications 23 (2024): 1229, https://doi.org/10.1109/TWC.2022.3225413.",
+   "printed_doi": "10.1109/TWC.2022.3225413",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/tcomm.2022.3193400",
+    "title": "Path Loss Modeling and Measurements for Reconfigurable Intelligent Surfaces in the Millimeter-Wave Frequency Band",
+    "authors": [
+     "Wankai Tang",
+     "Xiangyu Chen",
+     "Ming Zheng Chen",
+     "Jun Yan Dai",
+     "Yu Han",
+     "Marco Di Renzo",
+     "Shi Jin",
+     "Qiang Cheng",
+     "Tie Jun Cui"
+    ],
+    "venue": "IEEE Transactions on Communications",
+    "volume": "70",
+    "issue": "9",
+    "pages": "6259-6276",
+    "year": 2022
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): Dergi/cilt/yıl/sayfa yanlış: IEEE TWC 23 (2024) 1229 değil, IEEE Trans. Communications 70(9) (2022) 6259–6276. DOI kayıtlı değil; doğru DOI 10.1109/TCOMM.2022.3193400. Atıf desteği: her iki iddia (s. 2 ve s. 14) desteklenmiyor (ayrıntı: citation_checks). Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 39,
+   "printed": "H. Zhang, H. Zhang, B. Di, K. Bian, Z. Han, and L. Song, “Intelligent Omni-Surfaces: Simultaneous Refraction and Reflection for Full-Dimensional Wireless Communications,” IEEE Communications Letters 28 (2024): 284, https://doi.org/10.1109/LCOMM.2023.3329015.",
+   "printed_doi": "10.1109/LCOMM.2023.3329015",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/comst.2022.3202813",
+    "title": "Intelligent Omni-Surfaces: Simultaneous Refraction and Reflection for Full-Dimensional Wireless Communications",
+    "authors": [
+     "Hongliang Zhang",
+     "Boya Di"
+    ],
+    "venue": "IEEE Communications Surveys & Tutorials",
+    "volume": "24",
+    "pages": "1997-2028",
+    "year": 2022
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): Dergi/cilt/yıl/sayfa yanlış: IEEE Commun. Letters 28 (2024) 284 değil, IEEE Communications Surveys & Tutorials 24(4) (2022) 1997–2028. Yazarlar yanlış: yalnızca H. Zhang ve B. Di (basılı listede 6 yazar). DOI kayıtlı değil; doğru DOI 10.1109/COMST.2022.3202813. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 40,
+   "printed": "P. Wang, J. Fang, X. Yuan, Z. Chen, and H. Li, “Intelligent Reflecting Surface Assisted Millimeter Wave Communications: Joint Active and Passive Precoding Design,” IEEE Transactions on Wireless Communications 22 (2023): 5142, https://doi.org/10.1109/TWC.2022.3232001.",
+   "printed_doi": "10.1109/TWC.2022.3232001",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/tvt.2020.3031657",
+    "title": "Intelligent Reflecting Surface-Assisted Millimeter Wave Communications: Joint Active and Passive Precoding Design",
+    "authors": [
+     "Peilan Wang",
+     "Jun Fang",
+     "Xiaojun Yuan",
+     "Zhi Chen",
+     "Hongbin Li"
+    ],
+    "venue": "IEEE Transactions on Vehicular Technology",
+    "volume": "69",
+    "issue": "12",
+    "pages": "14960-14973",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): Dergi/cilt/yıl/sayfa yanlış: IEEE TWC 22 (2023) 5142 değil, IEEE Trans. Vehicular Technology 69(12) (2020) 14960–14973. DOI kayıtlı değil; doğru DOI 10.1109/TVT.2020.3031657. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 41,
+   "printed": "Y. Gao, H. Wu, W. Shi, and B. Ai, “Graph Neural Network Approach for RIS-Assisted Wireless Communications,” IEEE Transactions on Vehicular Technology 73 (2024): 1089, https://doi.org/10.1109/TVT.2023.3309780.",
+   "printed_doi": "10.1109/TVT.2023.3309780",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": null,
+   "agrees_with_first_audit": true,
+   "note_tr": "bulunamadı. Bu başlık/yazar kombinasyonunda eser yok; DOI kayıtlı değil. IEEE TVT 73 (2024) s. 1089'u kapsayan makale ilgisiz: Vilni et al., 'Multi-Source AoI-Constrained Resource Minimization Under HARQ...', s. 1084–1099, doi:10.1109/TVT.2023.3310190. Gao/Wu/Shi/Ai yazarlı TVT 2023–2025 makaleleri arasında GNN-RIS makalesi yok. Aranan: Crossref query.bibliographic (tam başlık; yazar+dergi+yıl), Crossref query.author + ISSN + yıl filtresi, basılı cilt/sayfa konumunun Crossref'te ISSN+yıl taramasıyla kontrolü, arXiv API (başlık/yazar), Semantic Scholar /paper/search/match (tam başlık: 'Title match not found'; /paper/search çağrıları çoğunlukla HTTP 429), OpenAlex search (tümü HTTP 429 — bütçe aşımı, sonuç alınamadı)."
+  },
+  {
+   "n": 42,
+   "printed": "L. Wei, C. Huang, G. C. Alexandropoulos, C. Yuen, Z. Zhang, and M. Debbah, “Channel Estimation for RIS-Empowered Multi-User MISO Wireless Communications,” IEEE Transactions on Communications 72 (2024): 1031, https://doi.org/10.1109/TCOMM.2021.3116315.",
+   "printed_doi": "10.1109/TCOMM.2021.3116315",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/tcomm.2021.3063236",
+    "title": "Channel Estimation for RIS-Empowered Multi-User MISO Wireless Communications",
+    "authors": [
+     "Li Wei",
+     "Chongwen Huang",
+     "George C. Alexandropoulos",
+     "Chau Yuen",
+     "Zhaoyang Zhang",
+     "Merouane Debbah"
+    ],
+    "venue": "IEEE Transactions on Communications",
+    "volume": "69",
+    "issue": "6",
+    "pages": "4144-4157",
+    "year": 2021
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): Cilt/yıl/sayfa yanlış: 72 (2024) 1031 değil, 69(6) (2021) 4144–4157. DOI kayıtlı değil; doğru DOI 10.1109/TCOMM.2021.3063236. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 43,
+   "printed": "S. Chen, J. Zhang, J. Zhang, E. Björnson, and B. Ai, “A Survey on Reconfigurable Intelligent Surface-Assisted Wireless Communications,” Digital Communications and Networks 10 (2024): 209, https://doi.org/10.1016/j.dcan.2022.08.003.",
+   "printed_doi": "10.1016/j.dcan.2022.08.003",
+   "doi_registered": true,
+   "doi_points_to": "Scheduling optimization for upstream dataflows in edge computing — Haohao Wang, Mengmeng Sun, Lianming Zhang, Pingping Dong et al.; Digital Communications and Networks 9(6) 1448-1457 (2023); doi:10.1016/j.dcan.2022.08.003",
+   "found_record": null,
+   "agrees_with_first_audit": true,
+   "note_tr": "bulunamadı. Basılı DOI 10.1016/j.dcan.2022.08.003 kayıtlı ama ilgisiz makaleye gidiyor (Wang et al., 'Scheduling optimization for upstream dataflows in edge computing', DCN 9(6) 2023 1448–1457). DCN 10 (2024) s. 209'u kapsayan makale de ilgisiz (Sarhan et al., IoT intrusion detection, s. 205–216, doi:10.1016/j.dcan.2022.08.012). Not: aynı beş yazar aynı sırayla (S. Chen, J. Zhang, J. Zhang, E. Björnson, B. Ai) DCN'de 'A survey on user-centric cell-free massive MIMO systems', DCN 8 (2022) 695–719, doi:10.1016/j.dcan.2021.12.005 makalesine sahip — konu (cell-free, RIS değil), cilt, yıl ve sayfa farklı; olası bozulmuş kaynak. Semantic Scholar title-match yalnızca ilgisiz 'A Survey on RIS-Assisted Optical Wireless Communications' (Hu & Uysal, COMST 2026) döndü. Aranan: Crossref query.bibliographic (tam başlık; yazar+dergi+yıl), Crossref query.author + ISSN + yıl filtresi, basılı cilt/sayfa konumunun Crossref'te ISSN+yıl taramasıyla kontrolü, arXiv API (başlık/yazar), Semantic Scholar /paper/search/match (tam başlık: 'Title match not found'; /paper/search çağrıları çoğunlukla HTTP 429), OpenAlex search (tümü HTTP 429 — bütçe aşımı, sonuç alınamadı)."
+  },
+  {
+   "n": 44,
+   "printed": "S. Zhang, H. Zhang, B. Di, et al., “Beyond Diagonal Reconfigurable Intelligent Surfaces: A Multi-Sector Architecture for Multi-User Wireless Communications,” IEEE Communications Surveys & Tutorials 25 (2023): 2242, https://doi.org/10.1109/COMST.2023.3286219.",
+   "printed_doi": "10.1109/COMST.2023.3286219",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": null,
+   "agrees_with_first_audit": true,
+   "note_tr": "bulunamadı. Bu başlık/yazar kombinasyonunda eser yok; DOI kayıtlı değil. En yakın: H. Li, S. Shen, B. Clerckx, 'Beyond Diagonal RIS: A Multi-Sector Mode Enabling Highly Directional Full-Space Wireless Coverage', IEEE JSAC 41 (2023) 2446–2460 (arXiv:2209.00301) — farklı yazar, başlık, dergi. COMST 25 (2023) s. 2242'yi kapsayan makale ilgisiz (Mohammadi et al., full-duplex survey, s. 2190–2244, doi:10.1109/COMST.2023.3318198). Aranan: Crossref query.bibliographic (tam başlık; yazar+dergi+yıl), Crossref query.author + ISSN + yıl filtresi, basılı cilt/sayfa konumunun Crossref'te ISSN+yıl taramasıyla kontrolü, arXiv API (başlık/yazar), Semantic Scholar /paper/search/match (tam başlık: 'Title match not found'; /paper/search çağrıları çoğunlukla HTTP 429), OpenAlex search (tümü HTTP 429 — bütçe aşımı, sonuç alınamadı)."
+  },
+  {
+   "n": 45,
+   "printed": "X. Lian, H. Liu, Q. Li, Y. Liu, B. Vucetic, and Y. Li, “Refracting RIS Aided Hybrid Satellite-Terrestrial Relay Networks: Joint Beamforming Design and Optimization,” IEEE Transactions on Aerospace and Electronic Systems 58 (2022): 3717, https://doi.org/10.1109/TAES.2022.3163547.",
+   "printed_doi": "10.1109/TAES.2022.3163547",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/taes.2022.3155711",
+    "title": "Refracting RIS-Aided Hybrid Satellite-Terrestrial Relay Networks: Joint Beamforming Design and Optimization",
+    "authors": [
+     "Zhi Lin",
+     "Hehao Niu",
+     "Kang An",
+     "Yong Wang",
+     "Gan Zheng",
+     "Symeon Chatzinotas",
+     "Yihua Hu"
+    ],
+    "venue": "IEEE Transactions on Aerospace and Electronic Systems",
+    "volume": "58",
+    "issue": "4",
+    "pages": "3717-3724",
+    "year": 2022
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): Yazarlar tamamen yanlış: doğru liste Z. Lin, H. Niu, K. An, Y. Wang, G. Zheng, S. Chatzinotas, Y. Hu. DOI kayıtlı değil; doğru DOI 10.1109/TAES.2022.3155711. Başlık, dergi, cilt, sayfa, yıl doğru. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 46,
+   "printed": "Y. Liu, Z. Qin, M. Elkashlan, et al., “Self-Powered Absorptive Reconfigurable Intelligent Surfaces for Securing Satellite-Terrestrial Integrated Networks,” China Communications 21 (2024): 276.",
+   "printed_doi": null,
+   "doi_registered": null,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.23919/jcc.fa.2023-0437.202409",
+    "title": "Self-powered absorptive reconfigurable intelligent surfaces for securing satellite-terrestrial integrated networks",
+    "authors": [
+     "Lin Zhi",
+     "Niu Hehao",
+     "He Yuanzhi",
+     "An Kang",
+     "Zhong Xudong",
+     "Chu Zheng",
+     "Xiao Pei"
+    ],
+    "venue": "China Communications",
+    "volume": "21",
+    "issue": "9",
+    "pages": "276-291",
+    "year": 2024
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI basılmamış; Wiley kaynakçasında 10.23919/JCC.fa.2023-0437.202409 → Crossref: Zhi Lin, Hehao Niu, Yuanzhi He, Kang An, Xudong Zhong, Zheng Chu, Pei Xiao, China Commun. 21(9) 2024 276–291. Basılı yazarlar (Y. Liu, Z. Qin, M. Elkashlan) yanlış. İlk denetimle uyumlu."
+  },
+  {
+   "n": 47,
+   "printed": "K. An, Y. Sun, Z. Lin, et al., “Exploiting Multi-Layer Refracting RIS-Assisted Receiver for HAP-SWIPT Networks,” IEEE Transactions on Wireless Communications 23 (2024): 12638, https://doi.org/10.1109/TWC.2024.3394214.",
+   "printed_doi": "10.1109/TWC.2024.3394214",
+   "doi_registered": true,
+   "doi_points_to": "Exploiting Multi-Layer Refracting RIS-Assisted Receiver for HAP-SWIPT Networks — Kang An, Yifu Sun, Zhi Lin, Yonggang Zhu et al.; IEEE Transactions on Wireless Communications 23(10) 12638-12657 (2024); doi:10.1109/TWC.2024.3394214",
+   "found_record": {
+    "doi": "10.1109/twc.2024.3394214",
+    "title": "Exploiting Multi-Layer Refracting RIS-Assisted Receiver for HAP-SWIPT Networks",
+    "authors": [
+     "Kang An",
+     "Yifu Sun",
+     "Zhi Lin",
+     "Yonggang Zhu",
+     "Wanli Ni",
+     "Naofal Al-Dhahir",
+     "Kai-Kit Wong",
+     "Dusit Niyato"
+    ],
+    "venue": "IEEE Transactions on Wireless Communications",
+    "volume": "23",
+    "issue": "10",
+    "pages": "12638-12657",
+    "year": 2024
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 48,
+   "printed": "M. Ghassemi, M. Gursoy, T. Erpek, and Y. E. Sagduyu, “AI-Driven Seamless and Massive Access in Space-Air-Ground Integrated Networks,” IEEE Wireless Communications 32 (2025): 72.",
+   "printed_doi": null,
+   "doi_registered": null,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/mwc.001.2400371",
+    "title": "AI-Driven Seamless and Massive Access in Space-Air-Ground Integrated Networks",
+    "authors": [
+     "Zhi Lin",
+     "Zimo Feng",
+     "Kefeng Guo",
+     "Ali Nauman",
+     "Dusit Niyato",
+     "Jiangzhou Wang"
+    ],
+    "venue": "IEEE Wireless Communications",
+    "volume": "32",
+    "issue": "3",
+    "pages": "72-79",
+    "year": 2025
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI basılmamış; Wiley kaynakçasında 10.1109/MWC.001.2400371 → Crossref yazarları Zhi Lin, Zimo Feng, Kefeng Guo, Ali Nauman, Dusit Niyato, Jiangzhou Wang (IEEE Wireless Commun. 32(3) 2025 72–79). Basılı yazarlar yanlış. İlk denetimle uyumlu."
+  },
+  {
+   "n": 49,
+   "printed": "X. Zhu, C. Jiang, L. Kuang, N. Ge, and J. Lu, “Supporting IoT with Rate-Splitting Multiple Access in Satellite and Aerial-Integrated Networks,” IEEE Internet of Things Journal 8 (2021): 11123, https://doi.org/10.1109/JIOT.2021.3051603.",
+   "printed_doi": "10.1109/JIOT.2021.3051603",
+   "doi_registered": true,
+   "doi_points_to": "Supporting IoT With Rate-Splitting Multiple Access in Satellite and Aerial-Integrated Networks — Zhi Lin, Min Lin, Tomaso de Cola, Jun-Bo Wang et al.; IEEE Internet of Things Journal 8(14) 11123-11134 (2021); doi:10.1109/JIOT.2021.3051603",
+   "found_record": {
+    "doi": "10.1109/jiot.2021.3051603",
+    "title": "Supporting IoT With Rate-Splitting Multiple Access in Satellite and Aerial-Integrated Networks",
+    "authors": [
+     "Zhi Lin",
+     "Min Lin",
+     "Tomaso de Cola",
+     "Jun-Bo Wang",
+     "Wei-Ping Zhu",
+     "Julian Cheng"
+    ],
+    "venue": "IEEE Internet of Things Journal",
+    "volume": "8",
+    "issue": "14",
+    "pages": "11123-11134",
+    "year": 2021
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (major): Yazarlar tamamen yanlış: doğru liste Z. Lin, M. Lin, T. de Cola, J.-B. Wang, W.-P. Zhu, J. Cheng. Diğer alanlar ve DOI doğru. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 50,
+   "printed": "T. S. Rappaport, Y. Xing, O. Kanhere, et al., “Wireless Communications and Applications Above 100 GHz: Opportunities and Challenges for 6G and Beyond,” IEEE Access 7 (2019): 78729, https://doi.org/10.1109/ACCESS.2019.2921522.",
+   "printed_doi": "10.1109/ACCESS.2019.2921522",
+   "doi_registered": true,
+   "doi_points_to": "Wireless Communications and Applications Above 100 GHz: Opportunities and Challenges for 6G and Beyond — Theodore S. Rappaport, Yunchou Xing, Ojas Kanhere, Shihao Ju et al.; IEEE Access 7 78729-78757 (2019); doi:10.1109/ACCESS.2019.2921522",
+   "found_record": {
+    "doi": "10.1109/access.2019.2921522",
+    "title": "Wireless Communications and Applications Above 100 GHz: Opportunities and Challenges for 6G and Beyond",
+    "authors": [
+     "Theodore S. Rappaport",
+     "Yunchou Xing",
+     "Ojas Kanhere",
+     "Shihao Ju",
+     "Arjuna Madanayake",
+     "Soumyajit Mandal",
+     "Ahmed Alkhateeb",
+     "Georgios C. Trichopoulos"
+    ],
+    "venue": "IEEE Access",
+    "volume": "7",
+    "issue": null,
+    "pages": "78729-78757",
+    "year": 2019
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 51,
+   "printed": "E. Björnson and L. Sanguinetti, “Power Scaling Laws and Near-Field Behaviors of Massive MIMO and Intelligent Reflecting Surfaces,” IEEE Open Journal of the Communications Society 1 (2020): 1306, https://doi.org/10.1109/OJCOMS.2020.3020925.",
+   "printed_doi": "10.1109/OJCOMS.2020.3020925",
+   "doi_registered": true,
+   "doi_points_to": "Power Scaling Laws and Near-Field Behaviors of Massive MIMO and Intelligent Reflecting Surfaces — Emil Bjornson, Luca Sanguinetti; IEEE Open Journal of the Communications Society 1 1306-1324 (2020); doi:10.1109/OJCOMS.2020.3020925",
+   "found_record": {
+    "doi": "10.1109/ojcoms.2020.3020925",
+    "title": "Power Scaling Laws and Near-Field Behaviors of Massive MIMO and Intelligent Reflecting Surfaces",
+    "authors": [
+     "Emil Bjornson",
+     "Luca Sanguinetti"
+    ],
+    "venue": "IEEE Open Journal of the Communications Society",
+    "volume": "1",
+    "issue": null,
+    "pages": "1306-1324",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 52,
+   "printed": "Ö. Özdogan, E. Björnson, and E. G. Larsson, “Intelligent Reflecting Surfaces: Physics, Propagation, and Pathloss Modeling,” IEEE Wireless Communications Letters 9 (2020): 581, https://doi.org/10.1109/LWC.2019.2960779.",
+   "printed_doi": "10.1109/LWC.2019.2960779",
+   "doi_registered": true,
+   "doi_points_to": "Intelligent Reflecting Surfaces: Physics, Propagation, and Pathloss Modeling — Ozgecan Ozdogan, Emil Bjornson, Erik G. Larsson; IEEE Wireless Communications Letters 9(5) 581-585 (2020); doi:10.1109/LWC.2019.2960779",
+   "found_record": {
+    "doi": "10.1109/lwc.2019.2960779",
+    "title": "Intelligent Reflecting Surfaces: Physics, Propagation, and Pathloss Modeling",
+    "authors": [
+     "Ozgecan Ozdogan",
+     "Emil Bjornson",
+     "Erik G. Larsson"
+    ],
+    "venue": "IEEE Wireless Communications Letters",
+    "volume": "9",
+    "issue": "5",
+    "pages": "581-585",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 53,
+   "printed": "A. Vaswani, N. Shazeer, N. Parmar, et al., “Attention Is All You Need,” in Proceedings of the Advances in Neural Information Processing Systems (NeurIPS) (IEEE, 2017): 5998–6008.",
+   "printed_doi": null,
+   "doi_registered": null,
+   "doi_points_to": null,
+   "found_record": null,
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI yok; bu ikinci kontrolde ayrıca arama yapılmadı (iyi bilinen eser; yayıncı etiketi sorunu). İlk denetim: Yayıncı yanlış: NeurIPS (NIPS 2017, cilt 30) bildirileri IEEE tarafından yayımlanmaz. Sayfa 5998–6008 resmi bildiri sayfasında yok; doğrulanamadı. Konferans adı 2017'de 'NIPS' idi."
+  },
+  {
+   "n": 54,
+   "printed": "S. Hochreiter and J. Schmidhuber, “Long Short-Term Memory,” Neural Computation 9 (1997): 1735, https://doi.org/10.1162/neco.1997.9.8.1735.",
+   "printed_doi": "10.1162/neco.1997.9.8.1735",
+   "doi_registered": true,
+   "doi_points_to": "Long Short-Term Memory — Sepp Hochreiter, Jürgen Schmidhuber; Neural Computation 9(8) 1735-1780 (1997); doi:10.1162/neco.1997.9.8.1735",
+   "found_record": {
+    "doi": "10.1162/neco.1997.9.8.1735",
+    "title": "Long Short-Term Memory",
+    "authors": [
+     "Sepp Hochreiter",
+     "Jürgen Schmidhuber"
+    ],
+    "venue": "Neural Computation",
+    "volume": "9",
+    "issue": "8",
+    "pages": "1735-1780",
+    "year": 1997
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 55,
+   "printed": "A. Dosovitskiy, L. Beyer, A. Kolesnikov, et al., “An Image Is Worth 16 × 16 Words: Transformers for Image Recognition at Scale,” in Proceedings of the International Conference on Learning Representations (ICLR) (Elsevier, 2021), https://openreview.net/forum?id=YicbFdNTTy.",
+   "printed_doi": null,
+   "doi_registered": null,
+   "doi_points_to": null,
+   "found_record": null,
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI yok; bu ikinci kontrolde ayrıca arama yapılmadı (iyi bilinen eser; yayıncı etiketi sorunu). İlk denetim: Yayıncı yanlış: ICLR 2021 OpenReview'de yayımlanır, Elsevier değil."
+  },
+  {
+   "n": 56,
+   "printed": "S. Ioffe and C. Szegedy, “Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift,” in Proceedings of the International Conference on Machine Learning (ICML), (IEEE, 2015): 448–456.",
+   "printed_doi": null,
+   "doi_registered": null,
+   "doi_points_to": null,
+   "found_record": null,
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI yok; bu ikinci kontrolde ayrıca arama yapılmadı (iyi bilinen eser; yayıncı etiketi sorunu). İlk denetim: Yayıncı yanlış: ICML 2015 bildirileri PMLR (cilt 37) tarafından yayımlanır, IEEE değil. Sayfa 448–456 doğru."
+  },
+  {
+   "n": 57,
+   "printed": "D. P. Kingma and J. Ba, “Adam: A Method for Stochastic Optimization,” in Proceedings of the International Conference on Learning Representations (ICLR) (IEEE, 2015), https://arxiv.org/abs/1412.6980.",
+   "printed_doi": null,
+   "doi_registered": null,
+   "doi_points_to": null,
+   "found_record": {
+    "arxiv": "1412.6980",
+    "title": "Adam: A Method for Stochastic Optimization",
+    "authors": [
+     "Diederik P. Kingma",
+     "Jimmy Ba"
+    ]
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "arXiv 1412.6980 başlık/yazar doğrulandı. Yayıncı 'IEEE' yanlış — ilk denetimle uyumlu."
+  },
+  {
+   "n": 58,
+   "printed": "K. He, X. Zhang, S. Ren, and J. Sun, “Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification,” in Proceedings of the IEEE ICCV (IEEE, 2015): 1026–1034, https://doi.org/10.1109/ICCV.2015.123.",
+   "printed_doi": "10.1109/ICCV.2015.123",
+   "doi_registered": true,
+   "doi_points_to": "Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification — Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun; 2015 IEEE International Conference on Computer Vision (ICCV)  1026-1034 (2015); doi:10.1109/ICCV.2015.123",
+   "found_record": {
+    "doi": "10.1109/iccv.2015.123",
+    "title": "Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification",
+    "authors": [
+     "Kaiming He",
+     "Xiangyu Zhang",
+     "Shaoqing Ren",
+     "Jian Sun"
+    ],
+    "venue": "2015 IEEE International Conference on Computer Vision (ICCV)",
+    "volume": null,
+    "issue": null,
+    "pages": "1026-1034",
+    "year": 2015
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 59,
+   "printed": "Y. Zhao, W. Cai, J. Liu, et al., “2-Bit Reconfigurable Intelligent Surface Systems for Energy-Efficient Wireless Communications,” IEEE Open Journal of the Communications Society 5 (2024): 6802, https://doi.org/10.1109/OJCOMS.2024.3449132.",
+   "printed_doi": "10.1109/OJCOMS.2024.3449132",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": null,
+   "agrees_with_first_audit": true,
+   "note_tr": "bulunamadı. Bu başlıkta eser yok; DOI kayıtlı değil. IEEE OJ-COMS 5 (2024) s. 6802'de başlayan makale ilgisiz: Han et al., 'GP-DGECN: Geometric Prior Dynamic Group Equivariant Convolutional Networks for Specific Emitter Identification', s. 6802–6816, doi:10.1109/OJCOMS.2024.3486459. Aranan: Crossref query.bibliographic (tam başlık; yazar+dergi+yıl), Crossref query.author + ISSN + yıl filtresi, basılı cilt/sayfa konumunun Crossref'te ISSN+yıl taramasıyla kontrolü, arXiv API (başlık/yazar), Semantic Scholar /paper/search/match (tam başlık: 'Title match not found'; /paper/search çağrıları çoğunlukla HTTP 429), OpenAlex search (tümü HTTP 429 — bütçe aşımı, sonuç alınamadı)."
+  },
+  {
+   "n": 60,
+   "printed": "B. Di, H. Zhang, L. Song, Y. Li, Z. Han, and H. V. Poor, “Hybrid Beamforming for Reconfigurable Intelligent Surface Based Multi-User Communications: Achievable Rates With Limited Discrete Phase Shifts,” IEEE Journal on Selected Areas in Communications 38 (2020): 1809, https://doi.org/10.1109/JSAC.2020.2990580.",
+   "printed_doi": "10.1109/JSAC.2020.2990580",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/jsac.2020.3000813",
+    "title": "Hybrid Beamforming for Reconfigurable Intelligent Surface based Multi-User Communications: Achievable Rates With Limited Discrete Phase Shifts",
+    "authors": [
+     "Boya Di",
+     "Hongliang Zhang",
+     "Lingyang Song",
+     "Yonghui Li",
+     "Zhu Han",
+     "H. Vincent Poor"
+    ],
+    "venue": "IEEE Journal on Selected Areas in Communications",
+    "volume": "38",
+    "issue": "8",
+    "pages": "1809-1822",
+    "year": 2020
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): DOI kayıtlı değil; doğru DOI 10.1109/JSAC.2020.3000813. Diğer alanlar doğru. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 61,
+   "printed": "Y. Liu, X. Mu, J. Xu, et al., “STAR-RIS: Simultaneous Transmitting and Reflecting for 360° Coverage by Intelligent Surfaces,” IEEE Wireless Communications 28 (2021): 102, https://doi.org/10.1109/MWC.001.2000722.",
+   "printed_doi": "10.1109/MWC.001.2000722",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/mwc.001.2100191",
+    "title": "STAR: Simultaneous Transmission and Reflection for 360° Coverage by Intelligent Surfaces",
+    "authors": [
+     "Yuanwei Liu",
+     "Xidong Mu",
+     "Jiaqi Xu",
+     "Robert Schober",
+     "Yang Hao",
+     "H. Vincent Poor",
+     "Lajos Hanzo"
+    ],
+    "venue": "IEEE Wireless Communications",
+    "volume": "28",
+    "issue": "6",
+    "pages": "102-109",
+    "year": 2021
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): Başlık yanlış: 'STAR: Simultaneous Transmission and Reflection for 360° Coverage by Intelligent Surfaces'. DOI kayıtlı değil; doğru DOI 10.1109/MWC.001.2100191. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 62,
+   "printed": "M. Cui, Z. Wu, Y. Lu, X. Wei, and L. Dai, “Near-Field MIMO Communications for 6G: Full-Dimensional Beamforming, Localization, and Imaging,” IEEE Communications Magazine 61 (2023): 40, https://doi.org/10.1109/MCOM.006.2200044.",
+   "printed_doi": "10.1109/MCOM.006.2200044",
+   "doi_registered": false,
+   "doi_points_to": null,
+   "found_record": {
+    "doi": "10.1109/mcom.004.2200136",
+    "title": "Near-Field MIMO Communications for 6G: Fundamentals, Challenges, Potentials, and Future Directions",
+    "authors": [
+     "Mingyao Cui",
+     "Zidong Wu",
+     "Yu Lu",
+     "Xiuhong Wei",
+     "Linglong Dai"
+    ],
+    "venue": "IEEE Communications Magazine",
+    "volume": "61",
+    "pages": "40-46",
+    "year": 2023
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı değil (doi.org handle API responseCode 100, doi.org 404). İlk denetim (major): Başlık yanlış: alt başlık 'Fundamentals, Challenges, Potentials, and Future Directions'. DOI kayıtlı değil; doğru DOI 10.1109/MCOM.004.2200136. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 63,
+   "printed": "F. Liu, Y. Cui, C. Masouros, et al., “Integrated Sensing and Communications: Toward Dual-Functional Radar-Communication Systems,” IEEE Journal on Selected Areas in Communications 40 (2022): 1728, https://doi.org/10.1109/JSAC.2022.3156632.",
+   "printed_doi": "10.1109/JSAC.2022.3156632",
+   "doi_registered": true,
+   "doi_points_to": "Integrated Sensing and Communications: Toward Dual-Functional Wireless Networks for 6G and Beyond — Fan Liu, Yuanhao Cui, Christos Masouros, Jie Xu et al.; IEEE Journal on Selected Areas in Communications 40(6) 1728-1767 (2022); doi:10.1109/JSAC.2022.3156632",
+   "found_record": {
+    "doi": "10.1109/jsac.2022.3156632",
+    "title": "Integrated Sensing and Communications: Toward Dual-Functional Wireless Networks for 6G and Beyond",
+    "authors": [
+     "Fan Liu",
+     "Yuanhao Cui",
+     "Christos Masouros",
+     "Jie Xu",
+     "Tony Xiao Han",
+     "Yonina C. Eldar",
+     "Stefano Buzzi"
+    ],
+    "venue": "IEEE Journal on Selected Areas in Communications",
+    "volume": "40",
+    "issue": "6",
+    "pages": "1728-1767",
+    "year": 2022
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (major): Başlık yanlış: alt başlık 'Toward Dual-Functional Wireless Networks for 6G and Beyond'. DOI doğru. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  },
+  {
+   "n": 64,
+   "printed": "A. Zappone, M. Di Renzo, and M. Debbah, “Wireless Networks Design in the Era of Deep Learning: Model-Based, AI-Based, or Both?,” IEEE Transactions on Communications 67 (2019): 7331, https://doi.org/10.1109/TCOMM.2019.2924010.",
+   "printed_doi": "10.1109/TCOMM.2019.2924010",
+   "doi_registered": true,
+   "doi_points_to": "Wireless Networks Design in the Era of Deep Learning: Model-Based, AI-Based, or Both? — Alessio Zappone, Marco Di Renzo, Merouane Debbah; IEEE Transactions on Communications 67(10) 7331-7376 (2019); doi:10.1109/TCOMM.2019.2924010",
+   "found_record": {
+    "doi": "10.1109/tcomm.2019.2924010",
+    "title": "Wireless Networks Design in the Era of Deep Learning: Model-Based, AI-Based, or Both?",
+    "authors": [
+     "Alessio Zappone",
+     "Marco Di Renzo",
+     "Merouane Debbah"
+    ],
+    "venue": "IEEE Transactions on Communications",
+    "volume": "67",
+    "issue": "10",
+    "pages": "7331-7376",
+    "year": 2019
+   },
+   "agrees_with_first_audit": true,
+   "note_tr": "DOI kayıtlı ve basılı esere gidiyor. İlk denetim (ok): Sorun yok. Bağımsız kontrol: DOI durumu ve (varsa) önerilen doğru DOI'nin çözümlediği kayıt ilk denetimle uyumlu."
+  }
+ ]
+}

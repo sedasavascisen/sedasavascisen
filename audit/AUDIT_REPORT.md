@@ -1,6 +1,6 @@
 # Makale 1 bağımsız denetim raporu
 
-Makale: Savaşçı Şen ve ark., *Overcoming the Phase Discontinuity Problem in RIS Optimization…*, Adv. Intell. Syst. 2026, doi:10.1002/aisy.70460. Dal `audit/makale1-denetim`, rapor commit'i `241ec82` (rapor bu commit'teki ham dosyalardan üretildi).
+Makale: Savaşçı Şen ve ark., *Overcoming the Phase Discontinuity Problem in RIS Optimization…*, Adv. Intell. Syst. 2026, doi:10.1002/aisy.70460. Dal `audit/makale1-denetim`, rapor commit'i `9bc7053` (rapor bu commit'teki ham dosyalardan üretildi).
 
 **Önemli sınır:** MATLAB ve makalenin veri kümesi (`RIS_dataset_large_2D.mat`) yok. Bütün yeniden üretimler, aynı üretecin NumPy aktarımıyla (`audit/scripts/m1_data.py`) alınmış **bağımsız bir çekilişte** yapıldı. MATLAB'ın `rng(42)` örnekleriyle birebir aynı değildir; aktarım kayıtlı bir MATLAB çıktısıyla doğrulanamadı (Kural 8). Eğitim, MATLAB varsayılanlarına göre PyTorch'a aktarıldı (`audit/scripts/m1_train.py`, docstring).
 
@@ -16,7 +16,7 @@ Makale: Savaşçı Şen ve ark., *Overcoming the Phase Discontinuity Problem in 
 8. **Tohum yayılımı makalenin GA'sından çok büyük.** Aynı ayarla 3 tohum: 3.18, 2.77, 3.90° (std 0.58°); makale 5 koşu için ±0.09° GA diyor. [train/cnnlstm_N32_s*.json]
 9. **Uzamsal komşuluk kullanılmıyor.** Komşu elemanların kanal korelasyonu |ρ| ≤ 0.007; eleman sırası rastgele karıştırılınca RMSE 3.28° → 3.41° (fark tohum yayılımından küçük). Makalenin CNN'in 'uzamsal korelasyonu yakaladığı' anlatısı bu veride desteklenmiyor. [step5_correlation.json, step5_permutation.json]
 10. **Doğrudan faz (FC-DNN) 83.85°, CNN-Transformer 4.46°** (makale 3.95° / 2.91°). Transformer parametresi 17,442 (makale 201 K). [train/*.json]
-11. **Kaynakça:** ilk tur sınıflaması {'major': 33, 'ok': 18, 'not_verifiable': 8, 'minor': 5}. İkinci bağımsız kontrol: sürüyor; ağır bulgular (var olmadığı düşünülen 8 kaynak, geri çekilmiş [26]) bu kontrol bitmeden kesin sayılmamalı. [step7_references.json]
+11. **Kaynakça (64 kaynak):** ilk tur {'major': 33, 'ok': 18, 'not_verifiable': 8, 'minor': 5}. Bağımsız ikinci kontrol 63 kaynakta ilk turla aynı fikirde; [29] bulundu (başlığı yanlış basılmış gerçek bir makale: Kim ve ark., IEEE TCCN 2024, doi:10.1109/TCCN.2024.3375523). Basılı 54 DOI'nin 30'u kayıtlı değil; 3'ü ([31], [33], [43]) başka makalelere çıkıyor. 7 kaynak ([15], [33], [37], [41], [43], [44], [59]) hiçbir kayıtta bulunamadı ([33] ve [43] için aynı yazarların farklı başlıklı gerçek çalışmaları var: bozuk atıf olabilir). [26] geri çekilmiş (doi:10.52866/2788-7421.1361, 5 Şubat 2026). [27] TWC değil IEEE WCL. [28]'in PixelRNN iddiasını ve [38]'in bit genişliği iddiasını kaynak desteklemiyor. [step7_references.json, step7_doublecheck.json]
 
 ## 2) İddia tablosu
 

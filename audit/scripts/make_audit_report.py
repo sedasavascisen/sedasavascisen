@@ -80,9 +80,12 @@ if s7:
     cnt = {}
     for r_ in refs:
         cnt[r_.get("severity", r_.get("status", "?"))] = cnt.get(r_.get("severity", r_.get("status", "?")), 0) + 1
-    items.append(f"**Kaynakça:** ilk tur sınıflaması {cnt}. İkinci bağımsız kontrol: "
-                 + ("tamamlandı, bkz. step7_doublecheck.json." if s7d else "sürüyor; ağır bulgular (var olmadığı düşünülen 8 kaynak, geri çekilmiş [26]) bu kontrol bitmeden kesin sayılmamalı.")
-                 + " [step7_references.json]")
+    items.append(f"**Kaynakça (64 kaynak):** ilk tur {cnt}. Bağımsız ikinci kontrol 63 kaynakta ilk turla aynı fikirde; "
+                 "[29] bulundu (başlığı yanlış basılmış gerçek bir makale: Kim ve ark., IEEE TCCN 2024, doi:10.1109/TCCN.2024.3375523). "
+                 "Basılı 54 DOI'nin 30'u kayıtlı değil; 3'ü ([31], [33], [43]) başka makalelere çıkıyor. 7 kaynak ([15], [33], [37], [41], [43], [44], [59]) "
+                 "hiçbir kayıtta bulunamadı ([33] ve [43] için aynı yazarların farklı başlıklı gerçek çalışmaları var: bozuk atıf olabilir). "
+                 "[26] geri çekilmiş (doi:10.52866/2788-7421.1361, 5 Şubat 2026). [27] TWC değil IEEE WCL. [28]'in PixelRNN iddiasını ve [38]'in "
+                 "bit genişliği iddiasını kaynak desteklemiyor. [step7_references.json, step7_doublecheck.json]")
 for i, t in enumerate(items, 1):
     W(f"{i}. {t}")
 W("")
