@@ -5,3 +5,80 @@ cnnlstm_N32_s1 ep  4 loss 0.02677 val 9.72 (13s)
 cnnlstm_N32_s1 ep  5 loss 0.02233 val 8.31 (13s)
 cnnlstm_N32_s1 ep  6 loss 0.01977 val 7.02 (13s)
 cnnlstm_N32_s1 ep  7 loss 0.01846 val 6.22 (13s)
+cnnlstm_N32_s1 ep  8 loss 0.01797 val 6.35 (13s)
+cnnlstm_N32_s1 ep  9 loss 0.01671 val 6.53 (12s)
+cnnlstm_N32_s1 ep 10 loss 0.01606 val 7.07 (13s)
+cnnlstm_N32_s1 ep 11 loss 0.01564 val 6.81 (14s)
+cnnlstm_N32_s1 ep 12 loss 0.01540 val 5.75 (13s)
+cnnlstm_N32_s1 ep 13 loss 0.01531 val 7.36 (14s)
+cnnlstm_N32_s1 ep 14 loss 0.01527 val 6.87 (14s)
+cnnlstm_N32_s1 ep 15 loss 0.01472 val 5.19 (13s)
+cnnlstm_N32_s1 ep 16 loss 0.01366 val 4.45 (13s)
+cnnlstm_N32_s1 ep 17 loss 0.01348 val 5.24 (14s)
+cnnlstm_N32_s1 ep 18 loss 0.01363 val 4.31 (13s)
+cnnlstm_N32_s1 ep 19 loss 0.01342 val 3.57 (13s)
+cnnlstm_N32_s1 ep 20 loss 0.01346 val 4.69 (13s)
+cnnlstm_N32_s1 ep 21 loss 0.01329 val 3.94 (13s)
+cnnlstm_N32_s1 ep 22 loss 0.01321 val 3.84 (13s)
+cnnlstm_N32_s1 ep 23 loss 0.01330 val 4.03 (13s)
+cnnlstm_N32_s1 ep 24 loss 0.01337 val 4.27 (13s)
+cnnlstm_N32_s1 ep 25 loss 0.01338 val 4.52 (13s)
+cnnlstm_N32_s1 ep 26 loss 0.01322 val 4.38 (13s)
+cnnlstm_N32_s1 ep 27 loss 0.01297 val 3.63 (13s)
+cnnlstm_N32_s1 ep 28 loss 0.01303 val 4.16 (13s)
+cnnlstm_N32_s1 ep 29 loss 0.01319 val 4.07 (13s)
+cnnlstm_N32_s1 ep 30 loss 0.01310 val 4.05 (13s)
+cnnlstm_N32_s1 ep 31 loss 0.01239 val 3.89 (13s)
+cnnlstm_N32_s1 ep 32 loss 0.01248 val 3.72 (13s)
+cnnlstm_N32_s1 ep 33 loss 0.01251 val 3.79 (14s)
+cnnlstm_N32_s1 ep 34 loss 0.01259 val 3.82 (13s)
+cnnlstm_N32_s1 ep 35 loss 0.01252 val 3.08 (13s)
+cnnlstm_N32_s1 ep 36 loss 0.01242 val 3.57 (14s)
+cnnlstm_N32_s1 ep 37 loss 0.01246 val 3.90 (13s)
+cnnlstm_N32_s1 ep 38 loss 0.01277 val 4.09 (12s)
+cnnlstm_N32_s1 ep 39 loss 0.01244 val 3.89 (12s)
+cnnlstm_N32_s1 ep 40 loss 0.01243 val 3.29 (12s)
+cnnlstm_N32_s1 ep 41 loss 0.01239 val 3.50 (12s)
+cnnlstm_N32_s1 ep 42 loss 0.01237 val 3.52 (13s)
+cnnlstm_N32_s1 ep 43 loss 0.01241 val 3.43 (12s)
+cnnlstm_N32_s1 ep 44 loss 0.01237 val 3.98 (12s)
+cnnlstm_N32_s1 ep 45 loss 0.01244 val 3.12 (13s)
+cnnlstm_N32_s1 ep 46 loss 0.01210 val 3.03 (13s)
+cnnlstm_N32_s1 ep 47 loss 0.01208 val 2.94 (13s)
+cnnlstm_N32_s1 ep 48 loss 0.01227 val 3.15 (13s)
+cnnlstm_N32_s1 ep 49 loss 0.01210 val 3.09 (13s)
+cnnlstm_N32_s1 ep 50 loss 0.01211 val 3.12 (12s)
+{
+ "tag": "cnnlstm_N32_s1",
+ "config": {
+  "arch": "cnnlstm",
+  "n": 40000,
+  "N": 32,
+  "data_seed": 42,
+  "seed": 1,
+  "epochs": 50,
+  "threads": 2,
+  "permute": false,
+  "hidden_scale": "none",
+  "tag": ""
+ },
+ "params": 162562,
+ "commit": "e063adca693a094eb2a7c7da443a663445d28d3d",
+ "data": "audit/raw/data/m1_N32_n40000_seed42.npz",
+ "n_train": 28000,
+ "n_val": 6000,
+ "n_test": 6000,
+ "test_rmse_deg": 2.768638849258423,
+ "sr": {
+  "SR@1": 0.42784375,
+  "SR@3": 0.8721875,
+  "SR@5": 0.9629010416666667,
+  "SR@10": 0.9931927083333333
+ },
+ "err_deg_p95": 4.431586265563965,
+ "power_vs_label_db": {
+  "mean": -0.006100315086956416,
+  "median": -0.004823180838542603
+ },
+ "train_minutes": 10.746001168092091
+}
