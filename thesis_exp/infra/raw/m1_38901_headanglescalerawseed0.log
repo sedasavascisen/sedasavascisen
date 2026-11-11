@@ -42,3 +42,40 @@ angle_raw_s0 ep 41 loss 1.64213 val 103.87 (42s)
 angle_raw_s0 ep 42 loss 1.64213 val 103.87 (45s)
 angle_raw_s0 ep 43 loss 1.64213 val 103.87 (52s)
 angle_raw_s0 ep 44 loss 1.64214 val 103.87 (48s)
+angle_raw_s0 ep 45 loss 1.64214 val 103.87 (57s)
+angle_raw_s0 ep 46 loss 1.64214 val 103.87 (60s)
+angle_raw_s0 ep 47 loss 1.64213 val 103.87 (64s)
+angle_raw_s0 ep 48 loss 1.64213 val 103.87 (76s)
+angle_raw_s0 ep 49 loss 1.64213 val 103.87 (74s)
+angle_raw_s0 ep 50 loss 1.64213 val 103.87 (74s)
+{
+ "tag": "angle_raw_s0",
+ "config": {
+  "head": "angle",
+  "scale": "raw",
+  "permute": false,
+  "seed": 0,
+  "epochs": 50,
+  "threads": 2
+ },
+ "commit": "c8a3e2dd01a7546c411d4284017e381320a084cc",
+ "data": "data_sumiso/sumiso_siso.npz (scripts/sumiso_dataset.py --tx 1 --tag siso, seed 2026)",
+ "n": {
+  "train": 28000,
+  "val": 6000,
+  "test": 6000
+ },
+ "params": 162881,
+ "test_rmse_deg": 103.88611033696147,
+ "sr": {
+  "SR@1": 0.005536458333333333,
+  "SR@3": 0.016520833333333332,
+  "SR@5": 0.027255208333333333,
+  "SR@10": 0.05547395833333333
+ },
+ "rate_bpshz": 6.222276899048406,
+ "rate_optimum_bpshz": 10.348690205295155,
+ "rate_published_label_a_bpshz": 9.907515707416435,
+ "power_vs_optimum_db": -13.198797477864874,
+ "train_minutes": 24.823564068476358
+}

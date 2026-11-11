@@ -34,3 +34,48 @@ sincos_raw_s0 ep 33 loss 0.50000 val 103.83 (63s)
 sincos_raw_s0 ep 34 loss 0.50000 val 103.90 (62s)
 sincos_raw_s0 ep 35 loss 0.50000 val 103.85 (67s)
 sincos_raw_s0 ep 36 loss 0.50000 val 103.86 (70s)
+sincos_raw_s0 ep 37 loss 0.50000 val 103.86 (67s)
+sincos_raw_s0 ep 38 loss 0.50000 val 103.87 (76s)
+sincos_raw_s0 ep 39 loss 0.50000 val 103.85 (74s)
+sincos_raw_s0 ep 40 loss 0.50000 val 103.86 (81s)
+sincos_raw_s0 ep 41 loss 0.50000 val 103.88 (82s)
+sincos_raw_s0 ep 42 loss 0.50000 val 103.85 (78s)
+sincos_raw_s0 ep 43 loss 0.50000 val 103.86 (65s)
+sincos_raw_s0 ep 44 loss 0.50000 val 103.84 (71s)
+sincos_raw_s0 ep 45 loss 0.50000 val 103.87 (80s)
+sincos_raw_s0 ep 46 loss 0.50000 val 103.86 (88s)
+sincos_raw_s0 ep 47 loss 0.50000 val 103.85 (101s)
+sincos_raw_s0 ep 48 loss 0.50000 val 103.86 (105s)
+sincos_raw_s0 ep 49 loss 0.50000 val 103.86 (114s)
+sincos_raw_s0 ep 50 loss 0.50000 val 103.85 (120s)
+{
+ "tag": "sincos_raw_s0",
+ "config": {
+  "head": "sincos",
+  "scale": "raw",
+  "permute": false,
+  "seed": 0,
+  "epochs": 50,
+  "threads": 2
+ },
+ "commit": "c8a3e2dd01a7546c411d4284017e381320a084cc",
+ "data": "data_sumiso/sumiso_siso.npz (scripts/sumiso_dataset.py --tx 1 --tag siso, seed 2026)",
+ "n": {
+  "train": 28000,
+  "val": 6000,
+  "test": 6000
+ },
+ "params": 162946,
+ "test_rmse_deg": 103.5684461973803,
+ "sr": {
+  "SR@1": 0.005838541666666666,
+  "SR@3": 0.017489583333333333,
+  "SR@5": 0.02861979166666667,
+  "SR@10": 0.056276041666666665
+ },
+ "rate_bpshz": 6.229977163005253,
+ "rate_optimum_bpshz": 10.348690205295155,
+ "rate_published_label_a_bpshz": 9.907515707416435,
+ "power_vs_optimum_db": -13.171946477092115,
+ "train_minutes": 37.658697978655496
+}
