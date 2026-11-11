@@ -4,3 +4,78 @@ sincos_norm_s0 ep  3 loss 0.48752 val 92.77 (14s)
 sincos_norm_s0 ep  4 loss 0.48614 val 92.36 (14s)
 sincos_norm_s0 ep  5 loss 0.48509 val 92.25 (13s)
 sincos_norm_s0 ep  6 loss 0.48476 val 93.20 (13s)
+sincos_norm_s0 ep  7 loss 0.48338 val 91.43 (13s)
+sincos_norm_s0 ep  8 loss 0.47318 val 88.32 (13s)
+sincos_norm_s0 ep  9 loss 0.44452 val 79.51 (13s)
+sincos_norm_s0 ep 10 loss 0.42493 val 72.92 (12s)
+sincos_norm_s0 ep 11 loss 0.41345 val 75.35 (12s)
+sincos_norm_s0 ep 12 loss 0.40186 val 72.50 (13s)
+sincos_norm_s0 ep 13 loss 0.39723 val 70.50 (12s)
+sincos_norm_s0 ep 14 loss 0.39049 val 68.53 (12s)
+sincos_norm_s0 ep 15 loss 0.38555 val 65.09 (13s)
+sincos_norm_s0 ep 16 loss 0.37771 val 62.69 (13s)
+sincos_norm_s0 ep 17 loss 0.37266 val 67.43 (12s)
+sincos_norm_s0 ep 18 loss 0.37335 val 66.43 (12s)
+sincos_norm_s0 ep 19 loss 0.37102 val 63.68 (12s)
+sincos_norm_s0 ep 20 loss 0.37024 val 63.31 (12s)
+sincos_norm_s0 ep 21 loss 0.36835 val 67.08 (12s)
+sincos_norm_s0 ep 22 loss 0.36737 val 63.46 (12s)
+sincos_norm_s0 ep 23 loss 0.37066 val 61.06 (13s)
+sincos_norm_s0 ep 24 loss 0.36751 val 63.97 (13s)
+sincos_norm_s0 ep 25 loss 0.37077 val 64.18 (13s)
+sincos_norm_s0 ep 26 loss 0.36605 val 69.24 (12s)
+sincos_norm_s0 ep 27 loss 0.37090 val 64.22 (13s)
+sincos_norm_s0 ep 28 loss 0.36625 val 62.65 (14s)
+sincos_norm_s0 ep 29 loss 0.36131 val 70.59 (13s)
+sincos_norm_s0 ep 30 loss 0.36424 val 62.59 (12s)
+sincos_norm_s0 ep 31 loss 0.35874 val 60.74 (12s)
+sincos_norm_s0 ep 32 loss 0.35940 val 69.40 (12s)
+sincos_norm_s0 ep 33 loss 0.35979 val 62.21 (12s)
+sincos_norm_s0 ep 34 loss 0.35889 val 63.59 (14s)
+sincos_norm_s0 ep 35 loss 0.35798 val 63.51 (12s)
+sincos_norm_s0 ep 36 loss 0.35591 val 64.14 (12s)
+sincos_norm_s0 ep 37 loss 0.35570 val 62.33 (13s)
+sincos_norm_s0 ep 38 loss 0.35714 val 62.30 (13s)
+sincos_norm_s0 ep 39 loss 0.35669 val 58.76 (12s)
+sincos_norm_s0 ep 40 loss 0.35725 val 68.86 (12s)
+sincos_norm_s0 ep 41 loss 0.35760 val 65.13 (13s)
+sincos_norm_s0 ep 42 loss 0.35411 val 60.16 (13s)
+sincos_norm_s0 ep 43 loss 0.35576 val 57.77 (12s)
+sincos_norm_s0 ep 44 loss 0.35501 val 60.60 (13s)
+sincos_norm_s0 ep 45 loss 0.35372 val 60.74 (12s)
+sincos_norm_s0 ep 46 loss 0.35525 val 59.96 (12s)
+sincos_norm_s0 ep 47 loss 0.35267 val 57.61 (12s)
+sincos_norm_s0 ep 48 loss 0.35422 val 60.04 (13s)
+sincos_norm_s0 ep 49 loss 0.35246 val 62.62 (12s)
+sincos_norm_s0 ep 50 loss 0.35255 val 60.03 (12s)
+{
+ "tag": "sincos_norm_s0",
+ "config": {
+  "head": "sincos",
+  "scale": "norm",
+  "permute": false,
+  "seed": 0,
+  "epochs": 50,
+  "threads": 2
+ },
+ "commit": "fb289443a6432cdd5295ffa8304ce1c99a204c3e",
+ "data": "data_sumiso/sumiso_siso.npz (scripts/sumiso_dataset.py --tx 1 --tag siso, seed 2026)",
+ "n": {
+  "train": 28000,
+  "val": 6000,
+  "test": 6000
+ },
+ "params": 162946,
+ "test_rmse_deg": 59.812960374191654,
+ "sr": {
+  "SR@1": 0.013333333333333334,
+  "SR@3": 0.040125,
+  "SR@5": 0.06721354166666667,
+  "SR@10": 0.13396875
+ },
+ "rate_bpshz": 9.309490200540623,
+ "rate_optimum_bpshz": 10.348690205295155,
+ "rate_published_label_a_bpshz": 9.907515707416435,
+ "power_vs_optimum_db": -3.1836511025370826,
+ "train_minutes": 10.547769860426586
+}

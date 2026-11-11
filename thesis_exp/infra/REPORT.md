@@ -1,6 +1,6 @@
 # Tez deneyleri için ortak altyapı — rapor
 
-Dal `thesis/altyapi`, rapor commit'i `ff7a387`. Mevcut dosyalara dokunulmadı: yeniden koşular `thesis_exp/infra/scripts/` altındaki, çıktısı `thesis_exp/infra/raw/`'a yönlendirilmiş kopyalarla yapıldı.
+Dal `thesis/altyapi`, rapor commit'i `fb28944`. Mevcut dosyalara dokunulmadı: yeniden koşular `thesis_exp/infra/scripts/` altındaki, çıktısı `thesis_exp/infra/raw/`'a yönlendirilmiş kopyalarla yapıldı.
 
 ## 1) Makaledeki iddialarla çelişen ya da onları değiştiren bulgular
 
@@ -33,6 +33,18 @@ Dal `thesis/altyapi`, rapor commit'i `ff7a387`. Mevcut dosyalara dokunulmadı: y
 | Tablo I adam16 etkin hız | 5.324 @ 26.60 ms | 5.524 @ 21.28 ms | FARKLI | aynı |
 | Tablo I adam20 etkin hız | 5.276 @ 33.25 ms | 5.363 @ 26.57 ms | FARKLI | aynı |
 | Statik küme kullanımı | 4200/400/600 (800 boşta) | 4200 / 500 / 600 (700 boşta) | FARKLI | raw/static_split_usage.json |
+| 38.901, N_t=1: sin/cos CNN–LSTM (ham girdi) | — | RMSE 103.57°; hız 6.230 (optimum 10.349, makale etiketi (a) 9.908) b/s/Hz | ölçüldü | raw/m1_38901/sincos_raw_s*.json |
+| 38.901, N_t=1: doğrudan açı eşleniği | — | RMSE 103.89°; hız 6.222 (optimum 10.349, makale etiketi (a) 9.908) b/s/Hz | ölçüldü | raw/m1_38901/angle_raw_s*.json |
+| 38.901, N_t=1: sin/cos, ölçek-normalize | — | RMSE 59.66, 58.40, 59.81°; hız 9.302 (optimum 10.349, makale etiketi (a) 9.908) b/s/Hz | ölçüldü | raw/m1_38901/sincos_norm_s*.json |
+| 38.901: eleman permütasyonu | — | RMSE 62.91, 59.08, 66.96° | ölçüldü | raw/m1_38901/*_perm.json |
+| 38.901 tohum 0: sin/cos − doğrudan açı (hız, b/s/Hz) | — | +1.729 [+1.688, +1.771] | ölçüldü | raw/m1_38901/*_test_rate.npy |
+| 38.901 tohum 0: özgün sıra − permütasyon (hız, b/s/Hz) | — | +0.106 [+0.089, +0.124] | ölçüldü | raw/m1_38901/*_test_rate.npy |
+| 38.901 tohum 1: sin/cos − doğrudan açı (hız, b/s/Hz) | — | +1.626 [+1.585, +1.669] | ölçüldü | raw/m1_38901/*_test_rate.npy |
+| 38.901 tohum 1: özgün sıra − permütasyon (hız, b/s/Hz) | — | +0.094 [+0.074, +0.114] | ölçüldü | raw/m1_38901/*_test_rate.npy |
+| 38.901 tohum 2: sin/cos − doğrudan açı (hız, b/s/Hz) | — | +1.862 [+1.819, +1.906] | ölçüldü | raw/m1_38901/*_test_rate.npy |
+| 38.901 tohum 2: özgün sıra − permütasyon (hız, b/s/Hz) | — | +0.417 [+0.393, +0.440] | ölçüldü | raw/m1_38901/*_test_rate.npy |
+
+Not: ham girdili kollar (Makale 1'deki gibi normalizasyonsuz) öğrenmedi (RMSE ≈ 104°, rastgele düzey); bu yüzden kalan tohumlar ölçek-normalize girdiyle koşturuldu (plandan sapma; ham kollar tohum 0 ile kayıtlı). N_t = 1'de kapalı form (etiket b) optimumdur; ağın hızı bu optimumun altında.
 
 ## 3) Komutlar, tohumlar, ham çıktılar
 

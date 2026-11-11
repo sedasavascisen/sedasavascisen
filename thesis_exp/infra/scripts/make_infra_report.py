@@ -75,6 +75,25 @@ if m1:
     if pr:
         pr_s = ", ".join(f"{x['test_rmse_deg']:.2f}" for x in pr)
         W(f"| 38.901: eleman permütasyonu | — | RMSE {pr_s}° | ölçüldü | raw/m1_38901/*_perm.json |")
+# paired comparisons on the 38.901 interface (per-sample rate, test split)
+D = RAW / "m1_38901"
+rng = np.random.default_rng(0)
+def pb(x):
+    b = [x[rng.integers(0, len(x), len(x))].mean() for _ in range(2000)]
+    return f"{x.mean():+.3f} [{np.percentile(b, 2.5):+.3f}, {np.percentile(b, 97.5):+.3f}]"
+pairs = []
+for s_ in (0, 1, 2):
+    a_, b_, c_ = D / f"sincos_norm_s{s_}_test_rate.npy", D / f"angle_norm_s{s_}_test_rate.npy", D / f"sincos_norm_s{s_}_perm_test_rate.npy"
+    if a_.exists() and b_.exists():
+        pairs.append(f"| 38.901 tohum {s_}: sin/cos − doğrudan açı (hız, b/s/Hz) | — | {pb(np.load(a_).astype(float) - np.load(b_).astype(float))} | ölçüldü | raw/m1_38901/*_test_rate.npy |")
+    if a_.exists() and c_.exists():
+        pairs.append(f"| 38.901 tohum {s_}: özgün sıra − permütasyon (hız, b/s/Hz) | — | {pb(np.load(a_).astype(float) - np.load(c_).astype(float))} | ölçüldü | raw/m1_38901/*_test_rate.npy |")
+for p_ in pairs:
+    W(p_)
+W("")
+W("Not: ham girdili kollar (Makale 1'deki gibi normalizasyonsuz) öğrenmedi (RMSE ≈ 104°, rastgele düzey); bu yüzden kalan tohumlar "
+  "ölçek-normalize girdiyle koşturuldu (plandan sapma; ham kollar tohum 0 ile kayıtlı). N_t = 1'de kapalı form (etiket b) optimumdur; "
+  "ağın hızı bu optimumun altında.")
 W("")
 W("## 3) Komutlar, tohumlar, ham çıktılar")
 W("")

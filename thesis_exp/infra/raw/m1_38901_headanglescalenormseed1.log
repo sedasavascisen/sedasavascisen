@@ -1,0 +1,81 @@
+angle_norm_s1 ep  1 loss 1.63428 val 102.49 (15s)
+angle_norm_s1 ep  2 loss 1.61918 val 102.20 (13s)
+angle_norm_s1 ep  3 loss 1.61335 val 102.46 (14s)
+angle_norm_s1 ep  4 loss 1.61112 val 101.93 (13s)
+angle_norm_s1 ep  5 loss 1.60835 val 102.07 (13s)
+angle_norm_s1 ep  6 loss 1.60563 val 101.59 (13s)
+angle_norm_s1 ep  7 loss 1.60083 val 101.67 (13s)
+angle_norm_s1 ep  8 loss 1.58012 val 99.74 (14s)
+angle_norm_s1 ep  9 loss 1.53931 val 96.86 (13s)
+angle_norm_s1 ep 10 loss 1.49279 val 95.56 (14s)
+angle_norm_s1 ep 11 loss 1.45918 val 93.65 (13s)
+angle_norm_s1 ep 12 loss 1.44686 val 95.05 (13s)
+angle_norm_s1 ep 13 loss 1.43240 val 92.67 (13s)
+angle_norm_s1 ep 14 loss 1.41689 val 93.19 (13s)
+angle_norm_s1 ep 15 loss 1.40968 val 93.42 (13s)
+angle_norm_s1 ep 16 loss 1.38984 val 90.61 (14s)
+angle_norm_s1 ep 17 loss 1.38817 val 94.02 (14s)
+angle_norm_s1 ep 18 loss 1.38377 val 93.00 (14s)
+angle_norm_s1 ep 19 loss 1.38117 val 92.32 (13s)
+angle_norm_s1 ep 20 loss 1.37158 val 91.14 (13s)
+angle_norm_s1 ep 21 loss 1.37709 val 90.98 (13s)
+angle_norm_s1 ep 22 loss 1.36749 val 89.98 (13s)
+angle_norm_s1 ep 23 loss 1.36676 val 91.48 (13s)
+angle_norm_s1 ep 24 loss 1.36404 val 91.36 (13s)
+angle_norm_s1 ep 25 loss 1.36321 val 91.33 (13s)
+angle_norm_s1 ep 26 loss 1.35679 val 90.91 (13s)
+angle_norm_s1 ep 27 loss 1.36195 val 89.84 (13s)
+angle_norm_s1 ep 28 loss 1.35712 val 90.75 (13s)
+angle_norm_s1 ep 29 loss 1.35518 val 91.06 (13s)
+angle_norm_s1 ep 30 loss 1.35216 val 89.23 (13s)
+angle_norm_s1 ep 31 loss 1.34885 val 91.60 (13s)
+angle_norm_s1 ep 32 loss 1.34669 val 88.97 (12s)
+angle_norm_s1 ep 33 loss 1.33928 val 89.13 (12s)
+angle_norm_s1 ep 34 loss 1.33501 val 88.53 (12s)
+angle_norm_s1 ep 35 loss 1.33578 val 89.15 (13s)
+angle_norm_s1 ep 36 loss 1.34911 val 89.66 (13s)
+angle_norm_s1 ep 37 loss 1.34024 val 88.96 (12s)
+angle_norm_s1 ep 38 loss 1.33658 val 89.67 (12s)
+angle_norm_s1 ep 39 loss 1.33525 val 88.75 (12s)
+angle_norm_s1 ep 40 loss 1.33852 val 88.65 (13s)
+angle_norm_s1 ep 41 loss 1.33062 val 88.25 (12s)
+angle_norm_s1 ep 42 loss 1.33997 val 90.24 (12s)
+angle_norm_s1 ep 43 loss 1.33324 val 90.55 (13s)
+angle_norm_s1 ep 44 loss 1.33019 val 88.36 (12s)
+angle_norm_s1 ep 45 loss 1.33807 val 89.14 (13s)
+angle_norm_s1 ep 46 loss 1.32703 val 91.20 (13s)
+angle_norm_s1 ep 47 loss 1.33376 val 88.64 (13s)
+angle_norm_s1 ep 48 loss 1.32929 val 87.87 (13s)
+angle_norm_s1 ep 49 loss 1.32679 val 87.84 (12s)
+angle_norm_s1 ep 50 loss 1.32270 val 87.42 (13s)
+{
+ "tag": "angle_norm_s1",
+ "config": {
+  "head": "angle",
+  "scale": "norm",
+  "permute": false,
+  "seed": 1,
+  "epochs": 50,
+  "threads": 2
+ },
+ "commit": "fb289443a6432cdd5295ffa8304ce1c99a204c3e",
+ "data": "data_sumiso/sumiso_siso.npz (scripts/sumiso_dataset.py --tx 1 --tag siso, seed 2026)",
+ "n": {
+  "train": 28000,
+  "val": 6000,
+  "test": 6000
+ },
+ "params": 162881,
+ "test_rmse_deg": 87.06816751915176,
+ "sr": {
+  "SR@1": 0.008760416666666666,
+  "SR@3": 0.02690625,
+  "SR@5": 0.044557291666666665,
+  "SR@10": 0.08951041666666666
+ },
+ "rate_bpshz": 7.60656758909033,
+ "rate_optimum_bpshz": 10.348690205295155,
+ "rate_published_label_a_bpshz": 9.907515707416435,
+ "power_vs_optimum_db": -8.53321785113108,
+ "train_minutes": 10.73886853059133
+}
