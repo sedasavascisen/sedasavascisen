@@ -1,0 +1,6 @@
+angle_norm_s0 ep  1 loss 1.63283 val 102.46 (16s)
+angle_norm_s0 ep  2 loss 1.61930 val 102.52 (15s)
+angle_norm_s0 ep  3 loss 1.61439 val 102.33 (14s)
+angle_norm_s0 ep  4 loss 1.61150 val 102.20 (13s)
+angle_norm_s0 ep  5 loss 1.60823 val 101.85 (13s)
+angle_norm_s0 ep  6 loss 1.60589 val 101.74 (13s)

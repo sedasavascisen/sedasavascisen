@@ -1,0 +1,6 @@
+sincos_norm_s0 ep  1 loss 0.49762 val 95.07 (14s)
+sincos_norm_s0 ep  2 loss 0.48977 val 92.84 (14s)
+sincos_norm_s0 ep  3 loss 0.48752 val 92.77 (14s)
+sincos_norm_s0 ep  4 loss 0.48614 val 92.36 (14s)
+sincos_norm_s0 ep  5 loss 0.48509 val 92.25 (13s)
+sincos_norm_s0 ep  6 loss 0.48476 val 93.20 (13s)
