@@ -1,0 +1,39 @@
+{
+ "commit": "fdbb62bae16b21d419d7d6ccffa425e50b8cee5f",
+ "files": {
+  "mumiso_aging_fixzf.json": {
+   "rerun": "mumiso_aging_fixzf.json",
+   "identical": true,
+   "n_differences": 0,
+   "first_differences": [],
+   "skipped_keys": [
+    "config"
+   ]
+  },
+  "mumiso_aging_sweep_repro.json": {
+   "rerun": "mumiso_aging_sweep_fixzf.json",
+   "identical": true,
+   "n_differences": 0,
+   "first_differences": [],
+   "skipped_keys": []
+  },
+  "mumiso_aging_sweep_fixzf.json": {
+   "rerun": "mumiso_aging_sweep_fixzf.json",
+   "identical": false,
+   "n_differences": 11,
+   "first_differences": [
+    "[0]/effective: 5.276240444183349 vs 5.276314067840576",
+    "[1]/effective: 5.749457502365113 vs 5.746206212043762",
+    "[2]/effective: 5.981556193033854 vs 5.97982048034668",
+    "[3]/effective: 5.969968167940776 vs 5.969990582466125",
+    "[5]/effective: 5.677458279841655 vs 5.683194590651471",
+    "[6]/effective: 5.515310780207316 vs 5.514917552471161",
+    "[7]/effective: 5.327707052230835 vs 5.324355602264404",
+    "[8]/effective: 5.27133503981999 vs 5.276194688151865",
+    "[9]/effective: 5.274971260343279 vs 5.282431306718271",
+    "[10]/effective: 5.201056241989136 vs 5.229951709747314"
+   ],
+   "skipped_keys": []
+  }
+ }
+}
