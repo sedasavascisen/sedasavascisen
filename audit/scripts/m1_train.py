@@ -30,7 +30,7 @@ import torch.nn as nn
 from m1_data import generate, split
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--arch", default="cnnlstm", choices=["cnnlstm", "fcdnn_direct"])
+ap.add_argument("--arch", default="cnnlstm", choices=["cnnlstm", "fcdnn_direct", "transformer"])
 ap.add_argument("--n", type=int, default=40000)
 ap.add_argument("--N", type=int, default=32)
 ap.add_argument("--data_seed", type=int, default=42)
@@ -95,8 +95,43 @@ class FCDNN(nn.Module):
         return self.net(x)
 
 
-if a.arch == "cnnlstm":
-    model = CNNLSTM(a.N); inp = Xt
+class MatlabSelfAttention(nn.Module):
+    """selfAttentionLayer(numHeads=4, numKeyChannels=16): queries/keys/values 16 channels in total
+    (MATLAB default NumValueChannels = NumKeyChannels), split over 4 heads, output projected back to
+    the input size (MATLAB default OutputSize = input channels)."""
+    def __init__(self, d=64, heads=4, kc=16):
+        super().__init__()
+        self.h, self.dk = heads, kc // heads
+        self.q, self.k, self.v = nn.Linear(d, kc), nn.Linear(d, kc), nn.Linear(d, kc)
+        self.o = nn.Linear(kc, d)
+
+    def forward(self, x):                                   # [B,T,d]
+        B, T, _ = x.shape
+        sp = lambda y: y.view(B, T, self.h, self.dk).transpose(1, 2)
+        q, k, v = sp(self.q(x)), sp(self.k(x)), sp(self.v(x))
+        att = torch.softmax(q @ k.transpose(-1, -2) / self.dk ** 0.5, -1)
+        return self.o((att @ v).transpose(1, 2).reshape(B, T, -1))
+
+
+class MatlabTransformer(nn.Module):
+    """transformer_baseline.m: in(4) -> FC64 -> ReLU (relu_emb) -> attn1 -> add(relu_emb) -> LN (ln1)
+    -> FC64 -> ReLU -> Drop0.1 -> attn2 -> add(ln1) -> LN -> FC64 -> ReLU -> Drop0.1 -> FC2."""
+    def __init__(self):
+        super().__init__()
+        self.embed = nn.Linear(4, 64); self.a1 = MatlabSelfAttention(); self.ln1 = nn.LayerNorm(64)
+        self.ff1 = nn.Linear(64, 64); self.d1 = nn.Dropout(0.1); self.a2 = MatlabSelfAttention(); self.ln2 = nn.LayerNorm(64)
+        self.ff2 = nn.Linear(64, 64); self.d2 = nn.Dropout(0.1); self.out = nn.Linear(64, 2)
+
+    def forward(self, x):                                   # x [B,4,N]
+        e = torch.relu(self.embed(x.transpose(1, 2)))
+        l1 = self.ln1(self.a1(e) + e)
+        h = self.d1(torch.relu(self.ff1(l1)))
+        l2 = self.ln2(self.a2(h) + l1)
+        return self.out(self.d2(torch.relu(self.ff2(l2))))
+
+
+if a.arch in ("cnnlstm", "transformer"):
+    model = CNNLSTM(a.N) if a.arch == "cnnlstm" else MatlabTransformer(); inp = Xt
     tgt = torch.stack([torch.sin(THt), torch.cos(THt)], -1)
     loss_fn = lambda o, t: 0.5 * ((o - t) ** 2).sum(-1).mean()
     to_phase = lambda o: torch.atan2(o[..., 0], o[..., 1])

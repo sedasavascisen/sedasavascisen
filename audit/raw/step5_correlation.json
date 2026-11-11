@@ -1,0 +1,28 @@
+{
+ "commit": "14c4fddaad2d633edaba4beb142ec3176f40bc03",
+ "n": 40000,
+ "data": "audit/raw/data/m1_N32_n40000_seed42.npz",
+ "pairs": {
+  "along_j (sequence lag 1)": {
+   "n_pairs": 24,
+   "rho_F": 0.0031720587639245774,
+   "rho_G": 0.00345469232248427,
+   "rho_GF": 0.0069240023646075675,
+   "phase_coherence_label_a": 0.0011815054010534578
+  },
+  "along_i (sequence lag 4)": {
+   "n_pairs": 28,
+   "rho_F": 0.0042354708726283575,
+   "rho_G": 0.0045770205944193915,
+   "rho_GF": 0.006863730392043394,
+   "phase_coherence_label_a": 0.0006274098399042164
+  },
+  "distant (3 apart along i)": {
+   "n_pairs": 20,
+   "rho_F": 0.002369185694553965,
+   "rho_G": 0.0005989739305530583,
+   "rho_GF": 0.006429707641725122,
+   "phase_coherence_label_a": 0.0008012456018901539
+  }
+ }
+}
