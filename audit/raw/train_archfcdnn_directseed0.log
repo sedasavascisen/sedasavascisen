@@ -36,3 +36,49 @@ fcdnn_direct_N32_s0 ep 35 loss 1.12583 val 84.64 (1s)
 fcdnn_direct_N32_s0 ep 36 loss 1.12308 val 84.25 (1s)
 fcdnn_direct_N32_s0 ep 37 loss 1.12223 val 84.44 (1s)
 fcdnn_direct_N32_s0 ep 38 loss 1.11900 val 84.27 (1s)
+fcdnn_direct_N32_s0 ep 39 loss 1.11709 val 84.12 (1s)
+fcdnn_direct_N32_s0 ep 40 loss 1.11567 val 84.09 (1s)
+fcdnn_direct_N32_s0 ep 41 loss 1.11398 val 84.06 (1s)
+fcdnn_direct_N32_s0 ep 42 loss 1.11194 val 84.02 (2s)
+fcdnn_direct_N32_s0 ep 43 loss 1.10819 val 84.01 (1s)
+fcdnn_direct_N32_s0 ep 44 loss 1.10679 val 83.65 (1s)
+fcdnn_direct_N32_s0 ep 45 loss 1.10325 val 83.69 (1s)
+fcdnn_direct_N32_s0 ep 46 loss 1.09828 val 83.58 (1s)
+fcdnn_direct_N32_s0 ep 47 loss 1.09470 val 83.53 (1s)
+fcdnn_direct_N32_s0 ep 48 loss 1.09277 val 83.75 (1s)
+fcdnn_direct_N32_s0 ep 49 loss 1.09315 val 83.57 (1s)
+fcdnn_direct_N32_s0 ep 50 loss 1.09096 val 83.64 (1s)
+{
+ "tag": "fcdnn_direct_N32_s0",
+ "config": {
+  "arch": "fcdnn_direct",
+  "n": 40000,
+  "N": 32,
+  "data_seed": 42,
+  "seed": 0,
+  "epochs": 50,
+  "threads": 2,
+  "permute": false,
+  "hidden_scale": "none",
+  "tag": ""
+ },
+ "params": 470304,
+ "commit": "b9733a449827108236f477fb663f41df08711dd1",
+ "data": "audit/raw/data/m1_N32_n40000_seed42.npz",
+ "n_train": 28000,
+ "n_val": 6000,
+ "n_test": 6000,
+ "test_rmse_deg": 83.85269165039062,
+ "sr": {
+  "SR@1": 0.013614583333333333,
+  "SR@3": 0.040515625,
+  "SR@5": 0.06740104166666666,
+  "SR@10": 0.13324479166666667
+ },
+ "err_deg_p95": 164.69252014160156,
+ "power_vs_label_db": {
+  "mean": -6.4342880989724796,
+  "median": -5.642478310300511
+ },
+ "train_minutes": 1.0249010125796
+}

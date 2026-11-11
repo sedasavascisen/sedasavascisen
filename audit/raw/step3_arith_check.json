@@ -11,6 +11,11 @@
  "csi10_rel_increase_pct": 51.6245487364621,
  "csi10_margin_vs_pso_perfect_csi_pct": 6.6666666666666625,
  "quant_2bit_minus_cont_deg": 0.31000000000000005,
+ "quant_floor_rmse_deg": {
+  "1": 51.96152422706632,
+  "2": 25.98076211353316,
+  "3": 12.99038105676658
+ },
  "powerlaw_fit": {
   "alpha": 0.2449420894685018,
   "c0": 2.7494334885001903,

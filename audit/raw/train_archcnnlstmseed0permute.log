@@ -1,0 +1,6 @@
+cnnlstm_N32_s0_perm ep  1 loss 0.25556 val 27.77 (13s)
+cnnlstm_N32_s0_perm ep  2 loss 0.06502 val 18.23 (12s)
+cnnlstm_N32_s0_perm ep  3 loss 0.03941 val 13.70 (13s)
+cnnlstm_N32_s0_perm ep  4 loss 0.02910 val 10.89 (13s)
+cnnlstm_N32_s0_perm ep  5 loss 0.02472 val 9.03 (13s)
+cnnlstm_N32_s0_perm ep  6 loss 0.02213 val 8.94 (13s)

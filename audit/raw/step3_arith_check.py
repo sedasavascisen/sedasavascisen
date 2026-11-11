@@ -30,6 +30,9 @@ out["csi10_rel_increase_pct"] = 100 * (4.2 - 2.77) / 2.77               # paper:
 # PERFECT-CSI 4.50 deg (Table 6). Margin vs that number:
 out["csi10_margin_vs_pso_perfect_csi_pct"] = 100 * (4.50 - 4.2) / 4.50
 out["quant_2bit_minus_cont_deg"] = 3.08 - 2.77                          # paper: 0.31 deg
+# RMSE floor of uniform b-bit phase quantisation vs a continuous label:
+# step = 360/2^b deg, error ~ U(-step/2, step/2) -> RMSE = step/sqrt(12)
+out["quant_floor_rmse_deg"] = {b: (360 / 2 ** b) / math.sqrt(12) for b in (1, 2, 3)}
 
 # power-law fit of Table 8 / Eq. 19 on the three "experimental" points
 xs = [math.log(n / 32) for n in (32, 64, 128)]
