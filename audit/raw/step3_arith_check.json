@@ -1,0 +1,50 @@
+{
+ "table1_improvement_pct": 29.87341772151899,
+ "cnn_vs_cd_pct": 20.857142857142858,
+ "cnn_vs_lstm_only_pct": 19.00584795321637,
+ "cd_k50_vs_cnn_pct_over_cnn": 15.523465703971125,
+ "cd_k50_vs_cnn_pct_over_cd": 13.437500000000004,
+ "fig9_normalized_rmse": 0.554,
+ "pso_speed_ratio": 187.5,
+ "eff_cnn": 4.512635379061371,
+ "eff_cd": 1.9047619047619047,
+ "csi10_rel_increase_pct": 51.6245487364621,
+ "csi10_margin_vs_pso_perfect_csi_pct": 6.6666666666666625,
+ "quant_2bit_minus_cont_deg": 0.31000000000000005,
+ "powerlaw_fit": {
+  "alpha": 0.2449420894685018,
+  "c0": 2.7494334885001903,
+  "R2_linear": 0.9943770583520328,
+  "R2_log": 0.9942530595042643,
+  "pred_N256_fitted_c0": 4.575599106624415,
+  "pred_N256_paper_formula_2.77": 4.610380990301846,
+  "paper_claims": {
+   "alpha": 0.245,
+   "c0": 2.77,
+   "R2": 0.9998,
+   "N256": 4.58
+  }
+ },
+ "params": {
+  "paper_sec3_5_architecture": {
+   "cnn": 13440,
+   "lstm": 148224,
+   "fc": 565696,
+   "total": 727360
+  },
+  "theta_NN_multioutput_m": {
+   "cnn": 13440,
+   "lstm": 148224,
+   "fc_out": 130,
+   "total": 161794
+  },
+  "train_cnn_lstm_py_N32": {
+   "cnn": 13440,
+   "lstm": 231424,
+   "lstm_proj": 8256,
+   "fc": 569856,
+   "total": 822976
+  },
+  "paper_claim_total": 727360
+ }
+}

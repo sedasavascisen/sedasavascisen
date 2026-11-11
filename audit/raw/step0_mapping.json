@@ -1,0 +1,195 @@
+{
+ "meta": {
+  "paper": "Overcoming the Phase Discontinuity Problem in RIS Optimization ... Adv. Intell. Syst. 2026, e70460, doi:10.1002/aisy.70460",
+  "pdf": "audit/raw/sources/aisy2026_published.pdf (sha256 ac5cf1fb...c2b2)",
+  "pdf_text_method": "pdftotext -layout and plain pdftotext; page = PDF page (footer 'n of 19'); figures are raster JPEGs, values read visually from pdfimages output",
+  "date": "2026-11-11",
+  "mode": "READ-ONLY. No MATLAB present, nothing from zip/repo/uploads executed.",
+  "classification_legend": {
+   "olcuyor": "values computed from data/model by the script",
+   "elle_yazilmis": "values are hard-coded literals in the script",
+   "betik_yok": "no script in any version produces the value"
+  },
+  "path_aliases": {
+   "ZIP": "/tmp/claude-0/-home-user-sedasavascisen/36a1538b-b28f-5b37-970a-9a1a9a74083b/scratchpad/audit_zip/ (unzipped audit/raw/sources/RIS_phase_aware_code.zip, sha256 cd176f4b...; entries dated 2026-09-03)",
+   "REPO": "/tmp/claude-0/-home-user-sedasavascisen/36a1538b-b28f-5b37-970a-9a1a9a74083b/scratchpad/m1repo/ (GitHub clone, commit 61531b5995d6, 2026-08-12)",
+   "UPL": "/root/.claude/uploads/36a1538b-b28f-5b37-970a-9a1a9a74083b/",
+   "ORIJ": "/home/user/sedasavascisen/aisy_paket/orijinal/"
+  }
+ },
+ "dataset_RIS_dataset_large_2D_mat": {
+  "exists": false,
+  "evidence": "find / -xdev -iname 'RIS_dataset*.mat' -> no hit; zip contains 18 files, none .mat; REPO git ls-files (15 files) has no .mat; the two ris_mu tar.gz uploads contain no RIS_dataset/.mat entry. Also absent: cnn_lstm_trained_model.mat, cnn_lstm_test_results.mat, fairness_K_results.mat, scalability_results.mat, any .pth checkpoint, RIS_dataset_N32.mat.",
+  "paper_claim": "p17 Data Availability: 'The datasets (40,000 channel-phase sample pairs) ... are openly available in the public GitHub repository at https://github.com/sedasavascisen/RIS-Phase-Discontinuity-Dataset.' -> repo commit 61531b5 contains no dataset.",
+  "generators": [
+   {"file": "ZIP/RIS_dataset_large_2D.m", "md5": "98cdc170b8feac42ff16b8834ec70916", "same_as": ["UPL/0d92cf48-RIS_dataset_large_2D_1.m", "ORIJ/RIS_dataset_large_2D.m"], "output": "RIS_dataset_large_2D.mat (F,G,h_d,THETA,...) line 122-124", "label": "line 100 THETA = wrapToPi(-angle(F)-angle(G)) (ignores h_d)"},
+   {"file": "REPO/RIS_dataset_large_2D.m", "md5": "5e0804027ca6834d394cab13fb975699", "diff_vs_zip": "only comment line 14 ('N=64 or N=128' vs 'N=64, 128 or 256')"},
+   {"file": "REPO/github RIS_dataset_large_2D.m", "md5": "5b24e369882294ad4d35c66206198ab2", "same_as": ["UPL/715b085f-dataset.m"], "diff_vs_zip": "same RNG draw order (per aisy_paket/README_TR.md) plus X_feat/Y_sincos (204,217), randperm split idx_tr/idx_val/idx_te (279-282), Table-4 style stats (225-265), saved -v7.3 (311)"},
+   {"file": "UPL/9b1af9b5-RIS_dataset_large_2D_UPDATED.m", "md5": "da19f6477920fc523d0869d690c7e2de", "same_as": ["ORIJ/RIS_dataset_large_2D_UPDATED.m"], "diff_vs_zip": "N_target switch 32/64/128 only (26-34; N=256 -> error), output name RIS_dataset_large_2D_<N>elem.mat (184) so downstream scripts loading RIS_dataset_large_2D.mat would not find it; line 155 corr(THETA') builds 40000x40000 matrix"}
+  ]
+ },
+ "items": [
+  {
+   "id": "Table1",
+   "pdf_page": 3,
+   "caption": "TABLE 1 | Ablation study: phase-aware output representation (mean RMSE, 5 independent runs; 95% CI: ± 0.07°).",
+   "published_values": {"Direct phase prediction": {"RMSE_deg": 3.95, "Improvement": "—"}, "Phase-aware (sin/cos)": {"RMSE_deg": 2.77, "Improvement": "29.9%"}},
+   "text_definition": "p11 Sec 5.5.1: 'A baseline model with identical architecture but direct phase output (N-dimensional) is trained for comparison.'",
+   "producers": [
+    {"value": "2.77", "file": "ZIP/theta_NN_multioutput.m", "lines": "101-113 (predict, atan2, phase-aware RMSE)", "class": "olcuyor", "input": "RIS_dataset_large_2D.mat (missing)", "note": "single run, rng(42) line 13; no 5-run loop, no CI code; no FC block, no L2 normalisation, no z-score (contrary to paper Sec 3.2.6/Remark 3/3.4.3)"},
+    {"value": "3.95", "file": "ZIP/transformer_baseline.m", "lines": "112-145 (MLP 512-512-256, direct phase, wrapToPi)", "class": "olcuyor (but a DIFFERENT architecture)", "input": "RIS_dataset_large_2D.mat (missing)", "note": "This is the FC-DNN(direct) row of Table 6. No script trains the 'identical architecture' CNN-LSTM with direct phase output that Table 1 describes -> for Table 1 as defined: betik_yok"},
+    {"value": "29.9%", "class": "arithmetic of the two values: (3.95-2.77)/3.95 = 29.87% (audit/raw/step3_arith_check.json table1_improvement_pct)"},
+    {"value": "5 runs, CI ±0.07", "class": "betik_yok"}
+   ],
+   "overall_class": "kismen olcuyor (2.77) / betik yok (identical-architecture direct baseline, 5 runs, CI)",
+   "version_notes": "theta_NN_multioutput.m identical in ZIP, UPL/d3d64015, ORIJ (md5 35f31d6e...); ABSENT from REPO although REPO/README.md:23 lists it. transformer_baseline.m: ZIP md5 1bd9042b vs REPO df76ed7c: label strings only (CNN-Transformer/FC-DNN vs Transformer/MLP), REPO adds unused Y_flat (line 30) and a ratio print; both hard-code RMSE_cnn=2.77, TIME_cnn=0.08 (ZIP:148, REPO:149)."
+  },
+  {
+   "id": "Table3",
+   "pdf_page": 8,
+   "caption": "TABLE 3 | Ablation study: architectural components (mean RMSE over 5 independent runs; 95% CI within ± 0.09°).",
+   "published_values": [
+    {"arch": "FC-DNN only", "RMSE": 4.73, "Params": "89 K", "Time_ms": 0.04},
+    {"arch": "CNN-only (2L)", "RMSE": 3.50, "Params": "680 K", "Time_ms": 0.06},
+    {"arch": "LSTM-only (2L)", "RMSE": 3.42, "Params": "520 K", "Time_ms": 0.07},
+    {"arch": "CNN (1L) + LSTM (1L)", "RMSE": 3.11, "Params": "156K", "Time_ms": 0.07},
+    {"arch": "CNN-LSTM (proposed)", "RMSE": 2.77, "Params": "727 K", "Time_ms": 0.08},
+    {"arch": "CNN (3L) + LSTM (2L)", "RMSE": 2.79, "Params": "231 K", "Time_ms": 0.09},
+    {"arch": "CNN (2L) + LSTM (3L)", "RMSE": 2.78, "Params": "213 K", "Time_ms": 0.09},
+    {"arch": "CNN-Transformer", "RMSE": 2.91, "Params": "201 K", "Time_ms": 0.11}
+   ],
+   "producers": [
+    {"value": "2.77 / 0.08", "file": "ZIP/theta_NN_multioutput.m", "lines": "101-113", "class": "olcuyor (input missing)"},
+    {"value": "2.91 / 0.11", "file": "ZIP/transformer_baseline.m", "lines": "59-110", "class": "olcuyor (input missing); model has no CNN layer and no positional encoding (layers 64-82) although paper calls it CNN-Transformer with sinusoidal PE (p9-10)"},
+    {"value": "727 K", "file": "paper p9 Sec 3.5 (13,440+148,224+565,696=727,360)", "class": "analytic count of the paper's described architecture; NOT the code: theta_NN_multioutput.m = 161,794 learnables, train_cnn_lstm.py = 822,976 (audit/raw/step3_arith_check.json params)"},
+    {"value": "FC-DNN only, CNN-only, LSTM-only, CNN1L+LSTM1L, CNN3L+LSTM2L, CNN2L+LSTM3L (RMSE, params, time); all other params (89K,680K,520K,156K,231K,213K,201K); all times", "class": "betik_yok", "evidence": "grep for these architectures/numbers across ZIP, REPO, UPL, ORIJ: no hit"}
+   ],
+   "overall_class": "betik yok (6 of 8 rows entirely; params column entirely)",
+   "internal_inconsistency": "Adding a layer drops params 727K -> 231K (CNN3L+LSTM2L) and 213K (CNN2L+LSTM3L); CNN-only 2L (680K) has ~4.4x the params of CNN1L+LSTM1L (156K). Not compatible with the fixed widths in Sec 3.2.",
+   "version_notes": "No ablation code in any version."
+  },
+  {
+   "id": "Table6",
+   "pdf_page": 11,
+   "caption": "TABLE 6 | Performance comparison of RIS phase optimization methods. Values shown as mean ± standard deviation across 6000 test scenarios (5 independent runs; 95% CI within ±0.08° for all methods).",
+   "published_values": [
+    {"m": "CNN-LSTM", "RMSE": "2.77 ± 1.15", "SR5": "95%", "ms": 0.08},
+    {"m": "CD", "RMSE": "3.50 ± 1.42", "SR5": "78%", "ms": 0.15},
+    {"m": "AO", "RMSE": "3.50 ± 1.38", "SR5": "78%", "ms": 0.18},
+    {"m": "PGD", "RMSE": "4.00 ± 1.68", "SR5": "71%", "ms": 0.50},
+    {"m": "WMMSE", "RMSE": "4.00 ± 1.65", "SR5": "71%", "ms": 0.20},
+    {"m": "PSO", "RMSE": "4.50 ± 1.88", "SR5": "64%", "ms": 15.0},
+    {"m": "SPA", "RMSE": "5.00 ± 2.15", "SR5": "57%", "ms": 0.05},
+    {"m": "FC-DNN (direct)", "RMSE": "3.95 ± 1.71", "SR5": "82%", "ms": 0.04},
+    {"m": "FC-DNN (sin/cos)", "RMSE": "3.41 ± 1.50", "SR5": "89%", "ms": 0.04},
+    {"m": "CNN-Transformer", "RMSE": "2.91 ± 1.22", "SR5": "93%", "ms": 0.11},
+    {"m": "GCN (spatial)", "RMSE": "3.12 ± 1.33", "SR5": "91%", "ms": 0.09}
+   ],
+   "producers": [
+    {"rows": "CNN-LSTM RMSE, SR@5, time", "file": "ZIP/theta_NN_multioutput.m", "lines": "RMSE 111-113, SR 120-123, time 101-103", "class": "olcuyor", "input": "RIS_dataset_large_2D.mat (missing)", "note": "± std not computed; time = batch predict on GPU ('ExecutionEnvironment','gpu' line 91; predict on whole test set line 102) / nTest -> throughput, not single-sample CPU latency as paper states"},
+    {"rows": "CD RMSE, time", "file": "ZIP/ris_CD.m", "lines": "time 36-52, RMSE 54-58 (ref = -angle(G)-angle(F))", "class": "olcuyor", "input": "F,G,h_d from RIS_dataset_large_2D.mat (missing)", "note": "Python re-implementation in this project (scripts/aisy_cd_k_check.py, results/aisy_cd_k_check.json) gives 103.8 deg at K=5 with this definition, not 3.50. SR@5 and ± not computed."},
+    {"rows": "AO RMSE/time", "file": "UPL/d9cff4ea-baseline_fairness_K_analysis.m", "lines": "159-194 ris_AO_timed", "class": "olcuyor (identical algorithm to CD, so RMSE must equal CD's; ±1.38 vs ±1.42 and 0.18 vs 0.15 ms cannot both come from identical code on the same data unless timing noise)"},
+    {"rows": "AO/PGD/WMMSE/PSO/SPA as published (phase RMSE deg, SR, time)", "file": "ZIP/ris_AO.m, ris_PGD.m, ris_WMMSE.m, ris_PSO.m, ris_SPA.m", "lines": "ris_AO 37-39, ris_PGD 34-36, ris_WMMSE 37-39, ris_PSO 67-69, ris_SPA 29-31", "class": "betik_yok", "note": "these functions return MSE/RMSE of h_eff vs h_d+sum(G.*F) (all-ones phase), i.e. a channel-magnitude difference, not phase RMSE in degrees; no timing code"},
+    {"rows": "FC-DNN (direct)", "file": "ZIP/transformer_baseline.m", "lines": "112-145", "class": "olcuyor (input missing)"},
+    {"rows": "CNN-Transformer", "file": "ZIP/transformer_baseline.m", "lines": "59-110", "class": "olcuyor (input missing)"},
+    {"rows": "FC-DNN (sin/cos), GCN, all SR@5 except CNN-LSTM, all ±std, 5 runs, CI", "class": "betik_yok"},
+    {"rows": "whole table as a literal", "file": "ZIP/Figure7_comparison.m", "lines": "11-12", "class": "elle_yazilmis", "note": "header line 3: 'Values match the published table; no re-training needed.' Also ZIP/README.md:144-156, REPO/README.md:125-137 (literals)"}
+   ],
+   "overall_class": "karma: 4 satir icin olcen kod var (CNN-LSTM, CD, FC-DNN direct, CNN-Transformer) ama girdi veri yok; 7 satir betik yok; Figure 7 cizimi elle yazilmis",
+   "version_notes": "ris_CD.m ZIP md5 70668dcc (61 lines, English) vs REPO=UPL/709bea43=ORIJ md5 4d45faa5 (78 lines, Turkish comments): same algorithm, same RMSE reference. Classical .m in REPO are .m.txt (not runnable as-is); ris_PGD default maxIter ZIP 50 (line 13) vs REPO 10 (ris_PGD.m.txt line 11). REPO README (line 141-148) itself flags Transformer 0.11 vs 1.1 ms discrepancy. UPL/a7225990-README_GitHub_3.md:93-104 gives different numbers: Transformer 3.21 deg / 0.17 ms, CD K=20 3.31, CD K=50 3.22, AO K=20 3.28."
+  },
+  {
+   "id": "Table8",
+   "pdf_page": 15,
+   "caption": "TABLE 8 | Scalability of CNN-LSTM inference latency across RIS array sizes (Intel Core i7-9700K CPU). RMSE at N = 256 is predicted via a power-law regression model fitted to three experimental points: RMSE(N) = 2.77 × (N/32)^0.245 (R2 = 0.9998 over N ∈ {32, 64, 128}); the latency of 0.64 ms at N = 256 is experimentally measured. All other latency values measured experimentally and confirmed in Figure 1.",
+   "published_values": [
+    {"N": "32 (8x4)", "RMSE": 2.77, "ms": 0.08, "URLLC": "✓", "vs_CD_K5": "−21%"},
+    {"N": "64 (8x8)", "RMSE": 3.21, "ms": 0.16, "URLLC": "✓", "vs_CD_K5": "−18%"},
+    {"N": "128 (16x8)", "RMSE": 3.89, "ms": 0.32, "URLLC": "✓", "vs_CD_K5": "−14%"},
+    {"N": "256 (16x16)", "RMSE": "4.6 (est.)", "ms": 0.64, "URLLC": "✓", "vs_CD_K5": ""},
+    {"note": "CD (K=5): N=64 -> 3.04 ms; N=128 -> 12.2 ms; N=256 -> 73.0 ms. Transformer: N=32 -> 1.1 ms; N=256 -> 48.6 ms."}
+   ],
+   "producers": [
+    {"file": "ZIP/scalability_analysis.m", "lines": "18-20 (time_cnn, time_cd, time_trf literals), 23 (rmse_meas = [2.77, 3.21, 3.89, NaN]), 26-33 (power-law fit computed from the literals)", "class": "elle_yazilmis (fit is computed but from hard-coded inputs)", "md5": "ec97516a4f93d4bb64763ff4dc40b222", "same_as": "ORIJ/scalability_analysis_zip.m"},
+    {"file": "UPL/f2d4df3b-scalability_analysis.m", "lines": "55-57 (N=32 literals 0.08/0.15/727360), 116 t_cnn_proj = 0.08*(N/32), 128 t_cd_proj = 0.15*(N/32)^2", "class": "elle_yazilmis / projection formula (header lines 16-18: 'tam egitim degil, projeksiyon'); N=32,64,128 only; gives CD 0.60/2.40 ms, not 3.04/12.2", "md5": "51321caf6125a9baae350b1190ab7256"},
+    {"file": "REPO/Scalability Analysis.m.txt", "lines": "10 time_cnn, 14 time_cd_k5 = [0.15,3.04,12.2,73.0], 17-20 Transformer N=64/128 interpolated", "class": "elle_yazilmis", "md5": "7ac4765de0520c669d103ea05a53236a"},
+    {"value": "RMSE 3.21 / 3.89 (N=64/128 trained models)", "class": "betik_yok", "note": "train_cnn_lstm.py has --N but its input RIS_dataset_N64.mat has no producer; no N=256 generator (UPDATED errors at 256)"},
+    {"value": "vs CD −18%, −14%", "class": "betik_yok"}
+   ],
+   "overall_class": "elle yazilmis (latency), betik yok (N>32 RMSE, CD comparison)",
+   "evidence_pattern": "latency values are exact multiples: CNN 0.08*N/32; CD 3.04->12.2 (x4.0)",
+   "version_notes": "Three different value sets: ZIP (CD N=32 0.15, N=256 73.0; Tr 1.10/4.40/17.60/48.60), UPL/62def4dd (CD 0.76/3.04/12.16/48.64; Tr 1.14/4.56/18.24/72.96), UPL/README_GitHub_3.md:112-116 (CNN 0.08/0.12/0.19; CD 0.15/0.60/2.40)."
+  },
+  {
+   "id": "Figure1",
+   "pdf_page": 4,
+   "caption": "FIGURE 1 | Scalability analysis: inference latency (ms, log scale) versus number of RIS elements N for CNN-LSTM [O(N)], Coordinate Descent [O(KN^2), K = 5], and CNN-Transformer [O(N^2)]. ... CNN-LSTM is the only method that remains below 1 ms for all N ∈ {32, 64, 128, 256} (0.08, 0.16, 0.32, 0.64 ms, respectively). CD (K = 5) exceeds 1 ms above N = 32 (3.04 ms at N = 64, rising to 73.0 ms at N = 256). The CNN-Transformer already violates URLLC at N = 32 (1.1 ms) ... reaching 48.6 ms at N = 256. Latency annotation values are read from experimental measurements; RMSE and latency data are tabulated in Table 8 (Section 5.9).",
+   "published_values_from_image": "CNN-LSTM 0.08/0.16/0.32/0.64; CD marker at N=32 ~0.76 (below 1 ms line), 3.04, 12.2, ~48.6 at N=256; Transformer ~1.14, ~4.6, ~18, ~73 at N=256. Labels '48.6 ms x' (yellow/CD colour) and '73.0 ms x' (red/Transformer colour) at N=256.",
+   "producers": [
+    {"file": "UPL/62def4dd-Scalability_Analysis.m", "md5": "5471d0867c4876d90100947de8793de9", "same_as": "ORIJ/Scalability_Analysis_sekil.m", "lines": "11 time_cnn, 14 time_cd_k5 = [0.76, 3.04, 12.16, 48.64], 17 time_transformer = [1.14, 4.56, 18.24, 72.96], 83 label '48.6 ms x', 90 label '73.0 ms x'", "class": "elle_yazilmis", "match_to_published_image": "YES (CD at N=32 below 1 ms; no CD label at N=32; label placement lines 70-92)"},
+    {"file": "ZIP/Figure1_scalability.m", "md5": "67808bf42bf3b5a5dec94fc8587c6756", "lines": "11-13 literals (CD 0.15 ... 73.00; Tr 1.10 ... 48.60)", "class": "elle_yazilmis", "match_to_published_image": "NO (CD 0.15 at N=32, CD=73 at N=256)"},
+    {"file": "REPO/Scalability Analysis.m.txt", "lines": "10,14,17-20", "class": "elle_yazilmis + interpolation", "match_to_published_image": "NO (title '(Corrected)')"}
+   ],
+   "overall_class": "elle yazilmis; olcen betik yok",
+   "contradictions": [
+    "Caption says CD = 73.0 ms and Transformer = 48.6 ms at N=256; the plotted data (62def4dd line 14/17) is CD = 48.64, Transformer = 72.96.",
+    "Plotted CD at N=32 = 0.76 ms vs Table 6/7 CD = 0.15 ms.",
+    "Transformer at N=32: 1.1 ms (Fig 1, Table 8) vs 0.11 ms (Table 3, Table 6) vs 0.17 ms (p7 Sec 3.2.1)."
+   ]
+  },
+  {
+   "id": "Figure2",
+   "pdf_page": 5,
+   "caption": "FIGURE 2 | Baseline fairness: CD phase-aware RMSE (°, left axis) and inference latency (ms, right axis) versus iteration count K ∈ {5, 20, 50}, compared against CNN-LSTM (dashed lines) and the 6G URLLC 1 ms limit. No K exists at which CD is simultaneously URLLC-compliant and matches CNN-LSTM accuracy: at K = 5 (0.15 ms) CD achieves 3.50°—21% worse; at K = 50 it reaches 3.20°—still 15.4% worse—while exceeding the URLLC limit (1.50 ms).",
+   "published_values": {"K": [5, 20, 50], "RMSE_CD": [3.50, 3.49, 3.20], "TIME_CD_ms": [0.15, 0.60, 1.50], "CNN_RMSE": 2.77, "CNN_ms": 0.08},
+   "producers": [
+    {"file": "UPL/e0d34584-baseline_fairness_K_analysis.m", "md5": "269ee8efa61917eda9e3b9de21c7763a", "same_as": "ORIJ/baseline_fairness_K_analysis_v2_sekil.m", "lines": "10 RMSE_CD = [3.50, 3.49, 3.20]; 13 TIME_CD = [0.15, 0.60, 1.50]; 15-16 CNN 2.77/0.08; 112,126 label strings", "class": "elle_yazilmis", "match_to_published_image": "YES (yyaxis, ylim [-0.5,14], shading K>=20, labels at x=51.5 clipped)"},
+    {"file": "ZIP/Figure2_fairness.m", "md5": "0f6084c987e41b7907a7450f47b10d57", "lines": "10-11 literals, 13-14 CNN literals", "class": "elle_yazilmis"},
+    {"file": "UPL/d9cff4ea-baseline_fairness_K_analysis.m (= fdd205f6 = ORIJ/..._v1_olcum.m)", "md5": "eadc7d6889de5a588a0678b2d2f3dbaf", "lines": "36-42 test = last 15%, 65-78 ris_CD / ris_AO_timed for K=5,20,50; 53-54 CNN 2.77/0.08 literal", "class": "olcuyor (CD/AO); CNN reference elle_yazilmis", "input": "RIS_dataset_large_2D.mat (missing)"},
+    {"file": "ZIP/baseline_fairness_K_analysis.m", "md5": "d93068ea44b6e38998e3471252e80078", "lines": "17-18 last 15%, 34-36 ris_CD loop; 28-29 CNN literals", "class": "olcuyor (CD)", "input": "RIS_dataset_large_2D.mat (missing)"},
+    {"file": "REPO/baseline_fairness_K_analysis.m.txt", "md5": "59aec6ee911f8e9ba60220a837076824", "lines": "19-26 random 2000-sample subset, 33-38 ris_CD, 41-42 RMSE_CD_paper/TIME_CD_paper literals", "class": "olcuyor + comparison against literals"}
+   ],
+   "overall_class": "yayimlanan sekil elle yazilmis; olcen surumler var ama veri yok ve tanim (-angle G - angle F) ile ~104 derece beklenir (results/aisy_cd_k_check.json)",
+   "contradictions": ["Shaded region labelled 'K >= 20: URLLC Exceeded' while K=20 latency 0.60 ms < 1 ms.", "CD and CNN tested on different test sets (CD last 15%, CNN random 15% via randperm)."]
+  },
+  {
+   "id": "Figure8",
+   "pdf_page": "11 (caption) / 12 (image)",
+   "caption": "FIGURE 8 | Cumulative distribution function of the phase prediction error across 6000 × 32 = 192, 000 data points per method. The 95% mark at 5° indicates that 95% of prediction errors are below 5°, confirming high reliability.",
+   "published_values_from_image": "single blue curve (no per-method curves); CDF(5 deg) ~ 0.87; curve reaches 0.95 at ~6.7 deg; the vertical dashed line labelled '5°' is drawn at x ~ 6.7 deg; title 'Cumulative Distribution Function (CDF) of Error'; matplotlib-style rendering",
+   "text_claims": "p11 Sec 5.3: 'CD and AO reach 95% around 7°–8°, while PSO and SPA require 10° and 12°' (no such curves in the figure)",
+   "producers": [
+    {"file": "ZIP/plot_results.m", "md5": "bdc4f6f0cad461dd3edf593ddbcce43e", "lines": "47-55 (CDF of abs(phase_err), xline(5), yline(0.95))", "class": "olcuyor (from cnn_lstm_test_results.mat, which is missing)", "match_to_published_image": "NO (title differs; MATLAB would put the 5° line at x=5, published line is at ~6.7)"},
+    {"file": "REPO/plot_results.m", "md5": "7ba9b01dcafa3a60d8d8cb9d014af439", "class": "betik_yok", "note": "REPO version has no CDF section (only per-element bar, histogram, examples, boxplot)"},
+    {"value": "CD/AO/PSO/SPA CDF percentiles", "class": "betik_yok"}
+   ],
+   "overall_class": "betik yok (yayimlanan sekli ureten kod bulunamadi); ZIP plot_results.m benzer bir sekil olcer ama yayimlanan goruntuyle uyusmuyor",
+   "contradictions": ["Image: CDF at 5° ≈ 0.87, not 0.95; caption/Table 6 SR@5 = 95%."]
+  },
+  {
+   "id": "Figure9",
+   "pdf_page": 13,
+   "caption": "FIGURE 9 | Inference time versus RMSE performance trade-off (log-scale x-axis). The y-axis represents RMSE values normalized by 5° ... The proposed CNN-LSTM model (blue dot, bottom-left) achieves Pareto-optimal accuracy–latency balance at (0.08 ms, 2.77°), corresponding to a normalized RMSE of ≈ 0.554. PSO (red dot, far right) requires 15 ms, 187 × slower ...",
+   "published_values_from_image": "LINEAR x-axis 0-100 ms ('Inference Time (ms)'); y-axis 'RMSE (°)' 0-1.0; 'Proposed' at ~(4.5 ms, 0.09); 'PSO' at ~(95 ms, 0.92); ~20 unlabelled grey points (paper has 11 methods)",
+   "producers": [{"class": "betik_yok", "evidence": "no scatter/time-vs-RMSE plotting code in ZIP, REPO, UPL, ORIJ (grep 'Inference Time', scatter)"}],
+   "overall_class": "betik yok",
+   "contradictions": ["Caption: log x-axis, CNN at 0.08 ms / normalized 0.554, PSO at 15 ms. Image: linear axis, Proposed ~4.5 ms / ~0.09, PSO ~95 ms / ~0.92. 0.554 = 2.77/5 arithmetic only."]
+  },
+  {
+   "id": "Figure10",
+   "pdf_page": 14,
+   "caption": "FIGURE 10 | CNN-LSTM RMSE versus normalized CSI error variance σ_err (%): impact of imperfect channel state information on phase estimation accuracy. CNN-LSTM degrades gracefully with increasing error; quantitative comparison with the closed-form solution, AO, and PSO is discussed in Section 5.6.2.",
+   "published_values_from_image": "x 'CSI Error Variance (σ²)' 0..0.2; RMSE ≈ 2.75 (0), 3.1 (0.05), 3.5 (0.10), 4.2 (0.15), 5.1 (0.20)",
+   "producers": [{"class": "betik_yok", "evidence": "no CSI-noise injection code in any version (grep CSI/sigma_err/noise on F,G)"}],
+   "overall_class": "betik yok",
+   "contradictions": ["Text p13: 4.2° at 10% CSI error; image shows ≈3.5° at σ²=0.10 and 4.2° at 0.15.", "Sec 5.6.2 promises comparison with closed-form, AO, PSO — not in the figure and no code."]
+  }
+ ],
+ "missing_files_referenced_by_readmes": [
+  "REPO/README.md:23 theta_NN_multioutput.m (not in repo)",
+  "REPO/README.md:35 scalability_analysis.m (repo has 'Scalability Analysis.m.txt')",
+  "REPO/README.md:38-40 Figure5_comparison.m, Figure9_fairness.m, Figure10_scalability.m (absent everywhere)",
+  "UPL/a7225990-README_GitHub_3.md:28-41 theta_NN_multioutput_UPDATED.m, cnn_lstm_ciz.m, quant_aware_train_updated.m, quant_aware_train_3bit.m, quant_aware_test_updated.m, quant_aware_test_3bit.m (absent everywhere)",
+  "ZIP/train_cnn_lstm.py:194 default RIS_dataset_N32.mat with keys X_feat/Y_sincos/idx_* — only REPO/'github RIS_dataset_large_2D.m' writes those keys, under a different filename and in -v7.3 (HDF5), which scipy.io.loadmat (line 56) cannot read"
+ ]
+}

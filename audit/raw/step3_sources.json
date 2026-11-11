@@ -1,0 +1,160 @@
+{
+ "meta": {
+  "scope": "Provenance of specific numbers in aisy.70460. Searched: ZIP, REPO (61531b5), UPL (*.m, *.py, *.md), ORIJ. Path aliases as in step0_mapping.json.",
+  "search_method": "grep -rnI for each literal and for the computing concepts (log2/spectral/rate, SNR gain, quantization/2^b, phase noise, CSI noise, scatter plots, parameter counting, ablation architectures); manual read of every code file.",
+  "arith_source": "audit/raw/step3_arith_check.py -> audit/raw/step3_arith_check.json (ratios recomputed from the paper's own published inputs + analytic parameter counts; not a measurement)",
+  "global_blocker": "RIS_dataset_large_2D.mat and all trained models/result .mat files are absent everywhere; even scripts that do compute a value cannot be re-run as published."
+ },
+ "items": [
+  {
+   "id": "snr_gain_model_18.4dB",
+   "value": "18.4 dB",
+   "paper": [
+    {"page": 4, "quote": "7. System-Level Validation: Achievable rate within 0.31 bits/s/Hz of the optimal bound, 18.4 dB SNR gain over no-RIS baseline, and 312% spectral efficiency gain over random configuration, confirming near-optimal communication-level performance."},
+    {"page": "14-15", "quote": "5.10 | System-Level Communication Metrics ... 2. SNR Improvement: 18.4 dB gain over no-RIS baseline (optimal closed-form: 17.9 dB)."}
+   ],
+   "source": "KAYNAK BULUNAMADI",
+   "nearest_code": "Dataset scripts compute only the median SNR gain of the closed-form LABEL (not of the model): ZIP/RIS_dataset_large_2D.m:114-119 (prints median(snr_ris - snr_no)); REPO/'github RIS_dataset_large_2D.m':245-265 (prints median(with) - median(without)); UPL/9b1af9b5-..._UPDATED.m:164-179. No script feeds CNN-LSTM predictions into an SNR computation.",
+   "contradiction": "Model gain (18.4 dB) > 'optimal closed-form' gain (17.9 dB): a regressor trained to imitate the closed-form label cannot exceed the label's SNR unless 'optimal' is not optimal. Table 4 (p10) itself reports 'RIS gain (median) [dB] 17' for the optimal-RIS label — a third value. Note: the label -angle(G)-angle(F) ignores h_d, so it is NOT the optimum of problem (7) when h_d != 0 (CD beats the label by ~+2.1 dB mean, results/aisy_cd_k_check.json K=20 cd_power_over_label_db_mean=2.19)."
+  },
+  {
+   "id": "snr_gain_closed_form_17.9dB",
+   "value": "17.9 dB",
+   "paper": [{"page": 15, "quote": "(optimal closed-form: 17.9 dB)."}],
+   "source": "KAYNAK BULUNAMADI (no literal 17.9 anywhere; dataset scripts would print a median gain of the label, but with no dataset no number exists, and Table 4 p10 states 17 dB)",
+   "nearest_code": "ZIP/RIS_dataset_large_2D.m:119 fprintf('RIS gain: median = %.1f dB') — computes the label's median gain; output never recorded.",
+   "contradiction": "Same quantity (median gain of optimal-label RIS) reported as 17 dB (Table 4, p10) and 17.9 dB (p15); and model 18.4 > optimal 17.9."
+  },
+  {
+   "id": "closed_form_rmse_2.70deg",
+   "value": "2.70°",
+   "paper": [
+    {"page": 13, "quote": "At high SNR levels (e.g., 30 dB), where channel estimation errors are negligible, the CNN–LSTM performance (2.77°) and the closed-form optimum (2.70°) fall within the 95% confidence interval ( ± 0.08°), confirming that the model converges to the information-theoretic floor of the system under ideal conditions."},
+    {"page": 15, "quote": "At high SNR (e.g., 30 dB), the CNN–LSTM performance (2.77°) and the closed-form optimum (2.70°) overlap within the 95% confidence interval (± 0.08°), confirming that the proposed model successfully reaches the information-theoretic floor of the system under ideal propagation conditions."}
+   ],
+   "source": "KAYNAK BULUNAMADI",
+   "contradiction": "The RMSE metric (Eq. 9) is measured against θ_true, and θ_true IS the closed-form solution (Eq. 8; p9 Sec 4.1 'optimal phase labels are computed via Equation (8)'; ZIP/RIS_dataset_large_2D.m:100). Under perfect CSI the closed-form vs its own label has RMSE = 0° by definition. The text conditions on 'high SNR ... channel estimation errors are negligible' but gives no CSI-error level, no noise model and no definition under which the closed form would score 2.70°. Also the paper's own CSI model (Sec 5.6.2) is additive noise on F,G, not an SNR-dependent estimate; no code exists for it."
+  },
+  {
+   "id": "rate_gap_0.31_bpsHz",
+   "value": "0.31 bits/s/Hz (CNN-LSTM to optimal bound)",
+   "paper": [
+    {"page": 4, "quote": "Achievable rate within 0.31 bits/s/Hz of the optimal bound"},
+    {"page": 15, "quote": "1. Achievable Rate: CNN–LSTM is within 0.31 bits/s/Hz of the optimal bound; best classical baseline (CD): 0.89 bits/s/Hz gap."}
+   ],
+   "source": "KAYNAK BULUNAMADI (no log2(1+SNR) / rate computation in any version)",
+   "note": "Numerically identical to the 2-bit quantisation increment 3.08−2.77 = 0.31° (p16 '2-bit quantization incurs only 0.31° additional RMSE'); coincidence cannot be checked without a source.",
+   "contradiction": "CD gap (0.89) > CNN gap (0.31) although CD with this code converges to a configuration with ~2 dB MORE power than the label (results/aisy_cd_k_check.json), i.e. CD should be closer to the true optimum than a label-imitating model."
+  },
+  {
+   "id": "rate_gap_CD_0.89_bpsHz",
+   "value": "0.89 bits/s/Hz",
+   "paper": [{"page": 15, "quote": "best classical baseline (CD): 0.89 bits/s/Hz gap."}],
+   "source": "KAYNAK BULUNAMADI"
+  },
+  {
+   "id": "se_gain_312pct",
+   "value": "312% over random phase (classical: 287%–298%)",
+   "paper": [
+    {"page": 4, "quote": "312% spectral efficiency gain over random configuration"},
+    {"page": 15, "quote": "3. Spectral Efficiency Gain: 312% over random phase (classical: 287%–298%)."}
+   ],
+   "source": "KAYNAK BULUNAMADI (no random-phase baseline and no spectral-efficiency code in any version; PSO's random initialisation ZIP/ris_PSO.m:26 is not a random-phase baseline)"
+  },
+  {
+   "id": "quant_1bit_4.12",
+   "value": "1-bit → 4.12°",
+   "paper": [{"page": 14, "quote": "1. Discrete Phase Quantization. Quantizing to 2^b levels (b ∈ {1, 2, 3} bits): 1-bit → 4.12°, 2-bit → 3.08°, 3-bit → 2.81° RMSE (continuous: 2.77°). Two-bit quantization recovers near-continuous performance, consistent with [38]."}],
+   "source": "KAYNAK BULUNAMADI",
+   "note": "UPL/a7225990-README_GitHub_3.md:37-41 lists quantization/quant_aware_train_updated.m, quant_aware_train_3bit.m, quant_aware_test_updated.m, quant_aware_test_3bit.m — none of these files exist in ZIP, REPO, UPL or ORIJ. Same README :120-126 gives only '<4% (3-bit)', '<10% (2-bit)' and no 1-bit. Definitional gap: RMSE of a b-bit quantised phase vs a continuous label has a floor of (2π/2^b)/√12: 1-bit ≈ 52°, 2-bit ≈ 26°, 3-bit ≈ 13°, unless the RMSE is defined differently (e.g. vs a quantised label) — the paper does not say which."
+  },
+  {
+   "id": "quant_2bit_3.08",
+   "value": "2-bit → 3.08°",
+   "paper": [
+    {"page": 3, "quote": "graceful degradation under discrete phase quantization (2-bit: 3.08°)"},
+    {"page": 14, "quote": "2-bit → 3.08°"},
+    {"page": 16, "quote": "Hardware impairment analysis (Section 5.8) confirms 2-bit quantization incurs only 0.31° additional RMSE"},
+    {"page": 17, "quote": "The 2-bit quantization robustness result (3.08° RMSE) confirms compatibility with practical discrete-phase-shift hardware"}
+   ],
+   "source": "KAYNAK BULUNAMADI (see quant_1bit_4.12)"
+  },
+  {
+   "id": "quant_3bit_2.81",
+   "value": "3-bit → 2.81°",
+   "paper": [{"page": 14, "quote": "3-bit → 2.81° RMSE (continuous: 2.77°)"}],
+   "source": "KAYNAK BULUNAMADI (see quant_1bit_4.12)"
+  },
+  {
+   "id": "phase_noise_sigma",
+   "value": "σφ ∈ {1°, 3°, 5°}; 'near-baseline at 3°'",
+   "paper": [
+    {"page": 3, "quote": "and phase noise (3° > std. dev.: negligible impact)."},
+    {"page": 14, "quote": "3. Phase Noise. Additive Gaussian noise N(0, σφ²) with σφ ∈ {1°, 3°, 5°}: near-baseline at 3°, graceful degradation beyond."},
+    {"page": 16, "quote": "phase noise up to 3° causes negligible degradation"}
+   ],
+   "source": "KAYNAK BULUNAMADI (no phase-noise injection code; no numeric RMSE values are even reported for σφ = 1°, 3°, 5°)",
+   "also_unsourced": "p14 'Phase-Dependent Amplitude Variation. Modeled as A(θn) = 1 − 0.1(1 − cos θn) ... RMSE degradation <5%' — KAYNAK BULUNAMADI"
+  },
+  {
+   "id": "fig9_normalized_0.554",
+   "value": "normalized RMSE ≈ 0.554",
+   "paper": [{"page": 13, "quote": "The proposed CNN-LSTM model (blue dot, bottom-left) achieves Pareto-optimal accuracy–latency balance at (0.08 ms, 2.77°), corresponding to a normalized RMSE of ≈ 0.554."}],
+   "source": "arithmetic only: 2.77/5 = 0.554 (step3_arith_check.json fig9_normalized_rmse). No plotting script for Figure 9 in any version -> betik yok.",
+   "contradiction": "Published image: 'Proposed' plotted at y ≈ 0.09 (not 0.554) and x ≈ 4.5 ms (not 0.08 ms) on a LINEAR 0–100 ms axis (caption says log-scale)."
+  },
+  {
+   "id": "pso_15ms",
+   "value": "PSO 15 ms (187× slower)",
+   "paper": [
+    {"page": 11, "quote": "Table 6: PSO 4.50 ± 1.88, 64%, 15.0, O(PIN)"},
+    {"page": 11, "quote": "With an inference time of 0.08 ms per scenario, CNN–LSTM is 187 × faster than PSO and 2 × faster than CD/AO"},
+    {"page": 13, "quote": "PSO (red dot, far right) requires 15 ms, 187 × slower"},
+    {"page": 16, "quote": "In contrast, PSO's 15 ms per optimization limits throughput to 67 optimizations per second."}
+   ],
+   "source": "elle yazilmis: ZIP/README.md:151 and REPO/README.md:132 table rows, UPL/a7225990-README_GitHub_3.md:103; no timing code in ZIP/ris_PSO.m (lines 10-72) or REPO/ris_PSO.m.txt -> no measurement script",
+   "contradiction": "Figure 9 image places PSO at ≈95 ms. 187× = 15/0.08 = 187.5 (arithmetic). '2× faster than CD/AO' vs 0.15/0.08 = 1.9 and 0.18/0.08 = 2.25."
+  },
+  {
+   "id": "fig10_4.2deg_at_10pct_CSI",
+   "value": "4.2° at 10% CSI error; '15% superiority over PSO'",
+   "paper": [
+    {"page": 1, "quote": "Robustness tests confirm a sustained 15% margin over classical solvers under 10% channel estimation impairment."},
+    {"page": 3, "quote": "while maintaining 15% superiority over PSO under 10% channel state information (CSI) estimation error"},
+    {"page": 13, "quote": "At 10% CSI error, CNN-LSTM degrades to approximately 4.2° RMSE, still maintaining 15% superiority over PSO."},
+    {"page": 13, "quote": "whereas CNN–LSTM degrades to 4.2° at 10% CSI error (a 52% relative increase from its perfect-CSI value of 2.77° ), the closed-form solution degrades well beyond this level at the same error magnitude"},
+    {"page": 16, "quote": "Robustness analysis confirms a 15% accuracy advantage over classical solvers under 10% channel-estimation impairment."}
+   ],
+   "source": "KAYNAK BULUNAMADI (no CSI-noise code; no PSO/AO/closed-form under noisy CSI anywhere)",
+   "contradictions": [
+    "Figure 10 image: x-axis 'CSI Error Variance (σ²)'; at σ² = 0.10 the curve is ≈3.5°, 4.2° is at σ² = 0.15. Caption calls the axis 'normalized CSI error variance σ_err (%)' — variance vs std ambiguity.",
+    "Only PSO number in the paper is the perfect-CSI 4.50° (Table 6); (4.50−4.2)/4.50 = 6.7%, not 15% (step3_arith_check.json csi10_margin_vs_pso_perfect_csi_pct). No PSO-under-CSI-error value is reported anywhere.",
+    "'closed-form solution degrades well beyond this level' — no number, no code.",
+    "52% = (4.2−2.77)/2.77 = 51.6% (arithmetic OK)."
+   ]
+  },
+  {
+   "id": "table3_params",
+   "value": "89K, 680K, 520K, 156K, 727K, 231K, 213K, 201K",
+   "paper": [
+    {"page": 8, "quote": "TABLE 3 | Ablation study: architectural components ... FC-DNN only 4.73 89 K 0.04; CNN-only (2L) 3.50 680 K 0.06; LSTM-only (2L) 3.42 520 K 0.07; CNN (1L) + LSTM (1L) 3.11 156K 0.07; CNN-LSTM (proposed) 2.77 727 K 0.08; CNN (3L) + LSTM (2L) 2.79 231 K 0.09; CNN (2L) + LSTM (3L) 2.78 213 K 0.09; CNN-Transformer 2.91 201 K 0.11"},
+    {"page": 9, "quote": "CNN Block: 832 + 128 + 12,352 + 128 = 13,440, LSTM Block: 98,816 + 49,408 = 148,224, FC Block: 524,544 + 32,896 + 8,256 = 565,696, Total: 727,360"}
+   ],
+   "source": {
+    "727K": "Analytic sum in paper Sec 3.5 (p9) is internally consistent (13,440+148,224+565,696 = 727,360) and is also hard-coded in UPL/f2d4df3b-scalability_analysis.m:57 (PARAMS_cnn(1) = 727360) and its per-block constants at :122-123. It does NOT match either code model: theta_NN_multioutput.m (ZIP lines 56-77) = 161,794 learnables (no FC256/128/64 block); train_cnn_lstm.py (ZIP lines 93-116, N=32) = 822,976 (PyTorch double LSTM bias, second LSTM 128 not 64, extra lstm_proj and a 4th FC). Counts: step3_arith_check.json params. (aisy_paket/README_TR.md item 7 quotes 162,562 for the MATLAB stack — 768 more than this count; not reconciled here.)",
+    "89K, 680K, 520K, 156K, 231K, 213K": "KAYNAK BULUNAMADI (no ablation architecture defined anywhere)",
+    "201K": "KAYNAK BULUNAMADI (transformer_baseline.m layers 64-82 exist but no parameter count is computed or printed)"
+   },
+   "contradiction": "Deeper variants (CNN3L+LSTM2L 231K, CNN2L+LSTM3L 213K) have ~1/3 the params of the 2L+2L model (727K) whose FC block alone is 565,696; CNN-only (680K) > LSTM-only (520K) despite CNN block = 13,440. Note: 231,424 is exactly the PyTorch LSTM block size in train_cnn_lstm.py — possible but unverified coincidence with '231 K'."
+  }
+ ],
+ "other_numbers_without_source_noticed": [
+  {"value": "OOD 3.12° (500 scenarios), bootstrap CI [3.04°, 3.20°]", "page": 13, "source": "KAYNAK BULUNAMADI"},
+  {"value": "paired t-tests p < 10^-40 / p < 10^-12, Bonferroni", "page": "11-12, 14", "source": "KAYNAK BULUNAMADI"},
+  {"value": "predicted norm mean 1.003 ± 0.012 over 10 000 test samples", "page": 6, "source": "KAYNAK BULUNAMADI (test set is 6000 samples per p9)"},
+  {"value": "Transformer 0.17 ms (p7) vs 0.11 ms (Tables 3, 6) vs 1.1 ms (Fig 1, Table 8)", "page": "7, 8, 11, 4, 15", "source": "transformer_baseline.m:100-102 would measure one value; three different values published"},
+  {"value": "GCN 3.12°/0.09 ms, FC-DNN sin/cos 3.41°", "page": "10-11", "source": "KAYNAK BULUNAMADI"},
+  {"value": "CD/AO 95% at 7–8°, PSO 10°, SPA 12° (Fig 8 text)", "page": 11, "source": "KAYNAK BULUNAMADI"},
+  {"value": "Eq.19 fit: paper c0=2.77, α=0.245, R²=0.9998, N=256 → 4.58°", "page": 15, "source": "ZIP/scalability_analysis.m:26-33 fits hard-coded points; recomputed from the paper's three points: c0=2.749, α=0.2449, R²=0.994 (linear and log), 2.749·8^α=4.58 but 2.77·8^0.245=4.61 (step3_arith_check.json powerlaw_fit)"}
+ ]
+}
