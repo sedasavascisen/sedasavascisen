@@ -9,3 +9,4 @@ results/sumiso_cnnlstm*.pt
 !results/sumiso_cnnlstm_seq_ste*.pt
 data_site/
 logs_partial/
+audit/raw/data/
