@@ -1,3 +1,84 @@
 transformer_N32_s0 ep  1 loss 0.38760 val 14.70 (8s)
 transformer_N32_s0 ep  2 loss 0.09967 val 9.39 (11s)
 transformer_N32_s0 ep  3 loss 0.07762 val 9.13 (6s)
+transformer_N32_s0 ep  4 loss 0.06758 val 8.53 (6s)
+transformer_N32_s0 ep  5 loss 0.06124 val 8.06 (6s)
+transformer_N32_s0 ep  6 loss 0.05686 val 7.54 (5s)
+transformer_N32_s0 ep  7 loss 0.05168 val 8.60 (5s)
+transformer_N32_s0 ep  8 loss 0.04836 val 6.85 (6s)
+transformer_N32_s0 ep  9 loss 0.04593 val 8.07 (7s)
+transformer_N32_s0 ep 10 loss 0.04209 val 6.53 (9s)
+transformer_N32_s0 ep 11 loss 0.04156 val 9.22 (9s)
+transformer_N32_s0 ep 12 loss 0.03884 val 6.96 (8s)
+transformer_N32_s0 ep 13 loss 0.03880 val 5.95 (8s)
+transformer_N32_s0 ep 14 loss 0.03614 val 5.95 (9s)
+transformer_N32_s0 ep 15 loss 0.03407 val 6.02 (12s)
+transformer_N32_s0 ep 16 loss 0.03161 val 5.73 (13s)
+transformer_N32_s0 ep 17 loss 0.03080 val 5.59 (14s)
+transformer_N32_s0 ep 18 loss 0.03024 val 5.57 (14s)
+transformer_N32_s0 ep 19 loss 0.02940 val 5.66 (14s)
+transformer_N32_s0 ep 20 loss 0.02903 val 5.53 (14s)
+transformer_N32_s0 ep 21 loss 0.02889 val 5.80 (14s)
+transformer_N32_s0 ep 22 loss 0.02861 val 5.50 (14s)
+transformer_N32_s0 ep 23 loss 0.02761 val 5.39 (14s)
+transformer_N32_s0 ep 24 loss 0.02657 val 5.49 (14s)
+transformer_N32_s0 ep 25 loss 0.02620 val 5.44 (14s)
+transformer_N32_s0 ep 26 loss 0.02604 val 5.14 (14s)
+transformer_N32_s0 ep 27 loss 0.02564 val 5.77 (14s)
+transformer_N32_s0 ep 28 loss 0.02504 val 5.29 (13s)
+transformer_N32_s0 ep 29 loss 0.02572 val 4.98 (13s)
+transformer_N32_s0 ep 30 loss 0.02436 val 5.30 (14s)
+transformer_N32_s0 ep 31 loss 0.02346 val 4.93 (14s)
+transformer_N32_s0 ep 32 loss 0.02325 val 4.91 (14s)
+transformer_N32_s0 ep 33 loss 0.02308 val 4.98 (14s)
+transformer_N32_s0 ep 34 loss 0.02292 val 4.99 (14s)
+transformer_N32_s0 ep 35 loss 0.02268 val 4.88 (14s)
+transformer_N32_s0 ep 36 loss 0.02256 val 4.90 (15s)
+transformer_N32_s0 ep 37 loss 0.02236 val 4.94 (15s)
+transformer_N32_s0 ep 38 loss 0.02233 val 4.76 (14s)
+transformer_N32_s0 ep 39 loss 0.02215 val 4.93 (14s)
+transformer_N32_s0 ep 40 loss 0.02190 val 4.77 (15s)
+transformer_N32_s0 ep 41 loss 0.02187 val 4.70 (14s)
+transformer_N32_s0 ep 42 loss 0.02171 val 4.76 (15s)
+transformer_N32_s0 ep 43 loss 0.02180 val 5.11 (14s)
+transformer_N32_s0 ep 44 loss 0.02144 val 4.62 (14s)
+transformer_N32_s0 ep 45 loss 0.02124 val 4.59 (14s)
+transformer_N32_s0 ep 46 loss 0.02095 val 4.49 (14s)
+transformer_N32_s0 ep 47 loss 0.02086 val 4.57 (14s)
+transformer_N32_s0 ep 48 loss 0.02079 val 4.54 (15s)
+transformer_N32_s0 ep 49 loss 0.02076 val 4.54 (15s)
+transformer_N32_s0 ep 50 loss 0.02070 val 4.51 (15s)
+{
+ "tag": "transformer_N32_s0",
+ "config": {
+  "arch": "transformer",
+  "n": 40000,
+  "N": 32,
+  "data_seed": 42,
+  "seed": 0,
+  "epochs": 50,
+  "threads": 2,
+  "permute": false,
+  "hidden_scale": "none",
+  "tag": ""
+ },
+ "params": 17442,
+ "commit": "241ec821fe2e1bc8caf5b29837c49e1a2252bb23",
+ "data": "audit/raw/data/m1_N32_n40000_seed42.npz",
+ "n_train": 28000,
+ "n_val": 6000,
+ "n_test": 6000,
+ "test_rmse_deg": 4.458232879638672,
+ "sr": {
+  "SR@1": 0.22261979166666668,
+  "SR@3": 0.6023645833333333,
+  "SR@5": 0.830484375,
+  "SR@10": 0.98375
+ },
+ "err_deg_p95": 7.486313819885254,
+ "power_vs_label_db": {
+  "mean": -0.015858983345576158,
+  "median": -0.014405134117929635
+ },
+ "train_minutes": 10.198283485571544
+}
