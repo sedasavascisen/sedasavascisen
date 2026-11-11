@@ -1,0 +1,5 @@
+angle_raw_s0 ep  1 loss 1.64279 val 103.86 (14s)
+angle_raw_s0 ep  2 loss 1.64232 val 103.86 (13s)
+angle_raw_s0 ep  3 loss 1.64226 val 103.86 (13s)
+angle_raw_s0 ep  4 loss 1.64225 val 103.87 (13s)
+angle_raw_s0 ep  5 loss 1.64216 val 103.87 (12s)
