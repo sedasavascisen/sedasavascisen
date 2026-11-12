@@ -22,7 +22,7 @@ Bu dosya ayrıntılı raporların özetidir; her sayı ilgili raporda betik, toh
 8. Kaynakça: 64 kaynağın 33'ünde büyük sorun; [26] geri çekilmiş.
 
 **Makale 2 (hareketlilik)** — ayrıntı: `thesis_exp/infra/REPORT.md`, `thesis_exp/p4/onkodlayici_pilot/REPORT.md`
-9. **Ön kodlayıcı tazeleme pilotları ücretlendirilince etkin hız büyük ölçüde düşüyor.** Makalenin varsayımında (her an taze, bedava W) SU-best-of 4.910 b/s/Hz; en iyi tazeleme periyoduyla 3.303 (15 kHz), 3.718 (30 kHz), 4.025 (60 kHz); hiç tazelenmezse 0.752. Bu deney yöntem sıralamasını yalnızca iki fazla (SU-best-of, Adam-6) sınadı; Adam-6 her numerolojide SU-best-of'tan yüksek (3.537/4.013/4.344; aralarındaki eşli fark hesaplanmadı).
+9. **Ön kodlayıcı tazeleme pilotları ücretlendirilince etkin hız büyük ölçüde düşüyor.** Makalenin varsayımında (her an taze, bedava W) en iyi kol 5.213 b/s/Hz; pilot ücretiyle (R doğrulamada seçildi) 3.539 (15 kHz), 4.003 (30 kHz), 4.334 (60 kHz): %32/%23/%17 kayıp. SU-best-of 4.911 → 3.385/3.811/4.126; hiç tazelenmezse 0.761. **Sıralama ise değişmiyor:** bütün kollarla yapılan devam deneyinde ilk dört kol (Adam-6, 5, 8, 4) her durumda aynı; en iyi kolun SU-best-of'a üstünlüğü +0.303'ten +0.153/+0.193/+0.209'a iniyor (GA'lar sıfırın üstünde); CD ve PGA en altta. [p4/onkodlayici_siralama/REPORT.md] *Düzeltme (12 Kasım):* bu maddenin ilk sürümündeki 3.303/3.718/4.025 ve 3.537/4.013/4.344, tazeleme anlarını mutlak ızgaraya yuvarlayan yanlı ilk koşudandı.
 10. Tek iş parçacıklı yeniden ölçümle Adam adımı 1.66 değil 1.328 ms; L* = 6 (makale 5, metin 4–6), L=48 kaybı %14.4 (makale %14.0). SU-best-of − Adam-20: −0.086 [−0.174, 0.002] (makale −0.004). Ana bulgular korunuyor, sayılar değişiyor.
 11. Kullanılmayan senaryo sayısı 800 değil 700 (doğrulamanın 500'ü kullanılıyor).
 
@@ -33,7 +33,7 @@ Bu dosya ayrıntılı raporların özetidir; her sayı ilgili raporda betik, toh
 | Köprü | Tek geçişli ağ ve ağ+Adam-1/2/3 kolları 5.4 km/h'de klasik kollarca baskınlanıyor (ağ − en iyi klasik: −1.418 [−1.503, −1.336]); 3–30 km/h'nin hepsinde 4/4 öğrenilen kol baskınlanıyor; periyodik çalışmada da ağ geride. | `thesis_exp/bridge/REPORT.md` |
 | 4.1 Kanal öngörüsü | Gürültüsüz anlık görüntülerle +0.19 ile +0.42 b/s/Hz kazanç ve L*'ın 10–12'ye kayması; e2 = 0.01 kestirim hatasıyla bütün öngörücü/Δ birleşimleri öngörüsüzün altında (−0.10 ile −1.29). Model öngörüyü kayırıyor (sabit saçıcı, düz yörünge). | `p4/kanal_ongoru/REPORT.md` |
 | 4.2 Konum tabanlı faz | Yalnızca LoS geometrisinden faz, kanal tabanlı SU-best-of'un 0.83–0.86 b/s/Hz altında; konum hatası (0–1 m) sonucu değiştirmiyor. | `p4/konum_faz/REPORT.md` |
-| 4.3 Ön kodlayıcı pilotları | Yukarıda madde 9. En iyi tazeleme periyodu 1–2 ms. | `p4/onkodlayici_pilot/REPORT.md` |
+| 4.3 Ön kodlayıcı pilotları (+ bütün kollarla sıralama) | Yukarıda madde 9. En iyi tazeleme periyodu 1–2 ms. 4.3 raporunun pilot ücretli tabloları yanlı; başında düzeltme notu var. | `p4/onkodlayici_pilot/REPORT.md`, `p4/onkodlayici_siralama/REPORT.md` |
 | 4.4 Pilot SNR'li CSI | Etkin hız 6.077 (kusursuz) → 3.537 (30 dB) → 1.402 (20 dB); L* 6 → 3 → 5; 10 dB ve altında yöntemler ayırt edilemiyor. | `p4/kusurlu_csi/REPORT.md` |
 | 4.5 Ayrık faz | L* 1 bitte 5, 2 bitte 6; Adam-48→q kaybı %9.3 / %13.6. dCD t=0'da önde, etkin hızda 2 bitte kaybediyor; 1 bitte yalnızca tek taramalı dCD (16.2 ms) en iyi yuvarlanmış Adam düzeyinde (aralarındaki eşli fark hesaplanmadı). | `p4/ayrik_faz/REPORT.md` |
 | 4.6 Optimize süreler | Öğrenilen/Adam süre oranı L=8'de 2.80 (eager), 3.09 (torch.compile); torch.compile bu kodda iki kolu da yavaşlattı. jit.trace ve GPU: ÜRETİLEMEDİ. | `p4/optimize_sure/REPORT.md` |
@@ -46,7 +46,7 @@ Bu dosya ayrıntılı raporların özetidir; her sayı ilgili raporda betik, toh
 
 ## 4) Açık sorular (karar sizin)
 
-1. 4.3 bulgusu Makale 2'nin varsayımını fiyatlıyor: yöntem sıralamasının pilot ücreti altında bütün kollar için yeniden sınanması isteniyor mu (tahmini süre ayrıca verilir)?
-2. N=256 için ek tohumlar ve N=64/128 (her biri birkaç saat) isteniyor mu?
+1. (Yapıldı, 12 Kasım) Pilot ücreti altında bütün kolların sıralaması: sıralama değişmiyor (madde 9).
+2. (Sürüyor) N=256 tohum 1–2, N=64 ve N=128 üçer tohum; bitince denetim raporu güncellenecek.
 3. Makale 1 bulgularının yayımlanmış makale açısından ne anlama geldiği danışmanla değerlendirilmeli.
 4. Ölçüm fazı 20 Kasım'da kapanıyor; yukarıdaki iki ek iş bu tarihten önce bitebilecek büyüklükte.
