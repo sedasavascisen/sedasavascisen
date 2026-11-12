@@ -1,0 +1,99 @@
+{
+ "commit": "06c9b17986af81356a97143638a30a46f123775b",
+ "torch": "2.15.0+cu132",
+ "cuda_available": false,
+ "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+ "load_avg": {
+  "start": 0.615234375,
+  "before": 0.4873046875,
+  "after": 1.0
+ },
+ "threads": 1,
+ "arms": {
+  "Adam-1 [eager]": {
+   "rounds_ms": [
+    1.7348287497043202,
+    1.685100499798864,
+    1.7028295010277361
+   ],
+   "median_ms": 1.7028295010277361
+  },
+  "learned-1 [eager]": {
+   "rounds_ms": [
+    3.4693292500378448,
+    3.8298244999168674,
+    3.5435247496025113
+   ],
+   "median_ms": 3.5435247496025113
+  },
+  "Adam-8 [eager]": {
+   "rounds_ms": [
+    10.405413499938732,
+    10.420628249448782,
+    9.93498399930104
+   ],
+   "median_ms": 10.405413499938732
+  },
+  "learned-8 [eager]": {
+   "rounds_ms": [
+    29.178042249895952,
+    30.938007249915245,
+    29.102102750130143
+   ],
+   "median_ms": 29.178042249895952
+  },
+  "Adam-1 [torch.compile]": {
+   "rounds_ms": [
+    2.283992000229773,
+    2.1838650000063353,
+    2.16856924998865
+   ],
+   "median_ms": 2.1838650000063353
+  },
+  "learned-1 [torch.compile]": {
+   "rounds_ms": [
+    133.44107800094207,
+    4.220042500492127,
+    4.1515302491461625
+   ],
+   "median_ms": 4.220042500492127
+  },
+  "Adam-8 [torch.compile]": {
+   "rounds_ms": [
+    13.48711100035871,
+    13.53203300095629,
+    13.272767248963646
+   ],
+   "median_ms": 13.48711100035871
+  },
+  "learned-8 [torch.compile]": {
+   "rounds_ms": [
+    41.65063799973723,
+    41.67853750004724,
+    41.86295425006392
+   ],
+   "median_ms": 41.67853750004724
+  },
+  "Adam-1 [torch.jit.trace]": {
+   "error": "\u00dcRET\u0130LEMED\u0130: RuntimeError: Adam's step uses torch.optim and autograd inside the loop; torch.jit.trace cannot capture the optimiser update"
+  },
+  "learned-1 [torch.jit.trace]": {
+   "error": "\u00dcRET\u0130LEMED\u0130: RuntimeError: Cannot insert a Tensor that requires grad as a constant. Consider making it a parameter or input, or detaching the gradient\nTensor:\n-1.7194\n[ torch.FloatTensor{1} ]"
+  },
+  "Adam-8 [torch.jit.trace]": {
+   "error": "\u00dcRET\u0130LEMED\u0130: RuntimeError: Adam's step uses torch.optim and autograd inside the loop; torch.jit.trace cannot capture the optimiser update"
+  },
+  "learned-8 [torch.jit.trace]": {
+   "error": "\u00dcRET\u0130LEMED\u0130: RuntimeError: Cannot insert a Tensor that requires grad as a constant. Consider making it a parameter or input, or detaching the gradient\nTensor:\n-1.7194\n[ torch.FloatTensor{1} ]"
+  },
+  "GPU": {
+   "error": "\u00dcRET\u0130LEMED\u0130: torch.cuda.is_available() is False on this machine"
+  }
+ },
+ "learned_over_adam": {
+  "eager L=1": 2.0809627431659075,
+  "eager L=8": 2.804121359527688,
+  "torch.compile L=1": 1.9323733383152737,
+  "torch.compile L=8": 3.0902494610549835
+ }
+}

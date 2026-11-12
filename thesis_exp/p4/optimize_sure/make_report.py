@@ -16,7 +16,7 @@ for k, v in r["arms"].items():
     if "median_ms" in v:
         W(f"| {k} | {v['median_ms']:.3f} | {', '.join(f'{x:.3f}' for x in v['rounds_ms'])} |")
     else:
-        W(f"| {k} | {v['error']} | — |")
+        W(f"| {k} | {' '.join(v['error'].split())} | — |")
 W(""); W("## 2) Öğrenilen / Adam süre oranı"); W("")
 W("| Arka uç, L | Oran |"); W("| --- | --- |")
 for k, v in r["learned_over_adam"].items():

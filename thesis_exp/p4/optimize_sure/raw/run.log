@@ -11,3 +11,23 @@ learned-8 [eager] 29.178042249895952
 Adam-1 [torch.compile] 2.1838650000063353
 /root/.local/lib/python3.11/site-packages/torch/_inductor/lowering.py:2540: FutureWarning: `torch._prims_common.check` is deprecated and will be removed in the future. Please use `torch._check*` functions instead.
   check(
+W1112 11:41:24.227000 4254 torch/_dynamo/convert_frame.py:2061] [1/256] torch._dynamo hit config.accumulated_recompile_limit (256)
+W1112 11:41:24.227000 4254 torch/_dynamo/convert_frame.py:2061] [1/256]    function: 'forward' (/home/user/sedasavascisen/ris_mu/mumiso/unrolled.py:178)
+W1112 11:41:24.227000 4254 torch/_dynamo/convert_frame.py:2061] [1/256]    last reason: None
+W1112 11:41:24.227000 4254 torch/_dynamo/convert_frame.py:2061] [1/256] To log all recompilation reasons, use TORCH_LOGS="recompiles".
+W1112 11:41:24.227000 4254 torch/_dynamo/convert_frame.py:2061] [1/256] To diagnose recompilation issues, see https://docs.pytorch.org/docs/main/user_guide/torch_compiler/compile/programming_model.recompilation.html
+learned-1 [torch.compile] 4.220042500492127
+Adam-8 [torch.compile] 13.48711100035871
+learned-8 [torch.compile] 41.67853750004724
+Adam-1 [torch.jit.trace] FAILED RuntimeError
+/root/.local/lib/python3.11/site-packages/torch/jit/_trace.py:1006: FutureWarning: `torch.jit.trace` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+learned-1 [torch.jit.trace] FAILED RuntimeError
+Adam-8 [torch.jit.trace] FAILED RuntimeError
+learned-8 [torch.jit.trace] FAILED RuntimeError
+{
+ "eager L=1": 2.0809627431659075,
+ "eager L=8": 2.804121359527688,
+ "torch.compile L=1": 1.9323733383152737,
+ "torch.compile L=8": 3.0902494610549835
+}
