@@ -1,3 +1,4 @@
+# commit dfcbb1c (betik), koşu 12 Kasım; komut: python3 thesis_exp/denetim_log/scripts/u13_csi_rel_err.py
 11 F (400, 32, 8) batch/scen power ratio: median 2.92 p5 0.242 p95 47.2 max 643
 11 G (400, 4, 32) batch/scen power ratio: median 5.54 p5 0.444 p95 70.2 max 484
 11 hd (400, 4, 8) batch/scen power ratio: median 4.31 p5 0.238 p95 102 max 2.96e+03

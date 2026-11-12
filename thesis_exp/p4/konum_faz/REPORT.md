@@ -1,6 +1,8 @@
 # Deney 4.2 — Konum (LoS geometrisi) tabanlı faz (rapor)
 
-Rapor commit'i `f413f63`, ölçüm commit'i `06fc9d2` (results.json). Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s). Faz yalnızca LoS geometrisinden (BS anten, RIS eleman ve kullanıcı konumları; genlik ~1/d, saçıcı/gölgelenme/örüntü yok, doğrudan yol 0) SU-average / SU-best-of ile hesaplandı; gerçek kanalda (taze ZF) değerlendirildi. Konum hatası σ (yatay eksenlerde, tohum 5). Konum edinme gecikmesi modellenmedi.
+Rapor commit'i `1847597`, ölçüm commit'i `06fc9d2` (results.json). Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s). Faz yalnızca LoS geometrisinden (BS anten, RIS eleman ve kullanıcı konumları; genlik ~1/d, saçıcı/gölgelenme/örüntü yok, doğrudan yol 0) SU-average / SU-best-of ile hesaplandı; gerçek kanalda (taze ZF) değerlendirildi. Konum hatası σ (yatay eksenlerde, tohum 5). Konum edinme gecikmesi modellenmedi.
+
+Not (denetim U21): ızgara 40 ms'den sonra 50/75/100 ms'ye atlıyor; 40 ms'den yavaş kollar (Adam-32/48) interpolasyonla değerlendirildi. Raporlanan/seçilen kollar 40 ms altında ve bundan etkilenmiyor.
 
 ## 1) Bulgular
 

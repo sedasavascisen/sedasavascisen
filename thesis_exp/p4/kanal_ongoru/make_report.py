@@ -10,6 +10,7 @@ W("")
 W(f"Rapor commit'i `{c}`, ölçüm commit'i `{', '.join(sorted({v['commit'][:7] for v in R.values()}))}` (results*.json; o commit'te run.py yoktu — commit'li koddan bit-bit yeniden üretim: thesis_exp/denetim_log/k1_rerun.md). Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s); seçim seed 12. Gecikmeler: tek iş parçacıklı yeniden ölçüm (thesis_exp/infra). "
   "Ek anlık görüntü başına ek pilot: 48 sembol = 3.43 / 1.71 / 0.86 ms (15 / 30 / 60 kHz); 2 noktalı öngörücü 1, 3 noktalılar 2 ek anlık görüntü ister. "
   "Bu süre tek-atış etkin hıza **eklenmedi** (anlık görüntüler t=0'dan önce alınıyor); havada geçen süre olarak ayrıca raporlanmalı.")
+W(""); W("Not (denetim U21): ızgara 40 ms'den sonra 50/75/100 ms'ye atlıyor; 40 ms'den yavaş kollar (Adam-32/48) interpolasyonla değerlendirildi. Raporlanan/seçilen kollar 40 ms altında ve bundan etkilenmiyor.")
 W("")
 W("## 1) Bulgular (önce kısıtlar)")
 W("")

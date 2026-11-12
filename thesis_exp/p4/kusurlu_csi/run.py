@@ -2,7 +2,7 @@
 Prompt 4.4 — imperfect CSI whose error depends on the pilot SNR, on the effective-rate axis.
 
 Error model: ris_mu/mumiso/csi.py (one scale per quantity F, G, h_d; variance-preserving), with the
-normalised error power tied to a pilot SNR rho (per coefficient, after LS processing): e2 = 1 / (1 + rho).
+normalised error power tied to a pilot SNR rho (after LS processing; the error scale is set from the mean power of the WHOLE 400-scenario tensor, so the per-scenario effective SNR varies -- see REPORT.md): e2 = 1 / (1 + rho).
 rho in {0, 5, 10, 20, 30} dB and perfect CSI. Independent estimation noise at every time instant.
 The BS sees only estimates: the phase is computed from the t = 0 estimate; at delivery time tau the ZF
 precoder is computed from a FRESH estimate of the effective channel (same rho) and the rate is evaluated

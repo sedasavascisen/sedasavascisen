@@ -34,8 +34,8 @@ Bu dosya ayrıntılı raporların özetidir; her sayı ilgili raporda betik, toh
 | 4.1 Kanal öngörüsü | Gürültüsüz anlık görüntülerle +0.19 ile +0.42 b/s/Hz kazanç ve en iyi L'nin 8–12'ye kayması; e2 = 0.01 kestirim hatasıyla bütün öngörücü/Δ birleşimleri öngörüsüzün altında (−0.10 ile −1.29). Model öngörüyü kayırıyor (sabit saçıcı, düz yörünge). | `p4/kanal_ongoru/REPORT.md` |
 | 4.2 Konum tabanlı faz | Yalnızca LoS geometrisinden faz, kanal tabanlı SU-best-of'un 0.83–0.86 b/s/Hz altında; konum hatası (0–1 m) sonucu değiştirmiyor. | `p4/konum_faz/REPORT.md` |
 | 4.3 Ön kodlayıcı pilotları (+ bütün kollarla sıralama) | Yukarıda madde 9. En iyi tazeleme periyodu 1–2 ms. 4.3 raporunun pilot ücretli tabloları yanlı; başında düzeltme notu var. | `p4/onkodlayici_pilot/REPORT.md`, `p4/onkodlayici_siralama/REPORT.md` |
-| 4.4 Pilot SNR'li CSI | Etkin hız 6.077 (kusursuz) → 3.537 (30 dB) → 1.402 (20 dB); L* 6 → 3 → 5; 10 dB ve altında yöntemler ayırt edilemiyor. | `p4/kusurlu_csi/REPORT.md` |
-| 4.5 Ayrık faz | L* 1 bitte 5, 2 bitte 6; Adam-48→q kaybı %9.3 / %13.6. dCD t=0'da 1 bitte önde (2 bitte değil), etkin hızda 2 bitte kaybediyor; 1 bitte yalnızca tek taramalı dCD (16.2 ms) en iyi yuvarlanmış Adam düzeyinde (aralarındaki eşli fark hesaplanmadı). | `p4/ayrik_faz/REPORT.md` |
+| 4.4 Pilot SNR'li CSI | Etkin hız 6.077 (kusursuz) → 3.537 (30 dB) → 1.402 (20 dB); testte en iyi L 6 → 3 → 5 (tekdüze değil); 10 dB ve altında yöntemler ayırt edilemiyor. | `p4/kusurlu_csi/REPORT.md` |
+| 4.5 Ayrık faz | L* (testte en iyi) 1 bitte 5, 2 bitte 6; Adam-48→q kaybı %9.5 / %14.1 (düzeltilmiş: tam gecikmede değerlendirme). dCD t=0'da 1 bitte önde (2 bitte değil), etkin hızda 2 bitte kaybediyor; 1 bitte yalnızca tek taramalı dCD (16.2 ms) en iyi yuvarlanmış Adam düzeyinde (eşli fark −0.044 [−0.114, +0.024]). | `p4/ayrik_faz/REPORT.md` |
 | 4.6 Optimize süreler | Öğrenilen/Adam süre oranı L=8'de 2.80 (eager), 3.09 (torch.compile); torch.compile bu kodda iki kolu da yavaşlattı. jit.trace ve GPU: ÜRETİLEMEDİ. | `p4/optimize_sure/REPORT.md` |
 
 ## 3) ÜRETİLEMEDİ listesi

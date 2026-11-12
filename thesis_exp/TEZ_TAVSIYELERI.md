@@ -1,7 +1,7 @@
 # Tez için tavsiyeler — iki makaleden bir tez (12 Kasım 2026)
 
 Bu bir mentorluk notu; tez metni değil. Sayılar denetimden geçmiş raporlardan (`AYRINTILI_RAPOR.md`,
-denetim turları 1–2: ham veriyle çelişen sayı yok; özet metinlerdeki üç yanlış genelleme ve bir yanlış aralık düzeltildi). Kararlar sizin ve danışmanınızın.
+denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların kaba ızgarada yanlış hesaplandığını buldu; düzeltildi, hükümler değişmedi. Özet metinlerdeki genelleme hataları da düzeltildi). Kararlar sizin ve danışmanınızın.
 
 ---
 

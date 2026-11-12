@@ -1,8 +1,15 @@
-- **İçsel optimum ayrık fazda da var.** Yuvarlanmış Adam kollarında L* = 5 (1 bit) ve 6 (2 bit); Adam-48→q, L*'a göre %9.3 (1 bit) ve %13.6 (2 bit) kaybediyor. Sürekli fazdaki tek iş parçacıklı L* = 6 ile aynı bölgede.
-- **Yavaş çözücü kaybetmeye devam ediyor, 1 bitte istisnasıyla.** 1 bitte dCD t=0 hızında her kolu geçiyor (dCD-8: 6.07, en iyi Adam→q 5.58). 2 bitte geçmiyor: dCD-8 6.61 < Adam-48→q 6.62; dCD-1 (6.14) Adam-10…48→q'nun altında (Adam-8→q 6.11'in üstünde). Etkin hızda 2 bitte her dCD kolu SU-best-of→q'nun altında ya da ondan ayırt edilemez; bunların dördünde GA sıfırı dışlıyor.
-- **1 bit istisnası:** doğrulamada seçilen kol dCD-1 (16.2 ms, tek tarama). Testte dCD-1 = 5.113, Adam-5→q = 5.157. İkisinin SU-best-of→q'ya karşı GA'ları örtüşüyor. dCD-1 ile Adam-5→q arasındaki eşli fark bu betikte hesaplanmadı; bu nedenle aralarında sıralama iddia edilemez. Yani 1 bitte tek taramalı ayrık CD, yuvarlanmış Adam'ın en iyisiyle aynı düzeyde.
-- **Tek-RIS'teki "1 bitte ayrık CD kazanıyor" sonucuyla ilişki:** çok kullanıcılı yaşlanma kümesinde bu sonuç yalnızca tek taramada ve yalnızca berabere düzeyinde tekrarlanıyor. Tarama sayısı arttıkça gecikme kazancı yiyor.
-- **Gecikme muhasebesi (denetim U3):** Adam-L→q gecikmesi SU-average başlangıcını (0.30 ms) içermiyor (common.adam_latency; makalenin kuralı). Başlangıç gecikmeye eklenince etkin hız kol başına 0.0001–0.021 b/s/Hz düşüyor; 1 bitte Adam-5→q için 0.0069. Bu, 1 bitte dCD-1 (5.113) ile Adam-5→q (5.157) arasındaki 0.044'lük farkı kapatmıyor [p4/gecikme_muhasebesi/raw/results.json].
-- **3 bit kapsam dışı:** istem (Görev 4.5) 1/2 bit istiyordu; CLAUDE.md'nin ayrık faz maddesi 1/2/3 bit diyor. 3 bit, dCD zamanlaması boş makine gerektirdiği için eğitimler bittikten sonra eklenebilir; henüz koşulmadı.
-- **Yuvarlama bedava sayıldı.** Sürekli kollar için bu iyimser bir varsayım, dCD'nin aleyhine bir eğilim yaratır; ama yuvarlamanın gerçek maliyeti 2^b'lik bir arama tablosu düzeyinde, ölçülmedi.
-- **Ölçüm sonrası yük ortalaması 0.76 / 0.86.** Bu değere ölçülen tek iş parçacıklı süreç de katkı veriyor. Ölçüm öncesi yük ortalaması 0.49 / 0.46 idi.
+- **İçsel optimum ayrık fazda da var.** lr0.5 tasarımında yuvarlanmış Adam kollarında L* 1 bitte 5, 2 bitte 6. Adam-48→q, L*'a göre 1 bitte %9.5, 2 bitte %14.1 kaybediyor. (İlk sürümdeki %9.3 / %13.6 kaba ızgaradan geliyordu; denetim K3.) Adım boyu doğrulamada seçilince (lr-val) 1 bitte L* = 3 ve kayıp %9.1; 2 bitte L* = 6 ve kayıp %14.2.
+- **1 bitte sıfır gecikmede dCD her kolu geçiyor, 2 bitte geçmiyor.**
+  - 1 bit: dCD-8 6.07, en iyi Adam→q 5.58.
+  - 2 bit: dCD-8 (6.61) Adam-48→q'nun (6.62) altında. dCD-1 (6.14) Adam-10…48→q'nun altında, Adam-8→q'nun (6.11) üstünde.
+- **Etkin hızda 2 bitte yavaş çözücü kaybediyor.** dCD-2/3/4/8, SU-best-of→q'nun 0.137–0.170 b/s/Hz altında; dördünün de GA'sı sıfırın altında. dCD-1 ondan ayırt edilemiyor. En iyi Adam→q'ya (Adam-6→q) karşı dCD-1'in farkı −0.758 [−0.831, −0.681].
+- **1 bitte tek taramalı dCD, en iyi yuvarlanmış Adam'la aynı düzeyde.** Doğrulamada seçilen kol dCD-1 (16.2 ms).
+  - Testte dCD-1 − Adam-5→q = −0.044 [−0.114, +0.024] (lr0.5).
+  - lr-val tasarımında dCD-1 − Adam-3→q = −0.021 [−0.093, +0.051].
+  - İki GA da sıfırı içeriyor. Tarama sayısı arttıkça kazanç kayboluyor: dCD-4 ve dCD-8 SU-best-of→q'dan ayırt edilemiyor.
+- **Tek-RIS'teki "1 bitte ayrık CD kazanıyor" sonucuyla ilişki:** Çok kullanıcılı yaşlanma kümesinde bu sonuç yalnızca tek taramada ve yalnızca berabere düzeyinde tekrarlanıyor.
+- **Adım boyu (denetim U20):** lr-val, lr0.5'e göre hükmü değiştirmiyor. 1 bitte doğrulamada seçilen adım boyu bazı L'lerde testte daha düşük hız verdi (Adam-5→q 5.158 → 5.131); doğrulama ile test arasındaki fark, GA genişliğinin içinde.
+- **Gecikme muhasebesi:** Adam-L→q gecikmesi SU-average başlangıcını (0.30 ms) içermiyor (common.adam_latency; makalenin kuralı). Başlangıç gecikmeye eklenince etkin hız kol başına 0.0001–0.021 b/s/Hz düşüyor; 1 bitte Adam-5→q için 0.0069. Bu, dCD-1 ile Adam-5→q arasındaki 0.044'lük farkı kapatmıyor; ama fark zaten anlamlı değil [p4/gecikme_muhasebesi/raw/results.json].
+- **3 bit kapsam dışı:** İstem (Görev 4.5) 1/2 bit istiyordu; CLAUDE.md'nin ayrık faz maddesi 1/2/3 bit diyor. 3 bit, dCD zamanlaması boş makine gerektirdiği için eğitimler bittikten sonra eklenebilir; henüz koşulmadı.
+- **Yuvarlama bedava sayıldı.** Sürekli kollar için bu iyimser bir varsayım ve dCD'nin aleyhine bir eğilim yaratır. Yuvarlamanın gerçek maliyeti 2^b'lik bir arama tablosu düzeyinde, ölçülmedi.
+- **dCD zamanlaması sonrası yük ortalaması 0.76 / 0.86.** Bu değere ölçülen tek iş parçacıklı süreç de katkı veriyor. Ölçüm öncesi yük ortalaması 0.49 / 0.46 idi.
