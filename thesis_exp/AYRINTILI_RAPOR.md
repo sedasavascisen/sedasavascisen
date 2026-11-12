@@ -195,7 +195,7 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 | H8 | 38.901 ham girdili kol öğrenmedi | Plan sapması | Ölçek-normalize kola geçildi, raporda kayıtlı |
 | H9 | Sweep bit-kimliği için yanlış eski dosya (`_fixzf`) seçildi | Yanlış "FARKLI" | Makalenin kullandığı `_repro` dosyası ile 0 fark |
 | H10 | Optimize süre raporunda çok satırlı hata mesajı tabloyu bozdu | Biçim | Boşluklar tek satıra indirildi |
-| H11 | (Denetim K1) kanal_ongoru ve kusurlu_csi koşuldukları anda betikleri commit'lenmemişti; results.json'daki commit'te run.py yok (Kural 3) | İzlenebilirlik; sayılar çürütülmedi | Commit'li koddan yeniden koşuldu ve bit-bit karşılaştırıldı (sonuç thesis_exp/denetim_log/k1_rerun.md); raporlar artık ölçüm commit'ini de yazıyor |
+| H11 | (Denetim K1) kanal_ongoru ve kusurlu_csi koşuldukları anda betikleri commit'lenmemişti; results.json'daki commit'te run.py yok (Kural 3) | İzlenebilirlik; sayılar çürütülmedi | Commit'li koddan (f413f63) yeniden koşuldu: commit alanı dışında bütün değerler birebir aynı (thesis_exp/denetim_log/k1_rerun.md); raporlar artık ölçüm commit'ini de yazıyor |
 | H12 | (Denetim U1) 4.3'ün ilk sürümü en iyi R'yi test kümesinde seçiyordu | Yalnızca yanlı v1 tabloları; devam deneyi R'yi doğrulamada seçiyor ve aynı R'leri buluyor | Devam deneyi esas |
 | H13 | (Denetim U5/U6) özet raporlarda iki yanlış genelleme: 'dCD t=0'da her kolu geçiyor' (2 bitte yanlış), 'L* 10–12' (8–12) | Metin | Düzeltildi |
 
