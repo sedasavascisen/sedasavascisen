@@ -1,0 +1,13 @@
+Adam-1 [eager] 1.7028295010277361
+learned-1 [eager] 3.5435247496025113
+Adam-8 [eager] 10.405413499938732
+learned-8 [eager] 29.178042249895952
+/root/.local/lib/python3.11/site-packages/torch/_inductor/lowering.py:2827: UserWarning: Torchinductor does not support code generation for complex operators. Performance may be worse than eager.
+  warnings.warn(
+/root/.local/lib/python3.11/site-packages/torch/_inductor/lowering.py:2540: FutureWarning: `torch._prims_common.check` is deprecated and will be removed in the future. Please use `torch._check*` functions instead.
+  check(
+/root/.local/lib/python3.11/site-packages/torch/_inductor/lowering.py:2540: FutureWarning: `torch._prims_common.check` is deprecated and will be removed in the future. Please use `torch._check*` functions instead.
+  check(
+Adam-1 [torch.compile] 2.1838650000063353
+/root/.local/lib/python3.11/site-packages/torch/_inductor/lowering.py:2540: FutureWarning: `torch._prims_common.check` is deprecated and will be removed in the future. Please use `torch._check*` functions instead.
+  check(
