@@ -3,7 +3,7 @@
 **Sorun (denetim turu 1, K1):** `p4/kanal_ongoru` (ölçüm commit'i 38b25bd) ve `p4/kusurlu_csi` (06fc9d2) koşulurken `run.py` commit'lenmemişti. Kayıtlı commit'te betik yoktu (Kural 3).
 
 **Yapılan:** İki betik, commit'li hâlleriyle (f413f63) koşuldu.
-- **Kopyadaki farklar:** Yalnızca iki satır değiştirildi: içe aktarma yolu mutlak yapıldı, çıktı klasörü scratchpad'e yönlendirildi (`diff` çıktısı oturum kaydında).
+- **Kopyadaki farklar:** Yalnızca iki satır değiştirildi: içe aktarma yolu mutlak yapıldı, çıktı klasörü scratchpad'e yönlendirildi (kopyalar ve `diff` çıktıları: `k1_rerun/run_*.py`, `k1_rerun/run_*.diff`).
 - **Kimler koştu:** 4 koşu sırayla: e2 = 0, 0.01, 0.1 ve kusurlu CSI.
 - **Commit numaraları:** Koşu sürerken HEAD f413f63 → 02c742c ilerledi. `git diff f413f63 02c742c -- run.py common.py ris_mu/` boş, yani betikler ve kütüphane iki commit'te aynı.
 

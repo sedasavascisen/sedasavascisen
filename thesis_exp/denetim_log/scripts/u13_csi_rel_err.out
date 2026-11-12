@@ -1,0 +1,10 @@
+11 F (400, 32, 8) batch/scen power ratio: median 2.92 p5 0.242 p95 47.2 max 643
+11 G (400, 4, 32) batch/scen power ratio: median 5.54 p5 0.444 p95 70.2 max 484
+11 hd (400, 4, 8) batch/scen power ratio: median 4.31 p5 0.238 p95 102 max 2.96e+03
+11 rho=30dB -> per-scenario effective G 'pilot SNR' dB: median 22.6 p5 11.5 p95 33.5; frac < 10 dB: 0.037
+11 batch mean power G 0.01935
+12 F (400, 32, 8) batch/scen power ratio: median 1.88 p5 0.295 p95 39.3 max 364
+12 G (400, 4, 32) batch/scen power ratio: median 3.85 p5 0.296 p95 65 max 1.32e+03
+12 hd (400, 4, 8) batch/scen power ratio: median 5.41 p5 0.307 p95 79.1 max 2.56e+03
+12 rho=30dB -> per-scenario effective G 'pilot SNR' dB: median 24.1 p5 11.9 p95 35.3; frac < 10 dB: 0.037
+12 batch mean power G 0.01243

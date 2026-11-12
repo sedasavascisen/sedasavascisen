@@ -43,6 +43,9 @@ Bu dosya ayrıntılı raporların özetidir; her sayı ilgili raporda betik, toh
 - Makale 1'in birebir yeniden üretimi: MATLAB ve `RIS_dataset_large_2D.mat` yok (bağımsız NumPy çekilişi kullanıldı).
 - Makale 1 Şekil 9 PSO gecikmesi (MATLAB yok).
 - 4.6: torch.jit.trace (iki kol), GPU (CUDA yok).
+- `results/mumiso_aging_sweep_fixzf.json`: üreten betik yok (makale kullanmıyor).
+
+Koşulmamış (üretilemeyen değil): 4.5 için 3 bit.
 
 ## 4) Açık sorular (karar sizin)
 

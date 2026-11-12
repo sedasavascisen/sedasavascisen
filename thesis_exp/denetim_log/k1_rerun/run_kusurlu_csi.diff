@@ -1,0 +1,8 @@
+16c16
+< sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+---
+> sys.path.insert(0, str('/home/user/sedasavascisen/thesis_exp/p4'))
+21c21
+< OUT = pathlib.Path(__file__).parent / "raw"; OUT.mkdir(exist_ok=True)
+---
+> OUT = pathlib.Path('/tmp/claude-0/-home-user-sedasavascisen/36a1538b-b28f-5b37-970a-9a1a9a74083b/scratchpad/rerun_k1/kusurlu_csi'); OUT.mkdir(exist_ok=True)

@@ -1,7 +1,7 @@
 # Tez için tavsiyeler — iki makaleden bir tez (12 Kasım 2026)
 
 Bu bir mentorluk notu; tez metni değil. Sayılar denetimden geçmiş raporlardan (`AYRINTILI_RAPOR.md`,
-tur 1: yanlış sayı yok). Kararlar sizin ve danışmanınızın.
+denetim turları 1–2: ham veriyle çelişen sayı yok; özet metinlerdeki üç yanlış genelleme ve bir yanlış aralık düzeltildi). Kararlar sizin ve danışmanınızın.
 
 ---
 
@@ -41,9 +41,9 @@ Makale için "düzeltme gerekmiyor" kararınızı yeniden tartışmıyorum. Ama 
 
 | Muhtemel soru | Yanıtınız | Kaynak |
 | --- | --- | --- |
-| "Gecikme donanıma bağlı, sonuçlarınız genellenir mi?" | Normalize adım maliyeti x = ΔT·f_d; hüküm mutlak ms'ye değil x'e bağlı. Yeniden ölçümde Adam 1.66 → 1.328 ms oldu, L* 5 → 6, bulgu korundu | infra/REPORT.md |
+| "Gecikme donanıma bağlı, sonuçlarınız genellenir mi?" | Normalize adım maliyeti x = ΔT·f_d; hüküm mutlak ms'ye değil x'e bağlı. Yeniden ölçümde Adam 1.66 → 1.328 ms oldu, L* 5 → 6, bulgu korundu | x'in tanımı: MAKALE_REHBERI.md:348, paper_mobility/DANISMAN_GORUSME_NOTLARI.md:29 (ölçekleme yasası bu denetimde yeniden sınanmadı); yeniden ölçüm: infra/REPORT.md |
 | "Pilot yükünü bedava saydınız" | Ücretlendirildi: mutlak hız %17–32 düşüyor, en iyi kol kümesi (Adam-4…8) ve yavaş çözücülerin yeri değişmiyor | p4/onkodlayici_siralama |
-| "CSI kusursuz değil" | Pilot SNR'i 30 dB'de bile etkin hız 6.08 → 3.54; hata arttıkça L* küçülüyor; 10 dB altında yöntemler ayırt edilemiyor | p4/kusurlu_csi |
+| "CSI kusursuz değil" | Pilot SNR'i 30 dB'de bile etkin hız 6.08 → 3.54; en iyi L hatayla tekdüze değişmiyor; 10 dB ve altında yöntemler ayırt edilemiyor. Dikkat: ρ kümenin ortalama gücüne göre, senaryo başına etkin SNR daha düşük (30 dB → medyan 22.6 dB) | p4/kusurlu_csi |
 | "Gerçek RIS ayrık fazlı" | 1/2 bitte de içsel optimum var (L* = 5/6); yavaş ayrık CD 2 bitte kaybediyor | p4/ayrik_faz |
 | "Kanalı öngörseniz?" | Gürültüsüz geçmişle +0.19…+0.42 kazanç; %1 kestirim hatasıyla bütün öngörücüler öngörüsüzün altında | p4/kanal_ongoru |
 | "Konum biliniyorsa CSI'ya gerek var mı?" | Geometri tabanlı faz SU-best-of'un 0.83–0.86 altında | p4/konum_faz |
@@ -56,7 +56,7 @@ Bu tabloyu savunma hazırlığının omurgası yapın. Her satır için tek bir 
 
 1. **Tek kanal modeli:** sabit saçıcılar, düz yörünge, iç mekân. Öngörü sonuçları bu yüzden iyimser. "Gerçekçi senaryo" ekseni kısmi; bunu tezde sınır olarak yazın.
 2. **Etkin hız ölçütleri:** iki farklı ölçüt var. Tanım 1 anlık; pilot deneyi 50 ms ortalaması kullanıyor. Tezde ikisini karıştırmayın; 50 ms'nin duyarlılığı henüz denenmedi.
-3. **Gecikme muhasebesi:** Adam-L gecikmesi SU-average başlangıcını (0.30 ms) içermiyor. Etkisi ~0.016 b/s/Hz. Dar farklarda bunu belirtin.
+3. **Gecikme muhasebesi:** Adam-L gecikmesi SU-average başlangıcını (0.30 ms) içermiyor. Eklenince etkin hız kol başına 0.0001–0.021 b/s/Hz düşüyor (p4/gecikme_muhasebesi). Dar farklarda bunu belirtin.
 4. **GPU ölçümü yok.**
 5. **3 bit çok kullanıcılı ayrık faz koşulmadı** (CLAUDE.md "jüri soracak" diyor).
 
@@ -97,7 +97,7 @@ Her bölümün başına "bu bölümün tek iddiası" ve "onu taşıyan sayı + k
 İki ayda bir tezi bitirmek sıkışık ama yapılabilir. Elinizdeki malzeme sandığınızdan güçlü. Ana sonuç pek çok sağlamlık testinden geçti:
 - yeniden ölçülen gecikmeler;
 - pilot yükü;
-- kusurlu CSI;
+- kusurlu CSI (orta-yüksek SNR'de; 10 dB ve altında yöntemler ayırt edilemiyor, yani orada hüküm yok);
 - ayrık faz;
 - optimize süreler.
 

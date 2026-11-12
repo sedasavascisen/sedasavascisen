@@ -1,6 +1,6 @@
 # Deney 4.4 — Pilot SNR'sine bağlı kusurlu CSI (rapor)
 
-Rapor commit'i `f413f63`, ölçüm commit'i `06fc9d2` (results.json). Hata modeli ris_mu/mumiso/csi.py (F, G, h_d için ayrı ölçek, gücü koruyan), e2 = 1/(1+ρ), ρ = kestirim sonrası katsayı başına pilot SNR'si. Faz t=0 kestiriminden; teslim anında ZF, aynı ρ ile yeni bir kestirimden; hız gerçek kanalda. Adam adım boyu her ρ ve L için doğrulama çekilişinde (seed 12, etkin hız üzerinden) seçildi; rapor yaşlanma kümesi (seed 11). Gecikmeler: tek iş parçacıklı yeniden ölçüm.
+Rapor commit'i `dfcbb1c`, ölçüm commit'i `06fc9d2` (results.json; o commit'te run.py yoktu — commit'li koddan bit-bit yeniden üretim: thesis_exp/denetim_log/k1_rerun.md). Hata modeli ris_mu/mumiso/csi.py (F, G, h_d için ayrı ölçek, gücü koruyan), e2 = 1/(1+ρ), ρ = kestirim sonrası pilot SNR'si; hata ölçeği 400 senaryonun ORTALAMA gücünden alınıyor (csi._noisy), bu yüzden senaryo başına etkin SNR dağınık: ρ = 30 dB, G için senaryo başına medyan 22.6 dB, %5 dilim 11.5 dB (test kümesi; doğrulamada 24.1 / 11.9 dB) [denetim_log/scripts/u13_csi_rel_err.out]. Teslim anındaki yeni kestirimin pilot süresi hesaba katılmadı. Seçilen lr 5 dB ve 0 dB'de bazı L'ler için ızgaranın ucunda (0.1 / 1.0). Doğrulama kümesinde senaryo kimliği sınanmadı. Faz t=0 kestiriminden; teslim anında ZF, aynı ρ ile yeni bir kestirimden; hız gerçek kanalda. Adam adım boyu her ρ ve L için doğrulama çekilişinde (seed 12, etkin hız üzerinden) seçildi; rapor yaşlanma kümesi (seed 11). Gecikmeler: tek iş parçacıklı yeniden ölçüm.
 
 ## 1) Bulgular
 
@@ -22,5 +22,5 @@ Rapor commit'i `f413f63`, ölçüm commit'i `06fc9d2` (results.json). Hata model
 ## 3) Yorum (bulgulardan ayrı)
 
 - Kestirim hatası etkin hızı çok hızlı düşürüyor; bu, düz ZF'nin kanal hatasına duyarlılığı (csi.py docstring'inde ölçülmüş).
-- Hata büyüdükçe en iyi adım sayısı küçülüyor; düşük ρ'da yöntemler birbirinden ayırt edilemiyor (GA sıfırı içeriyor).
+- En iyi adım sayısı hatayla tekdüze değişmiyor: testte en iyi L 6/3/5/1/6/4, doğrulamada seçilen 6/3/5/4/20/5 (ρ = kusursuz/30/20/10/5/0 dB). 10 dB ve altında yöntemler ayırt edilemiyor (GA sıfırı içeriyor). (Önceki sürümdeki 'hata büyüdükçe L küçülüyor' cümlesi ölçümle desteklenmiyordu; denetim U12.)
 - ρ'nun gerçek pilot bütçesine (sembol sayısı, iletim gücü) bağlanması bu deneyin kapsamı dışında; ρ burada serbest parametre.

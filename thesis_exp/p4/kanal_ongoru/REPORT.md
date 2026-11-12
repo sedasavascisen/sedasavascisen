@@ -1,6 +1,6 @@
 # Deney 4.1 — Kanal öngörüsü (rapor)
 
-Rapor commit'i `f413f63`, ölçüm commit'i `38b25bd` (results*.json). Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s); seçim seed 12. Gecikmeler: tek iş parçacıklı yeniden ölçüm (thesis_exp/infra). Ek anlık görüntü başına ek pilot: 48 sembol = 3.43 / 1.71 / 0.86 ms (15 / 30 / 60 kHz); 2 noktalı öngörücü 1, 3 noktalılar 2 ek anlık görüntü ister. Bu süre tek-atış etkin hıza **eklenmedi** (anlık görüntüler t=0'dan önce alınıyor); havada geçen süre olarak ayrıca raporlanmalı.
+Rapor commit'i `dfcbb1c`, ölçüm commit'i `38b25bd` (results*.json; o commit'te run.py yoktu — commit'li koddan bit-bit yeniden üretim: thesis_exp/denetim_log/k1_rerun.md). Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s); seçim seed 12. Gecikmeler: tek iş parçacıklı yeniden ölçüm (thesis_exp/infra). Ek anlık görüntü başına ek pilot: 48 sembol = 3.43 / 1.71 / 0.86 ms (15 / 30 / 60 kHz); 2 noktalı öngörücü 1, 3 noktalılar 2 ek anlık görüntü ister. Bu süre tek-atış etkin hıza **eklenmedi** (anlık görüntüler t=0'dan önce alınıyor); havada geçen süre olarak ayrıca raporlanmalı.
 
 ## 1) Bulgular (önce kısıtlar)
 

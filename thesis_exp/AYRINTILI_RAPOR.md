@@ -133,7 +133,7 @@ Bu, CLAUDE.md'deki "yapay zekâ ekseni kapandı ve olumsuz" hükmüyle tutarlı.
 Ortak kurulum (`thesis_exp/p4/common.py`):
 - Yaşlanma kümesi `scripts/mumiso_aging.py` ile aynı (seed 11, 400 senaryo, 20 saçıcı, 1.5 m/s), ZF, min-kullanıcı hızı, soft-min Adam (β = 8).
 - `check_same_scenarios` her deneyde t=0 SU-average değerini `results/mumiso_aging_fixzf.json` ile 1e-4 içinde doğruluyor.
-- Gecikmeler Görev 2'nin tek iş parçacıklı ölçümünden. Adam-L gecikmesi SU-average başlangıcını (0.30 ms) içermiyor (makalenin kuralı); bu Adam kollarını ~0.016 b/s/Hz kayırır (denetim U3).
+- Gecikmeler Görev 2'nin tek iş parçacıklı ölçümünden. Adam-L gecikmesi SU-average başlangıcını (0.30 ms) içermiyor (makalenin kuralı); başlangıç eklenince etkin hız kol başına 0.0001–0.021 b/s/Hz düşüyor (sürekli Adam-6: 0.016; 1 bit Adam-5→q: 0.007) [p4/gecikme_muhasebesi/raw/results.json] (denetim U3/U16).
 - Adam-6 etkin hızı Görev 2'de 6.075, burada 6.077: aynı eğrinin farklı zaman ızgaralarında doğrusal interpolasyonu (denetim U9).
 
 ### 5.1 Kanal öngörüsü — `p4/kanal_ongoru/REPORT.md`
@@ -155,7 +155,8 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 - **Düzeltme:** 4.3'ün ilk sürümü tazeleme anlarını mutlak 0.1 ms ızgarasına yuvarlıyordu (§6, H7). Raporun başına düzeltme notu kondu; yanlı çıktılar `_v1_grid_bias` adıyla saklı.
 
 ### 5.4 Pilot SNR'ine bağlı kusurlu CSI — `p4/kusurlu_csi/REPORT.md`
-- e2 = 1/(1+ρ).
+- e2 = 1/(1+ρ). ρ kümenin ortalama gücüne göre; senaryo başına etkin SNR dağınık (30 dB → G için medyan 22.6 dB, %5 dilim 11.5 dB) [denetim_log/scripts/u13_csi_rel_err.out]. Teslim anındaki kestirimin pilot süresi ücretlendirilmedi.
+- En iyi adım sayısı hatayla tekdüze değişmiyor (testte 6/3/5/1/6/4).
 - **Etkin hız:** kusursuz 6.077 → 30 dB 3.537 → 20 dB 1.402 → 10 dB 0.295.
 - **SU-best-of'a göre:** +0.800 / +0.344 / +0.134; 10 dB ve altında GA sıfırı içeriyor.
 - **Testte en iyi Adam-L:** 6 → 3 → 5.
@@ -197,6 +198,8 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 | H10 | Optimize süre raporunda çok satırlı hata mesajı tabloyu bozdu | Biçim | Boşluklar tek satıra indirildi |
 | H11 | (Denetim K1) kanal_ongoru ve kusurlu_csi koşuldukları anda betikleri commit'lenmemişti; results.json'daki commit'te run.py yok (Kural 3) | İzlenebilirlik; sayılar çürütülmedi | Commit'li koddan (f413f63) yeniden koşuldu: commit alanı dışında bütün değerler birebir aynı (thesis_exp/denetim_log/k1_rerun.md); raporlar artık ölçüm commit'ini de yazıyor |
 | H12 | (Denetim U1) 4.3'ün ilk sürümü en iyi R'yi test kümesinde seçiyordu | Yalnızca yanlı v1 tabloları; devam deneyi R'yi doğrulamada seçiyor ve aynı R'leri buluyor | Devam deneyi esas |
+| H14 | (Denetim K2) H13 düzeltmesi yanlış bir aralık getirdi: 'dCD-1 Adam-8…48→q'nun altında' (doğrusu Adam-10…48; Adam-8→q 6.107 < dCD-1 6.141) | Metin | Düzeltildi |
+| H15 | (Denetim U12, U13, U16) kusurlu CSI'da desteklenmeyen 'L küçülüyor' cümlesi; ρ tanımı küme ortalamasına göre; '~0.016' betiksiz tahmindi | Metin / tanım | Cümle veriye bağlandı; ρ tanımı ve senaryo başı dağılım belgelendi (betik denetim_log/scripts); 0.016 yerine ölçüm: p4/gecikme_muhasebesi |
 | H13 | (Denetim U5/U6) özet raporlarda iki yanlış genelleme: 'dCD t=0'da her kolu geçiyor' (2 bitte yanlış), 'L* 10–12' (8–12) | Metin | Düzeltildi |
 
 Not: H7, kullanıcıya önce bildirilmiş bir sayıyı değiştirdi (4.3: 3.303/3.718/4.025 → 3.385/3.811/4.126).
@@ -212,9 +215,10 @@ Not: H7, kullanıcıya önce bildirilmiş bir sayıyı değiştirdi (4.3: 3.303/
 | `results/mumiso_aging_sweep_fixzf.json` | Üreten betik yok (makale kullanmıyor) |
 | 4.6 torch.jit.trace (Adam ve öğrenilen) | Optimizasyon adımı / iç gradyan izlenemiyor |
 | 4.6 GPU | Bu makinede CUDA yok |
-| 4.5 için 3 bit | Koşulmadı (istem 1/2 bit); boş makine gerektiriyor, eğitimlerden sonra eklenebilir |
 
 ---
+
+**Koşulmamış (üretilemeyen değil):** 4.5 için 3 bit (istem 1/2 bit); boş makine gerektiriyor, eğitimlerden sonra eklenebilir.
 
 ## 8) Sürmekte olan işler (12 Kasım)
 
