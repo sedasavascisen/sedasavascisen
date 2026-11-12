@@ -1,0 +1,84 @@
+cnnlstm_N256_sqrt_s0 ep  1 loss 0.21790 val 25.89 (309s)
+cnnlstm_N256_sqrt_s0 ep  2 loss 0.04153 val 15.75 (305s)
+cnnlstm_N256_sqrt_s0 ep  3 loss 0.01896 val 10.92 (304s)
+cnnlstm_N256_sqrt_s0 ep  4 loss 0.01303 val 7.92 (382s)
+cnnlstm_N256_sqrt_s0 ep  5 loss 0.01064 val 5.80 (303s)
+cnnlstm_N256_sqrt_s0 ep  6 loss 0.00958 val 5.30 (327s)
+cnnlstm_N256_sqrt_s0 ep  7 loss 0.00862 val 5.54 (317s)
+cnnlstm_N256_sqrt_s0 ep  8 loss 0.00811 val 4.59 (309s)
+cnnlstm_N256_sqrt_s0 ep  9 loss 0.00773 val 4.85 (314s)
+cnnlstm_N256_sqrt_s0 ep 10 loss 0.00741 val 4.07 (317s)
+cnnlstm_N256_sqrt_s0 ep 11 loss 0.00718 val 4.54 (312s)
+cnnlstm_N256_sqrt_s0 ep 12 loss 0.00702 val 5.32 (313s)
+cnnlstm_N256_sqrt_s0 ep 13 loss 0.00688 val 3.71 (324s)
+cnnlstm_N256_sqrt_s0 ep 14 loss 0.00669 val 6.71 (308s)
+cnnlstm_N256_sqrt_s0 ep 15 loss 0.00664 val 3.92 (304s)
+cnnlstm_N256_sqrt_s0 ep 16 loss 0.00605 val 3.02 (305s)
+cnnlstm_N256_sqrt_s0 ep 17 loss 0.00600 val 3.22 (307s)
+cnnlstm_N256_sqrt_s0 ep 18 loss 0.00598 val 2.87 (307s)
+cnnlstm_N256_sqrt_s0 ep 19 loss 0.00596 val 2.89 (321s)
+cnnlstm_N256_sqrt_s0 ep 20 loss 0.00586 val 3.36 (324s)
+cnnlstm_N256_sqrt_s0 ep 21 loss 0.00580 val 3.06 (330s)
+cnnlstm_N256_sqrt_s0 ep 22 loss 0.00579 val 3.08 (344s)
+cnnlstm_N256_sqrt_s0 ep 23 loss 0.00580 val 2.88 (327s)
+cnnlstm_N256_sqrt_s0 ep 24 loss 0.00574 val 3.26 (322s)
+cnnlstm_N256_sqrt_s0 ep 25 loss 0.00573 val 2.73 (314s)
+cnnlstm_N256_sqrt_s0 ep 26 loss 0.00572 val 3.04 (324s)
+cnnlstm_N256_sqrt_s0 ep 27 loss 0.00572 val 3.75 (335s)
+cnnlstm_N256_sqrt_s0 ep 28 loss 0.00578 val 3.15 (327s)
+cnnlstm_N256_sqrt_s0 ep 29 loss 0.00564 val 2.97 (321s)
+cnnlstm_N256_sqrt_s0 ep 30 loss 0.00561 val 3.07 (319s)
+cnnlstm_N256_sqrt_s0 ep 31 loss 0.00548 val 2.48 (333s)
+cnnlstm_N256_sqrt_s0 ep 32 loss 0.00546 val 2.59 (331s)
+cnnlstm_N256_sqrt_s0 ep 33 loss 0.00547 val 2.49 (322s)
+cnnlstm_N256_sqrt_s0 ep 34 loss 0.00544 val 2.42 (307s)
+cnnlstm_N256_sqrt_s0 ep 35 loss 0.00540 val 2.47 (312s)
+cnnlstm_N256_sqrt_s0 ep 36 loss 0.00543 val 2.69 (316s)
+cnnlstm_N256_sqrt_s0 ep 37 loss 0.00546 val 2.47 (306s)
+cnnlstm_N256_sqrt_s0 ep 38 loss 0.00540 val 2.30 (313s)
+cnnlstm_N256_sqrt_s0 ep 39 loss 0.00554 val 2.66 (315s)
+cnnlstm_N256_sqrt_s0 ep 40 loss 0.00549 val 3.08 (327s)
+cnnlstm_N256_sqrt_s0 ep 41 loss 0.00538 val 2.46 (316s)
+cnnlstm_N256_sqrt_s0 ep 42 loss 0.00545 val 2.38 (319s)
+cnnlstm_N256_sqrt_s0 ep 43 loss 0.00543 val 2.51 (329s)
+cnnlstm_N256_sqrt_s0 ep 44 loss 0.00538 val 2.43 (302s)
+cnnlstm_N256_sqrt_s0 ep 45 loss 0.00542 val 3.19 (308s)
+cnnlstm_N256_sqrt_s0 ep 46 loss 0.00526 val 2.32 (304s)
+cnnlstm_N256_sqrt_s0 ep 47 loss 0.00530 val 2.21 (303s)
+cnnlstm_N256_sqrt_s0 ep 48 loss 0.00530 val 2.34 (312s)
+cnnlstm_N256_sqrt_s0 ep 49 loss 0.00526 val 2.17 (303s)
+cnnlstm_N256_sqrt_s0 ep 50 loss 0.00524 val 2.22 (311s)
+{
+ "tag": "cnnlstm_N256_sqrt_s0",
+ "config": {
+  "arch": "cnnlstm",
+  "n": 40000,
+  "N": 256,
+  "data_seed": 42,
+  "seed": 0,
+  "epochs": 50,
+  "threads": 2,
+  "permute": false,
+  "hidden_scale": "sqrt",
+  "tag": "cnnlstm_N256_sqrt_s0"
+ },
+ "params": 870018,
+ "commit": "81b07dd932ef3c0edad63e4c8f0dd11170c0cc11",
+ "data": "audit/raw/data/m1_N256_n40000_seed42.npz",
+ "n_train": 28000,
+ "n_val": 6000,
+ "n_test": 6000,
+ "test_rmse_deg": 2.247183084487915,
+ "sr": {
+  "SR@1": 0.5225390625,
+  "SR@3": 0.9312578125,
+  "SR@5": 0.9814596354166667,
+  "SR@10": 0.996169921875
+ },
+ "err_deg_p95": 3.3891146183013916,
+ "power_vs_label_db": {
+  "mean": -0.0040065496141268074,
+  "median": -0.003274678346494094
+ },
+ "train_minutes": 264.6891359210014
+}
