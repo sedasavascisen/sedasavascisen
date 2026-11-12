@@ -1,0 +1,9 @@
+SU-best-of
+  15kHz: best R 2.0 ms -> 3.3030  (fresh 4.9104, never 0.7516)
+  30kHz: best R 1.0 ms -> 3.7177  (fresh 4.9104, never 0.7516)
+  60kHz: best R 1.0 ms -> 4.0248  (fresh 4.9104, never 0.7516)
+Adam-6
+  15kHz: best R 2.0 ms -> 3.5370  (fresh 5.2252, never 0.7649)
+  30kHz: best R 1.0 ms -> 4.0127  (fresh 5.2252, never 0.7649)
+  60kHz: best R 1.0 ms -> 4.3441  (fresh 5.2252, never 0.7649)
+wrote /home/user/sedasavascisen/thesis_exp/p4/onkodlayici_pilot/raw/results.json
