@@ -1,6 +1,15 @@
 # Deney 4.3 — Ön kodlayıcı tazeleme pilotlarının ücretlendirilmesi (rapor)
 
-Commit `98ddad9`. Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s), 0.1 ms ızgara. Faz t=0'da hesaplanıp kolun gecikmesinde devreye alınıyor; ZF ön kodlayıcı her R ms'de bir, o anın (kusursuz) etkin kanal kestiriminden yeniden hesaplanıyor ve arada eski haliyle kullanılıyor. Her tazeleme 4 pilot sembolü (kullanıcı başına bir), veri yok: veri oranı 1 − t_p/R ile ücretlendirildi. Ortalama penceresi devreye almadan sonraki 50 ms.
+> **DÜZELTME — bu raporun pilot ücretli sayıları yanlı.** Tazeleme anları mutlak 0.1 ms ızgarasına yuvarlanıyor; yuvarlamanın yönü kolun gecikmesine bağlı. SU-best-of (1.63 ms) aşağı yuvarlandığı için her örneği 0.1 ms fazla eskimiş bir W ile ölçüldü; Adam-6 (8.09 ms) yukarı yuvarlandı. Bu da SU-best-of'u cezalandırıp aradaki farkı şişirdi. Kolun kendi devreye girme anına hizalanmış ızgarayla düzeltilmiş değerler (thesis_exp/p4/onkodlayici_siralama, R doğrulamada seçildi):
+>
+> | Kol | Taze W | 15 kHz | 30 kHz | 60 kHz | Hiç tazelenmeyen |
+> | --- | --- | --- | --- | --- | --- |
+> | SU-best-of | 4.9108 | 3.3852 (R 2 ms) | 3.8108 (R 1 ms) | 4.1255 (R 1 ms) | 0.7606 |
+> | Adam-6 | 5.2248 | 3.5385 (R 2 ms) | 4.0132 (R 1 ms) | 4.3447 (R 1 ms) | 0.7639 |
+>
+> Aşağıdaki tablolar ilk (yanlı) koşunun kaydı olarak bırakıldı; taze W ve hiç tazelenmeyen W sütunları yuvarlamadan etkilenmiyor (ikincisi ≤0.01 b/s/Hz). Bütün kolların sıralaması için onkodlayici_siralama/REPORT.md.
+
+Commit `a0ac494`. Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s), 0.1 ms ızgara. Faz t=0'da hesaplanıp kolun gecikmesinde devreye alınıyor; ZF ön kodlayıcı her R ms'de bir, o anın (kusursuz) etkin kanal kestiriminden yeniden hesaplanıyor ve arada eski haliyle kullanılıyor. Her tazeleme 4 pilot sembolü (kullanıcı başına bir), veri yok: veri oranı 1 − t_p/R ile ücretlendirildi. Ortalama penceresi devreye almadan sonraki 50 ms.
 
 ## 1) Bulgular
 

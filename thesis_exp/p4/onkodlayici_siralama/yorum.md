@@ -1,0 +1,11 @@
+- **Sıralama pilot ücretinden etkilenmiyor.**
+  - İlk dört kol (Adam-6, 5, 8, 4) taze W'de ve üç numerolojinin hepsinde aynı sırada.
+  - Doğrulamada seçilen kol Adam-6 ya da Adam-8. Seçilen kol ile Adam-4…Adam-8 arasındaki farkların GA'sı sıfırı içeriyor.
+  - İçsel optimum (L ≈ 5–8) pilot ücretinde de korunuyor.
+- **Mutlak hızlar düşüyor.** En iyi kol taze W'de 5.213 b/s/Hz. Pilot ücretiyle 3.539 (15 kHz), 4.003 (30 kHz) ve 4.334 (60 kHz). Kayıp sırasıyla %32, %23 ve %17.
+- **SU-best-of'a karşı üstünlük küçülüyor ama anlamlı kalıyor.** Taze W'de +0.303 [+0.242, +0.366]. Pilot ücretiyle +0.153 [+0.101, +0.204], +0.193 [+0.141, +0.245] ve +0.209 [+0.153, +0.262].
+- **Yavaş çözücüler yine en altta.** CD her numerolojide seçilen koldan 0.15–0.17, PGA 0.38–0.45 b/s/Hz geride. GA'ların hepsi sıfırın altında.
+- **Yanlılık düzeltmesi.** İlk koşu tazeleme anlarını mutlak 0.1 ms ızgarasına yuvarlıyordu. Gecikmesi yukarı yuvarlanan kollar (Adam-6/10/12/16/20/24) yapay olarak öne geçti ve sıralama testere dişi biçimini aldı. Bu koşu kolun devreye girme anına hizalı ızgara kullanıyor. Yanlı çıktılar raw/*_v1_grid_bias.* adıyla saklandı.
+  - Aynı yanlılık Deney 4.3'te de var; o raporun başına düzeltme notu eklendi.
+  - Taze W sütunu bu düzeltmeden etkilenmiyor. Yalnızca örnekleme anları kaydı için 4.3 ile arasında ≤0.001 fark var.
+- **Kapsam dışı kalanlar.** Kestirim kusursuz kabul edildi; pilot SNR'ı (Deney 4.4) ve tazeleme ile kestirimin birlikte etkisi modellenmedi. Pilot sayısı K = 4 (kullanıcı başına bir dik sembol).
