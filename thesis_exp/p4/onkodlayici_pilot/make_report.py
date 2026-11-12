@@ -21,7 +21,7 @@ if _f.exists():
     W(">"); W("> Aşağıdaki tablolar ilk (yanlı) koşunun kaydı olarak bırakıldı; taze W ve hiç tazelenmeyen W sütunları yuvarlamadan etkilenmiyor "
               "(ikincisi ≤0.01 b/s/Hz). Bütün kolların sıralaması için onkodlayici_siralama/REPORT.md.")
     W("")
-W(f"Commit `{c}`. Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s), 0.1 ms ızgara. Faz t=0'da hesaplanıp kolun gecikmesinde devreye alınıyor; "
+W(f"Rapor commit'i `{c}`, ölçüm commit'i `{r['commit'][:7]}` (results.json). Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s), 0.1 ms ızgara. Faz t=0'da hesaplanıp kolun gecikmesinde devreye alınıyor; "
   f"ZF ön kodlayıcı her R ms'de bir, o anın (kusursuz) etkin kanal kestiriminden yeniden hesaplanıyor ve arada eski haliyle kullanılıyor. "
   f"Her tazeleme {r['pilots_per_refresh']} pilot sembolü (kullanıcı başına bir), veri yok: veri oranı 1 − t_p/R ile ücretlendirildi. "
   f"Ortalama penceresi devreye almadan sonraki {r['window_ms']:.0f} ms.")

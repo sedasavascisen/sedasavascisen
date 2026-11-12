@@ -7,7 +7,7 @@ c = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True,
 o = []; W = o.append
 W("# Deney 4.1 — Kanal öngörüsü (rapor)")
 W("")
-W(f"Commit `{c}`. Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s); seçim seed 12. Gecikmeler: tek iş parçacıklı yeniden ölçüm (thesis_exp/infra). "
+W(f"Rapor commit'i `{c}`, ölçüm commit'i `{', '.join(sorted({v['commit'][:7] for v in R.values()}))}` (results*.json). Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s); seçim seed 12. Gecikmeler: tek iş parçacıklı yeniden ölçüm (thesis_exp/infra). "
   "Ek anlık görüntü başına ek pilot: 48 sembol = 3.43 / 1.71 / 0.86 ms (15 / 30 / 60 kHz); 2 noktalı öngörücü 1, 3 noktalılar 2 ek anlık görüntü ister. "
   "Bu süre tek-atış etkin hıza **eklenmedi** (anlık görüntüler t=0'dan önce alınıyor); havada geçen süre olarak ayrıca raporlanmalı.")
 W("")

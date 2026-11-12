@@ -27,8 +27,8 @@ raporla ham veri arasında tutarsız olan her şeyi bulmak. "Her şey yolunda" d
 - Eğitim günlüklerinin son satırları: `wt_audit/audit/raw/train_cnnlstm_N*_sqrt_s*.log`
 
 ### 2) Kural uyumu
-- `git diff --stat origin/master -- results/ paper_mobility/` boş olmalı. Bu iki klasör hiçbir dalda değişmemiş olmalı.
-- Ana ağaçta ve denetim ağacında, `audit/` ve `thesis_exp/` dışında değişen bir dosya var mı?
+- `git diff --stat 8991ea5 -- results/ paper_mobility/` her dalda boş olmalı (`8991ea5` denetim öncesi son commit; `origin/master` yalnızca README içerdiği için karşılaştırma tabanı olamaz).
+- `8991ea5`'ten beri `audit/` ve `thesis_exp/` dışında değişen dosya var mı? (`.gitignore` ve `CLAUDE.md` beklenir.)
 
 ### 3) Sayı izleme — her turda en az 25 sayı
 Kaynak dosyalar:

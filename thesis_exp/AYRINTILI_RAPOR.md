@@ -61,9 +61,9 @@ Not: Makale 1 için kullanıcının kararı "düzeltmeye gerek yok"; bu bulgular
 
 ### 1.2 Makale 2 (hareketlilik) — `thesis_exp/infra/REPORT.md`, `thesis_exp/p4/onkodlayici_*/REPORT.md`
 
-11. **Ön kodlayıcı tazeleme pilotları ücretlendirilince mutlak etkin hız büyük ölçüde düşüyor; yöntem sıralaması değişmiyor.**
-    - En iyi kol taze ve bedava W varsayımıyla (makalenin varsayımı) 5.213 b/s/Hz; pilot ücretiyle 3.539 (15 kHz), 4.003 (30 kHz), 4.334 (60 kHz): %32/%23/%17 kayıp.
-    - İlk dört kol (Adam-6, 5, 8, 4) her durumda aynı; en iyi kolun SU-best-of'a üstünlüğü +0.303 [+0.242, +0.366] → +0.153 / +0.193 / +0.209 (GA'lar sıfırın üstünde). (p4/onkodlayici_siralama/raw/results.json)
+11. **Ön kodlayıcı tazeleme pilotları ücretlendirilince mutlak etkin hız büyük ölçüde düşüyor; en iyi kol kümesi değişmiyor.**
+    - En iyi kol taze ve bedava W varsayımıyla (makalenin varsayımı) 5.213 b/s/Hz. Bu deneyin ölçütü devreye girdikten sonraki 50 ms'nin zaman ortalaması; madde 12'deki 6.075 ise Tanım 1'in anlık etkin hızı, ikisi doğrudan karşılaştırılmaz. 50 ms penceresinin duyarlılığı denenmedi. pilot ücretiyle 3.539 (15 kHz), 4.003 (30 kHz), 4.334 (60 kHz): %32/%23/%17 kayıp.
+    - Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) her durumda aynı sırada; aralarındaki farkların GA'sı sıfırı içeriyor (kesin olan, en iyi kümenin Adam-4…8 olarak kalması); 5. ve 6. sıra numerolojiye göre değişiyor; en iyi kolun SU-best-of'a üstünlüğü +0.303 [+0.242, +0.366] → +0.153 / +0.193 / +0.209 (GA'lar sıfırın üstünde). (p4/onkodlayici_siralama/raw/results.json)
 12. **Adam adımı 1.66 değil 1.328 ms** (tek iş parçacığı, boş makine). Bununla L* = 6 (makale 5; metin 4–6), L=48 kaybı %14.4 (makale %14.0), en iyi etkin hız 6.075 (makale 5.982). SU-best-of − Adam-20: −0.086 [−0.174, 0.002] (makale −0.004 [−0.095, 0.085]). Ana bulgular korunuyor. (infra/raw/mumiso_aging_sweep_newlat.json, mumiso_aging_stats_newlat.json)
 13. **Kullanılmayan senaryo sayısı 800 değil 700** (doğrulamanın 500'ü kullanılıyor). (infra/raw/static_split_usage.json)
 
@@ -133,7 +133,8 @@ Bu, CLAUDE.md'deki "yapay zekâ ekseni kapandı ve olumsuz" hükmüyle tutarlı.
 Ortak kurulum (`thesis_exp/p4/common.py`):
 - Yaşlanma kümesi `scripts/mumiso_aging.py` ile aynı (seed 11, 400 senaryo, 20 saçıcı, 1.5 m/s), ZF, min-kullanıcı hızı, soft-min Adam (β = 8).
 - `check_same_scenarios` her deneyde t=0 SU-average değerini `results/mumiso_aging_fixzf.json` ile 1e-4 içinde doğruluyor.
-- Gecikmeler Görev 2'nin tek iş parçacıklı ölçümünden.
+- Gecikmeler Görev 2'nin tek iş parçacıklı ölçümünden. Adam-L gecikmesi SU-average başlangıcını (0.30 ms) içermiyor (makalenin kuralı); bu Adam kollarını ~0.016 b/s/Hz kayırır (denetim U3).
+- Adam-6 etkin hızı Görev 2'de 6.075, burada 6.077: aynı eğrinin farklı zaman ızgaralarında doğrusal interpolasyonu (denetim U9).
 
 ### 5.1 Kanal öngörüsü — `p4/kanal_ongoru/REPORT.md`
 - Öngörücüler: lin2, lin3, quad3, kalman3; Δ ∈ {1, 2, 5} ms; e2 ∈ {0, 0.01, 0.1}.
@@ -194,6 +195,9 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 | H8 | 38.901 ham girdili kol öğrenmedi | Plan sapması | Ölçek-normalize kola geçildi, raporda kayıtlı |
 | H9 | Sweep bit-kimliği için yanlış eski dosya (`_fixzf`) seçildi | Yanlış "FARKLI" | Makalenin kullandığı `_repro` dosyası ile 0 fark |
 | H10 | Optimize süre raporunda çok satırlı hata mesajı tabloyu bozdu | Biçim | Boşluklar tek satıra indirildi |
+| H11 | (Denetim K1) kanal_ongoru ve kusurlu_csi koşuldukları anda betikleri commit'lenmemişti; results.json'daki commit'te run.py yok (Kural 3) | İzlenebilirlik; sayılar çürütülmedi | Commit'li koddan yeniden koşuldu ve bit-bit karşılaştırıldı (sonuç thesis_exp/denetim_log/k1_rerun.md); raporlar artık ölçüm commit'ini de yazıyor |
+| H12 | (Denetim U1) 4.3'ün ilk sürümü en iyi R'yi test kümesinde seçiyordu | Yalnızca yanlı v1 tabloları; devam deneyi R'yi doğrulamada seçiyor ve aynı R'leri buluyor | Devam deneyi esas |
+| H13 | (Denetim U5/U6) özet raporlarda iki yanlış genelleme: 'dCD t=0'da her kolu geçiyor' (2 bitte yanlış), 'L* 10–12' (8–12) | Metin | Düzeltildi |
 
 Not: H7, kullanıcıya önce bildirilmiş bir sayıyı değiştirdi (4.3: 3.303/3.718/4.025 → 3.385/3.811/4.126).
 
@@ -208,6 +212,7 @@ Not: H7, kullanıcıya önce bildirilmiş bir sayıyı değiştirdi (4.3: 3.303/
 | `results/mumiso_aging_sweep_fixzf.json` | Üreten betik yok (makale kullanmıyor) |
 | 4.6 torch.jit.trace (Adam ve öğrenilen) | Optimizasyon adımı / iç gradyan izlenemiyor |
 | 4.6 GPU | Bu makinede CUDA yok |
+| 4.5 için 3 bit | Koşulmadı (istem 1/2 bit); boş makine gerektiriyor, eğitimlerden sonra eklenebilir |
 
 ---
 

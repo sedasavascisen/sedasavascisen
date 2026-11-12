@@ -5,7 +5,7 @@ r = json.load(open(H / "raw/results.json"))
 c = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=H).stdout.strip()
 o = []; W = o.append
 W("# Deney 4.2 — Konum (LoS geometrisi) tabanlı faz (rapor)"); W("")
-W(f"Commit `{c}`. Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s). Faz yalnızca LoS geometrisinden (BS anten, RIS eleman ve kullanıcı konumları; "
+W(f"Rapor commit'i `{c}`, ölçüm commit'i `{r['commit'][:7]}` (results.json). Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s). Faz yalnızca LoS geometrisinden (BS anten, RIS eleman ve kullanıcı konumları; "
   "genlik ~1/d, saçıcı/gölgelenme/örüntü yok, doğrudan yol 0) SU-average / SU-best-of ile hesaplandı; gerçek kanalda (taze ZF) değerlendirildi. "
   "Konum hatası σ (yatay eksenlerde, tohum 5). Konum edinme gecikmesi modellenmedi.")
 W(""); W("## 1) Bulgular"); W("")

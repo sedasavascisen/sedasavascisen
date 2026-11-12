@@ -41,7 +41,7 @@ for i in range(min(6, len(R0))):
     W(f"| {i+1} | {R0[i]} | " + " | ".join(x[i] for x in Rn) + " |")
 W(""); W("## 4) Komut, tohum, ham çıktı"); W("")
 W("| Komut | Tohum | Ham çıktı |"); W("| --- | --- | --- |")
-W(f"| THREADS=2 python3 thesis_exp/p4/onkodlayici_siralama/run.py ({r['seconds']/60:.0f} dk) | kanal 12 (doğrulama) / 11 (test), bootstrap 0 | raw/results.json, raw/run.log; deneme: PROBE=1 → raw/probe.json |")
+W(f"| THREADS=2 python3 thesis_exp/p4/onkodlayici_siralama/run.py ({r['seconds']/60:.0f} dk) | kanal 12 (doğrulama) / 11 (test), bootstrap 0 | raw/results.json, raw/run.log; deneme: PROBE=1 → raw/probe_aligned.json (koşulmadı); raw/probe_v1_grid_bias.json yanlı ilk sürümün denemesi |")
 y = H / "yorum.md"
 if y.exists():
     W(""); W("## 5) Yorum (bulgulardan ayrı)"); W(""); W(y.read_text().strip())

@@ -1,6 +1,6 @@
 # Deney 4.5 — 1 ve 2 bitlik ayrık faz: L* ve yavaş çözücü (rapor)
 
-Commit `81b07dd`. Yaşlanma kümesi (seed 11, 400 senaryo), seçim doğrulama çekilişinde (seed 12). Fazlar t=0 kanalından; sürekli kollar system.quantise_phase ile yuvarlandı (yuvarlama bedava sayıldı). dCD-s: baselines.coord_descent(bits=b, iters=s), gerçek 2^b ızgarasında. SU-best-of ve Adam-L gecikmeleri tek iş parçacıklı yeniden ölçümden (thesis_exp/infra); dCD gecikmeleri bu deneyde boş makinede ölçüldü (tek iş parçacığı, tek senaryo, 10 senaryo × 5 tekrarın medyanı, 3 tur). Karşılaştırmalar SU-best-of→q'ya karşı eşli bootstrap (2000, %95 GA).
+Rapor commit'i `f413f63`, ölçüm commit'i `98ddad9` (results.json). Yaşlanma kümesi (seed 11, 400 senaryo), seçim doğrulama çekilişinde (seed 12). Fazlar t=0 kanalından; sürekli kollar system.quantise_phase ile yuvarlandı (yuvarlama bedava sayıldı). dCD-s: baselines.coord_descent(bits=b, iters=s), gerçek 2^b ızgarasında. SU-best-of ve Adam-L gecikmeleri tek iş parçacıklı yeniden ölçümden (thesis_exp/infra); dCD gecikmeleri bu deneyde boş makinede ölçüldü (tek iş parçacığı, tek senaryo, 10 senaryo × 5 tekrarın medyanı, 3 tur). Karşılaştırmalar SU-best-of→q'ya karşı eşli bootstrap (2000, %95 GA).
 
 ## 1 bit
 
@@ -69,8 +69,10 @@ dCD zamanlaması (tur medyanları, ms): dCD-1: 27.1 (31.2, 27.1, 26.7); dCD-2: 5
 ## Yorum (bulgulardan ayrı)
 
 - **İçsel optimum ayrık fazda da var.** Yuvarlanmış Adam kollarında L* = 5 (1 bit) ve 6 (2 bit); Adam-48→q, L*'a göre %9.3 (1 bit) ve %13.6 (2 bit) kaybediyor. Sürekli fazdaki tek iş parçacıklı L* = 6 ile aynı bölgede.
-- **Yavaş çözücü kaybetmeye devam ediyor, 1 bitte istisnasıyla.** dCD t=0 hızında her kolu geçiyor (1 bit dCD-8: 6.07, en iyi Adam→q 5.57; 2 bit dCD-8: 6.61, Adam-48→q 6.62 ile aynı). Etkin hızda 2 bitte her dCD kolu SU-best-of→q'nun altında ya da ondan ayırt edilemez; bunların dördünde GA sıfırı dışlıyor.
+- **Yavaş çözücü kaybetmeye devam ediyor, 1 bitte istisnasıyla.** 1 bitte dCD t=0 hızında her kolu geçiyor (dCD-8: 6.07, en iyi Adam→q 5.58). 2 bitte geçmiyor: dCD-8 6.61 < Adam-48→q 6.62; dCD-1 (6.14) Adam-8…48→q'nun altında. Etkin hızda 2 bitte her dCD kolu SU-best-of→q'nun altında ya da ondan ayırt edilemez; bunların dördünde GA sıfırı dışlıyor.
 - **1 bit istisnası:** doğrulamada seçilen kol dCD-1 (16.2 ms, tek tarama). Testte dCD-1 = 5.113, Adam-5→q = 5.157. İkisinin SU-best-of→q'ya karşı GA'ları örtüşüyor. dCD-1 ile Adam-5→q arasındaki eşli fark bu betikte hesaplanmadı; bu nedenle aralarında sıralama iddia edilemez. Yani 1 bitte tek taramalı ayrık CD, yuvarlanmış Adam'ın en iyisiyle aynı düzeyde.
 - **Tek-RIS'teki "1 bitte ayrık CD kazanıyor" sonucuyla ilişki:** çok kullanıcılı yaşlanma kümesinde bu sonuç yalnızca tek taramada ve yalnızca berabere düzeyinde tekrarlanıyor. Tarama sayısı arttıkça gecikme kazancı yiyor.
+- **Gecikme muhasebesi (denetim U3):** Adam-L→q gecikmesi SU-average başlangıcını (0.30 ms) içermiyor (common.adam_latency; makalenin kuralı). Bu Adam kollarını ~0.016 b/s/Hz kayırır; 1 bitte dCD-1 (5.113) ile Adam-5→q (5.157) arasındaki 0.044'lük farkın yorumunda dikkate alınmalı.
+- **3 bit kapsam dışı:** istem (Görev 4.5) 1/2 bit istiyordu; CLAUDE.md'nin ayrık faz maddesi 1/2/3 bit diyor. 3 bit, dCD zamanlaması boş makine gerektirdiği için eğitimler bittikten sonra eklenebilir; henüz koşulmadı.
 - **Yuvarlama bedava sayıldı.** Sürekli kollar için bu iyimser bir varsayım, dCD'nin aleyhine bir eğilim yaratır; ama yuvarlamanın gerçek maliyeti 2^b'lik bir arama tablosu düzeyinde, ölçülmedi.
 - **Ölçüm sonrası yük ortalaması 0.76 / 0.86.** Bu değere ölçülen tek iş parçacıklı süreç de katkı veriyor. Ölçüm öncesi yük ortalaması 0.49 / 0.46 idi.
