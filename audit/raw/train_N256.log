@@ -1,1 +1,2 @@
 cnnlstm_N256_sqrt_s0 ep  1 loss 0.21790 val 25.85 (231s)
+cnnlstm_N256_sqrt_s0 ep  2 loss 0.04154 val 15.64 (225s)
