@@ -1,0 +1,40 @@
+  seed 12 SU-average: lat 0.30 ms, fresh 4.1286, 62.4 s
+  seed 12 SU-best-of: lat 1.63 ms, fresh 4.5098, 58.1 s
+  seed 12 Adam-1: lat 1.33 ms, fresh 4.5336, 56.9 s
+  seed 12 Adam-2: lat 2.74 ms, fresh 4.7316, 58.0 s
+  seed 12 Adam-3: lat 4.14 ms, fresh 4.7849, 58.0 s
+  seed 12 Adam-4: lat 5.55 ms, fresh 4.7930, 58.3 s
+  seed 12 Adam-5: lat 6.82 ms, fresh 4.8100, 57.8 s
+  seed 12 Adam-6: lat 8.09 ms, fresh 4.8255, 57.9 s
+  seed 12 Adam-8: lat 10.63 ms, fresh 4.8326, 57.8 s
+  seed 12 Adam-10: lat 13.30 ms, fresh 4.8082, 56.1 s
+  seed 12 Adam-12: lat 15.96 ms, fresh 4.8058, 58.7 s
+  seed 12 Adam-16: lat 21.28 ms, fresh 4.7838, 60.1 s
+  seed 12 Adam-20: lat 26.57 ms, fresh 4.7812, 62.2 s
+  seed 12 Adam-24: lat 31.85 ms, fresh 4.7817, 59.7 s
+  seed 12 Adam-32: lat 42.42 ms, fresh 4.7497, 57.2 s
+  seed 12 Adam-48: lat 63.91 ms, fresh 4.6990, 57.4 s
+  seed 12 CD: lat 702.97 ms, fresh 4.4776, 63.0 s
+  seed 12 PGA: lat 4950.35 ms, fresh 4.2960, 70.4 s
+  seed 11 SU-average: lat 0.30 ms, fresh 4.5358, 56.3 s
+  seed 11 SU-best-of: lat 1.63 ms, fresh 4.9104, 55.7 s
+  seed 11 Adam-1: lat 1.33 ms, fresh 4.9305, 56.1 s
+  seed 11 Adam-2: lat 2.74 ms, fresh 5.1033, 57.0 s
+  seed 11 Adam-3: lat 4.14 ms, fresh 5.1833, 56.1 s
+  seed 11 Adam-4: lat 5.55 ms, fresh 5.2096, 57.1 s
+  seed 11 Adam-5: lat 6.82 ms, fresh 5.2169, 56.8 s
+  seed 11 Adam-6: lat 8.09 ms, fresh 5.2252, 55.8 s
+  seed 11 Adam-8: lat 10.63 ms, fresh 5.2124, 56.7 s
+  seed 11 Adam-10: lat 13.30 ms, fresh 5.1917, 57.0 s
+  seed 11 Adam-12: lat 15.96 ms, fresh 5.1853, 56.4 s
+  seed 11 Adam-16: lat 21.28 ms, fresh 5.1738, 56.6 s
+  seed 11 Adam-20: lat 26.57 ms, fresh 5.1779, 61.4 s
+  seed 11 Adam-24: lat 31.85 ms, fresh 5.1852, 59.3 s
+  seed 11 Adam-32: lat 42.42 ms, fresh 5.1652, 58.7 s
+  seed 11 Adam-48: lat 63.91 ms, fresh 5.1360, 59.1 s
+  seed 11 CD: lat 702.97 ms, fresh 5.0112, 65.5 s
+  seed 11 PGA: lat 4950.35 ms, fresh 4.7067, 77.9 s
+15kHz: selected Adam-6 (R 2.0 ms) test 3.5370; SU-best-of 3.3030
+30kHz: selected Adam-6 (R 1.0 ms) test 4.0127; SU-best-of 3.7177
+60kHz: selected Adam-6 (R 1.0 ms) test 4.3441; SU-best-of 4.0248
+wrote

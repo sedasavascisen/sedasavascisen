@@ -35,17 +35,19 @@ ARMS = {"SU-average": LAT["su_average"], "SU-best-of": LAT["su_best_of"],
         **{f"Adam-{L}": adam_latency(L) for L in STEPS}, "CD": LAT["cd"], "PGA": LAT["pga"]}
 
 
+NJ = int(round(WIN / DT))   # samples j = 0..NJ after deployment
+
+
 def window(lat):
-    t0 = math.floor(lat / DT) * DT
-    w = [round(t0 + k * DT, 4) for k in range(int(round(WIN / DT)) + 2)]
-    return [0.0] + [t for t in w if t > 0.0]
+    """[0] + deployment-aligned grid lat + j*DT (j = 0..NJ). Aligning to the arm's own deployment instant puts
+    every refresh instant lat + k*R exactly on the grid, so staleness is exact and identical for every arm.
+    (The first version used an absolute 0.1 ms grid and rounded refresh instants to it; the rounding direction
+    depended on the arm's latency and biased the ranking -- see REPORT.md.)"""
+    return [0.0] + [lat + j * DT for j in range(NJ + 1)]
 
 
 def evaluate(A, th, lat):
-    """per-scenario arrays: fresh, never, and charged[num][R]."""
-    idx = {t: A.idx(t) for t in A.times}
-    sel = [t for t in A.times if lat - 1e-9 <= t <= lat + WIN + 1e-9 and (t > 0.0 or lat == 0.0)]
-    near = lambda t: idx[min(A.times[1:] if len(A.times) > 1 else A.times, key=lambda s: abs(s - t))]
+    """per-scenario arrays: fresh, never, and charged[num][R]; grid index of sample j is j + 1."""
     c, s = torch.cos(th), torch.sin(th)
     He = {}
     def he(m):
@@ -58,15 +60,16 @@ def evaluate(A, th, lat):
             Wc[m] = S.precode(he(m), A.pt, "zf", noise_var=A.nv)
         return Wc[m]
     rate = lambda m, mr: torch.log2(1.0 + S.sinr(he(m), W(mr), A.nv)).min(-1).values.numpy()
-    m_dep = near(lat)
-    fresh = np.stack([rate(idx[t], idx[t]) for t in sel], 1).mean(1)
-    never = np.stack([rate(idx[t], m_dep) for t in sel], 1).mean(1)
+    J = range(NJ + 1)
+    fresh = np.stack([rate(j + 1, j + 1) for j in J], 1).mean(1)
+    never = np.stack([rate(j + 1, 1) for j in J], 1).mean(1)
     charged = {}
     for num, sym in SYM_MS.items():
         tp = K_PILOTS * sym
         charged[num] = {}
         for Rr in R_GRID:
-            vals = [rate(idx[t], near(lat + math.floor((t - lat) / Rr + 1e-9) * Rr)) for t in sel]
+            per = int(round(Rr / DT))           # R is a multiple of DT for every R in R_GRID
+            vals = [rate(j + 1, (j // per) * per + 1) for j in J]
             charged[num][Rr] = np.stack(vals, 1).mean(1) * max(0.0, 1.0 - tp / Rr)
     return dict(fresh=fresh, never=never, charged=charged)
 
@@ -127,5 +130,5 @@ for num in SYM_MS:
               for k, r in rows.items()})
     print(f"{num}: selected {best} (R {pick_v[best][0]} ms) test {xb.mean():.4f}; SU-best-of {xr.mean():.4f}", flush=True)
 res["seconds"] = time.time() - t_start
-json.dump(res, open(OUT / ("probe.json" if PROBE else "results.json"), "w"), indent=1)
+json.dump(res, open(OUT / ("probe_aligned.json" if PROBE else "results.json"), "w"), indent=1)
 print("wrote", flush=True)
