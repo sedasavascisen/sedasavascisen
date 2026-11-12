@@ -4,7 +4,7 @@ Prompt 4.3 — charge the precoder-refresh pilots as airtime and sweep the refre
 The thesis assumes the ZF precoder W is recomputed from the CURRENT effective channel at every instant,
 for free. Here W is refreshed every R ms from an effective-channel estimate (perfect estimate, K = 4
 orthogonal pilot symbols, one per user); between refreshes the last W is used on the true, changing
-channel; during the pilot symbols no data is sent. The RIS phase is fixed at t = 0 (the arm's latency is
+channel; during the pilot symbols no data is sent (charged as the data fraction 1 - t_p/R). The RIS phase is fixed at t = 0 (the arm's latency is
 added to the deployment time, as in Definition 1).
 Pilot symbol duration (NR, one OFDM symbol incl. CP): 71.4 / 35.7 / 17.9 us at 15 / 30 / 60 kHz
 (3.43 / 1.71 / 0.86 ms per 48 symbols, the values used in the paper).
@@ -59,9 +59,10 @@ def run(th, lat):
                 k = int(np.floor(since / Rr + 1e-9))
                 t_ref = lat + k * Rr
                 m_ref = int(round(t_ref / DT))
-                in_pilot = (GRID[m] - t_ref) < tp - 1e-9          # pilots occupy the first tp ms of every period
-                vals.append(np.zeros(A.n, np.float32) if in_pilot else rate_with(th, m, m_ref).numpy())
-            v = np.stack(vals, 1).mean(1)
+                vals.append(rate_with(th, m, m_ref).numpy())
+            # pilots occupy tp ms of every R ms period (no data): charged as the data fraction 1 - tp/R
+            # (exact for a rate that is constant within the pilot interval; avoids 0.1 ms grid rounding of tp)
+            v = np.stack(vals, 1).mean(1) * max(0.0, 1.0 - tp / Rr)
             out["by"][num][str(Rr)] = dict(rate=float(v.mean()), ci=boot(v), minus_fresh=float((v - fresh).mean()),
                                            minus_fresh_ci=boot(v - fresh), pilot_fraction=min(1.0, tp / Rr))
         bestR = max(out["by"][num], key=lambda r: out["by"][num][r]["rate"])
