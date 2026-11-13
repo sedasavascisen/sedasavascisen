@@ -1,0 +1,3929 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Tam rapor</title><style>
+@page { size: A4; margin: 18mm 15mm 18mm 15mm; }
+:root { --ink:#1b1f24; --mute:#5b6470; --line:#d5dae0; --accent:#1f4e79; --soft:#f3f6f9; }
+body { font-family: 'DejaVu Sans', sans-serif; font-size: 9.2pt; line-height: 1.45; color: var(--ink); background:#fff; }
+h1 { font-size: 17pt; color: var(--accent); margin: 0 0 6pt; }
+h2 { font-size: 12.5pt; color: var(--accent); margin: 14pt 0 5pt; border-bottom: 1px solid var(--line); padding-bottom: 2pt; }
+h3 { font-size: 10.5pt; margin: 11pt 0 4pt; } h4, h5, h6 { font-size: 9.6pt; margin: 9pt 0 3pt; }
+p, li { orphans: 3; widows: 3; } ul, ol { padding-left: 16pt; margin: 3pt 0 6pt; }
+code { font-family: 'DejaVu Sans Mono', monospace; font-size: 8pt; background: var(--soft); padding: 0 2pt; border-radius: 2px; word-break: break-word; }
+pre { background: var(--soft); padding: 6pt; font-size: 7.6pt; white-space: pre-wrap; border-radius: 3px; }
+table { border-collapse: collapse; width: 100%; margin: 6pt 0 10pt; font-size: 7.6pt; page-break-inside: auto; }
+tr { page-break-inside: avoid; } th, td { border: 1px solid var(--line); padding: 2.5pt 4pt; vertical-align: top; text-align: left; word-break: normal; overflow-wrap: break-word; }
+td code { word-break: break-all; }
+.cover th { white-space: nowrap; }
+th { background: var(--soft); }
+blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; background: #fbf1f0; }
+.part { page-break-before: always; } .parthead { border-bottom: 2px solid var(--accent); margin-bottom: 8pt; }
+.tag { display:inline-block; font-size: 8pt; color:#fff; background: var(--accent); padding: 1pt 5pt; border-radius: 3px; margin-right: 4pt; }
+.cover { height: 240mm; display:flex; flex-direction:column; justify-content:center; }
+.cover h1 { font-size: 24pt; } .cover .sub { font-size: 12pt; color: var(--mute); margin-bottom: 18pt; }
+.cover table { width: auto; font-size: 9pt; } .toc li { margin: 2pt 0; list-style: none; } .toc a { color: var(--ink); text-decoration: none; }
+</style></head><body>
+<div class="cover"><h1>Tez deneyleri — kapsamlı teknik rapor</h1>
+<div class="sub">Hareketli RIS sistemlerinde hesaplama gecikmesi · 11–13 Kasım 2026 çalışmaları</div>
+<table><tr><th>Hazırlanma</th><td>2026-11-13</td></tr>
+<tr><th>Kaynak</th><td>dal <code>thesis/p4-deneyler</code> @ <code>55f0eba</code>; ekler <code>thesis/altyapi</code>, <code>thesis/bridge</code>, <code>audit/makale1-denetim</code> @ <code>305f09e</code></td></tr>
+<tr><th>Üretim</th><td><code>python3 thesis_exp/rapor_pdf/build.py</code> — depodaki raporların birleşimi; bu belge yeni sayı içermez</td></tr>
+<tr><th>Not</th><td>Tez ya da makale metni değildir (Kural 9). Makale 1 incelemesi 13 Kasım'da kullanıcı isteğiyle durduruldu.</td></tr></table>
+<h2>İçindekiler</h2><ul class="toc"><li><a href="#p0"><span class="tag">Bölüm A</span> Sade özet</a></li><li><a href="#p1"><span class="tag">Bölüm B</span> Ayrıntılı teknik rapor</a></li><li><a href="#p2"><span class="tag">Bölüm C</span> Bağımsız denetim süreci</a></li><li><a href="#p3"><span class="tag">Bölüm D</span> Tez için tavsiyeler</a></li><li><a href="#p4"><span class="tag">Ek 1</span> Görev 2 — Ortak altyapı raporu (dal thesis/altyapi)</a></li><li><a href="#p5"><span class="tag">Ek 2</span> Görev 3 — Köprü raporu (dal thesis/bridge)</a></li><li><a href="#p6"><span class="tag">Ek 3</span> Deney 4.1 — Kanal öngörüsü</a></li><li><a href="#p7"><span class="tag">Ek 4</span> Deney 4.2 — Konum tabanlı faz</a></li><li><a href="#p8"><span class="tag">Ek 5</span> Deney 4.3 — Ön kodlayıcı pilotları</a></li><li><a href="#p9"><span class="tag">Ek 6</span> Deney 4.3 devamı — Bütün kollarla sıralama</a></li><li><a href="#p10"><span class="tag">Ek 7</span> Deney 4.4 — Kusurlu CSI</a></li><li><a href="#p11"><span class="tag">Ek 8</span> Deney 4.5 — Ayrık faz (1/2/3 bit)</a></li><li><a href="#p12"><span class="tag">Ek 9</span> Deney 4.6 — Optimize süreler</a></li><li><a href="#p13"><span class="tag">Ek 10</span> Doğrulama — Gecikme muhasebesi</a></li><li><a href="#p14"><span class="tag">Ek 11</span> Makale 1 denetim raporu — 13 Kasım&#x27;da donduruldu (dal audit/makale1-denetim)</a></li></ul></div>
+<section class="part" id="p0"><div class="parthead"><span class="tag">Bölüm A</span><h1>Sade özet</h1></div><h2>Sade özet — bilmeyen birine anlatır gibi</h2>
+<p><strong>İki makale var.</strong></p>
+<ul>
+<li><strong>Makale 1:</strong> Bir yapay zekâ modeli, akıllı yüzeyin (RIS) ayarlarını tahmin ediyor.</li>
+<li><strong>Makale 2:</strong> Kullanıcı yürürken sinyal sürekli değişir. Bu yüzden hesabı <strong>hızlı</strong> yapan yöntem, mükemmel ama yavaş olandan daha iyi sonuç verir. Tezin ana fikri bu: <em>hesaplama süresi, hangi yöntemin kazanacağını belirler.</em></li>
+</ul>
+<p><strong>Ne yapıldı?</strong></p>
+<ol>
+<li><strong>Makale 2 gerçek hayatın zorluklarıyla sınandı.</strong> Altı ek deney yapıldı:
+   - kanalı önceden tahmin etmek,
+   - yalnızca konumdan ayar hesaplamak,
+   - sinyali ölçmenin maliyeti,
+   - ölçüm hataları,
+   - yüzeyin yalnızca 2, 4 ya da 8 farklı ayar alabilmesi (1/2/3 bit),
+   - kodu hızlandırmak.</li>
+</ol>
+<p>Ana fikir hepsinde ayakta kaldı: en iyi sonucu veren, "az ama hızlı" hesap yapan yöntem (Adam'ın 5–8 adımı). Uzun ve yavaş yöntemler her durumda geride.
+2. <strong>İki makaleyi bağlayan bir bulgu çıktı.</strong> Makale 1'in yapay zekâ modeli, Makale 2'nin ölçüsüyle (gecikmeyi hesaba katan etkin hız) bakınca klasik yöntemlerin gerisinde kalıyor. Bağlayıcı cümle: <em>ölçüyü değiştirirsen sonuç değişir.</em>
+3. <strong>Her iş ayrı bir denetçiye kontrol ettirildi.</strong> Denetçi üç turda 300'den fazla sayıyı ham veriden yeniden okudu. Bulunan hataların hepsi düzeltildi; önemli sonuçların hiçbiri değişmedi.
+4. <strong>Makale 1:</strong> Denetimde bazı sayıların tekrar elde edilemediği görüldü. 13 Kasım'da sizin isteğinizle Makale 1 üzerindeki çalışma durduruldu; o güne kadarki kayıt Ek'te.</p>
+<p><strong>Akılda kalacak üç sayı</strong></p>
+<ul>
+<li><strong>Ölçümün bedeli:</strong> Sinyali ölçmenin maliyeti (pilot) hesaba katılınca hız %17–32 düşüyor. Ama hangi yöntemin en iyi olduğu değişmiyor.</li>
+<li><strong>Ölçüm hatası:</strong> 30 dB'lik bir ölçüm kalitesinde bile hız 6.08'den 3.54 b/s/Hz'e iniyor.</li>
+<li><strong>Uzun düşünmenin bedeli:</strong> 48 adım hesap yapmak, en iyi adım sayısına göre %14–15 kaybettiriyor (2 ve 3 bit).</li>
+</ul>
+<p><strong>Sırada ne var?</strong> Ölçüm fazı 20 Kasım'da kapanıyor. Ondan sonra yeni deney açılmıyor; yazım başlıyor.</p></section><section class="part" id="p1"><div class="parthead"><span class="tag">Bölüm B</span><h1>Ayrıntılı teknik rapor</h1></div><h2>Ayrıntılı teknik rapor — 11–12 Kasım 2026 çalışmaları</h2>
+<p>Bu rapor iki günde yapılan bütün deneysel işi, kullanılan yöntemleri, bulunan ve düzeltilen hataları ve
+açık kalan konuları tek yerde toplar. Tez ya da makale metni değildir (Kural 9). Her sayının kaynağı
+parantez içinde verilen rapor ve ham çıktıdır; o rapor da betik + tohum + commit'e bağlıdır (Kural 3).
+Bu raporun kendisi yeni ölçüm içermez.</p>
+<p><strong>Denetim durumu:</strong> Bu rapor ve atıf yaptığı bütün raporlar saat başı çalışan bağımsız bir denetim ajanıyla
+ham dosyalara karşı sınanıyor; sonuçlar <code>thesis_exp/denetim_log/</code> altında.</p>
+<hr />
+<h3>0) Okuma kılavuzu</h3>
+<h4>0.1 Dallar</h4>
+<table>
+<thead>
+<tr>
+<th>Dal</th>
+<th>İçerik</th>
+<th>Ana rapor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>audit/makale1-denetim</code></td>
+<td>Makale 1 (AISY) bağımsız denetimi</td>
+<td><code>audit/AUDIT_REPORT.md</code></td>
+</tr>
+<tr>
+<td><code>thesis/altyapi</code></td>
+<td>Tez deneyleri için ortak altyapı, bit-bit yeniden üretim, yeni gecikmeler</td>
+<td><code>thesis_exp/infra/REPORT.md</code></td>
+</tr>
+<tr>
+<td><code>thesis/bridge</code></td>
+<td>Köprü: tek geçişli ağ, etkin hız ölçütünde</td>
+<td><code>thesis_exp/bridge/REPORT.md</code></td>
+</tr>
+<tr>
+<td><code>thesis/p4-deneyler</code></td>
+<td>Altı karşılaştırma (4.1–4.6) + 4.3 devamı + toplu raporlar</td>
+<td><code>thesis_exp/p4/*/REPORT.md</code>, <code>thesis_exp/TOPLU_RAPOR.md</code>, bu dosya</td>
+</tr>
+</tbody>
+</table>
+<p>Dallar zincirli: <code>thesis/p4-deneyler</code>, <code>thesis/bridge</code> üstünde; <code>thesis/bridge</code>, <code>thesis/altyapi</code> üstünde kuruldu
+(uzak <code>thesis/altyapi</code> ucu köprü commit'lerini de içeriyor). <code>main</code>/<code>master</code>'a hiçbir şey yazılmadı (Kural 6).</p>
+<h4>0.2 Uyulan kurallar ve nasıl uygulandıkları</h4>
+<table>
+<thead>
+<tr>
+<th>Kural</th>
+<th>Uygulama</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Uydurma yok</td>
+<td>Yeniden üretilemeyen her şey "ÜRETİLEMEDİ" (bkz. §7).</td>
+</tr>
+<tr>
+<td>2 Mevcut dosyalara dokunma</td>
+<td><code>results/</code>, <code>paper_mobility/</code> değişmedi; yeniden koşular çıktısı <code>thesis_exp/</code> altına yönlendirilmiş kopyalarla yapıldı; <code>results/mumiso_aging_*.json</code> md5 ile doğrulandı.</td>
+</tr>
+<tr>
+<td>3 Sayı ↔ betik ↔ ham çıktı</td>
+<td>Her deney klasöründe <code>run.py</code> → <code>raw/results.json</code> → <code>make_report.py</code> → <code>REPORT.md</code>.</td>
+</tr>
+<tr>
+<td>4 Tohum, eşli bootstrap</td>
+<td>Kanal 11 (test, yaşlanma kümesi), 12 (doğrulama/seçim); bootstrap tohumu 0, 2000 yeniden örnekleme, %95 GA.</td>
+</tr>
+<tr>
+<td>5 Zamanlama</td>
+<td>Gecikme ölçen her betik yük &lt; 0.5 bekliyor, tek iş parçacığı, medyan + tur değerleri, yük öncesi/sonrası kayıtlı.</td>
+</tr>
+<tr>
+<td>7 30 dk üstü onay</td>
+<td>Görev 4 ve ek eğitimler için onay alındı; süre tahminleri iletildi.</td>
+</tr>
+<tr>
+<td>8 MATLAB yok</td>
+<td>MATLAB çalıştırılmadı; aktarımlar NumPy/PyTorch, kayıtlı <code>.mat</code> olmadığından birebir doğrulanamadı.</td>
+</tr>
+<tr>
+<td>10 Çelişkiler üstte</td>
+<td>Her raporda ve aşağıda §1'de.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>1) Yayımlanmış iddialarla çelişen bulgular</h3>
+<h4>1.1 Makale 1 (AISY, doi:10.1002/aisy.70460) — <code>audit/AUDIT_REPORT.md</code></h4>
+<p>Bütün yeniden üretimler <strong>bağımsız bir çekilişte</strong> (NumPy aktarımı, <code>audit/scripts/m1_data.py</code>), MATLAB'ın
+<code>rng(42)</code> örnekleriyle değil.</p>
+<ol>
+<li><strong>Etiket optimum değil (Denklem 8).</strong> −∠(G_nF_n) etiketi, doğrudan bağlantıyı yok sayıyor; ∠h_d − ∠(G_nF_n) hiçbir örnekte daha kötü değil. (step1_label_optimality.json)</li>
+<li><strong>Nicemleme RMSE'leri imkânsız.</strong> Makale 1/2/3 bit için 4.12/3.08/2.81° diyor; etiketin kendisi nicemlendiğinde bile 51.95/25.98/12.98° (tekdüze nicemleme hatası adım/√12); eğitilmiş modelle 52.06/26.17/13.39°. (step6_eval.json)</li>
+<li><strong>CSI hatasında 4.2° tutmuyor.</strong> Göreli hata varyansı 0.10'da model 19.00° (3 tohum ort.), kapalı form 18.66°. (step6_eval.json, step2_baselines.json)</li>
+<li><strong>Klasik yöntemlerin RMSE'leri yayımlanan kodla üretilemiyor.</strong> CD (K=5) 104.02° (makale 3.50°); ortak faz çıkarılınca 1.10°. Bu yöntemler gerçek optimuma gidiyor, etiketten ortak bir faz kadar ayrılıyor. (step2_baselines.json)</li>
+<li><strong>Tablo 6, Tablo 8, Şekil 1–2 elle yazılmış; Şekil 8–10 için betik yok.</strong> (step0_mapping.json, step0_step3_notes.md)</li>
+<li><strong>N=256 projeksiyonu tutmuyor.</strong> Tablo 8'deki 4.6° elle yazılmış bir tahmin. Ölçülen 2.25° (tek tohum, gizli boyut √(N/32) ile ölçekli, 870 018 parametre, SR@5 %98.1); N=32'nin üç tohumunun (3.18/2.77/3.90°) hepsinden düşük. N=64 3.05°, N=128 2.58° (tohum 0); ek tohumlar kullanıcı isteğiyle durduruldu (§8). (train/cnnlstm_N256_sqrt_s0.json)</li>
+<li><strong>Tohum yayılımı</strong> 3 tohumda std 0.58°; makale 5 koşu için ±0.09° GA diyor. (train/cnnlstm_N32_s*.json)</li>
+<li><strong>Uzamsal komşuluk kullanılmıyor.</strong> Komşu eleman korelasyonu |ρ| ≤ 0.007; permütasyonla 3.28° → 3.41° (tohum yayılımından küçük). (step5_*.json)</li>
+<li><strong>Parametre sayısı</strong> 162 562 (makale 727 K); doğrudan faz FC-DNN 83.85° (makale 3.95°); CNN-Transformer 4.46° (makale 2.91°).</li>
+<li><strong>Kaynakça:</strong> 64 kaynağın ilk turda 33'ü "major"; [26] geri çekilmiş; basılı 54 DOI'nin 30'u kayıtlı değil. (step7_*.json)</li>
+</ol>
+<p>Not: Makale 1 için kullanıcının kararı "düzeltmeye gerek yok"; bu bulgular denetim kaydı olarak duruyor.</p>
+<h4>1.2 Makale 2 (hareketlilik) — <code>thesis_exp/infra/REPORT.md</code>, <code>thesis_exp/p4/onkodlayici_*/REPORT.md</code></h4>
+<ol start="11">
+<li><strong>Ön kodlayıcı tazeleme pilotları ücretlendirilince mutlak etkin hız büyük ölçüde düşüyor; en iyi kol kümesi değişmiyor.</strong><ul>
+<li>En iyi kol taze ve bedava W varsayımıyla (makalenin varsayımı) 5.213 b/s/Hz. Bu deneyin ölçütü devreye girdikten sonraki 50 ms'nin zaman ortalaması; madde 12'deki 6.075 ise Tanım 1'in anlık etkin hızı, ikisi doğrudan karşılaştırılmaz. 50 ms penceresinin duyarlılığı denenmedi. pilot ücretiyle 3.539 (15 kHz), 4.003 (30 kHz), 4.334 (60 kHz): %32/%23/%17 kayıp.</li>
+<li>Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) her durumda aynı sırada; aralarındaki farkların GA'sı sıfırı içeriyor (kesin olan, en iyi kümenin Adam-4…8 olarak kalması); 5. ve 6. sıra numerolojiye göre değişiyor; en iyi kolun SU-best-of'a üstünlüğü +0.303 [+0.242, +0.366] → +0.153 / +0.193 / +0.209 (GA'lar sıfırın üstünde). (p4/onkodlayici_siralama/raw/results.json)</li>
+</ul>
+</li>
+<li><strong>Adam adımı 1.66 değil 1.328 ms</strong> (tek iş parçacığı, boş makine). Bununla L* = 6 (makale 5; metin 4–6), L=48 kaybı %14.4 (makale %14.0), en iyi etkin hız 6.075 (makale 5.982). SU-best-of − Adam-20: −0.086 [−0.174, 0.002] (makale −0.004 [−0.095, 0.085]). Ana bulgular korunuyor. (infra/raw/mumiso_aging_sweep_newlat.json, mumiso_aging_stats_newlat.json)</li>
+<li><strong>Kullanılmayan senaryo sayısı 800 değil 700</strong> (doğrulamanın 500'ü kullanılıyor). (infra/raw/static_split_usage.json)</li>
+</ol>
+<hr />
+<h3>2) Görev 1 — Makale 1 denetimi (ayrıntı)</h3>
+<p><strong>Amaç:</strong> Makale 1'in tablo ve şekillerini bağımsız olarak yeniden üretmek, kaynağı olmayan sayıları bulmak.</p>
+<p><strong>Adımlar ve betikler</strong> (hepsi <code>audit/scripts/</code>, çıktılar <code>audit/raw/</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Adım</th>
+<th>Ne yapıldı</th>
+<th>Betik</th>
+<th>Ham çıktı</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Tablo/şekil ↔ kod eşlemesi (MATLAB paketleri, depo, yüklenen dosyalar)</td>
+<td>ajan taraması</td>
+<td>step0_mapping.json, step0_step3_notes.md</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Etiket (a) −∠(G_nF_n) ile (b) ∠h_d − ∠(G_nF_n) güç karşılaştırması, 6000 örnek</td>
+<td>step1_label_optimality.py</td>
+<td>step1_label_optimality.json</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Klasik yöntemlerin Python aktarımı (CD, AO, PGD, PSO, SPA, "WMMSE") ve CSI hatalı girdiler</td>
+<td>step2_baselines.py</td>
+<td>step2_baselines.json, step2_csi_inputs_x*.npz</td>
+</tr>
+<tr>
+<td>2, 5</td>
+<td>CNN-LSTM, doğrudan faz FC-DNN, CNN-Transformer eğitimi (MATLAB varsayılanları: girdi normalizasyonu yok, L2 1e-4, son epok ağı, yarım-MSE, zaman adımı başına FC)</td>
+<td>m1_train.py</td>
+<td>train/*.json, *.pt</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Kaynaksız sayılar</td>
+<td>ajan + step3_arith_check.py</td>
+<td>step3_sources.json, step3_arith_check.json</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Parametre sayısı ve tek-örnek/toplu gecikme (N=32…256)</td>
+<td>step4_latency.py</td>
+<td>step4_latency.json</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Komşu eleman korelasyonu ve permütasyon kontrolü</td>
+<td>step5_correlation.py, step5_permutation.py</td>
+<td>step5_*.json</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Nicemleme, faz gürültüsü, CSI hatası değerlendirmesi</td>
+<td>step6_eval.py</td>
+<td>step6_eval.json</td>
+</tr>
+<tr>
+<td>7</td>
+<td>64 kaynak: Crossref/doi.org/arXiv; bağımsız ikinci tur</td>
+<td>ajan</td>
+<td>step7_references.json/.md, step7_doublecheck.json</td>
+</tr>
+<tr>
+<td>N=256</td>
+<td>Tek tohum, √N gizli ölçekleme, 2 iş parçacığı, 264.7 dk</td>
+<td>m1_train.py --N 256 --hidden_scale sqrt</td>
+<td>train/cnnlstm_N256_sqrt_s0.json, train_N256_run2.log</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Doğrulananlar:</strong> CNN-LSTM SR@5 %94.7 (makale %95); Şekil 8'de %95'e ulaşılan hata 5.09° (makale 5°).</p>
+<p><strong>Yorum (bulgulardan ayrı):</strong> Modelin kendisi çalışıyor (2.8–3.9°); sorunlar etiket tanımında, karşılaştırma
+protokolünde (etiket-RMSE'si, gerçek optimuma giden yöntemleri ortak faz nedeniyle cezalandırıyor) ve kaynaksız sayılarda.</p>
+<p><strong>N=256 kayıt notu:</strong> JSON'daki commit <code>81b07dd</code> o sırada çalışma ağacının HEAD'i (tez dalı); koşulan betik denetim dalındaki
+<code>m1_train.py</code>'nin yalnızca ROOT yolu sabitlenmiş kopyası (fark <code>diff</code> ile doğrulandı). Ek eğitimler (§8) doğrudan denetim
+dalının çalışma ağacından koşuyor, commit alanı doğru dalı gösterecek.</p>
+<hr />
+<h3>3) Görev 2 — Ortak altyapı (ayrıntı) — <code>thesis_exp/infra/REPORT.md</code></h3>
+<ol>
+<li><strong>Bit-bit yeniden üretim:</strong> <code>results/mumiso_aging_fixzf.json</code>, <code>mumiso_aging_sweep_repro.json</code>, <code>mumiso_aging_sensitivity.json</code> (config hariç) ve 9 tablo + <code>paper_numbers.txt</code>, çıktısı yönlendirilmiş kopyalarla 0 farkla üretildi. <code>mumiso_aging_sweep_fixzf.json</code> 11 farkla üretilemedi; betiği yok ve makale onu kullanmıyor (makale <code>_repro</code> dosyasını kullanıyor).</li>
+<li><strong>Gecikmelerin yeniden ölçümü</strong> (tek iş parçacığı, boş makine): Adam 1.328 ms/adım, SU-best-of 1.63 ms, CD 702.97 ms, PGA 4950.35 ms (makale: 1.66 / 2.54 / 880.78 / 5851.66 ms). Tablo I ve Şekil 3 bu gecikmelerle <code>thesis_exp/infra/</code> altında yeniden üretildi (§1.2 madde 12).</li>
+<li><strong>Kullanılmayan senaryolar:</strong> 700 (madde 13).</li>
+<li><strong>Makale 1 modeli 38.901 arayüzünde (N_t = 1):</strong>
+   - Ham girdili kollar öğrenmedi (RMSE ≈ 104°). Plan dışı olarak kalan tohumlar için ölçek-normalize kollara geçildi; raporda kayıtlı.
+   - Ölçek-normalize sin/cos: RMSE 58.4–59.8°, hız 9.302 b/s/Hz (optimum 10.349; makale etiketi (a) 9.908).
+   - sin/cos − doğrudan açı farkı üç tohumda +1.63…+1.86 b/s/Hz; özgün sıra − permütasyon +0.09…+0.42 b/s/Hz (GA'lar sıfırın üstünde).</li>
+</ol>
+<hr />
+<h3>4) Görev 3 — Köprü (ayrıntı) — <code>thesis_exp/bridge/REPORT.md</code></h3>
+<p><strong>Soru:</strong> Makale 1'in tek geçişli faz-farkında ağı, Makale 2'nin etkin hız ölçütünde klasik yöntemleri geçebilir mi?</p>
+<p><strong>Kurulum:</strong> Eğitim verisi yaşlanma kümesinin yapısıyla (20 saçıcı, t=0) üretilen statik küme, seed 2027, 6000 senaryo
+(4200/900/900). Seçimler yalnızca statik doğrulama kümesinde ve seed 12 hareketlilik çekilişinde; rapor seed 11.</p>
+<p><strong>Sonuç:</strong> Her yerde baskınlanıyor.
+- 5.4 km/h'de ağ (2.847 ms) 4.620 b/s/Hz; en iyi klasik Adam-5 6.038; fark −1.418 [−1.503, −1.336].
+- ağ+Adam-1/2/3 kolları da baskınlanıyor.
+- 3–30 km/h'nin hepsinde 4/4 öğrenilen kol baskınlanıyor.
+- Periyodik çalışmada (T_p = 0…3.43 ms) ağ hem soğuk hem sıcak başlangıçlı Adam'ın gerisinde.</p>
+<p>Bu, CLAUDE.md'deki "yapay zekâ ekseni kapandı ve olumsuz" hükmüyle tutarlı.</p>
+<hr />
+<h3>5) Görev 4 — Altı karşılaştırma (ayrıntı)</h3>
+<p>Ortak kurulum (<code>thesis_exp/p4/common.py</code>):
+- Yaşlanma kümesi <code>scripts/mumiso_aging.py</code> ile aynı (seed 11, 400 senaryo, 20 saçıcı, 1.5 m/s), ZF, min-kullanıcı hızı, soft-min Adam (β = 8).
+- <code>check_same_scenarios</code> her deneyde t=0 SU-average değerini <code>results/mumiso_aging_fixzf.json</code> ile 1e-4 içinde doğruluyor.
+- Gecikmeler Görev 2'nin tek iş parçacıklı ölçümünden. Adam-L gecikmesi SU-average başlangıcını (0.30 ms) içermiyor (makalenin kuralı); başlangıç eklenince etkin hız kol başına 0.0001–0.021 b/s/Hz düşüyor (sürekli Adam-6: 0.016; 1 bit Adam-5→q: 0.007) [p4/gecikme_muhasebesi/raw/results.json] (denetim U3/U16).
+- Adam-6 etkin hızı Görev 2'de 6.075, burada 6.077: aynı eğrinin farklı zaman ızgaralarında doğrusal interpolasyonu (denetim U9).</p>
+<h4>5.1 Kanal öngörüsü — <code>p4/kanal_ongoru/REPORT.md</code></h4>
+<ul>
+<li>Öngörücüler: lin2, lin3, quad3, kalman3; Δ ∈ {1, 2, 5} ms; e2 ∈ {0, 0.01, 0.1}.</li>
+<li><strong>e2 = 0:</strong> öngörüsüz en iyi Adam-6 6.077; öngörüyle +0.19 … +0.42 b/s/Hz, en iyi L 8–12'ye kayıyor.</li>
+<li><strong>e2 = 0.01:</strong> bütün birleşimler öngörüsüzün (5.611) altında, −0.10 … −1.29.</li>
+<li><strong>e2 = 0.1:</strong> hepsi öngörüsüzün (4.944) altında, −0.20 … −0.83.</li>
+<li>Sınır: model öngörüyü kayırıyor (saçıcılar sabit, düz yörünge); ek anlık görüntülerin pilot süresi tek-atış etkin hıza eklenmedi.</li>
+</ul>
+<h4>5.2 Konum (LoS geometrisi) tabanlı faz — <code>p4/konum_faz/REPORT.md</code></h4>
+<ul>
+<li>Geometri tabanlı faz, kanal tabanlı SU-best-of'un (5.277) 0.83–0.86 b/s/Hz altında (4.415–4.449).</li>
+<li>Konum hatası 0–1 m sonucu değiştirmiyor.</li>
+<li>Rastgele faz 4.072; yani geometri rastgelenin yalnızca 0.34–0.38 üstünde.</li>
+<li>Konum edinme gecikmesi modellenmedi.</li>
+</ul>
+<h4>5.3 Ön kodlayıcı tazeleme pilotları — <code>p4/onkodlayici_pilot/REPORT.md</code> + devamı <code>p4/onkodlayici_siralama/REPORT.md</code></h4>
+<ul>
+<li>ZF her R ms'de bir tazeleniyor; K = 4 pilot sembolü 1 − t_p/R ile ücretlendiriliyor; R ∈ {0.5…50} ms; 15/30/60 kHz.</li>
+<li><strong>Düzeltilmiş sonuç:</strong> §1.2 madde 11. En iyi R 1–2 ms; hiç tazelenmeyen W ≈ 0.76 b/s/Hz.</li>
+<li><strong>Düzeltme:</strong> 4.3'ün ilk sürümü tazeleme anlarını mutlak 0.1 ms ızgarasına yuvarlıyordu (§6, H7). Raporun başına düzeltme notu kondu; yanlı çıktılar <code>_v1_grid_bias</code> adıyla saklı.</li>
+</ul>
+<h4>5.4 Pilot SNR'ine bağlı kusurlu CSI — <code>p4/kusurlu_csi/REPORT.md</code></h4>
+<ul>
+<li>e2 = 1/(1+ρ). ρ kümenin ortalama gücüne göre; senaryo başına etkin SNR dağınık (30 dB → G için medyan 22.6 dB, %5 dilim 11.5 dB) [denetim_log/scripts/u13_csi_rel_err.out]. Teslim anındaki kestirimin pilot süresi ücretlendirilmedi.</li>
+<li>En iyi adım sayısı hatayla tekdüze değişmiyor (testte 6/3/5/1/6/4).</li>
+<li><strong>Etkin hız:</strong> kusursuz 6.077 → 30 dB 3.537 → 20 dB 1.402 → 10 dB 0.295.</li>
+<li><strong>SU-best-of'a göre:</strong> +0.800 / +0.344 / +0.134; 10 dB ve altında GA sıfırı içeriyor.</li>
+<li><strong>Testte en iyi Adam-L:</strong> 6 → 3 → 5.</li>
+<li><strong>Sınır:</strong> ρ serbest parametre, pilot bütçesine bağlanmadı.</li>
+</ul>
+<h4>5.5 Ayrık faz (1/2/3 bit) — <code>p4/ayrik_faz/REPORT.md</code></h4>
+<ul>
+<li><strong>Değerlendirme:</strong> her kol tam kendi gecikme anında (<code>run_exact.py</code>; ilk sürümün 40 ms üstü kaba ızgara interpolasyonu ±0.055'e kadar yanlıştı, denetim K3).</li>
+<li><strong>L*:</strong> 1 bitte Adam-5→q, 2 bitte Adam-6→q (lr 0.5); adım boyu doğrulamada seçilince 1 bitte Adam-3→q.</li>
+<li><strong>Adam-48→q kaybı:</strong> %9.5 / %14.1.</li>
+<li><strong>dCD gecikmeleri</strong> (boş makine, tek iş parçacığı):</li>
+<li>1 bit: 16.2 / 28.7 / 48.8 / 61.9 / 73.4 ms (1/2/3/4/8 tarama).</li>
+<li>2 bit: 27.1 / 56.3 / 86.2 / 109.3 / 129.5 ms.</li>
+<li><strong>2 bit:</strong> dCD-2/3/4/8 SU-best-of→q'nun 0.137–0.170 altında (GA'lar sıfırın altında); dCD-1 ayırt edilemez.</li>
+<li><strong>1 bit:</strong> doğrulamada dCD-1 seçildi (testte 5.113). dCD-1 − Adam-5→q = −0.044 [−0.114, +0.024]: aynı düzeyde.</li>
+<li><strong>3 bit (13 Kasım):</strong> L* = Adam-6→q, L48 kaybı %14.9; dCD-1/2/3/4/8 (58.9/126.7/205.0/257.4/501.2 ms) SU-best-of→q'nun 0.27–0.35 altında (GA'lar sıfırın altında). <code>run_3bit.py</code> → <code>raw/results_3bit.json</code>.</li>
+<li><strong>Sınır:</strong> yuvarlama bedava sayıldı.</li>
+</ul>
+<h4>5.6 Optimize edilmiş süreler — <code>p4/optimize_sure/REPORT.md</code></h4>
+<ul>
+<li><strong>eager:</strong> Adam-1 1.703, öğrenilen-1 3.544, Adam-8 10.405, öğrenilen-8 29.178 ms.</li>
+<li><strong>torch.compile:</strong> 2.184 / 4.220 / 13.487 / 41.679 ms.</li>
+<li><strong>Öğrenilen/Adam oranı:</strong> L=8'de 2.80 (eager) ve 3.09 (compile).</li>
+<li><strong>torch.compile iki kolu da yavaşlattı:</strong> Inductor karmaşık sayılarda kod üretmiyor; öğrenilen kol yeniden derleme sınırına (256) takıldı.</li>
+<li><strong>jit.trace ve GPU:</strong> ÜRETİLEMEDİ.</li>
+<li><strong>Sınır:</strong> eğitilmemiş ağırlıklar kullanıldı (süre ağırlığa bağlı değil). Adam-1 süresi SU-average başlangıcını da içeriyor.</li>
+</ul>
+<hr />
+<h3>6) Süreçte bulunan ve düzeltilen hatalar</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Hata</th>
+<th>Etkisi</th>
+<th>Düzeltme</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H1</td>
+<td>Arka plan işi çalışırken dal değiştirmek betik dosyalarını sildi, iş öldü</td>
+<td>Sonuç yok, yanlış sonuç da yok</td>
+<td>Yeniden koşuldu; uzun işler için ayrı çalışma ağacı (<code>git worktree</code>) kullanılıyor</td>
+</tr>
+<tr>
+<td>H2</td>
+<td><code>pgrep -f</code> ile bekleyen döngü kendi komut satırını buldu, kilitlendi</td>
+<td>Gecikme</td>
+<td>Kuyruk doğrudan başlatıldı</td>
+</tr>
+<tr>
+<td>H3</td>
+<td>Yaşlanma üretecinde ilk zaman t=0 değilken LoS/K-faktörü farklı senaryo üretti</td>
+<td><code>check_same_scenarios</code> yakaladı; sonuç raporlanmadı</td>
+<td>t=0 her ızgarada ilk eleman; common.py'de belgelendi</td>
+</tr>
+<tr>
+<td>H4</td>
+<td>Pilot süresi 0.1 ms ızgarasına yuvarlandı (30 ve 60 kHz aynı çıktı)</td>
+<td>Raporlanmadan yakalandı</td>
+<td>Kesirli ücretlendirme 1 − t_p/R</td>
+</tr>
+<tr>
+<td>H5</td>
+<td><code>mumiso_aging_stats</code> kopyası <code>results/</code>'a yazacaktı</td>
+<td>Önlendi; md5 ile dosyanın değişmediği doğrulandı</td>
+<td>Çıktı <code>thesis_exp/</code> altına</td>
+</tr>
+<tr>
+<td>H6</td>
+<td>Oturum yeniden başlaması N=256 eğitimini 2. epokta öldürdü</td>
+<td>Gecikme</td>
+<td>Kesik günlük saklandı; yeniden başlatıldı; artık kuyruklar biten işi atlıyor</td>
+</tr>
+<tr>
+<td><strong>H7</strong></td>
+<td><strong>Tazeleme anları mutlak 0.1 ms ızgarasına yuvarlandı; yön kolun gecikmesine bağlı</strong></td>
+<td><strong>4.3'ün pilot ücretli sayıları ve ilk sıralama koşusu yanlıydı (SU-best-of ~0.08–0.10 düşük; testere dişi sıralama)</strong></td>
+<td><strong>Kolun devreye girme anına hizalı ızgara; 4.3 raporuna düzeltme notu; yanlı çıktılar saklandı; toplu rapor düzeltildi</strong></td>
+</tr>
+<tr>
+<td>H8</td>
+<td>38.901 ham girdili kol öğrenmedi</td>
+<td>Plan sapması</td>
+<td>Ölçek-normalize kola geçildi, raporda kayıtlı</td>
+</tr>
+<tr>
+<td>H9</td>
+<td>Sweep bit-kimliği için yanlış eski dosya (<code>_fixzf</code>) seçildi</td>
+<td>Yanlış "FARKLI"</td>
+<td>Makalenin kullandığı <code>_repro</code> dosyası ile 0 fark</td>
+</tr>
+<tr>
+<td>H10</td>
+<td>Optimize süre raporunda çok satırlı hata mesajı tabloyu bozdu</td>
+<td>Biçim</td>
+<td>Boşluklar tek satıra indirildi</td>
+</tr>
+<tr>
+<td>H11</td>
+<td>(Denetim K1) kanal_ongoru ve kusurlu_csi koşuldukları anda betikleri commit'lenmemişti; results.json'daki commit'te run.py yok (Kural 3)</td>
+<td>İzlenebilirlik; sayılar çürütülmedi</td>
+<td>Commit'li koddan (f413f63) yeniden koşuldu: commit alanı dışında bütün değerler birebir aynı (thesis_exp/denetim_log/k1_rerun.md); raporlar artık ölçüm commit'ini de yazıyor</td>
+</tr>
+<tr>
+<td>H12</td>
+<td>(Denetim U1) 4.3'ün ilk sürümü en iyi R'yi test kümesinde seçiyordu</td>
+<td>Yalnızca yanlı v1 tabloları; devam deneyi R'yi doğrulamada seçiyor ve aynı R'leri buluyor</td>
+<td>Devam deneyi esas</td>
+</tr>
+<tr>
+<td>H14</td>
+<td>(Denetim K2) H13 düzeltmesi yanlış bir aralık getirdi: 'dCD-1 Adam-8…48→q'nun altında' (doğrusu Adam-10…48; Adam-8→q 6.107 &lt; dCD-1 6.141)</td>
+<td>Metin</td>
+<td>Düzeltildi</td>
+</tr>
+<tr>
+<td>H15</td>
+<td>(Denetim U12, U13, U16) kusurlu CSI'da desteklenmeyen 'L küçülüyor' cümlesi; ρ tanımı küme ortalamasına göre; '~0.016' betiksiz tahmindi</td>
+<td>Metin / tanım</td>
+<td>Cümle veriye bağlandı; ρ tanımı ve senaryo başı dağılım belgelendi (betik denetim_log/scripts); 0.016 yerine ölçüm: p4/gecikme_muhasebesi</td>
+</tr>
+<tr>
+<td>H16</td>
+<td>(Denetim K3) ayrik_faz etkin hızı 40 ms üstünde kaba ızgarada (50/75/100/150 ms) interpolasyonla hesaplanmıştı; 11 kol ±0.055 b/s/Hz'e kadar yanlıştı; L48 kaybı %9.3/%13.6 → %9.5/%14.1</td>
+<td>Hükümler değişmedi (2 bitte dCD-2/3/4/8 yine GA'yla geride; 1 bitte dCD-1 ≈ Adam-5→q)</td>
+<td><code>run_exact.py</code>: her kol tam gecikmesinde; ayrıca Adam adım boyu doğrulamada seçilen tasarım (U20). Aynı kaba ızgara kanal_ongoru/kusurlu_csi/konum_faz'da yalnızca seçilmeyen Adam-32/48 kollarını etkiliyor (U21), raporlarda not edildi</td>
+</tr>
+<tr>
+<td>H13</td>
+<td>(Denetim U5/U6) özet raporlarda iki yanlış genelleme: 'dCD t=0'da her kolu geçiyor' (2 bitte yanlış), 'L* 10–12' (8–12)</td>
+<td>Metin</td>
+<td>Düzeltildi</td>
+</tr>
+</tbody>
+</table>
+<p>Not: H7, kullanıcıya önce bildirilmiş bir sayıyı değiştirdi (4.3: 3.303/3.718/4.025 → 3.385/3.811/4.126).</p>
+<hr />
+<h3>7) ÜRETİLEMEDİ</h3>
+<table>
+<thead>
+<tr>
+<th>Ne</th>
+<th>Neden</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Makale 1'in birebir yeniden üretimi</td>
+<td>MATLAB ve <code>RIS_dataset_large_2D.mat</code> yok</td>
+</tr>
+<tr>
+<td>Makale 1 Şekil 9 PSO gecikmesi (15 ms)</td>
+<td>MATLAB yok; Python süresi karşılaştırılamaz</td>
+</tr>
+<tr>
+<td><code>results/mumiso_aging_sweep_fixzf.json</code></td>
+<td>Üreten betik yok (makale kullanmıyor)</td>
+</tr>
+<tr>
+<td>4.6 torch.jit.trace (Adam ve öğrenilen)</td>
+<td>Optimizasyon adımı / iç gradyan izlenemiyor</td>
+</tr>
+<tr>
+<td>4.6 GPU</td>
+<td>Bu makinede CUDA yok</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>8) Durdurulan işler ve Makale 1'in kapsamı (13 Kasım)</h3>
+<p>Kullanıcı 13 Kasım'da Makale 1'in incelenmesini durdurdu ("kodlarını bulacağım"). Makale 1 denetimi o tarihteki hâliyle donduruldu; saatlik denetimin kapsamından çıkarıldı.</p>
+<table>
+<thead>
+<tr>
+<th>İş</th>
+<th>Durum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N=64 / 128 / 256, tohum 0 (√N ölçekli)</td>
+<td>Bitti: 3.05° / 2.58° / 2.25° (makale Tablo 8: 3.21° / 3.89° / 4.6° tahmin). Her N için tek tohum.</td>
+</tr>
+<tr>
+<td>N=64/128 tohum 1–2, N=256 tohum 1–2</td>
+<td>Kullanıcı isteğiyle durduruldu. İki konteyner yeniden başlaması koşuları kesmişti; kesik günlükler <code>audit/raw/*kesik*</code>, <code>*durduruldu*</code></td>
+</tr>
+<tr>
+<td>4.5 için 3 bit</td>
+<td>13 Kasım'da koşuldu (§5.5)</td>
+</tr>
+</tbody>
+</table>
+<p>Yeniden başlamaların nedeni: harness'in izlediği bir arka plan işi kalmayınca konteyner hareketsiz sayılıp geri alınıyor; <code>nohup</code> ile ayrılan süreçler bunu engellemiyor. Uzun işler bundan sonra açık bir izleme göreviyle birlikte koşturulmalı.</p>
+<hr />
+<h3>9) Sınırlar ve riskler</h3>
+<ul>
+<li><strong>Kanal modeli:</strong> Hareketlilik sonuçları tek bir kanal modeline (sabit saçıcılar, düz yörünge, iç mekân) dayanıyor. Öngörü (4.1) bu yüzden iyimser.</li>
+<li><strong>Pilot ücreti (4.3):</strong> Kusursuz kestirimle ücretlendirildi. Kestirim hatasıyla (4.4) birlikte modellenmedi; ikisinin birlikte etkisi daha büyük olabilir.</li>
+<li><strong>Zamanlama:</strong> Gecikmeler tek bir CPU'da (Intel Xeon @ 2.10 GHz). Başka donanımda mutlak sayılar değişir; Makale 2'nin hükmü göreli sıralamaya dayanıyor.</li>
+<li><strong>Makale 1:</strong> Bağımsız çekiliş; MATLAB örnekleriyle birebir değil.</li>
+<li><strong>Ölçüm fazı:</strong> 20 Kasım'da kapanıyor; §8 bu tarihten önce bitecek.</li>
+</ul>
+<hr />
+<h3>10) Yeniden üretim</h3>
+<pre><code class="language-bash">python3 scripts/audit_claims.py --all                       # 126/126 (her oturumun ilk komutu)
+## Görev 2 (dal thesis/altyapi):    thesis_exp/infra/scripts/*.py, make_infra_report.py
+## Görev 3 (dal thesis/bridge):     thesis_exp/bridge/scripts/bridge_{train,eval,tracking}.py, make_bridge_report.py
+## Görev 4 (dal thesis/p4-deneyler):
+for d in kanal_ongoru konum_faz onkodlayici_pilot kusurlu_csi ayrik_faz optimize_sure onkodlayici_siralama; do
+  python3 thesis_exp/p4/$d/run.py &amp;&amp; python3 thesis_exp/p4/$d/make_report.py
+done   # ayrik_faz ve optimize_sure boş makine bekler
+## Görev 1 (dal audit/makale1-denetim): audit/scripts/step*.py, m1_train.py, make_audit_report.py
+</code></pre></section><section class="part" id="p2"><div class="parthead"><span class="tag">Bölüm C</span><h1>Bağımsız denetim süreci</h1></div><h2>Bağımsız denetim süreci — özet</h2>
+<p><strong>Yöntem.</strong> Raporları yazmamış ayrı bir ajan, saat başı <code>thesis_exp/denetim_log/BRIEF.md</code>'deki görev tanımını uyguladı:
+- sayıları ham JSON'a kadar izledi;
+- raporları geçici kopyada yeniden üretip farkını aldı;
+- her turda bir deney betiğini yanlılık, sızıntı, zayıf taban çizgisi ve tohum açısından inceledi;
+- <code>results/</code> ve <code>paper_mobility/</code> klasörlerinin değişmediğini sınadı;
+- yorumlarda aşırı iddia aradı.</p>
+<p>Denetçi dosya değiştirmedi ve commit yapmadı. Her KRİTİK bulguyu ana oturum yeniden doğruladı; düzeltmeler <code>YANIT_*.md</code> ve günlüklerde kayıtlı.</p>
+<table>
+<thead>
+<tr>
+<th>Tur</th>
+<th>Zaman (UTC)</th>
+<th>İzlenen sayı</th>
+<th>KRİTİK</th>
+<th>UYARI</th>
+<th>Günlük</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>12 Kasım 14:00</td>
+<td>~70</td>
+<td>1 (K1)</td>
+<td>10 (U1–U11; U10 kapsam notu)</td>
+<td><code>20261112_1400.md</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>12 Kasım 14:31</td>
+<td>— (tur 1 düzeltmeleri + yeni bölümler)</td>
+<td>1 (K2)</td>
+<td>8 (U12–U19)</td>
+<td><code>20261112_1431.md</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>12 Kasım 15:32</td>
+<td>300+</td>
+<td>1 (K3)</td>
+<td>4 (U20–U23)</td>
+<td><code>20261112_1532.md</code>, <code>YANIT_20261112_1532.md</code></td>
+</tr>
+</tbody>
+</table>
+<p>Her turda ham veriyle çelişen sayı aranıyor. Turların ortak sonucu: K3 dışında ham veriyle çelişen sayı yok. K3'teki hata da ham veride değil, hesaplama yöntemindeydi.</p>
+<p><strong>KRİTİK bulgular ve çözümleri</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Bulgu</th>
+<th>Çözüm</th>
+<th>Hükme etkisi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K1</td>
+<td>4.1 ve 4.4'ün betikleri koşu anında commit'lenmemişti (Kural 3)</td>
+<td>Commit'li koddan yeniden koşuldu: commit alanı dışında 316/316/316/237 değer birebir aynı (<code>k1_rerun.md</code>)</td>
+<td>Yok</td>
+</tr>
+<tr>
+<td>K2</td>
+<td>Bir düzeltme metni yanlış aralık getirdi ("Adam-8…48→q" yerine "Adam-10…48→q")</td>
+<td>Metin düzeltildi</td>
+<td>Yok</td>
+</tr>
+<tr>
+<td>K3</td>
+<td>4.5'te 40 ms üstü kollar kaba ızgarada (50/75/100/150 ms) interpolasyonla değerlendirilmişti; ±0.055 b/s/Hz'e kadar hata</td>
+<td><code>run_exact.py</code>: her kol tam gecikmesinde; L48 kaybı %9.3/%13.6 → %9.5/%14.1</td>
+<td>Hükümler aynı</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Önemli uyarılar ve çözümleri</strong></p>
+<ul>
+<li><strong>Sıralama iddiası (U4):</strong> "Sıralama değişmiyor" iddiası fazla güçlüydü. Doğrusu: en iyi küme (Adam-4…8) korunuyor, aralarındaki farklar ayırt edilemiyor.</li>
+<li><strong>Ölçüt farkı (U2):</strong> Pilot deneyinin ölçütü (50 ms ortalaması) Tanım 1'in anlık etkin hızından farklı. Bu fark belgelendi.</li>
+<li><strong>Desteklenmeyen cümle (U12):</strong> Kusurlu CSI'da "hata arttıkça L küçülüyor" cümlesi ölçümle desteklenmiyordu. Veriden üretilen cümleyle değiştirildi (en iyi L: 6/3/5/1/6/4).</li>
+<li><strong>ρ tanımı (U13):</strong> ρ, 400 senaryonun ortalama gücüne göre tanımlı. 30 dB, senaryo başına medyanda 22.6 dB etkin SNR'ye karşılık geliyor. Denetçinin betiği depoya alınıp yeniden koşuldu.</li>
+<li><strong>Betiksiz sayı (U16):</strong> "~0.016" betiksiz bir tahmindi. Yerine ölçüm kondu (<code>p4/gecikme_muhasebesi</code>): 0.0001–0.021 b/s/Hz.</li>
+<li><strong>Adım boyu (U20):</strong> Adam'ın adım boyu sabitti. Doğrulamada seçilen tasarım eklendi; hüküm değişmedi.</li>
+</ul>
+<p><strong>Açık kalan:</strong>
+- U11: konum tabanlı fazda σ düzeyleri arasında eşli test yok.
+- U19: köprü raporunda aynı fark iki ayrı GA ile verilmiş. Rapor başka dalda; değiştirilmedi.</p>
+<p><strong>Kapsam değişikliği (13 Kasım):</strong> Makale 1, kullanıcı isteğiyle denetim kapsamından çıkarıldı.</p></section><section class="part" id="p3"><div class="parthead"><span class="tag">Bölüm D</span><h1>Tez için tavsiyeler</h1></div><h2>Tez için tavsiyeler — iki makaleden bir tez (12 Kasım 2026)</h2>
+<p>Bu bir mentorluk notu; tez metni değil. Sayılar denetimden geçmiş raporlardan (<code>AYRINTILI_RAPOR.md</code>,
+denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların kaba ızgarada yanlış hesaplandığını buldu; düzeltildi, hükümler değişmedi. Özet metinlerdeki genelleme hataları da düzeltildi). Kararlar sizin ve danışmanınızın.</p>
+<hr />
+<h3>1) İki makale tek bir hikâye anlatıyor — bunu bilinçli kurun</h3>
+<ul>
+<li><strong>Makale 1 (AISY):</strong> "Sin/cos gösterimi ±π süreksizliğini çözüyor; CNN–LSTM fazı ~2.8° hatayla tahmin ediyor."</li>
+<li><strong>Makale 2 (TWC):</strong> "Hareketli RIS'te hesaplama gecikmesi yöntem sıralamasını belirliyor."</li>
+</ul>
+<p>Bunlar iki ayrı konu gibi duruyor. Ama köprü deneyi (Görev 3) ikisini birleştiren bulguyu verdi: <strong>Makale 1'in ağı kendi ölçütünde (RMSE) iyi görünüyor, etkin hız ölçütünde ise her hızda baskınlanıyor</strong> (5.4 km/h'de en iyi klasik kola göre −1.418 b/s/Hz). Bu, Makale 1'i tezde yetim bırakmaz, savunu cümlesinin kanıtı yapar:</p>
+<blockquote>
+<p><em>Ölçüt seçimi hükmü değiştirir. Doğruluk ölçütü gecikmeyi görmez; etkin hız görür.</em></p>
+</blockquote>
+<p>Önerim: Makale 1'i tezde "geleneksel değerlendirmenin" örnek olayı olarak konumlayın. Makale 2'nin çerçevesi bu olaya uygulanınca sonuç tersine dönüyor. Bu, tezin üç ekseninden "yapay zekâ / öğrenme" eksenini de kapatıyor:
+- tek geçişli ağ baskınlanıyor;
+- öğrenilen güncelleme kuralı adım başına kazanıp milisaniye başına kaybediyor (optimize edilmiş sürelerde de 2.8–3.1 kat yavaş);
+- bu titiz bir negatif sonuç.</p>
+<h3>2) Açık konuşmam gereken risk: Makale 1'in denetim bulguları</h3>
+<p>Makale için "düzeltme gerekmiyor" kararınızı yeniden tartışmıyorum. Ama <strong>tez ayrı bir belge</strong> ve jüri iki makaleyi de okuyacak. Denetimde, yumuşatmadan yazıyorum (Kural 10), bir jüri üyesinin kolayca yakalayabileceği şunlar çıktı:</p>
+<table>
+<thead>
+<tr>
+<th>Bulgu</th>
+<th>Neden jüri yakalar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Denklem 8'deki etiket, doğrudan bağlantıyı yok sayıyor; optimum değil</td>
+<td>Tek satırlık bir türetmeyle gösterilebiliyor</td>
+</tr>
+<tr>
+<td>1/2/3 bit RMSE'leri (4.12/3.08/2.81°) matematiksel olarak imkânsız (alt sınır 51.95/25.98/12.98°)</td>
+<td>Nicemleme hatası adım/√12; ders kitabı bilgisi</td>
+</tr>
+<tr>
+<td>Klasik yöntemlerin ~104° RMSE'si ortak faz farkından geliyor</td>
+<td>Ortak faz çıkarılınca CD 1.10°</td>
+</tr>
+<tr>
+<td>Tablo 8 ve bazı şekiller elle yazılmış</td>
+<td>Kod paketi incelenirse görülür</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tavsiye (tez için, makale için değil):</strong>
+1. Tezin Makale 1 bölümünde etiket (b)'yi kullanın.
+2. Bağımsız yeniden üretimi tohum yayılımıyla verin (3.18/2.77/3.90°).
+3. İmkânsız nicemleme sayılarını ve Tablo 8 projeksiyonunu teze taşımayın. N=256 için ölçülen değer elinizde (2.25°, ek tohumlar sürüyor).
+4. "Yeniden üretilebilirlik ve sınırlar" başlıklı kısa bir alt bölüm yazın. Jürinin bulacağı bir şeyi sizin önceden söylemeniz, savunmada güç kaybı değil, kazancıdır.
+5. Bunu savunmadan önce danışmanınızla açıkça konuşun. Denetim raporu (<code>audit/AUDIT_REPORT.md</code>) bu görüşme için hazır.</p>
+<h3>3) Savunmanın güçlü yanı: jürinin soracağı her soruya ölçülmüş bir yanıt var</h3>
+<table>
+<thead>
+<tr>
+<th>Muhtemel soru</th>
+<th>Yanıtınız</th>
+<th>Kaynak</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Gecikme donanıma bağlı, sonuçlarınız genellenir mi?"</td>
+<td>Normalize adım maliyeti x = ΔT·f_d; hüküm mutlak ms'ye değil x'e bağlı. Yeniden ölçümde Adam 1.66 → 1.328 ms oldu, L* 5 → 6, bulgu korundu</td>
+<td>x'in tanımı: MAKALE_REHBERI.md:348, paper_mobility/DANISMAN_GORUSME_NOTLARI.md:29 (ölçekleme yasası bu denetimde yeniden sınanmadı); yeniden ölçüm: infra/REPORT.md</td>
+</tr>
+<tr>
+<td>"Pilot yükünü bedava saydınız"</td>
+<td>Ücretlendirildi: mutlak hız %17–32 düşüyor, en iyi kol kümesi (Adam-4…8) ve yavaş çözücülerin yeri değişmiyor</td>
+<td>p4/onkodlayici_siralama</td>
+</tr>
+<tr>
+<td>"CSI kusursuz değil"</td>
+<td>Pilot SNR'i 30 dB'de bile etkin hız 6.08 → 3.54; en iyi L hatayla tekdüze değişmiyor; 10 dB ve altında yöntemler ayırt edilemiyor. Dikkat: ρ kümenin ortalama gücüne göre, senaryo başına etkin SNR daha düşük (30 dB → medyan 22.6 dB)</td>
+<td>p4/kusurlu_csi</td>
+</tr>
+<tr>
+<td>"Gerçek RIS ayrık fazlı"</td>
+<td>1/2/3 bitte de içsel optimum var (L* = 5/6/6); yavaş ayrık CD 2 ve 3 bitte kaybediyor, 1 bitte berabere</td>
+<td>p4/ayrik_faz</td>
+</tr>
+<tr>
+<td>"Kanalı öngörseniz?"</td>
+<td>Gürültüsüz geçmişle +0.19…+0.42 kazanç; %1 kestirim hatasıyla bütün öngörücüler öngörüsüzün altında</td>
+<td>p4/kanal_ongoru</td>
+</tr>
+<tr>
+<td>"Konum biliniyorsa CSI'ya gerek var mı?"</td>
+<td>Geometri tabanlı faz SU-best-of'un 0.83–0.86 altında</td>
+<td>p4/konum_faz</td>
+</tr>
+<tr>
+<td>"Öğrenilen yöntemi optimize etseydiniz?"</td>
+<td>torch.compile hızlandırmadı; oran 2.8–3.1 kat</td>
+<td>p4/optimize_sure</td>
+</tr>
+<tr>
+<td>"GPU?"</td>
+<td><strong>Ölçülmedi (ÜRETİLEMEDİ).</strong> Dürüst yanıt: tek senaryoluk küçük işlemlerde çekirdek başlatma yükü baskın; ama bu iddia ölçümsüz</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Bu tabloyu savunma hazırlığının omurgası yapın. Her satır için tek bir şekil ve tek bir sayı yeterli.</p>
+<h3>4) Zayıf yanlar — sahiplenin, saklamayın</h3>
+<ol>
+<li><strong>Tek kanal modeli:</strong> sabit saçıcılar, düz yörünge, iç mekân. Öngörü sonuçları bu yüzden iyimser. "Gerçekçi senaryo" ekseni kısmi; bunu tezde sınır olarak yazın.</li>
+<li><strong>Etkin hız ölçütleri:</strong> iki farklı ölçüt var. Tanım 1 anlık; pilot deneyi 50 ms ortalaması kullanıyor. Tezde ikisini karıştırmayın; 50 ms'nin duyarlılığı henüz denenmedi.</li>
+<li><strong>Gecikme muhasebesi:</strong> Adam-L gecikmesi SU-average başlangıcını (0.30 ms) içermiyor. Eklenince etkin hız kol başına 0.0001–0.021 b/s/Hz düşüyor (p4/gecikme_muhasebesi). Dar farklarda bunu belirtin.</li>
+<li><strong>GPU ölçümü yok.</strong></li>
+<li><strong>3 bit çok kullanıcılı ayrık faz 13 Kasım'da koşuldu:</strong> L* = 6, yavaş ayrık CD belirgin geride (p4/ayrik_faz).</li>
+</ol>
+<h3>5) Ölçüm fazının kalan 8 günü (20 Kasım'a kadar) — öncelik sırası</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>İş</th>
+<th>Neden</th>
+<th>Maliyet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Süren eğitimlerin bitmesi (N=64/128/256, tohumlar)</td>
+<td>RMSE–N eğrisi, tohum yayılımıyla</td>
+<td>Sürüyor (~10 saat)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>~~3 bit ayrık faz~~ — yapıldı (13 Kasım)</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>3</td>
+<td>50 ms pencere duyarlılığı (25/100 ms)</td>
+<td>Pilot sonucunun sağlamlığı (§4.2)</td>
+<td>~1.5 saat</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Pilot ücreti + kusurlu CSI birlikte</td>
+<td>En gerçekçi rejim; iki etki birlikte hiç sınanmadı</td>
+<td>~2–3 saat; isteğe bağlı</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Yeni p4 sayılarını bir iddia denetleyicisine bağlamak</td>
+<td><code>audit_claims.py</code> gibi; sabotaj testiyle</td>
+<td>Küçük. Kural 2 gereği <code>thesis_exp/</code> altında ayrı bir betik olmalı; onayınızı ister</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Açmayın:</strong> öngörücü faz tasarımı (dönüşlü yörünge yok), yeni öğrenilen modeller, GPU arayışı. 20 Kasım'dan sonra yeni deney açılmıyor; bu tarihten sonra eksik kalan her şey "gelecek çalışma" olur ve bu meşrudur.</p>
+<h3>6) Yazım fazı için yapı önerisi (yalnızca iskelet)</h3>
+<ol>
+<li>Giriş: savunu cümlesi ve üç eksen</li>
+<li>Arka plan: RIS, hareketlilik, eskime, faz optimizasyonu</li>
+<li>Faz süreksizliği ve tek geçişli öğrenme (Makale 1; etiket (b), bağımsız yeniden üretim, sınırlar)</li>
+<li>Etkin hız çerçevesi: Tanım 1–2, içsel optimum L*, normalize maliyet (Makale 2'nin çekirdeği)</li>
+<li>Sağlamlık: pilot yükü, kusurlu CSI, ayrık faz, öngörü, konum (Görev 4)</li>
+<li>Öğrenmenin sınırları: köprü, öğrenilen güncelleme kuralı, optimize süreler (titiz negatif sonuç)</li>
+<li>Gerçekçi senaryo (38.901, kısmi) ve sınırlar</li>
+<li>Sonuç ve gelecek çalışma</li>
+</ol>
+<p>Her bölümün başına "bu bölümün tek iddiası" ve "onu taşıyan sayı + kaynak dosya" yazın. <code>TEZ_YAZIM_REFERANSI.md</code> tek doğruluk kaynağı olsun. Docstring'ten ya da hafızadan sayı almayın; CLAUDE.md'deki "17 kat → 11.7–14.2 kat" dersi bunun için var.</p>
+<h3>7) Danışman görüşmesi için gündem önerisi</h3>
+<ol>
+<li>Makale 1 denetim bulgularının <strong>tezde</strong> nasıl ele alınacağı (§2).</li>
+<li>Makale 2 hakem sürecinde pilot yükü sorulursa elinizdeki yanıt (§3, satır 2).</li>
+<li>20 Kasım'a kadar §5'teki 2–4 numaralı işlerden hangilerinin yapılacağı.</li>
+<li>Bölüm iskeleti (§6) ve yazım takvimi.</li>
+</ol>
+<h3>8) Kişisel not</h3>
+<p>İki ayda bir tezi bitirmek sıkışık ama yapılabilir. Elinizdeki malzeme sandığınızdan güçlü. Ana sonuç pek çok sağlamlık testinden geçti:
+- yeniden ölçülen gecikmeler;
+- pilot yükü;
+- kusurlu CSI (orta-yüksek SNR'de; 10 dB ve altında yöntemler ayırt edilemiyor, yani orada hüküm yok);
+- ayrık faz;
+- optimize süreler.</p>
+<p>Negatif sonuçlar (öğrenme ekseni) zayıflık değil; titizlikle yapıldıkları için tezin en savunulabilir kısmı. En büyük risk teknik değil, Makale 1'in jüri önünde hazırlıksız yakalanması. Onu önceden konuşmak sizin elinizde.</p></section><section class="part" id="p4"><div class="parthead"><span class="tag">Ek 1</span><h1>Görev 2 — Ortak altyapı raporu (dal thesis/altyapi)</h1></div><h2>Tez deneyleri için ortak altyapı — rapor</h2>
+<p>Dal <code>thesis/altyapi</code>, rapor commit'i <code>fb28944</code>. Mevcut dosyalara dokunulmadı: yeniden koşular <code>thesis_exp/infra/scripts/</code> altındaki, çıktısı <code>thesis_exp/infra/raw/</code>'a yönlendirilmiş kopyalarla yapıldı.</p>
+<h3>1) Makaledeki iddialarla çelişen ya da onları değiştiren bulgular</h3>
+<ol>
+<li><strong>Adam adım süresi 1.66 ms değil, 1.328 ms</strong> (tek iş parçacığı, boş makine, yük 0.45 → 0.88; L başına 1.33–1.39 ms). Makalenin 1.66 ms'si eski iki iş parçacıklı Adam-8 ölçümünden (13.3/8) geliyor; yöntem bölümünde bu yazılı.</li>
+<li>Yeni gecikmeyle <strong>L* = 6</strong> (makale bu ızgarada 5; metin 4–6 diyor), %0.5 içindeki aralık [5, 6]; L=48'e koşmanın bedeli <strong>%14.4</strong> (makale %14.0). Bulgu korunuyor, sayılar değişiyor.</li>
+<li>SU-best-of − CD: <strong>0.286 [0.192, 0.382]</strong> (makale 0.297 [0.204, 0.390]); SU-best-of − uzun Adam: <strong>0.564 [0.393, 0.745]</strong> (makale 0.604 [0.415, 0.805]). SU-best-of − Adam-20 artık -0.086 [-0.174, 0.002] (makale -0.004 [-0.095, 0.085]).</li>
+<li><strong>Kullanılmayan senaryo sayısı 800 değil 700</strong>: doğrulama kümesinin 500 senaryosu kullanılıyor (öğrenilen kuralın checkpoint seçimi va[:500]; makale 'doğrulama 400' diyor), testin 600'ü.</li>
+</ol>
+<h3>2) Tablo</h3>
+<table>
+<thead>
+<tr>
+<th>İddia</th>
+<th>Yayımlanan</th>
+<th>Üretilen</th>
+<th>Durum</th>
+<th>Kanıt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Yeniden üretim: results/mumiso_aging_fixzf.json</td>
+<td>—</td>
+<td>0 fark</td>
+<td>DOĞRULANDI (bit-bit)</td>
+<td>raw/bit_identity.json</td>
+</tr>
+<tr>
+<td>Yeniden üretim: results/mumiso_aging_sweep_repro.json</td>
+<td>—</td>
+<td>0 fark</td>
+<td>DOĞRULANDI (bit-bit)</td>
+<td>raw/bit_identity.json</td>
+</tr>
+<tr>
+<td>Yeniden üretim: results/mumiso_aging_sweep_fixzf.json</td>
+<td>—</td>
+<td>11 fark</td>
+<td>FARKLI — betiği yok, makale kullanmıyor</td>
+<td>raw/bit_identity.json</td>
+</tr>
+<tr>
+<td>Yeniden üretim: results/mumiso_aging_sensitivity.json</td>
+<td>—</td>
+<td>0 fark (config hariç)</td>
+<td>DOĞRULANDI (bit-bit)</td>
+<td>raw/mumiso_aging_sensitivity.json</td>
+</tr>
+<tr>
+<td>Yeniden üretim: 9 tablo + paper_numbers.txt</td>
+<td>—</td>
+<td><code>cmp</code> ile aynı</td>
+<td>DOĞRULANDI (bit-bit)</td>
+<td>raw/assets/</td>
+</tr>
+<tr>
+<td>Adam adım süresi</td>
+<td>1.66 ms</td>
+<td>1.328 ms</td>
+<td>FARKLI</td>
+<td>raw/mumiso_mobility_latency_rerun.json</td>
+</tr>
+<tr>
+<td>su_best_of gecikmesi</td>
+<td>2.54 ms</td>
+<td>1.63 ms</td>
+<td>FARKLI (yeniden ölçüm)</td>
+<td>aynı</td>
+</tr>
+<tr>
+<td>cd gecikmesi</td>
+<td>880.78 ms</td>
+<td>702.97 ms</td>
+<td>FARKLI (yeniden ölçüm)</td>
+<td>aynı</td>
+</tr>
+<tr>
+<td>pga gecikmesi</td>
+<td>5851.66 ms</td>
+<td>4950.35 ms</td>
+<td>FARKLI (yeniden ölçüm)</td>
+<td>aynı</td>
+</tr>
+<tr>
+<td>L* (1.5 m/s, T_ov=0)</td>
+<td>5 (metin 4–6)</td>
+<td>6 (%0.5 içi [5, 6])</td>
+<td>FARKLI (aralık içinde)</td>
+<td>raw/mumiso_aging_sweep_newlat.json</td>
+</tr>
+<tr>
+<td>En iyi etkin hız</td>
+<td>5.982</td>
+<td>6.075</td>
+<td>FARKLI</td>
+<td>aynı</td>
+</tr>
+<tr>
+<td>L=48 kaybı</td>
+<td>%14.0</td>
+<td>%14.4</td>
+<td>FARKLI (küçük)</td>
+<td>aynı</td>
+</tr>
+<tr>
+<td>SU-best-of − CD</td>
+<td>0.297 [0.204, 0.390]</td>
+<td>0.286 [0.192, 0.382]</td>
+<td>DOĞRULANDI (GA örtüşüyor)</td>
+<td>raw/mumiso_aging_stats_newlat.json</td>
+</tr>
+<tr>
+<td>SU-best-of − uzun Adam</td>
+<td>0.604 [0.415, 0.805]</td>
+<td>0.564 [0.393, 0.745]</td>
+<td>DOĞRULANDI (GA örtüşüyor)</td>
+<td>raw/mumiso_aging_stats_newlat.json</td>
+</tr>
+<tr>
+<td>SU-best-of − Adam-20</td>
+<td>-0.004 [-0.095, 0.085]</td>
+<td>-0.086 [-0.174, 0.002]</td>
+<td>FARKLI</td>
+<td>raw/mumiso_aging_stats_newlat.json</td>
+</tr>
+<tr>
+<td>Tablo I adam8 etkin hız</td>
+<td>5.849 @ 13.30 ms</td>
+<td>6.022 @ 10.63 ms</td>
+<td>FARKLI</td>
+<td>aynı</td>
+</tr>
+<tr>
+<td>Tablo I adam12 etkin hız</td>
+<td>5.515 @ 19.95 ms</td>
+<td>5.771 @ 15.96 ms</td>
+<td>FARKLI</td>
+<td>aynı</td>
+</tr>
+<tr>
+<td>Tablo I adam16 etkin hız</td>
+<td>5.324 @ 26.60 ms</td>
+<td>5.524 @ 21.28 ms</td>
+<td>FARKLI</td>
+<td>aynı</td>
+</tr>
+<tr>
+<td>Tablo I adam20 etkin hız</td>
+<td>5.276 @ 33.25 ms</td>
+<td>5.363 @ 26.57 ms</td>
+<td>FARKLI</td>
+<td>aynı</td>
+</tr>
+<tr>
+<td>Statik küme kullanımı</td>
+<td>4200/400/600 (800 boşta)</td>
+<td>4200 / 500 / 600 (700 boşta)</td>
+<td>FARKLI</td>
+<td>raw/static_split_usage.json</td>
+</tr>
+<tr>
+<td>38.901, N_t=1: sin/cos CNN–LSTM (ham girdi)</td>
+<td>—</td>
+<td>RMSE 103.57°; hız 6.230 (optimum 10.349, makale etiketi (a) 9.908) b/s/Hz</td>
+<td>ölçüldü</td>
+<td>raw/m1_38901/sincos_raw_s*.json</td>
+</tr>
+<tr>
+<td>38.901, N_t=1: doğrudan açı eşleniği</td>
+<td>—</td>
+<td>RMSE 103.89°; hız 6.222 (optimum 10.349, makale etiketi (a) 9.908) b/s/Hz</td>
+<td>ölçüldü</td>
+<td>raw/m1_38901/angle_raw_s*.json</td>
+</tr>
+<tr>
+<td>38.901, N_t=1: sin/cos, ölçek-normalize</td>
+<td>—</td>
+<td>RMSE 59.66, 58.40, 59.81°; hız 9.302 (optimum 10.349, makale etiketi (a) 9.908) b/s/Hz</td>
+<td>ölçüldü</td>
+<td>raw/m1_38901/sincos_norm_s*.json</td>
+</tr>
+<tr>
+<td>38.901: eleman permütasyonu</td>
+<td>—</td>
+<td>RMSE 62.91, 59.08, 66.96°</td>
+<td>ölçüldü</td>
+<td>raw/m1_38901/*_perm.json</td>
+</tr>
+<tr>
+<td>38.901 tohum 0: sin/cos − doğrudan açı (hız, b/s/Hz)</td>
+<td>—</td>
+<td>+1.729 [+1.688, +1.771]</td>
+<td>ölçüldü</td>
+<td>raw/m1_38901/*_test_rate.npy</td>
+</tr>
+<tr>
+<td>38.901 tohum 0: özgün sıra − permütasyon (hız, b/s/Hz)</td>
+<td>—</td>
+<td>+0.106 [+0.089, +0.124]</td>
+<td>ölçüldü</td>
+<td>raw/m1_38901/*_test_rate.npy</td>
+</tr>
+<tr>
+<td>38.901 tohum 1: sin/cos − doğrudan açı (hız, b/s/Hz)</td>
+<td>—</td>
+<td>+1.626 [+1.585, +1.669]</td>
+<td>ölçüldü</td>
+<td>raw/m1_38901/*_test_rate.npy</td>
+</tr>
+<tr>
+<td>38.901 tohum 1: özgün sıra − permütasyon (hız, b/s/Hz)</td>
+<td>—</td>
+<td>+0.094 [+0.074, +0.114]</td>
+<td>ölçüldü</td>
+<td>raw/m1_38901/*_test_rate.npy</td>
+</tr>
+<tr>
+<td>38.901 tohum 2: sin/cos − doğrudan açı (hız, b/s/Hz)</td>
+<td>—</td>
+<td>+1.862 [+1.819, +1.906]</td>
+<td>ölçüldü</td>
+<td>raw/m1_38901/*_test_rate.npy</td>
+</tr>
+<tr>
+<td>38.901 tohum 2: özgün sıra − permütasyon (hız, b/s/Hz)</td>
+<td>—</td>
+<td>+0.417 [+0.393, +0.440]</td>
+<td>ölçüldü</td>
+<td>raw/m1_38901/*_test_rate.npy</td>
+</tr>
+</tbody>
+</table>
+<p>Not: ham girdili kollar (Makale 1'deki gibi normalizasyonsuz) öğrenmedi (RMSE ≈ 104°, rastgele düzey); bu yüzden kalan tohumlar ölçek-normalize girdiyle koşturuldu (plandan sapma; ham kollar tohum 0 ile kayıtlı). N_t = 1'de kapalı form (etiket b) optimumdur; ağın hızı bu optimumun altında.</p>
+<h3>3) Komutlar, tohumlar, ham çıktılar</h3>
+<table>
+<thead>
+<tr>
+<th>Adım</th>
+<th>Komut</th>
+<th>Tohum</th>
+<th>Ham çıktı</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>thesis_exp/infra/scripts/mumiso_aging.py --no-learned --tag aging_fixzf; mumiso_aging_sweep.py --tag aging_sweep_fixzf; mumiso_aging_sensitivity.py; make_paper_assets.py (yönlendirilmiş kopyalar); bit_identity.py</td>
+<td>kanal 11, torch 0</td>
+<td>raw/bit_identity.json, raw/assets/</td>
+</tr>
+<tr>
+<td>2</td>
+<td>mumiso_mobility_latency.py --tag mobility_latency_rerun (yük &lt; 0.5 beklendi); aging_sweep_newlat.py --steps 1,…,48; mumiso_aging_stats_newlat.py</td>
+<td>kanal 11, bootstrap betikteki gibi</td>
+<td>raw/mumiso_mobility_latency_rerun.json, raw/mumiso_aging_sweep_newlat.json, raw/mumiso_aging_stats_newlat.json</td>
+</tr>
+<tr>
+<td>3</td>
+<td>static_split_usage.py</td>
+<td>split seed 0</td>
+<td>raw/static_split_usage.json</td>
+</tr>
+<tr>
+<td>4</td>
+<td>m1_on_38901.py --head {sincos,angle} --scale {raw,norm} --seed {0,1,2} [--permute]</td>
+<td>veri 2026 (data_sumiso/sumiso_siso.npz, md5 9958f6b7…), bölme 0, permütasyon 7</td>
+<td>raw/m1_38901/</td>
+</tr>
+</tbody>
+</table>
+<h3>4) Açık sorular</h3>
+<ol>
+<li>Makale 2 gönderildi; yeni adım süresiyle değişen sayılar (L* 5→6, %14.0→%14.4, Tablo I satırları) düzeltme/revizyonda mı güncellensin?</li>
+<li>Tablo II hızları ve periyodik çalışma (Tablo III) da 1.66 ms ile hesaplandı; yeni süreyle yeniden üretilsin mi?</li>
+<li>38.901 arayüzünde h_d girdi kanalları Makale 1'den sapma; tezde böyle mi anlatılsın?</li>
+</ol>
+<h3>5) Yorum (bulgulardan ayrı)</h3>
+<ul>
+<li>Makalenin yayımlanan sayılarının kaynak dosyaları bugünkü kodla bit-bit üretiliyor; değişen tek girdi ölçülen adım süresi.</li>
+<li>Adam'ın daha hızlı ölçülmesi optimumu biraz sağa kaydırıyor ve Adam kollarını iyileştiriyor; 'yavaş çözücü kaybeder' ve 'iç optimum' bulguları korunuyor.</li>
+</ul></section><section class="part" id="p5"><div class="parthead"><span class="tag">Ek 2</span><h1>Görev 3 — Köprü raporu (dal thesis/bridge)</h1></div><h2>Köprü: tek geçişli faz-farkında ağ, etkin hız ölçütünde — rapor</h2>
+<p>Rapor commit'i <code>c1d72d0</code>. Eğitim verisi (onaylı seçenek ii): yaşlanma kümesinin yapısıyla (20 saçıcı, t=0) üretilmiş statik küme, seed 2027, 6000 senaryo, bölme 4200/900/900. Değerlendirme: yaşlanma kümesi (seed 11, 400 senaryo); seçimler yalnızca statik doğrulama kümesinde ve ayrı bir hareketlilik çekilişinde (seed 12).</p>
+<h3>1) Bulgular</h3>
+<ol>
+<li><strong>Yapılandırma seçimi (doğrulama, tohum 0):</strong> net_res0_lr0_s0: 4.0423; net_res0_lr1_s0: 4.0152; net_res1_lr0_s0: 4.2720; net_res1_lr1_s0: 3.9881. SU-average aynı kümede 4.2709. Seçilen: <code>net_res1_lr0_s0</code>.</li>
+<li><strong>Seçilen yapılandırmanın test min-hızı (3 tohum):</strong> 4.2397, 4.2404, 4.2408; makalenin statik kümesinde eğitilen ikincil kol: 3.4784 (o kümenin testi).</li>
+<li><strong>Etkin hız, 5.4 km/h</strong> (doğrulamada seçilen en iyi klasik: Adam-5, 6.0382 b/s/Hz):
+   - net: gecikme 2.847 ms, etkin 4.6204; fark -1.4179 [-1.5032, -1.3357]; baskınlayan klasik kollar: SU-best-of, Adam-1
+   - net+Adam-1: gecikme 4.599 ms, etkin 5.4267; fark -0.6115 [-0.6669, -0.5603]; baskınlayan klasik kollar: Adam-1, Adam-2
+   - net+Adam-2: gecikme 6.032 ms, etkin 5.7069; fark -0.3313 [-0.3691, -0.2965]; baskınlayan klasik kollar: Adam-2, Adam-3, Adam-4
+   - net+Adam-3: gecikme 7.469 ms, etkin 5.8320; fark -0.2063 [-0.2317, -0.1804]; baskınlayan klasik kollar: Adam-3, Adam-4, Adam-5</li>
+<li><strong>Tablo II hızları</strong> (gecikmeler aynı ölçümden):
+   - 3.0 km/h: en iyi klasik Adam-10; net -1.6534 [-1.7536, -1.5574], baskınlanan öğrenilen kol sayısı 4/4
+   - 5.4 km/h: en iyi klasik Adam-5; net -1.4179 [-1.5065, -1.3366], baskınlanan öğrenilen kol sayısı 4/4
+   - 10.0 km/h: en iyi klasik Adam-3; net -1.1672 [-1.2396, -1.0887], baskınlanan öğrenilen kol sayısı 4/4
+   - 18.0 km/h: en iyi klasik Adam-2; net -0.9373 [-1.0148, -0.8626], baskınlanan öğrenilen kol sayısı 4/4
+   - 30.0 km/h: en iyi klasik Adam-1; net -0.7134 [-0.7752, -0.6487], baskınlanan öğrenilen kol sayısı 4/4</li>
+<li><strong>Periyodik çalışma</strong> (seçim seed 12, rapor seed 11):
+   - T_p=0.0 ms: soğuk 5.877 (U=b2b, L=4), sıcak 6.338 (U=b2b, L=3), ağ 5.666 (U=b2b, L=3); ağ−soğuk -0.212 [-0.226, -0.197], ağ−sıcak -0.672 [-0.707, -0.638]
+   - T_p=0.86 ms: soğuk 5.249 (U=b2b, L=8), sıcak 5.450 (U=10.0, L=3), ağ 5.096 (U=20.0, L=3); ağ−soğuk -0.153 [-0.179, -0.129], ağ−sıcak -0.354 [-0.389, -0.320]
+   - T_p=1.71 ms: soğuk 5.085 (U=40.0, L=12), sıcak 5.234 (U=20.0, L=3), ağ 4.979 (U=40.0, L=3); ağ−soğuk -0.105 [-0.140, -0.069], ağ−sıcak -0.255 [-0.301, -0.210]
+   - T_p=3.43 ms: soğuk 4.975 (U=80.0, L=12), sıcak 4.995 (U=80.0, L=16), ağ 4.844 (U=80.0, L=3); ağ−soğuk -0.131 [-0.167, -0.095], ağ−sıcak -0.150 [-0.193, -0.108]</li>
+</ol>
+<h3>2) Tablo</h3>
+<table>
+<thead>
+<tr>
+<th>Kol</th>
+<th>Gecikme (ms)</th>
+<th>t=0 hız</th>
+<th>Etkin hız [%95 GA]</th>
+<th>Durum</th>
+<th>Kanıt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SU-best-of</td>
+<td>1.632</td>
+<td>5.2762</td>
+<td>5.2771 [5.0521, 5.5124]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>net</td>
+<td>2.847</td>
+<td>4.6264</td>
+<td>4.6204 [4.3786, 4.8455]</td>
+<td>BASKINLANIYOR</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>net+Adam-1</td>
+<td>4.599</td>
+<td>5.4739</td>
+<td>5.4267 [5.1905, 5.6687]</td>
+<td>BASKINLANIYOR</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>net+Adam-2</td>
+<td>6.032</td>
+<td>5.7963</td>
+<td>5.7069 [5.4699, 5.9381]</td>
+<td>BASKINLANIYOR</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>net+Adam-3</td>
+<td>7.469</td>
+<td>5.9911</td>
+<td>5.8320 [5.5984, 6.0774]</td>
+<td>BASKINLANIYOR</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>Adam-1</td>
+<td>1.903</td>
+<td>5.4750</td>
+<td>5.4657 [5.2214, 5.7024]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>Adam-2</td>
+<td>3.256</td>
+<td>5.7961</td>
+<td>5.7707 [5.5301, 6.0071]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>Adam-3</td>
+<td>4.730</td>
+<td>5.9865</td>
+<td>5.9228 [5.6967, 6.1560]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>Adam-4</td>
+<td>5.984</td>
+<td>6.1118</td>
+<td>6.0035 [5.7688, 6.2362]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>Adam-5</td>
+<td>7.205</td>
+<td>6.2188</td>
+<td>6.0382 [5.7933, 6.2834]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>Adam-6</td>
+<td>8.700</td>
+<td>6.3162</td>
+<td>6.0434 [5.7923, 6.2679]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>Adam-8</td>
+<td>11.172</td>
+<td>6.4428</td>
+<td>5.9879 [5.7524, 6.2261]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>Adam-10</td>
+<td>13.577</td>
+<td>6.5321</td>
+<td>5.8834 [5.6643, 6.1308]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>Adam-12</td>
+<td>16.733</td>
+<td>6.6218</td>
+<td>5.7410 [5.5028, 5.9786]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>Adam-16</td>
+<td>22.059</td>
+<td>6.7488</td>
+<td>5.5093 [5.2854, 5.7350]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>Adam-20</td>
+<td>26.583</td>
+<td>6.8386</td>
+<td>5.4044 [5.1822, 5.6397]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>Adam-24</td>
+<td>33.404</td>
+<td>6.9002</td>
+<td>5.3189 [5.0874, 5.5637]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>Adam-32</td>
+<td>42.931</td>
+<td>6.9822</td>
+<td>5.2805 [5.0405, 5.5388]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>Adam-48</td>
+<td>66.072</td>
+<td>7.0496</td>
+<td>5.1937 [4.9607, 5.4255]</td>
+<td>—</td>
+<td>raw/eval_main.json</td>
+</tr>
+</tbody>
+</table>
+<h3>3) Komutlar, tohumlar, ham çıktılar</h3>
+<table>
+<thead>
+<tr>
+<th>Adım</th>
+<th>Komut</th>
+<th>Tohum</th>
+<th>Ham çıktı</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>eğitim</td>
+<td>bridge_train.py --residual {0,1} --link_ratio {0,1} --seed 0; seçilen yapılandırma --seed 1,2; --static_paper</td>
+<td>veri 2027 (ikincil: 11), eğitim 0/1/2</td>
+<td>raw/train/*.json</td>
+</tr>
+<tr>
+<td>etkin hız</td>
+<td>bridge_eval.py --ckpt raw/train/<seçilen>_s0.pt --tag main (gecikme ölçümü, yük &lt; 0.5)</td>
+<td>seçim 12, rapor 11, bootstrap 0</td>
+<td>raw/eval_main.json</td>
+</tr>
+<tr>
+<td>hızlar</td>
+<td>bridge_eval.py --speeds_kmh 3,5.4,10,18,30 --latency_json raw/eval_main.json --tag speeds</td>
+<td>aynı</td>
+<td>raw/eval_speeds.json</td>
+</tr>
+<tr>
+<td>periyodik</td>
+<td>bridge_tracking.py</td>
+<td>seçim 12, rapor 11</td>
+<td>raw/tracking.json</td>
+</tr>
+</tbody>
+</table>
+<h3>4) Açık sorular</h3>
+<ol>
+<li>Ağ diğer tohumlarla değerlendirilsin mi? (Etkin hız ana değerlendirmesi tohum 0 ile yapıldı; tohum yayılımı 2. bulguda.)</li>
+<li>Sonuç tezde 'tek geçiş başlangıç noktasında takılıyor; gecikme ekseninde de baskınlanıyor' diye mi yazılsın?</li>
+</ol>
+<h3>5) Yorum (bulgulardan ayrı)</h3>
+<ul>
+<li>Kalıntı (residual) mod ağı SU-average başlangıcının etrafında tutuyor; bu, tezdeki 3.7230/3.7230 bulgusunun bu veride tekrarı.</li>
+</ul></section><section class="part" id="p6"><div class="parthead"><span class="tag">Ek 3</span><h1>Deney 4.1 — Kanal öngörüsü</h1></div><h2>Deney 4.1 — Kanal öngörüsü (rapor)</h2>
+<p>Rapor commit'i <code>1847597</code>, ölçüm commit'i <code>38b25bd</code> (results*.json; o commit'te run.py yoktu — commit'li koddan bit-bit yeniden üretim: thesis_exp/denetim_log/k1_rerun.md). Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s); seçim seed 12. Gecikmeler: tek iş parçacıklı yeniden ölçüm (thesis_exp/infra). Ek anlık görüntü başına ek pilot: 48 sembol = 3.43 / 1.71 / 0.86 ms (15 / 30 / 60 kHz); 2 noktalı öngörücü 1, 3 noktalılar 2 ek anlık görüntü ister. Bu süre tek-atış etkin hıza <strong>eklenmedi</strong> (anlık görüntüler t=0'dan önce alınıyor); havada geçen süre olarak ayrıca raporlanmalı.</p>
+<p>Not (denetim U21): ızgara 40 ms'den sonra 50/75/100 ms'ye atlıyor; 40 ms'den yavaş kollar (Adam-32/48) interpolasyonla değerlendirildi. Raporlanan/seçilen kollar 40 ms altında ve bundan etkilenmiyor.</p>
+<h3>1) Bulgular (önce kısıtlar)</h3>
+<ul>
+<li><strong>Kanal modeli öngörüyü kayırıyor:</strong> saçıcılar sabit, kullanıcılar düz çizgide yürüyor; kanal zamanın düzgün bir fonksiyonu. Dönüşlü yörünge yok (CLAUDE.md: öngörücü tasarım için önkoşul eksik).</li>
+<li><strong>Kestirim hatası e2 = 0</strong> (her anlık görüntü): öngörüsüz en iyi kol Adam-6 = 6.0770 b/s/Hz.</li>
+<li>lin2, Δ = 1.0 ms (1 ek anlık görüntü): Adam-10 = 6.3958; öngörüsüze göre +0.3187 [+0.2722, +0.3668]</li>
+<li>lin3, Δ = 1.0 ms (2 ek anlık görüntü): Adam-10 = 6.3701; öngörüsüze göre +0.2930 [+0.2452, +0.3376]</li>
+<li>quad3, Δ = 1.0 ms (2 ek anlık görüntü): Adam-12 = 6.4920; öngörüsüze göre +0.4150 [+0.3645, +0.4670]</li>
+<li>kalman3, Δ = 1.0 ms (2 ek anlık görüntü; q/r=100): Adam-10 = 6.3918; öngörüsüze göre +0.3148 [+0.2655, +0.3645]</li>
+<li>lin2, Δ = 2.0 ms (1 ek anlık görüntü): Adam-10 = 6.3716; öngörüsüze göre +0.2946 [+0.2492, +0.3388]</li>
+<li>lin3, Δ = 2.0 ms (2 ek anlık görüntü): Adam-10 = 6.3511; öngörüsüze göre +0.2740 [+0.2287, +0.3184]</li>
+<li>quad3, Δ = 2.0 ms (2 ek anlık görüntü): Adam-12 = 6.4680; öngörüsüze göre +0.3910 [+0.3429, +0.4417]</li>
+<li>kalman3, Δ = 2.0 ms (2 ek anlık görüntü; q/r=100): Adam-12 = 6.3798; öngörüsüze göre +0.3028 [+0.2531, +0.3525]</li>
+<li>lin2, Δ = 5.0 ms (1 ek anlık görüntü): Adam-10 = 6.3260; öngörüsüze göre +0.2490 [+0.2050, +0.2944]</li>
+<li>lin3, Δ = 5.0 ms (2 ek anlık görüntü): Adam-8 = 6.2664; öngörüsüze göre +0.1894 [+0.1465, +0.2308]</li>
+<li>quad3, Δ = 5.0 ms (2 ek anlık görüntü): Adam-12 = 6.4039; öngörüsüze göre +0.3268 [+0.2744, +0.3808]</li>
+<li>kalman3, Δ = 5.0 ms (2 ek anlık görüntü; q/r=100): Adam-10 = 6.3647; öngörüsüze göre +0.2877 [+0.2439, +0.3333]</li>
+<li><strong>Kestirim hatası e2 = 0.01</strong> (her anlık görüntü): öngörüsüz en iyi kol Adam-6 = 5.6111 b/s/Hz.</li>
+<li>lin2, Δ = 1.0 ms (1 ek anlık görüntü): Adam-1 = 4.6755; öngörüsüze göre -0.9356 [-1.0194, -0.8538]</li>
+<li>lin3, Δ = 1.0 ms (2 ek anlık görüntü): Adam-2 = 4.8754; öngörüsüze göre -0.7357 [-0.8163, -0.6626]</li>
+<li>quad3, Δ = 1.0 ms (2 ek anlık görüntü): Adam-1 = 4.3237; öngörüsüze göre -1.2874 [-1.3870, -1.1948]</li>
+<li>kalman3, Δ = 1.0 ms (2 ek anlık görüntü; q/r=0.1): Adam-2 = 4.8770; öngörüsüze göre -0.7342 [-0.8095, -0.6566]</li>
+<li>lin2, Δ = 2.0 ms (1 ek anlık görüntü): Adam-2 = 4.8418; öngörüsüze göre -0.7693 [-0.8513, -0.6932]</li>
+<li>lin3, Δ = 2.0 ms (2 ek anlık görüntü): Adam-3 = 5.1641; öngörüsüze göre -0.4470 [-0.5162, -0.3823]</li>
+<li>quad3, Δ = 2.0 ms (2 ek anlık görüntü): Adam-1 = 4.6478; öngörüsüze göre -0.9633 [-1.0459, -0.8807]</li>
+<li>kalman3, Δ = 2.0 ms (2 ek anlık görüntü; q/r=0.001): Adam-3 = 5.1606; öngörüsüze göre -0.4505 [-0.5214, -0.3812]</li>
+<li>lin2, Δ = 5.0 ms (1 ek anlık görüntü): Adam-5 = 5.1894; öngörüsüze göre -0.4217 [-0.4950, -0.3501]</li>
+<li>lin3, Δ = 5.0 ms (2 ek anlık görüntü): Adam-6 = 5.5137; öngörüsüze göre -0.0974 [-0.1540, -0.0445]</li>
+<li>quad3, Δ = 5.0 ms (2 ek anlık görüntü): Adam-2 = 4.9162; öngörüsüze göre -0.6949 [-0.7737, -0.6174]</li>
+<li>kalman3, Δ = 5.0 ms (2 ek anlık görüntü; q/r=0.01): Adam-6 = 5.4525; öngörüsüze göre -0.1586 [-0.2140, -0.1017]</li>
+<li><strong>Kestirim hatası e2 = 0.1</strong> (her anlık görüntü): öngörüsüz en iyi kol Adam-8 = 4.9443 b/s/Hz.</li>
+<li>lin2, Δ = 1.0 ms (1 ek anlık görüntü): Adam-1 = 4.1772; öngörüsüze göre -0.7671 [-0.8722, -0.6690]</li>
+<li>lin3, Δ = 1.0 ms (2 ek anlık görüntü): Adam-1 = 4.3575; öngörüsüze göre -0.5868 [-0.6719, -0.5002]</li>
+<li>quad3, Δ = 1.0 ms (2 ek anlık görüntü): SU-best-of = 4.1114; öngörüsüze göre -0.8329 [-0.9362, -0.7338]</li>
+<li>kalman3, Δ = 1.0 ms (2 ek anlık görüntü; q/r=1): Adam-1 = 4.3340; öngörüsüze göre -0.6103 [-0.6967, -0.5275]</li>
+<li>lin2, Δ = 2.0 ms (1 ek anlık görüntü): Adam-1 = 4.3289; öngörüsüze göre -0.6154 [-0.7031, -0.5301]</li>
+<li>lin3, Δ = 2.0 ms (2 ek anlık görüntü): Adam-3 = 4.4321; öngörüsüze göre -0.5122 [-0.5996, -0.4228]</li>
+<li>quad3, Δ = 2.0 ms (2 ek anlık görüntü): SU-best-of = 4.1590; öngörüsüze göre -0.7853 [-0.8841, -0.6864]</li>
+<li>kalman3, Δ = 2.0 ms (2 ek anlık görüntü; q/r=0.01): Adam-3 = 4.4423; öngörüsüze göre -0.5020 [-0.5900, -0.4158]</li>
+<li>lin2, Δ = 5.0 ms (1 ek anlık görüntü): Adam-3 = 4.5106; öngörüsüze göre -0.4337 [-0.5161, -0.3533]</li>
+<li>lin3, Δ = 5.0 ms (2 ek anlık görüntü): Adam-3 = 4.7416; öngörüsüze göre -0.2027 [-0.2793, -0.1229]</li>
+<li>quad3, Δ = 5.0 ms (2 ek anlık görüntü): Adam-1 = 4.4082; öngörüsüze göre -0.5361 [-0.6227, -0.4512]</li>
+<li>kalman3, Δ = 5.0 ms (2 ek anlık görüntü; q/r=0.001): Adam-3 = 4.7376; öngörüsüze göre -0.2067 [-0.2832, -0.1333]</li>
+</ul>
+<h3>2) Komut, tohum, ham çıktı</h3>
+<table>
+<thead>
+<tr>
+<th>Komut</th>
+<th>Tohum</th>
+<th>Ham çıktı</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>python3 thesis_exp/p4/kanal_ongoru/run.py [--e2 0.01 / 0.1]</td>
+<td>kanal 11 (rapor) / 12 (seçim), gürültü 3/4, bootstrap 0</td>
+<td>raw/results.json, raw/results_e2_*.json</td>
+</tr>
+</tbody>
+</table>
+<h3>3) Yorum (bulgulardan ayrı)</h3>
+<ul>
+<li>Gürültüsüz anlık görüntülerle öngörü belirgin kazanç sağlıyor ve en iyi adım sayısını sağa kaydırıyor (öngörü gecikmenin bedelini kısmen telafi ediyor).</li>
+<li>%1 kestirim hatasıyla (−20 dB) her öngörücü öngörüsüz Adam'ın altına düşüyor: fark alma gürültüyü büyütüyor. Bu modelde öngörü kazancı, kestirimin pratikte ulaşamayacağı bir doğruluğa bağlı.</li>
+</ul></section><section class="part" id="p7"><div class="parthead"><span class="tag">Ek 4</span><h1>Deney 4.2 — Konum tabanlı faz</h1></div><h2>Deney 4.2 — Konum (LoS geometrisi) tabanlı faz (rapor)</h2>
+<p>Rapor commit'i <code>1847597</code>, ölçüm commit'i <code>06fc9d2</code> (results.json). Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s). Faz yalnızca LoS geometrisinden (BS anten, RIS eleman ve kullanıcı konumları; genlik ~1/d, saçıcı/gölgelenme/örüntü yok, doğrudan yol 0) SU-average / SU-best-of ile hesaplandı; gerçek kanalda (taze ZF) değerlendirildi. Konum hatası σ (yatay eksenlerde, tohum 5). Konum edinme gecikmesi modellenmedi.</p>
+<p>Not (denetim U21): ızgara 40 ms'den sonra 50/75/100 ms'ye atlıyor; 40 ms'den yavaş kollar (Adam-32/48) interpolasyonla değerlendirildi. Raporlanan/seçilen kollar 40 ms altında ve bundan etkilenmiyor.</p>
+<h3>1) Bulgular</h3>
+<ul>
+<li>channel SU-best-of: gecikme 1.63 ms, t=0 5.2762, etkin 5.2771 b/s/Hz</li>
+<li>channel Adam-6 (best on this set, optimistic): gecikme 8.09 ms, t=0 6.3162, etkin 6.0770 b/s/Hz</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Kol</th>
+<th>σ (m)</th>
+<th>Gecikme (ms)</th>
+<th>t=0 hız</th>
+<th>Etkin hız [%95 GA]</th>
+<th>Kanal SU-best-of'a göre [%95 GA]</th>
+<th>Her an konumdan yeniden (0–200 ms ort.)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>geom-avg</td>
+<td>0.0</td>
+<td>0.30</td>
+<td>4.4474</td>
+<td>4.4477 [4.2224, 4.6710]</td>
+<td>-0.8294 [-0.9125, -0.7486]</td>
+<td>4.3929</td>
+</tr>
+<tr>
+<td>geom-best</td>
+<td>0.0</td>
+<td>1.63</td>
+<td>4.4342</td>
+<td>4.4354 [4.2048, 4.6696]</td>
+<td>-0.8418 [-0.9253, -0.7659]</td>
+<td>4.3887</td>
+</tr>
+<tr>
+<td>geom-avg</td>
+<td>0.5</td>
+<td>0.30</td>
+<td>4.4324</td>
+<td>4.4325 [4.2079, 4.6900]</td>
+<td>-0.8446 [-0.9320, -0.7561]</td>
+<td>4.4009</td>
+</tr>
+<tr>
+<td>geom-best</td>
+<td>0.5</td>
+<td>1.63</td>
+<td>4.4469</td>
+<td>4.4488 [4.2032, 4.6831]</td>
+<td>-0.8283 [-0.9127, -0.7431]</td>
+<td>4.4018</td>
+</tr>
+<tr>
+<td>geom-avg</td>
+<td>1.0</td>
+<td>0.30</td>
+<td>4.4149</td>
+<td>4.4149 [4.1945, 4.6457]</td>
+<td>-0.8622 [-0.9490, -0.7756]</td>
+<td>4.4092</td>
+</tr>
+<tr>
+<td>geom-best</td>
+<td>1.0</td>
+<td>1.63</td>
+<td>4.4220</td>
+<td>4.4183 [4.1830, 4.6391]</td>
+<td>-0.8588 [-0.9481, -0.7727]</td>
+<td>4.4105</td>
+</tr>
+</tbody>
+</table>
+<p>Rastgele faz bu kümede 4.072 b/s/Hz (results/mumiso_aging_stats.json).</p>
+<h3>2) Komut, tohum, ham çıktı</h3>
+<table>
+<thead>
+<tr>
+<th>Komut</th>
+<th>Tohum</th>
+<th>Ham çıktı</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>python3 thesis_exp/p4/konum_faz/run.py</td>
+<td>kanal 11, konum hatası 5, bootstrap 0</td>
+<td>raw/results.json</td>
+</tr>
+</tbody>
+</table>
+<h3>3) Yorum (bulgulardan ayrı)</h3>
+<ul>
+<li>Bu iç mekân modelinde (20 saçıcı, LoS olasılığı 3GPP InH) yalnızca LoS geometrisine dayanan faz, kanal tabanlı SU-best-of'un 0.83–0.86 b/s/Hz altında kalıyor; konum hatası sonucu değiştirmiyor, çünkü sınır geometrinin kendisinde.</li>
+<li>Konumdan her an yeniden hesaplamak yaşlanmayı ortadan kaldırıyor ama düşük taban değeri yükseltmiyor.</li>
+</ul></section><section class="part" id="p8"><div class="parthead"><span class="tag">Ek 5</span><h1>Deney 4.3 — Ön kodlayıcı pilotları</h1></div><h2>Deney 4.3 — Ön kodlayıcı tazeleme pilotlarının ücretlendirilmesi (rapor)</h2>
+<blockquote>
+<p><strong>DÜZELTME — bu raporun pilot ücretli sayıları yanlı.</strong> Tazeleme anları mutlak 0.1 ms ızgarasına yuvarlanıyor; yuvarlamanın yönü kolun gecikmesine bağlı. SU-best-of (1.63 ms) aşağı yuvarlandığı için her örneği 0.1 ms fazla eskimiş bir W ile ölçüldü; Adam-6 (8.09 ms) yukarı yuvarlandı. Bu da SU-best-of'u cezalandırıp aradaki farkı şişirdi. Kolun kendi devreye girme anına hizalanmış ızgarayla düzeltilmiş değerler (thesis_exp/p4/onkodlayici_siralama, R doğrulamada seçildi):</p>
+<table>
+<thead>
+<tr>
+<th>Kol</th>
+<th>Taze W</th>
+<th>15 kHz</th>
+<th>30 kHz</th>
+<th>60 kHz</th>
+<th>Hiç tazelenmeyen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SU-best-of</td>
+<td>4.9108</td>
+<td>3.3852 (R 2 ms)</td>
+<td>3.8108 (R 1 ms)</td>
+<td>4.1255 (R 1 ms)</td>
+<td>0.7606</td>
+</tr>
+<tr>
+<td>Adam-6</td>
+<td>5.2248</td>
+<td>3.5385 (R 2 ms)</td>
+<td>4.0132 (R 1 ms)</td>
+<td>4.3447 (R 1 ms)</td>
+<td>0.7639</td>
+</tr>
+</tbody>
+</table>
+<p>Aşağıdaki tablolar ilk (yanlı) koşunun kaydı olarak bırakıldı; taze W ve hiç tazelenmeyen W sütunları yuvarlamadan etkilenmiyor (ikincisi ≤0.01 b/s/Hz). Bütün kolların sıralaması için onkodlayici_siralama/REPORT.md.</p>
+</blockquote>
+<p>Rapor commit'i <code>f413f63</code>, ölçüm commit'i <code>98ddad9</code> (results.json). Yaşlanma kümesi (seed 11, 400 senaryo, 1.5 m/s), 0.1 ms ızgara. Faz t=0'da hesaplanıp kolun gecikmesinde devreye alınıyor; ZF ön kodlayıcı her R ms'de bir, o anın (kusursuz) etkin kanal kestiriminden yeniden hesaplanıyor ve arada eski haliyle kullanılıyor. Her tazeleme 4 pilot sembolü (kullanıcı başına bir), veri yok: veri oranı 1 − t_p/R ile ücretlendirildi. Ortalama penceresi devreye almadan sonraki 50 ms.</p>
+<h3>1) Bulgular</h3>
+<p><strong>SU-best-of:</strong> makalenin varsayımı (her an taze ve bedava W) 4.9104; hiç tazelenmeyen W 0.7516 b/s/Hz.</p>
+<table>
+<thead>
+<tr>
+<th>R (ms)</th>
+<th>15kHz hız [taze'ye göre]</th>
+<th>30kHz hız [taze'ye göre]</th>
+<th>60kHz hız [taze'ye göre]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.5</td>
+<td>1.981 [-2.930]</td>
+<td>3.306 [-1.604]</td>
+<td>3.962 [-0.949]</td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>3.096 [-1.814]</td>
+<td>3.718 [-1.193]</td>
+<td>4.025 [-0.886]</td>
+</tr>
+<tr>
+<td>2.0</td>
+<td>3.303 [-1.607]</td>
+<td>3.579 [-1.331]</td>
+<td>3.716 [-1.195]</td>
+</tr>
+<tr>
+<td>5.0</td>
+<td>2.758 [-2.152]</td>
+<td>2.842 [-2.068]</td>
+<td>2.883 [-2.027]</td>
+</tr>
+<tr>
+<td>10.0</td>
+<td>2.059 [-2.852]</td>
+<td>2.089 [-2.821]</td>
+<td>2.104 [-2.806]</td>
+</tr>
+<tr>
+<td>20.0</td>
+<td>1.503 [-3.407]</td>
+<td>1.514 [-3.396]</td>
+<td>1.520 [-3.391]</td>
+</tr>
+<tr>
+<td>50.0</td>
+<td>0.747 [-4.163]</td>
+<td>0.749 [-4.161]</td>
+<td>0.751 [-4.160]</td>
+</tr>
+<tr>
+<td>en iyi R</td>
+<td>2 ms</td>
+<td>1 ms</td>
+<td>1 ms</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Adam-6:</strong> makalenin varsayımı (her an taze ve bedava W) 5.2252; hiç tazelenmeyen W 0.7649 b/s/Hz.</p>
+<table>
+<thead>
+<tr>
+<th>R (ms)</th>
+<th>15kHz hız [taze'ye göre]</th>
+<th>30kHz hız [taze'ye göre]</th>
+<th>60kHz hız [taze'ye göre]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.5</td>
+<td>2.144 [-3.081]</td>
+<td>3.579 [-1.647]</td>
+<td>4.288 [-0.938]</td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>3.342 [-1.883]</td>
+<td>4.013 [-1.213]</td>
+<td>4.344 [-0.881]</td>
+</tr>
+<tr>
+<td>2.0</td>
+<td>3.537 [-1.688]</td>
+<td>3.833 [-1.392]</td>
+<td>3.979 [-1.246]</td>
+</tr>
+<tr>
+<td>5.0</td>
+<td>2.903 [-2.323]</td>
+<td>2.991 [-2.234]</td>
+<td>3.035 [-2.191]</td>
+</tr>
+<tr>
+<td>10.0</td>
+<td>2.135 [-3.090]</td>
+<td>2.166 [-3.059]</td>
+<td>2.182 [-3.043]</td>
+</tr>
+<tr>
+<td>20.0</td>
+<td>1.544 [-3.681]</td>
+<td>1.555 [-3.670]</td>
+<td>1.561 [-3.664]</td>
+</tr>
+<tr>
+<td>50.0</td>
+<td>0.760 [-4.465]</td>
+<td>0.763 [-4.463]</td>
+<td>0.764 [-4.461]</td>
+</tr>
+<tr>
+<td>en iyi R</td>
+<td>2 ms</td>
+<td>1 ms</td>
+<td>1 ms</td>
+</tr>
+</tbody>
+</table>
+<h3>2) Komut, tohum, ham çıktı</h3>
+<table>
+<thead>
+<tr>
+<th>Komut</th>
+<th>Tohum</th>
+<th>Ham çıktı</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>python3 thesis_exp/p4/onkodlayici_pilot/run.py</td>
+<td>kanal 11, bootstrap 0</td>
+<td>raw/results.json</td>
+</tr>
+</tbody>
+</table>
+<h3>3) Yorum (bulgulardan ayrı)</h3>
+<ul>
+<li>Makale 2'nin bütün etkin hızları 'taze ve bedava ön kodlayıcı' varsayımına dayanıyor (makalede sınırlılık olarak yazılı). Pilot süresi ücretlendirilince en iyi tazeleme periyodu 1–2 ms çıkıyor ve hız belirgin düşüyor: ZF girişim sıfırlaması kanal değişimine çok duyarlı.</li>
+<li>Bu, mutlak hızları ve muhtemelen öğrenilen/klasik farklarının büyüklüğünü etkiler; yöntem sıralamasının bu ücretlendirme altında değişip değişmediği ayrı bir deneyle sınanmalı (bu deney yalnızca iki fazla yapıldı).</li>
+</ul></section><section class="part" id="p9"><div class="parthead"><span class="tag">Ek 6</span><h1>Deney 4.3 devamı — Bütün kollarla sıralama</h1></div><h2>Deney 4.3 devamı — Pilot ücreti altında bütün kolların sıralaması (rapor)</h2>
+<p>Commit <code>f413f63</code> (ölçüm commit'i <code>a0ac494</code>). Model Deney 4.3 ile aynı: ZF her R ms'de bir kusursuz etkin kanal kestiriminden tazeleniyor, tazeleme başına 4 pilot sembolü veri oranı 1 − t_p/R ile ücretlendiriliyor, faz t=0 kanalından ve kolun gecikmesinde devreye giriyor, hız [gecikme, gecikme + 50 ms] üzerinde ortalanıyor. Tazeleme periyodu R her kol ve numeroloji için doğrulama çekilişinde (seed 12) seçildi; en iyi kol da orada seçildi; rapor yaşlanma kümesi (seed 11, 400 senaryo). Eşli bootstrap 2000, %95 GA. Gecikmeler tek iş parçacıklı yeniden ölçümden (thesis_exp/infra).</p>
+<h3>1) Özet: seçilen kol</h3>
+<table>
+<thead>
+<tr>
+<th>Ücretlendirme</th>
+<th>Doğrulamada seçilen</th>
+<th>Testte hızı</th>
+<th>SU-best-of</th>
+<th>Fark [%95 GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>yok (makalenin varsayımı, taze W)</td>
+<td>Adam-8</td>
+<td>5.2133</td>
+<td>4.9108</td>
+<td>+0.3025 [+0.242, +0.366]</td>
+</tr>
+<tr>
+<td>15kHz</td>
+<td>Adam-6 (R = 2 ms)</td>
+<td>3.5385</td>
+<td>3.3852</td>
+<td>+0.1534 [+0.101, +0.204]</td>
+</tr>
+<tr>
+<td>30kHz</td>
+<td>Adam-8 (R = 1 ms)</td>
+<td>4.0034</td>
+<td>3.8108</td>
+<td>+0.1927 [+0.141, +0.245]</td>
+</tr>
+<tr>
+<td>60kHz</td>
+<td>Adam-8 (R = 1 ms)</td>
+<td>4.3341</td>
+<td>4.1255</td>
+<td>+0.2086 [+0.153, +0.262]</td>
+</tr>
+</tbody>
+</table>
+<h3>2) Bütün kollar (test, b/s/Hz)</h3>
+<table>
+<thead>
+<tr>
+<th>Kol</th>
+<th>Gecikme (ms)</th>
+<th>Taze W</th>
+<th>15kHz: hız (R)</th>
+<th>15kHz: − seçilen [%95 GA]</th>
+<th>30kHz: hız (R)</th>
+<th>30kHz: − seçilen [%95 GA]</th>
+<th>60kHz: hız (R)</th>
+<th>60kHz: − seçilen [%95 GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SU-average</td>
+<td>0.30</td>
+<td>4.5357</td>
+<td>3.1465 (2)</td>
+<td>-0.3920 [-0.453, -0.333]</td>
+<td>3.5348 (1)</td>
+<td>-0.4686 [-0.535, -0.407]</td>
+<td>3.8268 (1)</td>
+<td>-0.5073 [-0.580, -0.439]</td>
+</tr>
+<tr>
+<td>Adam-1</td>
+<td>1.33</td>
+<td>4.9311</td>
+<td>3.3833 (2)</td>
+<td>-0.1553 [-0.205, -0.110]</td>
+<td>3.8147 (1)</td>
+<td>-0.1887 [-0.239, -0.139]</td>
+<td>4.1298 (1)</td>
+<td>-0.2043 [-0.260, -0.151]</td>
+</tr>
+<tr>
+<td>SU-best-of</td>
+<td>1.63</td>
+<td>4.9108</td>
+<td>3.3852 (2)</td>
+<td>-0.1534 [-0.204, -0.104]</td>
+<td>3.8108 (1)</td>
+<td>-0.1927 [-0.244, -0.143]</td>
+<td>4.1255 (1)</td>
+<td>-0.2086 [-0.260, -0.151]</td>
+</tr>
+<tr>
+<td>Adam-2</td>
+<td>2.74</td>
+<td>5.1038</td>
+<td>3.4846 (2)</td>
+<td>-0.0539 [-0.091, -0.015]</td>
+<td>3.9397 (1)</td>
+<td>-0.0637 [-0.107, -0.020]</td>
+<td>4.2652 (1)</td>
+<td>-0.0689 [-0.116, -0.021]</td>
+</tr>
+<tr>
+<td>Adam-3</td>
+<td>4.14</td>
+<td>5.1838</td>
+<td>3.5205 (2)</td>
+<td>-0.0180 [-0.052, +0.016]</td>
+<td>3.9890 (1)</td>
+<td>-0.0144 [-0.053, +0.024]</td>
+<td>4.3185 (1)</td>
+<td>-0.0156 [-0.055, +0.024]</td>
+</tr>
+<tr>
+<td>Adam-4</td>
+<td>5.55</td>
+<td>5.2102</td>
+<td>3.5236 (2)</td>
+<td>-0.0150 [-0.038, +0.007]</td>
+<td>3.9995 (1)</td>
+<td>-0.0039 [-0.035, +0.029]</td>
+<td>4.3299 (1)</td>
+<td>-0.0042 [-0.039, +0.030]</td>
+</tr>
+<tr>
+<td>Adam-5</td>
+<td>6.82</td>
+<td>5.2182</td>
+<td>3.5337 (2)</td>
+<td>-0.0048 [-0.018, +0.007]</td>
+<td>4.0079 (1)</td>
+<td>+0.0045 [-0.023, +0.032]</td>
+<td>4.3390 (1)</td>
+<td>+0.0049 [-0.023, +0.036]</td>
+</tr>
+<tr>
+<td>Adam-6</td>
+<td>8.09</td>
+<td>5.2248</td>
+<td>3.5385 (2)</td>
+<td>+0.0000 [+0.000, +0.000]</td>
+<td>4.0132 (1)</td>
+<td>+0.0098 [-0.011, +0.031]</td>
+<td>4.3447 (1)</td>
+<td>+0.0106 [-0.009, +0.032]</td>
+</tr>
+<tr>
+<td>Adam-8</td>
+<td>10.63</td>
+<td>5.2133</td>
+<td>3.5286 (2)</td>
+<td>-0.0099 [-0.031, +0.012]</td>
+<td>4.0034 (1)</td>
+<td>+0.0000 [+0.000, +0.000]</td>
+<td>4.3341 (1)</td>
+<td>+0.0000 [+0.000, +0.000]</td>
+</tr>
+<tr>
+<td>Adam-10</td>
+<td>13.30</td>
+<td>5.1914</td>
+<td>3.5178 (2)</td>
+<td>-0.0207 [-0.050, +0.010]</td>
+<td>3.9892 (1)</td>
+<td>-0.0142 [-0.031, +0.002]</td>
+<td>4.3187 (1)</td>
+<td>-0.0154 [-0.034, +0.002]</td>
+</tr>
+<tr>
+<td>Adam-12</td>
+<td>15.96</td>
+<td>5.1855</td>
+<td>3.5118 (2)</td>
+<td>-0.0268 [-0.062, +0.007]</td>
+<td>3.9830 (1)</td>
+<td>-0.0204 [-0.046, +0.004]</td>
+<td>4.3120 (1)</td>
+<td>-0.0221 [-0.048, +0.005]</td>
+</tr>
+<tr>
+<td>Adam-16</td>
+<td>21.28</td>
+<td>5.1737</td>
+<td>3.5029 (2)</td>
+<td>-0.0357 [-0.075, +0.005]</td>
+<td>3.9744 (1)</td>
+<td>-0.0290 [-0.063, +0.004]</td>
+<td>4.3027 (1)</td>
+<td>-0.0314 [-0.067, +0.005]</td>
+</tr>
+<tr>
+<td>Adam-20</td>
+<td>26.57</td>
+<td>5.1779</td>
+<td>3.4961 (2)</td>
+<td>-0.0425 [-0.087, +0.003]</td>
+<td>3.9707 (1)</td>
+<td>-0.0327 [-0.072, +0.006]</td>
+<td>4.2987 (1)</td>
+<td>-0.0354 [-0.078, +0.006]</td>
+</tr>
+<tr>
+<td>Adam-24</td>
+<td>31.85</td>
+<td>5.1852</td>
+<td>3.4759 (2)</td>
+<td>-0.0627 [-0.110, -0.015]</td>
+<td>3.9596 (1)</td>
+<td>-0.0438 [-0.088, -0.003]</td>
+<td>4.2867 (1)</td>
+<td>-0.0474 [-0.092, -0.002]</td>
+</tr>
+<tr>
+<td>Adam-32</td>
+<td>42.42</td>
+<td>5.1654</td>
+<td>3.4510 (2)</td>
+<td>-0.0875 [-0.139, -0.036]</td>
+<td>3.9371 (1)</td>
+<td>-0.0663 [-0.114, -0.019]</td>
+<td>4.2623 (1)</td>
+<td>-0.0718 [-0.123, -0.021]</td>
+</tr>
+<tr>
+<td>Adam-48</td>
+<td>63.91</td>
+<td>5.1361</td>
+<td>3.4397 (2)</td>
+<td>-0.0988 [-0.156, -0.045]</td>
+<td>3.9230 (1)</td>
+<td>-0.0804 [-0.139, -0.024]</td>
+<td>4.2471 (1)</td>
+<td>-0.0870 [-0.147, -0.026]</td>
+</tr>
+<tr>
+<td>CD</td>
+<td>702.97</td>
+<td>5.0112</td>
+<td>3.3866 (2)</td>
+<td>-0.1520 [-0.226, -0.082]</td>
+<td>3.8429 (1)</td>
+<td>-0.1605 [-0.232, -0.092]</td>
+<td>4.1603 (1)</td>
+<td>-0.1738 [-0.252, -0.100]</td>
+</tr>
+<tr>
+<td>PGA</td>
+<td>4950.35</td>
+<td>4.7066</td>
+<td>3.1550 (2)</td>
+<td>-0.3835 [-0.536, -0.241]</td>
+<td>3.5880 (1)</td>
+<td>-0.4154 [-0.563, -0.265]</td>
+<td>3.8843 (1)</td>
+<td>-0.4498 [-0.610, -0.290]</td>
+</tr>
+</tbody>
+</table>
+<h3>3) Sıralama karşılaştırması (testteki ortalamaya göre, ilk 6)</h3>
+<table>
+<thead>
+<tr>
+<th>Sıra</th>
+<th>Taze W</th>
+<th>15kHz</th>
+<th>30kHz</th>
+<th>60kHz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Adam-6</td>
+<td>Adam-6</td>
+<td>Adam-6</td>
+<td>Adam-6</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Adam-5</td>
+<td>Adam-5</td>
+<td>Adam-5</td>
+<td>Adam-5</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Adam-8</td>
+<td>Adam-8</td>
+<td>Adam-8</td>
+<td>Adam-8</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Adam-4</td>
+<td>Adam-4</td>
+<td>Adam-4</td>
+<td>Adam-4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Adam-10</td>
+<td>Adam-3</td>
+<td>Adam-10</td>
+<td>Adam-10</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Adam-12</td>
+<td>Adam-10</td>
+<td>Adam-3</td>
+<td>Adam-3</td>
+</tr>
+</tbody>
+</table>
+<h3>4) Komut, tohum, ham çıktı</h3>
+<table>
+<thead>
+<tr>
+<th>Komut</th>
+<th>Tohum</th>
+<th>Ham çıktı</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>THREADS=2 python3 thesis_exp/p4/onkodlayici_siralama/run.py (35 dk)</td>
+<td>kanal 12 (doğrulama) / 11 (test), bootstrap 0</td>
+<td>raw/results.json, raw/run.log; deneme: PROBE=1 → raw/probe_aligned.json (koşulmadı); raw/probe_v1_grid_bias.json yanlı ilk sürümün denemesi</td>
+</tr>
+</tbody>
+</table>
+<h3>5) Yorum (bulgulardan ayrı)</h3>
+<ul>
+<li><strong>En iyi kol kümesi pilot ücretinden etkilenmiyor.</strong></li>
+<li>Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) taze W'de ve üç numerolojinin hepsinde aynı sırada; ama aralarındaki farkların GA'sı sıfırı içeriyor, bu yüzden kesin olan sıra değil, en iyi kümenin (Adam-4…8) korunması. 5. ve 6. sıra numerolojiye göre değişiyor.</li>
+<li>Doğrulamada seçilen kol Adam-6 ya da Adam-8. Seçilen kol ile Adam-4…Adam-8 arasındaki farkların GA'sı sıfırı içeriyor.</li>
+<li>İçsel optimum (L ≈ 5–8) pilot ücretinde de korunuyor.</li>
+<li><strong>Ölçüt:</strong> devreye girdikten sonraki 50 ms'nin zaman ortalaması (Tanım 1'in anlık etkin hızı değil). 50 ms'nin duyarlılığı denenmedi. Doğrulama çekilişinde (seed 12) senaryo kimliği ayrıca sınanmadı (denetim U11); test çekilişinde her ızgara için sınandı.</li>
+<li><strong>Mutlak hızlar düşüyor.</strong> En iyi kol taze W'de 5.213 b/s/Hz. Pilot ücretiyle 3.539 (15 kHz), 4.003 (30 kHz) ve 4.334 (60 kHz). Kayıp sırasıyla %32, %23 ve %17.</li>
+<li><strong>SU-best-of'a karşı üstünlük küçülüyor ama anlamlı kalıyor.</strong> Taze W'de +0.303 [+0.242, +0.366]. Pilot ücretiyle +0.153 [+0.101, +0.204], +0.193 [+0.141, +0.245] ve +0.209 [+0.153, +0.262].</li>
+<li><strong>Yavaş çözücüler yine en altta.</strong> CD her numerolojide seçilen koldan 0.15–0.17, PGA 0.38–0.45 b/s/Hz geride. GA'ların hepsi sıfırın altında.</li>
+<li><strong>Yanlılık düzeltmesi.</strong> İlk koşu tazeleme anlarını mutlak 0.1 ms ızgarasına yuvarlıyordu. Gecikmesi yukarı yuvarlanan kollar (Adam-6/10/12/16/20/24) yapay olarak öne geçti ve sıralama testere dişi biçimini aldı. Bu koşu kolun devreye girme anına hizalı ızgara kullanıyor. Yanlı çıktılar raw/<em>_v1_grid_bias.</em> adıyla saklandı.</li>
+<li>Aynı yanlılık Deney 4.3'te de var; o raporun başına düzeltme notu eklendi.</li>
+<li>Taze W sütunu bu düzeltmeden etkilenmiyor. Yalnızca örnekleme anları kaydı için 4.3 ile arasında ≤0.001 fark var.</li>
+<li><strong>Kapsam dışı kalanlar.</strong> Kestirim kusursuz kabul edildi; pilot SNR'ı (Deney 4.4) ve tazeleme ile kestirimin birlikte etkisi modellenmedi. Pilot sayısı K = 4 (kullanıcı başına bir dik sembol).</li>
+</ul></section><section class="part" id="p10"><div class="parthead"><span class="tag">Ek 7</span><h1>Deney 4.4 — Kusurlu CSI</h1></div><h2>Deney 4.4 — Pilot SNR'sine bağlı kusurlu CSI (rapor)</h2>
+<p>Rapor commit'i <code>1847597</code>, ölçüm commit'i <code>06fc9d2</code> (results.json; o commit'te run.py yoktu — commit'li koddan bit-bit yeniden üretim: thesis_exp/denetim_log/k1_rerun.md). Hata modeli ris_mu/mumiso/csi.py (F, G, h_d için ayrı ölçek, gücü koruyan), e2 = 1/(1+ρ), ρ = kestirim sonrası pilot SNR'si; hata ölçeği 400 senaryonun ORTALAMA gücünden alınıyor (csi._noisy), bu yüzden senaryo başına etkin SNR dağınık: ρ = 30 dB, G için senaryo başına medyan 22.6 dB, %5 dilim 11.5 dB (test kümesi; doğrulamada 24.1 / 11.9 dB) [denetim_log/scripts/u13_csi_rel_err.out]. Teslim anındaki yeni kestirimin pilot süresi hesaba katılmadı. lr ızgarasının uç değerleri (0.1 / 1.0) her düzeyde bazı L'ler için seçiliyor; doğrulamada seçilen kolun lr'si 5 dB'de (Adam-20: 1.0) ve 0 dB'de (Adam-5: 0.1) uçta, yani o iki düzeyde daha geniş bir lr ızgarası sonucu değiştirebilir. 40 ms üstündeki kollar (Adam-32/48) kaba ızgarada interpolasyonla değerlendirildi; seçilen kolları etkilemiyor (denetim U21). Doğrulama kümesinde senaryo kimliği sınanmadı. Faz t=0 kestiriminden; teslim anında ZF, aynı ρ ile yeni bir kestirimden; hız gerçek kanalda. Adam adım boyu her ρ ve L için doğrulama çekilişinde (seed 12, etkin hız üzerinden) seçildi; rapor yaşlanma kümesi (seed 11). Gecikmeler: tek iş parçacıklı yeniden ölçüm.</p>
+<h3>1) Bulgular</h3>
+<table>
+<thead>
+<tr>
+<th>ρ</th>
+<th>e2</th>
+<th>Doğrulamada seçilen</th>
+<th>Etkin hız [%95 GA]</th>
+<th>SU-best-of</th>
+<th>Fark [%95 GA]</th>
+<th>Testte en iyi Adam-L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>perfect</td>
+<td>0.0000</td>
+<td>Adam-6</td>
+<td>6.0770 [5.8560, 6.3141]</td>
+<td>5.2771</td>
+<td>+0.7999 [+0.7350, +0.8629]</td>
+<td>Adam-6</td>
+</tr>
+<tr>
+<td>30dB</td>
+<td>0.0010</td>
+<td>Adam-3</td>
+<td>3.5367 [3.3551, 3.7258]</td>
+<td>3.1931</td>
+<td>+0.3436 [+0.2685, +0.4184]</td>
+<td>Adam-3</td>
+</tr>
+<tr>
+<td>20dB</td>
+<td>0.0099</td>
+<td>Adam-5</td>
+<td>1.4015 [1.2840, 1.5203]</td>
+<td>1.2673</td>
+<td>+0.1342 [+0.0691, +0.2005]</td>
+<td>Adam-5</td>
+</tr>
+<tr>
+<td>10dB</td>
+<td>0.0909</td>
+<td>Adam-4</td>
+<td>0.2952 [0.2626, 0.3291]</td>
+<td>0.3019</td>
+<td>-0.0067 [-0.0371, +0.0236]</td>
+<td>Adam-1</td>
+</tr>
+<tr>
+<td>5dB</td>
+<td>0.2403</td>
+<td>Adam-20</td>
+<td>0.1581 [0.1429, 0.1750]</td>
+<td>0.1641</td>
+<td>-0.0061 [-0.0248, +0.0137]</td>
+<td>Adam-6</td>
+</tr>
+<tr>
+<td>0dB</td>
+<td>0.5000</td>
+<td>Adam-5</td>
+<td>0.1166 [0.1087, 0.1248]</td>
+<td>0.1173</td>
+<td>-0.0006 [-0.0124, +0.0114]</td>
+<td>Adam-4</td>
+</tr>
+</tbody>
+</table>
+<h3>2) Komut, tohum, ham çıktı</h3>
+<table>
+<thead>
+<tr>
+<th>Komut</th>
+<th>Tohum</th>
+<th>Ham çıktı</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>python3 thesis_exp/p4/kusurlu_csi/run.py</td>
+<td>kanal 11/12, kestirim gürültüsü 100+i / 200+i, bootstrap 0</td>
+<td>raw/results.json</td>
+</tr>
+</tbody>
+</table>
+<h3>3) Yorum (bulgulardan ayrı)</h3>
+<ul>
+<li>Kestirim hatası etkin hızı çok hızlı düşürüyor; bu, düz ZF'nin kanal hatasına duyarlılığı (csi.py docstring'inde ölçülmüş).</li>
+<li>En iyi adım sayısı hatayla tekdüze değişmiyor: testte en iyi L 6/3/5/1/6/4, doğrulamada seçilen 6/3/5/4/20/5 (ρ = kusursuz/30/20/10/5/0 dB). 10 dB ve altında yöntemler ayırt edilemiyor (GA sıfırı içeriyor). (Önceki sürümdeki 'hata büyüdükçe L küçülüyor' cümlesi ölçümle desteklenmiyordu; denetim U12.)</li>
+<li>ρ'nun gerçek pilot bütçesine (sembol sayısı, iletim gücü) bağlanması bu deneyin kapsamı dışında; ρ burada serbest parametre.</li>
+</ul></section><section class="part" id="p11"><div class="parthead"><span class="tag">Ek 8</span><h1>Deney 4.5 — Ayrık faz (1/2/3 bit)</h1></div><h2>Deney 4.5 — 1 ve 2 bitlik ayrık faz: L* ve yavaş çözücü (rapor)</h2>
+<blockquote>
+<p><strong>DÜZELTME (denetim K3, 12 Kasım):</strong> İlk sürüm etkin hızı, 40 ms'den sonra 50/75/100/150 ms'ye atlayan kaba bir ızgarada doğrusal interpolasyonla hesaplıyordu (koherans süresi ~28 ms). Bu yüzden 40 ms'den yavaş her kolun (Adam-32/48→q, dCD-2…8) değeri ±0.055 b/s/Hz'e kadar yanlıştı. Bu rapor her kolu <strong>tam kendi gecikme anında</strong> değerlendiren <code>run_exact.py</code>'den (<code>raw/results_exact.json</code>). İlk sürümün <code>raw/results.json</code> dosyası yalnızca dCD zamanlamalarının kaynağı olarak duruyor.</p>
+</blockquote>
+<p>Rapor commit'i <code>e9bf18b</code>. Ölçüm commit'leri: değerlendirme <code>1847597</code> (results_exact.json), dCD zamanlaması <code>98ddad9</code> (results.json); 3 bit (zamanlama + değerlendirme) <code>e9bf18b</code> (results_3bit.json). Yaşlanma kümesi (seed 11, 400 senaryo), seçim doğrulama çekilişinde (seed 12). Fazlar t=0 kanalından; sürekli kollar system.quantise_phase ile yuvarlandı (yuvarlama bedava sayıldı). dCD-s: baselines.coord_descent(bits=b, iters=s), gerçek 2^b ızgarasında. SU-best-of ve Adam-L gecikmeleri tek iş parçacıklı yeniden ölçümden (thesis_exp/infra; Adam-L SU-average başlangıcını içermiyor, etkisi p4/gecikme_muhasebesi). dCD gecikmeleri boş makinede ölçüldü (tek iş parçacığı, 10 senaryo × 5 tekrarın medyanı, 3 tur). İki tasarım: <strong>lr0.5</strong> (Adam adım boyu 0.5, makalenin yaşlanma kümesi değeri) ve <strong>lr-val</strong> (adım boyu her L ve bit için doğrulamada {0.25, 0.5, 0.75, 1.0} içinden seçildi; denetim U20). Eşli bootstrap 2000, %95 GA.</p>
+<h3>1 bit</h3>
+<p>dCD zamanlaması yük ortalaması: başlangıç 4.08, ölçüm öncesi 0.49, sonrası 0.76.</p>
+<h4>Tasarım lr0.5</h4>
+<p>Doğrulamada seçilen kol: <strong>dCD-1</strong>. L* (test, yuvarlanmış Adam kolları): <strong>Adam-5-&gt;q</strong>. Adam-48→q'nun L*'a göre kaybı: %9.5.</p>
+<p>Eşli farklar (test): dCD-1 - Adam-5-&gt;q: -0.0444 [-0.1145, +0.0243]</p>
+<table>
+<thead>
+<tr>
+<th>Kol</th>
+<th>Gecikme (ms)</th>
+<th>lr</th>
+<th>t=0 hızı</th>
+<th>Etkin hız [%95 GA]</th>
+<th>− SU-best-of→q [%95 GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adam-1-&gt;q</td>
+<td>1.33</td>
+<td>0.5</td>
+<td>4.8250</td>
+<td>4.8213 [4.5901, 5.0589]</td>
+<td>-0.0414 [-0.1179, +0.0291]</td>
+</tr>
+<tr>
+<td>SU-best-of-&gt;q</td>
+<td>1.63</td>
+<td></td>
+<td>4.8682</td>
+<td>4.8627 [4.6381, 5.0961]</td>
+<td>+0.0000 [+0.0000, +0.0000]</td>
+</tr>
+<tr>
+<td>Adam-2-&gt;q</td>
+<td>2.74</td>
+<td>0.5</td>
+<td>5.0701</td>
+<td>5.0547 [4.8267, 5.2943]</td>
+<td>+0.1920 [+0.1222, +0.2614]</td>
+</tr>
+<tr>
+<td>Adam-3-&gt;q</td>
+<td>4.14</td>
+<td>0.5</td>
+<td>5.1684</td>
+<td>5.1337 [4.8905, 5.3663]</td>
+<td>+0.2710 [+0.1996, +0.3437]</td>
+</tr>
+<tr>
+<td>Adam-4-&gt;q</td>
+<td>5.55</td>
+<td>0.5</td>
+<td>5.1511</td>
+<td>5.0975 [4.8676, 5.3278]</td>
+<td>+0.2348 [+0.1650, +0.3053]</td>
+</tr>
+<tr>
+<td>Adam-5-&gt;q</td>
+<td>6.82</td>
+<td>0.5</td>
+<td>5.2317</td>
+<td>5.1575 [4.9086, 5.3830]</td>
+<td>+0.2948 [+0.2214, +0.3722]</td>
+</tr>
+<tr>
+<td>Adam-6-&gt;q</td>
+<td>8.09</td>
+<td>0.5</td>
+<td>5.2619</td>
+<td>5.1394 [4.9069, 5.3803]</td>
+<td>+0.2767 [+0.1954, +0.3539]</td>
+</tr>
+<tr>
+<td>Adam-8-&gt;q</td>
+<td>10.63</td>
+<td>0.5</td>
+<td>5.3181</td>
+<td>5.1053 [4.8787, 5.3324]</td>
+<td>+0.2426 [+0.1628, +0.3295]</td>
+</tr>
+<tr>
+<td>Adam-10-&gt;q</td>
+<td>13.30</td>
+<td>0.5</td>
+<td>5.4004</td>
+<td>5.0467 [4.8241, 5.2869]</td>
+<td>+0.1840 [+0.1014, +0.2719]</td>
+</tr>
+<tr>
+<td>Adam-12-&gt;q</td>
+<td>15.96</td>
+<td>0.5</td>
+<td>5.3985</td>
+<td>4.9599 [4.7195, 5.1997]</td>
+<td>+0.0972 [+0.0076, +0.1855]</td>
+</tr>
+<tr>
+<td>dCD-1</td>
+<td>16.22</td>
+<td></td>
+<td>5.6913</td>
+<td>5.1132 [4.8799, 5.3495]</td>
+<td>+0.2504 [+0.1639, +0.3298]</td>
+</tr>
+<tr>
+<td>Adam-16-&gt;q</td>
+<td>21.28</td>
+<td>0.5</td>
+<td>5.4740</td>
+<td>4.8436 [4.6041, 5.0721]</td>
+<td>-0.0191 [-0.1162, +0.0749]</td>
+</tr>
+<tr>
+<td>Adam-20-&gt;q</td>
+<td>26.57</td>
+<td>0.5</td>
+<td>5.5063</td>
+<td>4.8107 [4.5747, 5.0403]</td>
+<td>-0.0520 [-0.1385, +0.0416]</td>
+</tr>
+<tr>
+<td>dCD-2</td>
+<td>28.71</td>
+<td></td>
+<td>5.9440</td>
+<td>4.9270 [4.7038, 5.1622]</td>
+<td>+0.0642 [-0.0369, +0.1544]</td>
+</tr>
+<tr>
+<td>Adam-24-&gt;q</td>
+<td>31.85</td>
+<td>0.5</td>
+<td>5.5353</td>
+<td>4.7629 [4.5265, 5.0029]</td>
+<td>-0.0998 [-0.1861, -0.0114]</td>
+</tr>
+<tr>
+<td>Adam-32-&gt;q</td>
+<td>42.42</td>
+<td>0.5</td>
+<td>5.5772</td>
+<td>4.7615 [4.5301, 4.9893]</td>
+<td>-0.1013 [-0.1932, -0.0100]</td>
+</tr>
+<tr>
+<td>dCD-3</td>
+<td>48.84</td>
+<td></td>
+<td>6.0206</td>
+<td>4.8681 [4.6201, 5.1112]</td>
+<td>+0.0054 [-0.0874, +0.1035]</td>
+</tr>
+<tr>
+<td>dCD-4</td>
+<td>61.88</td>
+<td></td>
+<td>6.0502</td>
+<td>4.7945 [4.5636, 5.0220]</td>
+<td>-0.0682 [-0.1657, +0.0309]</td>
+</tr>
+<tr>
+<td>Adam-48-&gt;q</td>
+<td>63.91</td>
+<td>0.5</td>
+<td>5.5724</td>
+<td>4.6672 [4.4300, 4.8996]</td>
+<td>-0.1955 [-0.2966, -0.1017]</td>
+</tr>
+<tr>
+<td>dCD-8</td>
+<td>73.44</td>
+<td></td>
+<td>6.0729</td>
+<td>4.8451 [4.6062, 5.0788]</td>
+<td>-0.0176 [-0.1153, +0.0786]</td>
+</tr>
+</tbody>
+</table>
+<h4>Tasarım lr-val</h4>
+<p>Doğrulamada seçilen kol: <strong>dCD-1</strong>. L* (test, yuvarlanmış Adam kolları): <strong>Adam-3-&gt;q</strong>. Adam-48→q'nun L*'a göre kaybı: %9.1.</p>
+<p>Eşli farklar (test): dCD-1 - Adam-5-&gt;q: -0.0175 [-0.0805, +0.0473]; dCD-1 - Adam-3-&gt;q: -0.0206 [-0.0933, +0.0509]</p>
+<table>
+<thead>
+<tr>
+<th>Kol</th>
+<th>Gecikme (ms)</th>
+<th>lr</th>
+<th>t=0 hızı</th>
+<th>Etkin hız [%95 GA]</th>
+<th>− SU-best-of→q [%95 GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adam-1-&gt;q</td>
+<td>1.33</td>
+<td>0.75</td>
+<td>4.8785</td>
+<td>4.8770 [4.6577, 5.1095]</td>
+<td>+0.0143 [-0.0629, +0.0855]</td>
+</tr>
+<tr>
+<td>SU-best-of-&gt;q</td>
+<td>1.63</td>
+<td></td>
+<td>4.8682</td>
+<td>4.8627 [4.6162, 5.0888]</td>
+<td>+0.0000 [+0.0000, +0.0000]</td>
+</tr>
+<tr>
+<td>Adam-2-&gt;q</td>
+<td>2.74</td>
+<td>0.5</td>
+<td>5.0701</td>
+<td>5.0547 [4.8123, 5.2956]</td>
+<td>+0.1920 [+0.1201, +0.2632]</td>
+</tr>
+<tr>
+<td>Adam-3-&gt;q</td>
+<td>4.14</td>
+<td>0.5</td>
+<td>5.1684</td>
+<td>5.1337 [4.9053, 5.3620]</td>
+<td>+0.2710 [+0.1979, +0.3413]</td>
+</tr>
+<tr>
+<td>Adam-4-&gt;q</td>
+<td>5.55</td>
+<td>0.5</td>
+<td>5.1511</td>
+<td>5.0975 [4.8641, 5.3411]</td>
+<td>+0.2348 [+0.1657, +0.3027]</td>
+</tr>
+<tr>
+<td>Adam-5-&gt;q</td>
+<td>6.82</td>
+<td>0.25</td>
+<td>5.2140</td>
+<td>5.1306 [4.8944, 5.3544]</td>
+<td>+0.2679 [+0.1971, +0.3391]</td>
+</tr>
+<tr>
+<td>Adam-6-&gt;q</td>
+<td>8.09</td>
+<td>0.25</td>
+<td>5.2534</td>
+<td>5.1326 [4.9075, 5.3617]</td>
+<td>+0.2699 [+0.1970, +0.3452]</td>
+</tr>
+<tr>
+<td>Adam-8-&gt;q</td>
+<td>10.63</td>
+<td>0.25</td>
+<td>5.2651</td>
+<td>5.0544 [4.8185, 5.2757]</td>
+<td>+0.1917 [+0.1105, +0.2675]</td>
+</tr>
+<tr>
+<td>Adam-10-&gt;q</td>
+<td>13.30</td>
+<td>1.0</td>
+<td>5.2837</td>
+<td>4.9793 [4.7550, 5.2038]</td>
+<td>+0.1166 [+0.0269, +0.2025]</td>
+</tr>
+<tr>
+<td>Adam-12-&gt;q</td>
+<td>15.96</td>
+<td>1.0</td>
+<td>5.3230</td>
+<td>4.9287 [4.6870, 5.1702]</td>
+<td>+0.0660 [-0.0203, +0.1552]</td>
+</tr>
+<tr>
+<td>dCD-1</td>
+<td>16.22</td>
+<td></td>
+<td>5.6913</td>
+<td>5.1132 [4.8816, 5.3513]</td>
+<td>+0.2504 [+0.1654, +0.3344]</td>
+</tr>
+<tr>
+<td>Adam-16-&gt;q</td>
+<td>21.28</td>
+<td>0.5</td>
+<td>5.4740</td>
+<td>4.8436 [4.6199, 5.0726]</td>
+<td>-0.0191 [-0.1118, +0.0799]</td>
+</tr>
+<tr>
+<td>Adam-20-&gt;q</td>
+<td>26.57</td>
+<td>0.5</td>
+<td>5.5063</td>
+<td>4.8107 [4.5871, 5.0419]</td>
+<td>-0.0520 [-0.1435, +0.0420]</td>
+</tr>
+<tr>
+<td>dCD-2</td>
+<td>28.71</td>
+<td></td>
+<td>5.9440</td>
+<td>4.9270 [4.6991, 5.1504]</td>
+<td>+0.0642 [-0.0311, +0.1582]</td>
+</tr>
+<tr>
+<td>Adam-24-&gt;q</td>
+<td>31.85</td>
+<td>0.5</td>
+<td>5.5353</td>
+<td>4.7629 [4.5299, 4.9821]</td>
+<td>-0.0998 [-0.1914, -0.0095]</td>
+</tr>
+<tr>
+<td>Adam-32-&gt;q</td>
+<td>42.42</td>
+<td>0.5</td>
+<td>5.5772</td>
+<td>4.7615 [4.5276, 4.9911]</td>
+<td>-0.1013 [-0.1916, -0.0122]</td>
+</tr>
+<tr>
+<td>dCD-3</td>
+<td>48.84</td>
+<td></td>
+<td>6.0206</td>
+<td>4.8681 [4.6275, 5.1071]</td>
+<td>+0.0054 [-0.0888, +0.1031]</td>
+</tr>
+<tr>
+<td>dCD-4</td>
+<td>61.88</td>
+<td></td>
+<td>6.0502</td>
+<td>4.7945 [4.5620, 5.0283]</td>
+<td>-0.0682 [-0.1624, +0.0282]</td>
+</tr>
+<tr>
+<td>Adam-48-&gt;q</td>
+<td>63.91</td>
+<td>0.5</td>
+<td>5.5724</td>
+<td>4.6672 [4.4312, 4.9054]</td>
+<td>-0.1955 [-0.2914, -0.1047]</td>
+</tr>
+<tr>
+<td>dCD-8</td>
+<td>73.44</td>
+<td></td>
+<td>6.0729</td>
+<td>4.8451 [4.6158, 5.0941]</td>
+<td>-0.0176 [-0.1109, +0.0751]</td>
+</tr>
+</tbody>
+</table>
+<p>dCD zamanlaması (tur medyanları, ms): dCD-1: 16.2 (17.2, 16.2, 15.7); dCD-2: 28.7 (29.2, 28.7, 28.5); dCD-3: 48.8 (42.4, 48.8, 50.6); dCD-4: 61.9 (63.2, 61.9, 57.6); dCD-8: 73.4 (75.8, 73.4, 70.9)</p>
+<h3>2 bit</h3>
+<p>dCD zamanlaması yük ortalaması: başlangıç 0.76, ölçüm öncesi 0.46, sonrası 0.86.</p>
+<h4>Tasarım lr0.5</h4>
+<p>Doğrulamada seçilen kol: <strong>Adam-6-&gt;q</strong>. L* (test, yuvarlanmış Adam kolları): <strong>Adam-6-&gt;q</strong>. Adam-48→q'nun L*'a göre kaybı: %14.1.</p>
+<p>Eşli farklar (test): dCD-1 - Adam-5-&gt;q: -0.7367 [-0.8256, -0.6564]; dCD-1 - Adam-6-&gt;q: -0.7580 [-0.8312, -0.6814]</p>
+<table>
+<thead>
+<tr>
+<th>Kol</th>
+<th>Gecikme (ms)</th>
+<th>lr</th>
+<th>t=0 hızı</th>
+<th>Etkin hız [%95 GA]</th>
+<th>− SU-best-of→q [%95 GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adam-1-&gt;q</td>
+<td>1.33</td>
+<td>0.5</td>
+<td>5.2574</td>
+<td>5.2529 [5.0201, 5.4941]</td>
+<td>+0.1358 [+0.0721, +0.1978]</td>
+</tr>
+<tr>
+<td>SU-best-of-&gt;q</td>
+<td>1.63</td>
+<td></td>
+<td>5.1157</td>
+<td>5.1171 [4.8839, 5.3482]</td>
+<td>+0.0000 [+0.0000, +0.0000]</td>
+</tr>
+<tr>
+<td>Adam-2-&gt;q</td>
+<td>2.74</td>
+<td>0.5</td>
+<td>5.5814</td>
+<td>5.5613 [5.3196, 5.7896]</td>
+<td>+0.4442 [+0.3842, +0.5060]</td>
+</tr>
+<tr>
+<td>Adam-3-&gt;q</td>
+<td>4.14</td>
+<td>0.5</td>
+<td>5.7449</td>
+<td>5.6987 [5.4503, 5.9324]</td>
+<td>+0.5816 [+0.5195, +0.6407]</td>
+</tr>
+<tr>
+<td>Adam-4-&gt;q</td>
+<td>5.55</td>
+<td>0.5</td>
+<td>5.8542</td>
+<td>5.7623 [5.5218, 6.0052]</td>
+<td>+0.6452 [+0.5806, +0.7135]</td>
+</tr>
+<tr>
+<td>Adam-5-&gt;q</td>
+<td>6.82</td>
+<td>0.5</td>
+<td>5.9401</td>
+<td>5.7976 [5.5542, 6.0335]</td>
+<td>+0.6805 [+0.6146, +0.7458]</td>
+</tr>
+<tr>
+<td>Adam-6-&gt;q</td>
+<td>8.09</td>
+<td>0.5</td>
+<td>6.0100</td>
+<td>5.8190 [5.5844, 6.0464]</td>
+<td>+0.7018 [+0.6314, +0.7728]</td>
+</tr>
+<tr>
+<td>Adam-8-&gt;q</td>
+<td>10.63</td>
+<td>0.5</td>
+<td>6.1068</td>
+<td>5.7184 [5.4798, 5.9643]</td>
+<td>+0.6012 [+0.5232, +0.6784]</td>
+</tr>
+<tr>
+<td>Adam-10-&gt;q</td>
+<td>13.30</td>
+<td>0.5</td>
+<td>6.2207</td>
+<td>5.6514 [5.4185, 5.8849]</td>
+<td>+0.5342 [+0.4582, +0.6155]</td>
+</tr>
+<tr>
+<td>Adam-12-&gt;q</td>
+<td>15.96</td>
+<td>0.5</td>
+<td>6.2767</td>
+<td>5.5403 [5.2912, 5.7764]</td>
+<td>+0.4232 [+0.3428, +0.5034]</td>
+</tr>
+<tr>
+<td>Adam-16-&gt;q</td>
+<td>21.28</td>
+<td>0.5</td>
+<td>6.3619</td>
+<td>5.2990 [5.0598, 5.5366]</td>
+<td>+0.1819 [+0.0958, +0.2613]</td>
+</tr>
+<tr>
+<td>Adam-20-&gt;q</td>
+<td>26.57</td>
+<td>0.5</td>
+<td>6.4398</td>
+<td>5.1709 [4.9532, 5.4104]</td>
+<td>+0.0538 [-0.0353, +0.1468]</td>
+</tr>
+<tr>
+<td>dCD-1</td>
+<td>27.07</td>
+<td></td>
+<td>6.1407</td>
+<td>5.0609 [4.8321, 5.3063]</td>
+<td>-0.0562 [-0.1402, +0.0344]</td>
+</tr>
+<tr>
+<td>Adam-24-&gt;q</td>
+<td>31.85</td>
+<td>0.5</td>
+<td>6.4847</td>
+<td>5.1559 [4.9218, 5.4039]</td>
+<td>+0.0388 [-0.0568, +0.1322]</td>
+</tr>
+<tr>
+<td>Adam-32-&gt;q</td>
+<td>42.42</td>
+<td>0.5</td>
+<td>6.5781</td>
+<td>5.1087 [4.8656, 5.3602]</td>
+<td>-0.0084 [-0.1116, +0.0951]</td>
+</tr>
+<tr>
+<td>dCD-2</td>
+<td>56.27</td>
+<td></td>
+<td>6.4447</td>
+<td>4.9473 [4.7115, 5.1889]</td>
+<td>-0.1698 [-0.2661, -0.0762]</td>
+</tr>
+<tr>
+<td>Adam-48-&gt;q</td>
+<td>63.91</td>
+<td>0.5</td>
+<td>6.6166</td>
+<td>4.9978 [4.7601, 5.2346]</td>
+<td>-0.1194 [-0.2241, -0.0135]</td>
+</tr>
+<tr>
+<td>dCD-3</td>
+<td>86.19</td>
+<td></td>
+<td>6.5383</td>
+<td>4.9797 [4.7242, 5.2321]</td>
+<td>-0.1374 [-0.2281, -0.0446]</td>
+</tr>
+<tr>
+<td>dCD-4</td>
+<td>109.34</td>
+<td></td>
+<td>6.5781</td>
+<td>4.9515 [4.7208, 5.1865]</td>
+<td>-0.1656 [-0.2604, -0.0702]</td>
+</tr>
+<tr>
+<td>dCD-8</td>
+<td>129.49</td>
+<td></td>
+<td>6.6053</td>
+<td>4.9526 [4.7096, 5.1897]</td>
+<td>-0.1645 [-0.2652, -0.0562]</td>
+</tr>
+</tbody>
+</table>
+<h4>Tasarım lr-val</h4>
+<p>Doğrulamada seçilen kol: <strong>Adam-6-&gt;q</strong>. L* (test, yuvarlanmış Adam kolları): <strong>Adam-6-&gt;q</strong>. Adam-48→q'nun L*'a göre kaybı: %14.2.</p>
+<p>Eşli farklar (test): dCD-1 - Adam-5-&gt;q: -0.7367 [-0.8156, -0.6557]; dCD-1 - Adam-6-&gt;q: -0.7580 [-0.8362, -0.6795]</p>
+<table>
+<thead>
+<tr>
+<th>Kol</th>
+<th>Gecikme (ms)</th>
+<th>lr</th>
+<th>t=0 hızı</th>
+<th>Etkin hız [%95 GA]</th>
+<th>− SU-best-of→q [%95 GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adam-1-&gt;q</td>
+<td>1.33</td>
+<td>0.75</td>
+<td>5.3003</td>
+<td>5.2962 [5.0685, 5.5296]</td>
+<td>+0.1791 [+0.1156, +0.2385]</td>
+</tr>
+<tr>
+<td>SU-best-of-&gt;q</td>
+<td>1.63</td>
+<td></td>
+<td>5.1157</td>
+<td>5.1171 [4.8778, 5.3425]</td>
+<td>+0.0000 [+0.0000, +0.0000]</td>
+</tr>
+<tr>
+<td>Adam-2-&gt;q</td>
+<td>2.74</td>
+<td>0.75</td>
+<td>5.6116</td>
+<td>5.5951 [5.3622, 5.8352]</td>
+<td>+0.4780 [+0.4162, +0.5384]</td>
+</tr>
+<tr>
+<td>Adam-3-&gt;q</td>
+<td>4.14</td>
+<td>0.5</td>
+<td>5.7449</td>
+<td>5.6987 [5.4652, 5.9298]</td>
+<td>+0.5816 [+0.5201, +0.6433]</td>
+</tr>
+<tr>
+<td>Adam-4-&gt;q</td>
+<td>5.55</td>
+<td>0.5</td>
+<td>5.8542</td>
+<td>5.7623 [5.5351, 6.0065]</td>
+<td>+0.6452 [+0.5806, +0.7134]</td>
+</tr>
+<tr>
+<td>Adam-5-&gt;q</td>
+<td>6.82</td>
+<td>0.5</td>
+<td>5.9401</td>
+<td>5.7976 [5.5661, 6.0444]</td>
+<td>+0.6805 [+0.6138, +0.7460]</td>
+</tr>
+<tr>
+<td>Adam-6-&gt;q</td>
+<td>8.09</td>
+<td>0.5</td>
+<td>6.0100</td>
+<td>5.8190 [5.5927, 6.0575]</td>
+<td>+0.7018 [+0.6286, +0.7739]</td>
+</tr>
+<tr>
+<td>Adam-8-&gt;q</td>
+<td>10.63</td>
+<td>0.75</td>
+<td>6.0954</td>
+<td>5.7174 [5.4753, 5.9512]</td>
+<td>+0.6003 [+0.5283, +0.6737]</td>
+</tr>
+<tr>
+<td>Adam-10-&gt;q</td>
+<td>13.30</td>
+<td>0.75</td>
+<td>6.2056</td>
+<td>5.6602 [5.4320, 5.9030]</td>
+<td>+0.5430 [+0.4646, +0.6243]</td>
+</tr>
+<tr>
+<td>Adam-12-&gt;q</td>
+<td>15.96</td>
+<td>0.75</td>
+<td>6.2781</td>
+<td>5.5532 [5.3157, 5.7739]</td>
+<td>+0.4361 [+0.3513, +0.5129]</td>
+</tr>
+<tr>
+<td>Adam-16-&gt;q</td>
+<td>21.28</td>
+<td>0.5</td>
+<td>6.3619</td>
+<td>5.2990 [5.0507, 5.5312]</td>
+<td>+0.1819 [+0.0977, +0.2653]</td>
+</tr>
+<tr>
+<td>Adam-20-&gt;q</td>
+<td>26.57</td>
+<td>0.75</td>
+<td>6.4658</td>
+<td>5.2299 [4.9968, 5.4688]</td>
+<td>+0.1128 [+0.0183, +0.2035]</td>
+</tr>
+<tr>
+<td>dCD-1</td>
+<td>27.07</td>
+<td></td>
+<td>6.1407</td>
+<td>5.0609 [4.8398, 5.3005]</td>
+<td>-0.0562 [-0.1464, +0.0279]</td>
+</tr>
+<tr>
+<td>Adam-24-&gt;q</td>
+<td>31.85</td>
+<td>0.75</td>
+<td>6.5038</td>
+<td>5.1675 [4.9446, 5.3976]</td>
+<td>+0.0504 [-0.0449, +0.1418]</td>
+</tr>
+<tr>
+<td>Adam-32-&gt;q</td>
+<td>42.42</td>
+<td>0.75</td>
+<td>6.5570</td>
+<td>5.1330 [4.8940, 5.3737]</td>
+<td>+0.0158 [-0.0835, +0.1125]</td>
+</tr>
+<tr>
+<td>dCD-2</td>
+<td>56.27</td>
+<td></td>
+<td>6.4447</td>
+<td>4.9473 [4.7061, 5.1944]</td>
+<td>-0.1698 [-0.2644, -0.0768]</td>
+</tr>
+<tr>
+<td>Adam-48-&gt;q</td>
+<td>63.91</td>
+<td>0.25</td>
+<td>6.5766</td>
+<td>4.9956 [4.7578, 5.2358]</td>
+<td>-0.1216 [-0.2147, -0.0271]</td>
+</tr>
+<tr>
+<td>dCD-3</td>
+<td>86.19</td>
+<td></td>
+<td>6.5383</td>
+<td>4.9797 [4.7382, 5.2215]</td>
+<td>-0.1374 [-0.2297, -0.0394]</td>
+</tr>
+<tr>
+<td>dCD-4</td>
+<td>109.34</td>
+<td></td>
+<td>6.5781</td>
+<td>4.9515 [4.7109, 5.1841]</td>
+<td>-0.1656 [-0.2629, -0.0695]</td>
+</tr>
+<tr>
+<td>dCD-8</td>
+<td>129.49</td>
+<td></td>
+<td>6.6053</td>
+<td>4.9526 [4.7266, 5.1956]</td>
+<td>-0.1645 [-0.2694, -0.0686]</td>
+</tr>
+</tbody>
+</table>
+<p>dCD zamanlaması (tur medyanları, ms): dCD-1: 27.1 (31.2, 27.1, 26.7); dCD-2: 56.3 (52.1, 72.0, 56.3); dCD-3: 86.2 (88.6, 86.2, 81.1); dCD-4: 109.3 (106.9, 109.3, 110.5); dCD-8: 129.5 (129.5, 132.4, 121.8)</p>
+<h3>3 bit</h3>
+<p>dCD zamanlaması yük ortalaması: başlangıç 3.62, ölçüm öncesi 0.49, sonrası 0.99.</p>
+<h4>Tasarım lr0.5</h4>
+<p>Doğrulamada seçilen kol: <strong>Adam-5-&gt;q</strong>. L* (test, yuvarlanmış Adam kolları): <strong>Adam-6-&gt;q</strong>. Adam-48→q'nun L*'a göre kaybı: %14.9.</p>
+<p>Eşli farklar (test): dCD-1 - Adam-5-&gt;q: -1.0984 [-1.1835, -1.0102]; dCD-1 - Adam-6-&gt;q: -1.1206 [-1.2094, -1.0365]; Adam-5-&gt;q - Adam-6-&gt;q: -0.0222 [-0.0470, +0.0019]</p>
+<table>
+<thead>
+<tr>
+<th>Kol</th>
+<th>Gecikme (ms)</th>
+<th>lr</th>
+<th>t=0 hızı</th>
+<th>Etkin hız [%95 GA]</th>
+<th>− SU-best-of→q [%95 GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adam-1-&gt;q</td>
+<td>1.33</td>
+<td>0.5</td>
+<td>5.3718</td>
+<td>5.3683 [5.1332, 5.6137]</td>
+<td>+0.1256 [+0.0635, +0.1815]</td>
+</tr>
+<tr>
+<td>SU-best-of-&gt;q</td>
+<td>1.63</td>
+<td></td>
+<td>5.2432</td>
+<td>5.2427 [5.0202, 5.4776]</td>
+<td>+0.0000 [+0.0000, +0.0000]</td>
+</tr>
+<tr>
+<td>Adam-2-&gt;q</td>
+<td>2.74</td>
+<td>0.5</td>
+<td>5.7383</td>
+<td>5.7154 [5.4843, 5.9651]</td>
+<td>+0.4727 [+0.4113, +0.5299]</td>
+</tr>
+<tr>
+<td>Adam-3-&gt;q</td>
+<td>4.14</td>
+<td>0.5</td>
+<td>5.9272</td>
+<td>5.8803 [5.6374, 6.1126]</td>
+<td>+0.6376 [+0.5792, +0.6927]</td>
+</tr>
+<tr>
+<td>Adam-4-&gt;q</td>
+<td>5.55</td>
+<td>0.5</td>
+<td>6.0634</td>
+<td>5.9645 [5.7325, 6.1969]</td>
+<td>+0.7218 [+0.6627, +0.7848]</td>
+</tr>
+<tr>
+<td>Adam-5-&gt;q</td>
+<td>6.82</td>
+<td>0.5</td>
+<td>6.1468</td>
+<td>5.9916 [5.7394, 6.2170]</td>
+<td>+0.7489 [+0.6887, +0.8095]</td>
+</tr>
+<tr>
+<td>Adam-6-&gt;q</td>
+<td>8.09</td>
+<td>0.5</td>
+<td>6.2358</td>
+<td>6.0138 [5.7850, 6.2522]</td>
+<td>+0.7711 [+0.7053, +0.8376]</td>
+</tr>
+<tr>
+<td>Adam-8-&gt;q</td>
+<td>10.63</td>
+<td>0.5</td>
+<td>6.3646</td>
+<td>5.9511 [5.7206, 6.1734]</td>
+<td>+0.7084 [+0.6367, +0.7838]</td>
+</tr>
+<tr>
+<td>Adam-10-&gt;q</td>
+<td>13.30</td>
+<td>0.5</td>
+<td>6.4494</td>
+<td>5.8502 [5.6148, 6.0908]</td>
+<td>+0.6075 [+0.5336, +0.6864]</td>
+</tr>
+<tr>
+<td>Adam-12-&gt;q</td>
+<td>15.96</td>
+<td>0.5</td>
+<td>6.5357</td>
+<td>5.7113 [5.4688, 5.9481]</td>
+<td>+0.4686 [+0.3935, +0.5467]</td>
+</tr>
+<tr>
+<td>Adam-16-&gt;q</td>
+<td>21.28</td>
+<td>0.5</td>
+<td>6.6573</td>
+<td>5.4670 [5.2262, 5.7045]</td>
+<td>+0.2243 [+0.1404, +0.3087]</td>
+</tr>
+<tr>
+<td>Adam-20-&gt;q</td>
+<td>26.57</td>
+<td>0.5</td>
+<td>6.7273</td>
+<td>5.3309 [5.0909, 5.5675]</td>
+<td>+0.0882 [-0.0021, +0.1776]</td>
+</tr>
+<tr>
+<td>Adam-24-&gt;q</td>
+<td>31.85</td>
+<td>0.5</td>
+<td>6.7865</td>
+<td>5.2746 [5.0304, 5.5169]</td>
+<td>+0.0319 [-0.0579, +0.1265]</td>
+</tr>
+<tr>
+<td>Adam-32-&gt;q</td>
+<td>42.42</td>
+<td>0.5</td>
+<td>6.8514</td>
+<td>5.2359 [4.9953, 5.4713]</td>
+<td>-0.0068 [-0.1080, +0.0986]</td>
+</tr>
+<tr>
+<td>dCD-1</td>
+<td>58.87</td>
+<td></td>
+<td>6.2946</td>
+<td>4.8932 [4.6551, 5.1305]</td>
+<td>-0.3495 [-0.4390, -0.2583]</td>
+</tr>
+<tr>
+<td>Adam-48-&gt;q</td>
+<td>63.91</td>
+<td>0.5</td>
+<td>6.9229</td>
+<td>5.1164 [4.8801, 5.3627]</td>
+<td>-0.1263 [-0.2238, -0.0334]</td>
+</tr>
+<tr>
+<td>dCD-2</td>
+<td>126.69</td>
+<td></td>
+<td>6.6082</td>
+<td>4.9653 [4.7430, 5.2089]</td>
+<td>-0.2774 [-0.3717, -0.1895]</td>
+</tr>
+<tr>
+<td>dCD-3</td>
+<td>205.02</td>
+<td></td>
+<td>6.7219</td>
+<td>4.9735 [4.7213, 5.2297]</td>
+<td>-0.2692 [-0.3739, -0.1666]</td>
+</tr>
+<tr>
+<td>dCD-4</td>
+<td>257.38</td>
+<td></td>
+<td>6.7749</td>
+<td>4.9644 [4.7269, 5.1980]</td>
+<td>-0.2783 [-0.3756, -0.1845]</td>
+</tr>
+<tr>
+<td>dCD-8</td>
+<td>501.18</td>
+<td></td>
+<td>6.8437</td>
+<td>4.9526 [4.7061, 5.1992]</td>
+<td>-0.2901 [-0.3873, -0.1936]</td>
+</tr>
+</tbody>
+</table>
+<h4>Tasarım lr-val</h4>
+<p>Doğrulamada seçilen kol: <strong>Adam-5-&gt;q</strong>. L* (test, yuvarlanmış Adam kolları): <strong>Adam-6-&gt;q</strong>. Adam-48→q'nun L*'a göre kaybı: %14.9.</p>
+<p>Eşli farklar (test): dCD-1 - Adam-5-&gt;q: -1.0984 [-1.1837, -1.0119]; dCD-1 - Adam-6-&gt;q: -1.1206 [-1.2072, -1.0352]; Adam-5-&gt;q - Adam-6-&gt;q: -0.0222 [-0.0473, +0.0007]</p>
+<table>
+<thead>
+<tr>
+<th>Kol</th>
+<th>Gecikme (ms)</th>
+<th>lr</th>
+<th>t=0 hızı</th>
+<th>Etkin hız [%95 GA]</th>
+<th>− SU-best-of→q [%95 GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adam-1-&gt;q</td>
+<td>1.33</td>
+<td>0.75</td>
+<td>5.4396</td>
+<td>5.4364 [5.2055, 5.6761]</td>
+<td>+0.1937 [+0.1377, +0.2463]</td>
+</tr>
+<tr>
+<td>SU-best-of-&gt;q</td>
+<td>1.63</td>
+<td></td>
+<td>5.2432</td>
+<td>5.2427 [5.0099, 5.4696]</td>
+<td>+0.0000 [+0.0000, +0.0000]</td>
+</tr>
+<tr>
+<td>Adam-2-&gt;q</td>
+<td>2.74</td>
+<td>0.75</td>
+<td>5.7386</td>
+<td>5.7211 [5.4822, 5.9611]</td>
+<td>+0.4784 [+0.4213, +0.5324]</td>
+</tr>
+<tr>
+<td>Adam-3-&gt;q</td>
+<td>4.14</td>
+<td>0.5</td>
+<td>5.9272</td>
+<td>5.8803 [5.6411, 6.1073]</td>
+<td>+0.6376 [+0.5821, +0.6948]</td>
+</tr>
+<tr>
+<td>Adam-4-&gt;q</td>
+<td>5.55</td>
+<td>0.5</td>
+<td>6.0634</td>
+<td>5.9645 [5.7260, 6.2092]</td>
+<td>+0.7218 [+0.6623, +0.7830]</td>
+</tr>
+<tr>
+<td>Adam-5-&gt;q</td>
+<td>6.82</td>
+<td>0.5</td>
+<td>6.1468</td>
+<td>5.9916 [5.7515, 6.2193]</td>
+<td>+0.7489 [+0.6863, +0.8093]</td>
+</tr>
+<tr>
+<td>Adam-6-&gt;q</td>
+<td>8.09</td>
+<td>0.5</td>
+<td>6.2358</td>
+<td>6.0138 [5.7856, 6.2473]</td>
+<td>+0.7711 [+0.7058, +0.8375]</td>
+</tr>
+<tr>
+<td>Adam-8-&gt;q</td>
+<td>10.63</td>
+<td>0.5</td>
+<td>6.3646</td>
+<td>5.9511 [5.7103, 6.1867]</td>
+<td>+0.7084 [+0.6349, +0.7800]</td>
+</tr>
+<tr>
+<td>Adam-10-&gt;q</td>
+<td>13.30</td>
+<td>0.75</td>
+<td>6.4359</td>
+<td>5.8407 [5.6070, 6.0670]</td>
+<td>+0.5980 [+0.5254, +0.6746]</td>
+</tr>
+<tr>
+<td>Adam-12-&gt;q</td>
+<td>15.96</td>
+<td>0.75</td>
+<td>6.5362</td>
+<td>5.7572 [5.5180, 5.9951]</td>
+<td>+0.5145 [+0.4379, +0.5949]</td>
+</tr>
+<tr>
+<td>Adam-16-&gt;q</td>
+<td>21.28</td>
+<td>0.75</td>
+<td>6.6536</td>
+<td>5.4956 [5.2590, 5.7248]</td>
+<td>+0.2529 [+0.1691, +0.3400]</td>
+</tr>
+<tr>
+<td>Adam-20-&gt;q</td>
+<td>26.57</td>
+<td>0.75</td>
+<td>6.7402</td>
+<td>5.3573 [5.1313, 5.5807]</td>
+<td>+0.1146 [+0.0247, +0.2076]</td>
+</tr>
+<tr>
+<td>Adam-24-&gt;q</td>
+<td>31.85</td>
+<td>0.5</td>
+<td>6.7865</td>
+<td>5.2746 [5.0327, 5.5028]</td>
+<td>+0.0319 [-0.0563, +0.1211]</td>
+</tr>
+<tr>
+<td>Adam-32-&gt;q</td>
+<td>42.42</td>
+<td>1.0</td>
+<td>6.8572</td>
+<td>5.2378 [5.0001, 5.4734]</td>
+<td>-0.0049 [-0.1065, +0.0953]</td>
+</tr>
+<tr>
+<td>dCD-1</td>
+<td>58.87</td>
+<td></td>
+<td>6.2946</td>
+<td>4.8932 [4.6504, 5.1447]</td>
+<td>-0.3495 [-0.4367, -0.2696]</td>
+</tr>
+<tr>
+<td>Adam-48-&gt;q</td>
+<td>63.91</td>
+<td>0.25</td>
+<td>6.8759</td>
+<td>5.1206 [4.8676, 5.3634]</td>
+<td>-0.1221 [-0.2169, -0.0299]</td>
+</tr>
+<tr>
+<td>dCD-2</td>
+<td>126.69</td>
+<td></td>
+<td>6.6082</td>
+<td>4.9653 [4.7307, 5.2024]</td>
+<td>-0.2774 [-0.3697, -0.1864]</td>
+</tr>
+<tr>
+<td>dCD-3</td>
+<td>205.02</td>
+<td></td>
+<td>6.7219</td>
+<td>4.9735 [4.7178, 5.2071]</td>
+<td>-0.2692 [-0.3671, -0.1674]</td>
+</tr>
+<tr>
+<td>dCD-4</td>
+<td>257.38</td>
+<td></td>
+<td>6.7749</td>
+<td>4.9644 [4.7211, 5.2120]</td>
+<td>-0.2783 [-0.3753, -0.1831]</td>
+</tr>
+<tr>
+<td>dCD-8</td>
+<td>501.18</td>
+<td></td>
+<td>6.8437</td>
+<td>4.9526 [4.7148, 5.2051]</td>
+<td>-0.2901 [-0.3840, -0.1951]</td>
+</tr>
+</tbody>
+</table>
+<p>dCD zamanlaması (tur medyanları, ms): dCD-1: 58.9 (58.9, 58.6, 67.0); dCD-2: 126.7 (119.4, 130.0, 126.7); dCD-3: 205.0 (205.0, 187.9, 206.3); dCD-4: 257.4 (244.1, 257.4, 277.5); dCD-8: 501.2 (512.0, 429.7, 501.2)</p>
+<h3>Komut, tohum, ham çıktı</h3>
+<table>
+<thead>
+<tr>
+<th>Komut</th>
+<th>Tohum</th>
+<th>Ham çıktı</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>python3 thesis_exp/p4/ayrik_faz/run.py (dCD zamanlaması; boş makine)</td>
+<td>kanal 11/12, bootstrap 0</td>
+<td>raw/results.json, raw/run.log</td>
+</tr>
+<tr>
+<td>python3 thesis_exp/p4/ayrik_faz/run_3bit.py (3 bit: boş makinede dCD zamanlaması + tam gecikmede değerlendirme)</td>
+<td>kanal 11/12, bootstrap 0</td>
+<td>raw/results_3bit.json, raw/run_3bit.log</td>
+</tr>
+<tr>
+<td>python3 thesis_exp/p4/ayrik_faz/run_exact.py (tam gecikmede değerlendirme, iki lr tasarımı)</td>
+<td>kanal 11 (test) / 12 (doğrulama), bootstrap 0</td>
+<td>raw/results_exact.json, raw/run_exact.log</td>
+</tr>
+</tbody>
+</table>
+<h3>Yorum (bulgulardan ayrı)</h3>
+<ul>
+<li><strong>İçsel optimum ayrık fazda da var.</strong> lr0.5 tasarımında yuvarlanmış Adam kollarında L* 1 bitte 5, 2 bitte 6. Adam-48→q, L<em>'a göre 1 bitte %9.5, 2 bitte %14.1 kaybediyor. (İlk sürümdeki %9.3 / %13.6 kaba ızgaradan geliyordu; denetim K3.) Adım boyu doğrulamada seçilince (lr-val) 1 bitte L</em> = 3 ve kayıp %9.1; 2 bitte L* = 6 ve kayıp %14.2.</li>
+<li><strong>1 bitte sıfır gecikmede dCD her kolu geçiyor, 2 bitte geçmiyor.</strong></li>
+<li>1 bit: dCD-8 6.07, en iyi Adam→q 5.58.</li>
+<li>2 bit: dCD-8 (6.61) Adam-48→q'nun (6.62) altında. dCD-1 (6.14) Adam-10…48→q'nun altında, Adam-8→q'nun (6.11) üstünde.</li>
+<li><strong>Etkin hızda 2 bitte yavaş çözücü kaybediyor.</strong> dCD-2/3/4/8, SU-best-of→q'nun 0.137–0.170 b/s/Hz altında; dördünün de GA'sı sıfırın altında. dCD-1 ondan ayırt edilemiyor. En iyi Adam→q'ya (Adam-6→q) karşı dCD-1'in farkı −0.758 [−0.831, −0.681].</li>
+<li><strong>1 bitte tek taramalı dCD, en iyi yuvarlanmış Adam'la aynı düzeyde.</strong> Doğrulamada seçilen kol dCD-1 (16.2 ms).</li>
+<li>Testte dCD-1 − Adam-5→q = −0.044 [−0.114, +0.024] (lr0.5).</li>
+<li>lr-val tasarımında dCD-1 − Adam-3→q = −0.021 [−0.093, +0.051].</li>
+<li>İki GA da sıfırı içeriyor. Tarama sayısı arttıkça kazanç kayboluyor: dCD-4 ve dCD-8 SU-best-of→q'dan ayırt edilemiyor.</li>
+<li><strong>Tek-RIS'teki "1 bitte ayrık CD kazanıyor" sonucuyla ilişki:</strong> Çok kullanıcılı yaşlanma kümesinde bu sonuç yalnızca tek taramada ve yalnızca berabere düzeyinde tekrarlanıyor.</li>
+<li><strong>Adım boyu (denetim U20):</strong> lr-val, lr0.5'e göre hükmü değiştirmiyor. 1 bitte doğrulamada seçilen adım boyu bazı L'lerde testte daha düşük hız verdi (Adam-5→q 5.158 → 5.131); doğrulama ile test arasındaki fark, GA genişliğinin içinde.</li>
+<li><strong>Gecikme muhasebesi:</strong> Adam-L→q gecikmesi SU-average başlangıcını (0.30 ms) içermiyor (common.adam_latency; makalenin kuralı). Başlangıç gecikmeye eklenince etkin hız kol başına 0.0001–0.021 b/s/Hz düşüyor; 1 bitte Adam-5→q için 0.0069. Bu, dCD-1 ile Adam-5→q arasındaki 0.044'lük farkı kapatmıyor; ama fark zaten anlamlı değil [p4/gecikme_muhasebesi/raw/results.json].</li>
+<li><strong>3 bit (13 Kasım, kullanıcı onayı):</strong> İçsel optimum korunuyor: L* = Adam-6→q, Adam-48→q kaybı %14.9. dCD'nin beş sürümünün hepsi SU-best-of→q'nun 0.27–0.35 b/s/Hz altında (GA'lar sıfırın altında); dCD-1 (58.9 ms) en iyi Adam→q'nun 1.12 altında [−1.21, −1.04]. Doğrulamada seçilen Adam-5→q ile L* (Adam-6→q) ayırt edilemiyor (−0.022 [−0.047, +0.002]). Yani bit sayısı arttıkça yavaş ayrık çözücünün durumu kötüleşiyor: 1 bitte berabere, 2 bitte geride, 3 bitte belirgin geride.</li>
+<li><strong>Yuvarlama bedava sayıldı.</strong> Sürekli kollar için bu iyimser bir varsayım ve dCD'nin aleyhine bir eğilim yaratır. Yuvarlamanın gerçek maliyeti 2^b'lik bir arama tablosu düzeyinde, ölçülmedi.</li>
+<li><strong>dCD zamanlaması sonrası yük ortalaması 0.76 / 0.86 / 0.99 (1/2/3 bit).</strong> Bu değere ölçülen tek iş parçacıklı süreç de katkı veriyor. Ölçüm öncesi yük ortalaması 0.49 / 0.46 / 0.49 idi.</li>
+</ul></section><section class="part" id="p12"><div class="parthead"><span class="tag">Ek 9</span><h1>Deney 4.6 — Optimize süreler</h1></div><h2>Deney 4.6 — Optimize edilmiş çalışma süreleri: Adam adımı ve öğrenilen adım (rapor)</h2>
+<p>Commit <code>c84b50c</code> (ölçüm commit'i <code>06c9b17986af81356a97143638a30a46f123775b</code>). torch 2.15.0+cu132, CPU: Intel(R) Xeon(R) Processor @ 2.10GHz, iş parçacığı 1, CUDA: False. Yük ortalaması: başlangıç 0.62, ölçüm öncesi 0.49, sonrası 1.00. Öğrenilen adım: UnrolledMuMiso (exchange, use_grad), eğitilmemiş ağırlıklar (ağırlık değeri yürütme yolunu değiştirmez). Adam: SU-average başlangıcı + L adım (soft-min, β=8, lr 0.5). 20 senaryo; senaryo başına 20 çağrının medyanı, senaryolar üzerinden medyan, 3 tur.</p>
+<h3>1) Süreler (ms, tur medyanlarının medyanı)</h3>
+<table>
+<thead>
+<tr>
+<th>Kol</th>
+<th>Medyan (ms)</th>
+<th>Turlar (ms)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adam-1 [eager]</td>
+<td>1.703</td>
+<td>1.735, 1.685, 1.703</td>
+</tr>
+<tr>
+<td>learned-1 [eager]</td>
+<td>3.544</td>
+<td>3.469, 3.830, 3.544</td>
+</tr>
+<tr>
+<td>Adam-8 [eager]</td>
+<td>10.405</td>
+<td>10.405, 10.421, 9.935</td>
+</tr>
+<tr>
+<td>learned-8 [eager]</td>
+<td>29.178</td>
+<td>29.178, 30.938, 29.102</td>
+</tr>
+<tr>
+<td>Adam-1 [torch.compile]</td>
+<td>2.184</td>
+<td>2.284, 2.184, 2.169</td>
+</tr>
+<tr>
+<td>learned-1 [torch.compile]</td>
+<td>4.220</td>
+<td>133.441, 4.220, 4.152</td>
+</tr>
+<tr>
+<td>Adam-8 [torch.compile]</td>
+<td>13.487</td>
+<td>13.487, 13.532, 13.273</td>
+</tr>
+<tr>
+<td>learned-8 [torch.compile]</td>
+<td>41.679</td>
+<td>41.651, 41.679, 41.863</td>
+</tr>
+<tr>
+<td>Adam-1 [torch.jit.trace]</td>
+<td>ÜRETİLEMEDİ: RuntimeError: Adam's step uses torch.optim and autograd inside the loop; torch.jit.trace cannot capture the optimiser update</td>
+<td>—</td>
+</tr>
+<tr>
+<td>learned-1 [torch.jit.trace]</td>
+<td>ÜRETİLEMEDİ: RuntimeError: Cannot insert a Tensor that requires grad as a constant. Consider making it a parameter or input, or detaching the gradient Tensor: -1.7194 [ torch.FloatTensor{1} ]</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Adam-8 [torch.jit.trace]</td>
+<td>ÜRETİLEMEDİ: RuntimeError: Adam's step uses torch.optim and autograd inside the loop; torch.jit.trace cannot capture the optimiser update</td>
+<td>—</td>
+</tr>
+<tr>
+<td>learned-8 [torch.jit.trace]</td>
+<td>ÜRETİLEMEDİ: RuntimeError: Cannot insert a Tensor that requires grad as a constant. Consider making it a parameter or input, or detaching the gradient Tensor: -1.7194 [ torch.FloatTensor{1} ]</td>
+<td>—</td>
+</tr>
+<tr>
+<td>GPU</td>
+<td>ÜRETİLEMEDİ: torch.cuda.is_available() is False on this machine</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3>2) Öğrenilen / Adam süre oranı</h3>
+<table>
+<thead>
+<tr>
+<th>Arka uç, L</th>
+<th>Oran</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>eager L=1</td>
+<td>2.08</td>
+</tr>
+<tr>
+<td>eager L=8</td>
+<td>2.80</td>
+</tr>
+<tr>
+<td>torch.compile L=1</td>
+<td>1.93</td>
+</tr>
+<tr>
+<td>torch.compile L=8</td>
+<td>3.09</td>
+</tr>
+</tbody>
+</table>
+<h3>3) Komut, tohum, ham çıktı</h3>
+<table>
+<thead>
+<tr>
+<th>Komut</th>
+<th>Tohum</th>
+<th>Ham çıktı</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>python3 thesis_exp/p4/optimize_sure/run.py</td>
+<td>senaryo seed 11, torch.manual_seed 0</td>
+<td>raw/results.json, raw/run.log</td>
+</tr>
+</tbody>
+</table>
+<h3>4) Yorum (bulgulardan ayrı)</h3>
+<ul>
+<li><strong>Optimizasyon hükmü değiştirmedi.</strong> Öğrenilen adım her denenen arka uçta Adam'dan yavaş: L=8'de 2.80× (eager) ve 3.09× (torch.compile). CLAUDE.md'deki "bir öğrenilen adım ~2.7 Adam adımı ediyor" bulgusuyla tutarlı.</li>
+<li><strong>torch.compile bu iş yükünde hızlandırmadı, iki kolu da yavaşlattı.</strong> Adam-8 10.41 → 13.49 ms, öğrenilen-8 29.18 → 41.68 ms. Bunun iki kaydedilmiş nedeni var:</li>
+<li>Inductor karmaşık sayılı işlemler için kod üretmiyor (run.log uyarısı).</li>
+<li>Öğrenilen kolun <code>forward</code>'ı yeniden derleme sınırına (256) takıldı. Bu, kolun büyük ölçüde derlenmemiş yolda ve koruma (guard) yüküyle koştuğu anlamına geliyor.</li>
+</ul>
+<p>Bu nedenle "torch.compile" satırı bu kod için iyi optimize edilmiş bir sürüm değil. Karmaşık işlemleri gerçek/sanal parçalara ayıran bir yeniden yazım denenmedi.
+- <strong>learned-1 [torch.compile] ilk turu 133 ms</strong> (derleme ısınmaya sığmadı). Medyan, sonraki iki turla aynı düzeyde (4.2 ms).
+- <strong>torch.jit.trace iki kolda da ÜRETİLEMEDİ.</strong> Adam'da optimizasyon adımı izlenemiyor. Öğrenilen kolda iç gradyan (use_grad) izlemede sabite gömülemiyor.
+- <strong>GPU ölçümü ÜRETİLEMEDİ: bu makinede CUDA yok.</strong> GPU'da tek senaryoluk küçük işlemlerde çekirdek başlatma yükü baskın olur; ama bu ölçülmedi, sıralama hakkında bir şey söylenemez.
+- <strong>Adam-1 [eager] 1.70 ms SU-average başlangıcını da içeriyor.</strong> Altyapı raporundaki 1.328 ms/adım yalnızca adımın süresi. İkisi aynı tanım değil.
+- <strong>Ölçüm sonrası yük 1.00.</strong> Ölçülen tek iş parçacıklı süreç ve derleme işçileri buna katkı veriyor; ölçüm öncesi 0.49.</p></section><section class="part" id="p13"><div class="parthead"><span class="tag">Ek 10</span><h1>Doğrulama — Gecikme muhasebesi</h1></div><h2>Gecikme muhasebesi — SU-average başlangıcını Adam-L gecikmesine eklemenin etkisi (denetim U16)</h2>
+<p>Rapor commit'i <code>1847597</code>, ölçüm commit'i <code>bd8a8a1</code>. Yaşlanma kümesi (seed 11, 400 senaryo), 0.5 ms ızgara 0–70 ms, tek iş parçacığı. Her Adam-L kolu (sürekli; 1 ve 2 bite yuvarlanmış) için etkin hız (Tanım 1) adam_latency(L)'de ve buna SU-average süresi (0.297 ms) eklenmiş gecikmede; eşli fark, bootstrap 2000, %95 GA.</p>
+<table>
+<thead>
+<tr>
+<th>Kol</th>
+<th>Gecikme (ms)</th>
+<th>Etkin hız</th>
+<th>Başlangıç eklenince</th>
+<th>Fark [%95 GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adam-1 continuous</td>
+<td>1.33</td>
+<td>5.4079</td>
+<td>5.4062</td>
+<td>-0.0018 [-0.0029, -0.0006]</td>
+</tr>
+<tr>
+<td>Adam-1 1bit</td>
+<td>1.33</td>
+<td>4.8212</td>
+<td>4.8199</td>
+<td>-0.0014 [-0.0027, +0.0000]</td>
+</tr>
+<tr>
+<td>Adam-1 2bit</td>
+<td>1.33</td>
+<td>5.2528</td>
+<td>5.2510</td>
+<td>-0.0018 [-0.0030, -0.0006]</td>
+</tr>
+<tr>
+<td>Adam-2 continuous</td>
+<td>2.74</td>
+<td>5.7614</td>
+<td>5.7567</td>
+<td>-0.0046 [-0.0058, -0.0035]</td>
+</tr>
+<tr>
+<td>Adam-2 1bit</td>
+<td>2.74</td>
+<td>5.0546</td>
+<td>5.0514</td>
+<td>-0.0032 [-0.0046, -0.0018]</td>
+</tr>
+<tr>
+<td>Adam-2 2bit</td>
+<td>2.74</td>
+<td>5.5612</td>
+<td>5.5571</td>
+<td>-0.0041 [-0.0052, -0.0030]</td>
+</tr>
+<tr>
+<td>Adam-3 continuous</td>
+<td>4.14</td>
+<td>5.9376</td>
+<td>5.9304</td>
+<td>-0.0072 [-0.0084, -0.0060]</td>
+</tr>
+<tr>
+<td>Adam-3 1bit</td>
+<td>4.14</td>
+<td>5.1336</td>
+<td>5.1288</td>
+<td>-0.0049 [-0.0062, -0.0035]</td>
+</tr>
+<tr>
+<td>Adam-3 2bit</td>
+<td>4.14</td>
+<td>5.6986</td>
+<td>5.6920</td>
+<td>-0.0066 [-0.0078, -0.0054]</td>
+</tr>
+<tr>
+<td>Adam-4 continuous</td>
+<td>5.55</td>
+<td>6.0239</td>
+<td>6.0149</td>
+<td>-0.0090 [-0.0120, -0.0042]</td>
+</tr>
+<tr>
+<td>Adam-4 1bit</td>
+<td>5.55</td>
+<td>5.0977</td>
+<td>5.0928</td>
+<td>-0.0049 [-0.0072, -0.0017]</td>
+</tr>
+<tr>
+<td>Adam-4 2bit</td>
+<td>5.55</td>
+<td>5.7625</td>
+<td>5.7540</td>
+<td>-0.0084 [-0.0106, -0.0051]</td>
+</tr>
+<tr>
+<td>Adam-5 continuous</td>
+<td>6.82</td>
+<td>6.0561</td>
+<td>6.0425</td>
+<td>-0.0136 [-0.0152, -0.0120]</td>
+</tr>
+<tr>
+<td>Adam-5 1bit</td>
+<td>6.82</td>
+<td>5.1574</td>
+<td>5.1506</td>
+<td>-0.0069 [-0.0083, -0.0055]</td>
+</tr>
+<tr>
+<td>Adam-5 2bit</td>
+<td>6.82</td>
+<td>5.7975</td>
+<td>5.7859</td>
+<td>-0.0116 [-0.0131, -0.0102]</td>
+</tr>
+<tr>
+<td>Adam-6 continuous</td>
+<td>8.09</td>
+<td>6.0770</td>
+<td>6.0608</td>
+<td>-0.0162 [-0.0179, -0.0145]</td>
+</tr>
+<tr>
+<td>Adam-6 1bit</td>
+<td>8.09</td>
+<td>5.1394</td>
+<td>5.1311</td>
+<td>-0.0082 [-0.0098, -0.0067]</td>
+</tr>
+<tr>
+<td>Adam-6 2bit</td>
+<td>8.09</td>
+<td>5.8189</td>
+<td>5.8049</td>
+<td>-0.0140 [-0.0156, -0.0125]</td>
+</tr>
+<tr>
+<td>Adam-8 continuous</td>
+<td>10.63</td>
+<td>6.0227</td>
+<td>6.0035</td>
+<td>-0.0192 [-0.0209, -0.0175]</td>
+</tr>
+<tr>
+<td>Adam-8 1bit</td>
+<td>10.63</td>
+<td>5.1053</td>
+<td>5.0952</td>
+<td>-0.0101 [-0.0118, -0.0083]</td>
+</tr>
+<tr>
+<td>Adam-8 2bit</td>
+<td>10.63</td>
+<td>5.7184</td>
+<td>5.7003</td>
+<td>-0.0181 [-0.0198, -0.0164]</td>
+</tr>
+<tr>
+<td>Adam-10 continuous</td>
+<td>13.30</td>
+<td>5.9049</td>
+<td>5.8841</td>
+<td>-0.0208 [-0.0227, -0.0191]</td>
+</tr>
+<tr>
+<td>Adam-10 1bit</td>
+<td>13.30</td>
+<td>5.0468</td>
+<td>5.0358</td>
+<td>-0.0110 [-0.0129, -0.0091]</td>
+</tr>
+<tr>
+<td>Adam-10 2bit</td>
+<td>13.30</td>
+<td>5.6514</td>
+<td>5.6324</td>
+<td>-0.0190 [-0.0209, -0.0173]</td>
+</tr>
+<tr>
+<td>Adam-12 continuous</td>
+<td>15.96</td>
+<td>5.7641</td>
+<td>5.7432</td>
+<td>-0.0209 [-0.0228, -0.0189]</td>
+</tr>
+<tr>
+<td>Adam-12 1bit</td>
+<td>15.96</td>
+<td>4.9599</td>
+<td>4.9506</td>
+<td>-0.0093 [-0.0110, -0.0075]</td>
+</tr>
+<tr>
+<td>Adam-12 2bit</td>
+<td>15.96</td>
+<td>5.5403</td>
+<td>5.5222</td>
+<td>-0.0182 [-0.0201, -0.0165]</td>
+</tr>
+<tr>
+<td>Adam-16 continuous</td>
+<td>21.28</td>
+<td>5.5042</td>
+<td>5.4898</td>
+<td>-0.0144 [-0.0167, -0.0122]</td>
+</tr>
+<tr>
+<td>Adam-16 1bit</td>
+<td>21.28</td>
+<td>4.8437</td>
+<td>4.8369</td>
+<td>-0.0067 [-0.0085, -0.0049]</td>
+</tr>
+<tr>
+<td>Adam-16 2bit</td>
+<td>21.28</td>
+<td>5.2992</td>
+<td>5.2855</td>
+<td>-0.0136 [-0.0160, -0.0114]</td>
+</tr>
+<tr>
+<td>Adam-20 continuous</td>
+<td>26.57</td>
+<td>5.3623</td>
+<td>5.3557</td>
+<td>-0.0065 [-0.0090, -0.0040]</td>
+</tr>
+<tr>
+<td>Adam-20 1bit</td>
+<td>26.57</td>
+<td>4.8108</td>
+<td>4.8081</td>
+<td>-0.0026 [-0.0045, -0.0008]</td>
+</tr>
+<tr>
+<td>Adam-20 2bit</td>
+<td>26.57</td>
+<td>5.1710</td>
+<td>5.1649</td>
+<td>-0.0061 [-0.0083, -0.0038]</td>
+</tr>
+<tr>
+<td>Adam-24 continuous</td>
+<td>31.85</td>
+<td>5.3288</td>
+<td>5.3256</td>
+<td>-0.0031 [-0.0054, -0.0009]</td>
+</tr>
+<tr>
+<td>Adam-24 1bit</td>
+<td>31.85</td>
+<td>4.7629</td>
+<td>4.7624</td>
+<td>-0.0005 [-0.0023, +0.0012]</td>
+</tr>
+<tr>
+<td>Adam-24 2bit</td>
+<td>31.85</td>
+<td>5.1560</td>
+<td>5.1537</td>
+<td>-0.0023 [-0.0044, -0.0000]</td>
+</tr>
+<tr>
+<td>Adam-32 continuous</td>
+<td>42.42</td>
+<td>5.2900</td>
+<td>5.2899</td>
+<td>-0.0001 [-0.0021, +0.0020]</td>
+</tr>
+<tr>
+<td>Adam-32 1bit</td>
+<td>42.42</td>
+<td>4.7614</td>
+<td>4.7600</td>
+<td>-0.0014 [-0.0033, +0.0004]</td>
+</tr>
+<tr>
+<td>Adam-32 2bit</td>
+<td>42.42</td>
+<td>5.1087</td>
+<td>5.1083</td>
+<td>-0.0004 [-0.0025, +0.0017]</td>
+</tr>
+<tr>
+<td>Adam-48 continuous</td>
+<td>63.91</td>
+<td>5.1696</td>
+<td>5.1692</td>
+<td>-0.0004 [-0.0022, +0.0014]</td>
+</tr>
+<tr>
+<td>Adam-48 1bit</td>
+<td>63.91</td>
+<td>4.6672</td>
+<td>4.6669</td>
+<td>-0.0003 [-0.0019, +0.0014]</td>
+</tr>
+<tr>
+<td>Adam-48 2bit</td>
+<td>63.91</td>
+<td>4.9978</td>
+<td>4.9969</td>
+<td>-0.0008 [-0.0026, +0.0009]</td>
+</tr>
+</tbody>
+</table>
+<p>Özet: fark -0.0209 … -0.0001 b/s/Hz; ortalama mutlak fark 0.0080.</p>
+<p>Komut: <code>python3 thesis_exp/p4/gecikme_muhasebesi/run.py</code> (betik koşudan önce commit'lendi). Ham çıktı: raw/results.json.</p></section><section class="part" id="p14"><div class="parthead"><span class="tag">Ek 11</span><h1>Makale 1 denetim raporu — 13 Kasım&#x27;da donduruldu (dal audit/makale1-denetim)</h1></div><h2>Makale 1 bağımsız denetim raporu</h2>
+<p>Makale: Savaşçı Şen ve ark., <em>Overcoming the Phase Discontinuity Problem in RIS Optimization…</em>, Adv. Intell. Syst. 2026, doi:10.1002/aisy.70460. Dal <code>audit/makale1-denetim</code>, rapor commit'i <code>089c578</code> (rapor bu commit'teki ham dosyalardan üretildi).</p>
+<p><strong>Önemli sınır:</strong> MATLAB ve makalenin veri kümesi (<code>RIS_dataset_large_2D.mat</code>) yok. Bütün yeniden üretimler, aynı üretecin NumPy aktarımıyla (<code>audit/scripts/m1_data.py</code>) alınmış <strong>bağımsız bir çekilişte</strong> yapıldı. MATLAB'ın <code>rng(42)</code> örnekleriyle birebir aynı değildir; aktarım kayıtlı bir MATLAB çıktısıyla doğrulanamadı (Kural 8). Eğitim, MATLAB varsayılanlarına göre PyTorch'a aktarıldı (<code>audit/scripts/m1_train.py</code>, docstring).</p>
+<h3>1) Makaledeki iddialarla çelişen bulgular (önem sırasıyla)</h3>
+<ol>
+<li><strong>Etiket optimum değil (Denklem 8).</strong> Makale −∠(G_nF_n) etiketini alınan gücün kapalı form maksimizörü diye tanımlıyor. Doğrudan bağlantıyı hesaba katan ∠h_d − ∠(G_nF_n) etiketi hiçbir örnekte daha kötü değil ve ortalama <strong>2.20 dB</strong> (%95 GA 2.13–2.28; medyan 1.23 dB; %95 dilim 7.73 dB) daha fazla güç alıyor; örneklerin %86.2'inde fark 0.1 dB'den büyük. |h_d|/|ΣG_nF_n| medyanı 1.42: doğrudan bağlantı ihmal edilebilir değil. [step1_label_optimality.json]</li>
+<li><strong>Nicemleme sonuçları matematiksel olarak imkânsız.</strong> Sürekli etikete göre faz RMSE'si, etiketin kendisi nicemlendiğinde bile 1/2/3 bitte 51.95°/25.98°/12.98° (tekdüze nicemleme hatası adım/√12). Eğitilmiş modelle 52.06°/26.17°/13.39°. Makale 4.12°/3.08°/2.81° diyor ve betiği yok. [step6_eval.json]</li>
+<li><strong>CSI hatasında 4.2° iddiası tutmuyor.</strong> Göreli hata varyansı 0.10'da model 19.00° (3 tohum ort.), aynı girdiyle kapalı form 18.66°. Makale 4.2° ve kapalı formdan belirgin üstünlük diyor; Şekil 10'un betiği ve hata modeli tanımı yok (burada varsayılan model, step2_baselines.py). [step6_eval.json, step2_baselines.json]</li>
+<li><strong>Klasik yöntemlerin RMSE'leri yayımlanan kodla üretilemiyor.</strong> Yayımlanan RMSE tanımıyla CD (K=5) 104.02° (makale 3.50°), AO 103.75° (3.50°), PSO 104.15° (4.50°), SPA 104.85° (5.00°). Sebep: bu yöntemler h_d'ye hizalanan gerçek optimuma gidiyor ve etiketten ortak bir faz kadar farklı. Ortak faz çıkarılınca CD 1.10°, SPA 1.3e-14° (SPA tam optimum = etiket (b)). Alınan güçte CD ve SPA etiketten 2.14 / 2.21 dB önde. PGD ve 'WMMSE' betikleri fazı neredeyse hiç hareket ettirmiyor (etikete göre -10.30 / -9.90 dB). [step2_baselines.json]</li>
+<li><strong>Tablo 6, Tablo 8, Şekil 1 ve 2'deki sayılar elle yazılmış; Şekil 8, 9, 10 için betik yok.</strong> Ayrıntı ve satır numaraları [step0_mapping.json, step0_step3_notes.md].</li>
+<li><strong>Kaynağı bulunamayan sayılar:</strong> 18.4/17.9 dB, kapalı formun 2.70° RMSE'si (etiketin kendisine göre tanım gereği 0°; burada 0.00°), 0.31/0.89 b/s/Hz, %312, Tablo 3 parametre sayıları. [step3_sources.json]</li>
+<li><strong>Gecikme ve ölçekleme.</strong> Yayımlanan mimarinin parametre sayısı koddan 162,562 (PyTorch; MATLAB 161 794, aradaki 768 ikinci LSTM bias'ı); makale 727 K. Tek-örnek CPU gecikmesi N=32/256'da 0.80/2.66 ms, toplu iş 0.158/1.66 ms; makale 0.08/0.64 ms (farklı işlemci: i7-9700K). Ölçekleme oranı 256/32: tek-örnek 3.3×, gizli boyut √N ölçeklemeli 13.6× (makale tam 8×). [step4_latency.json]</li>
+<li><strong>N=256 projeksiyonu ölçümle tutmuyor.</strong> Tablo 8'deki N=256 RMSE'si 4.6° elle yazılmış bir tahmin (betik yok). Aynı üreteç, aynı örnek sayısı (40 000) ve 50 epokla eğitilen N=256 modeli (gizli boyutlar √(N/32) ile ölçeklendi; 870,018 parametre; son epok ağı) test kümesinde <strong>2.25°</strong> (SR@5 %98.1, %95 dilim 3.39°) veriyor; bu, N=32'nin üç tohumunun (3.18, 2.77, 3.90°) hepsinden düşük. Makalenin N arttıkça RMSE'nin arttığı projeksiyonu bu ölçümde desteklenmiyor. Aynı kurulumla ölçülen dizi (tohum başına; √N ölçekli): N=64: 3.05°; N=128: 2.58°; N=256: 2.25°; makale Tablo 8: 2.77/3.21/3.89/4.6(tahmin)°. Sınır: ek tohumlar sürüyor; mimarinin N ile ölçeklenmesi makalede tanımlı değil (√N bizim seçimimiz). [train/cnnlstm_N256_sqrt_s0.json, train_N256_run2.log]</li>
+<li><strong>Tohum yayılımı makalenin GA'sından çok büyük.</strong> Aynı ayarla 3 tohum: 3.18, 2.77, 3.90° (std 0.58°); makale 5 koşu için ±0.09° GA diyor. [train/cnnlstm_N32_s*.json]</li>
+<li><strong>Uzamsal komşuluk kullanılmıyor.</strong> Komşu elemanların kanal korelasyonu |ρ| ≤ 0.007; eleman sırası rastgele karıştırılınca RMSE 3.28° → 3.41° (fark tohum yayılımından küçük). Makalenin CNN'in 'uzamsal korelasyonu yakaladığı' anlatısı bu veride desteklenmiyor. [step5_correlation.json, step5_permutation.json]</li>
+<li><strong>Doğrudan faz (FC-DNN) 83.85°, CNN-Transformer 4.46°</strong> (makale 3.95° / 2.91°). Transformer parametresi 17,442 (makale 201 K). [train/*.json]</li>
+<li><strong>Kaynakça (64 kaynak):</strong> ilk tur {'major': 33, 'ok': 18, 'not_verifiable': 8, 'minor': 5}. Bağımsız ikinci kontrol 63 kaynakta ilk turla aynı fikirde; [29] bulundu (başlığı yanlış basılmış gerçek bir makale: Kim ve ark., IEEE TCCN 2024, doi:10.1109/TCCN.2024.3375523). Basılı 54 DOI'nin 30'u kayıtlı değil; 3'ü ([31], [33], [43]) başka makalelere çıkıyor. 7 kaynak ([15], [33], [37], [41], [43], [44], [59]) hiçbir kayıtta bulunamadı ([33] ve [43] için aynı yazarların farklı başlıklı gerçek çalışmaları var: bozuk atıf olabilir). [26] geri çekilmiş (doi:10.52866/2788-7421.1361, 5 Şubat 2026). [27] TWC değil IEEE WCL. [28]'in PixelRNN iddiasını ve [38]'in bit genişliği iddiasını kaynak desteklemiyor. [step7_references.json, step7_doublecheck.json]</li>
+</ol>
+<h3>2) İddia tablosu</h3>
+<table>
+<thead>
+<tr>
+<th>İddia</th>
+<th>Yayımlanan</th>
+<th>Üretilen (bağımsız çekiliş)</th>
+<th>Durum</th>
+<th>Kanıt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CNN-LSTM RMSE</td>
+<td>2.77°</td>
+<td>3.18, 2.77, 3.90° (3 tohum)</td>
+<td>FARKLI (yayılım)</td>
+<td>train/cnnlstm_N32_s*.json</td>
+</tr>
+<tr>
+<td>CNN-LSTM SR@5</td>
+<td>%95</td>
+<td>%94.7</td>
+<td>DOĞRULANDI (yakın)</td>
+<td>train/*.json</td>
+</tr>
+<tr>
+<td>Doğrudan faz RMSE</td>
+<td>3.95°</td>
+<td>83.85°</td>
+<td>FARKLI</td>
+<td>train/fcdnn_direct_N32_s0.json</td>
+</tr>
+<tr>
+<td>CNN-Transformer RMSE</td>
+<td>2.91°</td>
+<td>4.46°</td>
+<td>FARKLI</td>
+<td>train/transformer_N32_s0.json</td>
+</tr>
+<tr>
+<td>CD (K=5) RMSE</td>
+<td>3.50°</td>
+<td>104.02° (ortak fazsız 1.10°)</td>
+<td>FARKLI</td>
+<td>step2_baselines.json</td>
+</tr>
+<tr>
+<td>CD (K=20/50) RMSE</td>
+<td>3.49/3.20°</td>
+<td>104.50/104.79°</td>
+<td>FARKLI</td>
+<td>step2_baselines.json</td>
+</tr>
+<tr>
+<td>AO / PGD / WMMSE / PSO / SPA</td>
+<td>3.50/4.00/4.00/4.50/5.00°</td>
+<td>103.75/103.86/103.85/104.15/104.85°</td>
+<td>FARKLI</td>
+<td>step2_baselines.json</td>
+</tr>
+<tr>
+<td>Kapalı form RMSE</td>
+<td>2.70°</td>
+<td>0.00° (tanım gereği)</td>
+<td>KAYNAK BULUNAMADI</td>
+<td>step3_sources.json</td>
+</tr>
+<tr>
+<td>Şekil 8: %95'e ulaşılan hata</td>
+<td>5°</td>
+<td>5.09° (CDF(5°) = %94.7)</td>
+<td>DOĞRULANDI (yakın); yayımlanan görüntü 5°'de ≈%87 gösteriyor</td>
+<td>step6_eval.json, step0_step3_notes.md</td>
+</tr>
+<tr>
+<td>Şekil 9: normalize RMSE</td>
+<td>0.554</td>
+<td>2.77/5 aritmetiği; şeklin betiği yok</td>
+<td>KAYNAK BULUNAMADI</td>
+<td>step3_arith_check.json</td>
+</tr>
+<tr>
+<td>Şekil 9: PSO gecikmesi</td>
+<td>15 ms</td>
+<td>MATLAB yok; Python süresi karşılaştırılamaz</td>
+<td>ÜRETİLEMEDİ</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Şekil 10: %10 CSI hatası</td>
+<td>4.2°</td>
+<td>19.00° (x=0.15: 23.56°)</td>
+<td>FARKLI</td>
+<td>step6_eval.json</td>
+</tr>
+<tr>
+<td>Şekil 10: kapalı form / PSO, %10</td>
+<td>model üstün</td>
+<td>18.66° / 103.99°</td>
+<td>FARKLI</td>
+<td>step2_baselines.json</td>
+</tr>
+<tr>
+<td>1/2/3 bit nicemleme</td>
+<td>4.12/3.08/2.81°</td>
+<td>52.06/26.17/13.39° (hız kaybı 0.999/0.247/0.063 b/s/Hz)</td>
+<td>FARKLI</td>
+<td>step6_eval.json</td>
+</tr>
+<tr>
+<td>Faz gürültüsü σ=1/3/5°</td>
+<td>3°'de taban çizgisine yakın</td>
+<td>3.44/4.47/5.99° (hız kaybı 0.006 b/s/Hz @3°)</td>
+<td>FARKLI (RMSE) / hız kaybı küçük</td>
+<td>step6_eval.json</td>
+</tr>
+<tr>
+<td>Parametre (önerilen)</td>
+<td>727 K</td>
+<td>162,562</td>
+<td>FARKLI</td>
+<td>train/cnnlstm_N32_s0.json</td>
+</tr>
+<tr>
+<td>Diğer Tablo 3 parametreleri</td>
+<td>89K…201K</td>
+<td>mimari tanımı yok</td>
+<td>KAYNAK BULUNAMADI</td>
+<td>step3_sources.json</td>
+</tr>
+<tr>
+<td>Gecikme N=32/64/128/256</td>
+<td>0.08/0.16/0.32/0.64 ms</td>
+<td>0.80/1.11/1.64/2.66 ms (tek örnek, CPU)</td>
+<td>FARKLI (farklı işlemci)</td>
+<td>step4_latency.json</td>
+</tr>
+<tr>
+<td>RMSE N=64 / N=128</td>
+<td>3.21° / 3.89°</td>
+<td>3.05° / 2.58° (tohum başına, √N ölçekli)</td>
+<td>FARKLI (makaleden düşük; tohumlar sürüyor)</td>
+<td>train/cnnlstm_N{64,128}_sqrt_s*.json</td>
+</tr>
+<tr>
+<td>RMSE N=256</td>
+<td>4.6° (tahmin)</td>
+<td>2.25° (1 tohum, gizli boyut √N ölçekli, SR@5 %98.1)</td>
+<td>FARKLI (makaleden düşük; tek tohum)</td>
+<td>train/cnnlstm_N256_sqrt_s0.json</td>
+</tr>
+<tr>
+<td>SNR kazancı model / optimal</td>
+<td>18.4 / 17.9 dB</td>
+<td>etiket (a) medyan 12.39 dB, (b) 14.03 dB (doğrudan bağlantıya göre)</td>
+<td>KAYNAK BULUNAMADI</td>
+<td>step1, step3</td>
+</tr>
+<tr>
+<td>0.31 / 0.89 b/s/Hz, %312</td>
+<td>—</td>
+<td>betik yok</td>
+<td>KAYNAK BULUNAMADI</td>
+<td>step3_sources.json</td>
+</tr>
+</tbody>
+</table>
+<h3>3) Adımlar: komut, tohum, ham çıktı</h3>
+<table>
+<thead>
+<tr>
+<th>Adım</th>
+<th>Komut</th>
+<th>Tohum</th>
+<th>Ham çıktı (audit/raw/)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0, 3</td>
+<td>ajan taraması (yalnızca okuma)</td>
+<td>—</td>
+<td>step0_mapping.json, step3_sources.json, step0_step3_notes.md, step3_arith_check.json</td>
+</tr>
+<tr>
+<td>1</td>
+<td>python3 audit/scripts/step1_label_optimality.py --n 6000 --seed 42</td>
+<td>veri 42, bootstrap 0</td>
+<td>step1_label_optimality.json</td>
+</tr>
+<tr>
+<td>2</td>
+<td>python3 audit/scripts/step2_baselines.py</td>
+<td>veri 42, PSO 0, CSI gürültüsü 5</td>
+<td>step2_baselines.json, step2_csi_inputs_x*.npz</td>
+</tr>
+<tr>
+<td>2, 5</td>
+<td>python3 audit/scripts/m1_train.py --arch {cnnlstm,fcdnn_direct,transformer} --seed {0,1,2} [--permute]</td>
+<td>veri 42, eğitim 0/1/2, permütasyon 7</td>
+<td>train/*.json, *.pt, *_test_abs_err_deg.npy</td>
+</tr>
+<tr>
+<td>2 (N=256)</td>
+<td>python3 audit/scripts/m1_train.py --arch cnnlstm --seed 0 --N 256 --hidden_scale sqrt --tag cnnlstm_N256_sqrt_s0 --threads 2 (betiğin bu daldaki hâli, yalnızca ROOT yolu sabitlenmiş kopyadan; JSON'daki commit 81b07dd çalışma ağacının HEAD'i)</td>
+<td>veri 42, eğitim 0</td>
+<td>train/cnnlstm_N256_sqrt_s0.*, train_N256_run2.log (ilk deneme yeniden başlatmayla kesildi: train_N256.log)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>python3 audit/scripts/step4_latency.py</td>
+<td>veri 123</td>
+<td>step4_latency.json</td>
+</tr>
+<tr>
+<td>5</td>
+<td>python3 audit/scripts/step5_correlation.py; step5_permutation.py</td>
+<td>bootstrap 0</td>
+<td>step5_correlation.json, step5_permutation.json</td>
+</tr>
+<tr>
+<td>6</td>
+<td>python3 audit/scripts/step6_eval.py</td>
+<td>faz gürültüsü 11</td>
+<td>step6_eval.json</td>
+</tr>
+<tr>
+<td>7</td>
+<td>ajan: Crossref/doi.org/arXiv</td>
+<td>—</td>
+<td>step7_references.json/.md, step7_doublecheck.json</td>
+</tr>
+</tbody>
+</table>
+<p>Ortam: Python 3.11.17, PyTorch 2.15.0+cu132, NumPy 2.4.6, Intel(R) Xeon(R) Processor @ 2.10GHz, 4 çekirdek; MATLAB yok. Gecikme ölçümü tek iş parçacığı, yük 0.45 → 1.03.</p>
+<h3>4) Karar vermeniz gereken açık sorular</h3>
+<ol>
+<li>Veri kümesi <code>RIS_dataset_large_2D.mat</code> (ya da <code>aisy_paket/adim1</code> çıktısı) yüklenirse yeniden üretim birebir yapılabilir; aktarım doğrulanır.</li>
+<li>Nicemleme, CSI hatası ve kapalı form 2.70° gibi tanımı belirsiz sayıların makalede hangi tanımla üretildiği yazarlardan öğrenilmeli.</li>
+<li>Etiket formülü: tezde (b) ∠h_d − ∠(G_nF_n) kullanılsın mı? (Altyapı görevinde onaylandı.)</li>
+<li>Bu bulguların yayımlanmış makale için ne anlama geldiği (düzeltme/erratum) danışmanla birlikte değerlendirilmeli.</li>
+<li>N=64/128/256 için ek tohumlar (1, 2) sürüyor (2 iş parçacığı; N=64 ~53 dk, N=128 ~101 dk, N=256 ~265 dk/tohum). Konteyner yeniden başlamaları koşuları kesebiliyor; kesik günlükler saklanıyor.</li>
+</ol>
+<h3>5) Yorum (bulgulardan ayrı)</h3>
+<ul>
+<li>Bağımsız çekilişte CNN–LSTM'in faz doğruluğu makaledekiyle aynı mertebede (2.8–3.9°), yani modelin kendisi çalışıyor; sorunlar etiket tanımında, karşılaştırma protokolünde ve kaynağı olmayan sayılarda.</li>
+<li>Klasik yöntemlerin 'kötü' görünmesi, gerçek optimuma gitmelerinin etiket-RMSE'si tarafından cezalandırılmasından kaynaklanıyor; alınan güç ölçütünde CD ve SPA etiketin önünde.</li>
+<li>Sin/cos gösteriminin ±π süreksizliğini gidermesi bu bulgulardan bağımsız; tezde ayrıca doğrulandı.</li>
+</ul></section>
+</body></html>

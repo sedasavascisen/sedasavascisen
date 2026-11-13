@@ -67,7 +67,9 @@ p, li {{ orphans: 3; widows: 3; }} ul, ol {{ padding-left: 16pt; margin: 3pt 0 6
 code {{ font-family: 'DejaVu Sans Mono', monospace; font-size: 8pt; background: var(--soft); padding: 0 2pt; border-radius: 2px; word-break: break-word; }}
 pre {{ background: var(--soft); padding: 6pt; font-size: 7.6pt; white-space: pre-wrap; border-radius: 3px; }}
 table {{ border-collapse: collapse; width: 100%; margin: 6pt 0 10pt; font-size: 7.6pt; page-break-inside: auto; }}
-tr {{ page-break-inside: avoid; }} th, td {{ border: 1px solid var(--line); padding: 2.5pt 4pt; vertical-align: top; text-align: left; word-break: break-word; }}
+tr {{ page-break-inside: avoid; }} th, td {{ border: 1px solid var(--line); padding: 2.5pt 4pt; vertical-align: top; text-align: left; word-break: normal; overflow-wrap: break-word; }}
+td code {{ word-break: break-all; }}
+.cover th {{ white-space: nowrap; }}
 th {{ background: var(--soft); }}
 blockquote {{ margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; background: #fbf1f0; }}
 .part {{ page-break-before: always; }} .parthead {{ border-bottom: 2px solid var(--accent); margin-bottom: 8pt; }}
