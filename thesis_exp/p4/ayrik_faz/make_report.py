@@ -4,6 +4,9 @@ import json, pathlib, subprocess
 H = pathlib.Path(__file__).parent
 r = json.load(open(H / "raw/results_exact.json"))
 r0 = json.load(open(H / "raw/results.json"))
+_r3 = H / "raw/results_3bit.json"
+if _r3.exists():
+    r3 = json.load(open(_r3)); r["bits"].update(r3["bits"]); r["commit_3bit"] = r3["commit"]
 c = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=H).stdout.strip()
 o = []; W = o.append
 ci = lambda x: f"[{x[0]:+.4f}, {x[1]:+.4f}]"
@@ -13,7 +16,7 @@ W("> **DÜZELTME (denetim K3, 12 Kasım):** İlk sürüm etkin hızı, 40 ms'den
   "kadar yanlıştı. Bu rapor her kolu **tam kendi gecikme anında** değerlendiren `run_exact.py`'den (`raw/results_exact.json`). "
   "İlk sürümün `raw/results.json` dosyası yalnızca dCD zamanlamalarının kaynağı olarak duruyor.")
 W("")
-W(f"Rapor commit'i `{c}`. Ölçüm commit'leri: değerlendirme `{r['commit'][:7]}` (results_exact.json), dCD zamanlaması `{r0['commit'][:7]}` (results.json). "
+W(f"Rapor commit'i `{c}`. Ölçüm commit'leri: değerlendirme `{r['commit'][:7]}` (results_exact.json), dCD zamanlaması `{r0['commit'][:7]}` (results.json)" + (f"; 3 bit (zamanlama + değerlendirme) `{r['commit_3bit'][:7]}` (results_3bit.json)" if "commit_3bit" in r else "") + ". "
   "Yaşlanma kümesi (seed 11, 400 senaryo), seçim doğrulama çekilişinde (seed 12). Fazlar t=0 kanalından; sürekli kollar system.quantise_phase "
   "ile yuvarlandı (yuvarlama bedava sayıldı). dCD-s: baselines.coord_descent(bits=b, iters=s), gerçek 2^b ızgarasında. SU-best-of ve Adam-L "
   "gecikmeleri tek iş parçacıklı yeniden ölçümden (thesis_exp/infra; Adam-L SU-average başlangıcını içermiyor, etkisi p4/gecikme_muhasebesi). "
@@ -39,6 +42,7 @@ for b, v in r["bits"].items():
 W(""); W("## Komut, tohum, ham çıktı"); W("")
 W("| Komut | Tohum | Ham çıktı |"); W("| --- | --- | --- |")
 W("| python3 thesis_exp/p4/ayrik_faz/run.py (dCD zamanlaması; boş makine) | kanal 11/12, bootstrap 0 | raw/results.json, raw/run.log |")
+W("| python3 thesis_exp/p4/ayrik_faz/run_3bit.py (3 bit: boş makinede dCD zamanlaması + tam gecikmede değerlendirme) | kanal 11/12, bootstrap 0 | raw/results_3bit.json, raw/run_3bit.log |")
 W("| python3 thesis_exp/p4/ayrik_faz/run_exact.py (tam gecikmede değerlendirme, iki lr tasarımı) | kanal 11 (test) / 12 (doğrulama), bootstrap 0 | raw/results_exact.json, raw/run_exact.log |")
 yorum = H / "yorum.md"
 if yorum.exists():

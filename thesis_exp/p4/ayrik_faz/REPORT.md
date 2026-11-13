@@ -2,7 +2,7 @@
 
 > **DÜZELTME (denetim K3, 12 Kasım):** İlk sürüm etkin hızı, 40 ms'den sonra 50/75/100/150 ms'ye atlayan kaba bir ızgarada doğrusal interpolasyonla hesaplıyordu (koherans süresi ~28 ms). Bu yüzden 40 ms'den yavaş her kolun (Adam-32/48→q, dCD-2…8) değeri ±0.055 b/s/Hz'e kadar yanlıştı. Bu rapor her kolu **tam kendi gecikme anında** değerlendiren `run_exact.py`'den (`raw/results_exact.json`). İlk sürümün `raw/results.json` dosyası yalnızca dCD zamanlamalarının kaynağı olarak duruyor.
 
-Rapor commit'i `1847597`. Ölçüm commit'leri: değerlendirme `1847597` (results_exact.json), dCD zamanlaması `98ddad9` (results.json). Yaşlanma kümesi (seed 11, 400 senaryo), seçim doğrulama çekilişinde (seed 12). Fazlar t=0 kanalından; sürekli kollar system.quantise_phase ile yuvarlandı (yuvarlama bedava sayıldı). dCD-s: baselines.coord_descent(bits=b, iters=s), gerçek 2^b ızgarasında. SU-best-of ve Adam-L gecikmeleri tek iş parçacıklı yeniden ölçümden (thesis_exp/infra; Adam-L SU-average başlangıcını içermiyor, etkisi p4/gecikme_muhasebesi). dCD gecikmeleri boş makinede ölçüldü (tek iş parçacığı, 10 senaryo × 5 tekrarın medyanı, 3 tur). İki tasarım: **lr0.5** (Adam adım boyu 0.5, makalenin yaşlanma kümesi değeri) ve **lr-val** (adım boyu her L ve bit için doğrulamada {0.25, 0.5, 0.75, 1.0} içinden seçildi; denetim U20). Eşli bootstrap 2000, %95 GA.
+Rapor commit'i `4b1989e`. Ölçüm commit'leri: değerlendirme `1847597` (results_exact.json), dCD zamanlaması `98ddad9` (results.json). Yaşlanma kümesi (seed 11, 400 senaryo), seçim doğrulama çekilişinde (seed 12). Fazlar t=0 kanalından; sürekli kollar system.quantise_phase ile yuvarlandı (yuvarlama bedava sayıldı). dCD-s: baselines.coord_descent(bits=b, iters=s), gerçek 2^b ızgarasında. SU-best-of ve Adam-L gecikmeleri tek iş parçacıklı yeniden ölçümden (thesis_exp/infra; Adam-L SU-average başlangıcını içermiyor, etkisi p4/gecikme_muhasebesi). dCD gecikmeleri boş makinede ölçüldü (tek iş parçacığı, 10 senaryo × 5 tekrarın medyanı, 3 tur). İki tasarım: **lr0.5** (Adam adım boyu 0.5, makalenin yaşlanma kümesi değeri) ve **lr-val** (adım boyu her L ve bit için doğrulamada {0.25, 0.5, 0.75, 1.0} içinden seçildi; denetim U20). Eşli bootstrap 2000, %95 GA.
 
 ## 1 bit
 
@@ -137,6 +137,7 @@ dCD zamanlaması (tur medyanları, ms): dCD-1: 27.1 (31.2, 27.1, 26.7); dCD-2: 5
 | Komut | Tohum | Ham çıktı |
 | --- | --- | --- |
 | python3 thesis_exp/p4/ayrik_faz/run.py (dCD zamanlaması; boş makine) | kanal 11/12, bootstrap 0 | raw/results.json, raw/run.log |
+| python3 thesis_exp/p4/ayrik_faz/run_3bit.py (3 bit: boş makinede dCD zamanlaması + tam gecikmede değerlendirme) | kanal 11/12, bootstrap 0 | raw/results_3bit.json, raw/run_3bit.log |
 | python3 thesis_exp/p4/ayrik_faz/run_exact.py (tam gecikmede değerlendirme, iki lr tasarımı) | kanal 11 (test) / 12 (doğrulama), bootstrap 0 | raw/results_exact.json, raw/run_exact.log |
 
 ## Yorum (bulgulardan ayrı)
