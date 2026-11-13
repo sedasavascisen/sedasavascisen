@@ -162,7 +162,7 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 - **Testte en iyi Adam-L:** 6 → 3 → 5.
 - **Sınır:** ρ serbest parametre, pilot bütçesine bağlanmadı.
 
-### 5.5 Ayrık faz (1/2 bit) — `p4/ayrik_faz/REPORT.md`
+### 5.5 Ayrık faz (1/2/3 bit) — `p4/ayrik_faz/REPORT.md`
 - **Değerlendirme:** her kol tam kendi gecikme anında (`run_exact.py`; ilk sürümün 40 ms üstü kaba ızgara interpolasyonu ±0.055'e kadar yanlıştı, denetim K3).
 - **L\*:** 1 bitte Adam-5→q, 2 bitte Adam-6→q (lr 0.5); adım boyu doğrulamada seçilince 1 bitte Adam-3→q.
 - **Adam-48→q kaybı:** %9.5 / %14.1.
@@ -171,6 +171,7 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
   - 2 bit: 27.1 / 56.3 / 86.2 / 109.3 / 129.5 ms.
 - **2 bit:** dCD-2/3/4/8 SU-best-of→q'nun 0.137–0.170 altında (GA'lar sıfırın altında); dCD-1 ayırt edilemez.
 - **1 bit:** doğrulamada dCD-1 seçildi (testte 5.113). dCD-1 − Adam-5→q = −0.044 [−0.114, +0.024]: aynı düzeyde.
+- **3 bit (13 Kasım):** L* = Adam-6→q, L48 kaybı %14.9; dCD-1/2/3/4/8 (58.9/126.7/205.0/257.4/501.2 ms) SU-best-of→q'nun 0.27–0.35 altında (GA'lar sıfırın altında). `run_3bit.py` → `raw/results_3bit.json`.
 - **Sınır:** yuvarlama bedava sayıldı.
 
 ### 5.6 Optimize edilmiş süreler — `p4/optimize_sure/REPORT.md`
@@ -219,8 +220,6 @@ Not: H7, kullanıcıya önce bildirilmiş bir sayıyı değiştirdi (4.3: 3.303/
 | 4.6 GPU | Bu makinede CUDA yok |
 
 ---
-
-**Koşulmamış (üretilemeyen değil):** 4.5 için 3 bit (istem 1/2 bit); boş makine gerektiriyor, eğitimlerden sonra eklenebilir.
 
 ## 8) Sürmekte olan işler (12 Kasım)
 

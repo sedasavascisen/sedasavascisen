@@ -2,7 +2,7 @@
 
 > **DÜZELTME (denetim K3, 12 Kasım):** İlk sürüm etkin hızı, 40 ms'den sonra 50/75/100/150 ms'ye atlayan kaba bir ızgarada doğrusal interpolasyonla hesaplıyordu (koherans süresi ~28 ms). Bu yüzden 40 ms'den yavaş her kolun (Adam-32/48→q, dCD-2…8) değeri ±0.055 b/s/Hz'e kadar yanlıştı. Bu rapor her kolu **tam kendi gecikme anında** değerlendiren `run_exact.py`'den (`raw/results_exact.json`). İlk sürümün `raw/results.json` dosyası yalnızca dCD zamanlamalarının kaynağı olarak duruyor.
 
-Rapor commit'i `4b1989e`. Ölçüm commit'leri: değerlendirme `1847597` (results_exact.json), dCD zamanlaması `98ddad9` (results.json). Yaşlanma kümesi (seed 11, 400 senaryo), seçim doğrulama çekilişinde (seed 12). Fazlar t=0 kanalından; sürekli kollar system.quantise_phase ile yuvarlandı (yuvarlama bedava sayıldı). dCD-s: baselines.coord_descent(bits=b, iters=s), gerçek 2^b ızgarasında. SU-best-of ve Adam-L gecikmeleri tek iş parçacıklı yeniden ölçümden (thesis_exp/infra; Adam-L SU-average başlangıcını içermiyor, etkisi p4/gecikme_muhasebesi). dCD gecikmeleri boş makinede ölçüldü (tek iş parçacığı, 10 senaryo × 5 tekrarın medyanı, 3 tur). İki tasarım: **lr0.5** (Adam adım boyu 0.5, makalenin yaşlanma kümesi değeri) ve **lr-val** (adım boyu her L ve bit için doğrulamada {0.25, 0.5, 0.75, 1.0} içinden seçildi; denetim U20). Eşli bootstrap 2000, %95 GA.
+Rapor commit'i `e9bf18b`. Ölçüm commit'leri: değerlendirme `1847597` (results_exact.json), dCD zamanlaması `98ddad9` (results.json); 3 bit (zamanlama + değerlendirme) `e9bf18b` (results_3bit.json). Yaşlanma kümesi (seed 11, 400 senaryo), seçim doğrulama çekilişinde (seed 12). Fazlar t=0 kanalından; sürekli kollar system.quantise_phase ile yuvarlandı (yuvarlama bedava sayıldı). dCD-s: baselines.coord_descent(bits=b, iters=s), gerçek 2^b ızgarasında. SU-best-of ve Adam-L gecikmeleri tek iş parçacıklı yeniden ölçümden (thesis_exp/infra; Adam-L SU-average başlangıcını içermiyor, etkisi p4/gecikme_muhasebesi). dCD gecikmeleri boş makinede ölçüldü (tek iş parçacığı, 10 senaryo × 5 tekrarın medyanı, 3 tur). İki tasarım: **lr0.5** (Adam adım boyu 0.5, makalenin yaşlanma kümesi değeri) ve **lr-val** (adım boyu her L ve bit için doğrulamada {0.25, 0.5, 0.75, 1.0} içinden seçildi; denetim U20). Eşli bootstrap 2000, %95 GA.
 
 ## 1 bit
 
@@ -132,6 +132,70 @@ Eşli farklar (test): dCD-1 - Adam-5->q: -0.7367 [-0.8156, -0.6557]; dCD-1 - Ada
 
 dCD zamanlaması (tur medyanları, ms): dCD-1: 27.1 (31.2, 27.1, 26.7); dCD-2: 56.3 (52.1, 72.0, 56.3); dCD-3: 86.2 (88.6, 86.2, 81.1); dCD-4: 109.3 (106.9, 109.3, 110.5); dCD-8: 129.5 (129.5, 132.4, 121.8)
 
+## 3 bit
+
+dCD zamanlaması yük ortalaması: başlangıç 3.62, ölçüm öncesi 0.49, sonrası 0.99.
+
+### Tasarım lr0.5
+
+Doğrulamada seçilen kol: **Adam-5->q**. L* (test, yuvarlanmış Adam kolları): **Adam-6->q**. Adam-48→q'nun L*'a göre kaybı: %14.9.
+
+Eşli farklar (test): dCD-1 - Adam-5->q: -1.0984 [-1.1835, -1.0102]; dCD-1 - Adam-6->q: -1.1206 [-1.2094, -1.0365]; Adam-5->q - Adam-6->q: -0.0222 [-0.0470, +0.0019]
+
+| Kol | Gecikme (ms) | lr | t=0 hızı | Etkin hız [%95 GA] | − SU-best-of→q [%95 GA] |
+| --- | --- | --- | --- | --- | --- |
+| Adam-1->q | 1.33 | 0.5 | 5.3718 | 5.3683 [5.1332, 5.6137] | +0.1256 [+0.0635, +0.1815] |
+| SU-best-of->q | 1.63 |  | 5.2432 | 5.2427 [5.0202, 5.4776] | +0.0000 [+0.0000, +0.0000] |
+| Adam-2->q | 2.74 | 0.5 | 5.7383 | 5.7154 [5.4843, 5.9651] | +0.4727 [+0.4113, +0.5299] |
+| Adam-3->q | 4.14 | 0.5 | 5.9272 | 5.8803 [5.6374, 6.1126] | +0.6376 [+0.5792, +0.6927] |
+| Adam-4->q | 5.55 | 0.5 | 6.0634 | 5.9645 [5.7325, 6.1969] | +0.7218 [+0.6627, +0.7848] |
+| Adam-5->q | 6.82 | 0.5 | 6.1468 | 5.9916 [5.7394, 6.2170] | +0.7489 [+0.6887, +0.8095] |
+| Adam-6->q | 8.09 | 0.5 | 6.2358 | 6.0138 [5.7850, 6.2522] | +0.7711 [+0.7053, +0.8376] |
+| Adam-8->q | 10.63 | 0.5 | 6.3646 | 5.9511 [5.7206, 6.1734] | +0.7084 [+0.6367, +0.7838] |
+| Adam-10->q | 13.30 | 0.5 | 6.4494 | 5.8502 [5.6148, 6.0908] | +0.6075 [+0.5336, +0.6864] |
+| Adam-12->q | 15.96 | 0.5 | 6.5357 | 5.7113 [5.4688, 5.9481] | +0.4686 [+0.3935, +0.5467] |
+| Adam-16->q | 21.28 | 0.5 | 6.6573 | 5.4670 [5.2262, 5.7045] | +0.2243 [+0.1404, +0.3087] |
+| Adam-20->q | 26.57 | 0.5 | 6.7273 | 5.3309 [5.0909, 5.5675] | +0.0882 [-0.0021, +0.1776] |
+| Adam-24->q | 31.85 | 0.5 | 6.7865 | 5.2746 [5.0304, 5.5169] | +0.0319 [-0.0579, +0.1265] |
+| Adam-32->q | 42.42 | 0.5 | 6.8514 | 5.2359 [4.9953, 5.4713] | -0.0068 [-0.1080, +0.0986] |
+| dCD-1 | 58.87 |  | 6.2946 | 4.8932 [4.6551, 5.1305] | -0.3495 [-0.4390, -0.2583] |
+| Adam-48->q | 63.91 | 0.5 | 6.9229 | 5.1164 [4.8801, 5.3627] | -0.1263 [-0.2238, -0.0334] |
+| dCD-2 | 126.69 |  | 6.6082 | 4.9653 [4.7430, 5.2089] | -0.2774 [-0.3717, -0.1895] |
+| dCD-3 | 205.02 |  | 6.7219 | 4.9735 [4.7213, 5.2297] | -0.2692 [-0.3739, -0.1666] |
+| dCD-4 | 257.38 |  | 6.7749 | 4.9644 [4.7269, 5.1980] | -0.2783 [-0.3756, -0.1845] |
+| dCD-8 | 501.18 |  | 6.8437 | 4.9526 [4.7061, 5.1992] | -0.2901 [-0.3873, -0.1936] |
+
+### Tasarım lr-val
+
+Doğrulamada seçilen kol: **Adam-5->q**. L* (test, yuvarlanmış Adam kolları): **Adam-6->q**. Adam-48→q'nun L*'a göre kaybı: %14.9.
+
+Eşli farklar (test): dCD-1 - Adam-5->q: -1.0984 [-1.1837, -1.0119]; dCD-1 - Adam-6->q: -1.1206 [-1.2072, -1.0352]; Adam-5->q - Adam-6->q: -0.0222 [-0.0473, +0.0007]
+
+| Kol | Gecikme (ms) | lr | t=0 hızı | Etkin hız [%95 GA] | − SU-best-of→q [%95 GA] |
+| --- | --- | --- | --- | --- | --- |
+| Adam-1->q | 1.33 | 0.75 | 5.4396 | 5.4364 [5.2055, 5.6761] | +0.1937 [+0.1377, +0.2463] |
+| SU-best-of->q | 1.63 |  | 5.2432 | 5.2427 [5.0099, 5.4696] | +0.0000 [+0.0000, +0.0000] |
+| Adam-2->q | 2.74 | 0.75 | 5.7386 | 5.7211 [5.4822, 5.9611] | +0.4784 [+0.4213, +0.5324] |
+| Adam-3->q | 4.14 | 0.5 | 5.9272 | 5.8803 [5.6411, 6.1073] | +0.6376 [+0.5821, +0.6948] |
+| Adam-4->q | 5.55 | 0.5 | 6.0634 | 5.9645 [5.7260, 6.2092] | +0.7218 [+0.6623, +0.7830] |
+| Adam-5->q | 6.82 | 0.5 | 6.1468 | 5.9916 [5.7515, 6.2193] | +0.7489 [+0.6863, +0.8093] |
+| Adam-6->q | 8.09 | 0.5 | 6.2358 | 6.0138 [5.7856, 6.2473] | +0.7711 [+0.7058, +0.8375] |
+| Adam-8->q | 10.63 | 0.5 | 6.3646 | 5.9511 [5.7103, 6.1867] | +0.7084 [+0.6349, +0.7800] |
+| Adam-10->q | 13.30 | 0.75 | 6.4359 | 5.8407 [5.6070, 6.0670] | +0.5980 [+0.5254, +0.6746] |
+| Adam-12->q | 15.96 | 0.75 | 6.5362 | 5.7572 [5.5180, 5.9951] | +0.5145 [+0.4379, +0.5949] |
+| Adam-16->q | 21.28 | 0.75 | 6.6536 | 5.4956 [5.2590, 5.7248] | +0.2529 [+0.1691, +0.3400] |
+| Adam-20->q | 26.57 | 0.75 | 6.7402 | 5.3573 [5.1313, 5.5807] | +0.1146 [+0.0247, +0.2076] |
+| Adam-24->q | 31.85 | 0.5 | 6.7865 | 5.2746 [5.0327, 5.5028] | +0.0319 [-0.0563, +0.1211] |
+| Adam-32->q | 42.42 | 1.0 | 6.8572 | 5.2378 [5.0001, 5.4734] | -0.0049 [-0.1065, +0.0953] |
+| dCD-1 | 58.87 |  | 6.2946 | 4.8932 [4.6504, 5.1447] | -0.3495 [-0.4367, -0.2696] |
+| Adam-48->q | 63.91 | 0.25 | 6.8759 | 5.1206 [4.8676, 5.3634] | -0.1221 [-0.2169, -0.0299] |
+| dCD-2 | 126.69 |  | 6.6082 | 4.9653 [4.7307, 5.2024] | -0.2774 [-0.3697, -0.1864] |
+| dCD-3 | 205.02 |  | 6.7219 | 4.9735 [4.7178, 5.2071] | -0.2692 [-0.3671, -0.1674] |
+| dCD-4 | 257.38 |  | 6.7749 | 4.9644 [4.7211, 5.2120] | -0.2783 [-0.3753, -0.1831] |
+| dCD-8 | 501.18 |  | 6.8437 | 4.9526 [4.7148, 5.2051] | -0.2901 [-0.3840, -0.1951] |
+
+dCD zamanlaması (tur medyanları, ms): dCD-1: 58.9 (58.9, 58.6, 67.0); dCD-2: 126.7 (119.4, 130.0, 126.7); dCD-3: 205.0 (205.0, 187.9, 206.3); dCD-4: 257.4 (244.1, 257.4, 277.5); dCD-8: 501.2 (512.0, 429.7, 501.2)
+
 ## Komut, tohum, ham çıktı
 
 | Komut | Tohum | Ham çıktı |
@@ -154,6 +218,6 @@ dCD zamanlaması (tur medyanları, ms): dCD-1: 27.1 (31.2, 27.1, 26.7); dCD-2: 5
 - **Tek-RIS'teki "1 bitte ayrık CD kazanıyor" sonucuyla ilişki:** Çok kullanıcılı yaşlanma kümesinde bu sonuç yalnızca tek taramada ve yalnızca berabere düzeyinde tekrarlanıyor.
 - **Adım boyu (denetim U20):** lr-val, lr0.5'e göre hükmü değiştirmiyor. 1 bitte doğrulamada seçilen adım boyu bazı L'lerde testte daha düşük hız verdi (Adam-5→q 5.158 → 5.131); doğrulama ile test arasındaki fark, GA genişliğinin içinde.
 - **Gecikme muhasebesi:** Adam-L→q gecikmesi SU-average başlangıcını (0.30 ms) içermiyor (common.adam_latency; makalenin kuralı). Başlangıç gecikmeye eklenince etkin hız kol başına 0.0001–0.021 b/s/Hz düşüyor; 1 bitte Adam-5→q için 0.0069. Bu, dCD-1 ile Adam-5→q arasındaki 0.044'lük farkı kapatmıyor; ama fark zaten anlamlı değil [p4/gecikme_muhasebesi/raw/results.json].
-- **3 bit kapsam dışı:** İstem (Görev 4.5) 1/2 bit istiyordu; CLAUDE.md'nin ayrık faz maddesi 1/2/3 bit diyor. 3 bit, dCD zamanlaması boş makine gerektirdiği için eğitimler bittikten sonra eklenebilir; henüz koşulmadı.
+- **3 bit (13 Kasım, kullanıcı onayı):** İçsel optimum korunuyor: L* = Adam-6→q, Adam-48→q kaybı %14.9. dCD'nin beş sürümünün hepsi SU-best-of→q'nun 0.27–0.35 b/s/Hz altında (GA'lar sıfırın altında); dCD-1 (58.9 ms) en iyi Adam→q'nun 1.12 altında [−1.21, −1.04]. Doğrulamada seçilen Adam-5→q ile L* (Adam-6→q) ayırt edilemiyor (−0.022 [−0.047, +0.002]). Yani bit sayısı arttıkça yavaş ayrık çözücünün durumu kötüleşiyor: 1 bitte berabere, 2 bitte geride, 3 bitte belirgin geride.
 - **Yuvarlama bedava sayıldı.** Sürekli kollar için bu iyimser bir varsayım ve dCD'nin aleyhine bir eğilim yaratır. Yuvarlamanın gerçek maliyeti 2^b'lik bir arama tablosu düzeyinde, ölçülmedi.
-- **dCD zamanlaması sonrası yük ortalaması 0.76 / 0.86.** Bu değere ölçülen tek iş parçacıklı süreç de katkı veriyor. Ölçüm öncesi yük ortalaması 0.49 / 0.46 idi.
+- **dCD zamanlaması sonrası yük ortalaması 0.76 / 0.86 / 0.99 (1/2/3 bit).** Bu değere ölçülen tek iş parçacıklı süreç de katkı veriyor. Ölçüm öncesi yük ortalaması 0.49 / 0.46 / 0.49 idi.
