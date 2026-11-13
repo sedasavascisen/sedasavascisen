@@ -51,7 +51,7 @@ Bütün yeniden üretimler **bağımsız bir çekilişte** (NumPy aktarımı, `a
 3. **CSI hatasında 4.2° tutmuyor.** Göreli hata varyansı 0.10'da model 19.00° (3 tohum ort.), kapalı form 18.66°. (step6_eval.json, step2_baselines.json)
 4. **Klasik yöntemlerin RMSE'leri yayımlanan kodla üretilemiyor.** CD (K=5) 104.02° (makale 3.50°); ortak faz çıkarılınca 1.10°. Bu yöntemler gerçek optimuma gidiyor, etiketten ortak bir faz kadar ayrılıyor. (step2_baselines.json)
 5. **Tablo 6, Tablo 8, Şekil 1–2 elle yazılmış; Şekil 8–10 için betik yok.** (step0_mapping.json, step0_step3_notes.md)
-6. **N=256 projeksiyonu tutmuyor.** Tablo 8'deki 4.6° elle yazılmış bir tahmin. Ölçülen 2.25° (tek tohum, gizli boyut √(N/32) ile ölçekli, 870 018 parametre, SR@5 %98.1); N=32'nin üç tohumunun (3.18/2.77/3.90°) hepsinden düşük. Ek tohumlar ve N=64/128 sürüyor (§8). (train/cnnlstm_N256_sqrt_s0.json)
+6. **N=256 projeksiyonu tutmuyor.** Tablo 8'deki 4.6° elle yazılmış bir tahmin. Ölçülen 2.25° (tek tohum, gizli boyut √(N/32) ile ölçekli, 870 018 parametre, SR@5 %98.1); N=32'nin üç tohumunun (3.18/2.77/3.90°) hepsinden düşük. N=64 3.05°, N=128 2.58° (tohum 0); ek tohumlar kullanıcı isteğiyle durduruldu (§8). (train/cnnlstm_N256_sqrt_s0.json)
 7. **Tohum yayılımı** 3 tohumda std 0.58°; makale 5 koşu için ±0.09° GA diyor. (train/cnnlstm_N32_s*.json)
 8. **Uzamsal komşuluk kullanılmıyor.** Komşu eleman korelasyonu |ρ| ≤ 0.007; permütasyonla 3.28° → 3.41° (tohum yayılımından küçük). (step5_*.json)
 9. **Parametre sayısı** 162 562 (makale 727 K); doğrudan faz FC-DNN 83.85° (makale 3.95°); CNN-Transformer 4.46° (makale 2.91°).
@@ -221,14 +221,17 @@ Not: H7, kullanıcıya önce bildirilmiş bir sayıyı değiştirdi (4.3: 3.303/
 
 ---
 
-## 8) Sürmekte olan işler (12 Kasım)
+## 8) Durdurulan işler ve Makale 1'in kapsamı (13 Kasım)
 
-| İş | Durum | Tahmin |
-| --- | --- | --- |
-| N=256 tohum 1, 2 (√N, 2 iş parçacığı) | Kuyruk A | ~4.5–5 saat/tohum |
-| N=64 tohum 0–2, N=128 tohum 0–2 | Kuyruk B | N=64 ~1 saat/tohum; N=128 ölçülecek |
+Kullanıcı 13 Kasım'da Makale 1'in incelenmesini durdurdu ("kodlarını bulacağım"). Makale 1 denetimi o tarihteki hâliyle donduruldu; saatlik denetimin kapsamından çıkarıldı.
 
-Bitince `audit/AUDIT_REPORT.md` güncellenecek (RMSE–N eğrisi, tohum yayılımıyla).
+| İş | Durum |
+| --- | --- |
+| N=64 / 128 / 256, tohum 0 (√N ölçekli) | Bitti: 3.05° / 2.58° / 2.25° (makale Tablo 8: 3.21° / 3.89° / 4.6° tahmin). Her N için tek tohum. |
+| N=64/128 tohum 1–2, N=256 tohum 1–2 | Kullanıcı isteğiyle durduruldu. İki konteyner yeniden başlaması koşuları kesmişti; kesik günlükler `audit/raw/*kesik*`, `*durduruldu*` |
+| 4.5 için 3 bit | 13 Kasım'da koşuldu (§5.5) |
+
+Yeniden başlamaların nedeni: harness'in izlediği bir arka plan işi kalmayınca konteyner hareketsiz sayılıp geri alınıyor; `nohup` ile ayrılan süreçler bunu engellemiyor. Uzun işler bundan sonra açık bir izleme göreviyle birlikte koşturulmalı.
 
 ---
 
