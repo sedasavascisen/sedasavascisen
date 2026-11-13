@@ -1,6 +1,6 @@
 # Makale 1 bağımsız denetim raporu
 
-Makale: Savaşçı Şen ve ark., *Overcoming the Phase Discontinuity Problem in RIS Optimization…*, Adv. Intell. Syst. 2026, doi:10.1002/aisy.70460. Dal `audit/makale1-denetim`, rapor commit'i `73c5472` (rapor bu commit'teki ham dosyalardan üretildi).
+Makale: Savaşçı Şen ve ark., *Overcoming the Phase Discontinuity Problem in RIS Optimization…*, Adv. Intell. Syst. 2026, doi:10.1002/aisy.70460. Dal `audit/makale1-denetim`, rapor commit'i `089c578` (rapor bu commit'teki ham dosyalardan üretildi).
 
 **Önemli sınır:** MATLAB ve makalenin veri kümesi (`RIS_dataset_large_2D.mat`) yok. Bütün yeniden üretimler, aynı üretecin NumPy aktarımıyla (`audit/scripts/m1_data.py`) alınmış **bağımsız bir çekilişte** yapıldı. MATLAB'ın `rng(42)` örnekleriyle birebir aynı değildir; aktarım kayıtlı bir MATLAB çıktısıyla doğrulanamadı (Kural 8). Eğitim, MATLAB varsayılanlarına göre PyTorch'a aktarıldı (`audit/scripts/m1_train.py`, docstring).
 
@@ -13,7 +13,7 @@ Makale: Savaşçı Şen ve ark., *Overcoming the Phase Discontinuity Problem in 
 5. **Tablo 6, Tablo 8, Şekil 1 ve 2'deki sayılar elle yazılmış; Şekil 8, 9, 10 için betik yok.** Ayrıntı ve satır numaraları [step0_mapping.json, step0_step3_notes.md].
 6. **Kaynağı bulunamayan sayılar:** 18.4/17.9 dB, kapalı formun 2.70° RMSE'si (etiketin kendisine göre tanım gereği 0°; burada 0.00°), 0.31/0.89 b/s/Hz, %312, Tablo 3 parametre sayıları. [step3_sources.json]
 7. **Gecikme ve ölçekleme.** Yayımlanan mimarinin parametre sayısı koddan 162,562 (PyTorch; MATLAB 161 794, aradaki 768 ikinci LSTM bias'ı); makale 727 K. Tek-örnek CPU gecikmesi N=32/256'da 0.80/2.66 ms, toplu iş 0.158/1.66 ms; makale 0.08/0.64 ms (farklı işlemci: i7-9700K). Ölçekleme oranı 256/32: tek-örnek 3.3×, gizli boyut √N ölçeklemeli 13.6× (makale tam 8×). [step4_latency.json]
-8. **N=256 projeksiyonu ölçümle tutmuyor.** Tablo 8'deki N=256 RMSE'si 4.6° elle yazılmış bir tahmin (betik yok). Aynı üreteç, aynı örnek sayısı (40 000) ve 50 epokla eğitilen N=256 modeli (gizli boyutlar √(N/32) ile ölçeklendi; 870,018 parametre; son epok ağı) test kümesinde **2.25°** (SR@5 %98.1, %95 dilim 3.39°) veriyor; bu, N=32'nin üç tohumunun (3.18, 2.77, 3.90°) hepsinden düşük. Makalenin N arttıkça RMSE'nin arttığı projeksiyonu bu ölçümde desteklenmiyor. Sınır: tek tohum; N=64/128 eğitilmedi; mimarinin N ile ölçeklenmesi makalede tanımlı değil (√N bizim seçimimiz). [train/cnnlstm_N256_sqrt_s0.json, train_N256_run2.log]
+8. **N=256 projeksiyonu ölçümle tutmuyor.** Tablo 8'deki N=256 RMSE'si 4.6° elle yazılmış bir tahmin (betik yok). Aynı üreteç, aynı örnek sayısı (40 000) ve 50 epokla eğitilen N=256 modeli (gizli boyutlar √(N/32) ile ölçeklendi; 870,018 parametre; son epok ağı) test kümesinde **2.25°** (SR@5 %98.1, %95 dilim 3.39°) veriyor; bu, N=32'nin üç tohumunun (3.18, 2.77, 3.90°) hepsinden düşük. Makalenin N arttıkça RMSE'nin arttığı projeksiyonu bu ölçümde desteklenmiyor. Aynı kurulumla ölçülen dizi (tohum başına; √N ölçekli): N=64: 3.05°; N=128: 2.58°; N=256: 2.25°; makale Tablo 8: 2.77/3.21/3.89/4.6(tahmin)°. Sınır: ek tohumlar sürüyor; mimarinin N ile ölçeklenmesi makalede tanımlı değil (√N bizim seçimimiz). [train/cnnlstm_N256_sqrt_s0.json, train_N256_run2.log]
 9. **Tohum yayılımı makalenin GA'sından çok büyük.** Aynı ayarla 3 tohum: 3.18, 2.77, 3.90° (std 0.58°); makale 5 koşu için ±0.09° GA diyor. [train/cnnlstm_N32_s*.json]
 10. **Uzamsal komşuluk kullanılmıyor.** Komşu elemanların kanal korelasyonu |ρ| ≤ 0.007; eleman sırası rastgele karıştırılınca RMSE 3.28° → 3.41° (fark tohum yayılımından küçük). Makalenin CNN'in 'uzamsal korelasyonu yakaladığı' anlatısı bu veride desteklenmiyor. [step5_correlation.json, step5_permutation.json]
 11. **Doğrudan faz (FC-DNN) 83.85°, CNN-Transformer 4.46°** (makale 3.95° / 2.91°). Transformer parametresi 17,442 (makale 201 K). [train/*.json]
@@ -41,6 +41,7 @@ Makale: Savaşçı Şen ve ark., *Overcoming the Phase Discontinuity Problem in 
 | Parametre (önerilen) | 727 K | 162,562 | FARKLI | train/cnnlstm_N32_s0.json |
 | Diğer Tablo 3 parametreleri | 89K…201K | mimari tanımı yok | KAYNAK BULUNAMADI | step3_sources.json |
 | Gecikme N=32/64/128/256 | 0.08/0.16/0.32/0.64 ms | 0.80/1.11/1.64/2.66 ms (tek örnek, CPU) | FARKLI (farklı işlemci) | step4_latency.json |
+| RMSE N=64 / N=128 | 3.21° / 3.89° | 3.05° / 2.58° (tohum başına, √N ölçekli) | FARKLI (makaleden düşük; tohumlar sürüyor) | train/cnnlstm_N{64,128}_sqrt_s*.json |
 | RMSE N=256 | 4.6° (tahmin) | 2.25° (1 tohum, gizli boyut √N ölçekli, SR@5 %98.1) | FARKLI (makaleden düşük; tek tohum) | train/cnnlstm_N256_sqrt_s0.json |
 | SNR kazancı model / optimal | 18.4 / 17.9 dB | etiket (a) medyan 12.39 dB, (b) 14.03 dB (doğrudan bağlantıya göre) | KAYNAK BULUNAMADI | step1, step3 |
 | 0.31 / 0.89 b/s/Hz, %312 | — | betik yok | KAYNAK BULUNAMADI | step3_sources.json |
@@ -67,7 +68,7 @@ Ortam: Python 3.11.17, PyTorch 2.15.0+cu132, NumPy 2.4.6, Intel(R) Xeon(R) Proce
 2. Nicemleme, CSI hatası ve kapalı form 2.70° gibi tanımı belirsiz sayıların makalede hangi tanımla üretildiği yazarlardan öğrenilmeli.
 3. Etiket formülü: tezde (b) ∠h_d − ∠(G_nF_n) kullanılsın mı? (Altyapı görevinde onaylandı.)
 4. Bu bulguların yayımlanmış makale için ne anlama geldiği (düzeltme/erratum) danışmanla birlikte değerlendirilmeli.
-5. N=256 tek tohumla eğitildi (2 iş parçacığı, 265 dk); N=64/128 ve ek tohumlar istenirse her biri birkaç saat sürer, onay gerekir.
+5. N=64/128/256 için ek tohumlar (1, 2) sürüyor (2 iş parçacığı; N=64 ~53 dk, N=128 ~101 dk, N=256 ~265 dk/tohum). Konteyner yeniden başlamaları koşuları kesebiliyor; kesik günlükler saklanıyor.
 
 ## 5) Yorum (bulgulardan ayrı)
 

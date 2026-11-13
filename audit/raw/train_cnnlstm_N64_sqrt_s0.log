@@ -1,0 +1,84 @@
+cnnlstm_N64_sqrt_s0 ep  1 loss 0.23685 val 26.55 (46s)
+cnnlstm_N64_sqrt_s0 ep  2 loss 0.05589 val 16.28 (71s)
+cnnlstm_N64_sqrt_s0 ep  3 loss 0.03265 val 12.84 (86s)
+cnnlstm_N64_sqrt_s0 ep  4 loss 0.02398 val 8.54 (77s)
+cnnlstm_N64_sqrt_s0 ep  5 loss 0.02013 val 8.09 (79s)
+cnnlstm_N64_sqrt_s0 ep  6 loss 0.01805 val 7.47 (80s)
+cnnlstm_N64_sqrt_s0 ep  7 loss 0.01708 val 6.01 (82s)
+cnnlstm_N64_sqrt_s0 ep  8 loss 0.01584 val 5.76 (89s)
+cnnlstm_N64_sqrt_s0 ep  9 loss 0.01547 val 5.58 (82s)
+cnnlstm_N64_sqrt_s0 ep 10 loss 0.01479 val 5.44 (82s)
+cnnlstm_N64_sqrt_s0 ep 11 loss 0.01481 val 4.57 (84s)
+cnnlstm_N64_sqrt_s0 ep 12 loss 0.01415 val 4.82 (82s)
+cnnlstm_N64_sqrt_s0 ep 13 loss 0.01391 val 4.36 (90s)
+cnnlstm_N64_sqrt_s0 ep 14 loss 0.01375 val 4.62 (86s)
+cnnlstm_N64_sqrt_s0 ep 15 loss 0.01380 val 5.83 (99s)
+cnnlstm_N64_sqrt_s0 ep 16 loss 0.01271 val 3.90 (80s)
+cnnlstm_N64_sqrt_s0 ep 17 loss 0.01269 val 3.62 (78s)
+cnnlstm_N64_sqrt_s0 ep 18 loss 0.01270 val 3.76 (81s)
+cnnlstm_N64_sqrt_s0 ep 19 loss 0.01266 val 3.28 (77s)
+cnnlstm_N64_sqrt_s0 ep 20 loss 0.01253 val 4.34 (80s)
+cnnlstm_N64_sqrt_s0 ep 21 loss 0.01246 val 3.60 (84s)
+cnnlstm_N64_sqrt_s0 ep 22 loss 0.01238 val 3.83 (79s)
+cnnlstm_N64_sqrt_s0 ep 23 loss 0.01227 val 4.92 (82s)
+cnnlstm_N64_sqrt_s0 ep 24 loss 0.01226 val 3.95 (85s)
+cnnlstm_N64_sqrt_s0 ep 25 loss 0.01234 val 3.27 (79s)
+cnnlstm_N64_sqrt_s0 ep 26 loss 0.01235 val 3.80 (79s)
+cnnlstm_N64_sqrt_s0 ep 27 loss 0.01222 val 4.04 (92s)
+cnnlstm_N64_sqrt_s0 ep 28 loss 0.01240 val 4.07 (42s)
+cnnlstm_N64_sqrt_s0 ep 29 loss 0.01235 val 3.50 (42s)
+cnnlstm_N64_sqrt_s0 ep 30 loss 0.01215 val 3.47 (44s)
+cnnlstm_N64_sqrt_s0 ep 31 loss 0.01177 val 3.15 (42s)
+cnnlstm_N64_sqrt_s0 ep 32 loss 0.01176 val 3.04 (40s)
+cnnlstm_N64_sqrt_s0 ep 33 loss 0.01172 val 2.96 (40s)
+cnnlstm_N64_sqrt_s0 ep 34 loss 0.01178 val 2.97 (41s)
+cnnlstm_N64_sqrt_s0 ep 35 loss 0.01167 val 3.35 (42s)
+cnnlstm_N64_sqrt_s0 ep 36 loss 0.01177 val 3.26 (43s)
+cnnlstm_N64_sqrt_s0 ep 37 loss 0.01173 val 3.02 (44s)
+cnnlstm_N64_sqrt_s0 ep 38 loss 0.01170 val 2.81 (43s)
+cnnlstm_N64_sqrt_s0 ep 39 loss 0.01168 val 3.11 (42s)
+cnnlstm_N64_sqrt_s0 ep 40 loss 0.01166 val 3.16 (42s)
+cnnlstm_N64_sqrt_s0 ep 41 loss 0.01167 val 2.88 (42s)
+cnnlstm_N64_sqrt_s0 ep 42 loss 0.01163 val 3.19 (42s)
+cnnlstm_N64_sqrt_s0 ep 43 loss 0.01169 val 3.92 (42s)
+cnnlstm_N64_sqrt_s0 ep 44 loss 0.01160 val 2.90 (41s)
+cnnlstm_N64_sqrt_s0 ep 45 loss 0.01164 val 3.02 (40s)
+cnnlstm_N64_sqrt_s0 ep 46 loss 0.01143 val 2.83 (41s)
+cnnlstm_N64_sqrt_s0 ep 47 loss 0.01131 val 2.63 (40s)
+cnnlstm_N64_sqrt_s0 ep 48 loss 0.01145 val 2.78 (41s)
+cnnlstm_N64_sqrt_s0 ep 49 loss 0.01131 val 2.85 (41s)
+cnnlstm_N64_sqrt_s0 ep 50 loss 0.01132 val 3.03 (42s)
+{
+ "tag": "cnnlstm_N64_sqrt_s0",
+ "config": {
+  "arch": "cnnlstm",
+  "n": 40000,
+  "N": 64,
+  "data_seed": 42,
+  "seed": 0,
+  "epochs": 50,
+  "threads": 2,
+  "permute": false,
+  "hidden_scale": "sqrt",
+  "tag": "cnnlstm_N64_sqrt_s0"
+ },
+ "params": 425730,
+ "commit": "089c5789e38d387daf31c128ae1701995154c773",
+ "data": "audit/raw/data/m1_N64_n40000_seed42.npz",
+ "n_train": 28000,
+ "n_val": 6000,
+ "n_test": 6000,
+ "test_rmse_deg": 3.0488288402557373,
+ "sr": {
+  "SR@1": 0.37052864583333334,
+  "SR@3": 0.8327526041666666,
+  "SR@5": 0.9542552083333333,
+  "SR@10": 0.9918098958333333
+ },
+ "err_deg_p95": 4.832253456115723,
+ "power_vs_label_db": {
+  "mean": -0.006535138314147278,
+  "median": -0.005967399946543715
+ },
+ "train_minutes": 52.556700905164085
+}

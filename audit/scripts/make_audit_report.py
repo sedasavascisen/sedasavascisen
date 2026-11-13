@@ -17,6 +17,8 @@ W = out.append
 f2 = lambda x: f"{x:.2f}"
 seeds = [tr[f"cnnlstm_N32_s{s}"]["test_rmse_deg"] for s in (0, 1, 2) if f"cnnlstm_N32_s{s}" in tr]
 n256 = tr["cnnlstm_N256_sqrt_s0"]
+scal = {N: [tr[k]["test_rmse_deg"] for k in sorted(tr) if k.startswith(f"cnnlstm_N{N}_sqrt_s")] for N in (64, 128, 256)}
+scal_txt = "; ".join(f"N={N}: " + ", ".join(f2(x) for x in v) + "°" for N, v in scal.items() if v)
 pc = s2["perfect_csi"]
 cs = s6["seeds"]
 csi_m = lambda x: np.mean([cs[s]["csi_error"][x]["rmse_deg"] for s in cs])
@@ -71,7 +73,7 @@ items = [
  f"aynı örnek sayısı (40 000) ve 50 epokla eğitilen N=256 modeli (gizli boyutlar √(N/32) ile ölçeklendi; {n256['params']:,} parametre; "
  f"son epok ağı) test kümesinde **{f2(n256['test_rmse_deg'])}°** (SR@5 %{100*n256['sr']['SR@5']:.1f}, %95 dilim {f2(n256['err_deg_p95'])}°) veriyor; "
  f"bu, N=32'nin üç tohumunun ({', '.join(f2(x) for x in seeds)}°) hepsinden düşük. Makalenin N arttıkça RMSE'nin arttığı projeksiyonu bu ölçümde "
- f"desteklenmiyor. Sınır: tek tohum; N=64/128 eğitilmedi; mimarinin N ile ölçeklenmesi makalede tanımlı değil (√N bizim seçimimiz). "
+ f"desteklenmiyor. Aynı kurulumla ölçülen dizi (tohum başına; √N ölçekli): {scal_txt}; makale Tablo 8: 2.77/3.21/3.89/4.6(tahmin)°. Sınır: ek tohumlar sürüyor; mimarinin N ile ölçeklenmesi makalede tanımlı değil (√N bizim seçimimiz). "
  f"[train/cnnlstm_N256_sqrt_s0.json, train_N256_run2.log]",
  f"**Tohum yayılımı makalenin GA'sından çok büyük.** Aynı ayarla 3 tohum: {', '.join(f2(x) for x in seeds)}° (std "
  f"{np.std(seeds, ddof=1):.2f}°); makale 5 koşu için ±0.09° GA diyor. [train/cnnlstm_N32_s*.json]",
@@ -121,6 +123,7 @@ rows = [
  ("Diğer Tablo 3 parametreleri", "89K…201K", "mimari tanımı yok", "KAYNAK BULUNAMADI", "step3_sources.json"),
  ("Gecikme N=32/64/128/256", "0.08/0.16/0.32/0.64 ms",
   "/".join(f2(s4['arms']['cnnlstm_fixed'][n]['single_ms']) for n in ('32','64','128','256')) + " ms (tek örnek, CPU)", "FARKLI (farklı işlemci)", "step4_latency.json"),
+ ("RMSE N=64 / N=128", "3.21° / 3.89°", f"{', '.join(f2(x) for x in scal[64])}° / {', '.join(f2(x) for x in scal[128])}° (tohum başına, √N ölçekli)", "FARKLI (makaleden düşük; tohumlar sürüyor)", "train/cnnlstm_N{64,128}_sqrt_s*.json"),
  ("RMSE N=256", "4.6° (tahmin)", f"{f2(n256['test_rmse_deg'])}° (1 tohum, gizli boyut √N ölçekli, SR@5 %{100*n256['sr']['SR@5']:.1f})", "FARKLI (makaleden düşük; tek tohum)", "train/cnnlstm_N256_sqrt_s0.json"),
  ("SNR kazancı model / optimal", "18.4 / 17.9 dB", f"etiket (a) medyan {f2(s1['snr_gain_over_direct_db']['label_a_median'])} dB, (b) {f2(s1['snr_gain_over_direct_db']['label_b_median'])} dB (doğrudan bağlantıya göre)", "KAYNAK BULUNAMADI", "step1, step3"),
  ("0.31 / 0.89 b/s/Hz, %312", "—", "betik yok", "KAYNAK BULUNAMADI", "step3_sources.json"),
@@ -155,7 +158,7 @@ W("1. Veri kümesi `RIS_dataset_large_2D.mat` (ya da `aisy_paket/adim1` çıktı
 W("2. Nicemleme, CSI hatası ve kapalı form 2.70° gibi tanımı belirsiz sayıların makalede hangi tanımla üretildiği yazarlardan öğrenilmeli.")
 W("3. Etiket formülü: tezde (b) ∠h_d − ∠(G_nF_n) kullanılsın mı? (Altyapı görevinde onaylandı.)")
 W("4. Bu bulguların yayımlanmış makale için ne anlama geldiği (düzeltme/erratum) danışmanla birlikte değerlendirilmeli.")
-W("5. N=256 tek tohumla eğitildi (2 iş parçacığı, 265 dk); N=64/128 ve ek tohumlar istenirse her biri birkaç saat sürer, onay gerekir.")
+W("5. N=64/128/256 için ek tohumlar (1, 2) sürüyor (2 iş parçacığı; N=64 ~53 dk, N=128 ~101 dk, N=256 ~265 dk/tohum). Konteyner yeniden başlamaları koşuları kesebiliyor; kesik günlükler saklanıyor.")
 W("")
 W("## 5) Yorum (bulgulardan ayrı)")
 W("")
