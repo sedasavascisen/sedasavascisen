@@ -39,6 +39,24 @@ R0 = rank({k: v["rate"] for k, v in fr["rows"].items()})
 Rn = [rank({k: v["rate"] for k, v in r["numerologies"][n]["rows"].items()}) for n in nums]
 for i in range(min(6, len(R0))):
     W(f"| {i+1} | {R0[i]} | " + " | ".join(x[i] for x in Rn) + " |")
+import glob as _g
+_wins = sorted(_g.glob(str(H / "raw/results_win*.json")))
+if _wins:
+    W(""); W("## 3b) Pencere uzunluğu duyarlılığı (denetim U2)"); W("")
+    W("Aynı model ve seçim kuralı; yalnızca ortalama penceresi [gecikme, gecikme + W] değişiyor. Test kümesi; R ve kol doğrulamada seçildi.")
+    W(""); W("| W (ms) | Ücretlendirme | Doğrulamada seçilen | Testte hızı | SU-best-of | Fark [%95 GA] | Testte ilk 4 (nokta tahmini) |"); W("| --- | --- | --- | --- | --- | --- | --- |")
+    _all = [(50.0, r)] + [(json.load(open(f))["window_ms"], json.load(open(f))) for f in _wins]
+    for _w, _r in sorted(_all, key=lambda x: x[0]):
+        _fr = _r["fresh"]; _b = _fr["selected_on_val"]
+        _top = ", ".join(sorted(_fr["rows"], key=lambda k: -_fr["rows"][k]["rate"])[:4])
+        W(f"| {_w:g} | taze W | {_b} | {_fr['rows'][_b]['rate']:.4f} | {_fr['rows']['SU-best-of']['rate']:.4f} | "
+          f"{_fr['rows'][_b]['minus_su_best_of']:+.4f} {ci(_fr['rows'][_b]['minus_su_best_of_ci'])} | {_top} |")
+        for _n, _v in _r["numerologies"].items():
+            _b = _v["selected_on_val"]; _x = _v["rows"][_b]
+            _top = ", ".join(sorted(_v["rows"], key=lambda k: -_v["rows"][k]["rate"])[:4])
+            W(f"| {_w:g} | {_n} | {_b} (R = {_x['R_selected_on_val']:g} ms) | {_x['rate']:.4f} | {_v['rows']['SU-best-of']['rate']:.4f} | "
+              f"{_x['minus_su_best_of']:+.4f} {ci(_x['minus_su_best_of_ci'])} | {_top} |")
+    W(""); W("Pencere koşuları: `WIN=25` / `WIN=100 THREADS=2 python3 thesis_exp/p4/onkodlayici_siralama/run.py` → raw/results_win25.json, raw/results_win100.json.")
 W(""); W("## 4) Komut, tohum, ham çıktı"); W("")
 W("| Komut | Tohum | Ham çıktı |"); W("| --- | --- | --- |")
 W(f"| THREADS=2 python3 thesis_exp/p4/onkodlayici_siralama/run.py ({r['seconds']/60:.0f} dk) | kanal 12 (doğrulama) / 11 (test), bootstrap 0 | raw/results.json, raw/run.log; deneme: PROBE=1 → raw/probe_aligned.json (koşulmadı); raw/probe_v1_grid_bias.json yanlı ilk sürümün denemesi |")

@@ -1,6 +1,6 @@
 # Deney 4.3 devamı — Pilot ücreti altında bütün kolların sıralaması (rapor)
 
-Commit `f413f63` (ölçüm commit'i `a0ac494`). Model Deney 4.3 ile aynı: ZF her R ms'de bir kusursuz etkin kanal kestiriminden tazeleniyor, tazeleme başına 4 pilot sembolü veri oranı 1 − t_p/R ile ücretlendiriliyor, faz t=0 kanalından ve kolun gecikmesinde devreye giriyor, hız [gecikme, gecikme + 50 ms] üzerinde ortalanıyor. Tazeleme periyodu R her kol ve numeroloji için doğrulama çekilişinde (seed 12) seçildi; en iyi kol da orada seçildi; rapor yaşlanma kümesi (seed 11, 400 senaryo). Eşli bootstrap 2000, %95 GA. Gecikmeler tek iş parçacıklı yeniden ölçümden (thesis_exp/infra).
+Commit `97e5e5c` (ölçüm commit'i `a0ac494`). Model Deney 4.3 ile aynı: ZF her R ms'de bir kusursuz etkin kanal kestiriminden tazeleniyor, tazeleme başına 4 pilot sembolü veri oranı 1 − t_p/R ile ücretlendiriliyor, faz t=0 kanalından ve kolun gecikmesinde devreye giriyor, hız [gecikme, gecikme + 50 ms] üzerinde ortalanıyor. Tazeleme periyodu R her kol ve numeroloji için doğrulama çekilişinde (seed 12) seçildi; en iyi kol da orada seçildi; rapor yaşlanma kümesi (seed 11, 400 senaryo). Eşli bootstrap 2000, %95 GA. Gecikmeler tek iş parçacıklı yeniden ölçümden (thesis_exp/infra).
 
 ## 1) Özet: seçilen kol
 
