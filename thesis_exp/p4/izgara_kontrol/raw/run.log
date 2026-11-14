@@ -1,0 +1,17 @@
+phases done
+max |published - mine|: 2.1457672119140625e-06
+paper L* {'interpolated': 'Adam-5', 'exact': 'Adam-4'} L48 loss {'interpolated': 13.99, 'exact': 14.2}
+  SU-best-of: lat 0.05 interp 5.2763 exact 5.2764 diff +0.0001
+  Adam-6: lat 9.98 interp 5.9700 exact 5.9701 diff +0.0001
+  Adam-20: lat 33.25 interp 5.2762 exact 5.2701 diff -0.0061
+  Adam-48: lat 79.80 interp 5.1451 exact 5.1344 diff -0.0107
+  CD: lat 1500.00 interp 4.9212 exact 4.9212 diff +0.0000
+  PGA: lat 5600.00 interp 4.6673 exact 4.6673 diff +0.0000
+rerun L* {'interpolated': 'Adam-6', 'exact': 'Adam-6'} L48 loss {'interpolated': 14.4, 'exact': 14.93}
+  SU-best-of: lat 1.63 interp 5.2768 exact 5.2772 diff +0.0004
+  Adam-6: lat 8.09 interp 6.0753 exact 6.0771 diff +0.0018
+  Adam-20: lat 26.57 interp 5.3627 exact 5.3622 diff -0.0005
+  Adam-48: lat 63.91 interp 5.2007 exact 5.1696 diff -0.0312
+  CD: lat 702.97 interp 4.9903 exact 5.0156 diff +0.0252
+  PGA: lat 4950.35 interp 4.7125 exact 4.7050 diff -0.0075
+wrote

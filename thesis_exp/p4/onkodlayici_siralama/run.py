@@ -25,7 +25,8 @@ from common import Aging, adam_latency, LAT, STEPS, boot, commit, check_same_sce
 from ris_mu.mumiso import system as S, baselines as B
 torch.set_num_threads(int(os.environ.get("THREADS", "2")))
 OUT = pathlib.Path(__file__).parent / "raw"; OUT.mkdir(exist_ok=True)
-DT, WIN = 0.1, 50.0
+DT = 0.1
+WIN = float(os.environ.get("WIN", "50"))   # averaging window after deployment (ms); 50 = reported design, others = sensitivity
 R_GRID = [0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 50.0]
 SYM_MS = {"15kHz": 3.43 / 48, "30kHz": 1.71 / 48, "60kHz": 0.86 / 48}
 K_PILOTS = 4
@@ -130,5 +131,5 @@ for num in SYM_MS:
               for k, r in rows.items()})
     print(f"{num}: selected {best} (R {pick_v[best][0]} ms) test {xb.mean():.4f}; SU-best-of {xr.mean():.4f}", flush=True)
 res["seconds"] = time.time() - t_start
-json.dump(res, open(OUT / ("probe_aligned.json" if PROBE else "results.json"), "w"), indent=1)
+json.dump(res, open(OUT / ("probe_aligned.json" if PROBE else ("results.json" if WIN == 50.0 else f"results_win{WIN:g}.json")), "w"), indent=1)
 print("wrote", flush=True)

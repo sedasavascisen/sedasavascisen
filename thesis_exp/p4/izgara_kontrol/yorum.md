@@ -1,0 +1,8 @@
+- **Makale 2'nin hükümleri interpolasyondan etkilenmiyor.** Tam değerle interpolasyon arasındaki fark kol başına en fazla 0.031 b/s/Hz (yeniden ölçülen gecikmelerle Adam-48; ızgarada 50 → 75 ms boşluğu).
+- **Makalenin kendi adım kümesiyle (2, 4, 6, 8, …, 48) ve makaledeki gecikmelerle:**
+  - En iyi adım sayısı tam değerde de L* = 4; en iyi etkin hız 5.9798 → 5.9843.
+  - L=48'in kaybı %13.96 → %14.20; makale "%14" diyor.
+  - Bu betik L=5'i de içeriyor; o zaman interpolasyonla L* = 5, tam değerde L* = 4. Makalenin metnindeki "4–6" aralığı her iki durumda da tutuyor.
+- **Yeniden ölçülen tek iş parçacıklı gecikmelerle:** L* = 6 (değişmiyor). L48 kaybı %14.40 → %14.93. SU-best-of − Adam-48 farkı 0.076 [−0.006, +0.166] → 0.108 [+0.015, +0.201]; tam değerde GA sıfırı dışlıyor.
+- **SU-best-of − CD (yeniden ölçülen gecikmeler):** 0.287 → 0.262; GA sıfırın üstünde kalıyor. CD'nin 703 ms'si ızgarada 500 ile 1500 ms arasına düşüyor. Ancak bu gecikmeler, mumiso_aging.py'deki TRUST_MS = 200 ms güven sınırının ötesinde; bu bölgede model zaten iyimser.
+- **Öneri (tez yazımı için):** Tez tablolarında etkin hızın tam gecikmede hesaplanmış değeri kullanılmalı (bu betik ya da `p4/gecikme_muhasebesi`). Makale metnindeki %14 ve L* = 4 bu kontrolle tutarlı.
