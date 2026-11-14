@@ -142,6 +142,7 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 - **e2 = 0.01:** bütün birleşimler öngörüsüzün (5.611) altında, −0.10 … −1.29.
 - **e2 = 0.1:** hepsi öngörüsüzün (4.944) altında, −0.20 … −0.83.
 - Sınır: model öngörüyü kayırıyor (saçıcılar sabit, düz yörünge); ek anlık görüntülerin pilot süresi tek-atış etkin hıza eklenmedi.
+- Not (denetim U30/U31): e2 = 0'da seçilen Kalman q/r = 100 taranan aralığın ucunda. 4.1'de kestirim hatası yalnızca faz tasarımını bozuyor; ZF teslim anında gerçek kanaldan kuruluyor ve hata ölçeği senaryo başına. 4.4'te ise ZF de kestirimden kuruluyor ve ölçek 400 senaryonun ortalamasından alınıyor. Bu yüzden 4.1 ile 4.4'ün e2 değerleri doğrudan karşılaştırılamaz.
 
 ### 5.2 Konum (LoS geometrisi) tabanlı faz — `p4/konum_faz/REPORT.md`
 - Geometri tabanlı faz, kanal tabanlı SU-best-of'un (5.277) 0.83–0.86 b/s/Hz altında (4.415–4.449).

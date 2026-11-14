@@ -1,6 +1,6 @@
 """
 Builds the comprehensive report thesis_exp/rapor_pdf/TAM_RAPOR.pdf from the repository's own reports.
-No numbers are written here: every section is an existing, committed Markdown report (some read from other
+No numbers are computed here: every section is an existing, committed Markdown report (sections A and C are hand-written summaries quoting those reports) (some read from other
 branches with `git show`), concatenated in a fixed order. Markdown -> HTML (python-markdown) -> PDF (Chromium
 via Node Playwright, print_pdf.js).
 Usage: python3 thesis_exp/rapor_pdf/build.py
@@ -30,7 +30,8 @@ audit_commit = git("rev-parse", "--short", "origin/audit/makale1-denetim").strip
 P4 = [("Deney 4.1 — Kanal öngörüsü", "kanal_ongoru"), ("Deney 4.2 — Konum tabanlı faz", "konum_faz"),
       ("Deney 4.3 — Ön kodlayıcı pilotları", "onkodlayici_pilot"), ("Deney 4.3 devamı — Bütün kollarla sıralama", "onkodlayici_siralama"),
       ("Deney 4.4 — Kusurlu CSI", "kusurlu_csi"), ("Deney 4.5 — Ayrık faz (1/2/3 bit)", "ayrik_faz"),
-      ("Deney 4.6 — Optimize süreler", "optimize_sure"), ("Doğrulama — Gecikme muhasebesi", "gecikme_muhasebesi")]
+      ("Deney 4.6 — Optimize süreler", "optimize_sure"), ("Doğrulama — Gecikme muhasebesi", "gecikme_muhasebesi"),
+      ("Doğrulama — Makale 2 ızgara kontrolü", "izgara_kontrol"), ("Pilot yükü ve kusurlu CSI birlikte", "onkodlayici_csi")]
 
 parts = [
     ("Bölüm A", "Sade özet", local("thesis_exp/rapor_pdf/00_sade_ozet.md")),
@@ -82,7 +83,7 @@ blockquote {{ margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; b
 <div class="sub">Hareketli RIS sistemlerinde hesaplama gecikmesi · 11–13 Kasım 2026 çalışmaları</div>
 <table><tr><th>Hazırlanma</th><td>{today}</td></tr>
 <tr><th>Kaynak</th><td>dal <code>thesis/p4-deneyler</code> @ <code>{commit}</code>; ekler <code>thesis/altyapi</code>, <code>thesis/bridge</code>, <code>audit/makale1-denetim</code> @ <code>{audit_commit}</code></td></tr>
-<tr><th>Üretim</th><td><code>python3 thesis_exp/rapor_pdf/build.py</code> — depodaki raporların birleşimi; bu belge yeni sayı içermez</td></tr>
+<tr><th>Üretim</th><td><code>python3 thesis_exp/rapor_pdf/build.py</code> — depodaki raporların birleşimi; Bölüm A ve C elle yazılmış özetlerdir, sayıları ilgili raporlardan alınmıştır</td></tr>
 <tr><th>Not</th><td>Tez ya da makale metni değildir (Kural 9). Makale 1 incelemesi 13 Kasım'da kullanıcı isteğiyle durduruldu.</td></tr></table>
 <h2>İçindekiler</h2><ul class="toc">{''.join(toc)}</ul></div>
 {''.join(body)}

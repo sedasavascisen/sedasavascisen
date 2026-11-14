@@ -3,7 +3,7 @@ Follow-up to Prompt 4.3 — does the method RANKING survive when precoder-refres
 
 Same model as thesis_exp/p4/onkodlayici_pilot/run.py (ZF refreshed every R ms from a perfect effective-
 channel estimate, K = 4 pilot symbols per refresh charged as the data fraction 1 - t_p/R, RIS phase from
-the t = 0 channel deployed at the arm's latency, time-averaged min-user rate over [lat, lat + 50 ms]),
+the t = 0 channel deployed at the arm's latency, time-averaged min-user rate over [lat, lat + WIN ms], WIN = 50 by default; env WIN for sensitivity),
 now for EVERY arm of the paper's aging comparison:
   SU-average, SU-best-of, SU-average + Adam-L (L in STEPS, step 0.5), CD (baselines.coord_descent
   defaults), PGA (baselines.pga defaults).

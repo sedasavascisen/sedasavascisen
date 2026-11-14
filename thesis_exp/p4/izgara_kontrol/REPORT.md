@@ -1,6 +1,6 @@
 # Makale 2 ızgara kontrolü — interpolasyon mu, tam gecikme mi? (rapor)
 
-Rapor commit'i `98ed4bd`, ölçüm commit'i `98ed4bd`. Makale 2'nin yaşlanma taraması ve karşılaştırması (scripts/mumiso_aging_sweep.py, mumiso_aging.py) etkin hızı düzensiz bir ızgarada (0, 1, 2, 5, 7.5, 10, 13.3, 15, 19.6, 20, 26.6, 28.2, 35, 42.9, 50, 75, 100, 150, 200, 500, 1500, 5600 ms) doğrusal interpolasyonla hesaplıyor. Burada aynı kurulumla (seed 11, 400 senaryo) her kol tam kendi gecikmesinde de değerlendirildi. Izgara üzerindeki değerler yayımlanmış `results/mumiso_aging_sweep_repro.json` ile en fazla 2.1e-06 farkla aynı (aynı senaryolar). Eşli bootstrap 2000, %95 GA.
+Rapor commit'i `ec03907`, ölçüm commit'i `98ed4bd`. Makale 2'nin yaşlanma taraması ve karşılaştırması (scripts/mumiso_aging_sweep.py, mumiso_aging.py) etkin hızı düzensiz bir ızgarada (0, 1, 2, 5, 7.5, 10, 13.3, 15, 19.6, 20, 26.6, 28.2, 35, 42.9, 50, 75, 100, 150, 200, 500, 1500, 5600 ms) doğrusal interpolasyonla hesaplıyor. Burada aynı kurulumla (seed 11, 400 senaryo) her kol tam kendi gecikmesinde de değerlendirildi. Izgara üzerindeki değerler yayımlanmış `results/mumiso_aging_sweep_repro.json` ile en fazla 2.1e-06 farkla aynı (aynı senaryolar). Eşli bootstrap 2000, %95 GA.
 
 ## Gecikme kümesi: paper
 
@@ -64,11 +64,13 @@ Komut: `python3 thesis_exp/p4/izgara_kontrol/run.py` (betik koşudan önce commi
 
 ## Yorum (bulgulardan ayrı)
 
-- **Makale 2'nin hükümleri interpolasyondan etkilenmiyor.** Tam değerle interpolasyon arasındaki fark kol başına en fazla 0.031 b/s/Hz (yeniden ölçülen gecikmelerle Adam-48; ızgarada 50 → 75 ms boşluğu).
-- **Makalenin kendi adım kümesiyle (2, 4, 6, 8, …, 48) ve makaledeki gecikmelerle:**
-  - En iyi adım sayısı tam değerde de L* = 4; en iyi etkin hız 5.9798 → 5.9843.
-  - L=48'in kaybı %13.96 → %14.20; makale "%14" diyor.
-  - Bu betik L=5'i de içeriyor; o zaman interpolasyonla L* = 5, tam değerde L* = 4. Makalenin metnindeki "4–6" aralığı her iki durumda da tutuyor.
-- **Yeniden ölçülen tek iş parçacıklı gecikmelerle:** L* = 6 (değişmiyor). L48 kaybı %14.40 → %14.93. SU-best-of − Adam-48 farkı 0.076 [−0.006, +0.166] → 0.108 [+0.015, +0.201]; tam değerde GA sıfırı dışlıyor.
-- **SU-best-of − CD (yeniden ölçülen gecikmeler):** 0.287 → 0.262; GA sıfırın üstünde kalıyor. CD'nin 703 ms'si ızgarada 500 ile 1500 ms arasına düşüyor. Ancak bu gecikmeler, mumiso_aging.py'deki TRUST_MS = 200 ms güven sınırının ötesinde; bu bölgede model zaten iyimser.
-- **Öneri (tez yazımı için):** Tez tablolarında etkin hızın tam gecikmede hesaplanmış değeri kullanılmalı (bu betik ya da `p4/gecikme_muhasebesi`). Makale metnindeki %14 ve L* = 4 bu kontrolle tutarlı.
+- **Makalenin gecikmeleriyle hükümler değişmiyor.** Makale metni L=5'i de içeriyor ve en iyi değeri 5.982 olarak veriyor. Bu, buradaki interpolasyonlu Adam-5 değeriyle (5.9820) aynı. "%14.0" ise 1 − 5.1451/5.982 = %13.99'dan geliyor.
+  - Tam değerde Adam-4 5.9843, Adam-5 5.9838: fiilen berabere, nokta tahmininde L* = 4.
+  - Tam değerde L=48'in kaybı %14.20. Makaledeki "4–6" aralığı ve "~%14" tutuyor.
+- **Interpolasyon hatası kol başına en fazla 0.031 b/s/Hz.** En büyüğü yeniden ölçülen gecikmelerle Adam-48'de (63.9 ms; ızgarada 50 → 75 ms boşluğu).
+- **Yeniden ölçülen tek iş parçacıklı gecikmelerle:**
+  - L* = 6, değişmiyor.
+  - L48 kaybı %14.40 → %14.93.
+  - **Değişen tek nitel sonuç:** SU-best-of − Adam-48 farkı 0.076 [−0.006, +0.166] iken tam değerde 0.108 [+0.015, +0.201] oluyor. Yani GA, tam değerde sıfırı dışlamaya geçiyor.
+- **SU-best-of − CD (yeniden ölçülen gecikmeler):** 0.286 → 0.262; GA sıfırın üstünde kalıyor. CD'nin 703 ms'si ızgarada 500 ile 1500 ms arasına düşüyor. Ancak bu, mumiso_aging.py'deki TRUST_MS = 200 ms güven sınırının ötesi; bu bölgede model zaten iyimser.
+- **Öneri (tez yazımı için):** Tez tablolarında etkin hızın tam gecikmede hesaplanmış değeri kullanılmalı (bu betik ya da `p4/gecikme_muhasebesi`).
