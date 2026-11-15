@@ -9,3 +9,7 @@
 - **Düzeltilmeyen ama not edilen (denetim U58):** Yayımlanmış betik en iyi politikayı raporlanan kümede seçiyor. Burada da karşılaştırılabilirlik için aynı yapıldı. Köprü raporundaki kopya seçimi seed 12'de yapıyor.
 - **Köprünün periyodik ağ kolu da düzeltildi (§2b):** Ağ her T_p'de hem soğuk hem sıcak başlangıçlı Adam'ın gerisinde; hüküm aynı. Ağ − soğuk: 0.86 ms'de −0.153 → −0.120, 1.71 ms'de −0.105 → −0.129; 0 ve 3.43 ms'de fiilen aynı. Denetçinin önceden verdiği analitik tahmin (0.86 ms'de ≈ −0.066) ölçümle tutmadı; bu yüzden tahminler ölçüm yerine kullanılmamalı.
 - **Öneri:** Tezde Tablo III'ün düzeltilmiş değerleri kullanılmalı. Makale 2 hakem sürecindeyse, hakem sorarsa yanıt olarak bu kopya hazır.
+- **Sağlamlık kontrolleri (denetim U59, U62; 15 Kasım):**
+  - **Yeniden üretim:** `--fix 0` dört T_p'nin hepsinde, hem Tablo III betiğinde hem köprü betiğinde yayımlanmış sonuçlarla birebir (en büyük fark 0).
+  - **Tam entegrasyon (U59):** `--fix 1` pilot ücretini, örnekteki eski ve yeni fazın karışımına orantılı düşüyor. Pilotun yalnızca veri zamanından düşüldüğü tam entegrasyonla (`exact_full_check.py` → `raw/exact_full_tp*.json`) politika başına en büyük fark 0.0072 b/s/Hz.
+  - Seçilen politikalar ve ayırt edilemeyen kümeler aynı; sıcak − soğuk farkı en fazla 0.00006 değişiyor.

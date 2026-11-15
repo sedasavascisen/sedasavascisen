@@ -216,6 +216,7 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 - §1.2 madde 16.
 - Köprünün periyodik ağ kolu da düzeltildi (`bridge_tracking_fix.py`, yeniden üretim birebir): ağ her T_p'de soğuk ve sıcak Adam'ın gerisinde; ağ − soğuk 0.86 ms'de −0.153 → −0.120, 1.71 ms'de −0.105 → −0.129.
 - Yayımlanmış betik en iyi politikayı raporlanan kümede seçiyor (denetim U58); karşılaştırılabilirlik için kopyada da aynı yapıldı.
+- Sağlamlık: `--fix 0` dört T_p'nin hepsinde iki betikte de birebir; tam entegrasyonla fark politika başına ≤ 0.0072, seçimler ve sıcak − soğuk (≤ 6e-5) aynı (denetim U59, U62).
 
 ---
 
