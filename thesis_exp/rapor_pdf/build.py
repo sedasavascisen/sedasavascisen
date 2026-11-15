@@ -31,7 +31,7 @@ P4 = [("Deney 4.1 — Kanal öngörüsü", "kanal_ongoru"), ("Deney 4.2 — Konu
       ("Deney 4.3 — Ön kodlayıcı pilotları", "onkodlayici_pilot"), ("Deney 4.3 devamı — Bütün kollarla sıralama", "onkodlayici_siralama"),
       ("Deney 4.4 — Kusurlu CSI", "kusurlu_csi"), ("Deney 4.5 — Ayrık faz (1/2/3 bit)", "ayrik_faz"),
       ("Deney 4.6 — Optimize süreler", "optimize_sure"), ("Doğrulama — Gecikme muhasebesi", "gecikme_muhasebesi"),
-      ("Doğrulama — Makale 2 ızgara kontrolü", "izgara_kontrol"), ("Pilot yükü ve kusurlu CSI birlikte", "onkodlayici_csi")]
+      ("Doğrulama — Makale 2 ızgara kontrolü", "izgara_kontrol"), ("Pilot yükü ve kusurlu CSI birlikte", "onkodlayici_csi"), ("Makale 2 Tablo III düzeltmesi", "takip_duzeltme")]
 
 parts = [
     ("Bölüm A", "Sade özet", local("thesis_exp/rapor_pdf/00_sade_ozet.md")),
