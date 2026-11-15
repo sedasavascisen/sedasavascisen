@@ -27,6 +27,13 @@ def branch(b, p):
 
 commit = git("rev-parse", "--short", "HEAD").strip()
 audit_commit = git("rev-parse", "--short", "origin/audit/makale1-denetim").strip()
+infra_commit = git("rev-parse", "--short", "origin/thesis/altyapi").strip()
+bridge_commit = git("rev-parse", "--short", "origin/thesis/bridge").strip()
+NOTE_INFRA = ("> **Not (15 Kasım):** Bu ek başka bir dalda, değiştirilmeden alındı. Kullanılmayan senaryo sayısı bu raporun tanımına göre; "
+              "tanım farkı için Bölüm B §3 madde 3 notu. Tam gecikmede değerlendirme için Ek 'Makale 2 ızgara kontrolü'.\n\n")
+NOTE_BRIDGE = ("> **Not (15 Kasım):** Bu ek başka bir dalda, değiştirilmeden alındı ve K4 düzeltmesinden ÖNCEKİ periyodik çalışma "
+               "sayılarını taşıyor (örn. ağ − soğuk −0.153). Düzeltilmiş değerler Ek 'Makale 2 Tablo III düzeltmesi' §2b'de (örn. −0.120). "
+               "Ağ, Makale 1'in ağının kendisi değil (Bölüm B §4).\n\n")
 P4 = [("Deney 4.1 — Kanal öngörüsü", "kanal_ongoru"), ("Deney 4.2 — Konum tabanlı faz", "konum_faz"),
       ("Deney 4.3 — Ön kodlayıcı pilotları", "onkodlayici_pilot"), ("Deney 4.3 devamı — Bütün kollarla sıralama", "onkodlayici_siralama"),
       ("Deney 4.4 — Kusurlu CSI", "kusurlu_csi"), ("Deney 4.5 — Ayrık faz (1/2/3 bit)", "ayrik_faz"),
@@ -38,8 +45,8 @@ parts = [
     ("Bölüm B", "Ayrıntılı teknik rapor", local("thesis_exp/AYRINTILI_RAPOR.md")),
     ("Bölüm C", "Bağımsız denetim süreci", local("thesis_exp/rapor_pdf/01_denetim_ozeti.md")),
     ("Bölüm D", "Tez için tavsiyeler", local("thesis_exp/TEZ_TAVSIYELERI.md")),
-    ("Ek 1", "Görev 2 — Ortak altyapı raporu (dal thesis/altyapi)", branch("thesis/altyapi", "thesis_exp/infra/REPORT.md")),
-    ("Ek 2", "Görev 3 — Köprü raporu (dal thesis/bridge)", branch("thesis/bridge", "thesis_exp/bridge/REPORT.md")),
+    ("Ek 1", "Görev 2 — Ortak altyapı raporu (dal thesis/altyapi)", NOTE_INFRA + branch("thesis/altyapi", "thesis_exp/infra/REPORT.md")),
+    ("Ek 2", "Görev 3 — Köprü raporu (dal thesis/bridge; K4 öncesi)", NOTE_BRIDGE + branch("thesis/bridge", "thesis_exp/bridge/REPORT.md")),
 ] + [(f"Ek {i + 3}", t, local(f"thesis_exp/p4/{d}/REPORT.md")) for i, (t, d) in enumerate(P4)] + [
     (f"Ek {len(P4) + 3}", "Makale 1 denetim raporu — 13 Kasım'da donduruldu (dal audit/makale1-denetim)",
      branch("audit/makale1-denetim", "audit/AUDIT_REPORT.md")),
@@ -82,7 +89,7 @@ blockquote {{ margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; b
 <div class="cover"><h1>Tez deneyleri — kapsamlı teknik rapor</h1>
 <div class="sub">Hareketli RIS sistemlerinde hesaplama gecikmesi · 11–15 Kasım 2026 çalışmaları</div>
 <table><tr><th>Hazırlanma</th><td>{today}</td></tr>
-<tr><th>Kaynak</th><td>dal <code>thesis/p4-deneyler</code> @ <code>{commit}</code>; ekler <code>thesis/altyapi</code>, <code>thesis/bridge</code>, <code>audit/makale1-denetim</code> @ <code>{audit_commit}</code></td></tr>
+<tr><th>Kaynak</th><td>dal <code>thesis/p4-deneyler</code> @ <code>{commit}</code>; ekler <code>thesis/altyapi</code> @ <code>{infra_commit}</code>, <code>thesis/bridge</code> @ <code>{bridge_commit}</code>, <code>audit/makale1-denetim</code> @ <code>{audit_commit}</code>; temiz çalışma ağacında üretildi</td></tr>
 <tr><th>Üretim</th><td><code>python3 thesis_exp/rapor_pdf/build.py</code> — depodaki raporların birleşimi; Bölüm A ve C elle yazılmış özetlerdir, sayıları ilgili raporlardan alınmıştır</td></tr>
 <tr><th>Not</th><td>Tez ya da makale metni değildir (Kural 9). Makale 1 incelemesi 13 Kasım'da kullanıcı isteğiyle durduruldu.</td></tr></table>
 <h2>İçindekiler</h2><ul class="toc">{''.join(toc)}</ul></div>
