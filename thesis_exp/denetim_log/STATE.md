@@ -1,6 +1,6 @@
 # Denetim durumu (ajan günceller)
 
-Son tur: 2026-11-15 02:26 (`20261115_0226.md`). Tur sayısı: 7. Makale 1 kapsam dışı (13 Kasım).
+Son tur: 2026-11-15 03:26 (`20261115_0326.md`). Tur sayısı: 8. Makale 1 kapsam dışı (13 Kasım).
 
 ## run.py inceleme sırası
 1. thesis_exp/p4/onkodlayici_siralama/run.py — İNCELENDİ (tur 1; WIN parametresi tur 4: U24, U27)
@@ -18,7 +18,8 @@ Son tur: 2026-11-15 02:26 (`20261115_0226.md`). Tur sayısı: 7. Makale 1 kapsam
 9. origin/thesis/bridge: thesis_exp/bridge/scripts/*.py — İNCELENDİ (tur 7; K4, U51, U52, U55)
 10. origin/thesis/altyapi: thesis_exp/infra/scripts/*.py — İNCELENDİ (tur 7; m1_on_38901.py kapsam dışı; U53, U54)
    → Sıra bitti. Sonraki turlar: K4 sınıfı (mutlak ızgara yuvarlaması) taraması; `grep round( p4/*/run*.py` tur 7'de: yalnız onkodlayici_pilot/run.py:47,61 (bilinen v1, siralama ile yerine konmuş); csi/siralama dağıtıma hizalı.
-(11. wt_audit — Makale 1, kapsam dışı)
+11. thesis_exp/p4/takip_duzeltme/run.py + bridge_tracking_fix.py — İNCELENDİ (tur 8; K4 düzeltmesi doğru, --fix 0 yayımlanmış mantıkla birebir; U59–U63)
+(12. wt_audit — Makale 1, kapsam dışı)
 
 ## İzlenen rapor bölümleri
 - AYRINTILI §1.2, §2–§10: tur 1–2; §5.1–5.6: tur 3; §5.1 (141–143) ve §5.5 3 bit: tur 4.
@@ -32,6 +33,7 @@ Son tur: 2026-11-15 02:26 (`20261115_0226.md`). Tur sayısı: 7. Makale 1 kapsam
 - audit_claims.py --all tur 6: 126/126 (01:32, 50 s).
 - Tur 7: bridge REPORT ve infra REPORT kopyada birebir; onkodlayici_pilot (DÜZELTME dahil) ve optimize_sure kopyada birebir; bridge eval_speeds 5 hız + dominated_by yeniden hesap; definitions.json 10 süre + 6 oran; siralama 9 pencere×numeroloji seçilen kol + kümeler; köprü net_res1_lr0_s0 yeniden eğitimi bit-bit aynı.
 - audit_claims.py --all tur 7: 126/126 (02:35, 49 s).
+- Tur 8: takip_duzeltme REPORT §1/§2/§2b + 10 ham dosya; AYRINTILI:76/133/217/241, TOPLU:28/44, TEZ:48, 00:27, 01:20/30; paper tab_tracking.tex 12 hücre + section_06:74 beş nitel iddia fix1 ile; denetçi tam entegrasyon (S/t8/exact_full.py) 3 T_p. Kopyada birebir: takip_duzeltme, kusurlu_csi. audit_claims --all 126/126 (51 s).
 - Kapsanmayanlar:
   - siralama tabloları satır satır (ana tablo).
   - (bridge hız tablosu tur 7'de kapandı)
@@ -39,10 +41,16 @@ Son tur: 2026-11-15 02:26 (`20261115_0226.md`). Tur sayısı: 7. Makale 1 kapsam
 ## Kural kontrolü notu
 - Taban `8991ea5`. Tur 1–6'da dallarda (tur 5–6: HEAD, altyapi, bridge) `results/` ve `paper_mobility/` boş; dışarıda yalnızca `.gitignore`, `CLAUDE.md`.
 
-## Arka plan işleri (tur 7, 02:26)
+## Arka plan işleri (tur 8, 03:26)
 - Yok.
 
 ## Açık bulgular
+- **U59 (tur 8):** fix1 pilot ücreti faz karışımına orantılı (run.py:163–169, bridge_tracking_fix.py:122–128); tam entegrasyonla politika başına ≤0.0072, seçimler ve sıcak−soğuk değişmiyor. Belge notu.
+- **U60 (tur 8):** yorum.md:6 "GA genişliği kadar ya da daha fazla" — tam genişlik için yanlış (0.054 < 0.061 / 0.101); yarı genişlik için doğru.
+- **U61 (tur 8):** T_p=0 "değişmiyor" ama iki basamakta +0.52→+0.53 (tab_tracking.tex:6, section_06:74); seçilen L iki hücrede değişiyor (0.86 soğuk 4→3, 3.43 sıcak 8→24); özetlerde tam düzeltilmiş satır yok. Makalenin 5 nitel iddiası fix1'de tutuyor.
+- **U62 (tur 8):** --fix 0 yeniden üretimi yalnız T_p=0.86 (kod diff'iyle diğerleri eşdeğer). Küçük.
+- **U63 (tur 8):** fix*.json commit 238d846 (koşu sonu okunuyor; run.py aynı); bridge_tracking_fix.py:24 scratchpad yoluna bağlı, yedeği yok; :20 docstring çıktı yolu eski; run.py:34 "50-200 ms" miras.
+- **K4 → KAPANDI (tur 8):** düzeltilmiş kopyalar doğrulandı; kalanlar U59–U63.
 - **K4 (tur 7, KRİTİK):** bridge_tracking.py:75,85,95 ve yayımlanmış scripts/mumiso_tracking.py:91,107,111 pilot süresini ve devreye almayı mutlak 0.5 ms ızgaraya yuvarlıyor (0.86→1.0, 1.71→1.5 ms; b2b'de değişken). Birinci derece tahmin (ölçüm değil, S/bridge_t7/est/pilot_rounding.py): köprü ağ−soğuk T_p=0.86 −0.153→≈−0.066; Tablo III sıcak−soğuk 0.86 +0.222→≈+0.267, 1.71 +0.146→≈+0.095. Kesirli ağırlıklı kopya betikle yeniden koşu gerekli.
 - **U51 (tur 7):** köprü seçim eğitimleri commit 349d253 (betik yok); seçilen yapılandırma bit-bit yeniden üretildi, diğer üçü değil.
 - **U52 (tur 7):** "Makale 1'in ağı RMSE'de iyi, etkin hızda baskınlanıyor" (TEZ:13, 00:19, AYRINTILI:123) — köprü ağı MuMisoNet (yalnız gövde ortak), RMSE ile ölçülmedi, ≈ SU-average (t0 4.6264 / 4.6240).
