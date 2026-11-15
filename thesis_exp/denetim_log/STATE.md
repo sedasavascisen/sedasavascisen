@@ -1,6 +1,6 @@
 # Denetim durumu (ajan günceller)
 
-Son tur: 2026-11-15 04:26 (`20261115_0426.md`). Tur sayısı: 9. Makale 1 kapsam dışı (13 Kasım).
+Son tur: 2026-11-15 05:26 (`20261115_0526.md`). Tur sayısı: 10. Makale 1 kapsam dışı (13 Kasım).
 
 ## run.py inceleme sırası
 1. thesis_exp/p4/onkodlayici_siralama/run.py — İNCELENDİ (tur 1; WIN parametresi tur 4: U24, U27)
@@ -20,7 +20,8 @@ Son tur: 2026-11-15 04:26 (`20261115_0426.md`). Tur sayısı: 9. Makale 1 kapsam
    → Sıra bitti. Sonraki turlar: K4 sınıfı (mutlak ızgara yuvarlaması) taraması; `grep round( p4/*/run*.py` tur 7'de: yalnız onkodlayici_pilot/run.py:47,61 (bilinen v1, siralama ile yerine konmuş); csi/siralama dağıtıma hizalı.
 11. thesis_exp/p4/takip_duzeltme/run.py + bridge_tracking_fix.py — İNCELENDİ (tur 8; K4 düzeltmesi doğru, --fix 0 yayımlanmış mantıkla birebir; U59–U63)
 12. thesis_exp/p4/takip_duzeltme/exact_full_check.py — İNCELENDİ (tur 9; denetçi betiğinin kopyası, fark yalnız yorum + çıktı yolu)
-(13. wt_audit — Makale 1, kapsam dışı)
+13. Tur 10: yeni run.py yok; takip_duzeltme/make_report.py değişikliği (4 T_p sınaması) okundu, doğru. build.py kopyası S/t10/build'de HTML üretti (18 bölüm, biçim sorunu yok).
+(14. wt_audit — Makale 1, kapsam dışı)
 
 ## İzlenen rapor bölümleri
 - AYRINTILI §1.2, §2–§10: tur 1–2; §5.1–5.6: tur 3; §5.1 (141–143) ve §5.5 3 bit: tur 4.
@@ -36,6 +37,7 @@ Son tur: 2026-11-15 04:26 (`20261115_0426.md`). Tur sayısı: 9. Makale 1 kapsam
 - audit_claims.py --all tur 7: 126/126 (02:35, 49 s).
 - Tur 8: takip_duzeltme REPORT §1/§2/§2b + 10 ham dosya; AYRINTILI:76/133/217/241, TOPLU:28/44, TEZ:48, 00:27, 01:20/30; paper tab_tracking.tex 12 hücre + section_06:74 beş nitel iddia fix1 ile; denetçi tam entegrasyon (S/t8/exact_full.py) 3 T_p. Kopyada birebir: takip_duzeltme, kusurlu_csi. audit_claims --all 126/126 (51 s).
 - Tur 9 (son kapsamlı tur, PDF öncesi): build.py'nin bütün bölümleri (A, B §1.1/§2 hariç, C, D, Ek 1–13) tutarlılık açısından; siralama 3 pencere × 4 sütun programla (seçilen, hız, SU farkı, ayırt edilemeyen küme, Adam-3/6/48/CD/PGA farkları, ilk 4); onkodlayici_csi 6 satır; definitions.json 6 oran; takip_duzeltme fix0 4 T_p × 2 betik (fark 0) ve exact_full 3 dosya. Kopyada 11 klasörün hepsi yeniden üretildi: 10 birebir, optimize_sure DEĞİL (U65). audit_claims --all 126/126 (45 s).
+- Tur 10 (PDF öncesi): tur 9 yanıtı 7 madde; 00_sade_ozet.md'nin bütün sayıları ham JSON'a bağlandı (30+); A/B/C/D + Ek 1–2 çelişki taraması + Ek 3–13; 11 klasör kopyada birebir (optimize_sure dahil, U65 kapandı); build.py kuru üretimi (S/t10/build/TAM_RAPOR.html); audit_claims --all 126/126 (42 s).
 - Kapsanmayanlar:
   - (siralama ana tablosu tur 9'da programla kapandı)
   - (bridge hız tablosu tur 7'de kapandı)
@@ -43,10 +45,17 @@ Son tur: 2026-11-15 04:26 (`20261115_0426.md`). Tur sayısı: 9. Makale 1 kapsam
 ## Kural kontrolü notu
 - Taban `8991ea5`. Tur 1–6'da dallarda (tur 5–6: HEAD, altyapi, bridge) `results/` ve `paper_mobility/` boş; dışarıda yalnızca `.gitignore`, `CLAUDE.md`.
 
-## Arka plan işleri (tur 9, 04:26)
+## Arka plan işleri (tur 10, 05:26)
 - Yok.
 
 ## Açık bulgular
+- **U71 (tur 10, öncelikli):** "50 ms'de en iyi kol kümesi pilot ücretinden etkilenmiyor/değişmiyor/korunuyor" — taze W için seçilene karşı eşli GA hiç hesaplanmıyor (run.py:112–115; raw["fresh"]["rows"] yalnız minus_su_best_of). Etkilenen: siralama REPORT:77–78/yorum:1–2, AYRINTILI:64,66, 00:32, TEZ:45, 01:37.
+- **U72 (tur 10):** 00:28 "interpolasyon hiçbir sonucu değiştirmiyor" — AYRINTILI:75 ve izgara yorum:8 "değişen tek nitel sonuç" (SU-best-of − Adam-48 GA'sı sıfırı dışlıyor), paper L* nokta 5→4.
+- **U73 (tur 10):** Ek 2 (bridge REPORT:21–24) K4 öncesi periyodik sayılar, Ek 1 (infra REPORT:10) "testin 600'ü", ikisinde de düzeltme notu yok; kapakta altyapi/bridge commit'i yok; kapak HEAD'i basıyor ama içerik çalışma ağacından (PDF commit sonrası temiz ağaçta üretilmeli).
+- **U74 (tur 10):** 00 kesinlik: :18 "1 ile 6" test argmax (doğrulamada 3–20); :18 PGA "yüzlerce ms" (4950 ms); :25 25 ms "3–8" (15 kHz 2…8; siralama REPORT:90/yorum:14 da); :26/AYRINTILI:211/csi yorum:6 20 dB Adam-1 30/60 kHz anlamlı geride; :20 "dokuz tur" + 01 tablosu tur 10'suz.
+- **U75 (tur 10):** AYRINTILI:281 "(ii) bütün p4 deneyleri" (i) ile çelişiyor; "aynı kol" örneği Adam-5 ile Adam-6'yı karşılaştırıyor (aynı kol: Adam-6 6.0434 köprü / 6.0770 p4).
+- **U70 kalıntıları (tur 10):** AYRINTILI:139 "Altı karşılaştırma"; AYRINTILI:193 + optimize_sure REPORT:52 "2.65" (2.656); H17 etki sütunu; TEZ:64 madde 5, :73 "hiç sınanmadı", :95 "(15 Kasım)"; TOPLU:56 "(Sürüyor)" (PDF dışı).
+- U64, U65, U66, U67, U68, U69 → KAPANDI (tur 10 kontrol; kalıntılar U73–U75'te). U70 → büyük ölçüde KAPANDI. U48 → 07:15 yeniden üretimini bekliyor.
 - **U64 (tur 9):** AYRINTILI:280 (§9) ve siralama yorum.md:12/REPORT:88 "pilot ücreti ile kestirim hatası birlikte modellenmedi" — §5.9/onkodlayici_csi ile çelişiyor.
 - **U65 (tur 9):** optimize_sure/REPORT.md yorum.md'nin gerisinde (REPORT:40 torch.compile nitelemesi, :52 L=1 nitelemesi yok); make_report.py yeniden koşulmalı, yoksa PDF Ek 9 eski.
 - **U66 (tur 9):** siralama yorum.md:16 "Farklar küçük ama anlamlı: Adam-6 0.021…" — 15 kHz GA [−0.052, +0.008] sıfırı içeriyor.

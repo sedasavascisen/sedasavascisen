@@ -53,6 +53,6 @@ Bu dosya ayrıntılı raporların özetidir; her sayı ilgili raporda betik, toh
 ## 4) Açık sorular (karar sizin)
 
 1. (Yapıldı, 12 Kasım) Pilot ücreti altında bütün kolların sıralaması: en iyi küme ve yavaş çözücülerin yeri değişmiyor (madde 9).
-2. (Sürüyor) N=256 tohum 1–2, N=64 ve N=128 üçer tohum; bitince denetim raporu güncellenecek.
+2. (Durduruldu, 13 Kasım, kullanıcı isteği) Makale 1 ek eğitimleri; tamamlananlar tohum 0: N=64 3.05°, N=128 2.58°, N=256 2.25°.
 3. Makale 1 bulgularının yayımlanmış makale açısından ne anlama geldiği danışmanla değerlendirilmeli.
 4. Ölçüm fazı 20 Kasım'da kapanıyor; yukarıdaki iki ek iş bu tarihten önce bitebilecek büyüklükte.

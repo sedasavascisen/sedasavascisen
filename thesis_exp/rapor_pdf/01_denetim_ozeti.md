@@ -20,6 +20,7 @@ Denetçi dosya değiştirmedi ve commit yapmadı. Her KRİTİK bulguyu ana oturu
 | 7 | 15 Kasım 02:26 | 100+ | 1 (K4) | 8 (U51–U58) | `20261115_0226.md`, `YANIT_20261115_0226.md` |
 | 8 | 15 Kasım 03:26 | 56+ | 0 (K4 kapatıldı) | 5 (U59–U63) | `20261115_0326.md`, `YANIT_20261115_0326.md` |
 | 9 | 15 Kasım 04:26 | 90+ | 0 | 7 (U64–U70) | `20261115_0426.md`, `YANIT_20261115_0426.md` |
+| 10 | 15 Kasım 05:26 | 30+ (sade özetin hepsi) | 0 | 5 (U71–U75) | `20261115_0526.md`, `YANIT_20261115_0526.md` |
 
 Her turda ham veriyle çelişen sayı aranıyor. Ham JSON'larla çelişen hesap sonucu K3'te (4.5'te kaba ızgara yöntemi) ve K4'te (Makale 2 Tablo III'te pilot/devreye alma yuvarlaması) çıktı; ikisi de düzeltildi ve hükümleri değiştirmedi. Özet metinlerde ham veriyle çelişen birkaç yazım/genelleme hatası bulundu (K2, U5, U6, U12, U32) ve düzeltildi.
 
@@ -34,7 +35,7 @@ Her turda ham veriyle çelişen sayı aranıyor. Ham JSON'larla çelişen hesap 
 
 **Önemli uyarılar ve çözümleri**
 
-- **Sıralama iddiası (U4):** "Sıralama değişmiyor" iddiası fazla güçlüydü. Doğrusu: 50 ms pencerede en iyi küme (Adam-3…20; seçilen kol Adam-6/8) korunuyor; daha uzun pencerede küme daha çok adıma kayıyor, aralarındaki farklar ayırt edilemiyor.
+- **Sıralama iddiası (U4):** "Sıralama değişmiyor" iddiası fazla güçlüydü. Doğrusu: 50 ms pencerede pilot ücretli seçilen koldan ayırt edilemeyen küme Adam-3…20 (seçilen Adam-6/8; taze W ile eşli karşılaştırma yapılmadı, U71); daha uzun pencerede küme daha çok adıma kayıyor, aralarındaki farklar ayırt edilemiyor.
 - **Ölçüt farkı (U2):** Pilot deneyinin ölçütü (50 ms ortalaması) Tanım 1'in anlık etkin hızından farklı. Bu fark belgelendi.
 - **Desteklenmeyen cümle (U12):** Kusurlu CSI'da "hata arttıkça L küçülüyor" cümlesi ölçümle desteklenmiyordu. Veriden üretilen cümleyle değiştirildi (en iyi L: 6/3/5/1/6/4).
 - **ρ tanımı (U13):** ρ, 400 senaryonun ortalama gücüne göre tanımlı. 30 dB, senaryo başına medyanda 22.6 dB etkin SNR'ye karşılık geliyor. Denetçinin betiği depoya alınıp yeniden koşuldu.

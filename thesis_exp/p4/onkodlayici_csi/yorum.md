@@ -3,7 +3,7 @@
   - ρ = 30 dB: 2.42–2.78;
   - ρ = 20 dB: 1.02–1.15 b/s/Hz.
 - **30 dB'de hızlı yöntemin üstünlüğü küçülüyor ama sürüyor.** Seçilen Adam-3, SU-best-of'tan +0.049…+0.065 önde (GA'lar sıfırın üstünde). Kusursuz CSI'da bu fark +0.15…+0.21'di.
-- **20 dB'de hızlı yöntemler ayırt edilemiyor.** Seçilen Adam-2 ile SU-best-of arasındaki farkın GA'sı sıfırı içeriyor. Testte nokta tahminiyle en üstte Adam-48 var, ama bu da seçilen koldan ayırt edilemiyor. Bu düzeyde kestirim hatası hızlı yöntemler arasındaki farkları bastırıyor; yavaş çözücülerle olan fark ise sürüyor.
+- **20 dB'de seçilen hızlı yöntem SU-best-of'tan ayırt edilemiyor** (Adam-1 30/60 kHz'de anlamlı biçimde geride; denetim U74). Seçilen Adam-2 ile SU-best-of arasındaki farkın GA'sı sıfırı içeriyor. Testte nokta tahminiyle en üstte Adam-48 var, ama bu da seçilen koldan ayırt edilemiyor. Bu düzeyde kestirim hatası hızlı yöntemler arasındaki farkları bastırıyor; yavaş çözücülerle olan fark ise sürüyor.
 - **Yavaş çözücüler iki düzeyde de anlamlı biçimde geride.** Seçilen kola göre ortalama fark: CD 30 dB'de −0.142…−0.154, 20 dB'de −0.068…−0.076; PGA 30 dB'de −0.319…−0.356, 20 dB'de −0.156…−0.177. Bütün GA'lar sıfırın altında (en yüksek üst sınır −0.032).
 - **Tasarım sınırları (denetim U25, U26):**
   - Kestirim gürültüsü kollar arasında eşli değil. Her kolun fazı ayrı bir t=0 kestiriminden çıkıyor; 4.4'te bütün kollar aynı kestirimi kullanıyordu. Bu yanlılık yaratmıyor ama GA'ları genişletiyor.

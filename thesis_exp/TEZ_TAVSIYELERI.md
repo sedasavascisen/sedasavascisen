@@ -42,7 +42,7 @@ Makale için "düzeltme gerekmiyor" kararınızı yeniden tartışmıyorum. Ama 
 | Muhtemel soru | Yanıtınız | Kaynak |
 | --- | --- | --- |
 | "Gecikme donanıma bağlı, sonuçlarınız genellenir mi?" | Normalize adım maliyeti x = ΔT·f_d; hüküm mutlak ms'ye değil x'e bağlı. Yeniden ölçümde Adam 1.66 → 1.328 ms oldu, L* 5 → 6, bulgu korundu | x'in tanımı: MAKALE_REHBERI.md:348, paper_mobility/DANISMAN_GORUSME_NOTLARI.md:29 (ölçekleme yasası bu denetimde yeniden sınanmadı); yeniden ölçüm: infra/REPORT.md |
-| "Pilot yükünü bedava saydınız" | Ücretlendirildi: mutlak hız %17–32 düşüyor, 50 ms pencerede en iyi kol kümesi (Adam-3…20; seçilen kol Adam-6/8) ve yavaş çözücülerin yeri değişmiyor (pencere uzunluğu için bir alt satır) | p4/onkodlayici_siralama |
+| "Pilot yükünü bedava saydınız" | Ücretlendirildi: mutlak hız %17–32 düşüyor, 50 ms pencerede pilot ücretli seçilen koldan ayırt edilemeyen küme Adam-3…20 (seçilen Adam-6/8), yavaş çözücüler en altta; taze W ile eşli karşılaştırma yapılmadı (pencere uzunluğu için bir alt satır) | p4/onkodlayici_siralama |
 | "Fazı ne sıklıkla yeniden hesaplıyorsunuz? Optimum buna bağlı değil mi?" | **Evet, bağlı — bunu siz söyleyin.** Faz 25 / 50 / 100 ms tutulursa doğrulamada seçilen kol Adam-5 / 6–8 / 16–20; seçilen koldan ayırt edilemeyen küme Adam-3…8 / Adam-3…20 / Adam-10…48 (15 kHz'de 25 ms'de Adam-2 de, 100 ms'de Adam-5…48). Bu okuma yalnızca gecikmesi pencereden kısa kollar için geçerli (CD/PGA'da değil). 100 ms'de farklar küçük (Adam-6 0.02–0.04 geride; 15 kHz'de anlamlı değil; Adam-3 0.05–0.08 geride). Yavaş çözücü her durumda geride. Tez cümlesi "gecikme sıralamayı belirler" korunuyor, ama "birkaç adım her zaman en iyidir" denmemeli: optimum, gecikme ile yeniden hesaplama aralığının birlikte fonksiyonu. | p4/onkodlayici_siralama §3b |
 | "Pilot ve kestirim hatası birlikte?" | 30 dB'de hızlı yöntemin üstünlüğü küçülüyor ama sürüyor; 20 dB'de hızlı yöntemler ayırt edilemiyor; yavaş çözücüler her iki düzeyde de geride. | p4/onkodlayici_csi |
 | "Tablo III'teki sıcak başlangıç kazancı ne kadar güvenilir?" | Benzetim pilot süresini ızgaraya yuvarlıyordu; düzeltilmiş kopyada kazanç 0.86 ms'de 0.276, 1.71 ms'de 0.092 (makale 0.222 / 0.146). İşaret ve hüküm aynı. Tezde düzeltilmiş değerleri kullanın; bunlar makalenin 1.6625 ms/adım gecikmesiyle hesaplandı, yeni 1.328 ms ile değil (tam satırlar p4/takip_duzeltme REPORT §2; T_p = 0'da da 0.52 → 0.53 ve iki hücrede seçilen L değişiyor); hakem sorarsa bu kopya hazır. | p4/takip_duzeltme |
@@ -61,7 +61,7 @@ Bu tabloyu savunma hazırlığının omurgası yapın. Her satır için tek bir 
 2. **Etkin hız ölçütleri:** iki farklı ölçüt var. Tanım 1 anlık; pilot deneyi 50 ms ortalaması kullanıyor. Tezde ikisini karıştırmayın. Pencere uzunluğu en iyi adım sayısını değiştiriyor (25 / 50 / 100 ms → Adam-5 / 6–8 / 16–20).
 3. **Gecikme muhasebesi:** Adam-L gecikmesi SU-average başlangıcını (0.30 ms) içermiyor. Eklenince etkin hız kol başına 0.0001–0.021 b/s/Hz düşüyor (p4/gecikme_muhasebesi). Dar farklarda bunu belirtin.
 4. **GPU ölçümü yok.**
-5. **3 bit çok kullanıcılı ayrık faz 13 Kasım'da koşuldu:** L* = 6, yavaş ayrık CD belirgin geride (p4/ayrik_faz).
+5. **(Kapandı) 3 bit çok kullanıcılı ayrık faz 13 Kasım'da koşuldu:** L* = 6, yavaş ayrık CD belirgin geride (p4/ayrik_faz).
 
 ## 5) Ölçüm fazının kalan günleri (20 Kasım'a kadar, 15 Kasım itibarıyla 5 gün) — öncelik sırası
 
@@ -70,7 +70,7 @@ Bu tabloyu savunma hazırlığının omurgası yapın. Her satır için tek bir 
 | 1 | ~~Makale 1 eğitimleri~~ — 13 Kasım'da kullanıcı isteğiyle durduruldu | — | — |
 | 2 | ~~3 bit ayrık faz~~ — yapıldı (13 Kasım) | — | — |
 | 3 | ~~50 ms pencere duyarlılığı~~ — yapıldı (14–15 Kasım); sonuç savunma için önemli (yukarıdaki tablo) | Pilot sonucunun sağlamlığı (§4.2) | ~1.5 saat |
-| 4 | ~~Pilot ücreti + kusurlu CSI birlikte~~ — yapıldı (14–15 Kasım) | En gerçekçi rejim; iki etki birlikte hiç sınanmadı | ~2–3 saat; isteğe bağlı |
+| 4 | ~~Pilot ücreti + kusurlu CSI birlikte~~ — yapıldı (14–15 Kasım) | En gerçekçi rejim; 14–15 Kasım'da sınandı (p4/onkodlayici_csi) | ~2–3 saat; isteğe bağlı |
 | 5 | Yeni p4 sayılarını bir iddia denetleyicisine bağlamak | `audit_claims.py` gibi; sabotaj testiyle | Küçük. Kural 2 gereği `thesis_exp/` altında ayrı bir betik olmalı; onayınızı ister |
 
 **Açmayın:** öngörücü faz tasarımı (dönüşlü yörünge yok), yeni öğrenilen modeller, GPU arayışı. 20 Kasım'dan sonra yeni deney açılmıyor; bu tarihten sonra eksik kalan her şey "gelecek çalışma" olur ve bu meşrudur.

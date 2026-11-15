@@ -61,9 +61,9 @@ Not: Makale 1 için kullanıcının kararı "düzeltmeye gerek yok"; bu bulgular
 
 ### 1.2 Makale 2 (hareketlilik) — `thesis_exp/infra/REPORT.md`, `thesis_exp/p4/onkodlayici_*/REPORT.md`
 
-11. **Ön kodlayıcı tazeleme pilotları ücretlendirilince mutlak etkin hız büyük ölçüde düşüyor; 50 ms pencerede en iyi kol kümesi değişmiyor.**
+11. **Ön kodlayıcı tazeleme pilotları ücretlendirilince mutlak etkin hız büyük ölçüde düşüyor; 50 ms pencerede pilot ücretli üç numerolojide seçilen koldan ayırt edilemeyen küme Adam-3…20 (taze W ile eşli karşılaştırma yapılmadı).**
     - En iyi kol taze ve bedava W varsayımıyla (makalenin varsayımı) 5.213 b/s/Hz. Bu deneyin ölçütü devreye girdikten sonraki 50 ms'nin zaman ortalaması; madde 12'deki 6.075 ise Tanım 1'in anlık etkin hızı, ikisi doğrudan karşılaştırılmaz. Pencere duyarlılığı madde 14'te. Pilot ücretiyle 3.539 (15 kHz), 4.003 (30 kHz), 4.334 (60 kHz): %32/%23/%17 kayıp.
-    - Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) her durumda aynı sırada; aralarındaki farkların GA'sı sıfırı içeriyor (kesin olan, en iyi kümenin Adam-3…20; seçilen kol Adam-6/8 olarak kalması (W = 50 ms; W = 100 ms'de geçerli değil, bkz. madde 14)); 5. ve 6. sıra numerolojiye göre değişiyor; en iyi kolun SU-best-of'a üstünlüğü +0.303 [+0.242, +0.366] → +0.153 / +0.193 / +0.209 (GA'lar sıfırın üstünde). (p4/onkodlayici_siralama/raw/results.json)
+    - Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) her durumda aynı sırada; aralarındaki farkların GA'sı sıfırı içeriyor (kesin olan, en iyi kümenin Adam-3…20; seçilen kol Adam-6/8 olarak kalması (W = 50 ms; W = 100 ms'de geçerli değil, bkz. madde 14)); 5. ve 6. sıra numerolojiye göre değişiyor; en iyi kolun SU-best-of'a üstünlüğü +0.303 [+0.242, +0.366] → +0.153 / +0.193 / +0.209 (GA'lar sıfırın üstünde). (p4/onkodlayici_siralama/raw/results.json) Taze W için seçilen kola karşı eşli GA hesaplanmadı; taze W tarafında yalnız nokta sırası karşılaştırılabilir (denetim U71).
 12. **Adam adımı 1.66 değil 1.328 ms** (tek iş parçacığı, boş makine). Bununla L* = 6 (makale 5; metin 4–6), L=48 kaybı %14.4 (makale %14.0), en iyi etkin hız 6.075 (makale 5.982). SU-best-of − Adam-20: −0.086 [−0.174, 0.002] (makale −0.004 [−0.095, 0.085]). Ana bulgular korunuyor. (infra/raw/mumiso_aging_sweep_newlat.json, mumiso_aging_stats_newlat.json)
 13. **Kullanılmayan senaryo sayısı 800 değil 700** (doğrulamanın 500'ü kullanılıyor; tanıma bağlı, bkz. §3 madde 3 notu). (infra/raw/static_split_usage.json)
 14. **(14–15 Kasım) En iyi adım sayısı, fazın tutulduğu süreye bağlı.** Pilot ücretli modelde ortalama penceresi W (fiilen fazın yeniden hesaplanma aralığı) değiştirildi:
@@ -136,7 +136,7 @@ Bu, CLAUDE.md'deki "yapay zekâ ekseni kapandı ve olumsuz" hükmüyle tutarlı.
 
 ---
 
-## 5) Görev 4 — Altı karşılaştırma (ayrıntı)
+## 5) Görev 4 — Altı karşılaştırma ve 14–15 Kasım ek deneyleri (ayrıntı)
 
 Ortak kurulum (`thesis_exp/p4/common.py`):
 - Yaşlanma kümesi `scripts/mumiso_aging.py` ile aynı (seed 11, 400 senaryo, 20 saçıcı, 1.5 m/s), ZF, min-kullanıcı hızı, soft-min Adam (β = 8).
@@ -190,7 +190,7 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 - **Öğrenilen/Adam oranı:** L=8'de 2.80 (eager). torch.compile satırı (3.09) optimize bir sürüm sayılmamalı (yeniden derleme sınırı, karmaşık sayılar), eşdeğer kanıt değil.
 - **torch.compile iki kolu da yavaşlattı:** Inductor karmaşık sayılarda kod üretmiyor; öğrenilen kol yeniden derleme sınırına (256) takıldı.
 - **jit.trace ve GPU:** ÜRETİLEMEDİ.
-- **Süre tanımı (denetim U44):** run.py'de Adam kolu SU-average başlangıcını içeriyor, öğrenilen kol öznitelik/başlangıç hariç ve autograd açık koşuyor. Aynı tanımla yeniden ölçüldü (`check_definitions.py` → `raw/definitions.json`, boş makine, tek iş parçacığı). L=8 oranı: run.py tanımı 2.81, makalenin tanımı (no_grad, başlangıç hariç) 2.71, ikisi de uçtan uca 2.67. L=1'de 1.97 / 2.65 / 2.48. L=8'de hüküm tanımdan bağımsız (L=1'de oran tanıma göre 1.97–2.65 arasında değişiyor).
+- **Süre tanımı (denetim U44):** run.py'de Adam kolu SU-average başlangıcını içeriyor, öğrenilen kol öznitelik/başlangıç hariç ve autograd açık koşuyor. Aynı tanımla yeniden ölçüldü (`check_definitions.py` → `raw/definitions.json`, boş makine, tek iş parçacığı). L=8 oranı: run.py tanımı 2.81, makalenin tanımı (no_grad, başlangıç hariç) 2.71, ikisi de uçtan uca 2.67. L=1'de 1.97 / 2.66 / 2.48. L=8'de hüküm tanımdan bağımsız (L=1'de oran tanıma göre 1.97–2.66 arasında değişiyor).
 - **Sınır:** eğitilmemiş ağırlıklar kullanıldı (süre ağırlığa bağlı değil). Adam-1 süresi SU-average başlangıcını da içeriyor.
 
 ### 5.7 Makale 2 ızgara kontrolü — `p4/izgara_kontrol/REPORT.md` (14 Kasım)
@@ -208,7 +208,7 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 - **Model:** BS gerçek kanalı hiç görmüyor; faz ve her ZF tazelemesi kestirimden.
 - **Seçilen kolun hızı:**
   - 30 dB: 2.42–2.78 b/s/Hz. Seçilen Adam-3, SU-best-of'tan +0.05…+0.06 önde (GA sıfırın üstünde).
-  - 20 dB: 1.02–1.15 b/s/Hz. Hızlı yöntemler ayırt edilemiyor.
+  - 20 dB: 1.02–1.15 b/s/Hz. Seçilen Adam-2, SU-best-of'tan ayırt edilemiyor (Adam-1 ise 30/60 kHz'de anlamlı biçimde geride).
 - **Yavaş çözücüler:** CD ve PGA iki düzeyde de anlamlı biçimde geride. Seçilen kola göre CD −0.07…−0.15, PGA −0.16…−0.36.
 - **Sınır:** Kestirim gürültüsü kollar arasında eşli değil. Adam adım boyu 4.4'ten alındı.
 
@@ -278,7 +278,7 @@ Yeniden başlamaların nedeni: harness'in izlediği bir arka plan işi kalmayın
 
 - **Kanal modeli:** Hareketlilik sonuçları tek bir kanal modeline (sabit saçıcılar, düz yörünge, iç mekân) dayanıyor. Öngörü (4.1) bu yüzden iyimser.
 - **Pilot ücreti (4.3):** Ana deney kusursuz kestirimle; kestirim hatasıyla birlikte etkisi §5.9'da ölçüldü (30 dB'de hızlı yöntemin üstünlüğü küçülüyor, 20 dB'de ayırt edilemiyor).
-- **Gecikme setleri (denetim U69):** Üç farklı gecikme seti kullanılıyor. (i) Makalenin 13.3/8 = 1.6625 ms/adım'ı: Tablo III ve düzeltmesi (§5.10), ızgara kontrolünün "paper" kümesi. (ii) Tek iş parçacıklı yeniden ölçüm 1.328 ms/adım: Görev 2 ve bütün p4 deneyleri. (iii) Köprünün kendi ölçümü (Adam-L başlangıç dahil; Adam-1 1.903 ms, Adam-6 8.700 ms): Görev 3 ve köprü periyodik bölümü. Bu yüzden aynı kolun etkin hızı raporlar arasında biraz farklı (örn. Adam-5 6.038 köprüde, Adam-6 6.077 p4'te). Tablo III'ün yeni (ii) gecikmeleriyle yeniden üretimi yapılmadı.
+- **Gecikme setleri (denetim U69):** Üç farklı gecikme seti kullanılıyor. (i) Makalenin 13.3/8 = 1.6625 ms/adım'ı: Tablo III ve düzeltmesi (§5.10), ızgara kontrolünün "paper" kümesi. (ii) Tek iş parçacıklı yeniden ölçüm 1.328 ms/adım: Görev 2 ve p4 deneylerinin hepsi, (i)'de sayılan iki istisna dışında. (iii) Köprünün kendi ölçümü (Adam-L başlangıç dahil; Adam-1 1.903 ms, Adam-6 8.700 ms): Görev 3 ve köprü periyodik bölümü. Bu yüzden aynı kolun etkin hızı raporlar arasında biraz farklı (örn. Adam-6 köprüde 6.043, p4'te 6.077). Tablo III'ün yeni (ii) gecikmeleriyle yeniden üretimi yapılmadı.
 - **Zamanlama:** Gecikmeler tek bir CPU'da (Intel Xeon @ 2.10 GHz). Başka donanımda mutlak sayılar değişir; Makale 2'nin hükmü göreli sıralamaya dayanıyor.
 - **Makale 1:** Bağımsız çekiliş; MATLAB örnekleriyle birebir değil.
 - **Ölçüm fazı:** 20 Kasım'da kapanıyor. Makale 1 eğitimleri 13 Kasım'da kullanıcı isteğiyle durduruldu (§8).
