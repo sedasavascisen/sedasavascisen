@@ -21,6 +21,7 @@ Denetçi dosya değiştirmedi ve commit yapmadı. Her KRİTİK bulguyu ana oturu
 | 8 | 15 Kasım 03:26 | 56+ | 0 (K4 kapatıldı) | 5 (U59–U63) | `20261115_0326.md`, `YANIT_20261115_0326.md` |
 | 9 | 15 Kasım 04:26 | 90+ | 0 | 7 (U64–U70) | `20261115_0426.md`, `YANIT_20261115_0426.md` |
 | 10 | 15 Kasım 05:26 | 30+ (sade özetin hepsi) | 0 | 5 (U71–U75) | `20261115_0526.md`, `YANIT_20261115_0526.md` |
+| 11 | 15 Kasım 06:26 | 40+ | 0 | 3 (U76–U78) | `20261115_0626.md`, `YANIT_20261115_0626.md` |
 
 Her turda ham veriyle çelişen sayı aranıyor. Ham JSON'larla çelişen hesap sonucu K3'te (4.5'te kaba ızgara yöntemi) ve K4'te (Makale 2 Tablo III'te pilot/devreye alma yuvarlaması) çıktı; ikisi de düzeltildi ve hükümleri değiştirmedi. Özet metinlerde ham veriyle çelişen birkaç yazım/genelleme hatası bulundu (K2, U5, U6, U12, U32) ve düzeltildi.
 

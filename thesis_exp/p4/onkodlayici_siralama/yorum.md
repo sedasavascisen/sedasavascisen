@@ -1,5 +1,5 @@
 - **50 ms pencerede pilot ücretli üç numerolojide seçilen koldan ayırt edilemeyen küme Adam-3…20; ilk dört kolun nokta sırası taze W'de de aynı.** Taze W için seçilen kola karşı eşli GA hesaplanmadı (denetim U71). 100 ms'de geçerli değil (aşağıdaki pencere maddesi).
-  - Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) taze W'de ve üç numerolojinin hepsinde aynı sırada; ama aralarındaki farkların GA'sı sıfırı içeriyor, bu yüzden kesin olan sıra değil, en iyi kümenin (Adam-3…20; seçilen kol Adam-6/8) korunması. 5. ve 6. sıra numerolojiye göre değişiyor.
+  - Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) taze W'de ve üç numerolojinin hepsinde aynı sırada; ama aralarındaki farkların GA'sı sıfırı içeriyor, bu yüzden kesin olan sıra değil; pilotlu durumda seçilen koldan ayırt edilemeyen küme Adam-3…20 (taze W ile eşli karşılaştırma yapılmadı). 5. ve 6. sıra numerolojiye göre değişiyor.
   - Doğrulamada seçilen kol Adam-6 ya da Adam-8. Seçilen kol ile Adam-3…Adam-20 arasındaki farkların GA'sı sıfırı içeriyor.
   - İçsel optimum (L ≈ 5–8) pilot ücretinde de korunuyor.
 - **Ölçüt:** devreye girdikten sonraki 50 ms'nin zaman ortalaması (Tanım 1'in anlık etkin hızı değil). Pencere duyarlılığı aşağıda. Doğrulama çekilişinde (seed 12) senaryo kimliği ayrıca sınanmadı (denetim U11); test çekilişinde her ızgara için sınandı.

@@ -40,7 +40,7 @@ Bu dosya ayrıntılı raporların özetidir; her sayı ilgili raporda betik, toh
 | 4.6 Optimize süreler | Öğrenilen/Adam süre oranı L=8'de 2.80 (eager); aynı tanımla ölçülünce 2.67–2.81 (denetim U44, raw/definitions.json); torch.compile satırı (3.09) optimize sayılmaz; torch.compile bu kodda iki kolu da yavaşlattı. jit.trace ve GPU: ÜRETİLEMEDİ. | `p4/optimize_sure/REPORT.md` |
 | Izgara kontrolü (14 Kasım) | Makale 2'nin interpolasyonu hükümleri değiştirmiyor; tam gecikmede L48 kaybı %14.20 (makale gecikmeleri), %14.93 (yeniden ölçülen); hata ≤ 0.031 b/s/Hz. | `p4/izgara_kontrol/REPORT.md` |
 | Pencere duyarlılığı (14–15 Kasım) | **En iyi adım sayısı, fazın tutulduğu süreye bağlı:** W = 25 / 50 / 100 ms'de seçilen Adam-5 / Adam-6–8 / Adam-16–20. 100 ms'de eğri düz: Adam-6 yalnızca 0.02–0.04 geride. CD her pencerede geride. | `p4/onkodlayici_siralama/REPORT.md` §3b |
-| Pilot + kusurlu CSI (14–15 Kasım) | 30 dB'de hız 2.42–2.78, Adam-3 SU-best-of'tan +0.05…+0.06 önde; 20 dB'de 1.02–1.15, hızlı yöntemler ayırt edilemiyor; CD/PGA iki düzeyde de anlamlı geride. | `p4/onkodlayici_csi/REPORT.md` |
+| Pilot + kusurlu CSI (14–15 Kasım) | 30 dB'de hız 2.42–2.78, Adam-3 SU-best-of'tan +0.05…+0.06 önde; 20 dB'de 1.02–1.15, 20 dB'de seçilen Adam-2 SU-best-of'tan ayırt edilemiyor; Adam-48 SU-best-of'u küçük ama anlamlı farkla (+0.03) geçiyor; CD/PGA iki düzeyde de anlamlı geride. | `p4/onkodlayici_csi/REPORT.md` |
 | Tablo III düzeltmesi (15 Kasım) | Periyodik benzetimde kesirli pilot ve tam devreye alma: sıcak − soğuk 0.86 ms'de 0.276, 1.71 ms'de 0.092 (makale 0.222 / 0.146); yayımlanmış mantık birebir üretildi. | `p4/takip_duzeltme/REPORT.md` |
 
 ## 3) ÜRETİLEMEDİ listesi

@@ -1,6 +1,6 @@
 # Denetim durumu (ajan günceller)
 
-Son tur: 2026-11-15 05:26 (`20261115_0526.md`). Tur sayısı: 10. Makale 1 kapsam dışı (13 Kasım).
+Son tur: 2026-11-15 06:26 (`20261115_0626.md`). Tur sayısı: 11. Makale 1 kapsam dışı (13 Kasım).
 
 ## run.py inceleme sırası
 1. thesis_exp/p4/onkodlayici_siralama/run.py — İNCELENDİ (tur 1; WIN parametresi tur 4: U24, U27)
@@ -21,7 +21,8 @@ Son tur: 2026-11-15 05:26 (`20261115_0526.md`). Tur sayısı: 10. Makale 1 kapsa
 11. thesis_exp/p4/takip_duzeltme/run.py + bridge_tracking_fix.py — İNCELENDİ (tur 8; K4 düzeltmesi doğru, --fix 0 yayımlanmış mantıkla birebir; U59–U63)
 12. thesis_exp/p4/takip_duzeltme/exact_full_check.py — İNCELENDİ (tur 9; denetçi betiğinin kopyası, fark yalnız yorum + çıktı yolu)
 13. Tur 10: yeni run.py yok; takip_duzeltme/make_report.py değişikliği (4 T_p sınaması) okundu, doğru. build.py kopyası S/t10/build'de HTML üretti (18 bölüm, biçim sorunu yok).
-(14. wt_audit — Makale 1, kapsam dışı)
+14. Tur 11: yeni run.py yok; aeb338c build.py (NOTE_INFRA/NOTE_BRIDGE, kapak dal commit'leri) okundu, kopyada HTML üretildi; kapak 'temiz ağaç' metni denetlenmiyor (U78).
+(15. wt_audit — Makale 1, kapsam dışı)
 
 ## İzlenen rapor bölümleri
 - AYRINTILI §1.2, §2–§10: tur 1–2; §5.1–5.6: tur 3; §5.1 (141–143) ve §5.5 3 bit: tur 4.
@@ -38,6 +39,7 @@ Son tur: 2026-11-15 05:26 (`20261115_0526.md`). Tur sayısı: 10. Makale 1 kapsa
 - Tur 8: takip_duzeltme REPORT §1/§2/§2b + 10 ham dosya; AYRINTILI:76/133/217/241, TOPLU:28/44, TEZ:48, 00:27, 01:20/30; paper tab_tracking.tex 12 hücre + section_06:74 beş nitel iddia fix1 ile; denetçi tam entegrasyon (S/t8/exact_full.py) 3 T_p. Kopyada birebir: takip_duzeltme, kusurlu_csi. audit_claims --all 126/126 (51 s).
 - Tur 9 (son kapsamlı tur, PDF öncesi): build.py'nin bütün bölümleri (A, B §1.1/§2 hariç, C, D, Ek 1–13) tutarlılık açısından; siralama 3 pencere × 4 sütun programla (seçilen, hız, SU farkı, ayırt edilemeyen küme, Adam-3/6/48/CD/PGA farkları, ilk 4); onkodlayici_csi 6 satır; definitions.json 6 oran; takip_duzeltme fix0 4 T_p × 2 betik (fark 0) ve exact_full 3 dosya. Kopyada 11 klasörün hepsi yeniden üretildi: 10 birebir, optimize_sure DEĞİL (U65). audit_claims --all 126/126 (45 s).
 - Tur 10 (PDF öncesi): tur 9 yanıtı 7 madde; 00_sade_ozet.md'nin bütün sayıları ham JSON'a bağlandı (30+); A/B/C/D + Ek 1–2 çelişki taraması + Ek 3–13; 11 klasör kopyada birebir (optimize_sure dahil, U65 kapandı); build.py kuru üretimi (S/t10/build/TAM_RAPOR.html); audit_claims --all 126/126 (42 s).
+- Tur 11 (kısa, PDF öncesi): tur 10 yanıtı 6 madde; onkodlayici_csi 20/30 dB tam satırlar, siralama W=25/50/100, izgara, takip_duzeltme warm−cold 4 T_p × 2, bridge net−cold; 00_sade_ozet tamamı; kopyada birebir: onkodlayici_csi, siralama, optimize_sure; audit_claims --all 126/126.
 - Kapsanmayanlar:
   - (siralama ana tablosu tur 9'da programla kapandı)
   - (bridge hız tablosu tur 7'de kapandı)
@@ -45,10 +47,14 @@ Son tur: 2026-11-15 05:26 (`20261115_0526.md`). Tur sayısı: 10. Makale 1 kapsa
 ## Kural kontrolü notu
 - Taban `8991ea5`. Tur 1–6'da dallarda (tur 5–6: HEAD, altyapi, bridge) `results/` ve `paper_mobility/` boş; dışarıda yalnızca `.gitignore`, `CLAUDE.md`.
 
-## Arka plan işleri (tur 10, 05:26)
+## Arka plan işleri (tur 11, 06:26)
 - Yok.
 
 ## Açık bulgular
+- **U76 (tur 11, öncelikli):** 20 dB 'hızlı yöntemler ayırt edilemiyor' TEZ:47 (PDF D), TOPLU:43; csi REPORT:82/yorum:6 'farkları bastırıyor' — Adam-48 − SU-best-of üç numerolojide >0 (alt sınır +0.0016…+0.0027), Adam-1 − seçilen 30/60 kHz <0; 'Adam-1 … geride' referansı belirsiz (seçilene göre, SU-best-of'a göre değil).
+- **U77 (tur 11):** U71 kalıntısı: siralama REPORT:78/yorum:2 ve AYRINTILI:66 'kesin olan … kümenin korunması/kalması' — taze W karşılaştırması yok, aynı paragrafla çelişiyor.
+- **U78 (tur 11):** TEZ:4 'turları 1–9'; build.py:92 'temiz çalışma ağacında üretildi' sabit metin (git status denetimi yok); altyapi=bridge=38b25bd (doğru); 00:28 'hızlı yöntem' = SU-best-of; AYRINTILI:66 '+0.303' seçilen kol (nokta-en iyi Adam-6 +0.314).
+- U71–U75 → KAPANDI (tur 11 kontrol; kalıntılar U76–U78). U70 kalıntıları → KAPANDI. U73 → KAPANDI (U78 küçük not). U48 → 07:15 üretimini bekliyor.
 - **U71 (tur 10, öncelikli):** "50 ms'de en iyi kol kümesi pilot ücretinden etkilenmiyor/değişmiyor/korunuyor" — taze W için seçilene karşı eşli GA hiç hesaplanmıyor (run.py:112–115; raw["fresh"]["rows"] yalnız minus_su_best_of). Etkilenen: siralama REPORT:77–78/yorum:1–2, AYRINTILI:64,66, 00:32, TEZ:45, 01:37.
 - **U72 (tur 10):** 00:28 "interpolasyon hiçbir sonucu değiştirmiyor" — AYRINTILI:75 ve izgara yorum:8 "değişen tek nitel sonuç" (SU-best-of − Adam-48 GA'sı sıfırı dışlıyor), paper L* nokta 5→4.
 - **U73 (tur 10):** Ek 2 (bridge REPORT:21–24) K4 öncesi periyodik sayılar, Ek 1 (infra REPORT:10) "testin 600'ü", ikisinde de düzeltme notu yok; kapakta altyapi/bridge commit'i yok; kapak HEAD'i basıyor ama içerik çalışma ağacından (PDF commit sonrası temiz ağaçta üretilmeli).
