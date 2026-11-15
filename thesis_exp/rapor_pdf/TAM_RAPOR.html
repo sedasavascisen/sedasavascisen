@@ -21,12 +21,12 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 .cover table { width: auto; font-size: 9pt; } .toc li { margin: 2pt 0; list-style: none; } .toc a { color: var(--ink); text-decoration: none; }
 </style></head><body>
 <div class="cover"><h1>Tez deneyleri — kapsamlı teknik rapor</h1>
-<div class="sub">Hareketli RIS sistemlerinde hesaplama gecikmesi · 11–13 Kasım 2026 çalışmaları</div>
+<div class="sub">Hareketli RIS sistemlerinde hesaplama gecikmesi · 11–15 Kasım 2026 çalışmaları</div>
 <table><tr><th>Hazırlanma</th><td>2026-11-15</td></tr>
-<tr><th>Kaynak</th><td>dal <code>thesis/p4-deneyler</code> @ <code>cd9e543</code>; ekler <code>thesis/altyapi</code>, <code>thesis/bridge</code>, <code>audit/makale1-denetim</code> @ <code>305f09e</code></td></tr>
+<tr><th>Kaynak</th><td>dal <code>thesis/p4-deneyler</code> @ <code>e27f182</code>; ekler <code>thesis/altyapi</code> @ <code>38b25bd</code>, <code>thesis/bridge</code> @ <code>38b25bd</code>, <code>audit/makale1-denetim</code> @ <code>305f09e</code>; temiz çalışma ağacında üretildi</td></tr>
 <tr><th>Üretim</th><td><code>python3 thesis_exp/rapor_pdf/build.py</code> — depodaki raporların birleşimi; Bölüm A ve C elle yazılmış özetlerdir, sayıları ilgili raporlardan alınmıştır</td></tr>
 <tr><th>Not</th><td>Tez ya da makale metni değildir (Kural 9). Makale 1 incelemesi 13 Kasım'da kullanıcı isteğiyle durduruldu.</td></tr></table>
-<h2>İçindekiler</h2><ul class="toc"><li><a href="#p0"><span class="tag">Bölüm A</span> Sade özet</a></li><li><a href="#p1"><span class="tag">Bölüm B</span> Ayrıntılı teknik rapor</a></li><li><a href="#p2"><span class="tag">Bölüm C</span> Bağımsız denetim süreci</a></li><li><a href="#p3"><span class="tag">Bölüm D</span> Tez için tavsiyeler</a></li><li><a href="#p4"><span class="tag">Ek 1</span> Görev 2 — Ortak altyapı raporu (dal thesis/altyapi)</a></li><li><a href="#p5"><span class="tag">Ek 2</span> Görev 3 — Köprü raporu (dal thesis/bridge)</a></li><li><a href="#p6"><span class="tag">Ek 3</span> Deney 4.1 — Kanal öngörüsü</a></li><li><a href="#p7"><span class="tag">Ek 4</span> Deney 4.2 — Konum tabanlı faz</a></li><li><a href="#p8"><span class="tag">Ek 5</span> Deney 4.3 — Ön kodlayıcı pilotları</a></li><li><a href="#p9"><span class="tag">Ek 6</span> Deney 4.3 devamı — Bütün kollarla sıralama</a></li><li><a href="#p10"><span class="tag">Ek 7</span> Deney 4.4 — Kusurlu CSI</a></li><li><a href="#p11"><span class="tag">Ek 8</span> Deney 4.5 — Ayrık faz (1/2/3 bit)</a></li><li><a href="#p12"><span class="tag">Ek 9</span> Deney 4.6 — Optimize süreler</a></li><li><a href="#p13"><span class="tag">Ek 10</span> Doğrulama — Gecikme muhasebesi</a></li><li><a href="#p14"><span class="tag">Ek 11</span> Doğrulama — Makale 2 ızgara kontrolü</a></li><li><a href="#p15"><span class="tag">Ek 12</span> Pilot yükü ve kusurlu CSI birlikte</a></li><li><a href="#p16"><span class="tag">Ek 13</span> Makale 2 Tablo III düzeltmesi</a></li><li><a href="#p17"><span class="tag">Ek 14</span> Makale 1 denetim raporu — 13 Kasım&#x27;da donduruldu (dal audit/makale1-denetim)</a></li></ul></div>
+<h2>İçindekiler</h2><ul class="toc"><li><a href="#p0"><span class="tag">Bölüm A</span> Sade özet</a></li><li><a href="#p1"><span class="tag">Bölüm B</span> Ayrıntılı teknik rapor</a></li><li><a href="#p2"><span class="tag">Bölüm C</span> Bağımsız denetim süreci</a></li><li><a href="#p3"><span class="tag">Bölüm D</span> Tez için tavsiyeler</a></li><li><a href="#p4"><span class="tag">Ek 1</span> Görev 2 — Ortak altyapı raporu (dal thesis/altyapi)</a></li><li><a href="#p5"><span class="tag">Ek 2</span> Görev 3 — Köprü raporu (dal thesis/bridge; K4 öncesi)</a></li><li><a href="#p6"><span class="tag">Ek 3</span> Deney 4.1 — Kanal öngörüsü</a></li><li><a href="#p7"><span class="tag">Ek 4</span> Deney 4.2 — Konum tabanlı faz</a></li><li><a href="#p8"><span class="tag">Ek 5</span> Deney 4.3 — Ön kodlayıcı pilotları</a></li><li><a href="#p9"><span class="tag">Ek 6</span> Deney 4.3 devamı — Bütün kollarla sıralama</a></li><li><a href="#p10"><span class="tag">Ek 7</span> Deney 4.4 — Kusurlu CSI</a></li><li><a href="#p11"><span class="tag">Ek 8</span> Deney 4.5 — Ayrık faz (1/2/3 bit)</a></li><li><a href="#p12"><span class="tag">Ek 9</span> Deney 4.6 — Optimize süreler</a></li><li><a href="#p13"><span class="tag">Ek 10</span> Doğrulama — Gecikme muhasebesi</a></li><li><a href="#p14"><span class="tag">Ek 11</span> Doğrulama — Makale 2 ızgara kontrolü</a></li><li><a href="#p15"><span class="tag">Ek 12</span> Pilot yükü ve kusurlu CSI birlikte</a></li><li><a href="#p16"><span class="tag">Ek 13</span> Makale 2 Tablo III düzeltmesi</a></li><li><a href="#p17"><span class="tag">Ek 14</span> Makale 1 denetim raporu — 13 Kasım&#x27;da donduruldu (dal audit/makale1-denetim)</a></li></ul></div>
 <section class="part" id="p0"><div class="parthead"><span class="tag">Bölüm A</span><h1>Sade özet</h1></div><h2>Sade özet — bilmeyen birine anlatır gibi</h2>
 <p><strong>İki makale var.</strong></p>
 <ul>
@@ -43,25 +43,25 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
    - yüzeyin yalnızca 2, 4 ya da 8 farklı ayar alabilmesi (1/2/3 bit),
    - kodu hızlandırmak.</li>
 </ol>
-<p>Ana fikir hepsinde ayakta kaldı: yüzeyin ayarı sık yenilendiğinde en iyi sonucu "az ama hızlı" hesap yapan yöntem veriyor (genellikle Adam'ın birkaç adımı; ölçüm hatası arttıkça en iyi adım sayısı 1 ile 6 arasında değişiyor; ayar uzun süre tutulursa en iyi adım sayısı artıyor, aşağıya bakın). İstisna: 1 bitte tek turluk yavaş arama (dCD-1) Adam'la berabere ve doğrulamada o seçiliyor. Çok yavaş yöntemler (CD, PGA; yüzlerce milisaniye) hiçbir durumda öne geçmiyor.
+<p>Ana fikir hepsinde ayakta kaldı: yüzeyin ayarı sık yenilendiğinde en iyi sonucu "az ama hızlı" hesap yapan yöntem veriyor (genellikle Adam'ın birkaç adımı; ölçüm hatası arttıkça testteki en iyi adım sayısı 1 ile 6 arasında değişiyor (doğrulamada seçilenler 3–20); ayar uzun süre tutulursa en iyi adım sayısı artıyor, aşağıya bakın). İstisna: 1 bitte tek turluk yavaş arama (dCD-1) Adam'la berabere ve doğrulamada o seçiliyor. Çok yavaş yöntemler (CD yaklaşık 0.7 s, PGA yaklaşık 5 s) hiçbir durumda öne geçmiyor.
 2. <strong>İki makaleyi bağlayan bir bulgu çıktı.</strong> Makale 1'in yaklaşımını (tek seferde tahmin eden yapay zekâ) çok kullanıcılı sisteme taşıyan bir ağ, Makale 2'nin ölçüsüyle (gecikmeyi hesaba katan etkin hız) bakınca klasik yöntemlerin gerisinde kalıyor; hızı, en basit kapalı form yöntemle aynı düzeyde. Bu ağ Makale 1'in ağının kendisi değil.
-3. <strong>Her iş ayrı bir denetçiye kontrol ettirildi.</strong> Denetçi yedi turda yüzlerce sayıyı ham veriden yeniden okudu. Bulunan hataların ikisi dışında hepsi düzeltildi (açık kalan ikisi küçük); önemli sonuçların hiçbiri değişmedi.
+3. <strong>Her iş ayrı bir denetçiye kontrol ettirildi.</strong> Denetçi on bir turda yüzlerce sayıyı ham veriden yeniden okudu. Bulunan hataların büyük çoğunluğu düzeltildi; birkaç küçük not açık ya da yalnızca belgelendi (Bölüm C). Önemli sonuçların hiçbiri değişmedi.
 4. <strong>Makale 1:</strong> Denetimde bazı sayıların tekrar elde edilemediği görüldü. 13 Kasım'da sizin isteğinizle Makale 1 üzerindeki çalışma durduruldu; o güne kadarki kayıt Ek'te.</p>
 <p><strong>Bu gece eklenenler (14–15 Kasım)</strong></p>
 <ul>
-<li><strong>Fazın ne kadar süre kullanılacağı önemli.</strong> Yüzeyin ayarı her 25 ms'de bir yenileniyorsa en iyisi birkaç adım (3–8). 50 ms'de 6–8 adım seçiliyor, ama 3 ile 20 adım arası birbirinden ayırt edilemiyor. Ayar 100 ms boyunca tutulacaksa daha uzun hesap (16–20 adım) daha iyi; fark küçük (Adam-6 için 0.02–0.04, Adam-3 için 0.05–0.08 b/s/Hz; Adam-6 için fark 30 ve 60 kHz'de anlamlı, 15 kHz'de değil). Çok yavaş yöntemler her durumda geride. Yani tezin cümlesi doğru, ama "her zaman birkaç adım" demek yanlış olur.</li>
-<li><strong>Ölçüm maliyeti ve ölçüm hatası birlikte:</strong> En gerçekçi durumda hız çok düşüyor (30 dB'de 2.4–2.8, 20 dB'de 1.0–1.15 b/s/Hz). 20 dB'de hızlı yöntemler birbirinden ayırt edilemiyor; yavaş yöntemler yine geride.</li>
+<li><strong>Fazın ne kadar süre kullanılacağı önemli.</strong> Yüzeyin ayarı her 25 ms'de bir yenileniyorsa en iyisi birkaç adım (3–8; en yavaş numerolojide 2–8). 50 ms'de 6–8 adım seçiliyor, ama 3 ile 20 adım arası birbirinden ayırt edilemiyor. Ayar 100 ms boyunca tutulacaksa daha uzun hesap (16–20 adım) daha iyi; fark küçük (Adam-6 için 0.02–0.04, Adam-3 için 0.05–0.08 b/s/Hz; Adam-6 için fark 30 ve 60 kHz'de anlamlı, 15 kHz'de değil). Çok yavaş yöntemler her durumda geride. Yani tezin cümlesi doğru, ama "her zaman birkaç adım" demek yanlış olur.</li>
+<li><strong>Ölçüm maliyeti ve ölçüm hatası birlikte:</strong> En gerçekçi durumda hız çok düşüyor (30 dB'de 2.4–2.8, 20 dB'de 1.0–1.15 b/s/Hz). 20 dB'de hızlı yöntemler arasındaki farklar çok küçülüyor (en fazla 0.03 b/s/Hz); yavaş yöntemler yine anlamlı biçimde geride.</li>
 <li><strong>Makale 2'nin Tablo III'ünde küçük bir hesap hatası bulundu ve düzeltildi.</strong> Periyodik çalışmayı taklit eden program, ölçüm süresini yarım milisaniyeye yuvarlıyordu. Düzeltilince "sıcak başlangıcın" kazancı bir durumda büyüyor (0.22 → 0.28), bir durumda küçülüyor (0.15 → 0.09). Sonucun yönü ve anlamı değişmiyor. Tezde düzeltilmiş sayılar kullanılmalı.</li>
-<li><strong>Makale 2'nin sayıları tekrar kontrol edildi.</strong> Ana taramadaki küçük bir yaklaşıklık (interpolasyon) hiçbir sonucu değiştirmiyor; makaledeki "%14" tam hesapla %14.2.</li>
+<li><strong>Makale 2'nin sayıları tekrar kontrol edildi.</strong> Ana taramadaki küçük bir yaklaşıklık (interpolasyon) ana sonuçları değiştirmiyor; makaledeki "%14" tam hesapla %14.2. Tek nitel değişiklik: yeni ölçülen sürelerle en basit kapalı form yöntemin (SU-best-of) 48 adımlık Adam'a üstünlüğü tam hesapta istatistiksel olarak anlamlı hâle geliyor; makale sürelerinde en iyi adım sayısı 5 ile 4 arasında fiilen berabere.</li>
 </ul>
 <p><strong>Akılda kalacak üç sayı</strong></p>
 <ul>
-<li><strong>Ölçümün bedeli:</strong> Sinyali ölçmenin maliyeti (pilot) hesaba katılınca hız %17–32 düşüyor. Ama yüzeyin ayarı 50 ms'de bir yenilendiğinde en iyi yöntemler grubu (seçilen Adam'ın 6–8 adımı; 3–20 adım arası birbirinden ayırt edilemiyor) değişmiyor; bu grubun içindeki sıra kesin değil.</li>
+<li><strong>Ölçümün bedeli:</strong> Sinyali ölçmenin maliyeti (pilot) hesaba katılınca hız %17–32 düşüyor. Ayar 50 ms'de bir yenilendiğinde, ölçüm maliyeti hesaba katılınca 3 ile 20 adım arası birbirinden ayırt edilemiyor (seçilen 6–8 adım); maliyetsiz durumla bu kümenin istatistiksel karşılaştırması yapılmadı, yalnızca sıralama aynı.</li>
 <li><strong>Ölçüm hatası:</strong> 30 dB'lik bir ölçüm kalitesinde bile hız 6.08'den 3.54 b/s/Hz'e iniyor.</li>
 <li><strong>Uzun düşünmenin bedeli:</strong> 48 adım hesap yapmak, en iyi adım sayısına göre %14–15 kaybettiriyor (2 ve 3 bit).</li>
 </ul>
-<p><strong>Sırada ne var?</strong> Ölçüm fazı 20 Kasım'da kapanıyor. Ondan sonra yeni deney açılmıyor; yazım başlıyor.</p></section><section class="part" id="p1"><div class="parthead"><span class="tag">Bölüm B</span><h1>Ayrıntılı teknik rapor</h1></div><h2>Ayrıntılı teknik rapor — 11–12 Kasım 2026 çalışmaları</h2>
-<p>Bu rapor iki günde yapılan bütün deneysel işi, kullanılan yöntemleri, bulunan ve düzeltilen hataları ve
+<p><strong>Sırada ne var?</strong> Ölçüm fazı 20 Kasım'da kapanıyor. Ondan sonra yeni deney açılmıyor; yazım başlıyor.</p></section><section class="part" id="p1"><div class="parthead"><span class="tag">Bölüm B</span><h1>Ayrıntılı teknik rapor</h1></div><h2>Ayrıntılı teknik rapor — 11–15 Kasım 2026 çalışmaları</h2>
+<p>Bu rapor 11–15 Kasım'da yapılan bütün deneysel işi, kullanılan yöntemleri, bulunan ve düzeltilen hataları ve
 açık kalan konuları tek yerde toplar. Tez ya da makale metni değildir (Kural 9). Her sayının kaynağı
 parantez içinde verilen rapor ve ham çıktıdır; o rapor da betik + tohum + commit'e bağlıdır (Kural 3).
 Bu raporun kendisi yeni ölçüm içermez.</p>
@@ -96,7 +96,7 @@ ham dosyalara karşı sınanıyor; sonuçlar <code>thesis_exp/denetim_log/</code
 </tr>
 <tr>
 <td><code>thesis/p4-deneyler</code></td>
-<td>Altı karşılaştırma (4.1–4.6) + 4.3 devamı + toplu raporlar</td>
+<td>Altı karşılaştırma (4.1–4.6), 4.3 devamı, 14–15 Kasım ek deneyleri (pencere, pilot+CSI, ızgara kontrolü, Tablo III düzeltmesi) ve toplu raporlar</td>
 <td><code>thesis_exp/p4/*/REPORT.md</code>, <code>thesis_exp/TOPLU_RAPOR.md</code>, bu dosya</td>
 </tr>
 </tbody>
@@ -166,9 +166,9 @@ ham dosyalara karşı sınanıyor; sonuçlar <code>thesis_exp/denetim_log/</code
 <p>Not: Makale 1 için kullanıcının kararı "düzeltmeye gerek yok"; bu bulgular denetim kaydı olarak duruyor.</p>
 <h4>1.2 Makale 2 (hareketlilik) — <code>thesis_exp/infra/REPORT.md</code>, <code>thesis_exp/p4/onkodlayici_*/REPORT.md</code></h4>
 <ol start="11">
-<li><strong>Ön kodlayıcı tazeleme pilotları ücretlendirilince mutlak etkin hız büyük ölçüde düşüyor; 50 ms pencerede en iyi kol kümesi değişmiyor.</strong><ul>
+<li><strong>Ön kodlayıcı tazeleme pilotları ücretlendirilince mutlak etkin hız büyük ölçüde düşüyor; 50 ms pencerede pilot ücretli üç numerolojide seçilen koldan ayırt edilemeyen küme Adam-3…20 (taze W ile eşli karşılaştırma yapılmadı).</strong><ul>
 <li>En iyi kol taze ve bedava W varsayımıyla (makalenin varsayımı) 5.213 b/s/Hz. Bu deneyin ölçütü devreye girdikten sonraki 50 ms'nin zaman ortalaması; madde 12'deki 6.075 ise Tanım 1'in anlık etkin hızı, ikisi doğrudan karşılaştırılmaz. Pencere duyarlılığı madde 14'te. Pilot ücretiyle 3.539 (15 kHz), 4.003 (30 kHz), 4.334 (60 kHz): %32/%23/%17 kayıp.</li>
-<li>Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) her durumda aynı sırada; aralarındaki farkların GA'sı sıfırı içeriyor (kesin olan, en iyi kümenin Adam-3…20; seçilen kol Adam-6/8 olarak kalması (W = 50 ms; W = 100 ms'de geçerli değil, bkz. madde 14)); 5. ve 6. sıra numerolojiye göre değişiyor; en iyi kolun SU-best-of'a üstünlüğü +0.303 [+0.242, +0.366] → +0.153 / +0.193 / +0.209 (GA'lar sıfırın üstünde). (p4/onkodlayici_siralama/raw/results.json)</li>
+<li>Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) her durumda aynı sırada; aralarındaki farkların GA'sı sıfırı içeriyor (pilotlu durumda seçilen koldan ayırt edilemeyen küme Adam-3…20; W = 50 ms, W = 100 ms'de geçerli değil, bkz. madde 14); 5. ve 6. sıra numerolojiye göre değişiyor; doğrulamada seçilen kolun SU-best-of'a üstünlüğü +0.303 [+0.242, +0.366] → +0.153 / +0.193 / +0.209 (GA'lar sıfırın üstünde). (p4/onkodlayici_siralama/raw/results.json) Taze W için seçilen kola karşı eşli GA hesaplanmadı; taze W tarafında yalnız nokta sırası karşılaştırılabilir (denetim U71).</li>
 </ul>
 </li>
 <li><strong>Adam adımı 1.66 değil 1.328 ms</strong> (tek iş parçacığı, boş makine). Bununla L* = 6 (makale 5; metin 4–6), L=48 kaybı %14.4 (makale %14.0), en iyi etkin hız 6.075 (makale 5.982). SU-best-of − Adam-20: −0.086 [−0.174, 0.002] (makale −0.004 [−0.095, 0.085]). Ana bulgular korunuyor. (infra/raw/mumiso_aging_sweep_newlat.json, mumiso_aging_stats_newlat.json)</li>
@@ -182,7 +182,7 @@ ham dosyalara karşı sınanıyor; sonuçlar <code>thesis_exp/denetim_log/</code
 </ul>
 <p>100 ms'de farklar küçük: Adam-6 seçilen koldan 0.021–0.041 (30 ve 60 kHz'de anlamlı, 15 kHz'de değil), Adam-3 0.048–0.078 geride. CD her pencerede anlamlı biçimde geride. W'yi "yeniden hesaplama aralığı" diye okumak yalnızca gecikmesi W'den kısa kollar için geçerli (CD ve PGA'nın gecikmesi W'yi aşıyor). Makale 2'nin "birkaç adım yeter" hükmü, Tanım 1'in anlık ölçütü ve sık yeniden hesaplama için geçerli; faz uzun süre tutulacaksa optimum daha çok adıma kayıyor. Köprü raporunun periyodik çalışma bölümü (§1 madde 5) de güncelleme aralığı uzadıkça daha büyük L seçiyor; ama orada U ve L birlikte seçildiği için bu kontrollü bir karşılaştırma değil. (p4/onkodlayici_siralama/raw/results_win<em>.json)
 15. <strong>(14 Kasım) Makale 2'nin taramasındaki interpolasyon hükümleri değiştirmiyor.</strong> Tam gecikmede L</em> = 4 (makale gecikmeleri), L48 kaybı %13.99 → %14.20. Yeniden ölçülen gecikmelerle %14.40 → %14.93. Değişen tek nitel sonuç: SU-best-of − Adam-48'in GA'sı tam değerde sıfırı dışlıyor. (p4/izgara_kontrol)
-16. <strong>(15 Kasım, denetim K4) Makale 2 Tablo III'ün büyüklükleri yuvarlama nedeniyle kayık.</strong> Periyodik çalışma benzetimi pilot süresini ve devreye alma anını 0.5 ms ızgarasına yuvarlıyor. Düzeltilmiş kopyada sıcak − soğuk farkı: T_p = 0.86 ms'de 0.222 → 0.276 [0.244, 0.308]; 1.71 ms'de 0.146 → 0.092 [0.042, 0.145]; 0 ve 3.43 ms'de değişmiyor. İşaret ve hükümler korunuyor. Yayımlanmış mantık birebir yeniden üretildi (fark 0). (p4/takip_duzeltme)</p>
+16. <strong>(15 Kasım, denetim K4) Makale 2 Tablo III'ün büyüklükleri yuvarlama nedeniyle kayık.</strong> Periyodik çalışma benzetimi pilot süresini ve devreye alma anını 0.5 ms ızgarasına yuvarlıyor. Düzeltilmiş kopyada sıcak − soğuk farkı: T_p = 0.86 ms'de 0.222 → 0.276 [0.244, 0.308]; 1.71 ms'de 0.146 → 0.092 [0.042, 0.145]; 0 ms'de 0.524 → 0.528 (tabloda 0.52 → 0.53); 3.43 ms'de 0.008 (değişmiyor). Seçilen L iki hücrede değişiyor (0.86 ms soğuk 4 → 3; 3.43 ms sıcak 8 → 24); tam satırlar p4/takip_duzeltme REPORT §2. İşaret ve hükümler korunuyor. Yayımlanmış mantık birebir yeniden üretildi (fark 0). (p4/takip_duzeltme)</p>
 </li>
 </ol>
 <hr />
@@ -290,7 +290,7 @@ dalının çalışma ağacından koşuyor, commit alanı doğru dalı gösterece
 - Periyodik çalışmada (T_p = 0…3.43 ms) ağ hem soğuk hem sıcak başlangıçlı Adam'ın gerisinde.</p>
 <p>Bu, CLAUDE.md'deki "yapay zekâ ekseni kapandı ve olumsuz" hükmüyle tutarlı.</p>
 <hr />
-<h3>5) Görev 4 — Altı karşılaştırma (ayrıntı)</h3>
+<h3>5) Görev 4 — Altı karşılaştırma ve 14–15 Kasım ek deneyleri (ayrıntı)</h3>
 <p>Ortak kurulum (<code>thesis_exp/p4/common.py</code>):
 - Yaşlanma kümesi <code>scripts/mumiso_aging.py</code> ile aynı (seed 11, 400 senaryo, 20 saçıcı, 1.5 m/s), ZF, min-kullanıcı hızı, soft-min Adam (β = 8).
 - <code>check_same_scenarios</code> her deneyde t=0 SU-average değerini <code>results/mumiso_aging_fixzf.json</code> ile 1e-4 içinde doğruluyor.
@@ -348,7 +348,7 @@ dalının çalışma ağacından koşuyor, commit alanı doğru dalı gösterece
 <li><strong>Öğrenilen/Adam oranı:</strong> L=8'de 2.80 (eager). torch.compile satırı (3.09) optimize bir sürüm sayılmamalı (yeniden derleme sınırı, karmaşık sayılar), eşdeğer kanıt değil.</li>
 <li><strong>torch.compile iki kolu da yavaşlattı:</strong> Inductor karmaşık sayılarda kod üretmiyor; öğrenilen kol yeniden derleme sınırına (256) takıldı.</li>
 <li><strong>jit.trace ve GPU:</strong> ÜRETİLEMEDİ.</li>
-<li><strong>Süre tanımı (denetim U44):</strong> run.py'de Adam kolu SU-average başlangıcını içeriyor, öğrenilen kol öznitelik/başlangıç hariç ve autograd açık koşuyor. Aynı tanımla yeniden ölçüldü (<code>check_definitions.py</code> → <code>raw/definitions.json</code>, boş makine, tek iş parçacığı). L=8 oranı: run.py tanımı 2.81, makalenin tanımı (no_grad, başlangıç hariç) 2.71, ikisi de uçtan uca 2.67. L=1'de 1.97 / 2.65 / 2.48. L=8'de hüküm tanımdan bağımsız (L=1'de oran tanıma göre 1.97–2.65 arasında değişiyor).</li>
+<li><strong>Süre tanımı (denetim U44):</strong> run.py'de Adam kolu SU-average başlangıcını içeriyor, öğrenilen kol öznitelik/başlangıç hariç ve autograd açık koşuyor. Aynı tanımla yeniden ölçüldü (<code>check_definitions.py</code> → <code>raw/definitions.json</code>, boş makine, tek iş parçacığı). L=8 oranı: run.py tanımı 2.81, makalenin tanımı (no_grad, başlangıç hariç) 2.71, ikisi de uçtan uca 2.67. L=1'de 1.97 / 2.66 / 2.48. L=8'de hüküm tanımdan bağımsız (L=1'de oran tanıma göre 1.97–2.66 arasında değişiyor).</li>
 <li><strong>Sınır:</strong> eğitilmemiş ağırlıklar kullanıldı (süre ağırlığa bağlı değil). Adam-1 süresi SU-average başlangıcını da içeriyor.</li>
 </ul>
 <h4>5.7 Makale 2 ızgara kontrolü — <code>p4/izgara_kontrol/REPORT.md</code> (14 Kasım)</h4>
@@ -369,7 +369,7 @@ dalının çalışma ağacından koşuyor, commit alanı doğru dalı gösterece
 <li><strong>Model:</strong> BS gerçek kanalı hiç görmüyor; faz ve her ZF tazelemesi kestirimden.</li>
 <li><strong>Seçilen kolun hızı:</strong></li>
 <li>30 dB: 2.42–2.78 b/s/Hz. Seçilen Adam-3, SU-best-of'tan +0.05…+0.06 önde (GA sıfırın üstünde).</li>
-<li>20 dB: 1.02–1.15 b/s/Hz. Hızlı yöntemler ayırt edilemiyor.</li>
+<li>20 dB: 1.02–1.15 b/s/Hz. Seçilen Adam-2, SU-best-of'tan ayırt edilemiyor; Adam-48 SU-best-of'u küçük ama anlamlı farkla (+0.03) geçiyor; Adam-1 seçilen koldan 30/60 kHz'de anlamlı biçimde geride.</li>
 <li><strong>Yavaş çözücüler:</strong> CD ve PGA iki düzeyde de anlamlı biçimde geride. Seçilen kola göre CD −0.07…−0.15, PGA −0.16…−0.36.</li>
 <li><strong>Sınır:</strong> Kestirim gürültüsü kollar arasında eşli değil. Adam adım boyu 4.4'ten alındı.</li>
 </ul>
@@ -378,6 +378,7 @@ dalının çalışma ağacından koşuyor, commit alanı doğru dalı gösterece
 <li>§1.2 madde 16.</li>
 <li>Köprünün periyodik ağ kolu da düzeltildi (<code>bridge_tracking_fix.py</code>, yeniden üretim birebir): ağ her T_p'de soğuk ve sıcak Adam'ın gerisinde; ağ − soğuk 0.86 ms'de −0.153 → −0.120, 1.71 ms'de −0.105 → −0.129.</li>
 <li>Yayımlanmış betik en iyi politikayı raporlanan kümede seçiyor (denetim U58); karşılaştırılabilirlik için kopyada da aynı yapıldı.</li>
+<li>Sağlamlık: <code>--fix 0</code> dört T_p'nin hepsinde iki betikte de birebir; tam entegrasyonla fark politika başına ≤ 0.0072, seçimler ve sıcak − soğuk (≤ 6e-5) aynı (denetim U59, U62).</li>
 </ul>
 <hr />
 <h3>6) Süreçte bulunan ve düzeltilen hatalar</h3>
@@ -530,7 +531,7 @@ dalının çalışma ağacından koşuyor, commit alanı doğru dalı gösterece
 </table>
 <hr />
 <h3>8) Durdurulan işler ve Makale 1'in kapsamı (13 Kasım)</h3>
-<p>Denetim turu 4 (14 Kasım 23:26): KRİTİK yok; 9 uyarı (U24–U32; U33 yanıt dosyasında eklendi). Tur 4 yanıtı: <code>YANIT_20261114_2326.md</code>. Tur 5 (15 Kasım 00:26): KRİTİK yok; 10 uyarı (U34–U43), yanıt <code>YANIT_20261115_0026.md</code>. Tur 6 (01:26): KRİTİK yok; 7 uyarı (U44–U50), yanıt <code>YANIT_20261115_0126.md</code>. Tur 7 (02:26): KRİTİK 1 (K4, Makale 2 Tablo III'ün periyodik benzetiminde pilot/devreye alma yuvarlaması; bkz. §5.10), 8 uyarı (U51–U58), yanıt <code>YANIT_20261115_0226.md</code>. <code>audit_claims.py --all</code>: 126/126 (15 Kasım, deneyler bittikten sonra; tur 5–7'de de 126/126).</p>
+<p>Denetim turu 4 (14 Kasım 23:26): KRİTİK yok; 9 uyarı (U24–U32; U33 yanıt dosyasında eklendi). Tur 4 yanıtı: <code>YANIT_20261114_2326.md</code>. Tur 5 (15 Kasım 00:26): KRİTİK yok; 10 uyarı (U34–U43), yanıt <code>YANIT_20261115_0026.md</code>. Tur 6 (01:26): KRİTİK yok; 7 uyarı (U44–U50), yanıt <code>YANIT_20261115_0126.md</code>. Tur 7 (02:26): KRİTİK 1 (K4, Makale 2 Tablo III'ün periyodik benzetiminde pilot/devreye alma yuvarlaması; bkz. §5.10), 8 uyarı (U51–U58), yanıt <code>YANIT_20261115_0226.md</code>. Tur 8 (03:26): KRİTİK yok, K4 kapatıldı; 5 uyarı (U59–U63), yanıt <code>YANIT_20261115_0326.md</code>. Tur 9 (04:26): KRİTİK yok; 7 uyarı (U64–U70), yanıt <code>YANIT_20261115_0426.md</code>. <code>audit_claims.py --all</code>: 126/126 (15 Kasım, deneyler bittikten sonra; tur 5–7'de de 126/126).</p>
 <p>Kullanıcı 13 Kasım'da Makale 1'in incelenmesini durdurdu ("kodlarını bulacağım"). Makale 1 denetimi o tarihteki hâliyle donduruldu; saatlik denetimin kapsamından çıkarıldı.</p>
 <table>
 <thead>
@@ -559,10 +560,11 @@ dalının çalışma ağacından koşuyor, commit alanı doğru dalı gösterece
 <h3>9) Sınırlar ve riskler</h3>
 <ul>
 <li><strong>Kanal modeli:</strong> Hareketlilik sonuçları tek bir kanal modeline (sabit saçıcılar, düz yörünge, iç mekân) dayanıyor. Öngörü (4.1) bu yüzden iyimser.</li>
-<li><strong>Pilot ücreti (4.3):</strong> Kusursuz kestirimle ücretlendirildi. Kestirim hatasıyla (4.4) birlikte modellenmedi; ikisinin birlikte etkisi daha büyük olabilir.</li>
+<li><strong>Pilot ücreti (4.3):</strong> Ana deney kusursuz kestirimle; kestirim hatasıyla birlikte etkisi §5.9'da ölçüldü (30 dB'de hızlı yöntemin üstünlüğü küçülüyor; 20 dB'de seçilen kol SU-best-of'tan ayırt edilemiyor, farklar birkaç yüzdebir düzeyinde).</li>
+<li><strong>Gecikme setleri (denetim U69):</strong> Üç farklı gecikme seti kullanılıyor. (i) Makalenin 13.3/8 = 1.6625 ms/adım'ı: Tablo III ve düzeltmesi (§5.10), ızgara kontrolünün "paper" kümesi. (ii) Tek iş parçacıklı yeniden ölçüm 1.328 ms/adım: Görev 2 ve p4 deneylerinin hepsi, (i)'de sayılan iki istisna dışında. (iii) Köprünün kendi ölçümü (Adam-L başlangıç dahil; Adam-1 1.903 ms, Adam-6 8.700 ms): Görev 3 ve köprü periyodik bölümü. Bu yüzden aynı kolun etkin hızı raporlar arasında biraz farklı (örn. Adam-6 köprüde 6.043, p4'te 6.077). Tablo III'ün yeni (ii) gecikmeleriyle yeniden üretimi yapılmadı.</li>
 <li><strong>Zamanlama:</strong> Gecikmeler tek bir CPU'da (Intel Xeon @ 2.10 GHz). Başka donanımda mutlak sayılar değişir; Makale 2'nin hükmü göreli sıralamaya dayanıyor.</li>
 <li><strong>Makale 1:</strong> Bağımsız çekiliş; MATLAB örnekleriyle birebir değil.</li>
-<li><strong>Ölçüm fazı:</strong> 20 Kasım'da kapanıyor; §8 bu tarihten önce bitecek.</li>
+<li><strong>Ölçüm fazı:</strong> 20 Kasım'da kapanıyor. Makale 1 eğitimleri 13 Kasım'da kullanıcı isteğiyle durduruldu (§8).</li>
 </ul>
 <hr />
 <h3>10) Yeniden üretim</h3>
@@ -570,9 +572,14 @@ dalının çalışma ağacından koşuyor, commit alanı doğru dalı gösterece
 ## Görev 2 (dal thesis/altyapi):    thesis_exp/infra/scripts/*.py, make_infra_report.py
 ## Görev 3 (dal thesis/bridge):     thesis_exp/bridge/scripts/bridge_{train,eval,tracking}.py, make_bridge_report.py
 ## Görev 4 (dal thesis/p4-deneyler):
-for d in kanal_ongoru konum_faz onkodlayici_pilot kusurlu_csi ayrik_faz optimize_sure onkodlayici_siralama; do
+for d in kanal_ongoru konum_faz onkodlayici_pilot kusurlu_csi ayrik_faz optimize_sure onkodlayici_siralama gecikme_muhasebesi izgara_kontrol onkodlayici_csi; do
   python3 thesis_exp/p4/$d/run.py &amp;&amp; python3 thesis_exp/p4/$d/make_report.py
 done   # ayrik_faz ve optimize_sure boş makine bekler
+python3 thesis_exp/p4/ayrik_faz/run_exact.py; python3 thesis_exp/p4/ayrik_faz/run_3bit.py      # 4.5 tam gecikme + 3 bit
+WIN=25 python3 thesis_exp/p4/onkodlayici_siralama/run.py; WIN=100 python3 thesis_exp/p4/onkodlayici_siralama/run.py
+python3 thesis_exp/p4/optimize_sure/check_definitions.py                                 # boş makine
+for tp in 0 0.86 1.71 3.43; do python3 thesis_exp/p4/takip_duzeltme/run.py --fix 1 --pilot $tp; done   # + --fix 0, bridge_tracking_fix.py, exact_full_check.py
+python3 thesis_exp/rapor_pdf/build.py                                                    # PDF
 ## Görev 1 (dal audit/makale1-denetim): audit/scripts/step*.py, m1_train.py, make_audit_report.py
 </code></pre></section><section class="part" id="p2"><div class="parthead"><span class="tag">Bölüm C</span><h1>Bağımsız denetim süreci</h1></div><h2>Bağımsız denetim süreci — özet</h2>
 <p><strong>Yöntem.</strong> Raporları yazmamış ayrı bir ajan, saat başı <code>thesis_exp/denetim_log/BRIEF.md</code>'deki görev tanımını uyguladı:
@@ -650,9 +657,41 @@ done   # ayrik_faz ve optimize_sure boş makine bekler
 <td>8 (U51–U58)</td>
 <td><code>20261115_0226.md</code>, <code>YANIT_20261115_0226.md</code></td>
 </tr>
+<tr>
+<td>8</td>
+<td>15 Kasım 03:26</td>
+<td>56+</td>
+<td>0 (K4 kapatıldı)</td>
+<td>5 (U59–U63)</td>
+<td><code>20261115_0326.md</code>, <code>YANIT_20261115_0326.md</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>15 Kasım 04:26</td>
+<td>90+</td>
+<td>0</td>
+<td>7 (U64–U70)</td>
+<td><code>20261115_0426.md</code>, <code>YANIT_20261115_0426.md</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>15 Kasım 05:26</td>
+<td>30+ (sade özetin hepsi)</td>
+<td>0</td>
+<td>5 (U71–U75)</td>
+<td><code>20261115_0526.md</code>, <code>YANIT_20261115_0526.md</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td>15 Kasım 06:26</td>
+<td>40+</td>
+<td>0</td>
+<td>3 (U76–U78)</td>
+<td><code>20261115_0626.md</code>, <code>YANIT_20261115_0626.md</code></td>
+</tr>
 </tbody>
 </table>
-<p>Her turda ham veriyle çelişen sayı aranıyor. Ham JSON'larla çelişen hesap sonucu yalnızca K3'te (kaba ızgara yöntemi) çıktı. Özet metinlerde ham veriyle çelişen birkaç yazım/genelleme hatası bulundu (K2, U5, U6, U12, U32) ve düzeltildi.</p>
+<p>Her turda ham veriyle çelişen sayı aranıyor. Ham JSON'larla çelişen hesap sonucu K3'te (4.5'te kaba ızgara yöntemi) ve K4'te (Makale 2 Tablo III'te pilot/devreye alma yuvarlaması) çıktı; ikisi de düzeltildi ve hükümleri değiştirmedi. Özet metinlerde ham veriyle çelişen birkaç yazım/genelleme hatası bulundu (K2, U5, U6, U12, U32) ve düzeltildi.</p>
 <p><strong>KRİTİK bulgular ve çözümleri</strong></p>
 <table>
 <thead>
@@ -692,7 +731,7 @@ done   # ayrik_faz ve optimize_sure boş makine bekler
 </table>
 <p><strong>Önemli uyarılar ve çözümleri</strong></p>
 <ul>
-<li><strong>Sıralama iddiası (U4):</strong> "Sıralama değişmiyor" iddiası fazla güçlüydü. Doğrusu: 50 ms pencerede en iyi küme (Adam-3…20; seçilen kol Adam-6/8) korunuyor; daha uzun pencerede küme daha çok adıma kayıyor, aralarındaki farklar ayırt edilemiyor.</li>
+<li><strong>Sıralama iddiası (U4):</strong> "Sıralama değişmiyor" iddiası fazla güçlüydü. Doğrusu: 50 ms pencerede pilot ücretli seçilen koldan ayırt edilemeyen küme Adam-3…20 (seçilen Adam-6/8; taze W ile eşli karşılaştırma yapılmadı, U71); daha uzun pencerede küme daha çok adıma kayıyor, aralarındaki farklar ayırt edilemiyor.</li>
 <li><strong>Ölçüt farkı (U2):</strong> Pilot deneyinin ölçütü (50 ms ortalaması) Tanım 1'in anlık etkin hızından farklı. Bu fark belgelendi.</li>
 <li><strong>Desteklenmeyen cümle (U12):</strong> Kusurlu CSI'da "hata arttıkça L küçülüyor" cümlesi ölçümle desteklenmiyordu. Veriden üretilen cümleyle değiştirildi (en iyi L: 6/3/5/1/6/4).</li>
 <li><strong>ρ tanımı (U13):</strong> ρ, 400 senaryonun ortalama gücüne göre tanımlı. 30 dB, senaryo başına medyanda 22.6 dB etkin SNR'ye karşılık geliyor. Denetçinin betiği depoya alınıp yeniden koşuldu.</li>
@@ -700,12 +739,16 @@ done   # ayrik_faz ve optimize_sure boş makine bekler
 <li><strong>Adım boyu (U20):</strong> Adam'ın adım boyu sabitti. Doğrulamada seçilen tasarım eklendi; hüküm değişmedi.</li>
 </ul>
 <p><strong>Tur 4:</strong> KRİTİK yok. Uyarılar: özetlerdeki aşırı iddialar (U28, U29, U33), yeni deneylerin belge eksikleri (U24–U27), 4.1 ile 4.4'ün doğrudan karşılaştırılamazlığı (U31), ızgara kontrolü metni (U32). Hepsi düzeltildi ya da belgelendi. <code>audit_claims.py --all</code> 126/126 (15 Kasım).</p>
-<p><strong>Açık kalan:</strong>
+<p><strong>Açık kalan ya da yalnızca belgelenen:</strong>
 - U11: konum tabanlı fazda σ düzeyleri arasında eşli test yok.
-- U19: köprü raporunda aynı fark iki ayrı GA ile verilmiş. Rapor başka dalda; değiştirilmedi.</p>
-<p><strong>Kapsam değişikliği (13 Kasım):</strong> Makale 1, kullanıcı isteğiyle denetim kapsamından çıkarıldı.</p></section><section class="part" id="p3"><div class="parthead"><span class="tag">Bölüm D</span><h1>Tez için tavsiyeler</h1></div><h2>Tez için tavsiyeler — iki makaleden bir tez (12 Kasım 2026)</h2>
+- U19: köprü raporunda aynı fark iki ayrı GA ile verilmiş (başka dal).
+- U51: köprünün seçilmeyen üç eğitim yapılandırması yeniden üretilmedi.
+- U54/U57: altyapı betiklerinde docstring/print uyumsuzlukları (başka dal); <code>commit()</code> izlenmeyen dosyaları görmüyor.
+- U58: Makale 2 Tablo III'te politika raporlanan kümede seçiliyor (yayımlanmış betik).
+- U69: Tablo III'ün yeni (1.328 ms) gecikmelerle yeniden üretimi yapılmadı.</p>
+<p><strong>Kapsam değişikliği (13 Kasım):</strong> Makale 1, kullanıcı isteğiyle denetim kapsamından çıkarıldı.</p></section><section class="part" id="p3"><div class="parthead"><span class="tag">Bölüm D</span><h1>Tez için tavsiyeler</h1></div><h2>Tez için tavsiyeler — iki makaleden bir tez (12 Kasım 2026; 15 Kasım'da güncellendi)</h2>
 <p>Bu bir mentorluk notu; tez metni değil. Sayılar denetimden geçmiş raporlardan (<code>AYRINTILI_RAPOR.md</code>,
-denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların kaba ızgarada yanlış hesaplandığını buldu; düzeltildi, hükümler değişmedi. Özet metinlerdeki genelleme hataları da düzeltildi). Kararlar sizin ve danışmanınızın.</p>
+denetim turları 1–11. Tur 3 ayrık faz deneyinde kaba ızgara hatası (K3), tur 7 Makale 2 Tablo III'te yuvarlama hatası (K4) buldu; ikisi de düzeltildi, hükümler değişmedi. Özet metinlerdeki genelleme hataları da düzeltildi). Kararlar sizin ve danışmanınızın.</p>
 <hr />
 <h3>1) İki makale tek bir hikâye anlatıyor — bunu bilinçli kurun</h3>
 <ul>
@@ -751,7 +794,7 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 <p><strong>Tavsiye (tez için, makale için değil):</strong>
 1. Tezin Makale 1 bölümünde etiket (b)'yi kullanın.
 2. Bağımsız yeniden üretimi tohum yayılımıyla verin (3.18/2.77/3.90°).
-3. İmkânsız nicemleme sayılarını ve Tablo 8 projeksiyonunu teze taşımayın. N=256 için ölçülen değer elinizde (2.25°, ek tohumlar sürüyor).
+3. İmkânsız nicemleme sayılarını ve Tablo 8 projeksiyonunu teze taşımayın. N=256 için ölçülen değer elinizde (2.25°, tek tohum; ek tohumlar 13 Kasım'da sizin isteğinizle durduruldu).
 4. "Yeniden üretilebilirlik ve sınırlar" başlıklı kısa bir alt bölüm yazın. Jürinin bulacağı bir şeyi sizin önceden söylemeniz, savunmada güç kaybı değil, kazancıdır.
 5. Bunu savunmadan önce danışmanınızla açıkça konuşun. Denetim raporu (<code>audit/AUDIT_REPORT.md</code>) bu görüşme için hazır.</p>
 <h3>3) Savunmanın güçlü yanı: jürinin soracağı her soruya ölçülmüş bir yanıt var</h3>
@@ -771,7 +814,7 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 </tr>
 <tr>
 <td>"Pilot yükünü bedava saydınız"</td>
-<td>Ücretlendirildi: mutlak hız %17–32 düşüyor, 50 ms pencerede en iyi kol kümesi (Adam-3…20; seçilen kol Adam-6/8) ve yavaş çözücülerin yeri değişmiyor (pencere uzunluğu için bir alt satır)</td>
+<td>Ücretlendirildi: mutlak hız %17–32 düşüyor, 50 ms pencerede pilot ücretli seçilen koldan ayırt edilemeyen küme Adam-3…20 (seçilen Adam-6/8), yavaş çözücüler en altta; taze W ile eşli karşılaştırma yapılmadı (pencere uzunluğu için bir alt satır)</td>
 <td>p4/onkodlayici_siralama</td>
 </tr>
 <tr>
@@ -781,12 +824,12 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 </tr>
 <tr>
 <td>"Pilot ve kestirim hatası birlikte?"</td>
-<td>30 dB'de hızlı yöntemin üstünlüğü küçülüyor ama sürüyor; 20 dB'de hızlı yöntemler ayırt edilemiyor; yavaş çözücüler her iki düzeyde de geride.</td>
+<td>30 dB'de hızlı yöntemin üstünlüğü küçülüyor ama sürüyor; 20 dB'de seçilen Adam-2 SU-best-of'tan ayırt edilemiyor; Adam-48 SU-best-of'u küçük ama anlamlı farkla (+0.03) geçiyor; yavaş çözücüler her iki düzeyde de geride.</td>
 <td>p4/onkodlayici_csi</td>
 </tr>
 <tr>
 <td>"Tablo III'teki sıcak başlangıç kazancı ne kadar güvenilir?"</td>
-<td>Benzetim pilot süresini ızgaraya yuvarlıyordu; düzeltilmiş kopyada kazanç 0.86 ms'de 0.276, 1.71 ms'de 0.092 (makale 0.222 / 0.146). İşaret ve hüküm aynı. Tezde düzeltilmiş değerleri kullanın; hakem sorarsa bu kopya hazır.</td>
+<td>Benzetim pilot süresini ızgaraya yuvarlıyordu; düzeltilmiş kopyada kazanç 0.86 ms'de 0.276, 1.71 ms'de 0.092 (makale 0.222 / 0.146). İşaret ve hüküm aynı. Tezde düzeltilmiş değerleri kullanın; bunlar makalenin 1.6625 ms/adım gecikmesiyle hesaplandı, yeni 1.328 ms ile değil (tam satırlar p4/takip_duzeltme REPORT §2; T_p = 0'da da 0.52 → 0.53 ve iki hücrede seçilen L değişiyor); hakem sorarsa bu kopya hazır.</td>
 <td>p4/takip_duzeltme</td>
 </tr>
 <tr>
@@ -828,9 +871,9 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 <li><strong>Etkin hız ölçütleri:</strong> iki farklı ölçüt var. Tanım 1 anlık; pilot deneyi 50 ms ortalaması kullanıyor. Tezde ikisini karıştırmayın. Pencere uzunluğu en iyi adım sayısını değiştiriyor (25 / 50 / 100 ms → Adam-5 / 6–8 / 16–20).</li>
 <li><strong>Gecikme muhasebesi:</strong> Adam-L gecikmesi SU-average başlangıcını (0.30 ms) içermiyor. Eklenince etkin hız kol başına 0.0001–0.021 b/s/Hz düşüyor (p4/gecikme_muhasebesi). Dar farklarda bunu belirtin.</li>
 <li><strong>GPU ölçümü yok.</strong></li>
-<li><strong>3 bit çok kullanıcılı ayrık faz 13 Kasım'da koşuldu:</strong> L* = 6, yavaş ayrık CD belirgin geride (p4/ayrik_faz).</li>
+<li><strong>(Kapandı) 3 bit çok kullanıcılı ayrık faz 13 Kasım'da koşuldu:</strong> L* = 6, yavaş ayrık CD belirgin geride (p4/ayrik_faz).</li>
 </ol>
-<h3>5) Ölçüm fazının kalan 8 günü (20 Kasım'a kadar) — öncelik sırası</h3>
+<h3>5) Ölçüm fazının kalan günleri (20 Kasım'a kadar, 15 Kasım itibarıyla 5 gün) — öncelik sırası</h3>
 <table>
 <thead>
 <tr>
@@ -843,9 +886,9 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 <tbody>
 <tr>
 <td>1</td>
-<td>Süren eğitimlerin bitmesi (N=64/128/256, tohumlar)</td>
-<td>RMSE–N eğrisi, tohum yayılımıyla</td>
-<td>Sürüyor (~10 saat)</td>
+<td>~~Makale 1 eğitimleri~~ — 13 Kasım'da kullanıcı isteğiyle durduruldu</td>
+<td>—</td>
+<td>—</td>
 </tr>
 <tr>
 <td>2</td>
@@ -862,7 +905,7 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 <tr>
 <td>4</td>
 <td>~~Pilot ücreti + kusurlu CSI birlikte~~ — yapıldı (14–15 Kasım)</td>
-<td>En gerçekçi rejim; iki etki birlikte hiç sınanmadı</td>
+<td>En gerçekçi rejim; 14–15 Kasım'da sınandı (p4/onkodlayici_csi)</td>
 <td>~2–3 saat; isteğe bağlı</td>
 </tr>
 <tr>
@@ -890,7 +933,7 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 <ol>
 <li>Makale 1 denetim bulgularının <strong>tezde</strong> nasıl ele alınacağı (§2).</li>
 <li>Makale 2 hakem sürecinde pilot yükü sorulursa elinizdeki yanıt (§3, satır 2).</li>
-<li>20 Kasım'a kadar §5'teki 2–4 numaralı işlerden hangilerinin yapılacağı.</li>
+<li>§5'teki 2–4 numaralı işler yapıldı (15 Kasım); kalan tek madde 5 (iddia denetleyicisi). Ayrıca Tablo III'ün düzeltilmiş değerlerinin makale hakem sürecinde nasıl ele alınacağı (p4/takip_duzeltme).</li>
 <li>Bölüm iskeleti (§6) ve yazım takvimi.</li>
 </ol>
 <h3>8) Kişisel not</h3>
@@ -900,7 +943,10 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 - kusurlu CSI (orta-yüksek SNR'de; 10 dB ve altında yöntemler ayırt edilemiyor, yani orada hüküm yok);
 - ayrık faz;
 - optimize süreler.</p>
-<p>Negatif sonuçlar (öğrenme ekseni) zayıflık değil; titizlikle yapıldıkları için tezin en savunulabilir kısmı. En büyük risk teknik değil, Makale 1'in jüri önünde hazırlıksız yakalanması. Onu önceden konuşmak sizin elinizde.</p></section><section class="part" id="p4"><div class="parthead"><span class="tag">Ek 1</span><h1>Görev 2 — Ortak altyapı raporu (dal thesis/altyapi)</h1></div><h2>Tez deneyleri için ortak altyapı — rapor</h2>
+<p>Negatif sonuçlar (öğrenme ekseni) zayıflık değil; titizlikle yapıldıkları için tezin en savunulabilir kısmı. En büyük risk teknik değil, Makale 1'in jüri önünde hazırlıksız yakalanması. Onu önceden konuşmak sizin elinizde.</p></section><section class="part" id="p4"><div class="parthead"><span class="tag">Ek 1</span><h1>Görev 2 — Ortak altyapı raporu (dal thesis/altyapi)</h1></div><blockquote>
+<p><strong>Not (15 Kasım):</strong> Bu ek başka bir dalda, değiştirilmeden alındı. Kullanılmayan senaryo sayısı bu raporun tanımına göre; tanım farkı için Bölüm B §3 madde 3 notu. Tam gecikmede değerlendirme için Ek 'Makale 2 ızgara kontrolü'.</p>
+</blockquote>
+<h2>Tez deneyleri için ortak altyapı — rapor</h2>
 <p>Dal <code>thesis/altyapi</code>, rapor commit'i <code>fb28944</code>. Mevcut dosyalara dokunulmadı: yeniden koşular <code>thesis_exp/infra/scripts/</code> altındaki, çıktısı <code>thesis_exp/infra/raw/</code>'a yönlendirilmiş kopyalarla yapıldı.</p>
 <h3>1) Makaledeki iddialarla çelişen ya da onları değiştiren bulgular</h3>
 <ol>
@@ -1181,7 +1227,10 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 <ul>
 <li>Makalenin yayımlanan sayılarının kaynak dosyaları bugünkü kodla bit-bit üretiliyor; değişen tek girdi ölçülen adım süresi.</li>
 <li>Adam'ın daha hızlı ölçülmesi optimumu biraz sağa kaydırıyor ve Adam kollarını iyileştiriyor; 'yavaş çözücü kaybeder' ve 'iç optimum' bulguları korunuyor.</li>
-</ul></section><section class="part" id="p5"><div class="parthead"><span class="tag">Ek 2</span><h1>Görev 3 — Köprü raporu (dal thesis/bridge)</h1></div><h2>Köprü: tek geçişli faz-farkında ağ, etkin hız ölçütünde — rapor</h2>
+</ul></section><section class="part" id="p5"><div class="parthead"><span class="tag">Ek 2</span><h1>Görev 3 — Köprü raporu (dal thesis/bridge; K4 öncesi)</h1></div><blockquote>
+<p><strong>Not (15 Kasım):</strong> Bu ek başka bir dalda, değiştirilmeden alındı ve K4 düzeltmesinden ÖNCEKİ periyodik çalışma sayılarını taşıyor (örn. ağ − soğuk −0.153). Düzeltilmiş değerler Ek 'Makale 2 Tablo III düzeltmesi' §2b'de (örn. −0.120). Ağ, Makale 1'in ağının kendisi değil (Bölüm B §4).</p>
+</blockquote>
+<h2>Köprü: tek geçişli faz-farkında ağ, etkin hız ölçütünde — rapor</h2>
 <p>Rapor commit'i <code>c1d72d0</code>. Eğitim verisi (onaylı seçenek ii): yaşlanma kümesinin yapısıyla (20 saçıcı, t=0) üretilmiş statik küme, seed 2027, 6000 senaryo, bölme 4200/900/900. Değerlendirme: yaşlanma kümesi (seed 11, 400 senaryo); seçimler yalnızca statik doğrulama kümesinde ve ayrı bir hareketlilik çekilişinde (seed 12).</p>
 <h3>1) Bulgular</h3>
 <ol>
@@ -1763,7 +1812,7 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 <li>Makale 2'nin bütün etkin hızları 'taze ve bedava ön kodlayıcı' varsayımına dayanıyor (makalede sınırlılık olarak yazılı). Pilot süresi ücretlendirilince en iyi tazeleme periyodu 1–2 ms çıkıyor ve hız belirgin düşüyor: ZF girişim sıfırlaması kanal değişimine çok duyarlı.</li>
 <li>Bu, mutlak hızları ve muhtemelen öğrenilen/klasik farklarının büyüklüğünü etkiler; yöntem sıralamasının bu ücretlendirme altında değişip değişmediği ayrı bir deneyle sınanmalı (bu deney yalnızca iki fazla yapıldı).</li>
 </ul></section><section class="part" id="p9"><div class="parthead"><span class="tag">Ek 6</span><h1>Deney 4.3 devamı — Bütün kollarla sıralama</h1></div><h2>Deney 4.3 devamı — Pilot ücreti altında bütün kolların sıralaması (rapor)</h2>
-<p>Commit <code>c47483e</code> (ölçüm commit'i <code>a0ac494</code>). Model Deney 4.3 ile aynı: ZF her R ms'de bir kusursuz etkin kanal kestiriminden tazeleniyor, tazeleme başına 4 pilot sembolü veri oranı 1 − t_p/R ile ücretlendiriliyor, faz t=0 kanalından ve kolun gecikmesinde devreye giriyor, hız [gecikme, gecikme + 50 ms] üzerinde ortalanıyor. Tazeleme periyodu R her kol ve numeroloji için doğrulama çekilişinde (seed 12) seçildi; en iyi kol da orada seçildi; rapor yaşlanma kümesi (seed 11, 400 senaryo). Eşli bootstrap 2000, %95 GA. Gecikmeler tek iş parçacıklı yeniden ölçümden (thesis_exp/infra).</p>
+<p>Commit <code>aeb338c</code> (ölçüm commit'i <code>a0ac494</code>). Model Deney 4.3 ile aynı: ZF her R ms'de bir kusursuz etkin kanal kestiriminden tazeleniyor, tazeleme başına 4 pilot sembolü veri oranı 1 − t_p/R ile ücretlendiriliyor, faz t=0 kanalından ve kolun gecikmesinde devreye giriyor, hız [gecikme, gecikme + 50 ms] üzerinde ortalanıyor. Tazeleme periyodu R her kol ve numeroloji için doğrulama çekilişinde (seed 12) seçildi; en iyi kol da orada seçildi; rapor yaşlanma kümesi (seed 11, 400 senaryo). Eşli bootstrap 2000, %95 GA. Gecikmeler tek iş parçacıklı yeniden ölçümden (thesis_exp/infra).</p>
 <h3>1) Özet: seçilen kol</h3>
 <table>
 <thead>
@@ -2223,8 +2272,8 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 </table>
 <h3>5) Yorum (bulgulardan ayrı)</h3>
 <ul>
-<li><strong>50 ms pencerede en iyi kol kümesi pilot ücretinden etkilenmiyor</strong> (aşağıdaki pencere maddesine bakın: 100 ms'de geçerli değil).</li>
-<li>Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) taze W'de ve üç numerolojinin hepsinde aynı sırada; ama aralarındaki farkların GA'sı sıfırı içeriyor, bu yüzden kesin olan sıra değil, en iyi kümenin (Adam-3…20; seçilen kol Adam-6/8) korunması. 5. ve 6. sıra numerolojiye göre değişiyor.</li>
+<li><strong>50 ms pencerede pilot ücretli üç numerolojide seçilen koldan ayırt edilemeyen küme Adam-3…20; ilk dört kolun nokta sırası taze W'de de aynı.</strong> Taze W için seçilen kola karşı eşli GA hesaplanmadı (denetim U71). 100 ms'de geçerli değil (aşağıdaki pencere maddesi).</li>
+<li>Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) taze W'de ve üç numerolojinin hepsinde aynı sırada; ama aralarındaki farkların GA'sı sıfırı içeriyor, bu yüzden kesin olan sıra değil; pilotlu durumda seçilen koldan ayırt edilemeyen küme Adam-3…20 (taze W ile eşli karşılaştırma yapılmadı). 5. ve 6. sıra numerolojiye göre değişiyor.</li>
 <li>Doğrulamada seçilen kol Adam-6 ya da Adam-8. Seçilen kol ile Adam-3…Adam-20 arasındaki farkların GA'sı sıfırı içeriyor.</li>
 <li>İçsel optimum (L ≈ 5–8) pilot ücretinde de korunuyor.</li>
 <li><strong>Ölçüt:</strong> devreye girdikten sonraki 50 ms'nin zaman ortalaması (Tanım 1'in anlık etkin hızı değil). Pencere duyarlılığı aşağıda. Doğrulama çekilişinde (seed 12) senaryo kimliği ayrıca sınanmadı (denetim U11); test çekilişinde her ızgara için sınandı.</li>
@@ -2234,11 +2283,11 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 <li><strong>Yanlılık düzeltmesi.</strong> İlk koşu tazeleme anlarını mutlak 0.1 ms ızgarasına yuvarlıyordu. Gecikmesi yukarı yuvarlanan kollar (Adam-6/10/12/16/20/24) yapay olarak öne geçti ve sıralama testere dişi biçimini aldı. Bu koşu kolun devreye girme anına hizalı ızgara kullanıyor. Yanlı çıktılar raw/<em>_v1_grid_bias.</em> adıyla saklandı.</li>
 <li>Aynı yanlılık Deney 4.3'te de var; o raporun başına düzeltme notu eklendi.</li>
 <li>Taze W sütunu bu düzeltmeden etkilenmiyor. Yalnızca örnekleme anları kaydı için 4.3 ile arasında ≤0.001 fark var.</li>
-<li><strong>Kapsam dışı kalanlar.</strong> Kestirim kusursuz kabul edildi; pilot SNR'ı (Deney 4.4) ve tazeleme ile kestirimin birlikte etkisi modellenmedi. Pilot sayısı K = 4 (kullanıcı başına bir dik sembol).</li>
+<li><strong>Kapsam:</strong> Kestirim burada kusursuz; pilot ücreti ile kestirim hatasının birlikte etkisi <code>p4/onkodlayici_csi</code>'de ölçüldü. Pilot sayısı K = 4 (kullanıcı başına bir dik sembol).</li>
 <li><strong>Pencere uzunluğu (14–15 Kasım; denetim U2'ye yanıt) — en iyi adım sayısı pencereye bağlı.</strong> Faz bir kez hesaplanıp bütün pencere boyunca tutuluyor; bu yüzden pencere W, fiilen fazın yeniden hesaplanma aralığı.</li>
-<li><strong>W = 25 ms:</strong> Seçilen Adam-5; Adam-3…8 ayırt edilemiyor (testte nokta tahmininde birinci Adam-3). Adam-48 0.24–0.28 b/s/Hz geride.</li>
+<li><strong>W = 25 ms:</strong> Seçilen Adam-5; Adam-3…8 ayırt edilemiyor (15 kHz'de Adam-2 de; testte nokta tahmininde birinci Adam-3). Adam-48 0.24–0.28 b/s/Hz geride.</li>
 <li><strong>W = 50 ms:</strong> Seçilen Adam-6/8 (yukarıda).</li>
-<li><strong>W = 100 ms:</strong> Seçilen Adam-16 / Adam-20 / Adam-20 (15 / 30 / 60 kHz). Farklar küçük ama anlamlı: Adam-6 0.021 / 0.037 / 0.041, Adam-3 0.048 / 0.072 / 0.078 geride; 30 ve 60 kHz'de Adam-2…8'in GA'sı sıfırın altında, Adam-10 ve üstü ayırt edilemiyor. W'yi yeniden hesaplama aralığı diye okumak yalnızca gecikmesi W'den kısa kollar için geçerli (CD/PGA'da değil; denetim U36).</li>
+<li><strong>W = 100 ms:</strong> Seçilen Adam-16 / Adam-20 / Adam-20 (15 / 30 / 60 kHz). Farklar küçük: Adam-6 0.021 / 0.037 / 0.041 (15 kHz'de GA sıfırı içeriyor, 30/60 kHz'de anlamlı), Adam-3 0.048 / 0.072 / 0.078 geride; 30 ve 60 kHz'de Adam-2…8'in GA'sı sıfırın altında, Adam-10 ve üstü ayırt edilemiyor. W'yi yeniden hesaplama aralığı diye okumak yalnızca gecikmesi W'den kısa kollar için geçerli (CD/PGA'da değil; denetim U36).</li>
 <li><strong>Yorum:</strong> W koherans süresini (~28 ms) birkaç kat aşınca pencerenin büyük bölümü eskimiş kanalda geçiyor. Erken devreye girmenin kazancı pencerenin küçük bir kesrine düşüyor, daha iyi yakınsamış fazın uzun vadeli kazancı öne geçiyor. Köprü raporunun periyodik çalışma bölümü (§1 madde 5) de güncelleme aralığı uzadıkça daha büyük L seçiyor; orada U ve L birlikte seçildiği için kontrollü bir karşılaştırma değil (denetim U37).</li>
 <li><strong>Değişmeyen:</strong> CD her pencerede seçilen kolun gerisinde (W=100'de 0.075–0.105, GA sıfırın altında).</li>
 <li><strong>Sınır:</strong> Kısa pencerede 1 − t_p/R ücreti büyük R'yi hafifçe kayırıyor (W=25, R=50'de pencerede tek tazeleme var; denetim U27). Seçilen R'ler (1–2 ms) bundan etkilenmiyor.</li>
@@ -3458,7 +3507,7 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 <li><strong>Yuvarlama bedava sayıldı.</strong> Sürekli kollar için bu iyimser bir varsayım ve dCD'nin aleyhine bir eğilim yaratır. Yuvarlamanın gerçek maliyeti 2^b'lik bir arama tablosu düzeyinde, ölçülmedi.</li>
 <li><strong>dCD zamanlaması sonrası yük ortalaması 0.76 / 0.86 / 0.99 (1/2/3 bit).</strong> Bu değere ölçülen tek iş parçacıklı süreç de katkı veriyor. Ölçüm öncesi yük ortalaması 0.49 / 0.46 / 0.49 idi.</li>
 </ul></section><section class="part" id="p12"><div class="parthead"><span class="tag">Ek 9</span><h1>Deney 4.6 — Optimize süreler</h1></div><h2>Deney 4.6 — Optimize edilmiş çalışma süreleri: Adam adımı ve öğrenilen adım (rapor)</h2>
-<p>Commit <code>c47483e</code> (ölçüm commit'i <code>06c9b17986af81356a97143638a30a46f123775b</code>). torch 2.15.0+cu132, CPU: Intel(R) Xeon(R) Processor @ 2.10GHz, iş parçacığı 1, CUDA: False. Yük ortalaması: başlangıç 0.62, ölçüm öncesi 0.49, sonrası 1.00. Öğrenilen adım: UnrolledMuMiso (exchange, use_grad), eğitilmemiş ağırlıklar (ağırlık değeri yürütme yolunu değiştirmez). Adam: SU-average başlangıcı + L adım (soft-min, β=8, lr 0.5). 20 senaryo; senaryo başına 20 çağrının medyanı, senaryolar üzerinden medyan, 3 tur.</p>
+<p>Commit <code>683189a</code> (ölçüm commit'i <code>06c9b17986af81356a97143638a30a46f123775b</code>). torch 2.15.0+cu132, CPU: Intel(R) Xeon(R) Processor @ 2.10GHz, iş parçacığı 1, CUDA: False. Yük ortalaması: başlangıç 0.62, ölçüm öncesi 0.49, sonrası 1.00. Öğrenilen adım: UnrolledMuMiso (exchange, use_grad), eğitilmemiş ağırlıklar (ağırlık değeri yürütme yolunu değiştirmez). Adam: SU-average başlangıcı + L adım (soft-min, β=8, lr 0.5). 20 senaryo; senaryo başına 20 çağrının medyanı, senaryolar üzerinden medyan, 3 tur.</p>
 <h3>1) Süreler (ms, tur medyanlarının medyanı)</h3>
 <table>
 <thead>
@@ -3582,7 +3631,7 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 </table>
 <h3>4) Yorum (bulgulardan ayrı)</h3>
 <ul>
-<li><strong>Optimizasyon hükmü değiştirmedi.</strong> Öğrenilen adım her denenen arka uçta Adam'dan yavaş: L=8'de 2.80× (eager) ve 3.09× (torch.compile). CLAUDE.md'deki "bir öğrenilen adım ~2.7 Adam adımı ediyor" bulgusuyla tutarlı.</li>
+<li><strong>Optimizasyon hükmü değiştirmedi.</strong> Öğrenilen adım her denenen arka uçta Adam'dan yavaş: L=8'de 2.80× (eager); torch.compile'da 3.09× ama bu satır optimize bir sürüm sayılmamalı (aşağıya bakın). CLAUDE.md'deki "bir öğrenilen adım ~2.7 Adam adımı ediyor" bulgusuyla tutarlı.</li>
 <li><strong>torch.compile bu iş yükünde hızlandırmadı, iki kolu da yavaşlattı.</strong> Adam-8 10.41 → 13.49 ms, öğrenilen-8 29.18 → 41.68 ms. Bunun iki kaydedilmiş nedeni var:</li>
 <li>Inductor karmaşık sayılı işlemler için kod üretmiyor (run.log uyarısı).</li>
 <li>Öğrenilen kolun <code>forward</code>'ı yeniden derleme sınırına (256) takıldı. Bu, kolun büyük ölçüde derlenmemiş yolda ve koruma (guard) yüküyle koştuğu anlamına geliyor.</li>
@@ -3594,7 +3643,7 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 - <strong>Adam-1 [eager] 1.70 ms SU-average başlangıcını da içeriyor.</strong> Altyapı raporundaki 1.328 ms/adım yalnızca adımın süresi. İkisi aynı tanım değil.
 - <strong>Ölçüm sonrası yük 1.00.</strong> Ölçülen tek iş parçacıklı süreç ve derleme işçileri buna katkı veriyor; ölçüm öncesi 0.49.</p>
 <ul>
-<li><strong>Süre tanımı (denetim U44, 15 Kasım):</strong> Bu koşuda Adam kolu SU-average başlangıcını içeriyor; öğrenilen kol öznitelik ve başlangıcı içermiyor ve autograd açık koşuyor (<code>run.py</code>'deki <code>and False</code> koşulu ölü). <code>check_definitions.py</code> iki kolu aynı tanımlarla, boş makinede (yük 0.19 → 0.94; ölçülen süreç dahil) ölçtü (<code>raw/definitions.json</code>). L=8 oranı: bu koşunun tanımı 2.81, makalenin tanımı (no_grad, ikisi de başlangıç hariç) 2.71, ikisi de uçtan uca 2.67. L=1'de sırasıyla 1.97, 2.65, 2.48. Hüküm (öğrenilen adım Adam'dan ~2.7 kat yavaş) tanımdan bağımsız. torch.compile satırı optimize bir sürüm sayılmamalı.</li>
+<li><strong>Süre tanımı (denetim U44, 15 Kasım):</strong> Bu koşuda Adam kolu SU-average başlangıcını içeriyor; öğrenilen kol öznitelik ve başlangıcı içermiyor ve autograd açık koşuyor (<code>run.py</code>'deki <code>and False</code> koşulu ölü). <code>check_definitions.py</code> iki kolu aynı tanımlarla, boş makinede (yük 0.19 → 0.94; ölçülen süreç dahil) ölçtü (<code>raw/definitions.json</code>). L=8 oranı: bu koşunun tanımı 2.81, makalenin tanımı (no_grad, ikisi de başlangıç hariç) 2.71, ikisi de uçtan uca 2.67. L=1'de sırasıyla 1.97, 2.66, 2.48. L=8'de hüküm (öğrenilen adım Adam'dan ~2.7 kat yavaş) tanımdan bağımsız; L=1'de oran tanıma göre değişiyor. torch.compile satırı optimize bir sürüm sayılmamalı.</li>
 </ul></section><section class="part" id="p13"><div class="parthead"><span class="tag">Ek 10</span><h1>Doğrulama — Gecikme muhasebesi</h1></div><h2>Gecikme muhasebesi — SU-average başlangıcını Adam-L gecikmesine eklemenin etkisi (denetim U16)</h2>
 <p>Rapor commit'i <code>1847597</code>, ölçüm commit'i <code>bd8a8a1</code>. Yaşlanma kümesi (seed 11, 400 senaryo), 0.5 ms ızgara 0–70 ms, tek iş parçacığı. Her Adam-L kolu (sürekli; 1 ve 2 bite yuvarlanmış) için etkin hız (Tanım 1) adam_latency(L)'de ve buna SU-average süresi (0.297 ms) eklenmiş gecikmede; eşli fark, bootstrap 2000, %95 GA.</p>
 <table>
@@ -4227,7 +4276,7 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 <li><strong>SU-best-of − CD (yeniden ölçülen gecikmeler):</strong> 0.286 → 0.262; GA sıfırın üstünde kalıyor. CD'nin 703 ms'si ızgarada 500 ile 1500 ms arasına düşüyor. Ancak bu, mumiso_aging.py'deki TRUST_MS = 200 ms güven sınırının ötesi; bu bölgede model zaten iyimser.</li>
 <li><strong>Öneri (tez yazımı için):</strong> Tez tablolarında etkin hızın tam gecikmede hesaplanmış değeri kullanılmalı (bu betik ya da <code>p4/gecikme_muhasebesi</code>).</li>
 </ul></section><section class="part" id="p15"><div class="parthead"><span class="tag">Ek 12</span><h1>Pilot yükü ve kusurlu CSI birlikte</h1></div><h2>Pilot yükü ve kusurlu CSI birlikte (rapor)</h2>
-<p>Rapor commit'i <code>3fbd359</code>, ölçüm commit'i <code>97e5e5c</code>. Model <code>onkodlayici_siralama</code> ile aynı (devreye girme anına hizalı 0.1 ms ızgara, [gecikme, gecikme + 50 ms] ortalaması, ZF her R ms'de tazeleniyor, tazeleme başına 4 pilot sembolü 1 − t_p/R ile ücretlendiriliyor, R ve kol doğrulamada seçiliyor); tek fark: BS gerçek kanalı hiç görmüyor. Faz t=0 kestiriminden, her ZF tazelemesi o anın kestiriminden; hız gerçek kanalda. Hata modeli 4.4 ile aynı (csi.add_error, e2 = 1/(1+ρ), ölçek 400 senaryonun ortalama gücünden; senaryo başına etkin SNR daha düşük ve dağınık, bkz. kusurlu_csi). Adam adım boyu 4.4'te doğrulamada seçilen değerler. Yaşlanma kümesi seed 11 (rapor), seed 12 (seçim). Eşli bootstrap 2000, %95 GA.</p>
+<p>Rapor commit'i <code>aeb338c</code>, ölçüm commit'i <code>97e5e5c</code>. Model <code>onkodlayici_siralama</code> ile aynı (devreye girme anına hizalı 0.1 ms ızgara, [gecikme, gecikme + 50 ms] ortalaması, ZF her R ms'de tazeleniyor, tazeleme başına 4 pilot sembolü 1 − t_p/R ile ücretlendiriliyor, R ve kol doğrulamada seçiliyor); tek fark: BS gerçek kanalı hiç görmüyor. Faz t=0 kestiriminden, her ZF tazelemesi o anın kestiriminden; hız gerçek kanalda. Hata modeli 4.4 ile aynı (csi.add_error, e2 = 1/(1+ρ), ölçek 400 senaryonun ortalama gücünden; senaryo başına etkin SNR daha düşük ve dağınık, bkz. kusurlu_csi). Adam adım boyu 4.4'te doğrulamada seçilen değerler. Yaşlanma kümesi seed 11 (rapor), seed 12 (seçim). Eşli bootstrap 2000, %95 GA.</p>
 <h3>1) Özet: doğrulamada seçilen kol</h3>
 <table>
 <thead>
@@ -4821,7 +4870,7 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 <li>ρ = 30 dB: 2.42–2.78;</li>
 <li>ρ = 20 dB: 1.02–1.15 b/s/Hz.</li>
 <li><strong>30 dB'de hızlı yöntemin üstünlüğü küçülüyor ama sürüyor.</strong> Seçilen Adam-3, SU-best-of'tan +0.049…+0.065 önde (GA'lar sıfırın üstünde). Kusursuz CSI'da bu fark +0.15…+0.21'di.</li>
-<li><strong>20 dB'de hızlı yöntemler ayırt edilemiyor.</strong> Seçilen Adam-2 ile SU-best-of arasındaki farkın GA'sı sıfırı içeriyor. Testte nokta tahminiyle en üstte Adam-48 var, ama bu da seçilen koldan ayırt edilemiyor. Bu düzeyde kestirim hatası hızlı yöntemler arasındaki farkları bastırıyor; yavaş çözücülerle olan fark ise sürüyor.</li>
+<li><strong>20 dB'de seçilen Adam-2 SU-best-of'tan ayırt edilemiyor.</strong> Adam-48 SU-best-of'u üç numerolojide küçük ama anlamlı farkla geçiyor (+0.032…+0.036; GA alt sınırı +0.002). Adam-1 seçilen koldan 30/60 kHz'de anlamlı biçimde geride (denetim U74, U76). Seçilen Adam-2 ile SU-best-of arasındaki farkın GA'sı sıfırı içeriyor. Testte nokta tahminiyle en üstte Adam-48 var, ama bu da seçilen koldan ayırt edilemiyor. Bu düzeyde kestirim hatası hızlı yöntemler arasındaki farkları çok küçültüyor (en fazla birkaç yüzdebir b/s/Hz); yavaş çözücülerle olan fark ise sürüyor.</li>
 <li><strong>Yavaş çözücüler iki düzeyde de anlamlı biçimde geride.</strong> Seçilen kola göre ortalama fark: CD 30 dB'de −0.142…−0.154, 20 dB'de −0.068…−0.076; PGA 30 dB'de −0.319…−0.356, 20 dB'de −0.156…−0.177. Bütün GA'lar sıfırın altında (en yüksek üst sınır −0.032).</li>
 <li><strong>Tasarım sınırları (denetim U25, U26):</strong></li>
 <li>Kestirim gürültüsü kollar arasında eşli değil. Her kolun fazı ayrı bir t=0 kestiriminden çıkıyor; 4.4'te bütün kollar aynı kestirimi kullanıyordu. Bu yanlılık yaratmıyor ama GA'ları genişletiyor.</li>
@@ -4829,7 +4878,8 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 <li>Adam adım boyu 4.4'ten alındı. Oradaki seçim ölçütü farklıydı: anlık etkin hız, pilot ücreti yok. Bu, Adam kollarını en iyi ayarlarının biraz altında bırakabilir; yani Adam'ın SU-best-of'a üstünlüğü burada olduğundan küçük görünebilir, büyük değil (denetim U26).</li>
 <li><strong>Karşılaştırma notu:</strong> 30 dB'de 4.4'ün 3.54'ü anlık etkin hız (Tanım 1), buradaki taze W sütunu (3.08) ise 50 ms ortalaması; doğrudan karşılaştırılmaz.</li>
 </ul></section><section class="part" id="p16"><div class="parthead"><span class="tag">Ek 13</span><h1>Makale 2 Tablo III düzeltmesi</h1></div><h2>Makale 2 Tablo III — periyodik çalışmada pilot ve devreye alma yuvarlaması (denetim K4)</h2>
-<p>Rapor commit'i <code>69625a0</code>. Yayımlanmış <code>scripts/mumiso_tracking.py</code> (Tablo III) 0.5 ms ızgarada pilot süresini <code>round(t_p/0.5)</code> örneğe, devreye alma anını en yakın ızgara noktasına yuvarlıyor; 0.86 / 1.71 / 3.43 ms pilotlar ızgara üstü döngülerde 1.0 / 1.5 / 3.5 ms ücretleniyor ve hata döngü uzunluğuna (kola) göre değişiyor. <code>run.py</code> bu betiğin kopyası (yayımlanmış betiğe dokunulmadı): <code>--fix 0</code> aynı mantık, <code>--fix 1</code> kesirli pilot ücreti ve tam devreye alma anı. <strong>Yeniden üretim:</strong> <code>--fix 0</code>, T_p = 0.86 ms'de yayımlanmış dosyayla en fazla 0.0e+00 fark (birebir). Diğer her şey (senaryolar, adımlar, periyotlar, 100–200 ms penceresi, bootstrap, seçimin raporlanan kümede yapılması) yayımlanmış betikle aynı.</p>
+<p>Rapor commit'i <code>cff6939</code>. Yayımlanmış <code>scripts/mumiso_tracking.py</code> (Tablo III) 0.5 ms ızgarada pilot süresini <code>round(t_p/0.5)</code> örneğe, devreye alma anını en yakın ızgara noktasına yuvarlıyor; 0.86 / 1.71 / 3.43 ms pilotlar ızgara üstü döngülerde 1.0 / 1.5 / 3.5 ms ücretleniyor ve hata döngü uzunluğuna (kola) göre değişiyor. <code>run.py</code> bu betiğin kopyası (yayımlanmış betiğe dokunulmadı): <code>--fix 0</code> aynı mantık, <code>--fix 1</code> kesirli pilot ücreti ve tam devreye alma anı. <strong>Yeniden üretim:</strong> <code>--fix 0</code>, dört T_p'nin hepsinde yayımlanmış dosyayla en fazla 0.0e+00 fark (birebir). Diğer her şey (senaryolar, adımlar, periyotlar, 100–200 ms penceresi, bootstrap, seçimin raporlanan kümede yapılması) yayımlanmış betikle aynı.</p>
+<p>Gecikme seti: makalenin 13.3/8 = 1.6625 ms/adım'ı (Tablo III ile karşılaştırılabilirlik için); köprü bölümü (§2b) köprünün kendi ölçtüğü gecikmeleri kullanıyor. Tam entegrasyon kontrolü dosyaları (<code>raw/exact_full_tp*.json</code>) commit alanı taşımıyor; betik <code>exact_full_check.py</code> commit 12fda55'te, koşudan önce commit'lendi.</p>
 <h3>1) Sıcak − soğuk (en iyi politika vs en iyi politika)</h3>
 <table>
 <thead>
@@ -4938,7 +4988,7 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 </tbody>
 </table>
 <h3>2b) Köprü raporunun periyodik çalışması (thesis/bridge, bridge_tracking.py)</h3>
-<p>Aynı düzeltme, köprü betiğinin kopyasına (<code>bridge_tracking_fix.py</code>; girdiler thesis/bridge dalının salt okunur çalışma ağacından) uygulandı. Yeniden üretim (<code>--fix 0</code>, T_p = 0.86): birebir. Seçim seed 12, rapor seed 11 (köprü betiğindeki gibi).</p>
+<p>Aynı düzeltme, köprü betiğinin kopyasına (<code>bridge_tracking_fix.py</code>; girdiler thesis/bridge dalının salt okunur çalışma ağacından) uygulandı. Yeniden üretim (<code>--fix 0</code>, dört T_p): birebir. Seçim seed 12, rapor seed 11 (köprü betiğindeki gibi).</p>
 <table>
 <thead>
 <tr>
@@ -4987,13 +5037,18 @@ denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların k
 <li><strong>Makale 2 Tablo III'ün büyüklükleri değişiyor, hükümleri değişmiyor.</strong></li>
 <li>Sıcak − soğuk, T_p = 0.86 ms: 0.222 → 0.276.</li>
 <li>Sıcak − soğuk, T_p = 1.71 ms: 0.146 → 0.092.</li>
-<li>T_p = 0 ve 3.43 ms'de fiilen aynı: 3.43 ms'de iki değer de 0.008 ve GA sıfırı içeriyor.</li>
+<li>T_p = 0'da +0.524 → +0.528 (makalenin iki basamaklı tablosunda 0.52 → 0.53; <code>tab_tracking.tex</code> ve §6'daki "up to 0.52" buna göre 0.53 olur). 3.43 ms'de iki değer de 0.008 ve GA sıfırı içeriyor.</li>
 <li>Sıcak başlangıcın üstünlüğünün işareti her T_p'de korunuyor. Pilot süresi arttıkça üstünlüğün küçülmesi örüntüsü de korunuyor.</li>
-<li>0.86 ve 1.71 ms'de büyüklük, yayımlanmış GA genişliği kadar ya da daha fazla kayıyor.</li>
+<li>0.86 ve 1.71 ms'de kayma (0.054) yayımlanmış GA'nın yarı genişliğinden (0.030 / 0.051) büyük, tam genişliğinden (0.061 / 0.101) küçük. Yayımlanmış ile düzeltilmiş arasındaki fark için eşli bir GA hesaplanmadı (denetim U60).</li>
+<li><strong>Değişen tablo hücreleri (denetim U61; tam satırlar §2'de):</strong> 0.86 ms soğukta seçilen L 4 → 3, 3.43 ms sıcakta L 8 → 24; hız hücreleri de değişiyor (örn. 0.86 ms sıcak 5.42 → 5.51). Makalenin §6'daki beş nitel iddiası düzeltilmiş veride de tutuyor.</li>
 <li><strong>Kaynak:</strong> Pilot süresinin ve devreye alma anının 0.5 ms ızgarasına yuvarlanması. Hata döngü uzunluğuna bağlı olduğu için kollar arasında tarafsız değil. Bu, Deney 4.3'te bulunan yuvarlama yanlılığıyla (H7) aynı sınıf.</li>
 <li><strong>Düzeltilmeyen ama not edilen (denetim U58):</strong> Yayımlanmış betik en iyi politikayı raporlanan kümede seçiyor. Burada da karşılaştırılabilirlik için aynı yapıldı. Köprü raporundaki kopya seçimi seed 12'de yapıyor.</li>
 <li><strong>Köprünün periyodik ağ kolu da düzeltildi (§2b):</strong> Ağ her T_p'de hem soğuk hem sıcak başlangıçlı Adam'ın gerisinde; hüküm aynı. Ağ − soğuk: 0.86 ms'de −0.153 → −0.120, 1.71 ms'de −0.105 → −0.129; 0 ve 3.43 ms'de fiilen aynı. Denetçinin önceden verdiği analitik tahmin (0.86 ms'de ≈ −0.066) ölçümle tutmadı; bu yüzden tahminler ölçüm yerine kullanılmamalı.</li>
 <li><strong>Öneri:</strong> Tezde Tablo III'ün düzeltilmiş değerleri kullanılmalı. Makale 2 hakem sürecindeyse, hakem sorarsa yanıt olarak bu kopya hazır.</li>
+<li><strong>Sağlamlık kontrolleri (denetim U59, U62; 15 Kasım):</strong></li>
+<li><strong>Yeniden üretim:</strong> <code>--fix 0</code> dört T_p'nin hepsinde, hem Tablo III betiğinde hem köprü betiğinde yayımlanmış sonuçlarla birebir (en büyük fark 0).</li>
+<li><strong>Tam entegrasyon (U59):</strong> <code>--fix 1</code> pilot ücretini, örnekteki eski ve yeni fazın karışımına orantılı düşüyor. Pilotun yalnızca veri zamanından düşüldüğü tam entegrasyonla (<code>exact_full_check.py</code> → <code>raw/exact_full_tp*.json</code>) politika başına en büyük fark 0.0072 b/s/Hz.</li>
+<li>Seçilen politikalar ve ayırt edilemeyen kümeler aynı; sıcak − soğuk farkı en fazla 0.00006 değişiyor.</li>
 </ul></section><section class="part" id="p17"><div class="parthead"><span class="tag">Ek 14</span><h1>Makale 1 denetim raporu — 13 Kasım&#x27;da donduruldu (dal audit/makale1-denetim)</h1></div><h2>Makale 1 bağımsız denetim raporu</h2>
 <p>Makale: Savaşçı Şen ve ark., <em>Overcoming the Phase Discontinuity Problem in RIS Optimization…</em>, Adv. Intell. Syst. 2026, doi:10.1002/aisy.70460. Dal <code>audit/makale1-denetim</code>, rapor commit'i <code>089c578</code> (rapor bu commit'teki ham dosyalardan üretildi).</p>
 <p><strong>Önemli sınır:</strong> MATLAB ve makalenin veri kümesi (<code>RIS_dataset_large_2D.mat</code>) yok. Bütün yeniden üretimler, aynı üretecin NumPy aktarımıyla (<code>audit/scripts/m1_data.py</code>) alınmış <strong>bağımsız bir çekilişte</strong> yapıldı. MATLAB'ın <code>rng(42)</code> örnekleriyle birebir aynı değildir; aktarım kayıtlı bir MATLAB çıktısıyla doğrulanamadı (Kural 8). Eğitim, MATLAB varsayılanlarına göre PyTorch'a aktarıldı (<code>audit/scripts/m1_train.py</code>, docstring).</p>
