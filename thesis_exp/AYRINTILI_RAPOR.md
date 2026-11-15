@@ -65,13 +65,13 @@ Not: Makale 1 için kullanıcının kararı "düzeltmeye gerek yok"; bu bulgular
     - En iyi kol taze ve bedava W varsayımıyla (makalenin varsayımı) 5.213 b/s/Hz. Bu deneyin ölçütü devreye girdikten sonraki 50 ms'nin zaman ortalaması; madde 12'deki 6.075 ise Tanım 1'in anlık etkin hızı, ikisi doğrudan karşılaştırılmaz. Pencere duyarlılığı madde 14'te. Pilot ücretiyle 3.539 (15 kHz), 4.003 (30 kHz), 4.334 (60 kHz): %32/%23/%17 kayıp.
     - Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) her durumda aynı sırada; aralarındaki farkların GA'sı sıfırı içeriyor (kesin olan, en iyi kümenin Adam-3…20; seçilen kol Adam-6/8 olarak kalması (W = 50 ms; W = 100 ms'de geçerli değil, bkz. madde 14)); 5. ve 6. sıra numerolojiye göre değişiyor; en iyi kolun SU-best-of'a üstünlüğü +0.303 [+0.242, +0.366] → +0.153 / +0.193 / +0.209 (GA'lar sıfırın üstünde). (p4/onkodlayici_siralama/raw/results.json)
 12. **Adam adımı 1.66 değil 1.328 ms** (tek iş parçacığı, boş makine). Bununla L* = 6 (makale 5; metin 4–6), L=48 kaybı %14.4 (makale %14.0), en iyi etkin hız 6.075 (makale 5.982). SU-best-of − Adam-20: −0.086 [−0.174, 0.002] (makale −0.004 [−0.095, 0.085]). Ana bulgular korunuyor. (infra/raw/mumiso_aging_sweep_newlat.json, mumiso_aging_stats_newlat.json)
-13. **Kullanılmayan senaryo sayısı 800 değil 700** (doğrulamanın 500'ü kullanılıyor). (infra/raw/static_split_usage.json)
+13. **Kullanılmayan senaryo sayısı 800 değil 700** (doğrulamanın 500'ü kullanılıyor; tanıma bağlı, bkz. §3 madde 3 notu). (infra/raw/static_split_usage.json)
 14. **(14–15 Kasım) En iyi adım sayısı, fazın tutulduğu süreye bağlı.** Pilot ücretli modelde ortalama penceresi W (fiilen fazın yeniden hesaplanma aralığı) değiştirildi:
-    - W = 25 ms: seçilen Adam-5; Adam-3…8 ayırt edilemiyor;
+    - W = 25 ms: seçilen Adam-5; Adam-3…8 ayırt edilemiyor (15 kHz'de Adam-2 de);
     - W = 50 ms: Adam-6/8;
-    - W = 100 ms: Adam-16/20; 30 ve 60 kHz'de Adam-2…8 anlamlı biçimde geride, Adam-10 ve üstü ayırt edilemiyor.
+    - W = 100 ms: Adam-16/20; 30 ve 60 kHz'de Adam-2…8 anlamlı biçimde geride, Adam-10 ve üstü ayırt edilemiyor (15 kHz'de ayırt edilemeyen küme Adam-5…48).
 
-    100 ms'de farklar küçük ama anlamlı: Adam-6 seçilen koldan 0.021–0.041, Adam-3 0.048–0.078 geride. CD her pencerede anlamlı biçimde geride. W'yi "yeniden hesaplama aralığı" diye okumak yalnızca gecikmesi W'den kısa kollar için geçerli (CD ve PGA'nın gecikmesi W'yi aşıyor). Makale 2'nin "birkaç adım yeter" hükmü, Tanım 1'in anlık ölçütü ve sık yeniden hesaplama için geçerli; faz uzun süre tutulacaksa optimum daha çok adıma kayıyor. Köprü raporunun periyodik çalışma bölümü (§1 madde 5) de güncelleme aralığı uzadıkça daha büyük L seçiyor; ama orada U ve L birlikte seçildiği için bu kontrollü bir karşılaştırma değil. (p4/onkodlayici_siralama/raw/results_win*.json)
+    100 ms'de farklar küçük: Adam-6 seçilen koldan 0.021–0.041 (30 ve 60 kHz'de anlamlı, 15 kHz'de değil), Adam-3 0.048–0.078 geride. CD her pencerede anlamlı biçimde geride. W'yi "yeniden hesaplama aralığı" diye okumak yalnızca gecikmesi W'den kısa kollar için geçerli (CD ve PGA'nın gecikmesi W'yi aşıyor). Makale 2'nin "birkaç adım yeter" hükmü, Tanım 1'in anlık ölçütü ve sık yeniden hesaplama için geçerli; faz uzun süre tutulacaksa optimum daha çok adıma kayıyor. Köprü raporunun periyodik çalışma bölümü (§1 madde 5) de güncelleme aralığı uzadıkça daha büyük L seçiyor; ama orada U ve L birlikte seçildiği için bu kontrollü bir karşılaştırma değil. (p4/onkodlayici_siralama/raw/results_win*.json)
 15. **(14 Kasım) Makale 2'nin taramasındaki interpolasyon hükümleri değiştirmiyor.** Tam gecikmede L* = 4 (makale gecikmeleri), L48 kaybı %13.99 → %14.20. Yeniden ölçülen gecikmelerle %14.40 → %14.93. Değişen tek nitel sonuç: SU-best-of − Adam-48'in GA'sı tam değerde sıfırı dışlıyor. (p4/izgara_kontrol)
 
 ---
@@ -110,7 +110,7 @@ dalının çalışma ağacından koşuyor, commit alanı doğru dalı gösterece
 
 1. **Bit-bit yeniden üretim:** `results/mumiso_aging_fixzf.json`, `mumiso_aging_sweep_repro.json`, `mumiso_aging_sensitivity.json` (config hariç) ve 9 tablo + `paper_numbers.txt`, çıktısı yönlendirilmiş kopyalarla 0 farkla üretildi. `mumiso_aging_sweep_fixzf.json` 11 farkla üretilemedi; betiği yok ve makale onu kullanmıyor (makale `_repro` dosyasını kullanıyor).
 2. **Gecikmelerin yeniden ölçümü** (tek iş parçacığı, boş makine): Adam 1.328 ms/adım, SU-best-of 1.63 ms, CD 702.97 ms, PGA 4950.35 ms (makale: 1.66 / 2.54 / 880.78 / 5851.66 ms). Tablo I ve Şekil 3 bu gecikmelerle `thesis_exp/infra/` altında yeniden üretildi (§1.2 madde 12).
-3. **Kullanılmayan senaryolar:** 700 (madde 13).
+3. **Kullanılmayan senaryolar:** 700 (madde 13). Not (denetim U53): bu sayı "yayımlanmış bir sayıya giren" tanımına göre ve kullanım tablosu `static_split_usage.py`'de elle yazılmış; betiğin kendi tanımıyla (öğrenilen kural testin 900'ünü kullanıyor) 400.
 4. **Makale 1 modeli 38.901 arayüzünde (N_t = 1):**
    - Ham girdili kollar öğrenmedi (RMSE ≈ 104°). Plan dışı olarak kalan tohumlar için ölçek-normalize kollara geçildi; raporda kayıtlı.
    - Ölçek-normalize sin/cos: RMSE 58.4–59.8°, hız 9.302 b/s/Hz (optimum 10.349; makale etiketi (a) 9.908).
@@ -120,7 +120,7 @@ dalının çalışma ağacından koşuyor, commit alanı doğru dalı gösterece
 
 ## 4) Görev 3 — Köprü (ayrıntı) — `thesis_exp/bridge/REPORT.md`
 
-**Soru:** Makale 1'in tek geçişli faz-farkında ağı, Makale 2'nin etkin hız ölçütünde klasik yöntemleri geçebilir mi?
+**Soru:** Makale 1'in tek geçişli faz-farkında *yaklaşımı* (çok kullanıcılı sisteme taşınmış, etiketsiz eğitilmiş MuMisoNet; Makale 1'in ağıyla yalnızca sin/cos gövdesi ortak), Makale 2'nin etkin hız ölçütünde klasik yöntemleri geçebilir mi? (RMSE ile değerlendirilmedi; t=0 hızı SU-average düzeyinde: 4.626 / 4.624. Denetim U52.)
 
 **Kurulum:** Eğitim verisi yaşlanma kümesinin yapısıyla (20 saçıcı, t=0) üretilen statik küme, seed 2027, 6000 senaryo
 (4200/900/900). Seçimler yalnızca statik doğrulama kümesinde ve seed 12 hareketlilik çekilişinde; rapor seed 11.
@@ -186,10 +186,10 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 ### 5.6 Optimize edilmiş süreler — `p4/optimize_sure/REPORT.md`
 - **eager:** Adam-1 1.703, öğrenilen-1 3.544, Adam-8 10.405, öğrenilen-8 29.178 ms.
 - **torch.compile:** 2.184 / 4.220 / 13.487 / 41.679 ms.
-- **Öğrenilen/Adam oranı:** L=8'de 2.80 (eager) ve 3.09 (compile).
+- **Öğrenilen/Adam oranı:** L=8'de 2.80 (eager). torch.compile satırı (3.09) optimize bir sürüm sayılmamalı (yeniden derleme sınırı, karmaşık sayılar), eşdeğer kanıt değil.
 - **torch.compile iki kolu da yavaşlattı:** Inductor karmaşık sayılarda kod üretmiyor; öğrenilen kol yeniden derleme sınırına (256) takıldı.
 - **jit.trace ve GPU:** ÜRETİLEMEDİ.
-- **Süre tanımı (denetim U44):** run.py'de Adam kolu SU-average başlangıcını içeriyor, öğrenilen kol öznitelik/başlangıç hariç ve autograd açık koşuyor. Aynı tanımla yeniden ölçüldü (`check_definitions.py` → `raw/definitions.json`, boş makine, tek iş parçacığı). L=8 oranı: run.py tanımı 2.81, makalenin tanımı (no_grad, başlangıç hariç) 2.71, ikisi de uçtan uca 2.67. L=1'de 1.97 / 2.65 / 2.48. Hüküm tanımdan bağımsız.
+- **Süre tanımı (denetim U44):** run.py'de Adam kolu SU-average başlangıcını içeriyor, öğrenilen kol öznitelik/başlangıç hariç ve autograd açık koşuyor. Aynı tanımla yeniden ölçüldü (`check_definitions.py` → `raw/definitions.json`, boş makine, tek iş parçacığı). L=8 oranı: run.py tanımı 2.81, makalenin tanımı (no_grad, başlangıç hariç) 2.71, ikisi de uçtan uca 2.67. L=1'de 1.97 / 2.65 / 2.48. L=8'de hüküm tanımdan bağımsız (L=1'de oran tanıma göre 1.97–2.65 arasında değişiyor).
 - **Sınır:** eğitilmemiş ağırlıklar kullanıldı (süre ağırlığa bağlı değil). Adam-1 süresi SU-average başlangıcını da içeriyor.
 
 ### 5.7 Makale 2 ızgara kontrolü — `p4/izgara_kontrol/REPORT.md` (14 Kasım)
@@ -252,7 +252,7 @@ Not: H7, kullanıcıya önce bildirilmiş bir sayıyı değiştirdi (4.3: 3.303/
 
 ## 8) Durdurulan işler ve Makale 1'in kapsamı (13 Kasım)
 
-Denetim turu 4 (14 Kasım 23:26): KRİTİK yok; 9 uyarı (U24–U32; U33 yanıt dosyasında eklendi). Tur 4 yanıtı: `YANIT_20261114_2326.md`. Tur 5 (15 Kasım 00:26): KRİTİK yok; 10 uyarı (U34–U43), yanıt `YANIT_20261115_0026.md`. Tur 6 (01:26): KRİTİK yok; 7 uyarı (U44–U50), yanıt `YANIT_20261115_0126.md`. `audit_claims.py --all`: 126/126 (15 Kasım 00:2x, deneyler bittikten sonra).
+Denetim turu 4 (14 Kasım 23:26): KRİTİK yok; 9 uyarı (U24–U32; U33 yanıt dosyasında eklendi). Tur 4 yanıtı: `YANIT_20261114_2326.md`. Tur 5 (15 Kasım 00:26): KRİTİK yok; 10 uyarı (U34–U43), yanıt `YANIT_20261115_0026.md`. Tur 6 (01:26): KRİTİK yok; 7 uyarı (U44–U50), yanıt `YANIT_20261115_0126.md`. Tur 7 (02:26): KRİTİK 1 (K4, Makale 2 Tablo III'ün periyodik benzetiminde pilot/devreye alma yuvarlaması; bkz. §5.10), 8 uyarı (U51–U58), yanıt `YANIT_20261115_0226.md`. `audit_claims.py --all`: 126/126 (15 Kasım, deneyler bittikten sonra; tur 5–7'de de 126/126).
 
 Kullanıcı 13 Kasım'da Makale 1'in incelenmesini durdurdu ("kodlarını bulacağım"). Makale 1 denetimi o tarihteki hâliyle donduruldu; saatlik denetimin kapsamından çıkarıldı.
 

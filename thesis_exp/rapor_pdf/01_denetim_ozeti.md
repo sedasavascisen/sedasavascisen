@@ -16,6 +16,8 @@ Denetçi dosya değiştirmedi ve commit yapmadı. Her KRİTİK bulguyu ana oturu
 | 3 | 12 Kasım 15:32 | 300+ | 1 (K3) | 4 (U20–U23) | `20261112_1532.md`, `YANIT_20261112_1532.md` |
 | 4 | 14 Kasım 23:26 | ~90 | 0 | 9 (U24–U32; U33 yanıtta) | `20261114_2326.md`, `YANIT_20261114_2326.md` |
 | 5 | 15 Kasım 00:26 | 60+ | 0 | 10 (U34–U43) | `20261115_0026.md`, `YANIT_20261115_0026.md` |
+| 6 | 15 Kasım 01:26 | 130+ | 0 | 7 (U44–U50) | `20261115_0126.md`, `YANIT_20261115_0126.md` |
+| 7 | 15 Kasım 02:26 | 100+ | 1 (K4) | 8 (U51–U58) | `20261115_0226.md`, `YANIT_20261115_0226.md` |
 
 Her turda ham veriyle çelişen sayı aranıyor. Ham JSON'larla çelişen hesap sonucu yalnızca K3'te (kaba ızgara yöntemi) çıktı. Özet metinlerde ham veriyle çelişen birkaç yazım/genelleme hatası bulundu (K2, U5, U6, U12, U32) ve düzeltildi.
 
@@ -29,7 +31,7 @@ Her turda ham veriyle çelişen sayı aranıyor. Ham JSON'larla çelişen hesap 
 
 **Önemli uyarılar ve çözümleri**
 
-- **Sıralama iddiası (U4):** "Sıralama değişmiyor" iddiası fazla güçlüydü. Doğrusu: en iyi küme (Adam-3…20; seçilen kol Adam-6/8) korunuyor, aralarındaki farklar ayırt edilemiyor.
+- **Sıralama iddiası (U4):** "Sıralama değişmiyor" iddiası fazla güçlüydü. Doğrusu: 50 ms pencerede en iyi küme (Adam-3…20; seçilen kol Adam-6/8) korunuyor; daha uzun pencerede küme daha çok adıma kayıyor, aralarındaki farklar ayırt edilemiyor.
 - **Ölçüt farkı (U2):** Pilot deneyinin ölçütü (50 ms ortalaması) Tanım 1'in anlık etkin hızından farklı. Bu fark belgelendi.
 - **Desteklenmeyen cümle (U12):** Kusurlu CSI'da "hata arttıkça L küçülüyor" cümlesi ölçümle desteklenmiyordu. Veriden üretilen cümleyle değiştirildi (en iyi L: 6/3/5/1/6/4).
 - **ρ tanımı (U13):** ρ, 400 senaryonun ortalama gücüne göre tanımlı. 30 dB, senaryo başına medyanda 22.6 dB etkin SNR'ye karşılık geliyor. Denetçinin betiği depoya alınıp yeniden koşuldu.
