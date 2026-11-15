@@ -4,6 +4,7 @@ Inputs (eval_main.json, the trained network) are read from a read-only worktree 
 --fix 0  identical logic (reproduction check against thesis/bridge raw/tracking.json)
 --fix 1  fractional pilot charging and exact deployment instants (same correction as p4/takip_duzeltme/run.py)
 --pilot  one T_p per process; output thesis_exp/p4/takip_duzeltme/raw/bridge_fix{0,1}_tp{T_p}.json
+BRIDGE must be a checkout of origin/thesis/bridge (38b25bd); recreate with `git worktree add --detach <path> origin/thesis/bridge`.
 
 Bridge task, part 4: periodic operation (the Table III set-up of scripts/mumiso_tracking.py) with the
 one-shot network as an additional start: every cycle takes a channel snapshot, spends T_p on pilots (no data),
@@ -17,7 +18,7 @@ measured Adam-L latency (linear interpolation between measured L), net uses the 
 Adam step sizes are those chosen on the static validation split (eval_main.json).
 Selection of (period U, L) for each start is done on a separate mobility draw (seed 12); the reported
 numbers are on the aging set (seed 11). Paired bootstrap (2000) of net minus the best cold / warm policy.
-Output: thesis_exp/bridge/raw/tracking.json
+Output (original script): thesis_exp/bridge/raw/tracking.json; this copy writes thesis_exp/p4/takip_duzeltme/raw/bridge_fix*.json
 """
 import sys, json, pathlib, subprocess
 ROOT = pathlib.Path(__file__).resolve().parents[3]

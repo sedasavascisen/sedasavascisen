@@ -31,7 +31,7 @@ time-averaged minimum user rate for
   * cold start: every cycle starts from SU-average on the new snapshot
   * warm start: every cycle starts from the phase currently deployed
 
-for several L and acquisition delays. The rate is averaged over 50-200 ms so
+for several L and acquisition delays. The rate is averaged over WINDOW = 100-200 ms (docstring of the published script said 50-200; code uses 100-200) so
 that the start-up cycles do not dominate. Same scenarios as the aging set
 (seed 11, 20 scatterers, 400 scenarios); the t = 0 channel is checked
 against the stored aging run.
