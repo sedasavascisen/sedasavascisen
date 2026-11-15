@@ -66,6 +66,13 @@ Not: Makale 1 için kullanıcının kararı "düzeltmeye gerek yok"; bu bulgular
     - Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) her durumda aynı sırada; aralarındaki farkların GA'sı sıfırı içeriyor (kesin olan, en iyi kümenin Adam-4…8 olarak kalması); 5. ve 6. sıra numerolojiye göre değişiyor; en iyi kolun SU-best-of'a üstünlüğü +0.303 [+0.242, +0.366] → +0.153 / +0.193 / +0.209 (GA'lar sıfırın üstünde). (p4/onkodlayici_siralama/raw/results.json)
 12. **Adam adımı 1.66 değil 1.328 ms** (tek iş parçacığı, boş makine). Bununla L* = 6 (makale 5; metin 4–6), L=48 kaybı %14.4 (makale %14.0), en iyi etkin hız 6.075 (makale 5.982). SU-best-of − Adam-20: −0.086 [−0.174, 0.002] (makale −0.004 [−0.095, 0.085]). Ana bulgular korunuyor. (infra/raw/mumiso_aging_sweep_newlat.json, mumiso_aging_stats_newlat.json)
 13. **Kullanılmayan senaryo sayısı 800 değil 700** (doğrulamanın 500'ü kullanılıyor). (infra/raw/static_split_usage.json)
+14. **(14–15 Kasım) En iyi adım sayısı, fazın tutulduğu süreye bağlı.** Pilot ücretli modelde ortalama penceresi W (fiilen fazın yeniden hesaplanma aralığı) değiştirildi:
+    - W = 25 ms: seçilen Adam-5;
+    - W = 50 ms: Adam-6/8;
+    - W = 100 ms: Adam-16/20.
+
+    100 ms'de eğri düzleşiyor: Adam-6 seçilen koldan yalnızca 0.02–0.04 geride. CD her pencerede anlamlı biçimde geride. Makale 2'nin "birkaç adım yeter" hükmü, Tanım 1'in anlık ölçütü ve sık yeniden hesaplama için geçerli. Faz uzun süre tutulacaksa optimum daha çok adıma kayıyor. Bu, makalenin periyodik çalışma sonuçlarıyla tutarlı. (p4/onkodlayici_siralama/raw/results_win*.json)
+15. **(14 Kasım) Makale 2'nin taramasındaki interpolasyon hükümleri değiştirmiyor.** Tam gecikmede L* = 4 (makale gecikmeleri), L48 kaybı %13.99 → %14.20. Yeniden ölçülen gecikmelerle %14.40 → %14.93. Değişen tek nitel sonuç: SU-best-of − Adam-48'in GA'sı tam değerde sıfırı dışlıyor. (p4/izgara_kontrol)
 
 ---
 
@@ -183,6 +190,25 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 - **jit.trace ve GPU:** ÜRETİLEMEDİ.
 - **Sınır:** eğitilmemiş ağırlıklar kullanıldı (süre ağırlığa bağlı değil). Adam-1 süresi SU-average başlangıcını da içeriyor.
 
+### 5.7 Makale 2 ızgara kontrolü — `p4/izgara_kontrol/REPORT.md` (14 Kasım)
+- **Ne yapıldı:** Makale 2'nin yaşlanma taraması, düzensiz bir ızgarada interpolasyonla hesaplanıyor. Aynı senaryolarda her kol tam gecikmesinde yeniden değerlendirildi. Yayımlanmış dosyayla fark ≤ 2.1e-6.
+- **Interpolasyon hatası:** Kol başına en fazla 0.031 b/s/Hz.
+- **Makaledeki gecikmelerle:** Adam-4 5.9843, Adam-5 5.9838 (tam değer); L48 kaybı %14.20.
+- **Yeniden ölçülen gecikmelerle:** L* = 6; L48 kaybı %14.93.
+
+### 5.8 Pencere uzunluğu duyarlılığı — `p4/onkodlayici_siralama/REPORT.md` §3b (14–15 Kasım)
+- §1.2 madde 14.
+- 25 ms'de Adam-48 seçilen koldan 0.24–0.28 b/s/Hz geride.
+- 100 ms'de Adam-48 seçilen koldan ayırt edilemiyor.
+
+### 5.9 Pilot yükü ve kusurlu CSI birlikte — `p4/onkodlayici_csi/REPORT.md` (14–15 Kasım)
+- **Model:** BS gerçek kanalı hiç görmüyor; faz ve her ZF tazelemesi kestirimden.
+- **Seçilen kolun hızı:**
+  - 30 dB: 2.42–2.78 b/s/Hz. Seçilen Adam-3, SU-best-of'tan +0.05…+0.06 önde (GA sıfırın üstünde).
+  - 20 dB: 1.02–1.15 b/s/Hz. Hızlı yöntemler ayırt edilemiyor.
+- **Yavaş çözücüler:** CD ve PGA iki düzeyde de anlamlı biçimde geride. Seçilen kola göre CD −0.07…−0.15, PGA −0.16…−0.36.
+- **Sınır:** Kestirim gürültüsü kollar arasında eşli değil. Adam adım boyu 4.4'ten alındı.
+
 ---
 
 ## 6) Süreçte bulunan ve düzeltilen hatalar
@@ -223,6 +249,8 @@ Not: H7, kullanıcıya önce bildirilmiş bir sayıyı değiştirdi (4.3: 3.303/
 ---
 
 ## 8) Durdurulan işler ve Makale 1'in kapsamı (13 Kasım)
+
+Denetim turu 4 (14 Kasım 23:26): KRİTİK yok; 10 uyarı (U24–U33), metin düzeltmeleri yapıldı (`YANIT_20261114_2326.md`). `audit_claims.py --all`: 126/126 (15 Kasım 00:2x, deneyler bittikten sonra).
 
 Kullanıcı 13 Kasım'da Makale 1'in incelenmesini durdurdu ("kodlarını bulacağım"). Makale 1 denetimi o tarihteki hâliyle donduruldu; saatlik denetimin kapsamından çıkarıldı.
 

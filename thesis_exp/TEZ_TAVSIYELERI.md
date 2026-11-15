@@ -43,6 +43,8 @@ Makale için "düzeltme gerekmiyor" kararınızı yeniden tartışmıyorum. Ama 
 | --- | --- | --- |
 | "Gecikme donanıma bağlı, sonuçlarınız genellenir mi?" | Normalize adım maliyeti x = ΔT·f_d; hüküm mutlak ms'ye değil x'e bağlı. Yeniden ölçümde Adam 1.66 → 1.328 ms oldu, L* 5 → 6, bulgu korundu | x'in tanımı: MAKALE_REHBERI.md:348, paper_mobility/DANISMAN_GORUSME_NOTLARI.md:29 (ölçekleme yasası bu denetimde yeniden sınanmadı); yeniden ölçüm: infra/REPORT.md |
 | "Pilot yükünü bedava saydınız" | Ücretlendirildi: mutlak hız %17–32 düşüyor, en iyi kol kümesi (Adam-4…8) ve yavaş çözücülerin yeri değişmiyor | p4/onkodlayici_siralama |
+| "Fazı ne sıklıkla yeniden hesaplıyorsunuz? Optimum buna bağlı değil mi?" | **Evet, bağlı — bunu siz söyleyin.** Faz 25 / 50 / 100 ms tutulursa en iyi kol Adam-5 / 6–8 / 16–20. 100 ms'de eğri düz (fark ≤ 0.04). Yavaş çözücü her durumda geride. Tez cümlesi "gecikme sıralamayı belirler" korunuyor, ama "birkaç adım her zaman en iyidir" denmemeli: optimum, gecikme ile yeniden hesaplama aralığının birlikte fonksiyonu. | p4/onkodlayici_siralama §3b |
+| "Pilot ve kestirim hatası birlikte?" | 30 dB'de hızlı yöntemin üstünlüğü küçülüyor ama sürüyor; 20 dB'de hızlı yöntemler ayırt edilemiyor; yavaş çözücüler her iki düzeyde de geride. | p4/onkodlayici_csi |
 | "CSI kusursuz değil" | Pilot SNR'i 30 dB'de bile etkin hız 6.08 → 3.54; en iyi L hatayla tekdüze değişmiyor; 10 dB ve altında yöntemler ayırt edilemiyor. Dikkat: ρ kümenin ortalama gücüne göre, senaryo başına etkin SNR daha düşük (30 dB → medyan 22.6 dB) | p4/kusurlu_csi |
 | "Gerçek RIS ayrık fazlı" | 1/2/3 bitte de içsel optimum var (L* = 5/6/6); yavaş ayrık CD 2 ve 3 bitte kaybediyor, 1 bitte berabere | p4/ayrik_faz |
 | "Kanalı öngörseniz?" | Gürültüsüz geçmişle +0.19…+0.42 kazanç; %1 kestirim hatasıyla bütün öngörücüler öngörüsüzün altında | p4/kanal_ongoru |
@@ -66,8 +68,8 @@ Bu tabloyu savunma hazırlığının omurgası yapın. Her satır için tek bir 
 | --- | --- | --- | --- |
 | 1 | Süren eğitimlerin bitmesi (N=64/128/256, tohumlar) | RMSE–N eğrisi, tohum yayılımıyla | Sürüyor (~10 saat) |
 | 2 | ~~3 bit ayrık faz~~ — yapıldı (13 Kasım) | — | — |
-| 3 | 50 ms pencere duyarlılığı (25/100 ms) | Pilot sonucunun sağlamlığı (§4.2) | ~1.5 saat |
-| 4 | Pilot ücreti + kusurlu CSI birlikte | En gerçekçi rejim; iki etki birlikte hiç sınanmadı | ~2–3 saat; isteğe bağlı |
+| 3 | ~~50 ms pencere duyarlılığı~~ — yapıldı (14–15 Kasım); sonuç savunma için önemli (yukarıdaki tablo) | Pilot sonucunun sağlamlığı (§4.2) | ~1.5 saat |
+| 4 | ~~Pilot ücreti + kusurlu CSI birlikte~~ — yapıldı (14–15 Kasım) | En gerçekçi rejim; iki etki birlikte hiç sınanmadı | ~2–3 saat; isteğe bağlı |
 | 5 | Yeni p4 sayılarını bir iddia denetleyicisine bağlamak | `audit_claims.py` gibi; sabotaj testiyle | Küçük. Kural 2 gereği `thesis_exp/` altında ayrı bir betik olmalı; onayınızı ister |
 
 **Açmayın:** öngörücü faz tasarımı (dönüşlü yörünge yok), yeni öğrenilen modeller, GPU arayışı. 20 Kasım'dan sonra yeni deney açılmıyor; bu tarihten sonra eksik kalan her şey "gelecek çalışma" olur ve bu meşrudur.
