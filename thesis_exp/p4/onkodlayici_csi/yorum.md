@@ -1,0 +1,12 @@
+- **Pilot yükü ve kusurlu CSI birlikte en gerçekçi rejim, ve mutlak hız çok düşüyor.** Seçilen kolun hızı:
+  - kusursuz CSI ve pilot ücreti: 3.54–4.33;
+  - ρ = 30 dB: 2.42–2.78;
+  - ρ = 20 dB: 1.02–1.15 b/s/Hz.
+- **30 dB'de hızlı yöntemin üstünlüğü küçülüyor ama sürüyor.** Seçilen Adam-3, SU-best-of'tan +0.049…+0.065 önde (GA'lar sıfırın üstünde). Kusursuz CSI'da bu fark +0.15…+0.21'di.
+- **20 dB'de hızlı yöntemler ayırt edilemiyor.** Seçilen Adam-2 ile SU-best-of arasındaki farkın GA'sı sıfırı içeriyor. Testte nokta tahminiyle en üstte Adam-48 var, ama bu da seçilen koldan ayırt edilemiyor. Bu düzeyde kestirim hatası her şeyi bastırıyor.
+- **Yavaş çözücüler iki düzeyde de anlamlı biçimde geride.** Seçilen kola göre ortalama fark: CD 30 dB'de −0.142…−0.154, 20 dB'de −0.068…−0.076; PGA 30 dB'de −0.319…−0.356, 20 dB'de −0.156…−0.177. Bütün GA'lar sıfırın altında (en yüksek üst sınır −0.032).
+- **Tasarım sınırları (denetim U25, U26):**
+  - Kestirim gürültüsü kollar arasında eşli değil. Her kolun fazı ayrı bir t=0 kestiriminden çıkıyor; 4.4'te bütün kollar aynı kestirimi kullanıyordu. Bu yanlılık yaratmıyor ama GA'ları genişletiyor.
+  - 18 kol olduğu için doğrulama ve test gürültü tohumları kısmen çakışıyor (doğrulamada j+10. kol = testte j. kol). Kanallar farklı, yine de tam bağımsız değil.
+  - Adam adım boyu 4.4'ten alındı. Oradaki seçim ölçütü farklıydı: anlık etkin hız, pilot ücreti yok.
+- **Karşılaştırma notu:** 30 dB'de 4.4'ün 3.54'ü anlık etkin hız (Tanım 1), buradaki taze W sütunu (3.08) ise 50 ms ortalaması; doğrudan karşılaştırılmaz.

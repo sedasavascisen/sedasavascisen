@@ -1,6 +1,6 @@
 # Deney 4.3 devamı — Pilot ücreti altında bütün kolların sıralaması (rapor)
 
-Commit `97e5e5c` (ölçüm commit'i `a0ac494`). Model Deney 4.3 ile aynı: ZF her R ms'de bir kusursuz etkin kanal kestiriminden tazeleniyor, tazeleme başına 4 pilot sembolü veri oranı 1 − t_p/R ile ücretlendiriliyor, faz t=0 kanalından ve kolun gecikmesinde devreye giriyor, hız [gecikme, gecikme + 50 ms] üzerinde ortalanıyor. Tazeleme periyodu R her kol ve numeroloji için doğrulama çekilişinde (seed 12) seçildi; en iyi kol da orada seçildi; rapor yaşlanma kümesi (seed 11, 400 senaryo). Eşli bootstrap 2000, %95 GA. Gecikmeler tek iş parçacıklı yeniden ölçümden (thesis_exp/infra).
+Commit `a6692d2` (ölçüm commit'i `a0ac494`). Model Deney 4.3 ile aynı: ZF her R ms'de bir kusursuz etkin kanal kestiriminden tazeleniyor, tazeleme başına 4 pilot sembolü veri oranı 1 − t_p/R ile ücretlendiriliyor, faz t=0 kanalından ve kolun gecikmesinde devreye giriyor, hız [gecikme, gecikme + 50 ms] üzerinde ortalanıyor. Tazeleme periyodu R her kol ve numeroloji için doğrulama çekilişinde (seed 12) seçildi; en iyi kol da orada seçildi; rapor yaşlanma kümesi (seed 11, 400 senaryo). Eşli bootstrap 2000, %95 GA. Gecikmeler tek iş parçacıklı yeniden ölçümden (thesis_exp/infra).
 
 ## 1) Özet: seçilen kol
 
@@ -45,6 +45,27 @@ Commit `97e5e5c` (ölçüm commit'i `a0ac494`). Model Deney 4.3 ile aynı: ZF he
 | 5 | Adam-10 | Adam-3 | Adam-10 | Adam-10 |
 | 6 | Adam-12 | Adam-10 | Adam-3 | Adam-3 |
 
+## 3b) Pencere uzunluğu duyarlılığı (denetim U2)
+
+Aynı model ve seçim kuralı; yalnızca ortalama penceresi [gecikme, gecikme + W] değişiyor. Test kümesi; R ve kol doğrulamada seçildi.
+
+| W (ms) | Ücretlendirme | Doğrulamada seçilen | Testte hızı | SU-best-of | Fark [%95 GA] | Testte ilk 4 (nokta tahmini) |
+| --- | --- | --- | --- | --- | --- | --- |
+| 25 | taze W | Adam-5 | 5.4524 | 5.0572 | +0.3952 [+0.327, +0.462] | Adam-4, Adam-5, Adam-6, Adam-3 |
+| 25 | 15kHz | Adam-5 (R = 2 ms) | 3.6866 | 3.4967 | +0.1900 [+0.130, +0.244] | Adam-3, Adam-6, Adam-4, Adam-5 |
+| 25 | 30kHz | Adam-5 (R = 1 ms) | 4.1724 | 3.9205 | +0.2520 [+0.195, +0.312] | Adam-3, Adam-4, Adam-5, Adam-6 |
+| 25 | 60kHz | Adam-5 (R = 1 ms) | 4.5171 | 4.2443 | +0.2728 [+0.209, +0.334] | Adam-3, Adam-4, Adam-5, Adam-6 |
+| 50 | taze W | Adam-8 | 5.2133 | 4.9108 | +0.3025 [+0.242, +0.366] | Adam-6, Adam-5, Adam-8, Adam-4 |
+| 50 | 15kHz | Adam-6 (R = 2 ms) | 3.5385 | 3.3852 | +0.1534 [+0.101, +0.204] | Adam-6, Adam-5, Adam-8, Adam-4 |
+| 50 | 30kHz | Adam-8 (R = 1 ms) | 4.0034 | 3.8108 | +0.1927 [+0.141, +0.245] | Adam-6, Adam-5, Adam-8, Adam-4 |
+| 50 | 60kHz | Adam-8 (R = 1 ms) | 4.3341 | 4.1255 | +0.2086 [+0.153, +0.262] | Adam-6, Adam-5, Adam-8, Adam-4 |
+| 100 | taze W | Adam-24 | 5.1356 | 4.8195 | +0.3161 [+0.258, +0.378] | Adam-32, Adam-48, Adam-24, Adam-20 |
+| 100 | 15kHz | Adam-16 (R = 2 ms) | 3.4536 | 3.3271 | +0.1264 [+0.076, +0.173] | Adam-20, Adam-16, Adam-24, Adam-12 |
+| 100 | 30kHz | Adam-20 (R = 1 ms) | 3.9309 | 3.7440 | +0.1869 [+0.141, +0.235] | Adam-20, Adam-24, Adam-32, Adam-48 |
+| 100 | 60kHz | Adam-20 (R = 1 ms) | 4.2556 | 4.0532 | +0.2024 [+0.148, +0.252] | Adam-20, Adam-24, Adam-32, Adam-48 |
+
+Pencere koşuları: `WIN=25` / `WIN=100 THREADS=2 python3 thesis_exp/p4/onkodlayici_siralama/run.py` → raw/results_win25.json, raw/results_win100.json.
+
 ## 4) Komut, tohum, ham çıktı
 
 | Komut | Tohum | Ham çıktı |
@@ -65,3 +86,11 @@ Commit `97e5e5c` (ölçüm commit'i `a0ac494`). Model Deney 4.3 ile aynı: ZF he
   - Aynı yanlılık Deney 4.3'te de var; o raporun başına düzeltme notu eklendi.
   - Taze W sütunu bu düzeltmeden etkilenmiyor. Yalnızca örnekleme anları kaydı için 4.3 ile arasında ≤0.001 fark var.
 - **Kapsam dışı kalanlar.** Kestirim kusursuz kabul edildi; pilot SNR'ı (Deney 4.4) ve tazeleme ile kestirimin birlikte etkisi modellenmedi. Pilot sayısı K = 4 (kullanıcı başına bir dik sembol).
+- **Pencere uzunluğu (14–15 Kasım; denetim U2'ye yanıt) — en iyi adım sayısı pencereye bağlı.** Faz bir kez hesaplanıp bütün pencere boyunca tutuluyor; bu yüzden pencere W, fiilen fazın yeniden hesaplanma aralığı.
+  - **W = 25 ms:** Seçilen Adam-5; Adam-4/5/6 ayırt edilemiyor. Adam-48 0.24–0.28 b/s/Hz geride.
+  - **W = 50 ms:** Seçilen Adam-6/8 (yukarıda).
+  - **W = 100 ms:** Seçilen Adam-16 / Adam-20 / Adam-20 (15 / 30 / 60 kHz). Eğri düzleşiyor: Adam-6, seçilen koldan 0.022 / 0.038 / 0.041 geride; 30 ve 60 kHz'de GA sıfırın hemen altında, 15 kHz'de sıfırı içeriyor. Adam-48 ayırt edilemiyor.
+  - **Yorum:** W koherans süresini (~28 ms) birkaç kat aşınca pencerenin büyük bölümü eskimiş kanalda geçiyor. Erken devreye girmenin kazancı pencerenin küçük bir kesrine düşüyor, daha iyi yakınsamış fazın uzun vadeli kazancı öne geçiyor. Bu, Makale 2'nin periyodik çalışma sonuçlarıyla tutarlı: güncelleme aralığı U uzadıkça seçilen L büyüyor (köprü raporu §5'teki soğuk başlangıçlı kol).
+  - **Değişmeyen:** CD her pencerede seçilen kolun gerisinde (W=100'de 0.075–0.105, GA sıfırın altında).
+  - **Sınır:** Kısa pencerede 1 − t_p/R ücreti büyük R'yi hafifçe kayırıyor (W=25, R=50'de pencerede tek tazeleme var; denetim U27). Seçilen R'ler (1–2 ms) bundan etkilenmiyor.
+- **Commit kaydı (denetim U24):** results_win25.json'da 66aa57b, results_win100.json'da a6692d2 yazıyor; ikisi de koşu sonundaki HEAD. Koşu başında HEAD 97e5e5c idi. `git diff 97e5e5c a6692d2 -- run.py common.py ris_mu/` yalnızca run.py'nin docstring'inde bir satır değişikliği gösteriyor.

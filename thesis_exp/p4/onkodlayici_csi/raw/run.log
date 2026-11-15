@@ -1,0 +1,43 @@
+rho 30 dB SU-average: fresh val 2.8731 test 2.7714 (107 s)
+rho 30 dB SU-best-of: fresh val 3.1102 test 3.0056 (106 s)
+rho 30 dB Adam-1: fresh val 3.1321 test 3.0127 (105 s)
+rho 30 dB Adam-2: fresh val 3.2020 test 3.0759 (101 s)
+rho 30 dB Adam-3: fresh val 3.2315 test 3.0810 (104 s)
+rho 30 dB Adam-4: fresh val 3.2083 test 3.0726 (102 s)
+rho 30 dB Adam-5: fresh val 3.1999 test 3.0805 (104 s)
+rho 30 dB Adam-6: fresh val 3.1994 test 3.0863 (104 s)
+rho 30 dB Adam-8: fresh val 3.1994 test 3.0689 (103 s)
+rho 30 dB Adam-10: fresh val 3.1922 test 3.0373 (100 s)
+rho 30 dB Adam-12: fresh val 3.1717 test 3.0597 (105 s)
+rho 30 dB Adam-16: fresh val 3.1872 test 3.0332 (103 s)
+rho 30 dB Adam-20: fresh val 3.1794 test 3.0248 (102 s)
+rho 30 dB Adam-24: fresh val 3.1647 test 3.0341 (104 s)
+rho 30 dB Adam-32: fresh val 3.1828 test 3.0293 (100 s)
+rho 30 dB Adam-48: fresh val 3.1373 test 3.0336 (107 s)
+rho 30 dB CD: fresh val 2.9754 test 2.9173 (139 s)
+rho 30 dB PGA: fresh val 2.4275 test 2.6970 (176 s)
+rho 30 dB 15kHz: selected Adam-3 (R 2.0 ms) test 2.4192; SU-best-of 2.3705
+rho 30 dB 30kHz: selected Adam-3 (R 2.0 ms) test 2.6215; SU-best-of 2.5687
+rho 30 dB 60kHz: selected Adam-3 (R 1.0 ms) test 2.7799; SU-best-of 2.7150
+rho 20 dB SU-average: fresh val 1.2573 test 1.1258 (117 s)
+rho 20 dB SU-best-of: fresh val 1.3332 test 1.2037 (115 s)
+rho 20 dB Adam-1: fresh val 1.3337 test 1.1917 (116 s)
+rho 20 dB Adam-2: fresh val 1.3797 test 1.2217 (114 s)
+rho 20 dB Adam-3: fresh val 1.3561 test 1.2141 (105 s)
+rho 20 dB Adam-4: fresh val 1.3599 test 1.2060 (102 s)
+rho 20 dB Adam-5: fresh val 1.3821 test 1.1987 (97 s)
+rho 20 dB Adam-6: fresh val 1.3399 test 1.2004 (99 s)
+rho 20 dB Adam-8: fresh val 1.3490 test 1.2012 (96 s)
+rho 20 dB Adam-10: fresh val 1.3504 test 1.2065 (96 s)
+rho 20 dB Adam-12: fresh val 1.3348 test 1.1850 (98 s)
+rho 20 dB Adam-16: fresh val 1.3594 test 1.2063 (100 s)
+rho 20 dB Adam-20: fresh val 1.3462 test 1.2071 (101 s)
+rho 20 dB Adam-24: fresh val 1.3573 test 1.1980 (100 s)
+rho 20 dB Adam-32: fresh val 1.3688 test 1.2068 (99 s)
+rho 20 dB Adam-48: fresh val 1.3745 test 1.2338 (100 s)
+rho 20 dB CD: fresh val 1.2546 test 1.1469 (113 s)
+rho 20 dB PGA: fresh val 0.9195 test 1.0297 (130 s)
+rho 20 dB 15kHz: selected Adam-2 (R 2.0 ms) test 1.0200; SU-best-of 1.0080
+rho 20 dB 30kHz: selected Adam-2 (R 2.0 ms) test 1.1052; SU-best-of 1.0923
+rho 20 dB 60kHz: selected Adam-2 (R 2.0 ms) test 1.1474; SU-best-of 1.1339
+wrote

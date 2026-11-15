@@ -10,3 +10,11 @@
   - Aynı yanlılık Deney 4.3'te de var; o raporun başına düzeltme notu eklendi.
   - Taze W sütunu bu düzeltmeden etkilenmiyor. Yalnızca örnekleme anları kaydı için 4.3 ile arasında ≤0.001 fark var.
 - **Kapsam dışı kalanlar.** Kestirim kusursuz kabul edildi; pilot SNR'ı (Deney 4.4) ve tazeleme ile kestirimin birlikte etkisi modellenmedi. Pilot sayısı K = 4 (kullanıcı başına bir dik sembol).
+- **Pencere uzunluğu (14–15 Kasım; denetim U2'ye yanıt) — en iyi adım sayısı pencereye bağlı.** Faz bir kez hesaplanıp bütün pencere boyunca tutuluyor; bu yüzden pencere W, fiilen fazın yeniden hesaplanma aralığı.
+  - **W = 25 ms:** Seçilen Adam-5; Adam-4/5/6 ayırt edilemiyor. Adam-48 0.24–0.28 b/s/Hz geride.
+  - **W = 50 ms:** Seçilen Adam-6/8 (yukarıda).
+  - **W = 100 ms:** Seçilen Adam-16 / Adam-20 / Adam-20 (15 / 30 / 60 kHz). Eğri düzleşiyor: Adam-6, seçilen koldan 0.022 / 0.038 / 0.041 geride; 30 ve 60 kHz'de GA sıfırın hemen altında, 15 kHz'de sıfırı içeriyor. Adam-48 ayırt edilemiyor.
+  - **Yorum:** W koherans süresini (~28 ms) birkaç kat aşınca pencerenin büyük bölümü eskimiş kanalda geçiyor. Erken devreye girmenin kazancı pencerenin küçük bir kesrine düşüyor, daha iyi yakınsamış fazın uzun vadeli kazancı öne geçiyor. Bu, Makale 2'nin periyodik çalışma sonuçlarıyla tutarlı: güncelleme aralığı U uzadıkça seçilen L büyüyor (köprü raporu §5'teki soğuk başlangıçlı kol).
+  - **Değişmeyen:** CD her pencerede seçilen kolun gerisinde (W=100'de 0.075–0.105, GA sıfırın altında).
+  - **Sınır:** Kısa pencerede 1 − t_p/R ücreti büyük R'yi hafifçe kayırıyor (W=25, R=50'de pencerede tek tazeleme var; denetim U27). Seçilen R'ler (1–2 ms) bundan etkilenmiyor.
+- **Commit kaydı (denetim U24):** results_win25.json'da 66aa57b, results_win100.json'da a6692d2 yazıyor; ikisi de koşu sonundaki HEAD. Koşu başında HEAD 97e5e5c idi. `git diff 97e5e5c a6692d2 -- run.py common.py ris_mu/` yalnızca run.py'nin docstring'inde bir satır değişikliği gösteriyor.
