@@ -1,8 +1,8 @@
-- **En iyi kol kümesi pilot ücretinden etkilenmiyor.**
+- **50 ms pencerede en iyi kol kümesi pilot ücretinden etkilenmiyor** (aşağıdaki pencere maddesine bakın: 100 ms'de geçerli değil).
   - Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) taze W'de ve üç numerolojinin hepsinde aynı sırada; ama aralarındaki farkların GA'sı sıfırı içeriyor, bu yüzden kesin olan sıra değil, en iyi kümenin (Adam-4…8) korunması. 5. ve 6. sıra numerolojiye göre değişiyor.
   - Doğrulamada seçilen kol Adam-6 ya da Adam-8. Seçilen kol ile Adam-4…Adam-8 arasındaki farkların GA'sı sıfırı içeriyor.
   - İçsel optimum (L ≈ 5–8) pilot ücretinde de korunuyor.
-- **Ölçüt:** devreye girdikten sonraki 50 ms'nin zaman ortalaması (Tanım 1'in anlık etkin hızı değil). 50 ms'nin duyarlılığı denenmedi. Doğrulama çekilişinde (seed 12) senaryo kimliği ayrıca sınanmadı (denetim U11); test çekilişinde her ızgara için sınandı.
+- **Ölçüt:** devreye girdikten sonraki 50 ms'nin zaman ortalaması (Tanım 1'in anlık etkin hızı değil). Pencere duyarlılığı aşağıda. Doğrulama çekilişinde (seed 12) senaryo kimliği ayrıca sınanmadı (denetim U11); test çekilişinde her ızgara için sınandı.
 - **Mutlak hızlar düşüyor.** En iyi kol taze W'de 5.213 b/s/Hz. Pilot ücretiyle 3.539 (15 kHz), 4.003 (30 kHz) ve 4.334 (60 kHz). Kayıp sırasıyla %32, %23 ve %17.
 - **SU-best-of'a karşı üstünlük küçülüyor ama anlamlı kalıyor.** Taze W'de +0.303 [+0.242, +0.366]. Pilot ücretiyle +0.153 [+0.101, +0.204], +0.193 [+0.141, +0.245] ve +0.209 [+0.153, +0.262].
 - **Yavaş çözücüler yine en altta.** CD her numerolojide seçilen koldan 0.15–0.17, PGA 0.38–0.45 b/s/Hz geride. GA'ların hepsi sıfırın altında.
@@ -11,10 +11,10 @@
   - Taze W sütunu bu düzeltmeden etkilenmiyor. Yalnızca örnekleme anları kaydı için 4.3 ile arasında ≤0.001 fark var.
 - **Kapsam dışı kalanlar.** Kestirim kusursuz kabul edildi; pilot SNR'ı (Deney 4.4) ve tazeleme ile kestirimin birlikte etkisi modellenmedi. Pilot sayısı K = 4 (kullanıcı başına bir dik sembol).
 - **Pencere uzunluğu (14–15 Kasım; denetim U2'ye yanıt) — en iyi adım sayısı pencereye bağlı.** Faz bir kez hesaplanıp bütün pencere boyunca tutuluyor; bu yüzden pencere W, fiilen fazın yeniden hesaplanma aralığı.
-  - **W = 25 ms:** Seçilen Adam-5; Adam-4/5/6 ayırt edilemiyor. Adam-48 0.24–0.28 b/s/Hz geride.
+  - **W = 25 ms:** Seçilen Adam-5; Adam-3…8 ayırt edilemiyor (testte nokta tahmininde birinci Adam-3). Adam-48 0.24–0.28 b/s/Hz geride.
   - **W = 50 ms:** Seçilen Adam-6/8 (yukarıda).
-  - **W = 100 ms:** Seçilen Adam-16 / Adam-20 / Adam-20 (15 / 30 / 60 kHz). Eğri düzleşiyor: Adam-6, seçilen koldan 0.022 / 0.038 / 0.041 geride; 30 ve 60 kHz'de GA sıfırın hemen altında, 15 kHz'de sıfırı içeriyor. Adam-48 ayırt edilemiyor.
-  - **Yorum:** W koherans süresini (~28 ms) birkaç kat aşınca pencerenin büyük bölümü eskimiş kanalda geçiyor. Erken devreye girmenin kazancı pencerenin küçük bir kesrine düşüyor, daha iyi yakınsamış fazın uzun vadeli kazancı öne geçiyor. Bu, Makale 2'nin periyodik çalışma sonuçlarıyla tutarlı: güncelleme aralığı U uzadıkça seçilen L büyüyor (köprü raporu §5'teki soğuk başlangıçlı kol).
+  - **W = 100 ms:** Seçilen Adam-16 / Adam-20 / Adam-20 (15 / 30 / 60 kHz). Farklar küçük ama anlamlı: Adam-6 0.021 / 0.037 / 0.041, Adam-3 0.048 / 0.072 / 0.078 geride; 30 ve 60 kHz'de Adam-2…8'in GA'sı sıfırın altında, Adam-10 ve üstü ayırt edilemiyor. W'yi yeniden hesaplama aralığı diye okumak yalnızca gecikmesi W'den kısa kollar için geçerli (CD/PGA'da değil; denetim U36).
+  - **Yorum:** W koherans süresini (~28 ms) birkaç kat aşınca pencerenin büyük bölümü eskimiş kanalda geçiyor. Erken devreye girmenin kazancı pencerenin küçük bir kesrine düşüyor, daha iyi yakınsamış fazın uzun vadeli kazancı öne geçiyor. Köprü raporunun periyodik çalışma bölümü (§1 madde 5) de güncelleme aralığı uzadıkça daha büyük L seçiyor; orada U ve L birlikte seçildiği için kontrollü bir karşılaştırma değil (denetim U37).
   - **Değişmeyen:** CD her pencerede seçilen kolun gerisinde (W=100'de 0.075–0.105, GA sıfırın altında).
   - **Sınır:** Kısa pencerede 1 − t_p/R ücreti büyük R'yi hafifçe kayırıyor (W=25, R=50'de pencerede tek tazeleme var; denetim U27). Seçilen R'ler (1–2 ms) bundan etkilenmiyor.
-- **Commit kaydı (denetim U24):** results_win25.json'da 66aa57b, results_win100.json'da a6692d2 yazıyor; ikisi de koşu sonundaki HEAD. Koşu başında HEAD 97e5e5c idi. `git diff 97e5e5c a6692d2 -- run.py common.py ris_mu/` yalnızca run.py'nin docstring'inde bir satır değişikliği gösteriyor.
+- **Commit kaydı (denetim U24):** results_win25.json'da 66aa57b, results_win100.json'da a6692d2 yazıyor; ikisi de koşu sonundaki HEAD. Koşu başında HEAD: W=25 için 97e5e5c, W=100 için 66aa57b (denetim U38). `git diff 97e5e5c a6692d2 -- run.py common.py ris_mu/` yalnızca run.py'nin docstring'inde bir satır değişikliği gösteriyor.

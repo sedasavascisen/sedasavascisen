@@ -61,17 +61,17 @@ Not: Makale 1 için kullanıcının kararı "düzeltmeye gerek yok"; bu bulgular
 
 ### 1.2 Makale 2 (hareketlilik) — `thesis_exp/infra/REPORT.md`, `thesis_exp/p4/onkodlayici_*/REPORT.md`
 
-11. **Ön kodlayıcı tazeleme pilotları ücretlendirilince mutlak etkin hız büyük ölçüde düşüyor; en iyi kol kümesi değişmiyor.**
-    - En iyi kol taze ve bedava W varsayımıyla (makalenin varsayımı) 5.213 b/s/Hz. Bu deneyin ölçütü devreye girdikten sonraki 50 ms'nin zaman ortalaması; madde 12'deki 6.075 ise Tanım 1'in anlık etkin hızı, ikisi doğrudan karşılaştırılmaz. 50 ms penceresinin duyarlılığı denenmedi. pilot ücretiyle 3.539 (15 kHz), 4.003 (30 kHz), 4.334 (60 kHz): %32/%23/%17 kayıp.
-    - Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) her durumda aynı sırada; aralarındaki farkların GA'sı sıfırı içeriyor (kesin olan, en iyi kümenin Adam-4…8 olarak kalması); 5. ve 6. sıra numerolojiye göre değişiyor; en iyi kolun SU-best-of'a üstünlüğü +0.303 [+0.242, +0.366] → +0.153 / +0.193 / +0.209 (GA'lar sıfırın üstünde). (p4/onkodlayici_siralama/raw/results.json)
+11. **Ön kodlayıcı tazeleme pilotları ücretlendirilince mutlak etkin hız büyük ölçüde düşüyor; 50 ms pencerede en iyi kol kümesi değişmiyor.**
+    - En iyi kol taze ve bedava W varsayımıyla (makalenin varsayımı) 5.213 b/s/Hz. Bu deneyin ölçütü devreye girdikten sonraki 50 ms'nin zaman ortalaması; madde 12'deki 6.075 ise Tanım 1'in anlık etkin hızı, ikisi doğrudan karşılaştırılmaz. Pencere duyarlılığı madde 14'te. Pilot ücretiyle 3.539 (15 kHz), 4.003 (30 kHz), 4.334 (60 kHz): %32/%23/%17 kayıp.
+    - Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) her durumda aynı sırada; aralarındaki farkların GA'sı sıfırı içeriyor (kesin olan, en iyi kümenin Adam-4…8 olarak kalması (W = 50 ms; W = 100 ms'de geçerli değil, bkz. madde 14)); 5. ve 6. sıra numerolojiye göre değişiyor; en iyi kolun SU-best-of'a üstünlüğü +0.303 [+0.242, +0.366] → +0.153 / +0.193 / +0.209 (GA'lar sıfırın üstünde). (p4/onkodlayici_siralama/raw/results.json)
 12. **Adam adımı 1.66 değil 1.328 ms** (tek iş parçacığı, boş makine). Bununla L* = 6 (makale 5; metin 4–6), L=48 kaybı %14.4 (makale %14.0), en iyi etkin hız 6.075 (makale 5.982). SU-best-of − Adam-20: −0.086 [−0.174, 0.002] (makale −0.004 [−0.095, 0.085]). Ana bulgular korunuyor. (infra/raw/mumiso_aging_sweep_newlat.json, mumiso_aging_stats_newlat.json)
 13. **Kullanılmayan senaryo sayısı 800 değil 700** (doğrulamanın 500'ü kullanılıyor). (infra/raw/static_split_usage.json)
 14. **(14–15 Kasım) En iyi adım sayısı, fazın tutulduğu süreye bağlı.** Pilot ücretli modelde ortalama penceresi W (fiilen fazın yeniden hesaplanma aralığı) değiştirildi:
-    - W = 25 ms: seçilen Adam-5;
+    - W = 25 ms: seçilen Adam-5; Adam-3…8 ayırt edilemiyor;
     - W = 50 ms: Adam-6/8;
-    - W = 100 ms: Adam-16/20.
+    - W = 100 ms: Adam-16/20; 30 ve 60 kHz'de Adam-2…8 anlamlı biçimde geride, Adam-10 ve üstü ayırt edilemiyor.
 
-    100 ms'de eğri düzleşiyor: Adam-6 seçilen koldan yalnızca 0.02–0.04 geride. CD her pencerede anlamlı biçimde geride. Makale 2'nin "birkaç adım yeter" hükmü, Tanım 1'in anlık ölçütü ve sık yeniden hesaplama için geçerli. Faz uzun süre tutulacaksa optimum daha çok adıma kayıyor. Bu, makalenin periyodik çalışma sonuçlarıyla tutarlı. (p4/onkodlayici_siralama/raw/results_win*.json)
+    100 ms'de farklar küçük ama anlamlı: Adam-6 seçilen koldan 0.021–0.041, Adam-3 0.048–0.078 geride. CD her pencerede anlamlı biçimde geride. W'yi "yeniden hesaplama aralığı" diye okumak yalnızca gecikmesi W'den kısa kollar için geçerli (CD ve PGA'nın gecikmesi W'yi aşıyor). Makale 2'nin "birkaç adım yeter" hükmü, Tanım 1'in anlık ölçütü ve sık yeniden hesaplama için geçerli; faz uzun süre tutulacaksa optimum daha çok adıma kayıyor. Köprü raporunun periyodik çalışma bölümü (§1 madde 5) de güncelleme aralığı uzadıkça daha büyük L seçiyor; ama orada U ve L birlikte seçildiği için bu kontrollü bir karşılaştırma değil. (p4/onkodlayici_siralama/raw/results_win*.json)
 15. **(14 Kasım) Makale 2'nin taramasındaki interpolasyon hükümleri değiştirmiyor.** Tam gecikmede L* = 4 (makale gecikmeleri), L48 kaybı %13.99 → %14.20. Yeniden ölçülen gecikmelerle %14.40 → %14.93. Değişen tek nitel sonuç: SU-best-of − Adam-48'in GA'sı tam değerde sıfırı dışlıyor. (p4/izgara_kontrol)
 
 ---
@@ -156,6 +156,7 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 - Konum hatası 0–1 m sonucu değiştirmiyor.
 - Rastgele faz 4.072; yani geometri rastgelenin yalnızca 0.34–0.38 üstünde.
 - Konum edinme gecikmesi modellenmedi.
+- Not (denetim U43): "her an konumdan yeniden (0–200 ms ort.)" sütunu düzensiz ızgarada ağırlıksız ortalama, fiilen 0–40 ms ağırlıklı; geom-best'in seçimi pt = nv = 1 ile yapılıyor. Hüküm değişmiyor (geom-avg da −0.83). σ düzeyleri arasında eşli test yok (U11).
 
 ### 5.3 Ön kodlayıcı tazeleme pilotları — `p4/onkodlayici_pilot/REPORT.md` + devamı `p4/onkodlayici_siralama/REPORT.md`
 - ZF her R ms'de bir tazeleniyor; K = 4 pilot sembolü 1 − t_p/R ile ücretlendiriliyor; R ∈ {0.5…50} ms; 15/30/60 kHz.
@@ -250,7 +251,7 @@ Not: H7, kullanıcıya önce bildirilmiş bir sayıyı değiştirdi (4.3: 3.303/
 
 ## 8) Durdurulan işler ve Makale 1'in kapsamı (13 Kasım)
 
-Denetim turu 4 (14 Kasım 23:26): KRİTİK yok; 10 uyarı (U24–U33), metin düzeltmeleri yapıldı (`YANIT_20261114_2326.md`). `audit_claims.py --all`: 126/126 (15 Kasım 00:2x, deneyler bittikten sonra).
+Denetim turu 4 (14 Kasım 23:26): KRİTİK yok; 9 uyarı (U24–U32; U33 yanıt dosyasında eklendi). Tur 5 (15 Kasım 00:26): KRİTİK yok; 10 uyarı (U34–U43), metin düzeltmeleri (`YANIT_20261115_0026.md`), metin düzeltmeleri yapıldı (`YANIT_20261114_2326.md`). `audit_claims.py --all`: 126/126 (15 Kasım 00:2x, deneyler bittikten sonra).
 
 Kullanıcı 13 Kasım'da Makale 1'in incelenmesini durdurdu ("kodlarını bulacağım"). Makale 1 denetimi o tarihteki hâliyle donduruldu; saatlik denetimin kapsamından çıkarıldı.
 

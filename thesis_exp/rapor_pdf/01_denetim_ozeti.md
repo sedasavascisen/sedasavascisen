@@ -14,7 +14,8 @@ Denetçi dosya değiştirmedi ve commit yapmadı. Her KRİTİK bulguyu ana oturu
 | 1 | 12 Kasım 14:00 | ~70 | 1 (K1) | 10 (U1–U11; U10 kapsam notu) | `20261112_1400.md` |
 | 2 | 12 Kasım 14:31 | — (tur 1 düzeltmeleri + yeni bölümler) | 1 (K2) | 8 (U12–U19) | `20261112_1431.md` |
 | 3 | 12 Kasım 15:32 | 300+ | 1 (K3) | 4 (U20–U23) | `20261112_1532.md`, `YANIT_20261112_1532.md` |
-| 4 | 14 Kasım 23:26 | ~90 | 0 | 10 (U24–U33) | `20261114_2326.md`, `YANIT_20261114_2326.md` |
+| 4 | 14 Kasım 23:26 | ~90 | 0 | 9 (U24–U32; U33 yanıtta) | `20261114_2326.md`, `YANIT_20261114_2326.md` |
+| 5 | 15 Kasım 00:26 | 60+ | 0 | 10 (U34–U43) | `20261115_0026.md`, `YANIT_20261115_0026.md` |
 
 Her turda ham veriyle çelişen sayı aranıyor. Ham JSON'larla çelişen hesap sonucu yalnızca K3'te (kaba ızgara yöntemi) çıktı. Özet metinlerde ham veriyle çelişen birkaç yazım/genelleme hatası bulundu (K2, U5, U6, U12, U32) ve düzeltildi.
 

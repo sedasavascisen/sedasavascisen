@@ -14,7 +14,7 @@ No weak baseline: per arm and numerology, the refresh period R is chosen on the 
 Paired bootstrap (2000, 95%) of every arm against SU-best-of and against the selected arm.
 The 'fresh' column (W recomputed at every grid point, no pilot cost) reproduces the paper's assumption.
 Scenarios: the mobile generator's random stream does not depend on the time grid when t = 0 is the first
-entry (common.py), so each arm gets its own window grid [0] + [lat, lat + 50] at 0.1 ms, built separately to
+entry (common.py), so each arm gets its own window grid [0] + [lat, lat + WIN] at 0.1 ms, built separately to
 bound memory; check_same_scenarios verifies the t = 0 scenario identity for every grid.
 Output: thesis_exp/p4/onkodlayici_siralama/raw/results.json
 """

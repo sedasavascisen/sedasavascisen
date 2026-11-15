@@ -1,6 +1,6 @@
 # Pilot yükü ve kusurlu CSI birlikte (rapor)
 
-Rapor commit'i `a6692d2`, ölçüm commit'i `97e5e5c`. Model `onkodlayici_siralama` ile aynı (devreye girme anına hizalı 0.1 ms ızgara, [gecikme, gecikme + 50 ms] ortalaması, ZF her R ms'de tazeleniyor, tazeleme başına 4 pilot sembolü 1 − t_p/R ile ücretlendiriliyor, R ve kol doğrulamada seçiliyor); tek fark: BS gerçek kanalı hiç görmüyor. Faz t=0 kestiriminden, her ZF tazelemesi o anın kestiriminden; hız gerçek kanalda. Hata modeli 4.4 ile aynı (csi.add_error, e2 = 1/(1+ρ), ölçek 400 senaryonun ortalama gücünden; senaryo başına etkin SNR daha düşük ve dağınık, bkz. kusurlu_csi). Adam adım boyu 4.4'te doğrulamada seçilen değerler. Yaşlanma kümesi seed 11 (rapor), seed 12 (seçim). Eşli bootstrap 2000, %95 GA.
+Rapor commit'i `3fbd359`, ölçüm commit'i `97e5e5c`. Model `onkodlayici_siralama` ile aynı (devreye girme anına hizalı 0.1 ms ızgara, [gecikme, gecikme + 50 ms] ortalaması, ZF her R ms'de tazeleniyor, tazeleme başına 4 pilot sembolü 1 − t_p/R ile ücretlendiriliyor, R ve kol doğrulamada seçiliyor); tek fark: BS gerçek kanalı hiç görmüyor. Faz t=0 kestiriminden, her ZF tazelemesi o anın kestiriminden; hız gerçek kanalda. Hata modeli 4.4 ile aynı (csi.add_error, e2 = 1/(1+ρ), ölçek 400 senaryonun ortalama gücünden; senaryo başına etkin SNR daha düşük ve dağınık, bkz. kusurlu_csi). Adam adım boyu 4.4'te doğrulamada seçilen değerler. Yaşlanma kümesi seed 11 (rapor), seed 12 (seçim). Eşli bootstrap 2000, %95 GA.
 
 ## 1) Özet: doğrulamada seçilen kol
 
@@ -79,10 +79,10 @@ Rapor commit'i `a6692d2`, ölçüm commit'i `97e5e5c`. Model `onkodlayici_sirala
   - ρ = 30 dB: 2.42–2.78;
   - ρ = 20 dB: 1.02–1.15 b/s/Hz.
 - **30 dB'de hızlı yöntemin üstünlüğü küçülüyor ama sürüyor.** Seçilen Adam-3, SU-best-of'tan +0.049…+0.065 önde (GA'lar sıfırın üstünde). Kusursuz CSI'da bu fark +0.15…+0.21'di.
-- **20 dB'de hızlı yöntemler ayırt edilemiyor.** Seçilen Adam-2 ile SU-best-of arasındaki farkın GA'sı sıfırı içeriyor. Testte nokta tahminiyle en üstte Adam-48 var, ama bu da seçilen koldan ayırt edilemiyor. Bu düzeyde kestirim hatası her şeyi bastırıyor.
+- **20 dB'de hızlı yöntemler ayırt edilemiyor.** Seçilen Adam-2 ile SU-best-of arasındaki farkın GA'sı sıfırı içeriyor. Testte nokta tahminiyle en üstte Adam-48 var, ama bu da seçilen koldan ayırt edilemiyor. Bu düzeyde kestirim hatası hızlı yöntemler arasındaki farkları bastırıyor; yavaş çözücülerle olan fark ise sürüyor.
 - **Yavaş çözücüler iki düzeyde de anlamlı biçimde geride.** Seçilen kola göre ortalama fark: CD 30 dB'de −0.142…−0.154, 20 dB'de −0.068…−0.076; PGA 30 dB'de −0.319…−0.356, 20 dB'de −0.156…−0.177. Bütün GA'lar sıfırın altında (en yüksek üst sınır −0.032).
 - **Tasarım sınırları (denetim U25, U26):**
   - Kestirim gürültüsü kollar arasında eşli değil. Her kolun fazı ayrı bir t=0 kestiriminden çıkıyor; 4.4'te bütün kollar aynı kestirimi kullanıyordu. Bu yanlılık yaratmıyor ama GA'ları genişletiyor.
   - 18 kol olduğu için doğrulama ve test gürültü tohumları kısmen çakışıyor (doğrulamada j+10. kol = testte j. kol). Kanallar farklı, yine de tam bağımsız değil.
-  - Adam adım boyu 4.4'ten alındı. Oradaki seçim ölçütü farklıydı: anlık etkin hız, pilot ücreti yok.
+  - Adam adım boyu 4.4'ten alındı. Oradaki seçim ölçütü farklıydı: anlık etkin hız, pilot ücreti yok. Bu, Adam kollarını en iyi ayarlarının biraz altında bırakabilir; yani Adam'ın SU-best-of'a üstünlüğü burada olduğundan küçük görünebilir, büyük değil (denetim U26).
 - **Karşılaştırma notu:** 30 dB'de 4.4'ün 3.54'ü anlık etkin hız (Tanım 1), buradaki taze W sütunu (3.08) ise 50 ms ortalaması; doğrudan karşılaştırılmaz.
