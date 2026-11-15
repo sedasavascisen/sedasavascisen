@@ -1,6 +1,8 @@
 # Makale 2 Tablo III — periyodik çalışmada pilot ve devreye alma yuvarlaması (denetim K4)
 
-Rapor commit'i `c1ee010`. Yayımlanmış `scripts/mumiso_tracking.py` (Tablo III) 0.5 ms ızgarada pilot süresini `round(t_p/0.5)` örneğe, devreye alma anını en yakın ızgara noktasına yuvarlıyor; 0.86 / 1.71 / 3.43 ms pilotlar ızgara üstü döngülerde 1.0 / 1.5 / 3.5 ms ücretleniyor ve hata döngü uzunluğuna (kola) göre değişiyor. `run.py` bu betiğin kopyası (yayımlanmış betiğe dokunulmadı): `--fix 0` aynı mantık, `--fix 1` kesirli pilot ücreti ve tam devreye alma anı. **Yeniden üretim:** `--fix 0`, T_p = 0.86 ms'de yayımlanmış dosyayla en fazla 0.0e+00 fark (birebir). Diğer her şey (senaryolar, adımlar, periyotlar, 100–200 ms penceresi, bootstrap, seçimin raporlanan kümede yapılması) yayımlanmış betikle aynı.
+Rapor commit'i `cff6939`. Yayımlanmış `scripts/mumiso_tracking.py` (Tablo III) 0.5 ms ızgarada pilot süresini `round(t_p/0.5)` örneğe, devreye alma anını en yakın ızgara noktasına yuvarlıyor; 0.86 / 1.71 / 3.43 ms pilotlar ızgara üstü döngülerde 1.0 / 1.5 / 3.5 ms ücretleniyor ve hata döngü uzunluğuna (kola) göre değişiyor. `run.py` bu betiğin kopyası (yayımlanmış betiğe dokunulmadı): `--fix 0` aynı mantık, `--fix 1` kesirli pilot ücreti ve tam devreye alma anı. **Yeniden üretim:** `--fix 0`, dört T_p'nin hepsinde yayımlanmış dosyayla en fazla 0.0e+00 fark (birebir). Diğer her şey (senaryolar, adımlar, periyotlar, 100–200 ms penceresi, bootstrap, seçimin raporlanan kümede yapılması) yayımlanmış betikle aynı.
+
+Gecikme seti: makalenin 13.3/8 = 1.6625 ms/adım'ı (Tablo III ile karşılaştırılabilirlik için); köprü bölümü (§2b) köprünün kendi ölçtüğü gecikmeleri kullanıyor. Tam entegrasyon kontrolü dosyaları (`raw/exact_full_tp*.json`) commit alanı taşımıyor; betik `exact_full_check.py` commit 12fda55'te, koşudan önce commit'lendi.
 
 ## 1) Sıcak − soğuk (en iyi politika vs en iyi politika)
 
@@ -26,7 +28,7 @@ Rapor commit'i `c1ee010`. Yayımlanmış `scripts/mumiso_tracking.py` (Tablo III
 
 ## 2b) Köprü raporunun periyodik çalışması (thesis/bridge, bridge_tracking.py)
 
-Aynı düzeltme, köprü betiğinin kopyasına (`bridge_tracking_fix.py`; girdiler thesis/bridge dalının salt okunur çalışma ağacından) uygulandı. Yeniden üretim (`--fix 0`, T_p = 0.86): birebir. Seçim seed 12, rapor seed 11 (köprü betiğindeki gibi).
+Aynı düzeltme, köprü betiğinin kopyasına (`bridge_tracking_fix.py`; girdiler thesis/bridge dalının salt okunur çalışma ağacından) uygulandı. Yeniden üretim (`--fix 0`, dört T_p): birebir. Seçim seed 12, rapor seed 11 (köprü betiğindeki gibi).
 
 | T_p | Ağ − soğuk: yayımlanmış [%95 GA] | düzeltilmiş [%95 GA] | Ağ − sıcak: yayımlanmış [%95 GA] | düzeltilmiş [%95 GA] |
 | --- | --- | --- | --- | --- |

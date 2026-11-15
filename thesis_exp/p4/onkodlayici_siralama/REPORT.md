@@ -1,6 +1,6 @@
 # Deney 4.3 devamı — Pilot ücreti altında bütün kolların sıralaması (rapor)
 
-Commit `c47483e` (ölçüm commit'i `a0ac494`). Model Deney 4.3 ile aynı: ZF her R ms'de bir kusursuz etkin kanal kestiriminden tazeleniyor, tazeleme başına 4 pilot sembolü veri oranı 1 − t_p/R ile ücretlendiriliyor, faz t=0 kanalından ve kolun gecikmesinde devreye giriyor, hız [gecikme, gecikme + 50 ms] üzerinde ortalanıyor. Tazeleme periyodu R her kol ve numeroloji için doğrulama çekilişinde (seed 12) seçildi; en iyi kol da orada seçildi; rapor yaşlanma kümesi (seed 11, 400 senaryo). Eşli bootstrap 2000, %95 GA. Gecikmeler tek iş parçacıklı yeniden ölçümden (thesis_exp/infra).
+Commit `cff6939` (ölçüm commit'i `a0ac494`). Model Deney 4.3 ile aynı: ZF her R ms'de bir kusursuz etkin kanal kestiriminden tazeleniyor, tazeleme başına 4 pilot sembolü veri oranı 1 − t_p/R ile ücretlendiriliyor, faz t=0 kanalından ve kolun gecikmesinde devreye giriyor, hız [gecikme, gecikme + 50 ms] üzerinde ortalanıyor. Tazeleme periyodu R her kol ve numeroloji için doğrulama çekilişinde (seed 12) seçildi; en iyi kol da orada seçildi; rapor yaşlanma kümesi (seed 11, 400 senaryo). Eşli bootstrap 2000, %95 GA. Gecikmeler tek iş parçacıklı yeniden ölçümden (thesis_exp/infra).
 
 ## 1) Özet: seçilen kol
 
@@ -85,11 +85,11 @@ Pencere koşuları: `WIN=25` / `WIN=100 THREADS=2 python3 thesis_exp/p4/onkodlay
 - **Yanlılık düzeltmesi.** İlk koşu tazeleme anlarını mutlak 0.1 ms ızgarasına yuvarlıyordu. Gecikmesi yukarı yuvarlanan kollar (Adam-6/10/12/16/20/24) yapay olarak öne geçti ve sıralama testere dişi biçimini aldı. Bu koşu kolun devreye girme anına hizalı ızgara kullanıyor. Yanlı çıktılar raw/*_v1_grid_bias.* adıyla saklandı.
   - Aynı yanlılık Deney 4.3'te de var; o raporun başına düzeltme notu eklendi.
   - Taze W sütunu bu düzeltmeden etkilenmiyor. Yalnızca örnekleme anları kaydı için 4.3 ile arasında ≤0.001 fark var.
-- **Kapsam dışı kalanlar.** Kestirim kusursuz kabul edildi; pilot SNR'ı (Deney 4.4) ve tazeleme ile kestirimin birlikte etkisi modellenmedi. Pilot sayısı K = 4 (kullanıcı başına bir dik sembol).
+- **Kapsam:** Kestirim burada kusursuz; pilot ücreti ile kestirim hatasının birlikte etkisi `p4/onkodlayici_csi`'de ölçüldü. Pilot sayısı K = 4 (kullanıcı başına bir dik sembol).
 - **Pencere uzunluğu (14–15 Kasım; denetim U2'ye yanıt) — en iyi adım sayısı pencereye bağlı.** Faz bir kez hesaplanıp bütün pencere boyunca tutuluyor; bu yüzden pencere W, fiilen fazın yeniden hesaplanma aralığı.
   - **W = 25 ms:** Seçilen Adam-5; Adam-3…8 ayırt edilemiyor (testte nokta tahmininde birinci Adam-3). Adam-48 0.24–0.28 b/s/Hz geride.
   - **W = 50 ms:** Seçilen Adam-6/8 (yukarıda).
-  - **W = 100 ms:** Seçilen Adam-16 / Adam-20 / Adam-20 (15 / 30 / 60 kHz). Farklar küçük ama anlamlı: Adam-6 0.021 / 0.037 / 0.041, Adam-3 0.048 / 0.072 / 0.078 geride; 30 ve 60 kHz'de Adam-2…8'in GA'sı sıfırın altında, Adam-10 ve üstü ayırt edilemiyor. W'yi yeniden hesaplama aralığı diye okumak yalnızca gecikmesi W'den kısa kollar için geçerli (CD/PGA'da değil; denetim U36).
+  - **W = 100 ms:** Seçilen Adam-16 / Adam-20 / Adam-20 (15 / 30 / 60 kHz). Farklar küçük: Adam-6 0.021 / 0.037 / 0.041 (15 kHz'de GA sıfırı içeriyor, 30/60 kHz'de anlamlı), Adam-3 0.048 / 0.072 / 0.078 geride; 30 ve 60 kHz'de Adam-2…8'in GA'sı sıfırın altında, Adam-10 ve üstü ayırt edilemiyor. W'yi yeniden hesaplama aralığı diye okumak yalnızca gecikmesi W'den kısa kollar için geçerli (CD/PGA'da değil; denetim U36).
   - **Yorum:** W koherans süresini (~28 ms) birkaç kat aşınca pencerenin büyük bölümü eskimiş kanalda geçiyor. Erken devreye girmenin kazancı pencerenin küçük bir kesrine düşüyor, daha iyi yakınsamış fazın uzun vadeli kazancı öne geçiyor. Köprü raporunun periyodik çalışma bölümü (§1 madde 5) de güncelleme aralığı uzadıkça daha büyük L seçiyor; orada U ve L birlikte seçildiği için kontrollü bir karşılaştırma değil (denetim U37).
   - **Değişmeyen:** CD her pencerede seçilen kolun gerisinde (W=100'de 0.075–0.105, GA sıfırın altında).
   - **Sınır:** Kısa pencerede 1 − t_p/R ücreti büyük R'yi hafifçe kayırıyor (W=25, R=50'de pencerede tek tazeleme var; denetim U27). Seçilen R'ler (1–2 ms) bundan etkilenmiyor.

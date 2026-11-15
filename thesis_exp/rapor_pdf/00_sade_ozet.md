@@ -17,7 +17,7 @@
 
    Ana fikir hepsinde ayakta kaldı: yüzeyin ayarı sık yenilendiğinde en iyi sonucu "az ama hızlı" hesap yapan yöntem veriyor (genellikle Adam'ın birkaç adımı; ölçüm hatası arttıkça en iyi adım sayısı 1 ile 6 arasında değişiyor; ayar uzun süre tutulursa en iyi adım sayısı artıyor, aşağıya bakın). İstisna: 1 bitte tek turluk yavaş arama (dCD-1) Adam'la berabere ve doğrulamada o seçiliyor. Çok yavaş yöntemler (CD, PGA; yüzlerce milisaniye) hiçbir durumda öne geçmiyor.
 2. **İki makaleyi bağlayan bir bulgu çıktı.** Makale 1'in yaklaşımını (tek seferde tahmin eden yapay zekâ) çok kullanıcılı sisteme taşıyan bir ağ, Makale 2'nin ölçüsüyle (gecikmeyi hesaba katan etkin hız) bakınca klasik yöntemlerin gerisinde kalıyor; hızı, en basit kapalı form yöntemle aynı düzeyde. Bu ağ Makale 1'in ağının kendisi değil.
-3. **Her iş ayrı bir denetçiye kontrol ettirildi.** Denetçi yedi turda yüzlerce sayıyı ham veriden yeniden okudu. Bulunan hataların ikisi dışında hepsi düzeltildi (açık kalan ikisi küçük); önemli sonuçların hiçbiri değişmedi.
+3. **Her iş ayrı bir denetçiye kontrol ettirildi.** Denetçi dokuz turda yüzlerce sayıyı ham veriden yeniden okudu. Bulunan hataların büyük çoğunluğu düzeltildi; birkaç küçük not açık ya da yalnızca belgelendi (Bölüm C). Önemli sonuçların hiçbiri değişmedi.
 4. **Makale 1:** Denetimde bazı sayıların tekrar elde edilemediği görüldü. 13 Kasım'da sizin isteğinizle Makale 1 üzerindeki çalışma durduruldu; o güne kadarki kayıt Ek'te.
 
 **Bu gece eklenenler (14–15 Kasım)**

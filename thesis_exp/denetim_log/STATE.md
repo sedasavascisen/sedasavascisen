@@ -1,6 +1,6 @@
 # Denetim durumu (ajan günceller)
 
-Son tur: 2026-11-15 03:26 (`20261115_0326.md`). Tur sayısı: 8. Makale 1 kapsam dışı (13 Kasım).
+Son tur: 2026-11-15 04:26 (`20261115_0426.md`). Tur sayısı: 9. Makale 1 kapsam dışı (13 Kasım).
 
 ## run.py inceleme sırası
 1. thesis_exp/p4/onkodlayici_siralama/run.py — İNCELENDİ (tur 1; WIN parametresi tur 4: U24, U27)
@@ -19,7 +19,8 @@ Son tur: 2026-11-15 03:26 (`20261115_0326.md`). Tur sayısı: 8. Makale 1 kapsam
 10. origin/thesis/altyapi: thesis_exp/infra/scripts/*.py — İNCELENDİ (tur 7; m1_on_38901.py kapsam dışı; U53, U54)
    → Sıra bitti. Sonraki turlar: K4 sınıfı (mutlak ızgara yuvarlaması) taraması; `grep round( p4/*/run*.py` tur 7'de: yalnız onkodlayici_pilot/run.py:47,61 (bilinen v1, siralama ile yerine konmuş); csi/siralama dağıtıma hizalı.
 11. thesis_exp/p4/takip_duzeltme/run.py + bridge_tracking_fix.py — İNCELENDİ (tur 8; K4 düzeltmesi doğru, --fix 0 yayımlanmış mantıkla birebir; U59–U63)
-(12. wt_audit — Makale 1, kapsam dışı)
+12. thesis_exp/p4/takip_duzeltme/exact_full_check.py — İNCELENDİ (tur 9; denetçi betiğinin kopyası, fark yalnız yorum + çıktı yolu)
+(13. wt_audit — Makale 1, kapsam dışı)
 
 ## İzlenen rapor bölümleri
 - AYRINTILI §1.2, §2–§10: tur 1–2; §5.1–5.6: tur 3; §5.1 (141–143) ve §5.5 3 bit: tur 4.
@@ -34,17 +35,26 @@ Son tur: 2026-11-15 03:26 (`20261115_0326.md`). Tur sayısı: 8. Makale 1 kapsam
 - Tur 7: bridge REPORT ve infra REPORT kopyada birebir; onkodlayici_pilot (DÜZELTME dahil) ve optimize_sure kopyada birebir; bridge eval_speeds 5 hız + dominated_by yeniden hesap; definitions.json 10 süre + 6 oran; siralama 9 pencere×numeroloji seçilen kol + kümeler; köprü net_res1_lr0_s0 yeniden eğitimi bit-bit aynı.
 - audit_claims.py --all tur 7: 126/126 (02:35, 49 s).
 - Tur 8: takip_duzeltme REPORT §1/§2/§2b + 10 ham dosya; AYRINTILI:76/133/217/241, TOPLU:28/44, TEZ:48, 00:27, 01:20/30; paper tab_tracking.tex 12 hücre + section_06:74 beş nitel iddia fix1 ile; denetçi tam entegrasyon (S/t8/exact_full.py) 3 T_p. Kopyada birebir: takip_duzeltme, kusurlu_csi. audit_claims --all 126/126 (51 s).
+- Tur 9 (son kapsamlı tur, PDF öncesi): build.py'nin bütün bölümleri (A, B §1.1/§2 hariç, C, D, Ek 1–13) tutarlılık açısından; siralama 3 pencere × 4 sütun programla (seçilen, hız, SU farkı, ayırt edilemeyen küme, Adam-3/6/48/CD/PGA farkları, ilk 4); onkodlayici_csi 6 satır; definitions.json 6 oran; takip_duzeltme fix0 4 T_p × 2 betik (fark 0) ve exact_full 3 dosya. Kopyada 11 klasörün hepsi yeniden üretildi: 10 birebir, optimize_sure DEĞİL (U65). audit_claims --all 126/126 (45 s).
 - Kapsanmayanlar:
-  - siralama tabloları satır satır (ana tablo).
+  - (siralama ana tablosu tur 9'da programla kapandı)
   - (bridge hız tablosu tur 7'de kapandı)
 
 ## Kural kontrolü notu
 - Taban `8991ea5`. Tur 1–6'da dallarda (tur 5–6: HEAD, altyapi, bridge) `results/` ve `paper_mobility/` boş; dışarıda yalnızca `.gitignore`, `CLAUDE.md`.
 
-## Arka plan işleri (tur 8, 03:26)
+## Arka plan işleri (tur 9, 04:26)
 - Yok.
 
 ## Açık bulgular
+- **U64 (tur 9):** AYRINTILI:280 (§9) ve siralama yorum.md:12/REPORT:88 "pilot ücreti ile kestirim hatası birlikte modellenmedi" — §5.9/onkodlayici_csi ile çelişiyor.
+- **U65 (tur 9):** optimize_sure/REPORT.md yorum.md'nin gerisinde (REPORT:40 torch.compile nitelemesi, :52 L=1 nitelemesi yok); make_report.py yeniden koşulmalı, yoksa PDF Ek 9 eski.
+- **U66 (tur 9):** siralama yorum.md:16 "Farklar küçük ama anlamlı: Adam-6 0.021…" — 15 kHz GA [−0.052, +0.008] sıfırı içeriyor.
+- **U67 (tur 9):** tur sayıları/tablolar: 00:20 "yedi turda" + "açık kalan ikisi"; 01:12–20 tablo tur 7'de bitiyor, 01:22 "yalnızca K3" K4 öncesi, 01:44–46; AYRINTILI:263 tur 7'de bitiyor; TEZ:3–4 "turları 1–3"; başlıklar "11–12 Kasım" (AYRINTILI:1,3; TEZ:1; build.py:88 "11–13 Kasım").
+- **U68 (tur 9):** TEZ:66 "kalan 8 gün", TEZ:70/36 eğitimler "sürüyor" (AYRINTILI:270 ve 00:21'e göre durduruldu), TEZ:95 yapılmış işler, AYRINTILI:283 "§8 bitecek".
+- **U69 (tur 9):** düzeltilmiş Tablo III makale gecikmesiyle (ms_per_step 1.6625), §2b köprü kendi gecikmesiyle (Adam-L başlangıç dahil, 1.903/8.700 ms), tezin geri kalanı 1.328 ms; hiçbir yerde söylenmiyor (TEZ:48, REPORT §3, AYRINTILI §4 Adam-5 6.038 vs p4 Adam-6 6.077). Infra açık soru 2 hâlâ açık.
+- **U70 (tur 9):** takip_duzeltme REPORT:3/§2b yeniden üretimi yalnız 0.86 diye yazıyor (make_report yalnız onu sınıyor); exact_full_tp*.json commit alanı yok; AYRINTILI §10 döngüsü eksik (4 klasör, run_exact/run_3bit, WIN, check_definitions, exact_full_check); AYRINTILI:22/§5 "altı karşılaştırma"; H17 etki sütunu eksik; 2.65 vs 2.656; TAM_RAPOR 70a500f'de, tur 8–9 düzeltmeleri yok (U48).
+- U59, U60, U61, U63 → KAPANDI (tur 9 kontrol; U61 kalan küçük kısım U70'te). **U62 → KAPANDI** (4 T_p × 2 betik, fark 0).
 - **U59 (tur 8):** fix1 pilot ücreti faz karışımına orantılı (run.py:163–169, bridge_tracking_fix.py:122–128); tam entegrasyonla politika başına ≤0.0072, seçimler ve sıcak−soğuk değişmiyor. Belge notu.
 - **U60 (tur 8):** yorum.md:6 "GA genişliği kadar ya da daha fazla" — tam genişlik için yanlış (0.054 < 0.061 / 0.101); yarı genişlik için doğru.
 - **U61 (tur 8):** T_p=0 "değişmiyor" ama iki basamakta +0.52→+0.53 (tab_tracking.tex:6, section_06:74); seçilen L iki hücrede değişiyor (0.86 soğuk 4→3, 3.43 sıcak 8→24); özetlerde tam düzeltilmiş satır yok. Makalenin 5 nitel iddiası fix1'de tutuyor.

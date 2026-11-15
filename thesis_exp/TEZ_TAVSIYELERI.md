@@ -1,7 +1,7 @@
-# Tez için tavsiyeler — iki makaleden bir tez (12 Kasım 2026)
+# Tez için tavsiyeler — iki makaleden bir tez (12 Kasım 2026; 15 Kasım'da güncellendi)
 
 Bu bir mentorluk notu; tez metni değil. Sayılar denetimden geçmiş raporlardan (`AYRINTILI_RAPOR.md`,
-denetim turları 1–3. Tur 3, ayrık faz deneyinde 40 ms'den yavaş kolların kaba ızgarada yanlış hesaplandığını buldu; düzeltildi, hükümler değişmedi. Özet metinlerdeki genelleme hataları da düzeltildi). Kararlar sizin ve danışmanınızın.
+denetim turları 1–9. Tur 3 ayrık faz deneyinde kaba ızgara hatası (K3), tur 7 Makale 2 Tablo III'te yuvarlama hatası (K4) buldu; ikisi de düzeltildi, hükümler değişmedi. Özet metinlerdeki genelleme hataları da düzeltildi). Kararlar sizin ve danışmanınızın.
 
 ---
 
@@ -33,7 +33,7 @@ Makale için "düzeltme gerekmiyor" kararınızı yeniden tartışmıyorum. Ama 
 **Tavsiye (tez için, makale için değil):**
 1. Tezin Makale 1 bölümünde etiket (b)'yi kullanın.
 2. Bağımsız yeniden üretimi tohum yayılımıyla verin (3.18/2.77/3.90°).
-3. İmkânsız nicemleme sayılarını ve Tablo 8 projeksiyonunu teze taşımayın. N=256 için ölçülen değer elinizde (2.25°, ek tohumlar sürüyor).
+3. İmkânsız nicemleme sayılarını ve Tablo 8 projeksiyonunu teze taşımayın. N=256 için ölçülen değer elinizde (2.25°, tek tohum; ek tohumlar 13 Kasım'da sizin isteğinizle durduruldu).
 4. "Yeniden üretilebilirlik ve sınırlar" başlıklı kısa bir alt bölüm yazın. Jürinin bulacağı bir şeyi sizin önceden söylemeniz, savunmada güç kaybı değil, kazancıdır.
 5. Bunu savunmadan önce danışmanınızla açıkça konuşun. Denetim raporu (`audit/AUDIT_REPORT.md`) bu görüşme için hazır.
 
@@ -45,7 +45,7 @@ Makale için "düzeltme gerekmiyor" kararınızı yeniden tartışmıyorum. Ama 
 | "Pilot yükünü bedava saydınız" | Ücretlendirildi: mutlak hız %17–32 düşüyor, 50 ms pencerede en iyi kol kümesi (Adam-3…20; seçilen kol Adam-6/8) ve yavaş çözücülerin yeri değişmiyor (pencere uzunluğu için bir alt satır) | p4/onkodlayici_siralama |
 | "Fazı ne sıklıkla yeniden hesaplıyorsunuz? Optimum buna bağlı değil mi?" | **Evet, bağlı — bunu siz söyleyin.** Faz 25 / 50 / 100 ms tutulursa doğrulamada seçilen kol Adam-5 / 6–8 / 16–20; seçilen koldan ayırt edilemeyen küme Adam-3…8 / Adam-3…20 / Adam-10…48 (15 kHz'de 25 ms'de Adam-2 de, 100 ms'de Adam-5…48). Bu okuma yalnızca gecikmesi pencereden kısa kollar için geçerli (CD/PGA'da değil). 100 ms'de farklar küçük (Adam-6 0.02–0.04 geride; 15 kHz'de anlamlı değil; Adam-3 0.05–0.08 geride). Yavaş çözücü her durumda geride. Tez cümlesi "gecikme sıralamayı belirler" korunuyor, ama "birkaç adım her zaman en iyidir" denmemeli: optimum, gecikme ile yeniden hesaplama aralığının birlikte fonksiyonu. | p4/onkodlayici_siralama §3b |
 | "Pilot ve kestirim hatası birlikte?" | 30 dB'de hızlı yöntemin üstünlüğü küçülüyor ama sürüyor; 20 dB'de hızlı yöntemler ayırt edilemiyor; yavaş çözücüler her iki düzeyde de geride. | p4/onkodlayici_csi |
-| "Tablo III'teki sıcak başlangıç kazancı ne kadar güvenilir?" | Benzetim pilot süresini ızgaraya yuvarlıyordu; düzeltilmiş kopyada kazanç 0.86 ms'de 0.276, 1.71 ms'de 0.092 (makale 0.222 / 0.146). İşaret ve hüküm aynı. Tezde düzeltilmiş değerleri kullanın (tam satırlar p4/takip_duzeltme REPORT §2; T_p = 0'da da 0.52 → 0.53 ve iki hücrede seçilen L değişiyor); hakem sorarsa bu kopya hazır. | p4/takip_duzeltme |
+| "Tablo III'teki sıcak başlangıç kazancı ne kadar güvenilir?" | Benzetim pilot süresini ızgaraya yuvarlıyordu; düzeltilmiş kopyada kazanç 0.86 ms'de 0.276, 1.71 ms'de 0.092 (makale 0.222 / 0.146). İşaret ve hüküm aynı. Tezde düzeltilmiş değerleri kullanın; bunlar makalenin 1.6625 ms/adım gecikmesiyle hesaplandı, yeni 1.328 ms ile değil (tam satırlar p4/takip_duzeltme REPORT §2; T_p = 0'da da 0.52 → 0.53 ve iki hücrede seçilen L değişiyor); hakem sorarsa bu kopya hazır. | p4/takip_duzeltme |
 | "CSI kusursuz değil" | Pilot SNR'i 30 dB'de bile etkin hız 6.08 → 3.54; en iyi L hatayla tekdüze değişmiyor; 10 dB ve altında yöntemler ayırt edilemiyor. Dikkat: ρ kümenin ortalama gücüne göre, senaryo başına etkin SNR daha düşük (30 dB → medyan 22.6 dB) | p4/kusurlu_csi |
 | "Gerçek RIS ayrık fazlı" | 1/2/3 bitte de içsel optimum var (L* = 5/6/6); yavaş ayrık CD 2 ve 3 bitte kaybediyor, 1 bitte berabere | p4/ayrik_faz |
 | "Kanalı öngörseniz?" | Gürültüsüz geçmişle +0.19…+0.42 kazanç; %1 kestirim hatasıyla bütün öngörücüler öngörüsüzün altında | p4/kanal_ongoru |
@@ -63,11 +63,11 @@ Bu tabloyu savunma hazırlığının omurgası yapın. Her satır için tek bir 
 4. **GPU ölçümü yok.**
 5. **3 bit çok kullanıcılı ayrık faz 13 Kasım'da koşuldu:** L* = 6, yavaş ayrık CD belirgin geride (p4/ayrik_faz).
 
-## 5) Ölçüm fazının kalan 8 günü (20 Kasım'a kadar) — öncelik sırası
+## 5) Ölçüm fazının kalan günleri (20 Kasım'a kadar, 15 Kasım itibarıyla 5 gün) — öncelik sırası
 
 | # | İş | Neden | Maliyet |
 | --- | --- | --- | --- |
-| 1 | Süren eğitimlerin bitmesi (N=64/128/256, tohumlar) | RMSE–N eğrisi, tohum yayılımıyla | Sürüyor (~10 saat) |
+| 1 | ~~Makale 1 eğitimleri~~ — 13 Kasım'da kullanıcı isteğiyle durduruldu | — | — |
 | 2 | ~~3 bit ayrık faz~~ — yapıldı (13 Kasım) | — | — |
 | 3 | ~~50 ms pencere duyarlılığı~~ — yapıldı (14–15 Kasım); sonuç savunma için önemli (yukarıdaki tablo) | Pilot sonucunun sağlamlığı (§4.2) | ~1.5 saat |
 | 4 | ~~Pilot ücreti + kusurlu CSI birlikte~~ — yapıldı (14–15 Kasım) | En gerçekçi rejim; iki etki birlikte hiç sınanmadı | ~2–3 saat; isteğe bağlı |
@@ -92,7 +92,7 @@ Her bölümün başına "bu bölümün tek iddiası" ve "onu taşıyan sayı + k
 
 1. Makale 1 denetim bulgularının **tezde** nasıl ele alınacağı (§2).
 2. Makale 2 hakem sürecinde pilot yükü sorulursa elinizdeki yanıt (§3, satır 2).
-3. 20 Kasım'a kadar §5'teki 2–4 numaralı işlerden hangilerinin yapılacağı.
+3. §5'teki 2–4 numaralı işler yapıldı (15 Kasım); kalan tek madde 5 (iddia denetleyicisi). Ayrıca Tablo III'ün düzeltilmiş değerlerinin makale hakem sürecinde nasıl ele alınacağı (p4/takip_duzeltme).
 4. Bölüm iskeleti (§6) ve yazım takvimi.
 
 ## 8) Kişisel not

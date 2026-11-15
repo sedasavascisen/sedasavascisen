@@ -8,13 +8,17 @@ c = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True,
 o = []; W = o.append
 ci = lambda x: f"[{x[0]:+.3f}, {x[1]:+.3f}]"
 W("# Makale 2 Tablo III — periyodik çalışmada pilot ve devreye alma yuvarlaması (denetim K4)"); W("")
-md = max(abs(pub["runs"]["0.86"][m]["mean"][k] - r0["runs"]["0.86"][m]["mean"][k]) for m in ("cold", "warm") for k in pub["runs"]["0.86"][m]["mean"])
+md = 0.0
+for _tp, _key in (("0", "0.0"), ("0.86", "0.86"), ("1.71", "1.71"), ("3.43", "3.43")):
+    _r = json.load(open(H / f"raw/fix0_tp{_tp}.json")); _rk = list(_r["runs"])[0]
+    md = max(md, max(abs(pub["runs"][_key][m]["mean"][k] - _r["runs"][_rk][m]["mean"][k]) for m in ("cold", "warm") for k in pub["runs"][_key][m]["mean"]))
 W(f"Rapor commit'i `{c}`. Yayımlanmış `scripts/mumiso_tracking.py` (Tablo III) 0.5 ms ızgarada pilot süresini `round(t_p/0.5)` örneğe, devreye alma anını en yakın ızgara noktasına yuvarlıyor; "
   "0.86 / 1.71 / 3.43 ms pilotlar ızgara üstü döngülerde 1.0 / 1.5 / 3.5 ms ücretleniyor ve hata döngü uzunluğuna (kola) göre değişiyor. "
   "`run.py` bu betiğin kopyası (yayımlanmış betiğe dokunulmadı): `--fix 0` aynı mantık, `--fix 1` kesirli pilot ücreti ve tam devreye alma anı. "
-  f"**Yeniden üretim:** `--fix 0`, T_p = 0.86 ms'de yayımlanmış dosyayla en fazla {md:.1e} fark (birebir). Diğer her şey (senaryolar, adımlar, periyotlar, 100–200 ms penceresi, "
+  f"**Yeniden üretim:** `--fix 0`, dört T_p'nin hepsinde yayımlanmış dosyayla en fazla {md:.1e} fark (birebir). Diğer her şey (senaryolar, adımlar, periyotlar, 100–200 ms penceresi, "
   "bootstrap, seçimin raporlanan kümede yapılması) yayımlanmış betikle aynı.")
-W(""); W("## 1) Sıcak − soğuk (en iyi politika vs en iyi politika)"); W("")
+W(""); W("Gecikme seti: makalenin 13.3/8 = 1.6625 ms/adım'ı (Tablo III ile karşılaştırılabilirlik için); köprü bölümü (§2b) köprünün kendi ölçtüğü gecikmeleri kullanıyor. Tam entegrasyon kontrolü dosyaları (`raw/exact_full_tp*.json`) commit alanı taşımıyor; betik `exact_full_check.py` commit 12fda55'te, koşudan önce commit'lendi."); W("")
+W("## 1) Sıcak − soğuk (en iyi politika vs en iyi politika)"); W("")
 W("| T_p (ms) | Yayımlanmış [%95 GA] | Düzeltilmiş [%95 GA] | Fark |"); W("| --- | --- | --- | --- |")
 rows = []
 for tp, key in (("0", "0.0"), ("0.86", "0.86"), ("1.71", "1.71"), ("3.43", "3.43")):
@@ -33,10 +37,10 @@ for tp, key, f in rows:
 _bp = pathlib.Path("/tmp/claude-0/-home-user-sedasavascisen/36a1538b-b28f-5b37-970a-9a1a9a74083b/scratchpad/wt_bridge/thesis_exp/bridge/raw/tracking.json")
 _bpub = json.load(open(_bp)) if _bp.exists() else json.loads(subprocess.run(["git", "show", "origin/thesis/bridge:thesis_exp/bridge/raw/tracking.json"], capture_output=True, text=True, cwd=ROOT).stdout)
 _b0 = json.load(open(H / "raw/bridge_fix0_tp0.86.json"))["by_pilot"]["0.86"]
-_rep = all(abs(_bpub["by_pilot"]["0.86"][k]["rate"] - _b0[k]["rate"]) < 1e-9 for k in ("cold", "warm", "net"))
+_rep = all(abs(_bpub["by_pilot"][list(json.load(open(H / f"raw/bridge_fix0_tp{_tp}.json"))["by_pilot"])[0]][k]["rate"] - json.load(open(H / f"raw/bridge_fix0_tp{_tp}.json"))["by_pilot"][list(json.load(open(H / f"raw/bridge_fix0_tp{_tp}.json"))["by_pilot"])[0]][k]["rate"]) < 1e-9 for _tp in ("0", "0.86", "1.71", "3.43") for k in ("cold", "warm", "net"))
 W(""); W("## 2b) Köprü raporunun periyodik çalışması (thesis/bridge, bridge_tracking.py)"); W("")
 W(f"Aynı düzeltme, köprü betiğinin kopyasına (`bridge_tracking_fix.py`; girdiler thesis/bridge dalının salt okunur çalışma ağacından) uygulandı. "
-  f"Yeniden üretim (`--fix 0`, T_p = 0.86): {'birebir' if _rep else 'FARKLI'}. Seçim seed 12, rapor seed 11 (köprü betiğindeki gibi).")
+  f"Yeniden üretim (`--fix 0`, dört T_p): {'birebir' if _rep else 'FARKLI'}. Seçim seed 12, rapor seed 11 (köprü betiğindeki gibi).")
 W(""); W("| T_p | Ağ − soğuk: yayımlanmış [%95 GA] | düzeltilmiş [%95 GA] | Ağ − sıcak: yayımlanmış [%95 GA] | düzeltilmiş [%95 GA] |"); W("| --- | --- | --- | --- | --- |")
 for tp in ("0", "0.86", "1.71", "3.43"):
     _f = json.load(open(H / f"raw/bridge_fix1_tp{tp}.json"))["by_pilot"]; _k = list(_f)[0]; F = _f[_k]; P = _bpub["by_pilot"][_k]

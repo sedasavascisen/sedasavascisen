@@ -18,8 +18,10 @@ Denetçi dosya değiştirmedi ve commit yapmadı. Her KRİTİK bulguyu ana oturu
 | 5 | 15 Kasım 00:26 | 60+ | 0 | 10 (U34–U43) | `20261115_0026.md`, `YANIT_20261115_0026.md` |
 | 6 | 15 Kasım 01:26 | 130+ | 0 | 7 (U44–U50) | `20261115_0126.md`, `YANIT_20261115_0126.md` |
 | 7 | 15 Kasım 02:26 | 100+ | 1 (K4) | 8 (U51–U58) | `20261115_0226.md`, `YANIT_20261115_0226.md` |
+| 8 | 15 Kasım 03:26 | 56+ | 0 (K4 kapatıldı) | 5 (U59–U63) | `20261115_0326.md`, `YANIT_20261115_0326.md` |
+| 9 | 15 Kasım 04:26 | 90+ | 0 | 7 (U64–U70) | `20261115_0426.md`, `YANIT_20261115_0426.md` |
 
-Her turda ham veriyle çelişen sayı aranıyor. Ham JSON'larla çelişen hesap sonucu yalnızca K3'te (kaba ızgara yöntemi) çıktı. Özet metinlerde ham veriyle çelişen birkaç yazım/genelleme hatası bulundu (K2, U5, U6, U12, U32) ve düzeltildi.
+Her turda ham veriyle çelişen sayı aranıyor. Ham JSON'larla çelişen hesap sonucu K3'te (4.5'te kaba ızgara yöntemi) ve K4'te (Makale 2 Tablo III'te pilot/devreye alma yuvarlaması) çıktı; ikisi de düzeltildi ve hükümleri değiştirmedi. Özet metinlerde ham veriyle çelişen birkaç yazım/genelleme hatası bulundu (K2, U5, U6, U12, U32) ve düzeltildi.
 
 **KRİTİK bulgular ve çözümleri**
 
@@ -41,8 +43,12 @@ Her turda ham veriyle çelişen sayı aranıyor. Ham JSON'larla çelişen hesap 
 
 **Tur 4:** KRİTİK yok. Uyarılar: özetlerdeki aşırı iddialar (U28, U29, U33), yeni deneylerin belge eksikleri (U24–U27), 4.1 ile 4.4'ün doğrudan karşılaştırılamazlığı (U31), ızgara kontrolü metni (U32). Hepsi düzeltildi ya da belgelendi. `audit_claims.py --all` 126/126 (15 Kasım).
 
-**Açık kalan:**
+**Açık kalan ya da yalnızca belgelenen:**
 - U11: konum tabanlı fazda σ düzeyleri arasında eşli test yok.
-- U19: köprü raporunda aynı fark iki ayrı GA ile verilmiş. Rapor başka dalda; değiştirilmedi.
+- U19: köprü raporunda aynı fark iki ayrı GA ile verilmiş (başka dal).
+- U51: köprünün seçilmeyen üç eğitim yapılandırması yeniden üretilmedi.
+- U54/U57: altyapı betiklerinde docstring/print uyumsuzlukları (başka dal); `commit()` izlenmeyen dosyaları görmüyor.
+- U58: Makale 2 Tablo III'te politika raporlanan kümede seçiliyor (yayımlanmış betik).
+- U69: Tablo III'ün yeni (1.328 ms) gecikmelerle yeniden üretimi yapılmadı.
 
 **Kapsam değişikliği (13 Kasım):** Makale 1, kullanıcı isteğiyle denetim kapsamından çıkarıldı.

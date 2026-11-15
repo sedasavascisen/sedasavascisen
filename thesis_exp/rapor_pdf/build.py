@@ -80,7 +80,7 @@ blockquote {{ margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; b
 .cover table {{ width: auto; font-size: 9pt; }} .toc li {{ margin: 2pt 0; list-style: none; }} .toc a {{ color: var(--ink); text-decoration: none; }}
 </style></head><body>
 <div class="cover"><h1>Tez deneyleri — kapsamlı teknik rapor</h1>
-<div class="sub">Hareketli RIS sistemlerinde hesaplama gecikmesi · 11–13 Kasım 2026 çalışmaları</div>
+<div class="sub">Hareketli RIS sistemlerinde hesaplama gecikmesi · 11–15 Kasım 2026 çalışmaları</div>
 <table><tr><th>Hazırlanma</th><td>{today}</td></tr>
 <tr><th>Kaynak</th><td>dal <code>thesis/p4-deneyler</code> @ <code>{commit}</code>; ekler <code>thesis/altyapi</code>, <code>thesis/bridge</code>, <code>audit/makale1-denetim</code> @ <code>{audit_commit}</code></td></tr>
 <tr><th>Üretim</th><td><code>python3 thesis_exp/rapor_pdf/build.py</code> — depodaki raporların birleşimi; Bölüm A ve C elle yazılmış özetlerdir, sayıları ilgili raporlardan alınmıştır</td></tr>

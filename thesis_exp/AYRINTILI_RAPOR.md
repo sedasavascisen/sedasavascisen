@@ -1,6 +1,6 @@
-# Ayrıntılı teknik rapor — 11–12 Kasım 2026 çalışmaları
+# Ayrıntılı teknik rapor — 11–15 Kasım 2026 çalışmaları
 
-Bu rapor iki günde yapılan bütün deneysel işi, kullanılan yöntemleri, bulunan ve düzeltilen hataları ve
+Bu rapor 11–15 Kasım'da yapılan bütün deneysel işi, kullanılan yöntemleri, bulunan ve düzeltilen hataları ve
 açık kalan konuları tek yerde toplar. Tez ya da makale metni değildir (Kural 9). Her sayının kaynağı
 parantez içinde verilen rapor ve ham çıktıdır; o rapor da betik + tohum + commit'e bağlıdır (Kural 3).
 Bu raporun kendisi yeni ölçüm içermez.
@@ -19,7 +19,7 @@ ham dosyalara karşı sınanıyor; sonuçlar `thesis_exp/denetim_log/` altında.
 | `audit/makale1-denetim` | Makale 1 (AISY) bağımsız denetimi | `audit/AUDIT_REPORT.md` |
 | `thesis/altyapi` | Tez deneyleri için ortak altyapı, bit-bit yeniden üretim, yeni gecikmeler | `thesis_exp/infra/REPORT.md` |
 | `thesis/bridge` | Köprü: tek geçişli ağ, etkin hız ölçütünde | `thesis_exp/bridge/REPORT.md` |
-| `thesis/p4-deneyler` | Altı karşılaştırma (4.1–4.6) + 4.3 devamı + toplu raporlar | `thesis_exp/p4/*/REPORT.md`, `thesis_exp/TOPLU_RAPOR.md`, bu dosya |
+| `thesis/p4-deneyler` | Altı karşılaştırma (4.1–4.6), 4.3 devamı, 14–15 Kasım ek deneyleri (pencere, pilot+CSI, ızgara kontrolü, Tablo III düzeltmesi) ve toplu raporlar | `thesis_exp/p4/*/REPORT.md`, `thesis_exp/TOPLU_RAPOR.md`, bu dosya |
 
 Dallar zincirli: `thesis/p4-deneyler`, `thesis/bridge` üstünde; `thesis/bridge`, `thesis/altyapi` üstünde kuruldu
 (uzak `thesis/altyapi` ucu köprü commit'lerini de içeriyor). `main`/`master`'a hiçbir şey yazılmadı (Kural 6).
@@ -260,7 +260,7 @@ Not: H7, kullanıcıya önce bildirilmiş bir sayıyı değiştirdi (4.3: 3.303/
 
 ## 8) Durdurulan işler ve Makale 1'in kapsamı (13 Kasım)
 
-Denetim turu 4 (14 Kasım 23:26): KRİTİK yok; 9 uyarı (U24–U32; U33 yanıt dosyasında eklendi). Tur 4 yanıtı: `YANIT_20261114_2326.md`. Tur 5 (15 Kasım 00:26): KRİTİK yok; 10 uyarı (U34–U43), yanıt `YANIT_20261115_0026.md`. Tur 6 (01:26): KRİTİK yok; 7 uyarı (U44–U50), yanıt `YANIT_20261115_0126.md`. Tur 7 (02:26): KRİTİK 1 (K4, Makale 2 Tablo III'ün periyodik benzetiminde pilot/devreye alma yuvarlaması; bkz. §5.10), 8 uyarı (U51–U58), yanıt `YANIT_20261115_0226.md`. `audit_claims.py --all`: 126/126 (15 Kasım, deneyler bittikten sonra; tur 5–7'de de 126/126).
+Denetim turu 4 (14 Kasım 23:26): KRİTİK yok; 9 uyarı (U24–U32; U33 yanıt dosyasında eklendi). Tur 4 yanıtı: `YANIT_20261114_2326.md`. Tur 5 (15 Kasım 00:26): KRİTİK yok; 10 uyarı (U34–U43), yanıt `YANIT_20261115_0026.md`. Tur 6 (01:26): KRİTİK yok; 7 uyarı (U44–U50), yanıt `YANIT_20261115_0126.md`. Tur 7 (02:26): KRİTİK 1 (K4, Makale 2 Tablo III'ün periyodik benzetiminde pilot/devreye alma yuvarlaması; bkz. §5.10), 8 uyarı (U51–U58), yanıt `YANIT_20261115_0226.md`. Tur 8 (03:26): KRİTİK yok, K4 kapatıldı; 5 uyarı (U59–U63), yanıt `YANIT_20261115_0326.md`. Tur 9 (04:26): KRİTİK yok; 7 uyarı (U64–U70), yanıt `YANIT_20261115_0426.md`. `audit_claims.py --all`: 126/126 (15 Kasım, deneyler bittikten sonra; tur 5–7'de de 126/126).
 
 Kullanıcı 13 Kasım'da Makale 1'in incelenmesini durdurdu ("kodlarını bulacağım"). Makale 1 denetimi o tarihteki hâliyle donduruldu; saatlik denetimin kapsamından çıkarıldı.
 
@@ -277,10 +277,11 @@ Yeniden başlamaların nedeni: harness'in izlediği bir arka plan işi kalmayın
 ## 9) Sınırlar ve riskler
 
 - **Kanal modeli:** Hareketlilik sonuçları tek bir kanal modeline (sabit saçıcılar, düz yörünge, iç mekân) dayanıyor. Öngörü (4.1) bu yüzden iyimser.
-- **Pilot ücreti (4.3):** Kusursuz kestirimle ücretlendirildi. Kestirim hatasıyla (4.4) birlikte modellenmedi; ikisinin birlikte etkisi daha büyük olabilir.
+- **Pilot ücreti (4.3):** Ana deney kusursuz kestirimle; kestirim hatasıyla birlikte etkisi §5.9'da ölçüldü (30 dB'de hızlı yöntemin üstünlüğü küçülüyor, 20 dB'de ayırt edilemiyor).
+- **Gecikme setleri (denetim U69):** Üç farklı gecikme seti kullanılıyor. (i) Makalenin 13.3/8 = 1.6625 ms/adım'ı: Tablo III ve düzeltmesi (§5.10), ızgara kontrolünün "paper" kümesi. (ii) Tek iş parçacıklı yeniden ölçüm 1.328 ms/adım: Görev 2 ve bütün p4 deneyleri. (iii) Köprünün kendi ölçümü (Adam-L başlangıç dahil; Adam-1 1.903 ms, Adam-6 8.700 ms): Görev 3 ve köprü periyodik bölümü. Bu yüzden aynı kolun etkin hızı raporlar arasında biraz farklı (örn. Adam-5 6.038 köprüde, Adam-6 6.077 p4'te). Tablo III'ün yeni (ii) gecikmeleriyle yeniden üretimi yapılmadı.
 - **Zamanlama:** Gecikmeler tek bir CPU'da (Intel Xeon @ 2.10 GHz). Başka donanımda mutlak sayılar değişir; Makale 2'nin hükmü göreli sıralamaya dayanıyor.
 - **Makale 1:** Bağımsız çekiliş; MATLAB örnekleriyle birebir değil.
-- **Ölçüm fazı:** 20 Kasım'da kapanıyor; §8 bu tarihten önce bitecek.
+- **Ölçüm fazı:** 20 Kasım'da kapanıyor. Makale 1 eğitimleri 13 Kasım'da kullanıcı isteğiyle durduruldu (§8).
 
 ---
 
@@ -291,8 +292,13 @@ python3 scripts/audit_claims.py --all                       # 126/126 (her oturu
 # Görev 2 (dal thesis/altyapi):    thesis_exp/infra/scripts/*.py, make_infra_report.py
 # Görev 3 (dal thesis/bridge):     thesis_exp/bridge/scripts/bridge_{train,eval,tracking}.py, make_bridge_report.py
 # Görev 4 (dal thesis/p4-deneyler):
-for d in kanal_ongoru konum_faz onkodlayici_pilot kusurlu_csi ayrik_faz optimize_sure onkodlayici_siralama; do
+for d in kanal_ongoru konum_faz onkodlayici_pilot kusurlu_csi ayrik_faz optimize_sure onkodlayici_siralama gecikme_muhasebesi izgara_kontrol onkodlayici_csi; do
   python3 thesis_exp/p4/$d/run.py && python3 thesis_exp/p4/$d/make_report.py
 done   # ayrik_faz ve optimize_sure boş makine bekler
+python3 thesis_exp/p4/ayrik_faz/run_exact.py; python3 thesis_exp/p4/ayrik_faz/run_3bit.py      # 4.5 tam gecikme + 3 bit
+WIN=25 python3 thesis_exp/p4/onkodlayici_siralama/run.py; WIN=100 python3 thesis_exp/p4/onkodlayici_siralama/run.py
+python3 thesis_exp/p4/optimize_sure/check_definitions.py                                 # boş makine
+for tp in 0 0.86 1.71 3.43; do python3 thesis_exp/p4/takip_duzeltme/run.py --fix 1 --pilot $tp; done   # + --fix 0, bridge_tracking_fix.py, exact_full_check.py
+python3 thesis_exp/rapor_pdf/build.py                                                    # PDF
 # Görev 1 (dal audit/makale1-denetim): audit/scripts/step*.py, m1_train.py, make_audit_report.py
 ```
