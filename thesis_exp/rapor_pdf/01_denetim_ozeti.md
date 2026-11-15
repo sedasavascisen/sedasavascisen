@@ -27,6 +27,7 @@ Her turda ham veriyle çelişen sayı aranıyor. Ham JSON'larla çelişen hesap 
 | --- | --- | --- | --- |
 | K1 | 4.1 ve 4.4'ün betikleri koşu anında commit'lenmemişti (Kural 3) | Commit'li koddan yeniden koşuldu: commit alanı dışında 316/316/316/237 değer birebir aynı (`k1_rerun.md`) | Yok |
 | K2 | Bir düzeltme metni yanlış aralık getirdi ("Adam-8…48→q" yerine "Adam-10…48→q") | Metin düzeltildi | Yok |
+| K4 | Makale 2 Tablo III'ün periyodik benzetimi pilot süresini ve devreye alma anını 0.5 ms ızgarasına yuvarlıyor | Düzeltilmiş kopya (`p4/takip_duzeltme`); yayımlanmış mantık birebir üretildi; sıcak − soğuk 0.86 ms'de 0.222 → 0.276, 1.71 ms'de 0.146 → 0.092 | İşaret ve hükümler aynı; büyüklükler değişiyor |
 | K3 | 4.5'te 40 ms üstü kollar kaba ızgarada (50/75/100/150 ms) interpolasyonla değerlendirilmişti; ±0.055 b/s/Hz'e kadar hata | `run_exact.py`: her kol tam gecikmesinde; L48 kaybı %9.3/%13.6 → %9.5/%14.1 | Hükümler aynı |
 
 **Önemli uyarılar ve çözümleri**

@@ -73,6 +73,7 @@ Not: Makale 1 için kullanıcının kararı "düzeltmeye gerek yok"; bu bulgular
 
     100 ms'de farklar küçük: Adam-6 seçilen koldan 0.021–0.041 (30 ve 60 kHz'de anlamlı, 15 kHz'de değil), Adam-3 0.048–0.078 geride. CD her pencerede anlamlı biçimde geride. W'yi "yeniden hesaplama aralığı" diye okumak yalnızca gecikmesi W'den kısa kollar için geçerli (CD ve PGA'nın gecikmesi W'yi aşıyor). Makale 2'nin "birkaç adım yeter" hükmü, Tanım 1'in anlık ölçütü ve sık yeniden hesaplama için geçerli; faz uzun süre tutulacaksa optimum daha çok adıma kayıyor. Köprü raporunun periyodik çalışma bölümü (§1 madde 5) de güncelleme aralığı uzadıkça daha büyük L seçiyor; ama orada U ve L birlikte seçildiği için bu kontrollü bir karşılaştırma değil. (p4/onkodlayici_siralama/raw/results_win*.json)
 15. **(14 Kasım) Makale 2'nin taramasındaki interpolasyon hükümleri değiştirmiyor.** Tam gecikmede L* = 4 (makale gecikmeleri), L48 kaybı %13.99 → %14.20. Yeniden ölçülen gecikmelerle %14.40 → %14.93. Değişen tek nitel sonuç: SU-best-of − Adam-48'in GA'sı tam değerde sıfırı dışlıyor. (p4/izgara_kontrol)
+16. **(15 Kasım, denetim K4) Makale 2 Tablo III'ün büyüklükleri yuvarlama nedeniyle kayık.** Periyodik çalışma benzetimi pilot süresini ve devreye alma anını 0.5 ms ızgarasına yuvarlıyor. Düzeltilmiş kopyada sıcak − soğuk farkı: T_p = 0.86 ms'de 0.222 → 0.276 [0.244, 0.308]; 1.71 ms'de 0.146 → 0.092 [0.042, 0.145]; 0 ve 3.43 ms'de değişmiyor. İşaret ve hükümler korunuyor. Yayımlanmış mantık birebir yeniden üretildi (fark 0). (p4/takip_duzeltme)
 
 ---
 
@@ -211,6 +212,11 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 - **Yavaş çözücüler:** CD ve PGA iki düzeyde de anlamlı biçimde geride. Seçilen kola göre CD −0.07…−0.15, PGA −0.16…−0.36.
 - **Sınır:** Kestirim gürültüsü kollar arasında eşli değil. Adam adım boyu 4.4'ten alındı.
 
+### 5.10 Makale 2 Tablo III düzeltmesi — `p4/takip_duzeltme/REPORT.md` (15 Kasım)
+- §1.2 madde 16.
+- Köprünün periyodik ağ kolu aynı yuvarlamayı kullanıyor; yeniden koşulmadı (eğitilmiş ağ başka dalda).
+- Yayımlanmış betik en iyi politikayı raporlanan kümede seçiyor (denetim U58); karşılaştırılabilirlik için kopyada da aynı yapıldı.
+
 ---
 
 ## 6) Süreçte bulunan ve düzeltilen hatalar
@@ -232,6 +238,7 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 | H14 | (Denetim K2) H13 düzeltmesi yanlış bir aralık getirdi: 'dCD-1 Adam-8…48→q'nun altında' (doğrusu Adam-10…48; Adam-8→q 6.107 < dCD-1 6.141) | Metin | Düzeltildi |
 | H15 | (Denetim U12, U13, U16) kusurlu CSI'da desteklenmeyen 'L küçülüyor' cümlesi; ρ tanımı küme ortalamasına göre; '~0.016' betiksiz tahmindi | Metin / tanım | Cümle veriye bağlandı; ρ tanımı ve senaryo başı dağılım belgelendi (betik denetim_log/scripts); 0.016 yerine ölçüm: p4/gecikme_muhasebesi |
 | H16 | (Denetim K3) ayrik_faz etkin hızı 40 ms üstünde kaba ızgarada (50/75/100/150 ms) interpolasyonla hesaplanmıştı; 11 kol ±0.055 b/s/Hz'e kadar yanlıştı; L48 kaybı %9.3/%13.6 → %9.5/%14.1 | Hükümler değişmedi (2 bitte dCD-2/3/4/8 yine GA'yla geride; 1 bitte dCD-1 ≈ Adam-5→q) | `run_exact.py`: her kol tam gecikmesinde; ayrıca Adam adım boyu doğrulamada seçilen tasarım (U20). Aynı kaba ızgara kanal_ongoru/kusurlu_csi/konum_faz'da yalnızca seçilmeyen Adam-32/48 kollarını etkiliyor (U21), raporlarda not edildi |
+| H17 | (Denetim K4) Makale 2'nin periyodik benzetimi (`scripts/mumiso_tracking.py`, Tablo III) ve köprü kopyası pilot süresini ve devreye alma anını 0.5 ms ızgarasına yuvarlıyor | Tablo III'te sıcak − soğuk 0.86 ms'de 0.222 → 0.276, 1.71 ms'de 0.146 → 0.092; hükümler aynı | Düzeltilmiş kopya `p4/takip_duzeltme` (yayımlanmış betiğe dokunulmadı); köprü kolu henüz yeniden koşulmadı |
 | H13 | (Denetim U5/U6) özet raporlarda iki yanlış genelleme: 'dCD t=0'da her kolu geçiyor' (2 bitte yanlış), 'L* 10–12' (8–12) | Metin | Düzeltildi |
 
 Not: H7, kullanıcıya önce bildirilmiş bir sayıyı değiştirdi (4.3: 3.303/3.718/4.025 → 3.385/3.811/4.126).

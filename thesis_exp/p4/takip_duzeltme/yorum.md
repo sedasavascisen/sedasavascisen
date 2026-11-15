@@ -1,0 +1,10 @@
+- **Makale 2 Tablo III'ün büyüklükleri değişiyor, hükümleri değişmiyor.**
+  - Sıcak − soğuk, T_p = 0.86 ms: 0.222 → 0.276.
+  - Sıcak − soğuk, T_p = 1.71 ms: 0.146 → 0.092.
+  - T_p = 0 ve 3.43 ms'de fiilen aynı: 3.43 ms'de iki değer de 0.008 ve GA sıfırı içeriyor.
+  - Sıcak başlangıcın üstünlüğünün işareti her T_p'de korunuyor. Pilot süresi arttıkça üstünlüğün küçülmesi örüntüsü de korunuyor.
+  - 0.86 ve 1.71 ms'de büyüklük, yayımlanmış GA genişliği kadar ya da daha fazla kayıyor.
+- **Kaynak:** Pilot süresinin ve devreye alma anının 0.5 ms ızgarasına yuvarlanması. Hata döngü uzunluğuna bağlı olduğu için kollar arasında tarafsız değil. Bu, Deney 4.3'te bulunan yuvarlama yanlılığıyla (H7) aynı sınıf.
+- **Düzeltilmeyen ama not edilen (denetim U58):** Yayımlanmış betik en iyi politikayı raporlanan kümede seçiyor. Burada da karşılaştırılabilirlik için aynı yapıldı. Köprü raporundaki kopya seçimi seed 12'de yapıyor.
+- **Etkilenen ama yeniden koşulmayan:** Köprü raporunun periyodik çalışma bölümündeki ağ kolu (thesis/bridge dalı, `bridge_tracking.py`) aynı yuvarlamayı kullanıyor. Eğitilmiş ağ başka bir dalda olduğu için bu gece yeniden koşulmadı; köprünün periyodik sayıları düzeltilmiş değil (ÜRETİLEMEDİ — henüz). Denetçinin analitik tahmini ölçüm olmadığı için burada aktarılmıyor.
+- **Öneri:** Tezde Tablo III'ün düzeltilmiş değerleri kullanılmalı. Makale 2 hakem sürecindeyse, hakem sorarsa yanıt olarak bu kopya hazır.

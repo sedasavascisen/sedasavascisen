@@ -24,6 +24,7 @@
 
 - **Fazın ne kadar süre kullanılacağı önemli.** Yüzeyin ayarı her 25 ms'de bir yenileniyorsa en iyisi birkaç adım (3–8). 50 ms'de 6–8 adım seçiliyor, ama 3 ile 20 adım arası birbirinden ayırt edilemiyor. Ayar 100 ms boyunca tutulacaksa daha uzun hesap (16–20 adım) daha iyi; fark küçük (Adam-6 için 0.02–0.04, Adam-3 için 0.05–0.08 b/s/Hz; Adam-6 için fark 30 ve 60 kHz'de anlamlı, 15 kHz'de değil). Çok yavaş yöntemler her durumda geride. Yani tezin cümlesi doğru, ama "her zaman birkaç adım" demek yanlış olur.
 - **Ölçüm maliyeti ve ölçüm hatası birlikte:** En gerçekçi durumda hız çok düşüyor (30 dB'de 2.4–2.8, 20 dB'de 1.0–1.15 b/s/Hz). 20 dB'de hızlı yöntemler birbirinden ayırt edilemiyor; yavaş yöntemler yine geride.
+- **Makale 2'nin Tablo III'ünde küçük bir hesap hatası bulundu ve düzeltildi.** Periyodik çalışmayı taklit eden program, ölçüm süresini yarım milisaniyeye yuvarlıyordu. Düzeltilince "sıcak başlangıcın" kazancı bir durumda büyüyor (0.22 → 0.28), bir durumda küçülüyor (0.15 → 0.09). Sonucun yönü ve anlamı değişmiyor. Tezde düzeltilmiş sayılar kullanılmalı.
 - **Makale 2'nin sayıları tekrar kontrol edildi.** Ana taramadaki küçük bir yaklaşıklık (interpolasyon) hiçbir sonucu değiştirmiyor; makaledeki "%14" tam hesapla %14.2.
 
 **Akılda kalacak üç sayı**

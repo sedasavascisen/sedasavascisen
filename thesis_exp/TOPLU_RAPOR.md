@@ -25,6 +25,7 @@ Bu dosya ayrıntılı raporların özetidir; her sayı ilgili raporda betik, toh
 9. **Ön kodlayıcı tazeleme pilotları ücretlendirilince etkin hız büyük ölçüde düşüyor.** Taze ve bedava W varsayımıyla en iyi kol 5.213 b/s/Hz (bu deneyin ölçütü: devreye girdikten sonraki 50 ms'nin ortalaması; Tanım 1'in anlık etkin hızı değil — o 6.075); pilot ücretiyle (R doğrulamada seçildi) 3.539 (15 kHz), 4.003 (30 kHz), 4.334 (60 kHz): %32/%23/%17 kayıp. SU-best-of 4.911 → 3.385/3.811/4.126; hiç tazelenmezse 0.761. **Sıralama korunuyor:** bütün kollarla yapılan devam deneyinde nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) her durumda aynı sırada; bunlar arasındaki farkların GA'sı sıfırı içeriyor, yani kesin olan sıra değil, en iyi kümenin (Adam-3…20; seçilen kol Adam-6/8) değişmemesi (W = 50 ms; W = 100 ms'de geçerli değil, bkz. madde 14); en iyi kolun SU-best-of'a üstünlüğü +0.303'ten +0.153/+0.193/+0.209'a iniyor (GA'lar sıfırın üstünde); CD ve PGA en altta. [p4/onkodlayici_siralama/REPORT.md] *Düzeltme (12 Kasım):* bu maddenin ilk sürümündeki 3.303/3.718/4.025 ve 3.537/4.013/4.344, tazeleme anlarını mutlak ızgaraya yuvarlayan yanlı ilk koşudandı.
 10. Tek iş parçacıklı yeniden ölçümle Adam adımı 1.66 değil 1.328 ms; L* = 6 (makale 5, metin 4–6), L=48 kaybı %14.4 (makale %14.0). SU-best-of − Adam-20: −0.086 [−0.174, 0.002] (makale −0.004). Ana bulgular korunuyor, sayılar değişiyor.
 11. Kullanılmayan senaryo sayısı 800 değil 700 (doğrulamanın 500'ü kullanılıyor).
+12. **(15 Kasım) Tablo III'ün büyüklükleri yuvarlama nedeniyle kayık:** sıcak − soğuk 0.86 ms'de 0.222 → 0.276, 1.71 ms'de 0.146 → 0.092; işaret ve hükümler korunuyor. [p4/takip_duzeltme/REPORT.md]
 
 ## 2) Görev 3 ve 4: bulgular
 
@@ -40,6 +41,7 @@ Bu dosya ayrıntılı raporların özetidir; her sayı ilgili raporda betik, toh
 | Izgara kontrolü (14 Kasım) | Makale 2'nin interpolasyonu hükümleri değiştirmiyor; tam gecikmede L48 kaybı %14.20 (makale gecikmeleri), %14.93 (yeniden ölçülen); hata ≤ 0.031 b/s/Hz. | `p4/izgara_kontrol/REPORT.md` |
 | Pencere duyarlılığı (14–15 Kasım) | **En iyi adım sayısı, fazın tutulduğu süreye bağlı:** W = 25 / 50 / 100 ms'de seçilen Adam-5 / Adam-6–8 / Adam-16–20. 100 ms'de eğri düz: Adam-6 yalnızca 0.02–0.04 geride. CD her pencerede geride. | `p4/onkodlayici_siralama/REPORT.md` §3b |
 | Pilot + kusurlu CSI (14–15 Kasım) | 30 dB'de hız 2.42–2.78, Adam-3 SU-best-of'tan +0.05…+0.06 önde; 20 dB'de 1.02–1.15, hızlı yöntemler ayırt edilemiyor; CD/PGA iki düzeyde de anlamlı geride. | `p4/onkodlayici_csi/REPORT.md` |
+| Tablo III düzeltmesi (15 Kasım) | Periyodik benzetimde kesirli pilot ve tam devreye alma: sıcak − soğuk 0.86 ms'de 0.276, 1.71 ms'de 0.092 (makale 0.222 / 0.146); yayımlanmış mantık birebir üretildi. | `p4/takip_duzeltme/REPORT.md` |
 
 ## 3) ÜRETİLEMEDİ listesi
 
