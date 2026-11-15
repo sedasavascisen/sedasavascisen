@@ -29,7 +29,7 @@ Her turda ham veriyle çelişen sayı aranıyor. Ham JSON'larla çelişen hesap 
 
 **Önemli uyarılar ve çözümleri**
 
-- **Sıralama iddiası (U4):** "Sıralama değişmiyor" iddiası fazla güçlüydü. Doğrusu: en iyi küme (Adam-4…8) korunuyor, aralarındaki farklar ayırt edilemiyor.
+- **Sıralama iddiası (U4):** "Sıralama değişmiyor" iddiası fazla güçlüydü. Doğrusu: en iyi küme (Adam-3…20; seçilen kol Adam-6/8) korunuyor, aralarındaki farklar ayırt edilemiyor.
 - **Ölçüt farkı (U2):** Pilot deneyinin ölçütü (50 ms ortalaması) Tanım 1'in anlık etkin hızından farklı. Bu fark belgelendi.
 - **Desteklenmeyen cümle (U12):** Kusurlu CSI'da "hata arttıkça L küçülüyor" cümlesi ölçümle desteklenmiyordu. Veriden üretilen cümleyle değiştirildi (en iyi L: 6/3/5/1/6/4).
 - **ρ tanımı (U13):** ρ, 400 senaryonun ortalama gücüne göre tanımlı. 30 dB, senaryo başına medyanda 22.6 dB etkin SNR'ye karşılık geliyor. Denetçinin betiği depoya alınıp yeniden koşuldu.

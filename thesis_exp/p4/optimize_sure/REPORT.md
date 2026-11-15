@@ -1,6 +1,6 @@
 # Deney 4.6 — Optimize edilmiş çalışma süreleri: Adam adımı ve öğrenilen adım (rapor)
 
-Commit `c84b50c` (ölçüm commit'i `06c9b17986af81356a97143638a30a46f123775b`). torch 2.15.0+cu132, CPU: Intel(R) Xeon(R) Processor @ 2.10GHz, iş parçacığı 1, CUDA: False. Yük ortalaması: başlangıç 0.62, ölçüm öncesi 0.49, sonrası 1.00. Öğrenilen adım: UnrolledMuMiso (exchange, use_grad), eğitilmemiş ağırlıklar (ağırlık değeri yürütme yolunu değiştirmez). Adam: SU-average başlangıcı + L adım (soft-min, β=8, lr 0.5). 20 senaryo; senaryo başına 20 çağrının medyanı, senaryolar üzerinden medyan, 3 tur.
+Commit `c47483e` (ölçüm commit'i `06c9b17986af81356a97143638a30a46f123775b`). torch 2.15.0+cu132, CPU: Intel(R) Xeon(R) Processor @ 2.10GHz, iş parçacığı 1, CUDA: False. Yük ortalaması: başlangıç 0.62, ölçüm öncesi 0.49, sonrası 1.00. Öğrenilen adım: UnrolledMuMiso (exchange, use_grad), eğitilmemiş ağırlıklar (ağırlık değeri yürütme yolunu değiştirmez). Adam: SU-average başlangıcı + L adım (soft-min, β=8, lr 0.5). 20 senaryo; senaryo başına 20 çağrının medyanı, senaryolar üzerinden medyan, 3 tur.
 
 ## 1) Süreler (ms, tur medyanlarının medyanı)
 
@@ -48,3 +48,5 @@ Commit `c84b50c` (ölçüm commit'i `06c9b17986af81356a97143638a30a46f123775b`).
 - **GPU ölçümü ÜRETİLEMEDİ: bu makinede CUDA yok.** GPU'da tek senaryoluk küçük işlemlerde çekirdek başlatma yükü baskın olur; ama bu ölçülmedi, sıralama hakkında bir şey söylenemez.
 - **Adam-1 [eager] 1.70 ms SU-average başlangıcını da içeriyor.** Altyapı raporundaki 1.328 ms/adım yalnızca adımın süresi. İkisi aynı tanım değil.
 - **Ölçüm sonrası yük 1.00.** Ölçülen tek iş parçacıklı süreç ve derleme işçileri buna katkı veriyor; ölçüm öncesi 0.49.
+
+- **Süre tanımı (denetim U44, 15 Kasım):** Bu koşuda Adam kolu SU-average başlangıcını içeriyor; öğrenilen kol öznitelik ve başlangıcı içermiyor ve autograd açık koşuyor (`run.py`'deki `and False` koşulu ölü). `check_definitions.py` iki kolu aynı tanımlarla, boş makinede (yük 0.19 → 0.94; ölçülen süreç dahil) ölçtü (`raw/definitions.json`). L=8 oranı: bu koşunun tanımı 2.81, makalenin tanımı (no_grad, ikisi de başlangıç hariç) 2.71, ikisi de uçtan uca 2.67. L=1'de sırasıyla 1.97, 2.65, 2.48. Hüküm (öğrenilen adım Adam'dan ~2.7 kat yavaş) tanımdan bağımsız. torch.compile satırı optimize bir sürüm sayılmamalı.

@@ -63,7 +63,7 @@ Not: Makale 1 için kullanıcının kararı "düzeltmeye gerek yok"; bu bulgular
 
 11. **Ön kodlayıcı tazeleme pilotları ücretlendirilince mutlak etkin hız büyük ölçüde düşüyor; 50 ms pencerede en iyi kol kümesi değişmiyor.**
     - En iyi kol taze ve bedava W varsayımıyla (makalenin varsayımı) 5.213 b/s/Hz. Bu deneyin ölçütü devreye girdikten sonraki 50 ms'nin zaman ortalaması; madde 12'deki 6.075 ise Tanım 1'in anlık etkin hızı, ikisi doğrudan karşılaştırılmaz. Pencere duyarlılığı madde 14'te. Pilot ücretiyle 3.539 (15 kHz), 4.003 (30 kHz), 4.334 (60 kHz): %32/%23/%17 kayıp.
-    - Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) her durumda aynı sırada; aralarındaki farkların GA'sı sıfırı içeriyor (kesin olan, en iyi kümenin Adam-4…8 olarak kalması (W = 50 ms; W = 100 ms'de geçerli değil, bkz. madde 14)); 5. ve 6. sıra numerolojiye göre değişiyor; en iyi kolun SU-best-of'a üstünlüğü +0.303 [+0.242, +0.366] → +0.153 / +0.193 / +0.209 (GA'lar sıfırın üstünde). (p4/onkodlayici_siralama/raw/results.json)
+    - Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) her durumda aynı sırada; aralarındaki farkların GA'sı sıfırı içeriyor (kesin olan, en iyi kümenin Adam-3…20; seçilen kol Adam-6/8 olarak kalması (W = 50 ms; W = 100 ms'de geçerli değil, bkz. madde 14)); 5. ve 6. sıra numerolojiye göre değişiyor; en iyi kolun SU-best-of'a üstünlüğü +0.303 [+0.242, +0.366] → +0.153 / +0.193 / +0.209 (GA'lar sıfırın üstünde). (p4/onkodlayici_siralama/raw/results.json)
 12. **Adam adımı 1.66 değil 1.328 ms** (tek iş parçacığı, boş makine). Bununla L* = 6 (makale 5; metin 4–6), L=48 kaybı %14.4 (makale %14.0), en iyi etkin hız 6.075 (makale 5.982). SU-best-of − Adam-20: −0.086 [−0.174, 0.002] (makale −0.004 [−0.095, 0.085]). Ana bulgular korunuyor. (infra/raw/mumiso_aging_sweep_newlat.json, mumiso_aging_stats_newlat.json)
 13. **Kullanılmayan senaryo sayısı 800 değil 700** (doğrulamanın 500'ü kullanılıyor). (infra/raw/static_split_usage.json)
 14. **(14–15 Kasım) En iyi adım sayısı, fazın tutulduğu süreye bağlı.** Pilot ücretli modelde ortalama penceresi W (fiilen fazın yeniden hesaplanma aralığı) değiştirildi:
@@ -189,6 +189,7 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 - **Öğrenilen/Adam oranı:** L=8'de 2.80 (eager) ve 3.09 (compile).
 - **torch.compile iki kolu da yavaşlattı:** Inductor karmaşık sayılarda kod üretmiyor; öğrenilen kol yeniden derleme sınırına (256) takıldı.
 - **jit.trace ve GPU:** ÜRETİLEMEDİ.
+- **Süre tanımı (denetim U44):** run.py'de Adam kolu SU-average başlangıcını içeriyor, öğrenilen kol öznitelik/başlangıç hariç ve autograd açık koşuyor. Aynı tanımla yeniden ölçüldü (`check_definitions.py` → `raw/definitions.json`, boş makine, tek iş parçacığı). L=8 oranı: run.py tanımı 2.81, makalenin tanımı (no_grad, başlangıç hariç) 2.71, ikisi de uçtan uca 2.67. L=1'de 1.97 / 2.65 / 2.48. Hüküm tanımdan bağımsız.
 - **Sınır:** eğitilmemiş ağırlıklar kullanıldı (süre ağırlığa bağlı değil). Adam-1 süresi SU-average başlangıcını da içeriyor.
 
 ### 5.7 Makale 2 ızgara kontrolü — `p4/izgara_kontrol/REPORT.md` (14 Kasım)
@@ -251,7 +252,7 @@ Not: H7, kullanıcıya önce bildirilmiş bir sayıyı değiştirdi (4.3: 3.303/
 
 ## 8) Durdurulan işler ve Makale 1'in kapsamı (13 Kasım)
 
-Denetim turu 4 (14 Kasım 23:26): KRİTİK yok; 9 uyarı (U24–U32; U33 yanıt dosyasında eklendi). Tur 5 (15 Kasım 00:26): KRİTİK yok; 10 uyarı (U34–U43), metin düzeltmeleri (`YANIT_20261115_0026.md`), metin düzeltmeleri yapıldı (`YANIT_20261114_2326.md`). `audit_claims.py --all`: 126/126 (15 Kasım 00:2x, deneyler bittikten sonra).
+Denetim turu 4 (14 Kasım 23:26): KRİTİK yok; 9 uyarı (U24–U32; U33 yanıt dosyasında eklendi). Tur 4 yanıtı: `YANIT_20261114_2326.md`. Tur 5 (15 Kasım 00:26): KRİTİK yok; 10 uyarı (U34–U43), yanıt `YANIT_20261115_0026.md`. Tur 6 (01:26): KRİTİK yok; 7 uyarı (U44–U50), yanıt `YANIT_20261115_0126.md`. `audit_claims.py --all`: 126/126 (15 Kasım 00:2x, deneyler bittikten sonra).
 
 Kullanıcı 13 Kasım'da Makale 1'in incelenmesini durdurdu ("kodlarını bulacağım"). Makale 1 denetimi o tarihteki hâliyle donduruldu; saatlik denetimin kapsamından çıkarıldı.
 

@@ -1,6 +1,6 @@
 # Deney 4.3 devamı — Pilot ücreti altında bütün kolların sıralaması (rapor)
 
-Commit `3fbd359` (ölçüm commit'i `a0ac494`). Model Deney 4.3 ile aynı: ZF her R ms'de bir kusursuz etkin kanal kestiriminden tazeleniyor, tazeleme başına 4 pilot sembolü veri oranı 1 − t_p/R ile ücretlendiriliyor, faz t=0 kanalından ve kolun gecikmesinde devreye giriyor, hız [gecikme, gecikme + 50 ms] üzerinde ortalanıyor. Tazeleme periyodu R her kol ve numeroloji için doğrulama çekilişinde (seed 12) seçildi; en iyi kol da orada seçildi; rapor yaşlanma kümesi (seed 11, 400 senaryo). Eşli bootstrap 2000, %95 GA. Gecikmeler tek iş parçacıklı yeniden ölçümden (thesis_exp/infra).
+Commit `c47483e` (ölçüm commit'i `a0ac494`). Model Deney 4.3 ile aynı: ZF her R ms'de bir kusursuz etkin kanal kestiriminden tazeleniyor, tazeleme başına 4 pilot sembolü veri oranı 1 − t_p/R ile ücretlendiriliyor, faz t=0 kanalından ve kolun gecikmesinde devreye giriyor, hız [gecikme, gecikme + 50 ms] üzerinde ortalanıyor. Tazeleme periyodu R her kol ve numeroloji için doğrulama çekilişinde (seed 12) seçildi; en iyi kol da orada seçildi; rapor yaşlanma kümesi (seed 11, 400 senaryo). Eşli bootstrap 2000, %95 GA. Gecikmeler tek iş parçacıklı yeniden ölçümden (thesis_exp/infra).
 
 ## 1) Özet: seçilen kol
 
@@ -75,8 +75,8 @@ Pencere koşuları: `WIN=25` / `WIN=100 THREADS=2 python3 thesis_exp/p4/onkodlay
 ## 5) Yorum (bulgulardan ayrı)
 
 - **50 ms pencerede en iyi kol kümesi pilot ücretinden etkilenmiyor** (aşağıdaki pencere maddesine bakın: 100 ms'de geçerli değil).
-  - Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) taze W'de ve üç numerolojinin hepsinde aynı sırada; ama aralarındaki farkların GA'sı sıfırı içeriyor, bu yüzden kesin olan sıra değil, en iyi kümenin (Adam-4…8) korunması. 5. ve 6. sıra numerolojiye göre değişiyor.
-  - Doğrulamada seçilen kol Adam-6 ya da Adam-8. Seçilen kol ile Adam-4…Adam-8 arasındaki farkların GA'sı sıfırı içeriyor.
+  - Nokta tahminleriyle ilk dört kol (Adam-6, 5, 8, 4) taze W'de ve üç numerolojinin hepsinde aynı sırada; ama aralarındaki farkların GA'sı sıfırı içeriyor, bu yüzden kesin olan sıra değil, en iyi kümenin (Adam-3…20; seçilen kol Adam-6/8) korunması. 5. ve 6. sıra numerolojiye göre değişiyor.
+  - Doğrulamada seçilen kol Adam-6 ya da Adam-8. Seçilen kol ile Adam-3…Adam-20 arasındaki farkların GA'sı sıfırı içeriyor.
   - İçsel optimum (L ≈ 5–8) pilot ücretinde de korunuyor.
 - **Ölçüt:** devreye girdikten sonraki 50 ms'nin zaman ortalaması (Tanım 1'in anlık etkin hızı değil). Pencere duyarlılığı aşağıda. Doğrulama çekilişinde (seed 12) senaryo kimliği ayrıca sınanmadı (denetim U11); test çekilişinde her ızgara için sınandı.
 - **Mutlak hızlar düşüyor.** En iyi kol taze W'de 5.213 b/s/Hz. Pilot ücretiyle 3.539 (15 kHz), 4.003 (30 kHz) ve 4.334 (60 kHz). Kayıp sırasıyla %32, %23 ve %17.

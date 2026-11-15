@@ -16,7 +16,7 @@ Bunlar iki ayrı konu gibi duruyor. Ama köprü deneyi (Görev 3) ikisini birle�
 
 Önerim: Makale 1'i tezde "geleneksel değerlendirmenin" örnek olayı olarak konumlayın. Makale 2'nin çerçevesi bu olaya uygulanınca sonuç tersine dönüyor. Bu, tezin üç ekseninden "yapay zekâ / öğrenme" eksenini de kapatıyor:
 - tek geçişli ağ baskınlanıyor;
-- öğrenilen güncelleme kuralı adım başına kazanıp milisaniye başına kaybediyor (optimize edilmiş sürelerde de 2.8–3.1 kat yavaş);
+- öğrenilen güncelleme kuralı adım başına kazanıp milisaniye başına kaybediyor (adım başına süre oranı L=8'de 2.7–2.8 kat; tanımdan bağımsız, p4/optimize_sure);
 - bu titiz bir negatif sonuç.
 
 ## 2) Açık konuşmam gereken risk: Makale 1'in denetim bulguları
@@ -42,14 +42,14 @@ Makale için "düzeltme gerekmiyor" kararınızı yeniden tartışmıyorum. Ama 
 | Muhtemel soru | Yanıtınız | Kaynak |
 | --- | --- | --- |
 | "Gecikme donanıma bağlı, sonuçlarınız genellenir mi?" | Normalize adım maliyeti x = ΔT·f_d; hüküm mutlak ms'ye değil x'e bağlı. Yeniden ölçümde Adam 1.66 → 1.328 ms oldu, L* 5 → 6, bulgu korundu | x'in tanımı: MAKALE_REHBERI.md:348, paper_mobility/DANISMAN_GORUSME_NOTLARI.md:29 (ölçekleme yasası bu denetimde yeniden sınanmadı); yeniden ölçüm: infra/REPORT.md |
-| "Pilot yükünü bedava saydınız" | Ücretlendirildi: mutlak hız %17–32 düşüyor, 50 ms pencerede en iyi kol kümesi (Adam-4…8) ve yavaş çözücülerin yeri değişmiyor (pencere uzunluğu için bir alt satır) | p4/onkodlayici_siralama |
-| "Fazı ne sıklıkla yeniden hesaplıyorsunuz? Optimum buna bağlı değil mi?" | **Evet, bağlı — bunu siz söyleyin.** Faz 25 / 50 / 100 ms tutulursa en iyi kol Adam-5 / 6–8 / 16–20. 100 ms'de farklar küçük ama anlamlı (Adam-6 0.02–0.04, Adam-3 0.05–0.08 geride). Yavaş çözücü her durumda geride. Tez cümlesi "gecikme sıralamayı belirler" korunuyor, ama "birkaç adım her zaman en iyidir" denmemeli: optimum, gecikme ile yeniden hesaplama aralığının birlikte fonksiyonu. | p4/onkodlayici_siralama §3b |
+| "Pilot yükünü bedava saydınız" | Ücretlendirildi: mutlak hız %17–32 düşüyor, 50 ms pencerede en iyi kol kümesi (Adam-3…20; seçilen kol Adam-6/8) ve yavaş çözücülerin yeri değişmiyor (pencere uzunluğu için bir alt satır) | p4/onkodlayici_siralama |
+| "Fazı ne sıklıkla yeniden hesaplıyorsunuz? Optimum buna bağlı değil mi?" | **Evet, bağlı — bunu siz söyleyin.** Faz 25 / 50 / 100 ms tutulursa doğrulamada seçilen kol Adam-5 / 6–8 / 16–20; seçilen koldan ayırt edilemeyen küme Adam-3…8 / Adam-3…20 / Adam-10…48. Bu okuma yalnızca gecikmesi pencereden kısa kollar için geçerli (CD/PGA'da değil). 100 ms'de farklar küçük ama anlamlı (Adam-6 0.02–0.04, Adam-3 0.05–0.08 geride). Yavaş çözücü her durumda geride. Tez cümlesi "gecikme sıralamayı belirler" korunuyor, ama "birkaç adım her zaman en iyidir" denmemeli: optimum, gecikme ile yeniden hesaplama aralığının birlikte fonksiyonu. | p4/onkodlayici_siralama §3b |
 | "Pilot ve kestirim hatası birlikte?" | 30 dB'de hızlı yöntemin üstünlüğü küçülüyor ama sürüyor; 20 dB'de hızlı yöntemler ayırt edilemiyor; yavaş çözücüler her iki düzeyde de geride. | p4/onkodlayici_csi |
 | "CSI kusursuz değil" | Pilot SNR'i 30 dB'de bile etkin hız 6.08 → 3.54; en iyi L hatayla tekdüze değişmiyor; 10 dB ve altında yöntemler ayırt edilemiyor. Dikkat: ρ kümenin ortalama gücüne göre, senaryo başına etkin SNR daha düşük (30 dB → medyan 22.6 dB) | p4/kusurlu_csi |
 | "Gerçek RIS ayrık fazlı" | 1/2/3 bitte de içsel optimum var (L* = 5/6/6); yavaş ayrık CD 2 ve 3 bitte kaybediyor, 1 bitte berabere | p4/ayrik_faz |
 | "Kanalı öngörseniz?" | Gürültüsüz geçmişle +0.19…+0.42 kazanç; %1 kestirim hatasıyla bütün öngörücüler öngörüsüzün altında | p4/kanal_ongoru |
 | "Konum biliniyorsa CSI'ya gerek var mı?" | Geometri tabanlı faz SU-best-of'un 0.83–0.86 altında | p4/konum_faz |
-| "Öğrenilen yöntemi optimize etseydiniz?" | torch.compile hızlandırmadı; oran 2.8–3.1 kat | p4/optimize_sure |
+| "Öğrenilen yöntemi optimize etseydiniz?" | L=8'de öğrenilen adım Adam'dan 2.67–2.81 kat yavaş (üç farklı süre tanımında da). torch.compile bu kodda optimize bir sürüm sayılamaz (yeniden derleme sınırı, karmaşık sayılar); GPU ölçülmedi | p4/optimize_sure |
 | "GPU?" | **Ölçülmedi (ÜRETİLEMEDİ).** Dürüst yanıt: tek senaryoluk küçük işlemlerde çekirdek başlatma yükü baskın; ama bu iddia ölçümsüz | — |
 
 Bu tabloyu savunma hazırlığının omurgası yapın. Her satır için tek bir şekil ve tek bir sayı yeterli.

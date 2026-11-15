@@ -9,3 +9,5 @@
 - **GPU ölçümü ÜRETİLEMEDİ: bu makinede CUDA yok.** GPU'da tek senaryoluk küçük işlemlerde çekirdek başlatma yükü baskın olur; ama bu ölçülmedi, sıralama hakkında bir şey söylenemez.
 - **Adam-1 [eager] 1.70 ms SU-average başlangıcını da içeriyor.** Altyapı raporundaki 1.328 ms/adım yalnızca adımın süresi. İkisi aynı tanım değil.
 - **Ölçüm sonrası yük 1.00.** Ölçülen tek iş parçacıklı süreç ve derleme işçileri buna katkı veriyor; ölçüm öncesi 0.49.
+
+- **Süre tanımı (denetim U44, 15 Kasım):** Bu koşuda Adam kolu SU-average başlangıcını içeriyor; öğrenilen kol öznitelik ve başlangıcı içermiyor ve autograd açık koşuyor (`run.py`'deki `and False` koşulu ölü). `check_definitions.py` iki kolu aynı tanımlarla, boş makinede (yük 0.19 → 0.94; ölçülen süreç dahil) ölçtü (`raw/definitions.json`). L=8 oranı: bu koşunun tanımı 2.81, makalenin tanımı (no_grad, ikisi de başlangıç hariç) 2.71, ikisi de uçtan uca 2.67. L=1'de sırasıyla 1.97, 2.65, 2.48. Hüküm (öğrenilen adım Adam'dan ~2.7 kat yavaş) tanımdan bağımsız. torch.compile satırı optimize bir sürüm sayılmamalı.

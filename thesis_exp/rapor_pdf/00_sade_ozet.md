@@ -22,13 +22,13 @@
 
 **Bu gece eklenenler (14–15 Kasım)**
 
-- **Fazın ne kadar süre kullanılacağı önemli.** Yüzeyin ayarı her 25–50 ms'de bir yenileniyorsa en iyisi birkaç adım (3–8). Ayar 100 ms boyunca tutulacaksa daha uzun hesap (16–20 adım) daha iyi; fark küçük ama anlamlı (Adam-6 için 0.02–0.04, Adam-3 için 0.05–0.08 b/s/Hz). Çok yavaş yöntemler her durumda geride. Yani tezin cümlesi doğru, ama "her zaman birkaç adım" demek yanlış olur.
+- **Fazın ne kadar süre kullanılacağı önemli.** Yüzeyin ayarı her 25 ms'de bir yenileniyorsa en iyisi birkaç adım (3–8). 50 ms'de 6–8 adım seçiliyor, ama 3 ile 20 adım arası birbirinden ayırt edilemiyor. Ayar 100 ms boyunca tutulacaksa daha uzun hesap (16–20 adım) daha iyi; fark küçük ama anlamlı (Adam-6 için 0.02–0.04, Adam-3 için 0.05–0.08 b/s/Hz). Çok yavaş yöntemler her durumda geride. Yani tezin cümlesi doğru, ama "her zaman birkaç adım" demek yanlış olur.
 - **Ölçüm maliyeti ve ölçüm hatası birlikte:** En gerçekçi durumda hız çok düşüyor (30 dB'de 2.4–2.8, 20 dB'de 1.0–1.15 b/s/Hz). 20 dB'de hızlı yöntemler birbirinden ayırt edilemiyor; yavaş yöntemler yine geride.
 - **Makale 2'nin sayıları tekrar kontrol edildi.** Ana taramadaki küçük bir yaklaşıklık (interpolasyon) hiçbir sonucu değiştirmiyor; makaledeki "%14" tam hesapla %14.2.
 
 **Akılda kalacak üç sayı**
 
-- **Ölçümün bedeli:** Sinyali ölçmenin maliyeti (pilot) hesaba katılınca hız %17–32 düşüyor. Ama yüzeyin ayarı 50 ms'de bir yenilendiğinde en iyi yöntemler grubu (Adam'ın 4–8 adımı) değişmiyor; bu grubun içindeki sıra kesin değil.
+- **Ölçümün bedeli:** Sinyali ölçmenin maliyeti (pilot) hesaba katılınca hız %17–32 düşüyor. Ama yüzeyin ayarı 50 ms'de bir yenilendiğinde en iyi yöntemler grubu (seçilen Adam'ın 6–8 adımı; 3–20 adım arası birbirinden ayırt edilemiyor) değişmiyor; bu grubun içindeki sıra kesin değil.
 - **Ölçüm hatası:** 30 dB'lik bir ölçüm kalitesinde bile hız 6.08'den 3.54 b/s/Hz'e iniyor.
 - **Uzun düşünmenin bedeli:** 48 adım hesap yapmak, en iyi adım sayısına göre %14–15 kaybettiriyor (2 ve 3 bit).
 

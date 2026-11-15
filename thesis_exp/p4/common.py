@@ -4,7 +4,7 @@ scripts/mumiso_aging.py (make_mumiso_scenario(seed), 20 scatterers, 400 scenario
 min-user rate, soft-min Adam with beta = 8). The random stream of the mobile generator does not depend
 on the time grid (one blockage draw at the first grid index), so any `times_ms` list gives the SAME
 scenarios PROVIDED t = 0 is the first entry (LoS state, K-factor and shadowing are decided from the
-positions at index 0); `check_same_scenarios` verifies this against results/mumiso_aging_fixzf.json.
+positions at index 0); `check_same_scenarios` checks this (one number: the t = 0 SU-average mean) against results/mumiso_aging_fixzf.json.
 Latencies: thesis_exp/infra/raw/mumiso_mobility_latency_rerun.json (one thread, idle machine).
 """
 import json, pathlib, subprocess
@@ -25,7 +25,10 @@ STEPS = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32, 48]
 
 
 def commit():
-    return subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=ROOT).stdout.strip()
+    """HEAD, with "+dirty" when tracked files differ from it (verification U50; added 15 Nov, after all reported runs)."""
+    h = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=ROOT).stdout.strip()
+    dirty = subprocess.run(["git", "diff", "--quiet", "HEAD", "--"], cwd=ROOT).returncode != 0
+    return h + ("+dirty" if dirty else "")
 
 
 class Aging:
