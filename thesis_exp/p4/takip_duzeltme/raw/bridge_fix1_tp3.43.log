@@ -1,0 +1,8 @@
+seed 12 T_p=3.43 cold: 39 policies
+seed 12 T_p=3.43 warm: 39 policies
+seed 12 T_p=3.43 net: 19 policies
+seed 11 T_p=3.43 cold: 39 policies
+seed 11 T_p=3.43 warm: 39 policies
+seed 11 T_p=3.43 net: 19 policies
+3.43 {"cold": {"period": 80.0, "L": 12, "rate": 4.977056980133057, "ci": [4.757289886474609, 5.206431865692139]}, "warm": {"period": 80.0, "L": 16, "rate": 4.998254299163818, "ci": [4.777688503265381, 5.233011722564697]}, "net": {"period": 80.0, "L": 3, "rate": 4.848691940307617, "ci": [4.631733417510986, 5.073974132537842]}, "net_minus_cold": {"diff": -0.12836509943008423, "ci": [-0.1642286628484726, -0.0922335609793663]}, "net_minus_warm": {"diff": -0.1495625078678131, "ci": [-0.1925421953201294, -0.10706748068332672]}}
+wrote /home/user/sedasavascisen/thesis_exp/p4/takip_duzeltme/raw/bridge_fix1_tp3.43.json

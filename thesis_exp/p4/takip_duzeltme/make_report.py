@@ -30,8 +30,20 @@ for tp, key, f in rows:
         W(f"| {tp} | {'soğuk' if m == 'cold' else 'sıcak'} | {P['best']['period'] or 'b2b'}, {P['best']['L']}, {P['best']['rate']:.4f} | "
           f"{F['best']['period'] or 'b2b'}, {F['best']['L']}, {F['best']['rate']:.4f} [{F['best']['ci'][0]:.4f}, {F['best']['ci'][1]:.4f}] | "
           f"{P['back_to_back']['best_L']} / {F['back_to_back']['best_L']} |")
+_bp = pathlib.Path("/tmp/claude-0/-home-user-sedasavascisen/36a1538b-b28f-5b37-970a-9a1a9a74083b/scratchpad/wt_bridge/thesis_exp/bridge/raw/tracking.json")
+_bpub = json.load(open(_bp)) if _bp.exists() else json.loads(subprocess.run(["git", "show", "origin/thesis/bridge:thesis_exp/bridge/raw/tracking.json"], capture_output=True, text=True, cwd=ROOT).stdout)
+_b0 = json.load(open(H / "raw/bridge_fix0_tp0.86.json"))["by_pilot"]["0.86"]
+_rep = all(abs(_bpub["by_pilot"]["0.86"][k]["rate"] - _b0[k]["rate"]) < 1e-9 for k in ("cold", "warm", "net"))
+W(""); W("## 2b) Köprü raporunun periyodik çalışması (thesis/bridge, bridge_tracking.py)"); W("")
+W(f"Aynı düzeltme, köprü betiğinin kopyasına (`bridge_tracking_fix.py`; girdiler thesis/bridge dalının salt okunur çalışma ağacından) uygulandı. "
+  f"Yeniden üretim (`--fix 0`, T_p = 0.86): {'birebir' if _rep else 'FARKLI'}. Seçim seed 12, rapor seed 11 (köprü betiğindeki gibi).")
+W(""); W("| T_p | Ağ − soğuk: yayımlanmış [%95 GA] | düzeltilmiş [%95 GA] | Ağ − sıcak: yayımlanmış [%95 GA] | düzeltilmiş [%95 GA] |"); W("| --- | --- | --- | --- | --- |")
+for tp in ("0", "0.86", "1.71", "3.43"):
+    _f = json.load(open(H / f"raw/bridge_fix1_tp{tp}.json"))["by_pilot"]; _k = list(_f)[0]; F = _f[_k]; P = _bpub["by_pilot"][_k]
+    W(f"| {tp} | {P['net_minus_cold']['diff']:+.3f} {ci(P['net_minus_cold']['ci'])} | {F['net_minus_cold']['diff']:+.3f} {ci(F['net_minus_cold']['ci'])} | "
+      f"{P['net_minus_warm']['diff']:+.3f} {ci(P['net_minus_warm']['ci'])} | {F['net_minus_warm']['diff']:+.3f} {ci(F['net_minus_warm']['ci'])} |")
 W(""); W("## 3) Komut ve ham çıktı"); W("")
-W("`OMP_NUM_THREADS=1 python3 thesis_exp/p4/takip_duzeltme/run.py --fix {0,1} --pilot {0,0.86,1.71,3.43}` → raw/fix{0,1}_tp*.json, *.log. Betik koşudan önce commit'lendi.")
+W("`OMP_NUM_THREADS=1 python3 thesis_exp/p4/takip_duzeltme/run.py --fix {0,1} --pilot {0,0.86,1.71,3.43}` → raw/fix{0,1}_tp*.json, *.log. Köprü: `OMP_NUM_THREADS=1 python3 thesis_exp/p4/takip_duzeltme/bridge_tracking_fix.py --fix {0,1} --pilot ...` → raw/bridge_fix*_tp*.json. Betikler koşudan önce commit'lendi.")
 y = H / "yorum.md"
 if y.exists():
     W(""); W("## 4) Yorum (bulgulardan ayrı)"); W(""); W(y.read_text().strip())

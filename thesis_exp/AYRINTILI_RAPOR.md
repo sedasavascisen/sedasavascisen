@@ -214,7 +214,7 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 
 ### 5.10 Makale 2 Tablo III düzeltmesi — `p4/takip_duzeltme/REPORT.md` (15 Kasım)
 - §1.2 madde 16.
-- Köprünün periyodik ağ kolu aynı yuvarlamayı kullanıyor; yeniden koşulmadı (eğitilmiş ağ başka dalda).
+- Köprünün periyodik ağ kolu da düzeltildi (`bridge_tracking_fix.py`, yeniden üretim birebir): ağ her T_p'de soğuk ve sıcak Adam'ın gerisinde; ağ − soğuk 0.86 ms'de −0.153 → −0.120, 1.71 ms'de −0.105 → −0.129.
 - Yayımlanmış betik en iyi politikayı raporlanan kümede seçiyor (denetim U58); karşılaştırılabilirlik için kopyada da aynı yapıldı.
 
 ---
@@ -238,7 +238,7 @@ Ortak kurulum (`thesis_exp/p4/common.py`):
 | H14 | (Denetim K2) H13 düzeltmesi yanlış bir aralık getirdi: 'dCD-1 Adam-8…48→q'nun altında' (doğrusu Adam-10…48; Adam-8→q 6.107 < dCD-1 6.141) | Metin | Düzeltildi |
 | H15 | (Denetim U12, U13, U16) kusurlu CSI'da desteklenmeyen 'L küçülüyor' cümlesi; ρ tanımı küme ortalamasına göre; '~0.016' betiksiz tahmindi | Metin / tanım | Cümle veriye bağlandı; ρ tanımı ve senaryo başı dağılım belgelendi (betik denetim_log/scripts); 0.016 yerine ölçüm: p4/gecikme_muhasebesi |
 | H16 | (Denetim K3) ayrik_faz etkin hızı 40 ms üstünde kaba ızgarada (50/75/100/150 ms) interpolasyonla hesaplanmıştı; 11 kol ±0.055 b/s/Hz'e kadar yanlıştı; L48 kaybı %9.3/%13.6 → %9.5/%14.1 | Hükümler değişmedi (2 bitte dCD-2/3/4/8 yine GA'yla geride; 1 bitte dCD-1 ≈ Adam-5→q) | `run_exact.py`: her kol tam gecikmesinde; ayrıca Adam adım boyu doğrulamada seçilen tasarım (U20). Aynı kaba ızgara kanal_ongoru/kusurlu_csi/konum_faz'da yalnızca seçilmeyen Adam-32/48 kollarını etkiliyor (U21), raporlarda not edildi |
-| H17 | (Denetim K4) Makale 2'nin periyodik benzetimi (`scripts/mumiso_tracking.py`, Tablo III) ve köprü kopyası pilot süresini ve devreye alma anını 0.5 ms ızgarasına yuvarlıyor | Tablo III'te sıcak − soğuk 0.86 ms'de 0.222 → 0.276, 1.71 ms'de 0.146 → 0.092; hükümler aynı | Düzeltilmiş kopya `p4/takip_duzeltme` (yayımlanmış betiğe dokunulmadı); köprü kolu henüz yeniden koşulmadı |
+| H17 | (Denetim K4) Makale 2'nin periyodik benzetimi (`scripts/mumiso_tracking.py`, Tablo III) ve köprü kopyası pilot süresini ve devreye alma anını 0.5 ms ızgarasına yuvarlıyor | Tablo III'te sıcak − soğuk 0.86 ms'de 0.222 → 0.276, 1.71 ms'de 0.146 → 0.092; hükümler aynı | Düzeltilmiş kopyalar `p4/takip_duzeltme` (yayımlanmış betiklere dokunulmadı); köprü kolu da yeniden koşuldu, hüküm aynı |
 | H13 | (Denetim U5/U6) özet raporlarda iki yanlış genelleme: 'dCD t=0'da her kolu geçiyor' (2 bitte yanlış), 'L* 10–12' (8–12) | Metin | Düzeltildi |
 
 Not: H7, kullanıcıya önce bildirilmiş bir sayıyı değiştirdi (4.3: 3.303/3.718/4.025 → 3.385/3.811/4.126).
