@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.11.3)  16 NOV 2026 12:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.11.3)  16 NOV 2026 12:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -484,7 +484,7 @@ f-dist/fonts/enc/dvips/base/8r.enc}
 
 
 ]) (./sections/section_03_system_model.tex
-<figures/fig_scenario.pdf, id=194, 523.04271pt x 228.3091pt>
+<figures/fig_scenario.pdf, id=195, 523.04271pt x 228.3091pt>
 File: figures/fig_scenario.pdf Graphic file (type pdf)
 <use figures/fig_scenario.pdf>
 Package pdftex.def Info: figures/fig_scenario.pdf  used on input line 20.
@@ -505,26 +505,26 @@ msy/m/n/10 g$\T1/ptm/m/n/10 , re-turn the phase $[][]$, and need the
 
 [2] [3 <./figures/fig_scenario.pdf>]) (./sections/section_05_methodology.tex)
 (./sections/section_06_results.tex [4] (./tables/tab_aging.tex)
-<figures/fig_aging.pdf, id=356, 258.30125pt x 204.98117pt>
+<figures/fig_aging.pdf, id=358, 258.30125pt x 204.98117pt>
 File: figures/fig_aging.pdf Graphic file (type pdf)
 <use figures/fig_aging.pdf>
 Package pdftex.def Info: figures/fig_aging.pdf  used on input line 22.
 (pdftex.def)             Requested size: 231.83954pt x 183.98401pt.
-<figures/fig_intrinsic_optimum.pdf, id=359, 240.92982pt x 168.62009pt>
+<figures/fig_intrinsic_optimum.pdf, id=361, 240.92982pt x 168.62009pt>
 File: figures/fig_intrinsic_optimum.pdf Graphic file (type pdf)
 <use figures/fig_intrinsic_optimum.pdf>
 Package pdftex.def Info: figures/fig_intrinsic_optimum.pdf  used on input line 
 35.
 (pdftex.def)             Requested size: 231.83954pt x 162.26195pt.
  [5 <./figures/fig_aging.pdf> <./figures/fig_intrinsic_optimum.pdf>]
-<figures/fig_step_scaling.pdf, id=426, 256.19157pt x 142.04881pt>
+<figures/fig_step_scaling.pdf, id=428, 256.19157pt x 142.04881pt>
 File: figures/fig_step_scaling.pdf Graphic file (type pdf)
 <use figures/fig_step_scaling.pdf>
 Package pdftex.def Info: figures/fig_step_scaling.pdf  used on input line 50.
 (pdftex.def)             Requested size: 252.0pt x 139.72491pt.
  (./tables/tab_speeds.tex)
 [6 <./figures/fig_step_scaling.pdf>] (./tables/tab_tracking.tex)
-<figures/fig_equal_step_vs_ms.pdf, id=495, 505.61937pt x 170.35645pt>
+<figures/fig_equal_step_vs_ms.pdf, id=497, 505.61937pt x 170.35645pt>
 File: figures/fig_equal_step_vs_ms.pdf Graphic file (type pdf)
 <use figures/fig_equal_step_vs_ms.pdf>
 Package pdftex.def Info: figures/fig_equal_step_vs_ms.pdf  used on input line 9
@@ -533,11 +533,13 @@ Package pdftex.def Info: figures/fig_equal_step_vs_ms.pdf  used on input line 9
 )
 (./sections/section_07_conclusion.tex [7]) (./mobility_paper_ieee.bbl [8 <./fig
 ures/fig_equal_step_vs_ms.pdf>]
-Underfull \hbox (badness 5217) in paragraph at lines 217--221
+Underfull \hbox (badness 5217) in paragraph at lines 222--226
 []\T1/ptm/m/n/8 C. B. Peel, B. M. Hochwald, and A. L. Swindle-hurst, ``A
  []
 
-) [9] (./mobility_paper_ieee.aux)
+[9]) [10
+
+] (./mobility_paper_ieee.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -546,10 +548,10 @@ Package rerunfilecheck Info: File `mobility_paper_ieee.out' has not changed.
 (rerunfilecheck)             Checksum: 6F707784968D47E5BCB32510D3797E22;5615.
  ) 
 Here is how much of TeX's memory you used:
- 11653 strings out of 476106
- 180782 string characters out of 5793933
+ 11656 strings out of 476106
+ 180820 string characters out of 5793933
  1956975 words of memory out of 5000000
- 33356 multiletter control sequences out of 15000+600000
+ 33357 multiletter control sequences out of 15000+600000
  679381 words of font info for 163 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
  75i,11n,79p,1536b,591s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -575,10 +577,10 @@ ype1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/u
 tmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on mobility_paper_ieee.pdf (9 pages, 461743 bytes).
+Output written on mobility_paper_ieee.pdf (10 pages, 462361 bytes).
 PDF statistics:
- 679 PDF objects out of 1000 (max. 8388607)
- 529 compressed objects within 6 object streams
- 117 named destinations out of 1000 (max. 500000)
+ 685 PDF objects out of 1000 (max. 8388607)
+ 534 compressed objects within 6 object streams
+ 119 named destinations out of 1000 (max. 500000)
  258 words of extra memory for PDF output out of 10000 (max. 10000000)
 
