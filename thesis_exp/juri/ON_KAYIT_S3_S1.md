@@ -51,3 +51,9 @@ FLOP'tan öngörülen gecikme = FLOP / (3E) × 1.328 ms; yani Adam adımına kal
 - FLOP modeli bir yaklaşıklıktır: geri yayılımın ileri geçişin 2 katı olduğu varsayılıyor; trigonometrik ve log işlemleri sayılmıyor.
 - Ryu ve ark.'ın tam formülasyonu doğrulanmadı. Literatür notlarında "derleme süresini yalnızca uygulanabilirlik kısıtı olarak kullanıyor" diye geçiyor. Burada bu fikrin en sade biçimi sınanıyor.
 - 200 ms'yi aşan gecikmeler (CD, uzun koşulu Adam) güven ufkunun dışında kalıyor.
+
+## Sapma 1 (16 Kasım 2026, `arms.py` koşulmadan önce)
+
+`timing.py`, bu makinenin rerun dosyasındaki sürelerden belirgin biçimde hızlı olduğunu gösterdi (adam1 ×0.86, adam48 ×0.78, CD-8 ×0.69). Yeni CD süreleri eski Adam süreleriyle karıştırılırsa CD haksız avantaj kazanır ve "aynı makine" kuralı (Kural 5) ihlal edilir.
+
+Bu yüzden bütün kolların gecikmesi bu oturumda, aynı protokolle yeniden ölçülür (`timing2.py`): SU-average, SU-best-of, Adam L ∈ {1, 2, 4, 8, 16, 32, 48} (aradaki L'ler doğrusal interpolasyonla), uzun koşulu Adam ve CD (`timing.py`). FLOP kalibrasyonu da bu oturumun Adam eğimiyle yapılır. Rerun dosyası kullanılmaz.
