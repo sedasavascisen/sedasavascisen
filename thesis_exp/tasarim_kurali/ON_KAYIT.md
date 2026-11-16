@@ -70,6 +70,14 @@ kayıp_c(kural) = 1 − R_test(L̂_c) / R_test(L*_c)        (%; sınama çekili�
 - H1, H2 ve H3 tutarsa kural tezin "pratik kural" katkısı olarak önerilir.
 - Herhangi biri tutmazsa, hangi koşulda bozulduğu (hız, ΔT ya da W) raporlanır. Kural düzeltilip aynı sınama verisinde yeniden denenmez; bu ön kaydın ruhuna aykırı olur.
 
+## 5b) Kalibrasyon tanılaması (sınamadan önce kaydedildi, 16 Kasım)
+
+`raw/calibration.json` (seed 12):
+- R_floor = 3.883 b/s/Hz, f_d = 15.01 Hz.
+- **ψ'nin L'ler arasındaki en büyük yayılımı 0.11.** u = 0.25 / 1 / 5 / 10'da sırasıyla 0.064 / 0.035 / 0.026 / 0.058. Normalize eskime eğrisi L'den tam bağımsız değil; kuralın bilinen bir yaklaşıklığıdır.
+- Kuralın kendi çıktısı (sınama verisi görülmeden): 1.5 m/s, ΔT = 1.33 ms için W = 0 / 25 / 50 / 100 ms'de L̂ = 6 / 5 / 8 / 24.
+- Kod düzeltmesi: NumPy 2'de `np.trapz` → `np.trapezoid`. Sayısal etkisi yok, ön kayıttan önce yapıldı.
+
 ## 6) Keşifsel (hipotez değil, ayrı raporlanır)
 
 - Pilot ücreti (onkodlayici_siralama modeli) ve kestirim hatası (ρ = 30 dB) altında kuralın kaybı.

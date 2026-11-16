@@ -28,7 +28,7 @@ def psi_bar(cal, a, b, du):
         return float(psi(cal, a))
     n = int(round(b / du))
     v = psi(cal, a + du * np.arange(n + 1))
-    return float(np.trapz(v, dx=1.0) / n)
+    return float(np.trapezoid(v, dx=1.0) / n)
 
 
 def predict(cal, dT_ms, fd_hz, W_ms):

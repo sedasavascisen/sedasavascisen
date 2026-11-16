@@ -36,7 +36,7 @@ for kmh in SPEEDS_KMH:
             c = np.stack([A.minrate(th, j + 1).numpy() for j in range(201)], 1)          # [S, 201]
             for W in WS:
                 n = int(round(W / RULE.GRID_MS))
-                val = c[:, 0] if n == 0 else np.trapz(c[:, :n + 1], dx=1.0, axis=1) / n
+                val = c[:, 0] if n == 0 else np.trapezoid(c[:, :n + 1], dx=1.0, axis=1) / n
                 R.setdefault((kmh, dT, W), {})[L] = val
             del A
         print(f"{kmh} km/h dT {dT}: done ({time.time() - t_start:.0f} s)", flush=True)
