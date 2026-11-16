@@ -25,7 +25,10 @@ def offsets(bw_hz):
 
 
 def subset(k_opt):
-    return list(range(0, K_EVAL, K_EVAL // k_opt)) if k_opt > 1 else None
+    # centred: every step-th subcarrier starting at step // 2 (centroid within half a bin of the band centre;
+    # the earlier start at 0 put it ~0.12 B below the centre; changed before any curve run, ON_KAYIT.md sapma 2)
+    step = K_EVAL // k_opt
+    return list(range(step // 2, K_EVAL, step)) if k_opt > 1 else None
 
 
 class WB:
