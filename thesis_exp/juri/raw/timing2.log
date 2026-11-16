@@ -1,0 +1,6 @@
+round 1: su_average 0.50 su_best_of 1.17 adam1 0.95 adam2 1.86 adam4 6.12 adam8 8.54 adam16 18.33 adam32 41.17 adam48 78.21 pga 4247.43
+round 2: su_average 0.22 su_best_of 1.24 adam1 1.16 adam2 2.28 adam4 4.46 adam8 8.82 adam16 17.46 adam32 34.80 adam48 52.25 pga 3877.22
+round 3: su_average 0.23 su_best_of 1.25 adam1 1.13 adam2 2.22 adam4 4.34 adam8 8.73 adam16 17.71 adam32 38.51 adam48 51.53 pga 3952.07
+round 4: su_average 0.22 su_best_of 1.24 adam1 1.15 adam2 2.28 adam4 4.42 adam8 8.80 adam16 17.41 adam32 34.66 adam48 56.04 pga 4235.10
+round 5: su_average 0.28 su_best_of 1.21 adam1 1.28 adam2 2.31 adam4 5.04 adam8 9.91 adam16 21.17 adam32 34.47 adam48 49.69 pga 3854.86
+wrote
