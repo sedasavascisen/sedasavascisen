@@ -1,9 +1,14 @@
-- **Soru 5'e yanıt: yapay zekâ ekseni, en elverişli rejimde de olumsuz kapanıyor.** 28 GHz'de 1.5 m/s'de (T_c ≈ 3 ms) tek geçişli ağ 0.43 ms'de karar veriyor. Buna rağmen 1.24 ms'lik SU-best-of'un 0.38 b/s/Hz gerisinde kalıyor. Ağın faz kalitesi t = 0'da 4.65; SU-best-of'unki 5.12. Bu rejimde 0.8 ms'lik gecikme farkı SU-best-of'a yalnızca ~0.1 b/s/Hz'e mal oluyor (5.115 → 5.011). Ağ ancak t = 0'da ~5.0'ın üstüne çıksaydı kazanabilirdi.
-- **Gecikmenin rolü doğrulanıyor.** Ağın en iyi klasik kola göre açığı 3 GHz'de −1.52, 28 GHz'de −0.38. Gecikme baskınlaştıkça açık 4 kat daralıyor, ama kapanmıyor. Savunu cümlesi ("gecikme sıralamayı belirler") burada da işliyor: kazananı gecikme değil, tek geçişli ağın kalite tavanı belirliyor.
-- **"Çapada donma" bu ağda yok.** Eğitilmiş ağ, eğitilmemişten t = 0'da +0.47 (28 GHz) ve +0.37 (3 GHz) iyi. Eski bulgudaki donma, o modelin bir özelliğiydi. Ağ öğreniyor, ama öğrendiği, kapalı formdaki tek kullanıcı hizalamalarının en iyisini seçmek kadar iyi değil.
-- **Karma (ağ + Adam) en yakın kol.** 3 GHz'de en iyi klasik kolun yalnızca 0.06–0.08 gerisinde, 28 GHz'de 0.11–0.16 gerisinde. Ağı, Adam için bir başlangıç noktası olarak kullanmak işe yarıyor; ama SU-best-of başlangıcından daha iyi bir başlangıç değil.
-- **Makale 1 ile bağ.** sin/cos kafası, doğrudan açı kafasını t = 0'da ve etkin hızda +0.04…+0.05 farkla, anlamlı biçimde geçiyor. Makale 1'deki ablasyonun yönü bu çok kullanıcılı, hız tabanlı ve etiketsiz eğitimde de tekrarlanıyor; büyüklüğü ise küçük. Tezde Makale 1'in katkısı bu ölçülmüş, küçük ama tutarlı etki üzerinden konumlandırılabilir.
-- **Sınırlar (jürinin soracağı).**
-  - Tek mimari, 20 000 eğitim örneği, en çok 60 epoch. Doğrulama hızı 10–20. epoch'ta doruğa ulaşıp düştü (aşırı uyum). Daha büyük veri ya da başka bir mimari sonucu değiştirebilir; burada sınanmadı.
+- **Soru 5'e yanıt: bu mimari ve bu eğitim bütçesiyle, en elverişli rejimde de olumsuz.**
+  - 28 GHz'de 1.5 m/s'de (T_c ≈ 3 ms) tek geçişli ağ 0.43 ms'de karar veriyor, ama 1.24 ms'lik SU-best-of'un 0.38 b/s/Hz gerisinde kalıyor.
+  - Kendisinden de hızlı olan, optimizasyonsuz SU-average'ı (0.23 ms) bile 28 GHz'de anlamlı olarak geçemiyor; 3 GHz'de onu ancak +0.09 farkla geçiyor.
+  - Bu hüküm tek mimariye, tek model tohumuna ve 20 000 örneğe dayanıyor. Doğrulama hızı 10–12. epoch'ta doruğa ulaşıp düştü (aşırı uyum). Daha büyük veri ya da başka bir mimari denenmedi.
+- **Kaybı belirleyen gecikme değil, kalite tavanı.**
+  - Ağın gecikmesi sıfır olsaydı bile, t = 0 hızı (4.650) en iyi klasik kolun t = 0 hızının (SU-best-of, 5.115) 0.47 altında kalırdı.
+  - Gecikme bu karşılaştırmada ağın değil, klasik kollar arasındaki sıralamanın belirleyicisi: 28 GHz'de en iyi klasik kol SU-best-of (1.24 ms), 3 GHz'de Adam-6 (7.9 ms).
+  - Ağın açığı 3 GHz'de −1.52, 28 GHz'de −0.38. Ancak başvuru kolları farklı olduğu için bu iki farkın oranı bir "daralma katsayısı" olarak okunmamalı.
+- **"Çapada donma" bu ağda yok.** Eğitilmiş ağ, eğitilmemişten t = 0'da +0.47 (28 GHz) ve +0.37 (3 GHz) iyi. Ağ öğreniyor, ama öğrendiği, kapalı formdaki tek kullanıcı hizalamalarının en iyisini seçmek kadar iyi değil.
+- **Karma (ağ + Adam).** 3 GHz'de en iyi klasik kolun 0.06–0.08, 28 GHz'de 0.11–0.16 gerisinde. Eşit adım sayısında, SU-best-of'tan başlayan Adam'dan t = 0'da anlamlı olarak daha kötü; örneğin L = 1'de −0.303 [−0.342, −0.263], bağımsız denetimin hesabı. Ağ, Adam için SU-best-of'tan daha kötü bir başlangıç.
+- **Makale 1 ile bağ.** sin/cos kafası, doğrudan açı kafasını t = 0'da ve etkin hızda +0.04…+0.05 farkla, anlamlı biçimde geçiyor; Makale 1'deki ablasyonun yönü burada da görülüyor. Ancak her kafa tek bir eğitim koşusuyla eğitildi: güven aralığı yalnızca senaryo değişkenliğini içeriyor, eğitim tohumu değişkenliğini içermiyor.
+- **Sınırlar.**
   - 28 GHz bağlantı bütçesi 30.79 dB telafiyle eşitlendi.
-  - Ağın gecikmesi CPU'da ve Python'da ölçüldü. Ağ 10 kat hızlansaydı bile, SU-best-of'un gecikme kaybı (~0.1) açığı (0.38) kapatmaya yetmezdi. Bu bir çıkarım; ölçülmedi.
+  - Ağın gecikmesi CPU'da ve Python'da ölçüldü. SU-best-of'un 1.24 ms'deki toplam eskime kaybı 0.104 (5.115 → 5.011). Ağ sıfır gecikmeli olsaydı bile bu kayıp, ağın t = 0 açığını kapatmaya yetmezdi.

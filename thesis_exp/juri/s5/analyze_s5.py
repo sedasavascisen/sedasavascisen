@@ -18,11 +18,13 @@ for fc in (28, 3):
         ref = e(fc, 11, sp, bc)
         c = dict(best_classic=bc, best_classic_latency=LAT[bc], best_classic_eff=float(ref.mean()), best_hybrid=bh, hybrid_latency=LAT[bh],
                  fd_hz=D["data"][f"{fc}|11|{sp}"]["fd_hz"], arms={})
-        for a in ["NN-sincos", "NN-angle", "NN-untrained", bh, "SU-best-of"]:
+        for a in ["NN-sincos", "NN-angle", "NN-untrained", bh, "SU-best-of", "SU-average"]:
             if a in D["data"][f"{fc}|11|{sp}"]["eff"]:
                 d = e(fc, 11, sp, a) - ref
                 c["arms"][a] = dict(eff=float(e(fc, 11, sp, a).mean()), t0=float(z(fc, 11, sp, a).mean()), latency=LAT[a],
                                     minus_best_classic=float(d.mean()), ci=boot(d))
+        dsa = e(fc, 11, sp, "NN-sincos") - e(fc, 11, sp, "SU-average")
+        c["nn_minus_su_average_eff"] = dict(diff=float(dsa.mean()), ci=boot(dsa))
         dz = z(fc, 11, sp, "NN-sincos") - z(fc, 11, sp, "NN-untrained")
         c["trained_minus_untrained_t0"] = dict(diff=float(dz.mean()), ci=boot(dz))
         if fc == 28:
@@ -43,6 +45,13 @@ W("# Jüri sorusu 5 — öğrenmeye en elverişli rejimde kesin test (ön kayıt
 W(f"Rapor commit'i `{commit}`, değerlendirme `{D['commit'][:7]}`. Ön kayıt `ON_KAYIT_S5.md`. Seçim seed 12, rapor seed 11, 400 senaryo, Tanım 1. "
   f"Ağ çıkarımı {D['nn_latency']['median_ms']:.3f} ms (tek iş parçacığı, toplu 1; turlar {', '.join(f'{x:.3f}' for x in D['nn_latency']['rounds_ms'])}). "
   f"28 GHz bağlantı bütçesi telafisi {json.load(open(R / 'link_budget.json'))['comp_db']:.2f} dB (eğitim tohumu 21).")
+W(""); W("## ⚠ En üstte: aleyhte bulgular (Kural 10)"); W("")
+W("- **Ön kayıtlı H1 ve H2 tutmadı:** tek geçişli ağ ve ağ + Adam karması, en iyi klasik kolun gerisinde (aşağıda).")
+for k in ("28|1.5mps", "28|3kmh", "3|1.5mps", "3|3kmh"):
+    x = out[k]["nn_minus_su_average_eff"]
+    W(f"- **{k.split('|')[0]} GHz, {SPN[k.split('|')[1]]}: eğitilmiş ağ − SU-average** (SU-average daha hızlı: {LAT['SU-average']:.2f} ms): etkin hızda {x['diff']:+.3f} {ci(x['ci'])}"
+      + (" — **anlamlı değil**" if x["ci"][0] <= 0 <= x["ci"][1] else ""))
+W("- Kapsam: tek mimari, tek model tohumu (0), 20 000 eğitim örneği, en çok 60 epoch. Hüküm bu mimari ve bu eğitim bütçesi içindir; daha büyük veri ya da başka mimari sınanmadı.")
 W(""); W("## Kararlar (28 GHz, 1.5 m/s)"); W("")
 a = m["arms"]
 W(f"- **S5-H1** (NN-sincos − en iyi klasik > 0): {a['NN-sincos']['minus_best_classic']:+.3f} {ci(a['NN-sincos']['ci'])} → {yn(dec['S5_H1'])}")
@@ -69,6 +78,7 @@ W("| model | en iyi doğrulama min-hızı | epoch | süre (s) |"); W("| --- | --
 for k, t in tr.items():
     h = t["history"]; be = max(h, key=lambda r: r["val"])
     W(f"| {k} | {t['best_val']:.4f} | {be['epoch']} / {h[-1]['epoch']} | {h[-1].get('seconds', 0):.0f} |")
+W(""); W("Notlar: Adam-L gecikmeleri L ∈ {1, 2, 4, 8, 16, 32, 48} ölçümlerinden doğrusal interpolasyonla. CD-s gecikmeleri `raw/timing.json`'dan (erken durmalı, sapma 2 öncesi); CD hiçbir hücrede en iyi klasik kol olmadığı için kararlar etkilenmez. Derlenmiş CD, ön kayıt gereği klasik kümede değil. NN zamanlamasında ölçüm sonrası yük kaydedilmedi.")
 W(""); W("## Komut, tohum, ham çıktı"); W("")
 W("| Komut | Tohum | Ham çıktı |"); W("| --- | --- | --- |")
 W("| python3 thesis_exp/juri/s5/link_budget.py | kanal 21 | s5/raw/link_budget.json |")

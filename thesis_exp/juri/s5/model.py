@@ -10,7 +10,7 @@ Trained without labels on the soft-min (beta = 8) user rate with fresh regularis
 """
 import torch, torch.nn as nn
 
-ROWS, COLS = 8, 4                       # panel grid; element index n = r * COLS + c  (see check_layout)
+ROWS, COLS = 8, 4                       # panel grid; element index n = r * COLS + c (verified against RISPanel.positions)
 
 
 def features(F, G, H):

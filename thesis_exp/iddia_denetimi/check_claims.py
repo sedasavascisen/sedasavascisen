@@ -55,7 +55,7 @@ def load_all():
     T = ROOT / "thesis_exp"
     for k, rel in (("rule", "tasarim_kurali/raw/validation.json"), ("wb", "genis_bant/raw/results.json"), ("wbs", "genis_bant/raw/sens200.json"),
                    ("wbg4", "genis_bant/raw/g4.json"), ("j31", "juri/raw/s3_s1.json"), ("j1b", "juri/raw/s1b.json"),
-                   ("j42", "juri/raw/s4_s2_summary.json"), ("j4s", "juri/raw/s4_sanity.json")):
+                   ("j42", "juri/raw/s4_s2_summary.json"), ("j4s", "juri/raw/s4_sanity.json"), ("j5", "juri/s5/raw/s5_summary.json")):
         D[k] = json.load(open(T / rel))
     return D
 
@@ -220,6 +220,13 @@ def claims(D):
     add("Q2 Clarke: L* 3-8 within 200 ms", "juri S2", all(s42["summary"][f"clarke|{sp}"]["L_star_latency_ms"] <= 200 for sp in ("3kmh", "1.5mps", "10kmh")))
     rows = D["j4s"]["rows"]
     add("Q4 sanity: 5.412 at t=0, 4.030 at 1.15 ms, 1.067 at 10 ms (joint)", "juri S4 yorum", eq(rows[0]["joint"], 5.412, 3) and eq(rows[1]["joint"], 4.030, 3) and eq(rows[2]["joint"], 1.067, 3))
+    # ---- jury Q5 (juri/REPORT_S5.md)
+    q = D["j5"]; m = q["summary"]["28|1.5mps"]
+    add("Q5 H1 and H2 fail, H3 holds", "juri S5", (not q["decisions"]["S5_H1"]) and (not q["decisions"]["S5_H2"]) and q["decisions"]["S5_H3"])
+    add("Q5 NN-sincos -0.381 vs SU-best-of (28 GHz, 1.5 m/s)", "juri S5", m["best_classic"] == "SU-best-of" and eq(m["arms"]["NN-sincos"]["minus_best_classic"], -0.381, 3) and below(m["arms"]["NN-sincos"]["ci"]))
+    add("Q5 NN vs SU-average not significant at 28 GHz (both speeds)", "juri S5", all(tied(q["summary"][f"28|{sp}"]["nn_minus_su_average_eff"]["ci"]) for sp in ("1.5mps", "3kmh")))
+    add("Q5 sin/cos beats direct angle (+0.04..+0.05, significant)", "juri S5", all(above(q["summary"][f"28|{sp}"][f"sincos_minus_angle_{k}"]["ci"]) for sp in ("1.5mps", "3kmh") for k in ("t0", "eff")))
+    add("Q5 NN latency 0.425 ms", "juri S5", eq(q["nn_latency"]["median_ms"], 0.425, 3))
     return C
 
 
