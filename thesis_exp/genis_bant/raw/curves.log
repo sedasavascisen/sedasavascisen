@@ -1,0 +1,25 @@
+seed 12 B 20 MHz: phases done (68 s)
+  1.5mps: done (326 s)
+  10kmh: done (574 s)
+seed 12 B 50 MHz: phases done (643 s)
+  1.5mps: done (907 s)
+  10kmh: done (1169 s)
+seed 12 B 100 MHz: phases done (1235 s)
+  1.5mps: done (1505 s)
+  10kmh: done (1766 s)
+seed 11 B 20 MHz: phases done (1831 s)
+  1.5mps: done (2081 s)
+  10kmh: done (2337 s)
+seed 11 B 50 MHz: phases done (2403 s)
+  1.5mps: done (2658 s)
+  10kmh: done (2918 s)
+seed 11 B 100 MHz: phases done (2982 s)
+  1.5mps: done (3231 s)
+  10kmh: done (3486 s)
+B 20 MHz 1.5mps: selected K4-L4 5.3982; narrowband K1-L8; sel-nb +0.0131 [-0.024567710235714912, 0.05044322833418846]
+B 20 MHz 10kmh: selected K1-L4 5.2176; narrowband K1-L4; sel-nb +0.0000 [0.0, 0.0]
+B 50 MHz 1.5mps: selected K4-L4 5.1362; narrowband K1-L12; sel-nb +0.0776 [0.03909699246287346, 0.11541146039962769]
+B 50 MHz 10kmh: selected K4-L32 5.1190; narrowband K1-L24; sel-nb +0.1761 [0.11608393490314484, 0.23594145476818085]
+B 100 MHz 1.5mps: selected K16-L32 5.2283; narrowband K1-L48; sel-nb +0.2808 [0.22042208909988403, 0.34211575984954834]
+B 100 MHz 10kmh: selected K16-L32 5.1883; narrowband K1-L24; sel-nb +0.2938 [0.2293495237827301, 0.36185574531555176]
+wrote
