@@ -1,0 +1,723 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Geniş bant OFDM</title><style>
+@page { size: A4; margin: 18mm 15mm 18mm 15mm; }
+:root { --ink:#1b1f24; --mute:#5b6470; --line:#d5dae0; --accent:#1f4e79; --soft:#f3f6f9; }
+body { font-family: 'DejaVu Sans', sans-serif; font-size: 9.2pt; line-height: 1.45; color: var(--ink); background:#fff; }
+h1 { font-size: 17pt; color: var(--accent); margin: 0 0 6pt; }
+h2 { font-size: 12.5pt; color: var(--accent); margin: 14pt 0 5pt; border-bottom: 1px solid var(--line); padding-bottom: 2pt; }
+h3 { font-size: 10.5pt; margin: 11pt 0 4pt; } h4, h5, h6 { font-size: 9.6pt; margin: 9pt 0 3pt; }
+p, li { orphans: 3; widows: 3; } ul, ol { padding-left: 16pt; margin: 3pt 0 6pt; }
+code { font-family: 'DejaVu Sans Mono', monospace; font-size: 8pt; background: var(--soft); padding: 0 2pt; border-radius: 2px; word-break: break-word; }
+pre { background: var(--soft); padding: 6pt; font-size: 7.6pt; white-space: pre-wrap; border-radius: 3px; }
+table { border-collapse: collapse; width: 100%; margin: 6pt 0 10pt; font-size: 7.6pt; page-break-inside: auto; }
+tr { page-break-inside: avoid; } th, td { border: 1px solid var(--line); padding: 2.5pt 4pt; vertical-align: top; text-align: left; word-break: normal; overflow-wrap: break-word; }
+td code { word-break: break-all; }
+.cover th { white-space: nowrap; }
+th { background: var(--soft); }
+blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; background: #fbf1f0; }
+.part { page-break-before: always; } .parthead { border-bottom: 2px solid var(--accent); margin-bottom: 8pt; }
+.tag { display:inline-block; font-size: 8pt; color:#fff; background: var(--accent); padding: 1pt 5pt; border-radius: 3px; margin-right: 4pt; }
+.cover { height: 240mm; display:flex; flex-direction:column; justify-content:center; }
+.cover h1 { font-size: 24pt; } .cover .sub { font-size: 12pt; color: var(--mute); margin-bottom: 18pt; }
+.cover table { width: auto; font-size: 9pt; } .toc li { margin: 2pt 0; list-style: none; } .toc a { color: var(--ink); text-decoration: none; }
+</style></head><body><h1>Geniş bant OFDM — ön kayıtlı deney raporu</h1>
+<p>Rapor commit'i <code>f3652a6</code>, koşu commit'i <code>77d0b17</code>. Ön kayıt <code>ON_KAYIT.md</code> (sapmalar orada, koşudan önce). Seçim seed 12, rapor seed 11, 400 senaryo, 64 alt taşıyıcılı değerlendirme, min-kullanıcı hızı, Tanım 1 (kolun tam gecikmesinde). Fark ve GA'lar eşli bootstrap (2000, %95), seed 11 üzerinde.</p>
+<h2>⚠ En üstte: Makale 2'nin bulgusunu sınırlayan sonuç (Kural 10)</h2>
+<p><strong>G1 TUTMADI.</strong> Makale 2'nin dar bant bulgusu "içsel optimum vardır; L = 48 anlamlı olarak kötüdür" geniş bantta genelleşmiyor: 24 (B, hız, K_opt) hücresinin yalnızca 7'sinde L = 48, L<em>'tan anlamlı olarak kötü. 6 hücrede L</em> tam olarak 48'dir, yani ızgaranın ucundadır.
+Ön kayıt dışı duyarlılıkta (§4) seçim 200 ms'lik güven ufkuyla sınırlandırıldığında: 15/24 hücrede L*, ufuk içindeki en büyük L'dedir; ufkun içindeki en büyük L, 4 hücrede anlamlı olarak kötüdür.
+Dar bant içsel optimumu (K_opt = 1) 20 MHz'de ve 1.5 m/s'de 50 MHz'de korunuyor. Daha geniş bantta ve 10 km/h'de optimum ızgaranın ucuna kayıyor ya da etkin hız eğrisi düzleşiyor. Bu tablo, makaledeki içsel optimum iddiasının dar bant ve bu kanal modeliyle sınırlı yazılması gerektiğini gösteriyor.</p>
+<p><strong>G2 TUTTU ve ana sonuç bu:</strong> geniş bantta optimizasyona alınan alt taşıyıcı sayısı ile süre arasındaki ödünleşim ölçülebiliyor. 20 MHz'de dar bant amaç fonksiyonu yetiyor; 100 MHz'de K_opt = 16 seçiliyor ve en iyi dar bant kolunu yaklaşık +0.28…+0.29 b/s/Hz geçiyor (§3). Bu hüküm 200 ms ufku içinde de değişmiyor (§4).</p>
+<h2>0) Önce okunmalı: sınırlar</h2>
+<ul>
+<li><strong>CD ayarlanmadı.</strong> Plan 1–8 tarama taraması öngörüyordu; ön kayıtta varsayılan taramaya indirildi (702.97 ms). Adam adım boyu 0.5 sabit. CLAUDE.md'deki zayıf taban çizgisi kuralı bakımından G3'ün hükmü bu yüzden zayıftır.</li>
+<li><strong>K_opt = 64 örneklem içidir</strong> (değerlendirme ızgarasının kendisi); üst referans olarak okunmalı.</li>
+<li><strong>Güven ufku.</strong> 200 ms'yi aşan gecikmeler (aşağıdaki tabloda) kanal modelinin korelasyon tabanının içine düşer; oradaki hızlar fiziksel olarak güvenilir değildir.</li>
+<li>Pilot, kestirim hatası ve ön kodlayıcı eskimesi yok (her alt taşıyıcıda taze ZF). Tek kanal modeli; genlik fc'de sabit.</li>
+</ul>
+<h2>1) Ölçülmüş gecikme (boş makine, tek iş parçacığı)</h2>
+<p>Yük: başlangıç 0.03, ölçüm öncesi 0.03, sonrası 1.00 (sonraki değer ölçümün kendi iş parçacığını içerir).</p>
+<table>
+<thead>
+<tr>
+<th>K_opt</th>
+<th>L=1</th>
+<th>L=4</th>
+<th>L=16 (ms, tur medyanı)</th>
+<th>uydurma: sabit + adım (ms)</th>
+<th>L = 48 gecikmesi (ms)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1.73</td>
+<td>5.39</td>
+<td>17.18</td>
+<td>+0.98 + 1.016·L</td>
+<td>50.1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>3.40</td>
+<td>12.38</td>
+<td>40.35</td>
+<td>+1.73 + 2.426·L</td>
+<td>118.5</td>
+</tr>
+<tr>
+<td>16</td>
+<td>9.74</td>
+<td>37.15</td>
+<td>146.59</td>
+<td>+0.64 + 9.122·L</td>
+<td>438.8</td>
+</tr>
+<tr>
+<td>64</td>
+<td>31.46</td>
+<td>139.96</td>
+<td>593.33</td>
+<td>-7.93 + 37.550·L</td>
+<td>1794.8</td>
+</tr>
+</tbody>
+</table>
+<p>SU-best-of 1.63 ms, CD 702.97 ms (dar bant, tek iş parçacıklı yeniden ölçüm; geniş bantta da fc'de optimize ettikleri için aynı).</p>
+<h2>2) Hipotez kararları</h2>
+<ul>
+<li><strong>G1</strong> (her (B, K_opt) için L = 48, L*'tan anlamlı düşük): 7/24 hücrede GA sıfırın altında → <strong>TUTMADI</strong> (tutmayan hücreler §3 tabloda)</li>
+<li><strong>G2</strong> (20 MHz'de seçilen K_opt ≤ 4, 100 MHz'de ≥ 16, her iki hızda): seçilenler 20 MHz 1.5 m/s: K4-L4; 20 MHz 10 km/h: K1-L4; 50 MHz 1.5 m/s: K4-L4; 50 MHz 10 km/h: K4-L32; 100 MHz 1.5 m/s: K16-L32; 100 MHz 10 km/h: K16-L32 → 20 MHz kısmı <strong>TUTTU</strong>, 100 MHz kısmı <strong>TUTTU</strong>; bütün olarak <strong>TUTTU</strong></li>
+<li><strong>G3</strong> (CD, seçilen kolun anlamlı gerisinde, her B ve hızda): 6/6 → <strong>TUTTU</strong> (sınır: CD ayarlanmadı, §0)</li>
+<li><strong>G4</strong> (keşifsel; dar bantta kalibre edilmiş tasarım kuralı, yalnızca ölçülen adım maliyetiyle): 24 hücrede kayıp medyan %0.81, ortalama %1.68, en kötü %7.97 (ayrıntı §5)</li>
+</ul>
+<h2>3) Hücre başına sonuç (seed 11)</h2>
+<table>
+<thead>
+<tr>
+<th>B</th>
+<th>hız</th>
+<th>seçilen (seed 12)</th>
+<th>etkin hız</th>
+<th>− SU-best-of [GA]</th>
+<th>− en iyi dar bant [GA]</th>
+<th>CD − seçilen [GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20 MHz</td>
+<td>1.5 m/s</td>
+<td>K4-L4</td>
+<td>5.398</td>
+<td>+0.448 [+0.396, +0.501]</td>
+<td>+0.013 [-0.025, +0.050] (dar bant: K1-L8)</td>
+<td>-0.473 [-0.557, -0.386]</td>
+</tr>
+<tr>
+<td>20 MHz</td>
+<td>10 km/h</td>
+<td>K1-L4</td>
+<td>5.218</td>
+<td>+0.272 [+0.217, +0.325]</td>
+<td>+0.000 [+0.000, +0.000] (dar bant: K1-L4)</td>
+<td>-0.365 [-0.459, -0.271]</td>
+</tr>
+<tr>
+<td>50 MHz</td>
+<td>1.5 m/s</td>
+<td>K4-L4</td>
+<td>5.136</td>
+<td>+0.341 [+0.298, +0.385]</td>
+<td>+0.078 [+0.039, +0.115] (dar bant: K1-L12)</td>
+<td>-0.227 [-0.301, -0.154]</td>
+</tr>
+<tr>
+<td>50 MHz</td>
+<td>10 km/h</td>
+<td>K4-L32</td>
+<td>5.119</td>
+<td>+0.326 [+0.256, +0.395]</td>
+<td>+0.176 [+0.116, +0.236] (dar bant: K1-L24)</td>
+<td>-0.300 [-0.382, -0.219]</td>
+</tr>
+<tr>
+<td>100 MHz</td>
+<td>1.5 m/s</td>
+<td>K16-L32</td>
+<td>5.228</td>
+<td>+0.496 [+0.420, +0.577]</td>
+<td>+0.281 [+0.220, +0.342] (dar bant: K1-L48)</td>
+<td>-0.331 [-0.390, -0.273]</td>
+</tr>
+<tr>
+<td>100 MHz</td>
+<td>10 km/h</td>
+<td>K16-L32</td>
+<td>5.188</td>
+<td>+0.457 [+0.378, +0.541]</td>
+<td>+0.294 [+0.229, +0.362] (dar bant: K1-L24)</td>
+<td>-0.385 [-0.444, -0.323]</td>
+</tr>
+</tbody>
+</table>
+<h3>K_opt başına içsel optimum (seed 11 argmax; G1)</h3>
+<table>
+<thead>
+<tr>
+<th>B</th>
+<th>hız</th>
+<th>K_opt</th>
+<th>L*</th>
+<th>gecikme (ms)</th>
+<th>etkin hız</th>
+<th>t = 0 hızı</th>
+<th>L=48 − L* [GA]</th>
+<th>L=48 kaybı (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20 MHz</td>
+<td>1.5 m/s</td>
+<td>1</td>
+<td>8</td>
+<td>9.4</td>
+<td>5.385</td>
+<td>5.545</td>
+<td>-0.304 [-0.369, -0.239]</td>
+<td>5.64</td>
+</tr>
+<tr>
+<td>20 MHz</td>
+<td>1.5 m/s</td>
+<td>4</td>
+<td>4</td>
+<td>11.7</td>
+<td>5.398</td>
+<td>5.649</td>
+<td>-0.205 [-0.275, -0.135]</td>
+<td>3.81</td>
+</tr>
+<tr>
+<td>20 MHz</td>
+<td>1.5 m/s</td>
+<td>16</td>
+<td>32</td>
+<td>292.8 ⚠ &gt;200 ms</td>
+<td>5.118</td>
+<td>6.386</td>
+<td>-0.069 [-0.138, +0.001]</td>
+<td>1.34</td>
+</tr>
+<tr>
+<td>20 MHz</td>
+<td>1.5 m/s</td>
+<td>64</td>
+<td>16</td>
+<td>593.2 ⚠ &gt;200 ms</td>
+<td>5.078</td>
+<td>6.205</td>
+<td>-0.088 [-0.179, +0.003]</td>
+<td>1.74</td>
+</tr>
+<tr>
+<td>20 MHz</td>
+<td>10 km/h</td>
+<td>1</td>
+<td>5</td>
+<td>6.4</td>
+<td>5.218</td>
+<td>5.406</td>
+<td>-0.186 [-0.256, -0.116]</td>
+<td>3.56</td>
+</tr>
+<tr>
+<td>20 MHz</td>
+<td>10 km/h</td>
+<td>4</td>
+<td>32</td>
+<td>79.7</td>
+<td>5.162</td>
+<td>6.369</td>
+<td>-0.025 [-0.086, +0.034]</td>
+<td>0.48</td>
+</tr>
+<tr>
+<td>20 MHz</td>
+<td>10 km/h</td>
+<td>16</td>
+<td>32</td>
+<td>292.8 ⚠ &gt;200 ms</td>
+<td>5.075</td>
+<td>6.386</td>
+<td>-0.012 [-0.084, +0.060]</td>
+<td>0.23</td>
+</tr>
+<tr>
+<td>20 MHz</td>
+<td>10 km/h</td>
+<td>64</td>
+<td>10</td>
+<td>367.9 ⚠ &gt;200 ms</td>
+<td>4.975</td>
+<td>6.020</td>
+<td>-0.194 [-0.308, -0.075]</td>
+<td>3.90</td>
+</tr>
+<tr>
+<td>50 MHz</td>
+<td>1.5 m/s</td>
+<td>1</td>
+<td>16</td>
+<td>17.5</td>
+<td>5.061</td>
+<td>5.250</td>
+<td>-0.065 [-0.114, -0.020]</td>
+<td>1.29</td>
+</tr>
+<tr>
+<td>50 MHz</td>
+<td>1.5 m/s</td>
+<td>4</td>
+<td>48</td>
+<td>118.5</td>
+<td>5.155</td>
+<td>5.878</td>
+<td>+0.000 [+0.000, +0.000]</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>50 MHz</td>
+<td>1.5 m/s</td>
+<td>16</td>
+<td>32</td>
+<td>292.8 ⚠ &gt;200 ms</td>
+<td>5.181</td>
+<td>6.016</td>
+<td>-0.039 [-0.100, +0.023]</td>
+<td>0.76</td>
+</tr>
+<tr>
+<td>50 MHz</td>
+<td>1.5 m/s</td>
+<td>64</td>
+<td>16</td>
+<td>593.2 ⚠ &gt;200 ms</td>
+<td>5.097</td>
+<td>5.867</td>
+<td>-0.034 [-0.114, +0.042]</td>
+<td>0.67</td>
+</tr>
+<tr>
+<td>50 MHz</td>
+<td>10 km/h</td>
+<td>1</td>
+<td>48</td>
+<td>50.1</td>
+<td>4.976</td>
+<td>5.375</td>
+<td>+0.000 [+0.000, +0.000]</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>50 MHz</td>
+<td>10 km/h</td>
+<td>4</td>
+<td>32</td>
+<td>79.7</td>
+<td>5.119</td>
+<td>5.829</td>
+<td>-0.000 [-0.045, +0.046]</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>50 MHz</td>
+<td>10 km/h</td>
+<td>16</td>
+<td>48</td>
+<td>438.8 ⚠ &gt;200 ms</td>
+<td>5.128</td>
+<td>6.073</td>
+<td>+0.000 [+0.000, +0.000]</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>50 MHz</td>
+<td>10 km/h</td>
+<td>64</td>
+<td>16</td>
+<td>593.2 ⚠ &gt;200 ms</td>
+<td>5.035</td>
+<td>5.867</td>
+<td>-0.189 [-0.286, -0.091]</td>
+<td>3.75</td>
+</tr>
+<tr>
+<td>100 MHz</td>
+<td>1.5 m/s</td>
+<td>1</td>
+<td>16</td>
+<td>17.5</td>
+<td>4.952</td>
+<td>5.035</td>
+<td>-0.005 [-0.042, +0.033]</td>
+<td>0.09</td>
+</tr>
+<tr>
+<td>100 MHz</td>
+<td>1.5 m/s</td>
+<td>4</td>
+<td>32</td>
+<td>79.7</td>
+<td>5.130</td>
+<td>5.494</td>
+<td>-0.011 [-0.045, +0.022]</td>
+<td>0.22</td>
+</tr>
+<tr>
+<td>100 MHz</td>
+<td>1.5 m/s</td>
+<td>16</td>
+<td>32</td>
+<td>292.8 ⚠ &gt;200 ms</td>
+<td>5.228</td>
+<td>5.786</td>
+<td>-0.040 [-0.094, +0.013]</td>
+<td>0.77</td>
+</tr>
+<tr>
+<td>100 MHz</td>
+<td>1.5 m/s</td>
+<td>64</td>
+<td>16</td>
+<td>593.2 ⚠ &gt;200 ms</td>
+<td>5.154</td>
+<td>5.671</td>
+<td>-0.023 [-0.104, +0.052]</td>
+<td>0.45</td>
+</tr>
+<tr>
+<td>100 MHz</td>
+<td>10 km/h</td>
+<td>1</td>
+<td>48</td>
+<td>50.1</td>
+<td>4.934</td>
+<td>5.139</td>
+<td>+0.000 [+0.000, +0.000]</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>100 MHz</td>
+<td>10 km/h</td>
+<td>4</td>
+<td>48</td>
+<td>118.5</td>
+<td>5.119</td>
+<td>5.530</td>
+<td>+0.000 [+0.000, +0.000]</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>100 MHz</td>
+<td>10 km/h</td>
+<td>16</td>
+<td>48</td>
+<td>438.8 ⚠ &gt;200 ms</td>
+<td>5.192</td>
+<td>5.826</td>
+<td>+0.000 [+0.000, +0.000]</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>100 MHz</td>
+<td>10 km/h</td>
+<td>64</td>
+<td>16</td>
+<td>593.2 ⚠ &gt;200 ms</td>
+<td>5.110</td>
+<td>5.671</td>
+<td>-0.203 [-0.303, -0.110]</td>
+<td>3.98</td>
+</tr>
+</tbody>
+</table>
+<h2>4) Duyarlılık: seçim 200 ms ufkuyla sınırlı (ÖN KAYIT DIŞI, sonuçlar görüldükten sonra yazıldı)</h2>
+<p>Kaynak <code>sens200.py</code> → <code>raw/sens200.json</code>. Aynı veri, aynı seçim protokolü; yalnızca gecikmesi 200 ms'yi aşan kollar dışarıda.</p>
+<table>
+<thead>
+<tr>
+<th>hücre</th>
+<th>seçilen (≤ 200 ms)</th>
+<th>gecikme (ms)</th>
+<th>etkin hız</th>
+<th>− en iyi dar bant [GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20MHz_1.5mps</td>
+<td>K4-L4</td>
+<td>11.7</td>
+<td>5.398</td>
+<td>+0.013 [-0.023, +0.049] (K1-L8)</td>
+</tr>
+<tr>
+<td>20MHz_10kmh</td>
+<td>K1-L4</td>
+<td>5.3</td>
+<td>5.218</td>
+<td>+0.000 [+0.000, +0.000] (K1-L4)</td>
+</tr>
+<tr>
+<td>50MHz_1.5mps</td>
+<td>K4-L4</td>
+<td>11.7</td>
+<td>5.136</td>
+<td>+0.078 [+0.040, +0.116] (K1-L12)</td>
+</tr>
+<tr>
+<td>50MHz_10kmh</td>
+<td>K4-L32</td>
+<td>79.7</td>
+<td>5.119</td>
+<td>+0.176 [+0.114, +0.240] (K1-L24)</td>
+</tr>
+<tr>
+<td>100MHz_1.5mps</td>
+<td>K16-L20</td>
+<td>183.4</td>
+<td>5.187</td>
+<td>+0.239 [+0.188, +0.294] (K1-L48)</td>
+</tr>
+<tr>
+<td>100MHz_10kmh</td>
+<td>K16-L20</td>
+<td>183.4</td>
+<td>5.172</td>
+<td>+0.277 [+0.219, +0.341] (K1-L24)</td>
+</tr>
+</tbody>
+</table>
+<p>G4, yalnızca L*'ı ufuk içinde olan 12 hücrede: kayıp medyan %0.91, en kötü %4.95.</p>
+<h2>5) G4 — tasarım kuralı geniş bant kollarında</h2>
+<table>
+<thead>
+<tr>
+<th>hücre</th>
+<th>adım (ms)</th>
+<th>kural L</th>
+<th>L* (seed 11)</th>
+<th>kayıp (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20MHz_1.5mps_K1</td>
+<td>1.016</td>
+<td>8</td>
+<td>8</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>20MHz_1.5mps_K4</td>
+<td>2.426</td>
+<td>4</td>
+<td>4</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>20MHz_1.5mps_K16</td>
+<td>9.122</td>
+<td>1</td>
+<td>32</td>
+<td>2.95</td>
+</tr>
+<tr>
+<td>20MHz_1.5mps_K64</td>
+<td>37.550</td>
+<td>24</td>
+<td>16</td>
+<td>1.72</td>
+</tr>
+<tr>
+<td>20MHz_10kmh_K1</td>
+<td>1.016</td>
+<td>3</td>
+<td>5</td>
+<td>0.60</td>
+</tr>
+<tr>
+<td>20MHz_10kmh_K4</td>
+<td>2.426</td>
+<td>2</td>
+<td>32</td>
+<td>0.02</td>
+</tr>
+<tr>
+<td>20MHz_10kmh_K16</td>
+<td>9.122</td>
+<td>24</td>
+<td>32</td>
+<td>0.54</td>
+</tr>
+<tr>
+<td>20MHz_10kmh_K64</td>
+<td>37.550</td>
+<td>16</td>
+<td>10</td>
+<td>0.23</td>
+</tr>
+<tr>
+<td>50MHz_1.5mps_K1</td>
+<td>1.016</td>
+<td>8</td>
+<td>16</td>
+<td>0.52</td>
+</tr>
+<tr>
+<td>50MHz_1.5mps_K4</td>
+<td>2.426</td>
+<td>3</td>
+<td>48</td>
+<td>0.78</td>
+</tr>
+<tr>
+<td>50MHz_1.5mps_K16</td>
+<td>9.122</td>
+<td>1</td>
+<td>32</td>
+<td>6.25</td>
+</tr>
+<tr>
+<td>50MHz_1.5mps_K64</td>
+<td>37.550</td>
+<td>24</td>
+<td>16</td>
+<td>0.81</td>
+</tr>
+<tr>
+<td>50MHz_10kmh_K1</td>
+<td>1.016</td>
+<td>3</td>
+<td>48</td>
+<td>1.51</td>
+</tr>
+<tr>
+<td>50MHz_10kmh_K4</td>
+<td>2.426</td>
+<td>2</td>
+<td>32</td>
+<td>3.18</td>
+</tr>
+<tr>
+<td>50MHz_10kmh_K16</td>
+<td>9.122</td>
+<td>24</td>
+<td>48</td>
+<td>0.81</td>
+</tr>
+<tr>
+<td>50MHz_10kmh_K64</td>
+<td>37.550</td>
+<td>16</td>
+<td>16</td>
+<td>0.00</td>
+</tr>
+<tr>
+<td>100MHz_1.5mps_K1</td>
+<td>1.016</td>
+<td>8</td>
+<td>16</td>
+<td>1.05</td>
+</tr>
+<tr>
+<td>100MHz_1.5mps_K4</td>
+<td>2.426</td>
+<td>4</td>
+<td>32</td>
+<td>2.11</td>
+</tr>
+<tr>
+<td>100MHz_1.5mps_K16</td>
+<td>9.122</td>
+<td>1</td>
+<td>32</td>
+<td>7.97</td>
+</tr>
+<tr>
+<td>100MHz_1.5mps_K64</td>
+<td>37.550</td>
+<td>24</td>
+<td>16</td>
+<td>0.23</td>
+</tr>
+<tr>
+<td>100MHz_10kmh_K1</td>
+<td>1.016</td>
+<td>3</td>
+<td>48</td>
+<td>3.00</td>
+</tr>
+<tr>
+<td>100MHz_10kmh_K4</td>
+<td>2.426</td>
+<td>2</td>
+<td>48</td>
+<td>4.95</td>
+</tr>
+<tr>
+<td>100MHz_10kmh_K16</td>
+<td>9.122</td>
+<td>24</td>
+<td>48</td>
+<td>1.00</td>
+</tr>
+<tr>
+<td>100MHz_10kmh_K64</td>
+<td>37.550</td>
+<td>16</td>
+<td>16</td>
+<td>0.00</td>
+</tr>
+</tbody>
+</table>
+<h2>6) Komut, tohum, ham çıktı</h2>
+<table>
+<thead>
+<tr>
+<th>Komut</th>
+<th>Tohum</th>
+<th>Ham çıktı</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>python3 thesis_exp/genis_bant/run.py --part timing</td>
+<td>kanal 11, 20 senaryo</td>
+<td>raw/timing.json, raw/timing.log</td>
+</tr>
+<tr>
+<td>python3 thesis_exp/genis_bant/run.py --part curves (58 dk)</td>
+<td>kanal 12 seçim, 11 rapor; bootstrap 0</td>
+<td>raw/results.json, raw/curves.json, raw/curves.log</td>
+</tr>
+<tr>
+<td>python3 thesis_exp/genis_bant/g4.py</td>
+<td>kanal 12 (R0), 11 (kayıp)</td>
+<td>raw/g4.json, raw/g4.log</td>
+</tr>
+<tr>
+<td>python3 thesis_exp/genis_bant/sens200.py (ön kayıt dışı)</td>
+<td>yeni çekiliş yok; bootstrap common.boot</td>
+<td>raw/sens200.json, raw/sens200.log</td>
+</tr>
+</tbody>
+</table>
+<h2>7) Yorum (bulgulardan ayrı)</h2>
+<ul>
+<li><strong>Tezin kapanışı için ne söylüyor.</strong> Hesaplama gecikmesi geniş bantta da yöntem seçimini belirliyor, ama yeni bir eksende: kaç adım (L) atılacağının yanında, <em>kaç alt taşıyıcı üzerinden</em> optimize edileceği (K_opt) de bir zaman bütçesi kararı. 20 MHz'de ek alt taşıyıcının maliyeti kazancını aşıyor ve dar bant yetiyor. 100 MHz'de K_opt = 16'nın adım başına ~9 kat maliyeti, ~+0.28 b/s/Hz ile karşılığını veriyor. Bu, Makale 2'nin Sonuç bölümündeki "kalite ile zaman arasındaki ek ödünleşim" öngörüsünün ölçülmüş hâli.</li>
+<li><strong>Neden G1 tutmadı (hipotez, sınanmadı).</strong> Etkin hız alt taşıyıcılar üzerinden ortalanınca eskimenin etkisi yumuşuyor. Ayrıca 10 km/h'de kanal birkaç on ms'de sabit saçıcıların bıraktığı korelasyon tabanına iniyor; bundan sonra ek bekleme pek bir şey kaybettirmiyor, ek adım ise t = 0 kalitesini artırmaya devam ediyor. Bu, 10 km/h'de L*'ın 1.5 m/s'dekinden <em>büyük</em> çıkmasını açıklayabilir (örneğin 50 MHz, K_opt = 1: 16 → 48). Taban modelin bir özelliği olduğu için bu davranış fiziksel bir sonuç olarak okunmamalı.</li>
+<li><strong>G4.</strong> Dar bantta 1.5 m/s'de kalibre edilmiş kural, geniş bant kollarına yalnızca ölçülmüş adım maliyetiyle taşındı. Medyan kayıp %0.81, ancak kural bazı hücrelerde ψ'nin salınımlı bölgesinden yararlanıp tuhaf seçimler yapıyor (K_opt = 16'da 1.5 m/s'de L = 1, 10 km/h'de L = 24). Bu seçimlerin çoğu 200 ms ufkunun dışındaki bölgeye düşüyor. Ufuk içinde kalan hücrelerde en kötü kayıp %4.95.</li>
+<li><strong>G3, ayarlanmamış CD'ye karşı.</strong> CD her hücrede seçilen kolun 0.23–0.47 b/s/Hz gerisinde; ama 702.97 ms'lik gecikmesi tek başına güven ufkunun dışında. Hüküm "varsayılan CD geride" olarak okunmalı, "CD geride" olarak değil.</li>
+<li><strong>Seçilen kollar ve güven ufku.</strong> 100 MHz'deki seçilen kol K16-L32 (292.8 ms) ufkun dışında. Duyarlılık analizi ufuk içinde K16-L20'yi (183.4 ms) seçiyor ve dar bant farkı +0.24/+0.28 olarak kalıyor. Hüküm değişmiyor, ancak seçilen kol ufkun kenarında.</li>
+</ul></body></html>

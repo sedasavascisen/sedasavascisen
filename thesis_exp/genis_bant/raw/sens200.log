@@ -1,0 +1,9 @@
+20 MHz 1.5mps: selected<=200ms K4-L4 (11.7 ms) 5.398; - narrowband K1-L8: +0.013 [-0.023355768566951155, 0.04925777946040033]
+20 MHz 10kmh: selected<=200ms K1-L4 (5.3 ms) 5.218; - narrowband K1-L4: +0.000 [0.0, 0.0]
+50 MHz 1.5mps: selected<=200ms K4-L4 (11.7 ms) 5.136; - narrowband K1-L12: +0.078 [0.03998373722098768, 0.11556589645519848]
+50 MHz 10kmh: selected<=200ms K4-L32 (79.7 ms) 5.119; - narrowband K1-L24: +0.176 [0.11381108880368992, 0.24013652157853357]
+100 MHz 1.5mps: selected<=200ms K16-L20 (183.4 ms) 5.187; - narrowband K1-L48: +0.239 [0.1883264843239449, 0.2938112303372472]
+100 MHz 10kmh: selected<=200ms K16-L20 (183.4 ms) 5.172; - narrowband K1-L24: +0.277 [0.21903435052512216, 0.34058781229821034]
+G4 on cells with L* <= 200 ms: 12 median 0.9111796854436305 max 4.945952589513524
+G1 (largest in-horizon L vs L*): 4 / 24 significant; 15 at the in-horizon edge
+wrote

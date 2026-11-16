@@ -17,6 +17,20 @@ W("# Geniş bant OFDM — ön kayıtlı deney raporu"); W("")
 W(f"Rapor commit'i `{commit}`, koşu commit'i `{res['commit'][:7]}`. Ön kayıt `ON_KAYIT.md` (sapmalar orada, koşudan önce). "
   "Seçim seed 12, rapor seed 11, 400 senaryo, 64 alt taşıyıcılı değerlendirme, min-kullanıcı hızı, Tanım 1 (kolun tam gecikmesinde). "
   "Fark ve GA'lar eşli bootstrap (2000, %95), seed 11 üzerinde.")
+S2 = json.load(open(R / "sens200.json")) if (R / "sens200.json").exists() else None
+W("")
+n1top = sum(C[f"{bw}MHz_{sp}"]["by_kopt"][k]["ci"][1] < 0 for bw in BWS for sp in SPS for k in C[f"{bw}MHz_{sp}"]["by_kopt"])
+W("## ⚠ En üstte: Makale 2'nin bulgusunu sınırlayan sonuç (Kural 10)"); W("")
+W(f"**G1 TUTMADI.** Makale 2'nin dar bant bulgusu \"içsel optimum vardır; L = 48 anlamlı olarak kötüdür\" geniş bantta genelleşmiyor: "
+  f"24 (B, hız, K_opt) hücresinin yalnızca {n1top}'sinde L = 48, L*'tan anlamlı olarak kötü. "
+  f"{sum(C[f'{bw}MHz_{sp}']['by_kopt'][k]['L_star_test'].endswith('-L48') for bw in BWS for sp in SPS for k in C[f'{bw}MHz_{sp}']['by_kopt'])} hücrede L* tam olarak 48'dir, yani ızgaranın ucundadır.")
+if S2:
+    W(f"Ön kayıt dışı duyarlılıkta (§4) seçim 200 ms'lik güven ufkuyla sınırlandırıldığında: {sum(x['L_star_at_edge'] for x in S2['g1'])}/{len(S2['g1'])} hücrede L*, "
+      f"ufuk içindeki en büyük L'dedir; ufkun içindeki en büyük L, {sum(x['ci'][1] < 0 for x in S2['g1'])} hücrede anlamlı olarak kötüdür.")
+W("Dar bant içsel optimumu (K_opt = 1) 20 MHz'de ve 1.5 m/s'de 50 MHz'de korunuyor. Daha geniş bantta ve 10 km/h'de optimum ızgaranın ucuna kayıyor ya da etkin hız eğrisi düzleşiyor. "
+  "Bu tablo, makaledeki içsel optimum iddiasının dar bant ve bu kanal modeliyle sınırlı yazılması gerektiğini gösteriyor.")
+W(""); W("**G2 TUTTU ve ana sonuç bu:** geniş bantta optimizasyona alınan alt taşıyıcı sayısı ile süre arasındaki ödünleşim ölçülebiliyor. 20 MHz'de dar bant amaç fonksiyonu yetiyor; "
+  "100 MHz'de K_opt = 16 seçiliyor ve en iyi dar bant kolunu yaklaşık +0.28…+0.29 b/s/Hz geçiyor (§3). Bu hüküm 200 ms ufku içinde de değişmiyor (§4).")
 W("")
 W("## 0) Önce okunmalı: sınırlar"); W("")
 W("- **CD ayarlanmadı.** Plan 1–8 tarama taraması öngörüyordu; ön kayıtta varsayılan taramaya indirildi (702.97 ms). Adam adım boyu 0.5 sabit. "
@@ -76,6 +90,15 @@ for bw, sp, k, d, _ in g1:
     flag = " ⚠ >200 ms" if d["latency_L_star"] > 200 else ""
     W(f"| {bw} MHz | {SPN[sp]} | {k} | {d['L_star_test'].split('-L')[1]} | {d['latency_L_star']:.1f}{flag} | {d['eff_L_star']:.3f} | {d['t0_L_star']:.3f} | "
       f"{d['L48_minus_Lstar']:+.3f} {ci(d['ci'])} | {d['loss_L48_pct']:.2f} |")
+if S2:
+    W(""); W("## 4) Duyarlılık: seçim 200 ms ufkuyla sınırlı (ÖN KAYIT DIŞI, sonuçlar görüldükten sonra yazıldı)"); W("")
+    W("Kaynak `sens200.py` → `raw/sens200.json`. Aynı veri, aynı seçim protokolü; yalnızca gecikmesi 200 ms'yi aşan kollar dışarıda.")
+    W(""); W("| hücre | seçilen (≤ 200 ms) | gecikme (ms) | etkin hız | − en iyi dar bant [GA] |"); W("| --- | --- | --- | --- | --- |")
+    for key, c in S2["cells"].items():
+        W(f"| {key} | {c['selected']} | {c['latency_ms']:.1f} | {c['eff']:.3f} | {c['minus_narrowband']:+.3f} {ci(c['ci'])} ({c['narrowband']}) |")
+    import numpy as np
+    L4 = [x["loss_pct"] for x in S2["g4"]]
+    W(""); W(f"G4, yalnızca L*'ı ufuk içinde olan {len(L4)} hücrede: kayıp medyan %{np.median(L4):.2f}, en kötü %{max(L4):.2f}.")
 if g4:
     W(""); W("## 5) G4 — tasarım kuralı geniş bant kollarında"); W("")
     W("| hücre | adım (ms) | kural L | L* (seed 11) | kayıp (%) |"); W("| --- | --- | --- | --- | --- |")
@@ -86,6 +109,7 @@ W("| Komut | Tohum | Ham çıktı |"); W("| --- | --- | --- |")
 W("| python3 thesis_exp/genis_bant/run.py --part timing | kanal 11, 20 senaryo | raw/timing.json, raw/timing.log |")
 W(f"| python3 thesis_exp/genis_bant/run.py --part curves ({res['seconds']/60:.0f} dk) | kanal 12 seçim, 11 rapor; bootstrap 0 | raw/results.json, raw/curves.json, raw/curves.log |")
 W("| python3 thesis_exp/genis_bant/g4.py | kanal 12 (R0), 11 (kayıp) | raw/g4.json, raw/g4.log |")
+W("| python3 thesis_exp/genis_bant/sens200.py (ön kayıt dışı) | yeni çekiliş yok; bootstrap common.boot | raw/sens200.json, raw/sens200.log |")
 y = H / "yorum.md"
 if y.exists():
     W(""); W("## 7) Yorum (bulgulardan ayrı)"); W(""); W(y.read_text().strip())

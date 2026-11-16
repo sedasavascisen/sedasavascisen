@@ -1,0 +1,150 @@
+{
+ "commit": "f3652a6a71c18a36ba00728cd78bdce7803eef57",
+ "note": "1.5 m/s, seed 12) pick a good L for each wideband (B, K_opt) arm, using only that arm's measured step cost?",
+ "cells": {
+  "20MHz_1.5mps_K1": {
+   "L_rule": 8,
+   "L_star_test": 8,
+   "loss_pct": 0.0,
+   "dT_ms": 1.0164042916661251
+  },
+  "20MHz_1.5mps_K4": {
+   "L_rule": 4,
+   "L_star_test": 4,
+   "loss_pct": 0.0,
+   "dT_ms": 2.425724994027622
+  },
+  "20MHz_1.5mps_K16": {
+   "L_rule": 1,
+   "L_star_test": 32,
+   "loss_pct": 2.954411723791295,
+   "dT_ms": 9.122064499982638
+  },
+  "20MHz_1.5mps_K64": {
+   "L_rule": 24,
+   "L_star_test": 16,
+   "loss_pct": 1.7186693499113503,
+   "dT_ms": 37.550020047606715
+  },
+  "20MHz_10kmh_K1": {
+   "L_rule": 3,
+   "L_star_test": 5,
+   "loss_pct": 0.6022756492180537,
+   "dT_ms": 1.0164042916661251
+  },
+  "20MHz_10kmh_K4": {
+   "L_rule": 2,
+   "L_star_test": 32,
+   "loss_pct": 0.018176145692738732,
+   "dT_ms": 2.425724994027622
+  },
+  "20MHz_10kmh_K16": {
+   "L_rule": 24,
+   "L_star_test": 32,
+   "loss_pct": 0.54059403078065,
+   "dT_ms": 9.122064499982638
+  },
+  "20MHz_10kmh_K64": {
+   "L_rule": 16,
+   "L_star_test": 10,
+   "loss_pct": 0.2312754011357443,
+   "dT_ms": 37.550020047606715
+  },
+  "50MHz_1.5mps_K1": {
+   "L_rule": 8,
+   "L_star_test": 16,
+   "loss_pct": 0.520539292281974,
+   "dT_ms": 1.0164042916661251
+  },
+  "50MHz_1.5mps_K4": {
+   "L_rule": 3,
+   "L_star_test": 48,
+   "loss_pct": 0.7766493746329539,
+   "dT_ms": 2.425724994027622
+  },
+  "50MHz_1.5mps_K16": {
+   "L_rule": 1,
+   "L_star_test": 32,
+   "loss_pct": 6.247834437965361,
+   "dT_ms": 9.122064499982638
+  },
+  "50MHz_1.5mps_K64": {
+   "L_rule": 24,
+   "L_star_test": 16,
+   "loss_pct": 0.8142192352092126,
+   "dT_ms": 37.550020047606715
+  },
+  "50MHz_10kmh_K1": {
+   "L_rule": 3,
+   "L_star_test": 48,
+   "loss_pct": 1.5145598970891627,
+   "dT_ms": 1.0164042916661251
+  },
+  "50MHz_10kmh_K4": {
+   "L_rule": 2,
+   "L_star_test": 32,
+   "loss_pct": 3.1807571379481203,
+   "dT_ms": 2.425724994027622
+  },
+  "50MHz_10kmh_K16": {
+   "L_rule": 24,
+   "L_star_test": 48,
+   "loss_pct": 0.8072818992407638,
+   "dT_ms": 9.122064499982638
+  },
+  "50MHz_10kmh_K64": {
+   "L_rule": 16,
+   "L_star_test": 16,
+   "loss_pct": 0.0,
+   "dT_ms": 37.550020047606715
+  },
+  "100MHz_1.5mps_K1": {
+   "L_rule": 8,
+   "L_star_test": 16,
+   "loss_pct": 1.045709996254307,
+   "dT_ms": 1.0164042916661251
+  },
+  "100MHz_1.5mps_K4": {
+   "L_rule": 4,
+   "L_star_test": 32,
+   "loss_pct": 2.1133682851353974,
+   "dT_ms": 2.425724994027622
+  },
+  "100MHz_1.5mps_K16": {
+   "L_rule": 1,
+   "L_star_test": 32,
+   "loss_pct": 7.96688069861341,
+   "dT_ms": 9.122064499982638
+  },
+  "100MHz_1.5mps_K64": {
+   "L_rule": 24,
+   "L_star_test": 16,
+   "loss_pct": 0.23001489959434407,
+   "dT_ms": 37.550020047606715
+  },
+  "100MHz_10kmh_K1": {
+   "L_rule": 3,
+   "L_star_test": 48,
+   "loss_pct": 3.000362526428646,
+   "dT_ms": 1.0164042916661251
+  },
+  "100MHz_10kmh_K4": {
+   "L_rule": 2,
+   "L_star_test": 48,
+   "loss_pct": 4.945952589513524,
+   "dT_ms": 2.425724994027622
+  },
+  "100MHz_10kmh_K16": {
+   "L_rule": 24,
+   "L_star_test": 48,
+   "loss_pct": 1.0021247313207526,
+   "dT_ms": 9.122064499982638
+  },
+  "100MHz_10kmh_K64": {
+   "L_rule": 16,
+   "L_star_test": 16,
+   "loss_pct": 0.0,
+   "dT_ms": 37.550020047606715
+  }
+ }
+}

@@ -1,0 +1,25 @@
+B 20 1.5mps K1: rule L 8, L* 8, loss 0.00%
+B 20 1.5mps K4: rule L 4, L* 4, loss 0.00%
+B 20 1.5mps K16: rule L 1, L* 32, loss 2.95%
+B 20 1.5mps K64: rule L 24, L* 16, loss 1.72%
+B 20 10kmh K1: rule L 3, L* 5, loss 0.60%
+B 20 10kmh K4: rule L 2, L* 32, loss 0.02%
+B 20 10kmh K16: rule L 24, L* 32, loss 0.54%
+B 20 10kmh K64: rule L 16, L* 10, loss 0.23%
+B 50 1.5mps K1: rule L 8, L* 16, loss 0.52%
+B 50 1.5mps K4: rule L 3, L* 48, loss 0.78%
+B 50 1.5mps K16: rule L 1, L* 32, loss 6.25%
+B 50 1.5mps K64: rule L 24, L* 16, loss 0.81%
+B 50 10kmh K1: rule L 3, L* 48, loss 1.51%
+B 50 10kmh K4: rule L 2, L* 32, loss 3.18%
+B 50 10kmh K16: rule L 24, L* 48, loss 0.81%
+B 50 10kmh K64: rule L 16, L* 16, loss 0.00%
+B 100 1.5mps K1: rule L 8, L* 16, loss 1.05%
+B 100 1.5mps K4: rule L 4, L* 32, loss 2.11%
+B 100 1.5mps K16: rule L 1, L* 32, loss 7.97%
+B 100 1.5mps K64: rule L 24, L* 16, loss 0.23%
+B 100 10kmh K1: rule L 3, L* 48, loss 3.00%
+B 100 10kmh K4: rule L 2, L* 48, loss 4.95%
+B 100 10kmh K16: rule L 24, L* 48, loss 1.00%
+B 100 10kmh K64: rule L 16, L* 16, loss 0.00%
+wrote g4
