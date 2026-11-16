@@ -1,0 +1,8 @@
+- **Ön kayıtlı üç hipotezin üçü de tuttu.** Kural hiç görmediği bir çekilişte ve hiç görmediği hızlarda (yalnızca 1.5 m/s'de kalibre edildi) test edildi. 60 koşulda medyan kayıp %0.08, ortalama %0.29, en kötü %2.74. Sabit seçimler çok daha kötü: "hep L = 48" ortalama %3.63 (en kötü %16.4), "hep L = 5" ortalama %3.01 (en kötü %9.3). Makalenin kapalı formu ortalama %1.84 (en kötü %8.3).
+- **Kuralın katkısı, fazın tutulma süresini hesaba katması.** H3, W > 0 koşullarında kapalı forma göre +1.97 puan [+1.45, +2.49]. Kapalı form yalnızca anlık etkin hız için kurulmuştu.
+- **En kötü koşullar güven ufkunun ötesinde.** Kaybın en yüksek olduğu koşulların hepsi büyük ΔT'de (5.32 ms) ya da yüksek hızda (18–30 km/h). Buralarda L = 48 ile devreye girme 255 ms sürer ve 200 ms'lik güven ufkunu aşar. Sınamada bu koşullarda L* = 48 çıkıyor; bunun nedeni büyük olasılıkla sabit saçıcıların bıraktığı korelasyon tabanı (Makale 2'nin sınırlılığı). Bu koşullardaki L* fiziksel olarak güvenilir değil. Kural yine de burada en fazla %2.74 kaybediyor.
+- **Kalibrasyon yaklaşıklığı.** ψ'nin L'ler arası yayılımı 0.11 idi. Buna rağmen sınama kaybı küçük, çünkü bu yayılım R̂(L) eğrisinin tepesinin yerini az kaydırıyor.
+- **Sınırlar:**
+  - Pilot ve kestirim hatası yok. Ön kayıtta keşifsel olarak bırakıldı ve henüz koşulmadı.
+  - Tek kanal modeli; bütün koşullar aynı kurgunun farklı hız ve sürelerinde.
+  - Kural, ψ'yi aynı modelden kalibre ediyor. Bu yüzden başka bir kanal modeline taşınabilirliği ayrıca sınanmalı; geniş bant deneyinde G4 bunun bir parçası.
