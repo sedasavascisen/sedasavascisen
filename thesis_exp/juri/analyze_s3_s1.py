@@ -8,6 +8,7 @@ import numpy as np
 from common import boot
 H = pathlib.Path(__file__).parent; R = H / "raw"
 D = json.load(open(R / "arms.json")); TMJ = json.load(open(R / "timing.json")); TM = TMJ["median_ms"]
+TM = {**TM, **json.load(open(R / "timing3.json"))["median_ms"]}          # deviation 2: CD-s timed without early stop
 BUDGETS = [2, 5, 10, 20, 50, 100, 200, 1000, 6000]
 SP = {"1.5mps": "1.5 m/s", "10kmh": "10 km/h"}
 FAST = ["SU-average", "SU-best-of"] + [k for k in D["lat_meas"] if k.startswith("Adam-")]
@@ -122,7 +123,7 @@ for k in ["su_average", "su_best_of", "adam1", "adam8", "adam48", "pga"]:
 for k in ["cd1", "cd8", "numba_direct8", "numba_incr8"]:
     W(f"| {k} (erken durmasız) | {T3['median_ms'][k]:.2f} | {min(T3['rounds_ms'][k]):.2f}–{max(T3['rounds_ms'][k]):.2f} |")
 W(f"Yük: timing2 {T2J['load']['before']:.2f} → {T2J['load']['after']:.2f}; timing3 {T3['load']['before']:.2f} → {T3['load']['after']:.2f}.")
-W(""); W("| tarama s | torch CD (ms) | numba doğrudan (ms) | numba artımlı (ms) | hızlanma doğrudan | hızlanma artımlı |"); W("| --- | --- | --- | --- | --- | --- |")
+W(""); W("Erken durmasız (sapma 2) tarama başına süreler:"); W(""); W("| tarama s | torch CD (ms) | numba doğrudan (ms) | numba artımlı (ms) | hızlanma doğrudan | hızlanma artımlı |"); W("| --- | --- | --- | --- | --- | --- |")
 for s in range(1, 9):
     W(f"| {s} | {TM[f'cd{s}']:.2f} | {TM[f'numba_direct{s}']:.3f} | {TM[f'numba_incr{s}']:.3f} | {TM[f'cd{s}']/TM[f'numba_direct{s}']:.0f}× | {TM[f'cd{s}']/TM[f'numba_incr{s}']:.0f}× |")
 for sp in SP:

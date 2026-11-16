@@ -1,5 +1,15 @@
-- **Soru 2'ye yanıt: iç optimum, korelasyon tabanı olmayan kanalda da var.** Truong–Heath türü Clarke kanalında L* 3–8 adım (3.4–8.8 ms), yani güven ufkunun çok içinde. L = 48'in kaybı %27–32; bu, makaledeki kanaldaki %13.5–14.8'in yaklaşık iki katı. Sabit saçıcıların bıraktığı taban, kaybı küçültüyordu. Makaledeki sonuç modelin bir yapaylığı değil; muhafazakâr bir alt sınır.
-- **Soru 4'e yanıt: ön kodlayıcı RIS'le birlikte eskirse her şey ~1 ms içinde çöküyor.** τ = 0'da iki koşul birebir aynı (5.412). 1.15 ms'de kanaldaki görece değişim yalnızca %0.5 (−23 dB), ama bayat ZF'nin girişim bastırması bozuluyor ve %25 kaybediliyor. 10 ms'de görece değişim %38'e çıkıyor ve hız 1.07'ye iniyor.
-- Hipotezler biçimsel olarak tuttu, ama iç optimum burada yok: L* ızgaranın alt ucunda (L = 1). 1.5 m/s ve 10 km/h'de en iyi kol optimizasyonsuz SU-average.
-- Sonuç: ön kodlayıcının her slotta (≤ 1 ms) tazelenmesi bir tercih değil, zorunluluk. Makale 2'nin "BS ön kodlayıcıyı güncel kanaldan yeniden hesaplar" varsayımı, iki ayrı zaman ölçeğinin tasarım gereği olarak yazılmalı: ön kodlayıcı hızlı döngüde, RIS fazı yavaş döngüde.
-- **Arası.** Pilot gecikmesi ve kestirim hatasıyla tazelenen ön kodlayıcı ara durumdur ve `thesis_exp/p4/onkodlayici_pilot`, `onkodlayici_csi` deneylerinde zaten ölçüldü. Bu iki uç, o deneylerin yerini almaz.
+- **Soru 2'ye yanıt: iç optimum, korelasyon tabanı olmayan kanalda da var.**
+  - Truong–Heath türü Clarke kanalında L* 3–8 adım (3.4–8.8 ms), yani güven ufkunun çok içinde. L = 48'in kaybı %27–32; bu oturumdaki taze ön kodlayıcı koşusunda bu kayıp %13.5–14.8.
+  - İç optimum, sabit saçıcılı modelin bir yapaylığı değil: iki karşıt uç modelde de var.
+  - Kaybın büyüklüğü ise modele bağlı. Bu iki uç, gerçek bir kanal için bir alt sınır kanıtı sayılmaz.
+- **Soru 4'e yanıt: ön kodlayıcı RIS ile birlikte eskirse her şey ~1 ms içinde çöküyor** (`s4_sanity.py` → `raw/s4_sanity.json`).
+  - τ = 0'da iki koşul birebir aynı (5.412).
+  - 1.15 ms'de kanaldaki görece değişim yalnızca %0.53 (−23 dB). Bu kadarı bile bayat ZF'nin girişim bastırmasını bozuyor: hız 5.409'dan 4.030'a iniyor.
+  - 10 ms'de görece değişim %38 ve hız 1.067.
+- **Hipotezler biçimsel olarak tuttu, ama iç optimum yok.**
+  - L* ızgaranın alt ucunda (L = 1); bu sansürlü bir değer.
+  - 1.5 m/s ve 10 km/h'de en iyi kol optimizasyonsuz SU-average.
+  - Sonuç: ön kodlayıcıyı her slotta (≤ 1 ms) tazelemek bir tercih değil, zorunluluk.
+  - Makale 2'nin "BS ön kodlayıcıyı güncel kanaldan yeniden hesaplar" varsayımı, iki ayrı zaman ölçeğinin tasarım gereği olarak yazılmalı: ön kodlayıcı hızlı döngüde, RIS fazı yavaş döngüde.
+- **Ara durum.** Pilot gecikmesi ve kestirim hatasıyla tazelenen ön kodlayıcı, `thesis_exp/p4/onkodlayici_pilot` ve `onkodlayici_csi` deneylerinde zaten ölçüldü. Bu iki uç o deneylerin yerini almaz.
+- **Sınır.** Clarke kolu, t = 0 kanalının hızdan bağımsız olduğunu varsayıyor; bu, `common.Aging`'in ızgaradan bağımsızlık özelliğine dayanıyor.
