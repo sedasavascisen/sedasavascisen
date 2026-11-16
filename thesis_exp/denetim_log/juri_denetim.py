@@ -183,6 +183,8 @@ SPN = {"3kmh": "3 km/h", "1.5mps": "1.5 m/s", "10kmh": "10 km/h"}
 CN = {"fresh": "taze ön kodlayıcı (Makale 2)", "joint": "birlikte eskime (Soru 4)", "clarke": "Clarke kanalı (Soru 2)"}
 adams = [f"Adam-{L}" for L in [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32, 48]]
 mine = {}
+rng0 = np.random.default_rng(0)          # exact replica of common.boot's stream in a fresh analyze_s4_s2.py process
+boot0 = lambda x: (lambda b: [float(np.percentile(b, 2.5)), float(np.percentile(b, 97.5))])([x[rng0.integers(0, len(x), len(x))].mean() for _ in range(2000)])
 for c in CN:
     for sp in SPN:
         row = re.search(rf"\| {re.escape(CN[c])} \| {SPN[sp]} \| (\d+) \(([\d.]+)\) \| ([\d.]+) \| ([+\-][\d.]+) \[([+\-][\d.]+), ([+\-][\d.]+)\] \| ([\d.]+) \| (CD-\d) ([+\-][\d.]+) \[([+\-][\d.]+), ([+\-][\d.]+)\] \| ([\w\-]+) \(([\d.]+)\) \|", rep4).groups()
@@ -199,8 +201,10 @@ for c in CN:
             [float(row[1]), float(row[2]), float(row[3]), float(row[6]), float(row[8]), float(row[12])],
             [L4[Ls], G4(c, 11, sp, Ls).mean(), d48.mean(), 100 * (1 - G4(c, 11, sp, "Adam-48").mean() / G4(c, 11, sp, Ls).mean()),
              dcd.mean(), G4(c, 11, sp, best).mean()], 0.051)
-        chk(f"{tag} GA L48−L*", [float(row[4]), float(row[5])], ci48, 0.01)
-        chk(f"{tag} GA CD−SBO", [float(row[9]), float(row[10])], cicd, 0.01)
+        chk(f"{tag} GA L48−L* (bağımsız bootstrap, tol 0.015)", [float(row[4]), float(row[5])], ci48, 0.015)
+        chk(f"{tag} GA CD−SBO (bağımsız bootstrap, tol 0.015)", [float(row[9]), float(row[10])], cicd, 0.015)
+        e48, ecd = boot0(d48), boot0(dcd)
+        chk(f"{tag} GA L48−L* ve CD−SBO, common.boot akışının birebir kopyası (tohum 0) = summary.json", SUMM["summary"][f"{c}|{sp}"]["ci48"] + SUMM["summary"][f"{c}|{sp}"]["ci_cd"], e48 + ecd, 1e-9)
         ROWS.append((f"[bilgi] {tag} seed-12 L seçimi; SU-average etkin; SU-best-of etkin", "—",
                      f"{Lsel}; {G4(c, 11, sp, 'SU-average').mean():.3f}; {G4(c, 11, sp, 'SU-best-of').mean():.3f}", "bilgi"))
 h = lambda c: mine[(c, "1.5mps")]
@@ -209,7 +213,7 @@ dec = dict(S4_H1=h("joint")["ci48"][1] < 0, S4_H2=h("joint")["cicd"][1] < 0,
 for k, v in dec.items():
     chk(f"karar {k}", "TUTTU" if SUMM["decisions"][k] else "TUTMADI", "TUTTU" if v else "TUTMADI", 0)
 # S4 commentary numbers
-chk("yorum S4: τ=0 değeri 5.412 = t0 SU-average seed 11 (arms.json)", 5.412, t0(11, "1.5mps", "SU-average").mean(), 0.0006)
+chk("yorum S4: τ=0 değeri 5.412 = t0 Adam-1 seed 11 (arms.json; iki koşul τ=0'da tanım gereği aynı)", 5.412, t0(11, "1.5mps", "Adam-1").mean(), 0.0006)
 chk("yorum S4: 1.15 ms'de ~%25 kayıp (joint Adam-1 / fresh Adam-1, 1.5 m/s)", 25.0,
     100 * (1 - G4("joint", 11, "1.5mps", "Adam-1").mean() / G4("fresh", 11, "1.5mps", "Adam-1").mean()), 1.0)
 chk("yorum S4: joint Adam-1 gecikmesi 1.15 ms", 1.15, L4["Adam-1"], 0.005)
