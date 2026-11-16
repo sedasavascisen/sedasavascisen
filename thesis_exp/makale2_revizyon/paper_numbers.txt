@@ -121,18 +121,19 @@ check  balance ratio at measured L*: 0.19-1.65 (model 0.47)
 check  Fraunhofer: 8x4 2D^2/lam 4.00 m vs BS 5.98 m, 8x8 2D^2/lam 6.40 m vs BS 5.98 m
 check  tau* = L* dT (ms): 1.6, 2.4, 5.3, 6.0, 8.3, 10.0
 model  timing N32 1.56 ms, N64 1.63 ms, ratio 1.04; load 0.4->0.5
-track  T_p=0.0 cold: best U=None L=3 5.833 [5.608, 6.069]; near-best L=[3, 4]; any L<=8 near best: True; b2b best L=3 5.833; b2b L=48 5.169
-track  T_p=0.0 warm: best U=None L=2 6.357 [6.126, 6.596]; near-best L=[2]; any L<=8 near best: True; b2b best L=2 6.357; b2b L=48 5.167
-track  T_p=0.0 warm-cold 0.524 [0.495, 0.554]
-track  T_p=0.86 cold: best U=20.0 L=4 5.200 [4.986, 5.423]; near-best L=[3, 4, 6]; any L<=8 near best: True; b2b best L=6 5.185; b2b L=48 5.136
-track  T_p=0.86 warm: best U=10.0 L=3 5.422 [5.217, 5.635]; near-best L=[2, 3]; any L<=8 near best: True; b2b best L=6 5.389; b2b L=48 5.133
-track  T_p=0.86 warm-cold 0.222 [0.192, 0.253]
-track  T_p=1.71 cold: best U=None L=48 5.088 [4.863, 5.322]; near-best L=[3, 6, 8, 8, 12, 16, 24, 48]; any L<=8 near best: True; b2b best L=48 5.088; b2b L=48 5.088
-track  T_p=1.71 warm: best U=20.0 L=3 5.234 [5.021, 5.452]; near-best L=[3]; any L<=8 near best: True; b2b best L=48 5.080; b2b L=48 5.080
-track  T_p=1.71 warm-cold 0.146 [0.097, 0.198]
-track  T_p=3.43 cold: best U=None L=48 4.978 [4.757, 5.209]; near-best L=[8, 12, 16, 24, 48]; any L<=8 near best: True; b2b best L=48 4.978; b2b L=48 4.978
-track  T_p=3.43 warm: best U=80.0 L=8 4.986 [4.773, 5.212]; near-best L=[4, 6, 8, 12, 16, 24, 48]; any L<=8 near best: True; b2b best L=48 4.969; b2b L=48 4.969
-track  T_p=3.43 warm-cold 0.008 [-0.035, 0.050]
+# REVISION 16 Nov 2026: Table III from thesis_exp/p4/takip_duzeltme/raw/fix1_tp*.json (corrected pilot/deployment rounding, verification K4)
+track  T_p=0.0 cold: best U=None L=3 5.829 [5.604, 6.064]; near-best L=[3, 4]; any L<=8 near best: True; b2b best L=3 5.829; b2b L=48 5.169
+track  T_p=0.0 warm: best U=None L=2 6.356 [6.126, 6.595]; near-best L=[2]; any L<=8 near best: True; b2b best L=2 6.356; b2b L=48 5.167
+track  T_p=0.0 warm-cold 0.527 [0.499, 0.557]
+track  T_p=0.86 cold: best U=20.0 L=3 5.239 [5.024, 5.465]; near-best L=[3, 4]; any L<=8 near best: True; b2b best L=6 5.174; b2b L=48 5.118
+track  T_p=0.86 warm: best U=10.0 L=3 5.515 [5.307, 5.731]; near-best L=[3]; any L<=8 near best: True; b2b best L=4 5.391; b2b L=48 5.115
+track  T_p=0.86 warm-cold 0.276 [0.244, 0.308]
+track  T_p=1.71 cold: best U=None L=48 5.077 [4.853, 5.311]; near-best L=[6, 8, 8, 12, 16, 24, 48]; any L<=8 near best: True; b2b best L=48 5.077; b2b L=48 5.077
+track  T_p=1.71 warm: best U=20.0 L=3 5.169 [4.959, 5.384]; near-best L=[3, 4, 4, 6]; any L<=8 near best: True; b2b best L=48 5.069; b2b L=48 5.069
+track  T_p=1.71 warm-cold 0.092 [0.042, 0.145]
+track  T_p=3.43 cold: best U=None L=48 4.982 [4.761, 5.213]; near-best L=[8, 12, 16, 24, 48]; any L<=8 near best: True; b2b best L=48 4.982; b2b L=48 4.982
+track  T_p=3.43 warm: best U=80.0 L=24 4.990 [4.770, 5.227]; near-best L=[3, 4, 6, 8, 12, 24, 48]; any L<=8 near best: True; b2b best L=48 4.972; b2b L=48 4.972
+track  T_p=3.43 warm-cold 0.008 [-0.027, 0.041]
 pilot  SCS 15 kHz: symbol 71.4 us; 48 symbols -> 3.43 ms; 132 symbols -> 9.43 ms
 pilot  SCS 30 kHz: symbol 35.7 us; 48 symbols -> 1.71 ms; 132 symbols -> 4.71 ms
 pilot  SCS 60 kHz: symbol 17.9 us; 48 symbols -> 0.86 ms; 132 symbols -> 2.36 ms

@@ -33,3 +33,28 @@ Makale TWC'ye gönderildiyse bu değişiklikler bir revizyon turunda ya da hakem
 Yeni bölümdeki sayıların hepsi yukarıdaki raporlara bağlıdır. Bu sayılar 11 denetim turunun kapsamındaki raporlardan alındı; denetim, sayıları bu makale metnine kopyalanmış hâliyle ayrıca sınamadı.
 
 Sözcük ve dil kontrolünü, özellikle yeni §VI-H'yi, ortak yazarlarla birlikte yapmanız önerilir.
+
+---
+
+## İkinci tur (16 Kasım, iki bağımsız denetimden sonra)
+
+Denetim raporları: `DENETIM_SAYISAL.md` ve `DENETIM_EDITOR.md`. Bütün KRİTİK bulgular ana oturumda doğrulandı ve düzeltildi.
+
+| Bulgu | Düzeltme |
+| --- | --- |
+| Sayısal K1: "leaves L* unchanged" yanlıştı (tam değerde L = 4 ile 5 arasındaki fark < 0.001) | "the optimum stays at 4–6 steps" |
+| Sayısal K2: "at most 0.027" Tablo I'in Adam dışı kollarını kapsamıyordu | Tablo I'in kendi gecikmeleriyle ölçüldü (`p4/izgara_kontrol/run_tab1.py`; interpolasyon yayımlanmış Tablo I'i birebir veriyor). Güven ufkunun içinde ≤ 0.006, ufkun ötesinde CD 0.008 ve uzun Adam 0.037; Adam taraması ≤ 0.027. |
+| Sayısal K3: sayı kaynak dosyaları eskiydi | `paper_numbers.txt`'deki Tablo III satırları düzeltilmiş veriden yeniden yazıldı; `KEY_NUMBERS.md`'ye kaynak satırı ve §VI-H kaynak tablosu eklendi |
+| Sayısal K4: "one script generates every table" ve "123 assertions" | Tablo III ile §VI-H'nin ayrı betiklerden geldiği yazıldı; 126 iddia |
+| Sayısal K5: 1 bitte dCD-1'in seçildiği yumuşatılmıştı | Açıkça yazıldı: tek taramalı ayrık CD seçiliyor, yuvarlanmış SU-best-of'u +0.25 (0.16–0.33) geçiyor, en iyi yuvarlanmış Adam'la berabere. Desteklenmeyen "yalnızca" ifadesi kaldırıldı. Sınırlılıklar'a da eklendi. |
+| Editör 1, 2: "All results assume" ve eskimiş cümleler | Özet, Giriş katkı 5, İlgili Çalışmalar ("continuous phases"), Sistem Modeli ("channel knowledge is perfect"), §IV atfı, §VI-G ve Sonuç güncellendi |
+| Editör 3, sayısal U9: PGA tanımsız | "long-run Adam" kullanıldı |
+| Editör 4: R sembolü çakışıyordu, ρ tanımsızdı | $T_{\mathrm{r}}$ kullanıldı, ρ tanımlandı |
+| Editör 5, sayısal U3: farklı taban değerleri | $\bar R_W$ (W ms ortalaması, pilot net) tanımlandı; 6.08 için "effective rate (Definition 1)" denildi |
+| Editör 6: "the findings hold" aşırı genel | §V'de hangi sayıların yeniden hesaplandığı tek tek yazıldı (L* = 6, %14.9, 0.26) |
+| Editör 7: Practical rules | "how long the phase will be held" eklendi; Sonuç maddesi 2'ye 100 ms tutmada düz optimum (16–20) eklendi |
+| Editör: alt bölüm başlığı | "Robustness to Pilots, Estimation Error and Phase Resolution" |
+| Sayısal U4, U7, U8, U11 | ρ'nun ortalama güce göre olduğu ve 30 dB'de senaryo başına medyan 22.6 dB; gecikme seti; "idle" yerine yük ortalaması 0.45; Tablo III başlığına "selected on the reported scenarios"; anlık görüntülerin en yakın ızgara noktasından alındığı yazıldı |
+| Sayfa | İkinci turdan sonra 10 sayfaya çıkan metin, bilgi çıkarılmadan sıkılaştırılarak yeniden **9 sayfaya** indirildi. Özet 198 kelime (TWC'ye özgü sınır 75–200). |
+
+**Değiştirilmeyenler:** Tablo III'teki 0.86 ms satırında görünen hızlardan 0.27 çıkıyor, fark sütunu +0.28 diyor (ham fark 0.2760, yuvarlama). Fark sütunu eşli farkın kendisi olduğu için bırakıldı.

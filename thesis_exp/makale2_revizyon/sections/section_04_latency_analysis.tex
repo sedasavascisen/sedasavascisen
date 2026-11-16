@@ -11,7 +11,7 @@ Let a method $A$ receive the channel $\mathcal{H}(0)=\{\mbf{F},\mbf{g}_k(0),\mbf
 \end{equation}
 with the precoder recomputed from $\mathcal{H}(\tau_A)$.
 
-The precoder is a closed-form computation that the BS repeats whenever it has fresh pilots; the RIS phase needs the iterative optimization whose latency we measure. Definition~1 therefore lets the phase age and keeps the beam fresh, a split similar to that of two-timescale designs~\cite{Zhao2021TWC}. Section~\ref{sec:res_beam} prices this assumption.
+The precoder is a closed-form computation that the BS repeats whenever it has fresh pilots; the RIS phase needs the iterative optimization whose latency we measure. Definition~1 therefore lets the phase age and keeps the beam fresh, a split similar to that of two-timescale designs~\cite{Zhao2021TWC}. Sections~\ref{sec:res_beam} and~\ref{sec:res_robust} price this assumption.
 
 \subsection{Why an Optimal Number of Steps Exists}
 For an iterative method run for $L$ steps, write $r_0(L)$ for its minimum rate at $t=0$, $\tau(L)$ for its latency, and $\Delta(L)=r_0(L)-\min_k R_k(\bs{\theta}_L;\mathcal{H}(\tau(L)))$ for the rate lost to aging during its own run time, so that $R^{\mathrm{eff}}(L)=r_0(L)-\Delta(L)$. Each step raises $r_0$ with diminishing returns, while $\Delta$ grows with $\tau$. A step pays off only while
