@@ -58,3 +58,19 @@ Denetim raporları: `DENETIM_SAYISAL.md` ve `DENETIM_EDITOR.md`. Bütün KRİTİ
 | Sayfa | İkinci turdan sonra 10 sayfaya çıkan metin, bilgi çıkarılmadan sıkılaştırılarak yeniden **9 sayfaya** indirildi. Özet 198 kelime (TWC'ye özgü sınır 75–200). |
 
 **Değiştirilmeyenler:** Tablo III'teki 0.86 ms satırında görünen hızlardan 0.27 çıkıyor, fark sütunu +0.28 diyor (ham fark 0.2760, yuvarlama). Fark sütunu eşli farkın kendisi olduğu için bırakıldı.
+
+## Üçüncü tur (son denetim, `DENETIM_SON.md`)
+
+| Bulgu | Düzeltme |
+| --- | --- |
+| **K1:** pencere ölçütünde ($\bar R_W$) CD, SU-best-of ile berabere ya da önünde; özet ve Sonuç 1 bunun tersini düşündürüyordu | Ana oturumda ham veriden doğrulandı. W = 50 ms pilotlu: berabere (+0.00 / +0.03 / +0.03, GA'lar sıfırı içeriyor). Taze ön kodlayıcı: +0.100 [0.014, 0.190]. W = 100 ms: 30/60 kHz +0.090 / +0.097 (anlamlı), 15 kHz +0.052 (berabere), taze +0.184. §VI-H'ye cümle eklendi (CD 0.70 s'de, güven ufkunun ötesinde devreye giriyor; model onu kayırıyor; yalnızca ayarlı Adam her pencerede önde). Sonuç 1'e kısıt cümlesi eklendi. Özet: "leaves slow solvers behind tuned Adam". Sınırlılıklar: "ahead of tuned Adam". |
+| U1: özet tam 200 kelime | "on one processor thread" → "on one thread". Özet 200 kelime, sınırın içinde. |
+| U2: Armijo yeniden sınanmadı | §V: "the Adam sweep of Fig. 3" (kapsam yalnızca Adam; sayfa için ayrıca not düşülmedi). Armijo için tam gecikme değeri: ÜRETİLEMEDİ (koşulmadı). |
+| U3: kusurlu CSI'da hızlar çöküyor | 20 dB'de 1.40 b/s/Hz, doğrudan bağlantının (1.74) altında; 10 dB ve altında hızlar sıfıra yakın, beraberlik bir taban etkisi. Metne eklendi. |
+| U4: 22.6 dB yalnızca G için | "for the RIS–user channel" |
+| U5: 0.02–0.04 yalnızca pilotlu kollar için | "with pilots" eklendi |
+| U6: veri ve kod bölümü (GitHub) | **Kullanıcı kararı:** Düzeltilmiş Tablo III betiği ve §VI-H betikleri gönderimden önce genel depoya eklenmeli; ayrıca `make_paper_assets.py` eski Tablo III'ü yazıyor. Metin değiştirilmedi. |
+| U7: tohum | "independent mobility draw (seed 12)" |
+| U8: dil | "four pilot symbols that carry no data", "subcarrier spacing", "1.33 ms … below that range" |
+| Sınırlılıklar cümlesi | Yeniden yazıldı: pilot (%17–32) ve kestirim hatası yavaş çözücüleri ayarlı Adam'ın gerisinde bırakıyor; 2–3 bitte çok taramalı ayrık arama yuvarlanmış sezgisele yeniliyor; 1 bitte tek taramalı arama en iyi yuvarlanmış Adam'la berabere; 10 dB ve altında hızlı yöntemler ayırt edilemiyor. Her parça ham veriyle kontrol edildi. |
+| Sayfa | 9 sayfaya indirmek için: Tablo III başlığındaki seçim cümlesi çıkarıldı (§V'de zaten yazıyor), tekrarlanabilirlik cümlesi ve §VI-H girişi kısaltıldı, Sonuç maddesi 2'deki parantez kısaltıldı (16–20 adım §VI-H'de duruyor). Son hâl: 9 sayfa, özet 200 kelime. |
