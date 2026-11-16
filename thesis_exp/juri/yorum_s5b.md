@@ -1,0 +1,7 @@
+- **Daha büyük veri ve daha fazla tohum hükmü değiştirmedi.** 80 000 örnekle, 3 model tohumuyla ve 2 kat geniş bir ağla, 28 GHz'de 1.5 m/s'de bütün sin/cos ağları SU-best-of'un −0.31 ile −0.36 gerisinde. S5'teki −0.38'den az farklı; kaybın nedeni veri azlığı değil.
+- **Veri artınca ağ, optimizasyonsuz SU-average'ı geçiyor.** Fark +0.04 ile +0.09 ve anlamlı (S5b-H2). S5'te (20 000 örnek) bu fark anlamlı değildi. Ağ öğreniyor, ama tavanı tek kullanıcı hizalamalarının en iyisinin (SU-best-of) altında kalıyor.
+- **sin/cos avantajı tohuma bağlı (S5b-H3 tutmadı).** Aynı tohumla eşleştirilmiş üç çiftten yalnızca birinde (tohum 1: +0.067) anlamlı; diğer ikisinde +0.008 ve +0.013, ikisi de anlamsız.
+  - S5'teki "+0.04…+0.05, anlamlı" bulgusu, tek bir eğitim koşusunun ürünüydü ve genellenemez.
+  - Bu kurguda (çok kullanıcılı, etiketsiz, hız tabanlı eğitim) sin/cos kafasının doğrudan açıya üstünlüğü gösterilemedi. Makale 1'in kendi kurgusundaki ablasyon (etiketli faz regresyonu) bundan etkilenmez; ama bu deney onu desteklemiyor da.
+- **Karma kol hâlâ en iyi klasik kolun gerisinde:** 1.5 m/s'de −0.12, 3 km/h'de −0.09.
+- **Kapsam.** Tek mimari ailesi (CNN, iki genişlik), 80 000 örnek, 60 epoch. Bu deney yapay zekâ eksenini "bu mimari ailesiyle ve bu bütçeyle" kapatıyor; bütün öğrenme yöntemleri hakkında genel bir hüküm değil.

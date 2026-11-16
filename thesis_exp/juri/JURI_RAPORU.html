@@ -19,9 +19,123 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 .cover { height: 240mm; display:flex; flex-direction:column; justify-content:center; }
 .cover h1 { font-size: 24pt; } .cover .sub { font-size: 12pt; color: var(--mute); margin-bottom: 18pt; }
 .cover table { width: auto; font-size: 9pt; } .toc li { margin: 2pt 0; list-style: none; } .toc a { color: var(--ink); text-decoration: none; }
-</style></head><body><section class=""><h1>Jüri soruları: beş soru, beş ön kayıtlı deney (16 Kasım 2026)</h1>
+</style></head><body><section class=""><h1>Tezin hikâyesi: ölçülmüş bulgularla bir anlatı iskeleti</h1>
+<blockquote>
+<p>Bu bölüm bir tez metni değildir (Kural 9). Tezin bölümlerini birbirine bağlayan neden-sonuç zincirini, her halkayı ölçülmüş ve denetlenmiş bir sayıya dayandırarak gösterir. Cümleler savunma ve yazım için bir iskelettir; tezdeki ifade sana aittir. Makale 1'in kendi sayıları burada kullanılmadı, çünkü Makale 1 bu çalışmanın denetim kapsamı dışında.</p>
+</blockquote>
+<h2>Savunu cümlesi</h2>
+<p><strong>Hareketli RIS sistemlerinde hesaplama gecikmesi ikincil bir ölçüt değil; yöntemlerin sıralamasını belirleyen birinci sınıf bir tasarım kısıtıdır.</strong></p>
+<h2>Zincir: altı halka</h2>
+<h3>1. Başlangıç sorusu: daha doğru faz, daha iyi sistem mi? (Makale 1)</h3>
+<p>Makale 1, RIS fazını tek geçişte tahmin eden bir ağ kurar ve fazın ±π süreksizliğini sin/cos gösterimiyle giderir. Başarı ölçütü faz hatasıdır (RMSE). Bu, tezin ilk sorusunu doğurur: faz hatasını azaltmak sistemin hızını da artırır mı?</p>
+<h3>2. Kırılma: ölçüt merdiveni</h3>
+<p>Faz hatası, t = 0 hızı ve etkin hız aynı yöntemleri farklı sıralar.</p>
+<ul>
+<li><strong>Faz hatası:</strong> iyi bir faz, ortak faz kayması kadar "yanlış" görünebilir.</li>
+<li><strong>t = 0 hızı:</strong> fazı, verildiği kanal üzerinde değerlendirir.</li>
+<li><strong>Etkin hız:</strong> fazı, yöntem işini bitirdiğinde var olan kanal üzerinde değerlendirir. Kullanıcı yürürken bu ikisi aynı kanal değildir.</li>
+</ul>
+<p>Tezin dönüm noktası şu tespittir: hareketli bir kullanıcı için doğru ölçüt etkin hızdır, ve etkin hız gecikmeyi kaçınılmaz olarak içerir.</p>
+<h3>3. Ana sonuç: gecikme sıralamayı belirliyor (Makale 2)</h3>
+<p>Etkin hızla değerlendirildiğinde:</p>
+<ul>
+<li>t = 0'da en iyi olan yavaş çözücüler (koordinat inişi ve uzun koşulu Adam, 0.9–5.9 s) 2.5 ms'lik basit bir sezgisel yönteme kaybeder.</li>
+<li>Adam'ın bir <strong>içsel optimumu</strong> vardır: 1.5 m/s'de 4–6 adım. 48 adıma kadar koşmak %14 kaybettirir.</li>
+<li>Optimum tek bir sayıya, adım süresinin Doppler frekansına oranına (x = ΔT·f_d) bağlıdır.</li>
+<li>Öğrenilen bir güncelleme kuralı adım başına kazanır, milisaniye başına kaybeder.</li>
+</ul>
+<h3>4. Kural: optimumu önceden seçmek (tasarım kuralı)</h3>
+<p>İçsel optimum bir gözlem olarak kalmaz, önceden hesaplanabilir. 1.5 m/s'de kalibre edilen bir kural, hiç görmediği hızlarda ve çekilişte sınandı (ön kayıtlı, 60 koşul). Doğru L'yi seçmeye göre medyan kayıp <strong>%0.08</strong>, en kötü <strong>%2.74</strong>. Sabit bir L seçmek ise ortalama %3.0–3.6 kaybettiriyor.</p>
+<h3>5. Sağlamlık: jürinin beş sorusu (bu çalışma)</h3>
+<table>
+<thead>
+<tr>
+<th>Soru</th>
+<th>Ölçülmüş yanıt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Bu bir model yapaylığı mı?"</td>
+<td>Korelasyon tabanı olmayan Clarke kanalında da içsel optimum var: 3–8 adım, güven ufkunun içinde.</td>
+</tr>
+<tr>
+<td>"Ön kodlayıcı da eskirse?"</td>
+<td>Her şey ~1 ms içinde çöküyor. Ön kodlayıcıyı her slotta tazelemek zorunlu. Ön kodlayıcı hızlı döngüde, RIS fazı yavaş döngüde: iki zaman ölçeği bir tasarım gereği.</td>
+</tr>
+<tr>
+<td>"Ryu ve ark.'tan farkınız?"</td>
+<td>Fark, hesaplama süresinin eskimeye katılması. Süreyi yalnızca bütçe kısıtı yapan seçim 0.43–1.41 b/s/Hz kaybettiriyor.</td>
+</tr>
+<tr>
+<td>"C ile yazsaydınız?"</td>
+<td>Yalnızca CD derlenirse sıralama döner (başa baş 10–15 kat). Bütün yöntemler eşit hızlanırsa Adam önde kalır. Sıralamayı dil değil, <strong>gecikme oranı</strong> belirler. Bu, savunu cümlesinin en keskin biçimi, ama "hız kesinliği yener" artık koşullu bir cümle.</td>
+</tr>
+<tr>
+<td>"Yapay zekâdan ne kalıyor?"</td>
+<td>Aşağıda, 6. halka.</td>
+</tr>
+</tbody>
+</table>
+<h3>6. Taç: geniş bant OFDM, yeni bir zaman bütçesi ekseni (geniş bant deneyi)</h3>
+<p>Tek bir RIS faz vektörü bütün alt taşıyıcılara hizmet eder. Bu, yeni bir karar doğurur: optimizasyona kaç alt taşıyıcı (K_opt) alınacak? Her ek alt taşıyıcı adımı pahalılaştırır.</p>
+<ul>
+<li>20 MHz'de dar bant amacı yetiyor.</li>
+<li>100 MHz'de 16 alt taşıyıcı üzerinden optimize etmek, ~9 kat adım maliyetine rağmen en iyi dar bant kolunu <strong>+0.28…+0.29 b/s/Hz</strong> geçiyor. Bu sonuç 200 ms güven ufku içinde de geçerli.</li>
+<li>Gecikme geniş bantta da kararı belirliyor; bu kez iki eksende: kaç adım, kaç alt taşıyıcı.</li>
+<li>Dürüst sınır: dar banttaki içsel optimum geniş bantta genelleşmiyor (50–100 MHz'de 16 hücrenin yalnızca 3'ünde).</li>
+</ul>
+<h2>Yapay zekâ ekseninin kapanışı</h2>
+<p>Tez, öğrenmeye en elverişli rejimi bilerek aradı: 28 GHz, 1.5 m/s, T_c ≈ 3 ms.</p>
+<ul>
+<li><strong>Kalite tavanı:</strong> 0.43 ms'de karar veren ağ, 1.24 ms'lik SU-best-of'un 0.38 gerisinde. 4 kat veri, 3 tohum ve 2 kat geniş ağla bu açık −0.31…−0.36'ya iniyor ama kapanmıyor.</li>
+<li><strong>Ağ öğreniyor:</strong> veri artınca optimizasyonsuz SU-average'ı +0.04…+0.09 geçiyor. Ama tavanı, tek kullanıcı hizalamalarının en iyisinin altında.</li>
+<li><strong>Makale 1'le bağ:</strong> sin/cos avantajı bu kurguda tohuma bağlı; üç tohumdan yalnızca birinde anlamlı.</li>
+</ul>
+<p>Bu, yapay zekâ ekseninin titiz bir olumsuz sonuçla kapanması demek. Kapsamı: bu mimari ailesi ve bu eğitim bütçesi. Tezde öğrenmenin katkısı bir yöntem olarak değil, bir <strong>değerlendirme protokolü</strong> olarak kalıyor: öğrenilen her yöntem, ölçülmüş gecikmede ve her bütçede ayarlanmış klasik bir rakibe karşı değerlendirilmeli.</p>
+<h2>Harmoni: iki makale ve geniş bant tek cümlede</h2>
+<p>Makale 1, fazı doğru tahmin etmeyi sordu. Makale 2, doğru sorunun "fazın ne zaman hazır olduğu" olduğunu gösterdi. Tasarım kuralı bunu önceden hesaplanabilir yaptı. Geniş bant deneyi, zaman bütçesinin ikinci bir eksenini (kaç alt taşıyıcı) ekledi. Jüri deneyleri de sonucun kanal modeline, ön kodlayıcı varsayımına ve gerçekleştirme diline karşı nerede dayanıp nerede koşullu olduğunu ölçtü.</p>
+<h2>Tezde açıkça yazılması gereken sınırlar</h2>
+<ul>
+<li>Sıralama, gerçekleştirmenin gecikme oranına bağlı. Python ölçümü bu oranın bir örneği; donanım ve derleyici oranı değiştirir.</li>
+<li>Tek geometri; sabit saçıcılı model. Clarke modeli, karşıt bir uç olarak yalnızca bir sağlamlık kontrolü.</li>
+<li>Ön kodlayıcının taze olduğu varsayımı zorunlu bir tasarım gereği; ihlal edilirse sonuçlar geçersiz.</li>
+<li>Geniş bant deneyinde CD ayarlanmadı. İçsel optimum dar banda özgü.</li>
+<li>Yapay zekâ hükmü tek mimari ailesiyle sınırlı.</li>
+</ul>
+<h2>Dayanaklar</h2>
+<table>
+<thead>
+<tr>
+<th>Halka</th>
+<th>Rapor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>Makale 2 revize kopyası, <code>thesis_exp/makale2_revizyon/</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>thesis_exp/tasarim_kurali/REPORT.md</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>thesis_exp/juri/REPORT_S3_S1.md</code>, <code>REPORT_S4_S2.md</code> (bu PDF)</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>thesis_exp/genis_bant/REPORT.md</code> (ayrıca gönderildi)</td>
+</tr>
+<tr>
+<td>YZ kapanışı</td>
+<td><code>thesis_exp/juri/REPORT_S5.md</code>, <code>REPORT_S5b.md</code> (bu PDF)</td>
+</tr>
+</tbody>
+</table></section><section class="part"><h1>Jüri soruları: beş soru, beş ön kayıtlı deney (16 Kasım 2026)</h1>
 <p>Bu sayfa bir özet; her sayı aşağıdaki raporlardan alındı ve her rapor kendi betiğine, ham çıktısına ve tohumuna bağlı. Tez metni değildir (Kural 9).</p>
-<h2>⚠ Önce: Makale 2'yi sınırlayan iki bulgu (Kural 10)</h2>
+<h2>⚠ Önce: tezin anlatısını sınırlayan üç bulgu (Kural 10)</h2>
 <ol>
 <li><strong>Sıralama gerçekleştirmeye duyarlı (Soru 1).</strong> Yalnızca CD derlenirse sıralama döner.<ul>
 <li>Yalnız derleme (aynı algoritma, ×62–63) Python Adam'ı 1.5 m/s'de +0.514, 10 km/h'de +0.602 farkla geçiyor.</li>
@@ -31,6 +145,7 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 </ul>
 </li>
 <li><strong>İç optimum geniş bantta genelleşmiyor</strong> (geniş bant deneyi, G1). 50–100 MHz'de 16 hücrenin yalnızca 3'ünde L = 48 anlamlı olarak kötü. Makale 2 kopyasına "dar bant" sınırlaması eklendi.</li>
+<li><strong>sin/cos avantajı tohuma bağlı (Soru 5b).</strong> S5'te tek koşuda bulunan +0.04…+0.05, üç tohumla tekrarlanınca yalnızca birinde anlamlı. Makale 1 ile kurulan bağ bu deneyle desteklenmiyor.</li>
 </ol>
 <h2>Beş soru ve yanıtları</h2>
 <table>
@@ -70,8 +185,8 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 <tr>
 <td>5</td>
 <td>"Yapay zekâdan geriye ne kalıyor?"</td>
-<td><strong>Bu mimari ve bu eğitim bütçesiyle</strong> en elverişli rejimde de olumsuz. 28 GHz, 1.5 m/s (T_c ≈ 3 ms): 0.43 ms'lik tek geçişli ağ SU-best-of'un 0.38 gerisinde (S5-H1 tutmadı); ağ + Adam karması 0.16 gerisinde (S5-H2 tutmadı). Ağ, kendisinden hızlı SU-average'ı bile 28 GHz'de anlamlı geçemiyor (+0.021, GA sıfırı içeriyor). Ağ çapada donmuyor: eğitilmiş − eğitilmemiş +0.47 (S5-H3 tuttu). Kaybı gecikme değil, ağın kalite tavanı belirliyor. sin/cos kafası doğrudan açıyı +0.04…+0.05 farkla geçiyor (tek eğitim koşusu); Makale 1'in ablasyon yönü burada da görülüyor. Tek mimari, tek tohum, 20 000 örnek; daha büyük veri sınanmadı.</td>
-<td><code>REPORT_S5.md</code></td>
+<td><strong>Bu mimari ailesi ve bu bütçeyle</strong> en elverişli rejimde de olumsuz. 28 GHz, 1.5 m/s (T_c ≈ 3 ms): 0.43 ms'lik tek geçişli ağ SU-best-of'un 0.38 gerisinde (S5-H1 tutmadı). 4 kat veri, 3 tohum ve 2 kat geniş ağla da −0.31…−0.36 (S5b-H1 tutmadı); ağ + Adam karması −0.12. Veri artınca ağ, optimizasyonsuz SU-average'ı +0.04…+0.09 geçiyor (S5b-H2 tuttu); yani ağ öğreniyor, ama kalite tavanı düşük. sin/cos − doğrudan açı farkı 3 tohumdan yalnızca 1'inde anlamlı (S5b-H3 tutmadı).</td>
+<td><code>REPORT_S5.md</code>, <code>REPORT_S5b.md</code></td>
 </tr>
 </tbody>
 </table>
@@ -83,6 +198,7 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 <li>Sapma 2: CD, bağımsız denetimin bulduğu bir sorun nedeniyle erken durmasız ölçüldü ve koşular tekrarlandı. Sonuçlar değişmedi; derlenmiş CD'nin üstünlüğü +0.717'den +0.684'e indi.</li>
 </ul>
 </li>
+<li><strong>Soru 5b:</strong> bağımsız denetimin "tek koşu, az veri" itirazı üzerine ayrı bir ön kayıtla koşuldu (<code>ON_KAYIT_S5b.md</code>).</li>
 <li><strong>Ön kayıt dışı analiz:</strong> tek bir ek analiz var: Soru 1b (bütün kollar eşit hızlandırılınca). Sonuçlar görüldükten sonra yazıldı ve raporda öyle etiketli.</li>
 <li><strong>Bağımsız denetimler:</strong><ul>
 <li>Soru 1–4: 392 kontrol tuttu; 1 hata, 1 üretilemedi; bulgular düzeltildi (<code>thesis_exp/denetim_log/DENETIM_JURI_S1_S4.md</code>).</li>
@@ -1404,7 +1520,7 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 <li><strong>Ara durum.</strong> Pilot gecikmesi ve kestirim hatasıyla tazelenen ön kodlayıcı, <code>thesis_exp/p4/onkodlayici_pilot</code> ve <code>onkodlayici_csi</code> deneylerinde zaten ölçüldü. Bu iki uç o deneylerin yerini almaz.</li>
 <li><strong>Sınır.</strong> Clarke kolu, t = 0 kanalının hızdan bağımsız olduğunu varsayıyor; bu, <code>common.Aging</code>'in ızgaradan bağımsızlık özelliğine dayanıyor.</li>
 </ul></section><section class="part"><h1>Jüri sorusu 5 — öğrenmeye en elverişli rejimde kesin test (ön kayıtlı)</h1>
-<p>Rapor commit'i <code>3d44365</code>, değerlendirme <code>19a5eb6</code>. Ön kayıt <code>ON_KAYIT_S5.md</code>. Seçim seed 12, rapor seed 11, 400 senaryo, Tanım 1. Ağ çıkarımı 0.425 ms (tek iş parçacığı, toplu 1; turlar 0.463, 0.425, 0.418, 0.420, 0.440). 28 GHz bağlantı bütçesi telafisi 30.79 dB (eğitim tohumu 21).</p>
+<p>Rapor commit'i <code>0679077</code>, değerlendirme <code>19a5eb6</code>. Ön kayıt <code>ON_KAYIT_S5.md</code>. Seçim seed 12, rapor seed 11, 400 senaryo, Tanım 1. Ağ çıkarımı 0.425 ms (tek iş parçacığı, toplu 1; turlar 0.463, 0.425, 0.418, 0.420, 0.440). 28 GHz bağlantı bütçesi telafisi 30.79 dB (eğitim tohumu 21).</p>
 <h2>⚠ En üstte: aleyhte bulgular (Kural 10)</h2>
 <ul>
 <li><strong>Ön kayıtlı H1 ve H2 tutmadı:</strong> tek geçişli ağ ve ağ + Adam karması, en iyi klasik kolun gerisinde (aşağıda).</li>
@@ -1792,10 +1908,272 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 </li>
 <li><strong>"Çapada donma" bu ağda yok.</strong> Eğitilmiş ağ, eğitilmemişten t = 0'da +0.47 (28 GHz) ve +0.37 (3 GHz) iyi. Ağ öğreniyor, ama öğrendiği, kapalı formdaki tek kullanıcı hizalamalarının en iyisini seçmek kadar iyi değil.</li>
 <li><strong>Karma (ağ + Adam).</strong> 3 GHz'de en iyi klasik kolun 0.06–0.08, 28 GHz'de 0.11–0.16 gerisinde. Eşit adım sayısında, SU-best-of'tan başlayan Adam'dan t = 0'da anlamlı olarak daha kötü; örneğin L = 1'de −0.303 [−0.342, −0.263], bağımsız denetimin hesabı. Ağ, Adam için SU-best-of'tan daha kötü bir başlangıç.</li>
+<li><strong>Not (Soru 5b, sonradan):</strong> Aşağıdaki sin/cos bulgusu üç tohumla tekrarlandı ve yalnızca bir tohumda anlamlı çıktı (<code>REPORT_S5b.md</code>); tek koşudan genellenemez.</li>
 <li><strong>Makale 1 ile bağ.</strong> sin/cos kafası, doğrudan açı kafasını t = 0'da ve etkin hızda +0.04…+0.05 farkla, anlamlı biçimde geçiyor; Makale 1'deki ablasyonun yönü burada da görülüyor. Ancak her kafa tek bir eğitim koşusuyla eğitildi: güven aralığı yalnızca senaryo değişkenliğini içeriyor, eğitim tohumu değişkenliğini içermiyor.</li>
 <li><strong>Sınırlar.</strong><ul>
 <li>28 GHz bağlantı bütçesi 30.79 dB telafiyle eşitlendi.</li>
 <li>Ağın gecikmesi CPU'da ve Python'da ölçüldü. SU-best-of'un 1.24 ms'deki toplam eskime kaybı 0.104 (5.115 → 5.011). Ağ sıfır gecikmeli olsaydı bile bu kayıp, ağın t = 0 açığını kapatmaya yetmezdi.</li>
 </ul>
 </li>
+</ul></section><section class="part"><h1>Soru 5b — daha büyük veri ve birden fazla tohumla sağlamlık (ön kayıtlı)</h1>
+<p>Rapor commit'i <code>0679077</code>, değerlendirme <code>0679077</code>. Ön kayıt <code>ON_KAYIT_S5b.md</code>. 28 GHz, eğitim n = 80 000, seçim seed 12, rapor seed 11, 400 senaryo, Tanım 1. Genişlik-128 ağın gecikmesi 0.777 ms (turlar 0.717, 0.966, 0.784, 0.777, 0.746); genişlik 64 için 0.425 ms (S5).</p>
+<h2>Kararlar (28 GHz, 1.5 m/s)</h2>
+<ul>
+<li><strong>S5b-H1</strong> (seçilen ağ sincos_b0 − en iyi klasik SU-best-of): -0.347 [-0.411, -0.281] → <strong>TUTMADI</strong></li>
+<li><strong>S5b-H2</strong> (seçilen ağ − SU-average): +0.055 [+0.021, +0.087] → <strong>TUTTU</strong></li>
+<li><strong>S5b-H3</strong> (sin/cos − doğrudan açı, etkin hız; 3 tohumun ≥ 2'sinde anlamlı): tohum 0: +0.008 [-0.021, +0.036]; tohum 1: +0.067 [+0.038, +0.095]; tohum 2: +0.013 [-0.016, +0.043] → <strong>TUTMADI</strong></li>
+</ul>
+<h2>1.5 m/s — en iyi klasik SU-best-of (5.011), SU-average (4.610)</h2>
+<table>
+<thead>
+<tr>
+<th>ağ</th>
+<th>gecikme (ms)</th>
+<th>t = 0</th>
+<th>etkin hız</th>
+<th>− en iyi klasik [GA]</th>
+<th>− SU-average [GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sincos_b0 (seçilen)</td>
+<td>0.43</td>
+<td>4.683</td>
+<td>4.664</td>
+<td>-0.347 [-0.411, -0.281]</td>
+<td>+0.055 [+0.021, +0.087]</td>
+</tr>
+<tr>
+<td>sincos_b1</td>
+<td>0.43</td>
+<td>4.721</td>
+<td>4.702</td>
+<td>-0.309 [-0.375, -0.249]</td>
+<td>+0.092 [+0.058, +0.128]</td>
+</tr>
+<tr>
+<td>sincos_b2</td>
+<td>0.43</td>
+<td>4.673</td>
+<td>4.657</td>
+<td>-0.354 [-0.420, -0.288]</td>
+<td>+0.047 [+0.013, +0.079]</td>
+</tr>
+<tr>
+<td>sincos_w128</td>
+<td>0.78</td>
+<td>4.696</td>
+<td>4.652</td>
+<td>-0.359 [-0.422, -0.301]</td>
+<td>+0.042 [+0.005, +0.078]</td>
+</tr>
+<tr>
+<td>angle_b0</td>
+<td>0.43</td>
+<td>4.675</td>
+<td>4.657</td>
+<td>-0.355 [-0.419, -0.292]</td>
+<td>+0.047 [+0.012, +0.081]</td>
+</tr>
+<tr>
+<td>angle_b1</td>
+<td>0.43</td>
+<td>4.651</td>
+<td>4.635</td>
+<td>-0.376 [-0.437, -0.310]</td>
+<td>+0.025 [-0.007, +0.059]</td>
+</tr>
+<tr>
+<td>angle_b2</td>
+<td>0.43</td>
+<td>4.662</td>
+<td>4.644</td>
+<td>-0.367 [-0.433, -0.298]</td>
+<td>+0.034 [-0.001, +0.070]</td>
+</tr>
+<tr>
+<td>sincos_b0+Adam-1</td>
+<td>1.58</td>
+<td>5.077</td>
+<td>4.887</td>
+<td>-0.124 [-0.168, -0.079]</td>
+<td>+0.277 [+0.218, +0.336]</td>
+</tr>
+</tbody>
+</table>
+<p>sin/cos − doğrudan açı (aynı tohum): tohum 0: t = 0 +0.007 [-0.020, +0.037], etkin +0.008 [-0.021, +0.036]; tohum 1: t = 0 +0.070 [+0.041, +0.100], etkin +0.067 [+0.038, +0.095]; tohum 2: t = 0 +0.012 [-0.018, +0.042], etkin +0.013 [-0.016, +0.043]</p>
+<h2>3 km/h — en iyi klasik Adam-1|best (5.145), SU-average (4.611)</h2>
+<table>
+<thead>
+<tr>
+<th>ağ</th>
+<th>gecikme (ms)</th>
+<th>t = 0</th>
+<th>etkin hız</th>
+<th>− en iyi klasik [GA]</th>
+<th>− SU-average [GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sincos_b0 (seçilen)</td>
+<td>0.43</td>
+<td>4.683</td>
+<td>4.673</td>
+<td>-0.472 [-0.541, -0.408]</td>
+<td>+0.062 [+0.028, +0.098]</td>
+</tr>
+<tr>
+<td>sincos_b1</td>
+<td>0.43</td>
+<td>4.721</td>
+<td>4.713</td>
+<td>-0.433 [-0.500, -0.371]</td>
+<td>+0.102 [+0.067, +0.136]</td>
+</tr>
+<tr>
+<td>sincos_b2</td>
+<td>0.43</td>
+<td>4.673</td>
+<td>4.665</td>
+<td>-0.480 [-0.550, -0.413]</td>
+<td>+0.055 [+0.022, +0.088]</td>
+</tr>
+<tr>
+<td>sincos_w128</td>
+<td>0.78</td>
+<td>4.696</td>
+<td>4.674</td>
+<td>-0.472 [-0.535, -0.409]</td>
+<td>+0.063 [+0.030, +0.096]</td>
+</tr>
+<tr>
+<td>angle_b0</td>
+<td>0.43</td>
+<td>4.675</td>
+<td>4.666</td>
+<td>-0.479 [-0.539, -0.414]</td>
+<td>+0.056 [+0.024, +0.089]</td>
+</tr>
+<tr>
+<td>angle_b1</td>
+<td>0.43</td>
+<td>4.651</td>
+<td>4.643</td>
+<td>-0.503 [-0.571, -0.437]</td>
+<td>+0.032 [+0.000, +0.065]</td>
+</tr>
+<tr>
+<td>angle_b2</td>
+<td>0.43</td>
+<td>4.662</td>
+<td>4.653</td>
+<td>-0.493 [-0.565, -0.429]</td>
+<td>+0.042 [+0.008, +0.076]</td>
+</tr>
+<tr>
+<td>sincos_b0+Adam-2</td>
+<td>2.71</td>
+<td>5.283</td>
+<td>5.052</td>
+<td>-0.094 [-0.126, -0.062]</td>
+<td>+0.441 [+0.377, +0.507]</td>
+</tr>
+</tbody>
+</table>
+<p>sin/cos − doğrudan açı (aynı tohum): tohum 0: t = 0 +0.007 [-0.021, +0.035], etkin +0.007 [-0.023, +0.036]; tohum 1: t = 0 +0.070 [+0.043, +0.100], etkin +0.070 [+0.042, +0.099]; tohum 2: t = 0 +0.012 [-0.021, +0.042], etkin +0.013 [-0.018, +0.044]</p>
+<h2>Eğitim</h2>
+<table>
+<thead>
+<tr>
+<th>model</th>
+<th>en iyi doğrulama</th>
+<th>epoch</th>
+<th>süre (s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sincos_b0</td>
+<td>4.4384</td>
+<td>21 / 60</td>
+<td>677</td>
+</tr>
+<tr>
+<td>sincos_b1</td>
+<td>4.4320</td>
+<td>34 / 60</td>
+<td>676</td>
+</tr>
+<tr>
+<td>sincos_b2</td>
+<td>4.4300</td>
+<td>21 / 60</td>
+<td>644</td>
+</tr>
+<tr>
+<td>sincos_w128</td>
+<td>4.4285</td>
+<td>13 / 60</td>
+<td>1485</td>
+</tr>
+<tr>
+<td>angle_b0</td>
+<td>4.4127</td>
+<td>17 / 60</td>
+<td>651</td>
+</tr>
+<tr>
+<td>angle_b1</td>
+<td>4.4107</td>
+<td>22 / 60</td>
+<td>639</td>
+</tr>
+<tr>
+<td>angle_b2</td>
+<td>4.4071</td>
+<td>29 / 60</td>
+<td>637</td>
+</tr>
+</tbody>
+</table>
+<h2>Komut, tohum, ham çıktı</h2>
+<table>
+<thead>
+<tr>
+<th>Komut</th>
+<th>Tohum</th>
+<th>Ham çıktı</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>thesis_exp/juri/s5/chain_s5b.sh (train.py --fc 28 --n 80000 --seed {0,1,2} [--width 128])</td>
+<td>eğitim 21, doğrulama 12, model 0/1/2</td>
+<td>s5/raw/net_28_<em>_b</em>.pt, <em><em>w128.pt, train_28</em></em>.json/.log</td>
+</tr>
+<tr>
+<td>python3 thesis_exp/juri/s5/eval_s5b.py</td>
+<td>kanal 12, 11</td>
+<td>s5/raw/eval_s5b.json, eval_s5b.log</td>
+</tr>
+<tr>
+<td>python3 thesis_exp/juri/s5/analyze_s5b.py</td>
+<td>bootstrap 0</td>
+<td>s5/raw/s5b_summary.json</td>
+</tr>
+</tbody>
+</table>
+<h2>Yorum (bulgulardan ayrı)</h2>
+<ul>
+<li><strong>Daha büyük veri ve daha fazla tohum hükmü değiştirmedi.</strong> 80 000 örnekle, 3 model tohumuyla ve 2 kat geniş bir ağla, 28 GHz'de 1.5 m/s'de bütün sin/cos ağları SU-best-of'un −0.31 ile −0.36 gerisinde. S5'teki −0.38'den az farklı; kaybın nedeni veri azlığı değil.</li>
+<li><strong>Veri artınca ağ, optimizasyonsuz SU-average'ı geçiyor.</strong> Fark +0.04 ile +0.09 ve anlamlı (S5b-H2). S5'te (20 000 örnek) bu fark anlamlı değildi. Ağ öğreniyor, ama tavanı tek kullanıcı hizalamalarının en iyisinin (SU-best-of) altında kalıyor.</li>
+<li><strong>sin/cos avantajı tohuma bağlı (S5b-H3 tutmadı).</strong> Aynı tohumla eşleştirilmiş üç çiftten yalnızca birinde (tohum 1: +0.067) anlamlı; diğer ikisinde +0.008 ve +0.013, ikisi de anlamsız.<ul>
+<li>S5'teki "+0.04…+0.05, anlamlı" bulgusu, tek bir eğitim koşusunun ürünüydü ve genellenemez.</li>
+<li>Bu kurguda (çok kullanıcılı, etiketsiz, hız tabanlı eğitim) sin/cos kafasının doğrudan açıya üstünlüğü gösterilemedi. Makale 1'in kendi kurgusundaki ablasyon (etiketli faz regresyonu) bundan etkilenmez; ama bu deney onu desteklemiyor da.</li>
+</ul>
+</li>
+<li><strong>Karma kol hâlâ en iyi klasik kolun gerisinde:</strong> 1.5 m/s'de −0.12, 3 km/h'de −0.09.</li>
+<li><strong>Kapsam.</strong> Tek mimari ailesi (CNN, iki genişlik), 80 000 örnek, 60 epoch. Bu deney yapay zekâ eksenini "bu mimari ailesiyle ve bu bütçeyle" kapatıyor; bütün öğrenme yöntemleri hakkında genel bir hüküm değil.</li>
 </ul></section></body></html>

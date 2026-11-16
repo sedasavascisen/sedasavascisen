@@ -55,7 +55,7 @@ def load_all():
     T = ROOT / "thesis_exp"
     for k, rel in (("rule", "tasarim_kurali/raw/validation.json"), ("wb", "genis_bant/raw/results.json"), ("wbs", "genis_bant/raw/sens200.json"),
                    ("wbg4", "genis_bant/raw/g4.json"), ("j31", "juri/raw/s3_s1.json"), ("j1b", "juri/raw/s1b.json"),
-                   ("j42", "juri/raw/s4_s2_summary.json"), ("j4s", "juri/raw/s4_sanity.json"), ("j5", "juri/s5/raw/s5_summary.json")):
+                   ("j42", "juri/raw/s4_s2_summary.json"), ("j4s", "juri/raw/s4_sanity.json"), ("j5", "juri/s5/raw/s5_summary.json"), ("j5b", "juri/s5/raw/s5b_summary.json")):
         D[k] = json.load(open(T / rel))
     return D
 
@@ -227,6 +227,11 @@ def claims(D):
     add("Q5 NN vs SU-average not significant at 28 GHz (both speeds)", "juri S5", all(tied(q["summary"][f"28|{sp}"]["nn_minus_su_average_eff"]["ci"]) for sp in ("1.5mps", "3kmh")))
     add("Q5 sin/cos beats direct angle (+0.04..+0.05, significant)", "juri S5", all(above(q["summary"][f"28|{sp}"][f"sincos_minus_angle_{k}"]["ci"]) for sp in ("1.5mps", "3kmh") for k in ("t0", "eff")))
     add("Q5 NN latency 0.425 ms", "juri S5", eq(q["nn_latency"]["median_ms"], 0.425, 3))
+    b = D["j5b"]; mb = b["summary"]["1.5mps"]
+    add("Q5b H1 fails, H2 holds, H3 fails", "juri S5b", (not b["decisions"]["S5b_H1"]) and b["decisions"]["S5b_H2"] and (not b["decisions"]["S5b_H3"]))
+    sin = [mb["rows"][k]["minus_best_classic"] for k in ("sincos_b0", "sincos_b1", "sincos_b2", "sincos_w128")]
+    add("Q5b all sin/cos nets -0.31..-0.36 behind SU-best-of", "juri S5b", eq(max(sin), -0.31, 2) and eq(min(sin), -0.36, 2) and all(below(mb["rows"][k]["ci_bc"]) for k in ("sincos_b0", "sincos_b1", "sincos_b2", "sincos_w128")))
+    add("Q5b sin/cos > angle significant in only 1 of 3 seeds", "juri S5b", sum(above(p["ci"]) for p in mb["pairs"].values()) == 1)
     return C
 
 

@@ -1,6 +1,6 @@
 # Jüri sorusu 5 — öğrenmeye en elverişli rejimde kesin test (ön kayıtlı)
 
-Rapor commit'i `3d44365`, değerlendirme `19a5eb6`. Ön kayıt `ON_KAYIT_S5.md`. Seçim seed 12, rapor seed 11, 400 senaryo, Tanım 1. Ağ çıkarımı 0.425 ms (tek iş parçacığı, toplu 1; turlar 0.463, 0.425, 0.418, 0.420, 0.440). 28 GHz bağlantı bütçesi telafisi 30.79 dB (eğitim tohumu 21).
+Rapor commit'i `0679077`, değerlendirme `19a5eb6`. Ön kayıt `ON_KAYIT_S5.md`. Seçim seed 12, rapor seed 11, 400 senaryo, Tanım 1. Ağ çıkarımı 0.425 ms (tek iş parçacığı, toplu 1; turlar 0.463, 0.425, 0.418, 0.420, 0.440). 28 GHz bağlantı bütçesi telafisi 30.79 dB (eğitim tohumu 21).
 
 ## ⚠ En üstte: aleyhte bulgular (Kural 10)
 
@@ -84,6 +84,7 @@ Notlar: Adam-L gecikmeleri L ∈ {1, 2, 4, 8, 16, 32, 48} ölçümlerinden doğr
   - Ağın açığı 3 GHz'de −1.52, 28 GHz'de −0.38. Ancak başvuru kolları farklı olduğu için bu iki farkın oranı bir "daralma katsayısı" olarak okunmamalı.
 - **"Çapada donma" bu ağda yok.** Eğitilmiş ağ, eğitilmemişten t = 0'da +0.47 (28 GHz) ve +0.37 (3 GHz) iyi. Ağ öğreniyor, ama öğrendiği, kapalı formdaki tek kullanıcı hizalamalarının en iyisini seçmek kadar iyi değil.
 - **Karma (ağ + Adam).** 3 GHz'de en iyi klasik kolun 0.06–0.08, 28 GHz'de 0.11–0.16 gerisinde. Eşit adım sayısında, SU-best-of'tan başlayan Adam'dan t = 0'da anlamlı olarak daha kötü; örneğin L = 1'de −0.303 [−0.342, −0.263], bağımsız denetimin hesabı. Ağ, Adam için SU-best-of'tan daha kötü bir başlangıç.
+- **Not (Soru 5b, sonradan):** Aşağıdaki sin/cos bulgusu üç tohumla tekrarlandı ve yalnızca bir tohumda anlamlı çıktı (`REPORT_S5b.md`); tek koşudan genellenemez.
 - **Makale 1 ile bağ.** sin/cos kafası, doğrudan açı kafasını t = 0'da ve etkin hızda +0.04…+0.05 farkla, anlamlı biçimde geçiyor; Makale 1'deki ablasyonun yönü burada da görülüyor. Ancak her kafa tek bir eğitim koşusuyla eğitildi: güven aralığı yalnızca senaryo değişkenliğini içeriyor, eğitim tohumu değişkenliğini içermiyor.
 - **Sınırlar.**
   - 28 GHz bağlantı bütçesi 30.79 dB telafiyle eşitlendi.
