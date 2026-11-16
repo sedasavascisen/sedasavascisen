@@ -1,0 +1,56 @@
+This is BibTeX, Version 0.99d (TeX Live 2023/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: mobility_paper_ieee.aux
+The style file: IEEEtran.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: references/references.bib
+-- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+
+Done.
+You've used 48 entries,
+            4087 wiz_defined-function locations,
+            1122 strings with 16380 characters,
+and the built_in function-call counts, 45120 in all, are:
+= -- 3779
+> -- 1136
+< -- 498
++ -- 666
+- -- 198
+* -- 2232
+:= -- 6480
+add.period$ -- 96
+call.type$ -- 48
+change.case$ -- 48
+chr.to.int$ -- 1131
+cite$ -- 48
+duplicate$ -- 3069
+empty$ -- 3153
+format.name$ -- 219
+if$ -- 10523
+int.to.chr$ -- 0
+int.to.str$ -- 48
+missing$ -- 510
+newline$ -- 167
+num.names$ -- 48
+pop$ -- 1014
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 2
+skip$ -- 3469
+stack$ -- 0
+substring$ -- 2732
+swap$ -- 2845
+text.length$ -- 121
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 48
+warning$ -- 0
+while$ -- 210
+width$ -- 50
+write$ -- 526

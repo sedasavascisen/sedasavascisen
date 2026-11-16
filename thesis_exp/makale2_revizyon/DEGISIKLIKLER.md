@@ -74,3 +74,16 @@ Denetim raporları: `DENETIM_SAYISAL.md` ve `DENETIM_EDITOR.md`. Bütün KRİTİ
 | U8: dil | "four pilot symbols that carry no data", "subcarrier spacing", "1.33 ms … below that range" |
 | Sınırlılıklar cümlesi | Yeniden yazıldı: pilot (%17–32) ve kestirim hatası yavaş çözücüleri ayarlı Adam'ın gerisinde bırakıyor; 2–3 bitte çok taramalı ayrık arama yuvarlanmış sezgisele yeniliyor; 1 bitte tek taramalı arama en iyi yuvarlanmış Adam'la berabere; 10 dB ve altında hızlı yöntemler ayırt edilemiyor. Her parça ham veriyle kontrol edildi. |
 | Sayfa | 9 sayfaya indirmek için: Tablo III başlığındaki seçim cümlesi çıkarıldı (§V'de zaten yazıyor), tekrarlanabilirlik cümlesi ve §VI-H girişi kısaltıldı, Sonuç maddesi 2'deki parantez kısaltıldı (16–20 adım §VI-H'de duruyor). Son hâl: 9 sayfa, özet 200 kelime. |
+
+## 4. tur (16 Kasım 2026): "dar bant" sınırlaması — kullanıcı onayıyla
+
+Gerekçe: geniş bant OFDM deneyinde G1 TUTMADI (`thesis_exp/genis_bant/REPORT.md`, en üst bölüm). 24 hücrenin yalnızca 7'sinde L = 48, L*'tan anlamlı olarak kötü. 50–100 MHz'deki 16 hücrenin yalnızca 3'ünde öyle.
+
+| Yer | Önce | Sonra |
+| --- | --- | --- |
+| Özet | "standardized indoor-office multi-user … downlink"; "the highest rate on the initial channel" | "… narrowband multi-user … downlink"; "the highest initial-channel rate" (kelime sayısını korumak için) |
+| Giriş, katkı 2 | "The optimum persists for … every standardized indoor user speed." | "In the narrowband model it holds for … every standardized indoor speed." |
+| Sonuç, madde 2 | "Adam's effective rate peaks … and falls with further iterations when" | "Adam's narrowband effective rate peaks … and then falls when" |
+| Sınırlar | "…, and the model is narrowband with one geometry." ve "Our next step is wideband OFDM operation, where beam squint …" | "…, and there is one geometry." ve "The interior optimum is narrowband: a first OFDM check kept it for centre-frequency optimization at 20 MHz, but at 50–100 MHz it often flattened or hit the largest step count." |
+
+Not: beam squint cümlesi kaldırıldı. Literatür raporunun tavsiye 8'ine göre bu kurguda beam squint ihmal edilebilir; belirleyici etki frekans seçiciliği. Makale 9 sayfa kaldı.
