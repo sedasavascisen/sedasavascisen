@@ -57,3 +57,13 @@ FLOP'tan öngörülen gecikme = FLOP / (3E) × 1.328 ms; yani Adam adımına kal
 `timing.py`, bu makinenin rerun dosyasındaki sürelerden belirgin biçimde hızlı olduğunu gösterdi (adam1 ×0.86, adam48 ×0.78, CD-8 ×0.69). Yeni CD süreleri eski Adam süreleriyle karıştırılırsa CD haksız avantaj kazanır ve "aynı makine" kuralı (Kural 5) ihlal edilir.
 
 Bu yüzden bütün kolların gecikmesi bu oturumda, aynı protokolle yeniden ölçülür (`timing2.py`): SU-average, SU-best-of, Adam L ∈ {1, 2, 4, 8, 16, 32, 48} (aradaki L'ler doğrusal interpolasyonla), uzun koşulu Adam ve CD (`timing.py`). FLOP kalibrasyonu da bu oturumun Adam eğimiyle yapılır. Rerun dosyası kullanılmaz.
+
+## Sapma 2 (16 Kasım 2026, bağımsız denetimden sonra; sonuçlar görüldükten sonra)
+
+Bağımsız denetim (`thesis_exp/denetim_log/DENETIM_JURI_S1_S4.md`) bir sorun buldu. CD-s gecikmesi tek bir senaryoda ölçülmüştü ve o senaryo 6. taramada erken duruyordu. Bu yüzden CD-6, CD-7 ve CD-8 aynı süreyi aldı. Oysa değerlendirilen toplu çalıştırmada senaryoların çoğu s taramanın hepsini koşuyor; 400 senaryonun 288'inde 8. taramada faz hâlâ değişiyor. Bu, CD'nin lehine bir yanlılık.
+
+Düzeltme: `timing3.py`, CD-s'yi erken durma olmadan ölçer.
+- torch: SU-average başlangıcı + s kez `coord_descent(iters=1)`;
+- numba: `early=False`.
+
+`arms.py`, CD ve derlenmiş CD gecikmelerini artık buradan alır. `arms.py`, `analyze_s3_s1.py`, `s1b_equal_speedup.py`, `s4_s2.py` ve `analyze_s4_s2.py` yeniden koşulur. Önceki sonuçlar `raw/v1_early_stop/` altında saklanır.

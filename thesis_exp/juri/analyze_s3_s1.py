@@ -76,20 +76,22 @@ o = []; W = o.append
 ci = lambda x: f"[{x[0]:+.3f}, {x[1]:+.3f}]"
 yn = lambda b: "**TUTTU**" if b else "**TUTMADI**"
 W("# Jüri soruları 3 ve 1 — ön kayıtlı sonuçlar"); W("")
-W(f"Rapor commit'i `{commit}`, kol koşusu `{D['commit'][:7]}`. Ön kayıt `ON_KAYIT_S3_S1.md`. Seçim seed 12, rapor seed 11, 400 senaryo, "
+W(f"Rapor commit'i `{commit}`, kol koşusu `{D['commit'][:7]}`. Ön kayıt `ON_KAYIT_S3_S1.md`. Sapma 1 (bütün gecikmeler bu oturumda yeniden ölçüldü) ve Sapma 2 (CD erken durmasız ölçüldü) uygulanmıştır. Seçim seed 12, rapor seed 11, 400 senaryo, "
   "Tanım 1 (tam gecikmede, interpolasyonsuz). GA: eşli bootstrap 2000, %95.")
 S1B = json.load(open(R / "s1b.json")) if (R / "s1b.json").exists() else None
 W(""); W("## ⚠ En üstte: Makale 2'yi sınırlayan bulgu (Kural 10)"); W("")
 for sp in SP:
     x = res["s1"][sp]["numba"]["numba_incr"]
-    W(f"- **{SP[sp]}: yalnızca CD derlenirse sıralama döner.** Derlenmiş (artımlı) CD, ×{x['speedup_vs_torch']:.0f} hızla {x['latency_ms']:.2f} ms'de "
+    xd = res["s1"][sp]["numba"]["numba_direct"]
+    W(f"- **{SP[sp]}: yalnızca CD derlenirse sıralama döner.** Yalnız derleme (aynı algoritma, ×{xd['speedup_vs_torch']:.0f}) {xd['latency_ms']:.2f} ms'de {xd['diff']:+.3f} {ci(xd['ci'])}; "
+      f"derleme + rank-1 güncelleme (×{x['speedup_vs_torch']:.0f}, algoritmik iyileştirme de içerir) {x['latency_ms']:.2f} ms'de "
       f"Python'daki {res['s1'][sp]['reference']}'yı {x['diff']:+.3f} {ci(x['ci'])} geçiyor. Başa baş oranı r* ∈ ({res['s1'][sp]['r_star_equal'][0]}, {res['s1'][sp]['r_star_equal'][1]}].")
 W("- Bu yüzden Makale 2'deki \"speed beats precision\" cümlesi bir gerçekleştirme varsayımına bağlıdır: CD'nin Python gerçekleştirmesi, makaledeki sıralamanın bir parçasıdır.")
 if S1B:
     rr = {sp: S1B["rows"][sp] for sp in SP}
     W(f"- **Ancak bütün kollar aynı oranda hızlandırıldığında** (ön kayıt dışı, §Soru 1b) ayarlı Adam, ayarlı CD'yi r = 1…1000 aralığının her noktasında anlamlı olarak geçiyor "
       + "; ".join(f"{SP[sp]}: CD − Adam {min(x['cd_minus_adam'] for x in rr[sp]):+.2f} … {max(x['cd_minus_adam'] for x in rr[sp]):+.2f}, en kötü GA üst sınırı {max(x['ci'][1] for x in rr[sp]):+.3f}" for sp in SP)
-      + ". Sıralamayı dil değil, kolların gecikme oranı belirliyor.")
+      + ".")
 W(""); W("## Soru 3 — Ryu tarzı uygulanabilirlik seçimi ile etkin hız seçimi"); W("")
 for sp in SP:
     h = res["s3_h1"][sp]
@@ -111,6 +113,15 @@ for a in ["SU-average", "SU-best-of", "Adam-1", "Adam-8", "Adam-48", "CD-1", "CD
 W(""); W("## Soru 1 — CD kaç kat hızlanırsa sıralama değişir?"); W("")
 W(f"Zamanlama: yük başlangıç {TMJ['load']['start']:.2f}, ölçüm öncesi {TMJ['load']['before']:.2f}, sonrası {TMJ['load']['after']:.2f}; "
   f"rerun dosyasına göre sapma adam1 ×{TMJ['drift_vs_rerun']['adam1']:.3f}, adam48 ×{TMJ['drift_vs_rerun']['adam48']:.3f}, CD-8 ×{TMJ['drift_vs_rerun']['cd8']:.3f}.")
+T3 = json.load(open(R / "timing3.json"))
+W(""); W("Bu oturumdaki gecikmeler (ms; medyan, 5 turun en küçük–en büyük değeri):"); W("")
+W("| kol | medyan | tur aralığı |"); W("| --- | --- | --- |")
+T2J = json.load(open(R / "timing2.json"))
+for k in ["su_average", "su_best_of", "adam1", "adam8", "adam48", "pga"]:
+    W(f"| {k} | {T2J['median_ms'][k]:.2f} | {min(T2J['rounds_ms'][k]):.2f}–{max(T2J['rounds_ms'][k]):.2f} |")
+for k in ["cd1", "cd8", "numba_direct8", "numba_incr8"]:
+    W(f"| {k} (erken durmasız) | {T3['median_ms'][k]:.2f} | {min(T3['rounds_ms'][k]):.2f}–{max(T3['rounds_ms'][k]):.2f} |")
+W(f"Yük: timing2 {T2J['load']['before']:.2f} → {T2J['load']['after']:.2f}; timing3 {T3['load']['before']:.2f} → {T3['load']['after']:.2f}.")
 W(""); W("| tarama s | torch CD (ms) | numba doğrudan (ms) | numba artımlı (ms) | hızlanma doğrudan | hızlanma artımlı |"); W("| --- | --- | --- | --- | --- | --- |")
 for s in range(1, 9):
     W(f"| {s} | {TM[f'cd{s}']:.2f} | {TM[f'numba_direct{s}']:.3f} | {TM[f'numba_incr{s}']:.3f} | {TM[f'cd{s}']/TM[f'numba_direct{s}']:.0f}× | {TM[f'cd{s}']/TM[f'numba_incr{s}']:.0f}× |")
@@ -137,6 +148,7 @@ W(""); W("## Komut, tohum, ham çıktı"); W("")
 W("| Komut | Tohum | Ham çıktı |"); W("| --- | --- | --- |")
 W("| python3 thesis_exp/juri/timing.py | kanal 11, tek senaryo | raw/timing.json, raw/timing.log |")
 W(f"| python3 thesis_exp/juri/arms.py ({D['seconds']/60:.0f} dk) | kanal 12, 11 | raw/arms.json, raw/arms.log |")
+W("| python3 thesis_exp/juri/timing3.py (sapma 2) | kanal 11, tek senaryo | raw/timing3.json, raw/timing3.log |")
 W("| python3 thesis_exp/juri/timing2.py | kanal 11, tek senaryo | raw/timing2.json, raw/timing2.log |")
 W("| python3 thesis_exp/juri/analyze_s3_s1.py | bootstrap 0 | raw/s3_s1.json |")
 W("| python3 thesis_exp/juri/s1b_equal_speedup.py (ön kayıt dışı) | kanal 12, 11; bootstrap 0 | raw/s1b.json, raw/s1b.log |")

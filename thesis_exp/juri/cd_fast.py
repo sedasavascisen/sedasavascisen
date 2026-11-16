@@ -8,6 +8,7 @@ Frobenius power normalisation, SINR with interference + noise). One scenario per
   cd_direct       recomputes the effective channel for every trial (the torch algorithm, compiled)
   cd_incremental  rank-1 update of the effective channel per trial (what a careful C implementation does)
 
+early=False runs exactly `sweeps` sweeps (timing without the per-scenario early stop; deviation 2).
 Shapes (one scenario): F [N, T], G [K, N], hd [K, T]. Returns theta [N] (float64).
 """
 import numpy as np
@@ -104,7 +105,7 @@ def _eff(F, G, hd, th):
 
 
 @njit(cache=True)
-def cd_direct(F, G, hd, th0, pt, nv, sweeps, grid):
+def cd_direct(F, G, hd, th0, pt, nv, sweeps, grid, early=True):
     N = F.shape[0]
     cand = np.linspace(-np.pi, np.pi, grid + 1)[:-1]
     th = th0.copy()
@@ -120,13 +121,13 @@ def cd_direct(F, G, hd, th0, pt, nv, sweeps, grid):
                 if v > best_v:
                     best_v, best_c = v, c
             th[n] = best_c; cur = best_v
-        if cur - start < 1e-7:
+        if early and cur - start < 1e-7:
             break
     return th
 
 
 @njit(cache=True)
-def cd_incremental(F, G, hd, th0, pt, nv, sweeps, grid):
+def cd_incremental(F, G, hd, th0, pt, nv, sweeps, grid, early=True):
     N = F.shape[0]
     K = G.shape[0]
     T = F.shape[1]
@@ -157,7 +158,7 @@ def cd_incremental(F, G, hd, th0, pt, nv, sweeps, grid):
                         He[k, t] += gd * F[n, t]
                 th[n] = best_c
             cur = best_v
-        if cur - start < 1e-7:
+        if early and cur - start < 1e-7:
             break
     return th
 

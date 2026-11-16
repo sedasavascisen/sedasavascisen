@@ -34,20 +34,24 @@ W("# Jüri soruları 4 ve 2 — ön kayıtlı sonuçlar"); W("")
 W(f"Rapor commit'i `{commit}`, koşu `{D['commit'][:7]}`. Ön kayıt `ON_KAYIT_S4_S2.md`. Seçim seed 12, rapor seed 11, 400 senaryo, Tanım 1, "
   "aynı oturumda ölçülmüş gecikmeler (`raw/arms.json` lat_meas). GA: eşli bootstrap 2000, %95.")
 W(""); W("## Kararlar (1.5 m/s)"); W("")
-W(f"- **S4-H1** (birlikte eskimede L = 48 < L*): {yn(dec['S4_H1'])}")
-W(f"- **S4-H2** (birlikte eskimede ayarlı CD < SU-best-of): {yn(dec['S4_H2'])}")
+j = summ["joint|1.5mps"]
+qual = (f" — **biçimsel**: L* = {j['L_star'].split('-')[1]} ızgaranın alt ucunda (sansürlü), iç optimum yok; seed 12'de en iyi kol {j['best_arm_seed12']} "
+        f"({j['best_arm_eff']:.3f}), SU-best-of ({j['su_best_of_eff']:.3f}) bile onun gerisinde. Ön kodlayıcı da eskirse optimizasyonun kendisi değer kaybediyor.")
+W(f"- **S4-H1** (birlikte eskimede L = 48 < L*): {yn(dec['S4_H1'])}{qual}")
+W(f"- **S4-H2** (birlikte eskimede ayarlı CD < SU-best-of): {yn(dec['S4_H2'])} — aynı nitelendirme: her iki kol da optimizasyonsuz SU-average'ın gerisinde.")
 W(f"- **S2-H1** (Clarke kanalında L = 48 < L* ve L* ≤ 200 ms): {yn(dec['S2_H1'])}")
 W(f"- **S2-H2** (Clarke kanalında ayarlı CD < SU-best-of): {yn(dec['S2_H2'])}")
 W(""); W("## Koşul × hız"); W("")
-W("| koşul | hız | L* (gecikme ms) | L* etkin hız | L=48 − L* [GA] | L=48 kaybı % | ayarlı CD − SU-best-of [GA] | seed 12'de en iyi kol |"); W("| --- | --- | --- | --- | --- | --- | --- | --- |")
+W("| koşul | hız | L* seed 11 (gecikme ms) | L seçimi seed 12 | L* etkin hız | L=48 − L* [GA] | L=48 kaybı % | ayarlı CD − SU-best-of [GA] | seed 12'de en iyi kol |"); W("| --- | --- | --- | --- | --- | --- | --- | --- | --- |")
 for c in CN:
     for sp in SPN:
         x = summ[f"{c}|{sp}"]
-        W(f"| {CN[c]} | {SPN[sp]} | {x['L_star'].split('-')[1]} ({x['L_star_latency_ms']:.1f}) | {x['L_star_eff']:.3f} | {x['L48_minus_Lstar']:+.3f} {ci(x['ci48'])} | "
+        W(f"| {CN[c]} | {SPN[sp]} | {x['L_star'].split('-')[1]} ({x['L_star_latency_ms']:.1f}) | {x['L_selected_seed12'].split('-')[1]} | {x['L_star_eff']:.3f} | {x['L48_minus_Lstar']:+.3f} {ci(x['ci48'])} | "
           f"{x['loss48_pct']:.1f} | {x['tuned_cd']} {x['cd_minus_sbo']:+.3f} {ci(x['ci_cd'])} | {x['best_arm_seed12']} ({x['best_arm_eff']:.3f}) |")
 W(""); W("## Komut, tohum, ham çıktı"); W("")
 W("| Komut | Tohum | Ham çıktı |"); W("| --- | --- | --- |")
 W(f"| python3 thesis_exp/juri/s4_s2.py ({D['seconds']/60:.0f} dk) | kanal 12, 11; Clarke inovasyonu 1000·seed + hız indeksi | raw/s4_s2.json, raw/s4_s2.log |")
+W("| python3 thesis_exp/juri/s4_sanity.py | kanal 11 | raw/s4_sanity.json |")
 W("| python3 thesis_exp/juri/analyze_s4_s2.py | bootstrap 0 | raw/s4_s2_summary.json |")
 y = H / "yorum_s4_s2.md"
 if y.exists():

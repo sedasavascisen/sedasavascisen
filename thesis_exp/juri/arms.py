@@ -12,7 +12,8 @@ from ris_mu.mumiso import baselines as B
 torch.set_num_threads(2)
 H = pathlib.Path(__file__).parent; OUT = H / "raw"
 TM = json.load(open(OUT / "timing.json"))["median_ms"]
-T2 = json.load(open(OUT / "timing2.json"))["median_ms"]                     # deviation 1: same-session latencies
+T2 = json.load(open(OUT / "timing2.json"))["median_ms"]
+TM = {**TM, **json.load(open(OUT / "timing3.json"))["median_ms"]}                # deviation 2: CD-s without early stop                     # deviation 1: same-session latencies
 _ML = {L: T2[f"adam{L}"] for L in (1, 2, 4, 8, 16, 32, 48)}
 adam_latency = lambda L: float(np.interp(L, sorted(_ML), [_ML[x] for x in sorted(_ML)]))
 LAT = {**T2}
