@@ -1,0 +1,35 @@
+# Makale 2 revizyonu — değişiklik listesi (16 Kasım 2026)
+
+**Kapsam:** Bu klasör, `paper_mobility/`'nin (dal `claude/review-ris-comparison-J8TI0`, TWC'ye hazırlanan sürüm) bir kopyası. Özgün `paper_mobility/`'ye dokunulmadı.
+
+**Kuralla ilişkisi:** 11 Kasım kurallarının 2. ve 9. maddeleri makale metnine dokunmayı yasaklıyor. Bu revizyon, kullanıcının 16 Kasım'daki açık isteğiyle ("makale 2'yi tekrar gözden geçir düzeltmeleri yap") yapıldı. Yayımlanmış/gönderilmiş dosyaları korumak için kopyada çalışıldı.
+
+**Sonuç:** Derlenmiş PDF `mobility_paper_ieee.pdf`, 9 sayfa (TWC ücretsiz sınırı 10). Hata ya da tanımsız referans yok.
+
+## Değişiklikler
+
+| # | Yer | Ne değişti | Neden | Kaynak |
+| --- | --- | --- | --- | --- |
+| 1 | `tables/tab_tracking.tex` (Tablo III) | 0.86 ms soğuk: L 4 → 3, hız 5.20 → 5.24; sıcak 5.42 → 5.51; fark +0.22 → +0.28. 1.71 ms: soğuk 5.09 → 5.08, sıcak 5.23 → 5.17, fark +0.15 → +0.09. 3.43 ms sıcak: L 8 → 24. 0 ms fark +0.52 → +0.53. | Benzetim pilot süresini ve devreye alma anını 0.5 ms ızgarasına yuvarlıyordu (denetim K4). Tablo, makalenin kendi tablo kodu ile düzeltilmiş veriden üretildi (`make_tab_tracking_corrected.py`). Yayımlanmış mantık dört T_p'de birebir yeniden üretildi. | `thesis_exp/p4/takip_duzeltme/` |
+| 2 | §VI-E metni | "Warm starting gains up to 0.52" → 0.53 | Tablo III ile uyum. Bölümdeki diğer nitel iddiaların hepsi düzeltilmiş veride tutuyor; örneğin her satırda en fazla 8 adımlık bir politika en iyiden ayırt edilemiyor. | aynı |
+| 3 | §V (yöntem), periyodik benzetim | "pilot airtime is charged as the fraction of each grid step it occupies, and each phase takes effect at its exact deployment instant" eklendi | Düzeltilmiş yöntemin tanımı | aynı |
+| 4 | §V (yöntem), istatistik | Tam gecikmede değerlendirmenin etkisi eklendi: en fazla 0.027 b/s/Hz, L* aynı, L=48 maliyeti %14.0 → %14.2 | Denetim K3 sonrası Makale 2 kontrolü | `thesis_exp/p4/izgara_kontrol/` |
+| 5 | §V (yöntem), gecikme | Boş makinede tek iş parçacıklı yeniden ölçüm (1.33 ms/adım) ve yeni bölüme atıf eklendi | "1.49–2.02 ms aralığında" cümlesinin yanında daha düşük bir ölçüm var; açıkça belirtildi | `thesis_exp/infra/` (dal thesis/altyapi) |
+| 6 | **Yeni §VI-H "Robustness to the Remaining Assumptions"** | Beş paragraf: adım süresi, ön kodlayıcı pilotları (ve faz tutma süresi), kusurlu kanal bilgisi (pilotla birlikte), ayrık faz (1/2/3 bit) | Makalenin sınırlılık olarak bıraktığı varsayımlar artık ölçüldü | `p4/izgara_kontrol`, `p4/onkodlayici_siralama` (+ W = 25/100 ms), `p4/kusurlu_csi`, `p4/onkodlayici_csi`, `p4/ayrik_faz` |
+| 7 | §VI-G "Fresh-Beam" | "whose airtime we do not charge" → "Section VI-H charges their airtime" | Artık ücretlendirildi | `p4/onkodlayici_siralama` |
+| 8 | §VII Sonuç, sınırlılıklar | Ön kodlayıcı/CSI cümlesi güncellendi; faz tutma süresiyle en iyi adım sayısının arttığı eklendi; "imperfect channel knowledge and discrete phases … follow" kaldırıldı | Bu ikisi yapıldı | yukarıdakiler |
+| 9 | Özet | "costs 14.0%" → "costs 14%" | Grid yöntemiyle %14.0, tam değerlendirmeyle %14.2; ikisi de "14%" | `p4/izgara_kontrol` |
+
+## Değiştirilmeyenler (bilinçli)
+
+- **Tablo I ve Şekil 3 (gecikmeler):** Makalenin 1.66 ms/adım gecikmesiyle bırakıldı. Yeni gecikmeyle yeniden üretim tezde var; makalede yalnızca §VI-H'de özetlendi. Tablo III de 1.66 ms ile düzeltildi; yeni gecikmeyle yeniden üretim yapılmadı.
+- **Tablo III'teki seçim kuralı:** Makale zaten "best configurations are selected and reported on the same scenarios unless stated" diyor; dokunulmadı.
+- **Sonuç maddesi 2 ("A few steps are optimal"):** Sınırlılıklar paragrafına "the best step count also grows when a phase is held for longer" eklendi; madde metni değişmedi.
+
+## Gönderim notu
+
+Makale TWC'ye gönderildiyse bu değişiklikler bir revizyon turunda ya da hakem yanıtında kullanılabilir. Gönderilmediyse doğrudan bu sürüm gönderilebilir.
+
+Yeni bölümdeki sayıların hepsi yukarıdaki raporlara bağlıdır. Bu sayılar 11 denetim turunun kapsamındaki raporlardan alındı; denetim, sayıları bu makale metnine kopyalanmış hâliyle ayrıca sınamadı.
+
+Sözcük ve dil kontrolünü, özellikle yeni §VI-H'yi, ortak yazarlarla birlikte yapmanız önerilir.

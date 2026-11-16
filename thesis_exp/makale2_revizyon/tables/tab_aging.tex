@@ -1,0 +1,17 @@
+\begin{tabular}{lrrrr}
+\toprule
+Method & $t{=}0$ & Latency & Effective & Stale \\
+ & (b/s/Hz) & (ms) & (b/s/Hz) & (b/s/Hz) \\
+\midrule
+No RIS (direct link) & 1.744 & -- & -- & -- \\
+Random phase & 4.072 & -- & -- & -- \\
+SU-average & 4.624 & 0.42 & 4.623 & 4.315 \\
+SU-best-of & 5.276 & 2.5 & 5.272 & 4.336 \\
+Adam, $L=8$ & 6.443 & 13.3 & 5.849 & 4.326 \\
+Adam, $L=12$ & 6.631 & 20.0 & 5.515 & 4.370 \\
+Adam, $L=16$ & 6.754 & 26.6 & 5.324 & 4.381 \\
+Adam, $L=20$ & 6.835 & 33.2 & 5.276 & 4.364 \\
+Coord. descent & 6.925 & 880.8 & 4.975$^\dagger$ & 4.352 \\
+Long-run Adam & 7.117 & 5851.7 & 4.667$^\dagger$$^\ast$ & 4.423 \\
+\bottomrule
+\end{tabular}
