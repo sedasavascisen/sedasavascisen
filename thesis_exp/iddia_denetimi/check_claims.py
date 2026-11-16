@@ -52,6 +52,11 @@ def load_all():
     D["pub_tracking"] = json.load(open(ROOT / "results" / "mumiso_tracking.json"))
     D["infra_lat"] = _git_json("origin/thesis/altyapi:thesis_exp/infra/raw/mumiso_mobility_latency_rerun.json")
     D["u13"] = open(ROOT / "thesis_exp/denetim_log/scripts/u13_csi_rel_err.out").read()
+    T = ROOT / "thesis_exp"
+    for k, rel in (("rule", "tasarim_kurali/raw/validation.json"), ("wb", "genis_bant/raw/results.json"), ("wbs", "genis_bant/raw/sens200.json"),
+                   ("wbg4", "genis_bant/raw/g4.json"), ("j31", "juri/raw/s3_s1.json"), ("j1b", "juri/raw/s1b.json"),
+                   ("j42", "juri/raw/s4_s2_summary.json"), ("j4s", "juri/raw/s4_sanity.json")):
+        D[k] = json.load(open(T / rel))
     return D
 
 
@@ -179,6 +184,42 @@ def claims(D):
     add("1 bit dCD-1 +0.25 (0.16-0.33) over rounded SU-best-of", "§VI-H", eq(r1["minus_su_best_of_q"], 0.25, 2) and eq(r1["minus_su_best_of_q_ci"][0], 0.16, 2) and eq(r1["minus_su_best_of_q_ci"][1], 0.33, 2))
     p = d1["paired"]["dCD-1 - Adam-5->q"]
     add("1 bit dCD-1 tied with best rounded Adam (-0.04, -0.11..0.02)", "§VI-H", tied(p["ci"]) and eq(p["diff"], -0.04, 2) and eq(p["ci"][0], -0.11, 2) and eq(p["ci"][1], 0.02, 2))
+    # ---- 16 Nov: design rule (tasarim_kurali/REPORT.md)
+    import numpy as _np
+    v = D["rule"]
+    lr = _np.array([r["loss_pct"]["rule"] for r in v["rows"]])
+    add("design rule H1/H2/H3 hold", "tasarim_kurali", v["H1"]["holds"] and v["H2"]["holds"] and v["H3"]["holds"])
+    add("design rule median loss 0.08%, worst 2.74%", "tasarim_kurali", eq(float(_np.median(lr)), 0.08, 2) and eq(float(lr.max()), 2.74, 2))
+    add("W>0 conditions: 21/45 with L*=48", "tasarim_kurali", sum(1 for r in v["rows"] if r["W_ms"] > 0 and r["L_star"] == 48) == 21 and sum(1 for r in v["rows"] if r["W_ms"] > 0) == 45)
+    # ---- wideband (genis_bant/REPORT.md, Paper 2 round 4)
+    C_ = D["wb"]["cells"]
+    cells = [(c, k, d) for c, x in C_.items() for k, d in x["by_kopt"].items()]
+    add("wideband G1 fails: 7/24 cells L=48 significantly below L*", "genis_bant", sum(below(d["ci"]) for _, _, d in cells) == 7 and len(cells) == 24)
+    add("wideband 6 cells with L*=48", "genis_bant", sum(d["L_star_test"].endswith("-L48") for _, _, d in cells) == 6)
+    hi = [d for c, k, d in cells if not c.startswith("20MHz")]
+    add("50-100 MHz: L=48 significantly worse in only 3 of 16 (Paper 2 copy)", "makale2 §VII", sum(below(d["ci"]) for d in hi) == 3 and len(hi) == 16)
+    k1_20 = [C_[f"20MHz_{sp}"]["by_kopt"]["1"] for sp in ("1.5mps", "10kmh")]
+    add("20 MHz centre-frequency (K_opt=1): interior optimum at both speeds", "makale2 §VII", all(below(d["ci"]) for d in k1_20))
+    add("wideband G2: 20 MHz K_opt<=4, 100 MHz K_opt=16", "genis_bant", all(C_[f"20MHz_{sp}"]["selected_on_val"][:2] in ("K1", "K4") for sp in ("1.5mps", "10kmh")) and all(C_[f"100MHz_{sp}"]["selected_on_val"].startswith("K16") for sp in ("1.5mps", "10kmh")))
+    add("100 MHz selected minus narrowband +0.28/+0.29, significant", "genis_bant", all(above(C_[f"100MHz_{sp}"]["selected_minus_narrowband"]["ci"]) for sp in ("1.5mps", "10kmh")) and eq(C_["100MHz_1.5mps"]["selected_minus_narrowband"]["diff"], 0.28, 2) and eq(C_["100MHz_10kmh"]["selected_minus_narrowband"]["diff"], 0.29, 2))
+    add("within 200 ms: 100 MHz selects K16-L20 (183.4 ms)", "genis_bant §4", all(D["wbs"]["cells"][f"100MHz_{sp}"]["selected"] == "K16-L20" for sp in ("1.5mps", "10kmh")) and eq(D["wbs"]["cells"]["100MHz_1.5mps"]["latency_ms"], 183.4, 1))
+    # ---- jury Q3/Q1/Q4/Q2 (juri/REPORT_S3_S1.md, REPORT_S4_S2.md)
+    j = D["j31"]
+    add("Q3 S3-H1 holds at 1.5 m/s", "juri S3", j["s3_h1"]["1.5mps"]["holds"])
+    r20 = [r for r in j["s3_h1"]["1.5mps"]["rows"] if r["budget_ms"] >= 20]
+    add("Q3 feasibility selection loses 0.43-1.41 at >=20 ms (1.5 m/s)", "juri S3", all(below(r["ci"]) for r in r20) and eq(-max(r["diff"] for r in r20), 0.43, 2) and eq(-min(r["diff"] for r in r20), 1.41, 2))
+    add("Q3 FLOP and measured latency select the same arm", "juri S3", all(j["s3_e"][sp]["selected_measured"] == j["s3_e"][sp]["selected_flop"] for sp in ("1.5mps", "10kmh")))
+    for sp, dd in (("1.5mps", 0.684), ("10kmh", 0.836)):
+        x = j["s1"][sp]["numba"]["numba_incr"]
+        add(f"Q1 compiled CD beats Python Adam {sp} (+{dd})", "juri S1", above(x["ci"]) and eq(x["diff"], dd, 3))
+        add(f"Q1 r* in (10, 15] {sp}", "juri S1", j["s1"][sp]["r_star_equal"] == [10, 15])
+        add(f"Q1b equal speed-up: Adam ahead at every r {sp}", "juri S1b", all(below(x["ci"]) for x in D["j1b"]["rows"][sp]))
+    s42 = D["j42"]
+    add("Q4/Q2 four decisions hold", "juri S4/S2", all(s42["decisions"].values()))
+    add("Q4 joint aging: L* = 1 (lower grid edge) at every speed", "juri S4", all(s42["summary"][f"joint|{sp}"]["L_star"] == "Adam-1" for sp in ("3kmh", "1.5mps", "10kmh")))
+    add("Q2 Clarke: L* 3-8 within 200 ms", "juri S2", all(s42["summary"][f"clarke|{sp}"]["L_star_latency_ms"] <= 200 for sp in ("3kmh", "1.5mps", "10kmh")))
+    rows = D["j4s"]["rows"]
+    add("Q4 sanity: 5.412 at t=0, 4.030 at 1.15 ms, 1.067 at 10 ms (joint)", "juri S4 yorum", eq(rows[0]["joint"], 5.412, 3) and eq(rows[1]["joint"], 4.030, 3) and eq(rows[2]["joint"], 1.067, 3))
     return C
 
 
@@ -206,6 +247,9 @@ SAB = [
     ("CSI 30 dB 3.60", lambda d: d["csi"]["levels"]["30dB"].__setitem__("test", 3.60)),
     ("Table I long-run Adam 0.045", lambda d: d["tab1"]["rows"]["Long-run Adam"].__setitem__("exact_minus_interp", -0.045)),
     ("re-measured L* -> 5", lambda d: d["grid"]["sets"]["rerun"]["L_star"].__setitem__("exact", "Adam-5")),
+    ("wideband: one more significant cell", lambda d: d["wb"]["cells"]["100MHz_1.5mps"]["by_kopt"]["1"].__setitem__("ci", [-0.05, -0.01])),
+    ("Q1 compiled CD diff +0.70", lambda d: d["j31"]["s1"]["1.5mps"]["numba"]["numba_incr"].__setitem__("diff", 0.70)),
+    ("Q4 joint L* -> 2", lambda d: d["j42"]["summary"]["joint|1.5mps"].__setitem__("L_star", "Adam-2")),
     ("3 bit dCD-1 CI crosses zero", lambda d: d["d3"]["bits"]["3"]["designs"]["lr0.5"]["rows"]["dCD-1"].__setitem__("minus_su_best_of_q_ci", [-0.4, 0.01])),
 ]
 _, base_bad = run(D, quiet=True)
