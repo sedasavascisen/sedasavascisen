@@ -93,7 +93,7 @@ ig_aging.pdf> <./figures/fig_intrinsic_optimum.pdf>] (./tables/tab_speeds.tex)
 ures/fig_equal_step_vs_ms.pdf>]
 Underfull \hbox (badness 5217) in paragraph at lines 222--226
 []\T1/ptm/m/n/8 C. B. Peel, B. M. Hochwald, and A. L. Swindle-hurst, ``A
-[9]) [10] (./mobility_paper_ieee.aux) )
+) [9] (./mobility_paper_ieee.aux) )
 (see the transcript file for additional information)</usr/share/texlive/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/ty
@@ -117,5 +117,5 @@ msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/urw/times/utmri8a.pfb>
-Output written on mobility_paper_ieee.pdf (10 pages, 462361 bytes).
+Output written on mobility_paper_ieee.pdf (9 pages, 461703 bytes).
 Transcript written on mobility_paper_ieee.log.

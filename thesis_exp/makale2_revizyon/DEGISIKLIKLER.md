@@ -87,3 +87,14 @@ Gerekçe: geniş bant OFDM deneyinde G1 TUTMADI (`thesis_exp/genis_bant/REPORT.m
 | Sınırlar | "…, and the model is narrowband with one geometry." ve "Our next step is wideband OFDM operation, where beam squint …" | "…, and there is one geometry." ve "The interior optimum is narrowband: a first OFDM check kept it for centre-frequency optimization at 20 MHz, but at 50–100 MHz running 48 steps was significantly worse in only 3 of 16 configurations." (Bağımsız denetimden sonra: "often flattened" yerine açık sayı, Kural 10.) |
 
 Not: beam squint cümlesi kaldırıldı. Literatür raporunun tavsiye 8'ine göre bu kurguda beam squint ihmal edilebilir; belirleyici etki frekans seçiciliği. Makale 9 sayfa kaldı.
+
+## 5. tur (16 Kasım 2026): jüri soruları deneylerinden gelen iki ek — kullanıcının "onay bekleme, devam et" talimatıyla
+
+| Yer | Değişiklik | Kaynak |
+| --- | --- | --- |
+| İlgili çalışmalar, son cümle | "…run time … is not part of the model" → "…the optimizer's own run time, at most a feasibility constraint on its operation count~[Ryu2026], does not enter the aging." Önceki cümle Ryu ve ark. ile çelişiyordu. | `thesis_exp/reports/Geniş bant RIS tez tavsiyeleri.md`; `thesis_exp/juri/REPORT_S3_S1.md` (Soru 3) |
+| Kaynakça | `Ryu2026arXiv` eklendi. **DOĞRULANMALI:** yazarların ön adları notlarda yok; künye arXiv sayfasından tamamlanmalı. | araştırma notları |
+| Sınırlar | "Latencies come from single-threaded Python. Faster hardware … remains to be measured." → "Latencies come from single-threaded Python: compiled alone (62–63-fold faster), coordinate descent overtakes Python Adam, but an equal speed-up of all methods keeps tuned Adam ahead; …" (Kural 10: makaleyi sınırlayan bulgu) | `thesis_exp/juri/REPORT_S3_S1.md` (Soru 1, sapma 2 sonrası) |
+| Sınırlar, yer için | Anlamı korunarak sıkıştırıldı: sabit saçıcılar/anten kazançları cümlesi; pilot/CSI/ayrık faz cümlesi tek cümle ("leave the slow solvers behind"); "1–8 tarama" (Yöntem bölümünde var) ve "keep each update short" (madde 4'te var) çıkarıldı; "faster code" ifadesi kaldırıldı (yeni bulguyla çelişiyordu). | — |
+
+Makale 9 sayfa.
