@@ -78,6 +78,18 @@ yn = lambda b: "**TUTTU**" if b else "**TUTMADI**"
 W("# Jüri soruları 3 ve 1 — ön kayıtlı sonuçlar"); W("")
 W(f"Rapor commit'i `{commit}`, kol koşusu `{D['commit'][:7]}`. Ön kayıt `ON_KAYIT_S3_S1.md`. Seçim seed 12, rapor seed 11, 400 senaryo, "
   "Tanım 1 (tam gecikmede, interpolasyonsuz). GA: eşli bootstrap 2000, %95.")
+S1B = json.load(open(R / "s1b.json")) if (R / "s1b.json").exists() else None
+W(""); W("## ⚠ En üstte: Makale 2'yi sınırlayan bulgu (Kural 10)"); W("")
+for sp in SP:
+    x = res["s1"][sp]["numba"]["numba_incr"]
+    W(f"- **{SP[sp]}: yalnızca CD derlenirse sıralama döner.** Derlenmiş (artımlı) CD, ×{x['speedup_vs_torch']:.0f} hızla {x['latency_ms']:.2f} ms'de "
+      f"Python'daki {res['s1'][sp]['reference']}'yı {x['diff']:+.3f} {ci(x['ci'])} geçiyor. Başa baş oranı r* ∈ ({res['s1'][sp]['r_star_equal'][0]}, {res['s1'][sp]['r_star_equal'][1]}].")
+W("- Bu yüzden Makale 2'deki \"speed beats precision\" cümlesi bir gerçekleştirme varsayımına bağlıdır: CD'nin Python gerçekleştirmesi, makaledeki sıralamanın bir parçasıdır.")
+if S1B:
+    rr = {sp: S1B["rows"][sp] for sp in SP}
+    W(f"- **Ancak bütün kollar aynı oranda hızlandırıldığında** (ön kayıt dışı, §Soru 1b) ayarlı Adam, ayarlı CD'yi r = 1…1000 aralığının her noktasında anlamlı olarak geçiyor "
+      + "; ".join(f"{SP[sp]}: CD − Adam {min(x['cd_minus_adam'] for x in rr[sp]):+.2f} … {max(x['cd_minus_adam'] for x in rr[sp]):+.2f}, en kötü GA üst sınırı {max(x['ci'][1] for x in rr[sp]):+.3f}" for sp in SP)
+      + ". Sıralamayı dil değil, kolların gecikme oranı belirliyor.")
 W(""); W("## Soru 3 — Ryu tarzı uygulanabilirlik seçimi ile etkin hız seçimi"); W("")
 for sp in SP:
     h = res["s3_h1"][sp]
@@ -114,11 +126,20 @@ for sp in SP:
     for x in s["rows"]:
         W(f"| {x['r']:g} | {x['cd']} | {x['latency_ms']:.2f} | {x['cd_eff']:.3f} | {x['diff']:+.3f} {ci(x['ci'])} |")
 W(""); W("Not (ön kayıt): Adam derlenmedi; derlenmiş CD ile Python Adam karşılaştırması tezin aleyhine taraflıdır.")
+if S1B:
+    W(""); W("## Soru 1b — bütün kollar aynı oranda hızlandırılırsa (ÖN KAYIT DIŞI, sonuçlar görüldükten sonra yazıldı)"); W("")
+    W("Kaynak `s1b_equal_speedup.py` → `raw/s1b.json`. Her kolun bu oturumdaki gecikmesi r'ye bölünür ve tam olarak değerlendirilir; aile içi en iyi kol seed 12'de seçilir.")
+    for sp in SP:
+        W(""); W(f"### {SP[sp]}"); W(""); W("| r | ayarlı Adam | Adam etkin hız | ayarlı CD | CD etkin hız | CD − Adam [GA] | genel en iyi |"); W("| --- | --- | --- | --- | --- | --- | --- |")
+        for x in S1B["rows"][sp]:
+            W(f"| {x['r']:g} | {x['best_adam']} | {x['adam_eff']:.3f} | {x['best_cd']} | {x['cd_eff']:.3f} | {x['cd_minus_adam']:+.3f} {ci(x['ci'])} | {x['best_overall']} |")
 W(""); W("## Komut, tohum, ham çıktı"); W("")
 W("| Komut | Tohum | Ham çıktı |"); W("| --- | --- | --- |")
 W("| python3 thesis_exp/juri/timing.py | kanal 11, tek senaryo | raw/timing.json, raw/timing.log |")
 W(f"| python3 thesis_exp/juri/arms.py ({D['seconds']/60:.0f} dk) | kanal 12, 11 | raw/arms.json, raw/arms.log |")
+W("| python3 thesis_exp/juri/timing2.py | kanal 11, tek senaryo | raw/timing2.json, raw/timing2.log |")
 W("| python3 thesis_exp/juri/analyze_s3_s1.py | bootstrap 0 | raw/s3_s1.json |")
+W("| python3 thesis_exp/juri/s1b_equal_speedup.py (ön kayıt dışı) | kanal 12, 11; bootstrap 0 | raw/s1b.json, raw/s1b.log |")
 y = H / "yorum_s3_s1.md"
 if y.exists():
     W(""); W("## Yorum (bulgulardan ayrı)"); W(""); W(y.read_text().strip())

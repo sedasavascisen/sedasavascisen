@@ -1,6 +1,13 @@
 # Jüri soruları 3 ve 1 — ön kayıtlı sonuçlar
 
-Rapor commit'i `bdcd899`, kol koşusu `bdcd899`. Ön kayıt `ON_KAYIT_S3_S1.md`. Seçim seed 12, rapor seed 11, 400 senaryo, Tanım 1 (tam gecikmede, interpolasyonsuz). GA: eşli bootstrap 2000, %95.
+Rapor commit'i `d7ac933`, kol koşusu `bdcd899`. Ön kayıt `ON_KAYIT_S3_S1.md`. Seçim seed 12, rapor seed 11, 400 senaryo, Tanım 1 (tam gecikmede, interpolasyonsuz). GA: eşli bootstrap 2000, %95.
+
+## ⚠ En üstte: Makale 2'yi sınırlayan bulgu (Kural 10)
+
+- **1.5 m/s: yalnızca CD derlenirse sıralama döner.** Derlenmiş (artımlı) CD, ×191 hızla 2.54 ms'de Python'daki Adam-6'yı +0.717 [+0.670, +0.762] geçiyor. Başa baş oranı r* ∈ (10, 15].
+- **10 km/h: yalnızca CD derlenirse sıralama döner.** Derlenmiş (artımlı) CD, ×191 hızla 2.54 ms'de Python'daki Adam-4'yı +0.850 [+0.795, +0.905] geçiyor. Başa baş oranı r* ∈ (10, 15].
+- Bu yüzden Makale 2'deki "speed beats precision" cümlesi bir gerçekleştirme varsayımına bağlıdır: CD'nin Python gerçekleştirmesi, makaledeki sıralamanın bir parçasıdır.
+- **Ancak bütün kollar aynı oranda hızlandırıldığında** (ön kayıt dışı, §Soru 1b) ayarlı Adam, ayarlı CD'yi r = 1…1000 aralığının her noktasında anlamlı olarak geçiyor 1.5 m/s: CD − Adam -1.40 … -0.12, en kötü GA üst sınırı -0.096; 10 km/h: CD − Adam -1.42 … -0.12, en kötü GA üst sınırı -0.103. Sıralamayı dil değil, kolların gecikme oranı belirliyor.
 
 ## Soru 3 — Ryu tarzı uygulanabilirlik seçimi ile etkin hız seçimi
 
@@ -125,10 +132,70 @@ Zamanlama: yük başlangıç 0.06, ölçüm öncesi 0.06, sonrası 0.75; rerun d
 
 Not (ön kayıt): Adam derlenmedi; derlenmiş CD ile Python Adam karşılaştırması tezin aleyhine taraflıdır.
 
+## Soru 1b — bütün kollar aynı oranda hızlandırılırsa (ÖN KAYIT DIŞI, sonuçlar görüldükten sonra yazıldı)
+
+Kaynak `s1b_equal_speedup.py` → `raw/s1b.json`. Her kolun bu oturumdaki gecikmesi r'ye bölünür ve tam olarak değerlendirilir; aile içi en iyi kol seed 12'de seçilir.
+
+### 1.5 m/s
+
+| r | ayarlı Adam | Adam etkin hız | ayarlı CD | CD etkin hız | CD − Adam [GA] | genel en iyi |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | Adam-6 | 6.151 | CD-2 | 4.968 | -1.183 [-1.278, -1.090] | Adam-6 |
+| 1.5 | Adam-8 | 6.297 | CD-1 | 4.967 | -1.330 [-1.426, -1.237] | Adam-8 |
+| 2 | Adam-12 | 6.416 | CD-1 | 5.049 | -1.367 [-1.467, -1.268] | Adam-12 |
+| 3 | Adam-16 | 6.564 | CD-1 | 5.167 | -1.397 [-1.485, -1.309] | Adam-16 |
+| 5 | Adam-24 | 6.717 | CD-1 | 5.632 | -1.085 [-1.158, -1.015] | Adam-24 |
+| 7 | Adam-32 | 6.801 | CD-1 | 5.888 | -0.913 [-0.974, -0.852] | Adam-32 |
+| 10 | Adam-32 | 6.880 | CD-1 | 6.074 | -0.806 [-0.856, -0.751] | Adam-32 |
+| 15 | Adam-48 | 6.944 | CD-1 | 6.194 | -0.751 [-0.801, -0.699] | Adam-48 |
+| 20 | Adam-48 | 6.982 | CD-2 | 6.313 | -0.669 [-0.722, -0.618] | Adam-48 |
+| 30 | Adam-48 | 7.011 | CD-2 | 6.478 | -0.533 [-0.577, -0.491] | Adam-48 |
+| 50 | Adam-48 | 7.027 | CD-3 | 6.589 | -0.438 [-0.481, -0.397] | Adam-48 |
+| 70 | Adam-48 | 7.032 | CD-4 | 6.672 | -0.360 [-0.397, -0.325] | Adam-48 |
+| 100 | Adam-48 | 7.034 | CD-8 | 6.755 | -0.279 [-0.313, -0.247] | Adam-48 |
+| 150 | Adam-48 | 7.036 | CD-8 | 6.839 | -0.196 [-0.223, -0.170] | Adam-48 |
+| 200 | Adam-48 | 7.036 | CD-8 | 6.873 | -0.163 [-0.188, -0.140] | Adam-48 |
+| 300 | Adam-48 | 7.036 | CD-8 | 6.899 | -0.137 [-0.159, -0.117] | Adam-48 |
+| 500 | Adam-48 | 7.037 | CD-8 | 6.914 | -0.122 [-0.142, -0.103] | Adam-48 |
+| 1000 | Adam-48 | 7.037 | CD-8 | 6.922 | -0.115 [-0.136, -0.096] | Adam-48 |
+
+### 10 km/h
+
+| r | ayarlı Adam | Adam etkin hız | ayarlı CD | CD etkin hız | CD − Adam [GA] | genel en iyi |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | Adam-4 | 5.913 | CD-2 | 4.972 | -0.941 [-1.039, -0.849] | Adam-4 |
+| 1.5 | Adam-6 | 6.072 | CD-3 | 4.999 | -1.073 [-1.172, -0.974] | Adam-6 |
+| 2 | Adam-8 | 6.179 | CD-2 | 5.048 | -1.131 [-1.225, -1.037] | Adam-8 |
+| 3 | Adam-12 | 6.321 | CD-1 | 5.013 | -1.308 [-1.403, -1.219] | Adam-12 |
+| 5 | Adam-16 | 6.529 | CD-1 | 5.108 | -1.421 [-1.514, -1.328] | Adam-16 |
+| 7 | Adam-20 | 6.633 | CD-1 | 5.361 | -1.272 [-1.353, -1.191] | Adam-20 |
+| 10 | Adam-24 | 6.739 | CD-1 | 5.699 | -1.040 [-1.102, -0.972] | Adam-24 |
+| 15 | Adam-32 | 6.839 | CD-1 | 5.973 | -0.866 [-0.927, -0.806] | Adam-32 |
+| 20 | Adam-32 | 6.892 | CD-1 | 6.104 | -0.788 [-0.839, -0.738] | Adam-32 |
+| 30 | Adam-48 | 6.956 | CD-1 | 6.209 | -0.748 [-0.797, -0.701] | Adam-48 |
+| 50 | Adam-48 | 7.006 | CD-2 | 6.447 | -0.559 [-0.601, -0.516] | Adam-48 |
+| 70 | Adam-48 | 7.021 | CD-2 | 6.535 | -0.486 [-0.526, -0.446] | Adam-48 |
+| 100 | Adam-48 | 7.029 | CD-3 | 6.611 | -0.417 [-0.457, -0.381] | Adam-48 |
+| 150 | Adam-48 | 7.033 | CD-4 | 6.707 | -0.326 [-0.360, -0.295] | Adam-48 |
+| 200 | Adam-48 | 7.035 | CD-8 | 6.776 | -0.259 [-0.293, -0.226] | Adam-48 |
+| 300 | Adam-48 | 7.036 | CD-8 | 6.850 | -0.186 [-0.213, -0.163] | Adam-48 |
+| 500 | Adam-48 | 7.036 | CD-8 | 6.894 | -0.142 [-0.165, -0.121] | Adam-48 |
+| 1000 | Adam-48 | 7.037 | CD-8 | 6.916 | -0.121 [-0.141, -0.103] | Adam-48 |
+
 ## Komut, tohum, ham çıktı
 
 | Komut | Tohum | Ham çıktı |
 | --- | --- | --- |
 | python3 thesis_exp/juri/timing.py | kanal 11, tek senaryo | raw/timing.json, raw/timing.log |
 | python3 thesis_exp/juri/arms.py (3 dk) | kanal 12, 11 | raw/arms.json, raw/arms.log |
+| python3 thesis_exp/juri/timing2.py | kanal 11, tek senaryo | raw/timing2.json, raw/timing2.log |
 | python3 thesis_exp/juri/analyze_s3_s1.py | bootstrap 0 | raw/s3_s1.json |
+| python3 thesis_exp/juri/s1b_equal_speedup.py (ön kayıt dışı) | kanal 12, 11; bootstrap 0 | raw/s1b.json, raw/s1b.log |
+
+## Yorum (bulgulardan ayrı)
+
+- **Soru 3'e yanıt.** Katkı "FLOP yerine milisaniye" değil. Bu kurguda FLOP'tan öngörülen gecikme ile ölçülmüş gecikme aynı kolu seçiyor (Kendall τ 0.87–0.90). Fark yaratan, hesaplama süresinin kanal eskimesine katılması. Hesaplama süresini yalnızca bir uygulanabilirlik kısıtı olarak kullanan seçim ("bütçeye sığan ve t = 0'da en iyi olan"), ≥ 20 ms bütçelerde 1.5 m/s'de 0.43–1.41 b/s/Hz, 10 km/h'de ise 10 ms'den itibaren 0.26–1.23 b/s/Hz kaybettiriyor. Gecikme, bir bütçe kısıtı olarak değil, amaç fonksiyonunun içinde yer almalı.
+- **FLOP sayımının sınırı.** Ölçülmüş / FLOP-öngörülen oranı kollar arasında 0.32 ile 0.99 arasında değişiyor; CD ve SU kolları FLOP'tan beklenenden 2–3 kat hızlı. Bu kurguda seçimi değiştirmiyor, ama FLOP'un gerçekleştirmeye bağlı süreyi ancak 3 kat içinde öngördüğünü gösteriyor.
+- **Soru 1'e yanıt (iki katmanlı).** (i) Yalnızca CD derlenirse sıralama 10–15 kat hızlanmada döner; derlenmiş CD Python Adam'ı açıkça geçer. Bu, Makale 2'nin sıralamasının gerçekleştirmeye duyarlı olduğunu gösteriyor ve yumuşatılmamalı. (ii) Bütün yığın aynı oranda hızlanırsa (r = 1…1000), ayarlı Adam her noktada önde. Hızlanma arttıkça Adam'ın L*'ı 6'dan 48'e çıkıyor. Fark en büyük hâlinde 1.40 (r = 3), r = 1000'de 0.12. Bunun nedeni, t = 0'da Adam-48'in (7.04) CD-8'den (6.93) daha iyi olması.
+- **Savunu cümlesine etkisi.** "Gecikme sıralamayı belirler" cümlesi güçleniyor: sıralamayı dil değil, kolların gecikme oranı belirliyor. Buna karşılık "hız kesinliği yener" cümlesi, gecikme oranlarına koşullu yazılmalı.
+- **Ölçüm notu.** Bu oturumdaki makine, rerun ölçümlerinden 0.69–0.86 kat daha hızlıydı. Bütün kollar bu oturumda yeniden ölçüldü (sapma 1). Seçilen kollar (Adam-6, Adam-4) makaledekiyle aynı.
