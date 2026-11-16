@@ -14,7 +14,7 @@ SPN = {"1.5mps": "1.5 m/s", "10kmh": "10 km/h"}
 C = res["cells"]
 
 W("# Geniş bant OFDM — ön kayıtlı deney raporu"); W("")
-W(f"Rapor commit'i `{commit}`, koşu commit'i `{res['commit'][:7]}`. Ön kayıt `ON_KAYIT.md` (sapmalar orada, koşudan önce). "
+W(f"Rapor commit'i `{commit}`, koşu sonunda kaydedilen commit `{res['commit'][:7]}` (koşu 5a8b86e'de başladı; aradaki commit'ler run.py ve wb.py'yi değiştirmedi, bağımsız denetimle doğrulandı). Ön kayıt `ON_KAYIT.md` (sapmalar orada, koşudan önce). "
   "Seçim seed 12, rapor seed 11, 400 senaryo, 64 alt taşıyıcılı değerlendirme, min-kullanıcı hızı, Tanım 1 (kolun tam gecikmesinde). "
   "Fark ve GA'lar eşli bootstrap (2000, %95), seed 11 üzerinde.")
 S2 = json.load(open(R / "sens200.json")) if (R / "sens200.json").exists() else None
@@ -22,7 +22,7 @@ W("")
 n1top = sum(C[f"{bw}MHz_{sp}"]["by_kopt"][k]["ci"][1] < 0 for bw in BWS for sp in SPS for k in C[f"{bw}MHz_{sp}"]["by_kopt"])
 W("## ⚠ En üstte: Makale 2'nin bulgusunu sınırlayan sonuç (Kural 10)"); W("")
 W(f"**G1 TUTMADI.** Makale 2'nin dar bant bulgusu \"içsel optimum vardır; L = 48 anlamlı olarak kötüdür\" geniş bantta genelleşmiyor: "
-  f"24 (B, hız, K_opt) hücresinin yalnızca {n1top}'sinde L = 48, L*'tan anlamlı olarak kötü. "
+  f"24 (B, hız, K_opt) hücresinin yalnızca {n1top}'sinde L = 48, L*'tan anlamlı olarak kötü (iki hücre sınırda: 20 MHz, 1.5 m/s, K_opt = 16 ve 64, GA üst sınırı +0.001 ve +0.003; bağımsız denetimin farklı bootstrap tohumuyla sayı 7–9 arasında oynuyor, hüküm değişmiyor). "
   f"{sum(C[f'{bw}MHz_{sp}']['by_kopt'][k]['L_star_test'].endswith('-L48') for bw in BWS for sp in SPS for k in C[f'{bw}MHz_{sp}']['by_kopt'])} hücrede L* tam olarak 48'dir, yani ızgaranın ucundadır.")
 if S2:
     W(f"Ön kayıt dışı duyarlılıkta (§4) seçim 200 ms'lik güven ufkuyla sınırlandırıldığında: {sum(x['L_star_at_edge'] for x in S2['g1'])}/{len(S2['g1'])} hücrede L*, "
@@ -37,6 +37,7 @@ W("- **CD ayarlanmadı.** Plan 1–8 tarama taraması öngörüyordu; ön kayıt
   "CLAUDE.md'deki zayıf taban çizgisi kuralı bakımından G3'ün hükmü bu yüzden zayıftır.")
 W("- **K_opt = 64 örneklem içidir** (değerlendirme ızgarasının kendisi); üst referans olarak okunmalı.")
 W("- **Güven ufku.** 200 ms'yi aşan gecikmeler (aşağıdaki tabloda) kanal modelinin korelasyon tabanının içine düşer; oradaki hızlar fiziksel olarak güvenilir değildir.")
+W("- **SU-average gecikmesi iki kez sayılıyor.** Zamanlama ölçümü `su_average()` çağrısını zaten içeriyor ve gecikme formülü buna ayrıca 0.30 ms ekliyor (ön kayıttaki formül böyle). Adam kollarının hepsi yaklaşık 0.3 ms geç değerlendiriliyor; etkisi ihmal edilebilir.")
 W("- Pilot, kestirim hatası ve ön kodlayıcı eskimesi yok (her alt taşıyıcıda taze ZF). Tek kanal modeli; genlik fc'de sabit.")
 W("")
 W("## 1) Ölçülmüş gecikme (boş makine, tek iş parçacığı)"); W("")
@@ -45,6 +46,8 @@ W(""); W("| K_opt | L=1 | L=4 | L=16 (ms, tur medyanı) | uydurma: sabit + adım
 for k in (1, 4, 16, 64):
     f = tm[f"fit_K{k}"]; m = [tm["arms"][f"K{k}_L{L}"]["median_ms"] for L in (1, 4, 16)]
     W(f"| {k} | {m[0]:.2f} | {m[1]:.2f} | {m[2]:.2f} | {f['intercept_ms']:+.2f} + {f['per_step_ms']:.3f}·L | {res['latency_ms'][f'K{k}-L48']:.1f} |")
+spread = "; ".join(f"K{k} L{L}: {min(tm['arms'][f'K{k}_L{L}']['rounds_ms']):.1f}–{max(tm['arms'][f'K{k}_L{L}']['rounds_ms']):.1f}" for k in (1, 4, 16, 64) for L in (1, 4, 16))
+W(""); W(f"Turlar arası yayılım (en küçük–en büyük tur, ms): {spread}. L > 16 için gecikmeler 3 noktalı doğrusal uydurmadan dışa değerlendirilmiştir (L = 20…48 ölçülmedi).")
 W(""); W("SU-best-of 1.63 ms, CD 702.97 ms (dar bant, tek iş parçacıklı yeniden ölçüm; geniş bantta da fc'de optimize ettikleri için aynı).")
 
 W(""); W("## 2) Hipotez kararları"); W("")
@@ -101,7 +104,8 @@ if S2:
     W(""); W(f"G4, yalnızca L*'ı ufuk içinde olan {len(L4)} hücrede: kayıp medyan %{np.median(L4):.2f}, en kötü %{max(L4):.2f}.")
 if g4:
     W(""); W("## 5) G4 — tasarım kuralı geniş bant kollarında"); W("")
-    W("| hücre | adım (ms) | kural L | L* (seed 11) | kayıp (%) |"); W("| --- | --- | --- | --- | --- |")
+    W("Kurala verilenler: kolun seed 12'deki t = 0 hızı R0(L) ve ölçülmüş gecikme τ = 0.30 + a_K + b_K·L. Bu τ, tasarım kuralının dar bant tanımından (τ = L·ΔT + 0.30) farklı olarak uydurmanın sabit terimini içerir; ON_KAYIT'ta yazılı değildi, `g4.py` başlığında belgelidir.")
+    W(""); W("| hücre | adım (ms) | kural L | L* (seed 11) | kayıp (%) |"); W("| --- | --- | --- | --- | --- |")
     for key, c in g4["cells"].items():
         W(f"| {key} | {c['dT_ms']:.3f} | {c['L_rule']} | {c['L_star_test']} | {c['loss_pct']:.2f} |")
 W(""); W("## 6) Komut, tohum, ham çıktı"); W("")

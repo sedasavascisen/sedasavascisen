@@ -2,7 +2,7 @@
 NOT PRE-REGISTERED sensitivity (written after seeing results.json): restrict every selection to arms whose latency
 is <= 200 ms (the channel model's trusted horizon). Same data (raw/curves.json), same selection protocol
 (argmax on seed 12, report on seed 11, paired bootstrap from common.boot). Also: G1 and G4 on the cells whose
-L* (seed 11, restricted grid) is <= 200 ms. Writes raw/sens200.json.
+L* (seed 11, unrestricted grid) is <= 200 ms. Writes raw/sens200.json.
 """
 import sys, json, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))

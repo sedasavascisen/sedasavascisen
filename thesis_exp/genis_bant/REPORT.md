@@ -1,10 +1,10 @@
 # Geniş bant OFDM — ön kayıtlı deney raporu
 
-Rapor commit'i `f3652a6`, koşu commit'i `77d0b17`. Ön kayıt `ON_KAYIT.md` (sapmalar orada, koşudan önce). Seçim seed 12, rapor seed 11, 400 senaryo, 64 alt taşıyıcılı değerlendirme, min-kullanıcı hızı, Tanım 1 (kolun tam gecikmesinde). Fark ve GA'lar eşli bootstrap (2000, %95), seed 11 üzerinde.
+Rapor commit'i `da6577b`, koşu sonunda kaydedilen commit `77d0b17` (koşu 5a8b86e'de başladı; aradaki commit'ler run.py ve wb.py'yi değiştirmedi, bağımsız denetimle doğrulandı). Ön kayıt `ON_KAYIT.md` (sapmalar orada, koşudan önce). Seçim seed 12, rapor seed 11, 400 senaryo, 64 alt taşıyıcılı değerlendirme, min-kullanıcı hızı, Tanım 1 (kolun tam gecikmesinde). Fark ve GA'lar eşli bootstrap (2000, %95), seed 11 üzerinde.
 
 ## ⚠ En üstte: Makale 2'nin bulgusunu sınırlayan sonuç (Kural 10)
 
-**G1 TUTMADI.** Makale 2'nin dar bant bulgusu "içsel optimum vardır; L = 48 anlamlı olarak kötüdür" geniş bantta genelleşmiyor: 24 (B, hız, K_opt) hücresinin yalnızca 7'sinde L = 48, L*'tan anlamlı olarak kötü. 6 hücrede L* tam olarak 48'dir, yani ızgaranın ucundadır.
+**G1 TUTMADI.** Makale 2'nin dar bant bulgusu "içsel optimum vardır; L = 48 anlamlı olarak kötüdür" geniş bantta genelleşmiyor: 24 (B, hız, K_opt) hücresinin yalnızca 7'sinde L = 48, L*'tan anlamlı olarak kötü (iki hücre sınırda: 20 MHz, 1.5 m/s, K_opt = 16 ve 64, GA üst sınırı +0.001 ve +0.003; bağımsız denetimin farklı bootstrap tohumuyla sayı 7–9 arasında oynuyor, hüküm değişmiyor). 6 hücrede L* tam olarak 48'dir, yani ızgaranın ucundadır.
 Ön kayıt dışı duyarlılıkta (§4) seçim 200 ms'lik güven ufkuyla sınırlandırıldığında: 15/24 hücrede L*, ufuk içindeki en büyük L'dedir; ufkun içindeki en büyük L, 4 hücrede anlamlı olarak kötüdür.
 Dar bant içsel optimumu (K_opt = 1) 20 MHz'de ve 1.5 m/s'de 50 MHz'de korunuyor. Daha geniş bantta ve 10 km/h'de optimum ızgaranın ucuna kayıyor ya da etkin hız eğrisi düzleşiyor. Bu tablo, makaledeki içsel optimum iddiasının dar bant ve bu kanal modeliyle sınırlı yazılması gerektiğini gösteriyor.
 
@@ -15,6 +15,7 @@ Dar bant içsel optimumu (K_opt = 1) 20 MHz'de ve 1.5 m/s'de 50 MHz'de korunuyor
 - **CD ayarlanmadı.** Plan 1–8 tarama taraması öngörüyordu; ön kayıtta varsayılan taramaya indirildi (702.97 ms). Adam adım boyu 0.5 sabit. CLAUDE.md'deki zayıf taban çizgisi kuralı bakımından G3'ün hükmü bu yüzden zayıftır.
 - **K_opt = 64 örneklem içidir** (değerlendirme ızgarasının kendisi); üst referans olarak okunmalı.
 - **Güven ufku.** 200 ms'yi aşan gecikmeler (aşağıdaki tabloda) kanal modelinin korelasyon tabanının içine düşer; oradaki hızlar fiziksel olarak güvenilir değildir.
+- **SU-average gecikmesi iki kez sayılıyor.** Zamanlama ölçümü `su_average()` çağrısını zaten içeriyor ve gecikme formülü buna ayrıca 0.30 ms ekliyor (ön kayıttaki formül böyle). Adam kollarının hepsi yaklaşık 0.3 ms geç değerlendiriliyor; etkisi ihmal edilebilir.
 - Pilot, kestirim hatası ve ön kodlayıcı eskimesi yok (her alt taşıyıcıda taze ZF). Tek kanal modeli; genlik fc'de sabit.
 
 ## 1) Ölçülmüş gecikme (boş makine, tek iş parçacığı)
@@ -27,6 +28,8 @@ Yük: başlangıç 0.03, ölçüm öncesi 0.03, sonrası 1.00 (sonraki değer ö
 | 4 | 3.40 | 12.38 | 40.35 | +1.73 + 2.426·L | 118.5 |
 | 16 | 9.74 | 37.15 | 146.59 | +0.64 + 9.122·L | 438.8 |
 | 64 | 31.46 | 139.96 | 593.33 | -7.93 + 37.550·L | 1794.8 |
+
+Turlar arası yayılım (en küçük–en büyük tur, ms): K1 L1: 1.7–1.9; K1 L4: 5.2–5.5; K1 L16: 17.0–20.4; K4 L1: 3.0–3.4; K4 L4: 10.5–13.3; K4 L16: 40.2–49.7; K16 L1: 8.8–9.8; K16 L4: 34.0–37.6; K16 L16: 132.5–149.1; K64 L1: 31.4–31.9; K64 L4: 132.9–146.3; K64 L16: 579.7–635.4. L > 16 için gecikmeler 3 noktalı doğrusal uydurmadan dışa değerlendirilmiştir (L = 20…48 ölçülmedi).
 
 SU-best-of 1.63 ms, CD 702.97 ms (dar bant, tek iş parçacıklı yeniden ölçüm; geniş bantta da fc'de optimize ettikleri için aynı).
 
@@ -94,6 +97,8 @@ G4, yalnızca L*'ı ufuk içinde olan 12 hücrede: kayıp medyan %0.91, en köt�
 
 ## 5) G4 — tasarım kuralı geniş bant kollarında
 
+Kurala verilenler: kolun seed 12'deki t = 0 hızı R0(L) ve ölçülmüş gecikme τ = 0.30 + a_K + b_K·L. Bu τ, tasarım kuralının dar bant tanımından (τ = L·ΔT + 0.30) farklı olarak uydurmanın sabit terimini içerir; ON_KAYIT'ta yazılı değildi, `g4.py` başlığında belgelidir.
+
 | hücre | adım (ms) | kural L | L* (seed 11) | kayıp (%) |
 | --- | --- | --- | --- | --- |
 | 20MHz_1.5mps_K1 | 1.016 | 8 | 8 | 0.00 |
@@ -133,7 +138,7 @@ G4, yalnızca L*'ı ufuk içinde olan 12 hücrede: kayıp medyan %0.91, en köt�
 ## 7) Yorum (bulgulardan ayrı)
 
 - **Tezin kapanışı için ne söylüyor.** Hesaplama gecikmesi geniş bantta da yöntem seçimini belirliyor, ama yeni bir eksende: kaç adım (L) atılacağının yanında, *kaç alt taşıyıcı üzerinden* optimize edileceği (K_opt) de bir zaman bütçesi kararı. 20 MHz'de ek alt taşıyıcının maliyeti kazancını aşıyor ve dar bant yetiyor. 100 MHz'de K_opt = 16'nın adım başına ~9 kat maliyeti, ~+0.28 b/s/Hz ile karşılığını veriyor. Bu, Makale 2'nin Sonuç bölümündeki "kalite ile zaman arasındaki ek ödünleşim" öngörüsünün ölçülmüş hâli.
-- **Neden G1 tutmadı (hipotez, sınanmadı).** Etkin hız alt taşıyıcılar üzerinden ortalanınca eskimenin etkisi yumuşuyor. Ayrıca 10 km/h'de kanal birkaç on ms'de sabit saçıcıların bıraktığı korelasyon tabanına iniyor; bundan sonra ek bekleme pek bir şey kaybettirmiyor, ek adım ise t = 0 kalitesini artırmaya devam ediyor. Bu, 10 km/h'de L*'ın 1.5 m/s'dekinden *büyük* çıkmasını açıklayabilir (örneğin 50 MHz, K_opt = 1: 16 → 48). Taban modelin bir özelliği olduğu için bu davranış fiziksel bir sonuç olarak okunmamalı.
-- **G4.** Dar bantta 1.5 m/s'de kalibre edilmiş kural, geniş bant kollarına yalnızca ölçülmüş adım maliyetiyle taşındı. Medyan kayıp %0.81, ancak kural bazı hücrelerde ψ'nin salınımlı bölgesinden yararlanıp tuhaf seçimler yapıyor (K_opt = 16'da 1.5 m/s'de L = 1, 10 km/h'de L = 24). Bu seçimlerin çoğu 200 ms ufkunun dışındaki bölgeye düşüyor. Ufuk içinde kalan hücrelerde en kötü kayıp %4.95.
+- **Neden G1 tutmadı (hipotez, sınanmadı).** Etkin hız alt taşıyıcılar üzerinden ortalanınca eskimenin etkisi yumuşuyor. Ayrıca 10 km/h'de kanal birkaç on ms'de sabit saçıcıların bıraktığı korelasyon tabanına iniyor; bundan sonra ek bekleme pek bir şey kaybettirmiyor, ek adım ise t = 0 kalitesini artırmaya devam ediyor. Bu, bazı hücrelerde L*'ın 10 km/h'de 1.5 m/s'dekinden *büyük* çıkmasını açıklayabilir (örneğin 50 MHz, K_opt = 1: 16 → 48). Bu genel bir eğilim değil: 12 (B, K_opt) çiftinin 6'sında büyük, 3'ünde küçük, 3'ünde eşit. Taban modelin bir özelliği olduğu için bu davranış fiziksel bir sonuç olarak okunmamalı.
+- **G4.** Dar bantta 1.5 m/s'de kalibre edilmiş kural, geniş bant kollarına, kolun seed 12'deki t = 0 hızları ve ölçülmüş gecikmesiyle taşındı. Medyan kayıp %0.81, ancak kural bazı hücrelerde ψ'nin salınımlı bölgesinden yararlanıp tuhaf seçimler yapıyor (K_opt = 16'da 1.5 m/s'de L = 1, 10 km/h'de L = 24). Kuralın kendi seçimi (örneğin K_opt = 16'da 1.5 m/s'de L = 1, 10.1 ms) ufuk içinde. Ufkun dışında kalan, bu hücrelerdeki L* (L = 32, 292.8 ms). En büyük üç G4 kaybı bu K_opt = 16 hücrelerinden geliyor. ψ salınımı açıklaması sınanmadı (ÜRETİLEMEDİ). ψ tablosunun dışına çıkılmıyor: u ≤ 16.5, tablo u ≤ 33'e kadar. L*'ı ufuk içinde kalan hücrelerde en kötü kayıp %4.95.
 - **G3, ayarlanmamış CD'ye karşı.** CD her hücrede seçilen kolun 0.23–0.47 b/s/Hz gerisinde; ama 702.97 ms'lik gecikmesi tek başına güven ufkunun dışında. Hüküm "varsayılan CD geride" olarak okunmalı, "CD geride" olarak değil.
 - **Seçilen kollar ve güven ufku.** 100 MHz'deki seçilen kol K16-L32 (292.8 ms) ufkun dışında. Duyarlılık analizi ufuk içinde K16-L20'yi (183.4 ms) seçiyor ve dar bant farkı +0.24/+0.28 olarak kalıyor. Hüküm değişmiyor, ancak seçilen kol ufkun kenarında.
