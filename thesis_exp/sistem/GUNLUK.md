@@ -42,3 +42,22 @@ Her fikir: ne, neden, kod, seed 14 sonucu, karar. Başarısız fikirler de yazı
   - Seed 14 sonucu: **5.2930**, kâhin açığı 0.0063; v0'a fark **+0.0062 [+0.0019, +0.0105], anlamlı**.
 - **Dürüstlük notu:** v1b'nin "hangi taşıyıcıda hangi ψ" seçimi, v1'in seed 14 sonucu görüldükten sonra yapıldı. Yani bu seçim seed 14'e bir ölçüde uyduruldu; sabahki mühürlü test bunu sınayacak.
 - **Karar:** yeni aday v1b_carrier. Sıradaki fikir: kuyruktaki 3 (ayarlı CD ve karma hatlar) ve 6 (Doppler kestirim hatasına karşı sağlamlık).
+
+## Tur 2 (17 Kasım): Doppler kestirim hatasına karşı sağlamlık (fikir 6)
+
+- **Ne:** denetleyiciye yanlış f_d verildi (×0.5, ×0.8, ×1.25, ×2); etkin hız yine gerçek kanalda okundu. Kod `robust_fd.py`, ham çıktı `robust_fd.json` (seed 14, kalibrasyon seed 12).
+- **Sonuç** (doğru f_d'ye göre kayıp, b/s/Hz):
+
+| f_d çarpanı | v0 | v1b |
+| --- | --- | --- |
+| ×0.5 | −0.093 [−0.109, −0.077] | −0.106 [−0.122, −0.090] |
+| ×0.8 | −0.003 (anlamsız) | −0.009 [−0.015, −0.003] |
+| ×1.25 | −0.003 (anlamsız) | −0.000 (anlamsız) |
+| ×2 | −0.052 [−0.065, −0.040] | −0.058 [−0.072, −0.044] |
+
+- **Bulgu:**
+  - ±%20–25'lik kestirim hatası pratikte zararsız: kayıp ≤ 0.009.
+  - Hata asimetrik: Doppler'i yarı yarıya küçük kestirmek, iki kat büyük kestirmekten yaklaşık iki kat pahalı. Küçük kestirilen f_d, denetleyiciye fazla adım attırıyor.
+  - ×0.5'te bile v1b (5.187), en iyi karşılaştırma yöntemi K5 (5.189) ile başa baş.
+- **Tasarım sonucu:** belirsizlik varsa f_d kestirimini yukarı yönlü tutmak gerekir. Bu, denetleyiciye bir "temkinli sapma" parametresi olarak eklenebilir (yeni fikir 7).
+- **Karar:** aday değişmedi (v1b). Sağlamlık sonucu sistemin raporunda yer alacak. Fikir 7 kuyruğa eklendi; sıradaki fikir 3 (ayarlı CD ve karma hatlar).
