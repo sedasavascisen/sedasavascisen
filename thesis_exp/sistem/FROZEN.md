@@ -8,3 +8,5 @@ Kullanıcı mühürlü testi onayladı. Gece döngüsü (tur 0–6) burada sona 
 | Periyodik, P = 20 ms (ikincil, H3) | `V4`: v1b + sıcak başlangıç hatları | `periodic.py` | 5.3452; kâhin açığı 0.009 |
 
 Seçim kuralı (PROTOKOL.md): seed 14'te en yüksek ortalama. Karşılaştırma yöntemleri, koşullar ve ölçüt protokoldeki gibi; değiştirilmedi. Analiz betiği `final_test.py` bu dosyayla birlikte, seed 41 koşulmadan önce commit'lenir.
+
+**Sonradan not (bağımsız denetim, O4):** "Seçim kuralı … seed 14'te en yüksek ortalama" ifadesi tam doğru değil. En yüksek ortalama, tur 3'ün b = 1.1 sapmalı sürümündeydi (5.2946; v1b 5.2930). v1b, doğru kestirimde anlamlı kazanç olmadığı için seçildi. Seed 41'deki farkları −0.0003 [−0.003, +0.003]. Ayrıntı: `FINAL_EK.md`.
