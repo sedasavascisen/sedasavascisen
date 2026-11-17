@@ -61,3 +61,20 @@ Her fikir: ne, neden, kod, seed 14 sonucu, karar. Başarısız fikirler de yazı
   - ×0.5'te bile v1b (5.187), en iyi karşılaştırma yöntemi K5 (5.189) ile başa baş.
 - **Tasarım sonucu:** belirsizlik varsa f_d kestirimini yukarı yönlü tutmak gerekir. Bu, denetleyiciye bir "temkinli sapma" parametresi olarak eklenebilir (yeni fikir 7).
 - **Karar:** aday değişmedi (v1b). Sağlamlık sonucu sistemin raporunda yer alacak. Fikir 7 kuyruğa eklendi; sıradaki fikir 3 (ayarlı CD ve karma hatlar).
+
+## Tur 3 (17 Kasım): temkinli Doppler sapması (fikir 7)
+
+- **Ne:** denetleyici f_d yerine f_d·b kullanıyor. b, seed 12'de {1.0, 1.1, 1.25, 1.5, 2.0} arasından seçildi: b* = 1.1. Seed 12'deki ortalamalar 5.1247, 5.1251, 5.1203, 5.1063, 5.058 ve b = 1.0 ile 1.1 neredeyse eşit. Kod `round3_bias.py`, ham çıktı `round3_bias.json`.
+- **Seed 14 sonucu** (b = 1.1 − sapmasız, v1b):
+
+| Kestirim hatası | Fark [GA] |
+| --- | --- |
+| hata yok | +0.0016 [−0.001, +0.004], anlamsız |
+| ×0.5 | +0.0083 [+0.004, +0.012] |
+| ×0.8 | +0.0007, anlamsız |
+| ×1.25 | −0.0066 [−0.010, −0.003] |
+| ×2 | −0.0154 [−0.022, −0.008] |
+
+- **Bulgu:** sapma beklendiği gibi bir sigorta işi görüyor; Doppler'i küçük kestirirken kazandırıyor, büyük kestirirken kaybettiriyor. Doğru kestirimde etkisi anlamsız. Net fayda, hata dağılımına bağlı.
+- **Karar:** **reddedildi.** Doğru kestirimde anlamlı bir kazanç yok ve gerçek kestirim hatasının dağılımını bilmiyoruz. Aday v1b olarak kaldı. Sonuç, sistem raporunda bir "ödünleşim" notu olarak yer alacak.
+- **Sıradaki:** fikir 3 (ayarlı CD ve karma hatlar) ya da fikir 4 (sıcak başlangıç).
