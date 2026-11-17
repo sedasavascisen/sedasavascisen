@@ -1,5 +1,5 @@
 """
-Round 4 (idea 4): warm start in periodic operation. Update period P = 20 ms. The previous phase is SU-best-of + Adam-6
+Round 4 (idea 4): warm start in periodic operation. Update period P (default 20 ms; round 5: --P 50). The previous phase is SU-best-of + Adam-6
 computed on the t = 0 channel. The new update happens at t = P with fresh CSI of the t = P channel; candidate arms:
 avg+L, best+L (as in harness.py, now on the t = P channel) and warm+L (Adam from the previous phase, start cost 0).
 Each arm is evaluated at P + tau (+ W window, 2 ms grid). Same conditions, latencies and seeds rules as harness.py
@@ -10,12 +10,13 @@ H = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(H.parent / "juri" / "s5")); sys.path.insert(0, str(H.parent / "p4"))
 import numpy as np, torch
 from ch28 import Aging28, Aging, commit
-ap = argparse.ArgumentParser(); ap.add_argument("--seed", type=int, required=True); ap.add_argument("--final", action="store_true")
+ap = argparse.ArgumentParser(); ap.add_argument("--seed", type=int, required=True); ap.add_argument("--final", action="store_true"); ap.add_argument("--P", type=float, default=20.0)
 a = ap.parse_args()
 if a.seed == 41 and not a.final:
     sys.exit("seed 41 is the sealed test (PROTOKOL.md); refused without --final")
 torch.set_num_threads(2)
-P = 20.0
+P = a.P
+TAG = "" if P == 20.0 else f"_P{P:g}"
 T2 = json.load(open(H.parent / "juri" / "raw" / "timing2.json"))["median_ms"]
 _ML = {L: T2[f"adam{L}"] for L in (1, 2, 4, 8, 16, 32, 48)}
 adam_ms = lambda L: 0.0 if L == 0 else float(np.interp(L, sorted(_ML), [_ML[x] for x in sorted(_ML)]))
@@ -40,7 +41,7 @@ for c, (fc, v) in COND.items():
     store[f"{c}_t0"] = np.stack([A.minrate(PH[k], mP).numpy() for k in ARMS]).astype(np.float32)
     del A
     print(f"seed {a.seed} {c} ({time.time() - t_start:.0f} s)", flush=True)
-np.savez_compressed(H / "cube" / f"warm_seed{a.seed}.npz", **store)
+np.savez_compressed(H / "cube" / f"warm{TAG}_seed{a.seed}.npz", **store)
 meta["seconds"] = time.time() - t_start
-json.dump(meta, open(H / "cube" / f"warm_seed{a.seed}.json", "w"), indent=1)
+json.dump(meta, open(H / "cube" / f"warm{TAG}_seed{a.seed}.json", "w"), indent=1)
 print("wrote", flush=True)

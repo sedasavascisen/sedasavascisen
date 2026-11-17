@@ -45,10 +45,10 @@ def k4(m, cal, c, W):
 
 def k5(m, cal, c, W, budget=10.0):
     mc, zc = cal; fc = cond_info(m, c)["fc"]
-    cand = [a for a in m["arms"] if m["lat"][a] <= budget]
-    ref = [k for k in mc["cond"] if mc["cond"][k][0] == fc][0]          # t = 0 rates do not depend on speed
+    cand = [a for a in m["arms"] if m["lat"][a] <= budget and not a.startswith("warm")]   # fresh pipelines only
+    ref = c if f"{c}_t0" in zc else [k for k in mc["cond"] if mc["cond"][k][0] == fc][0]
     t0 = zc[f"{ref}_t0"]
-    return max(cand, key=lambda a: t0[m["arms"].index(a)].mean())
+    return max(cand, key=lambda a: t0[mc["arms"].index(a)].mean())
 
 
 BASE = {"K1": k1, "K2": k2, "K3": k3, "K4": k4, "K5": k5}
