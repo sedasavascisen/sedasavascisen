@@ -53,3 +53,9 @@ Etkin hız: hat, kendi gecikmesi τ'da devreye girer; [τ, τ + W] aralığında
 2. **Seçim:** sabah, seed 14'te ortalama etkin hızı en yüksek olan sürüm dondurulur, commit'lenir, sonra seed 41 bir kez koşulur. Sonuç ne çıkarsa raporlanır.
 3. **Yeni hat türleri:** öngörü, sıcak başlangıç, geniş bant ve benzerleri, gecikmeleri bu makinede aynı protokolle ölçülmeden kullanılamaz.
 4. **Yasak:** seed 41'e bakmak; ızgarayı ya da karşılaştırma yöntemlerini sonuçlara göre değiştirmek.
+
+## Ek 1 (17 Kasım, seed 41 koşulmadan önce): ikincil sonuç, periyodik kip
+
+Tur 4'ün geliştirme sonucu üzerine eklendi; ana hipotezler değişmedi. Periyodik kipte (P = 20 ms; önceki faz SU-best-of + Adam-6; `harness_warm.py`) aynı 12 koşul ve aynı karşılaştırma yöntemleri (K1–K5, t = P'nin taze CSI'ıyla) kullanılır.
+- **H3 (ikincil):** periyodik kipteki sistem − K1…K5'in her biri > 0 (12 koşul ortalaması, GA alt sınırı > 0).
+- **Ayrıca raporlanır:** sıcak hatların taze-yalnız sisteme katkısı.

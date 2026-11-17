@@ -78,3 +78,20 @@ Her fikir: ne, neden, kod, seed 14 sonucu, karar. Başarısız fikirler de yazı
 - **Bulgu:** sapma beklendiği gibi bir sigorta işi görüyor; Doppler'i küçük kestirirken kazandırıyor, büyük kestirirken kaybettiriyor. Doğru kestirimde etkisi anlamsız. Net fayda, hata dağılımına bağlı.
 - **Karar:** **reddedildi.** Doğru kestirimde anlamlı bir kazanç yok ve gerçek kestirim hatasının dağılımını bilmiyoruz. Aday v1b olarak kaldı. Sonuç, sistem raporunda bir "ödünleşim" notu olarak yer alacak.
 - **Sıradaki:** fikir 3 (ayarlı CD ve karma hatlar) ya da fikir 4 (sıcak başlangıç).
+
+## Tur 4 (17 Kasım): sıcak başlangıç, periyodik çalışma (fikir 4)
+
+- **Ne:** periyodik çalışmada önceki güncellemenin fazı elde hazırdır. Kurgu (`harness_warm.py` → `cube/warm_seed{12,14}`):
+  - Güncelleme periyodu P = 20 ms.
+  - Önceki faz: t = 0'da SU-best-of + Adam-6.
+  - Yeni güncelleme t = P'de, taze CSI ile.
+  - Yeni hat türü warm+L: Adam önceki fazdan başlıyor, başlangıç maliyeti 0. Adam adım süresi `timing2.json`'dan; yeni bir hesaplama yok, yalnızca başlangıç atlanıyor.
+- **Seed 14 sonucu** (12 koşul, t = P'den itibaren):
+  - Yalnızca taze hatlarla v1b: **5.2987**.
+  - Sıcak hatlara da izin verilen v1b: **5.3452**.
+  - Fark **+0.0465 [+0.032, +0.062]**, anlamlı. Kâhin 5.3544; açık 0.009.
+  - Denetleyici 3 GHz'de 3–30 km/h ve W = 0 koşullarında sıcak hattı seçiyor. Yüksek Doppler ile uzun tutmanın birleştiği koşullarda (A4/W20, B1, B2) taze hatta kalıyor; kâhin de büyük ölçüde aynı seçimleri yapıyor.
+- **Not:** bu bir çalışma kipi farkı. Protokolün birincil sonucu "taze güncelleme" kipindeki 12 koşul; periyodik kip ikincil sonuç olarak protokole eklenmeli. Bu ekleme seed 41 koşulmadan önce yapılacak (aşağıda).
+- **Karar:** kabul. Sistem iki kipli:
+  - taze güncelleme: v1b;
+  - periyodik güncelleme: v1b + sıcak hatlar ("v4").
