@@ -98,3 +98,12 @@ Not: beam squint cümlesi kaldırıldı. Literatür raporunun tavsiye 8'ine gör
 | Sınırlar, yer için | Anlamı korunarak sıkıştırıldı: sabit saçıcılar/anten kazançları cümlesi; pilot/CSI/ayrık faz cümlesi tek cümle ("leave the slow solvers behind"); "1–8 tarama" (Yöntem bölümünde var) ve "keep each update short" (madde 4'te var) çıkarıldı; "faster code" ifadesi kaldırıldı (yeni bulguyla çelişiyordu). | — |
 
 Makale 9 sayfa.
+
+## 6. tur (17 Kasım 2026): Makale 1 ile bağlantı (danışmanın isteği)
+
+| Yer | Değişiklik |
+| --- | --- |
+| Giriş, 3. paragrafın sonu | Eklendi: "It continues our single-pass phase predictor with a sine–cosine representation~[SavasciSen2026AISY] by asking when such speed pays off once run time is charged." |
+| İlgili çalışmalar, "Learning" | Kısaltıldı: "Predicting the sine and cosine of each phase removes the ±π discontinuity of direct phase regression~[SavasciSen2026AISY]." Anlam aynı. |
+
+Makale 9 sayfa. Kaynak listesi: `KAYNAK_LISTESI.md` (49 kaynak; kullanıcı PDF'leri gönderecek, her biri tek tek kontrol edilecek).
