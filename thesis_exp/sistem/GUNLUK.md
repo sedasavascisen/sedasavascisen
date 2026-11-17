@@ -113,3 +113,13 @@ Her fikir: ne, neden, kod, seed 14 sonucu, karar. Başarısız fikirler de yazı
 - **Tasarım sonucu:** sıcak başlangıç, normalize periyot f_d·P küçükken kullanılmalı (3 GHz, 1.5 m/s'de P = 20 ms için f_d·P ≈ 0.3; P = 50 ms için ≈ 0.75). Bu eşiği ayarlamak seed 14'e fazla uyum riski taşıdığı için yapılmadı; sistem raporunda bir sınır olarak yazılacak.
 - **Karar:** v4 değişmedi. Periyodik kipin ikincil sonucu (Ek 1) P = 20 ms ile sınanacak.
 - **Kalan fikirler:** 3 (ayarlı CD ve karma hatlar; CD ≥ 75 ms sürdüğü için bu koşullarda kazandırması beklenmiyor) ve 5 (geniş bant K_opt uzantısı; daha büyük bir iş).
+
+## Tur 6 (17 Kasım): ayarlı CD hattı, ucuz ön sınama (fikir 3)
+
+- **Ne:** en yavaş koşulda (A1: 3 GHz, 3 km/h) SU-best-of'tan başlayan CD-s (s = 1…3 tarama, erken durmasız gecikme, `juri/raw/timing3.json`). s seed 12'de seçildi, sonuç seed 14'te okundu. Kod: `round6_cd.py`.
+- **Sonuç:** seçilen CD-1, 78.8 ms.
+  - W = 0: 4.943; v1b'nin seçtiği best+10 ise 6.222. Fark −1.279 [−1.363, −1.196].
+  - W = 20: 4.892; v1b'nin seçtiği best+8 ise 5.871. Fark −0.979 [−1.067, −0.891].
+- **Gerekçe:** en yavaş koşulda bile CD, denetleyicinin seçtiği hattın çok gerisinde. Daha hızlı koşullarda kanal daha hızlı eskidiği için CD'nin konumu ancak kötüleşir.
+- **Karar:** **reddedildi.** CD aday hat kümesine eklenmedi. Bu, Makale 2'nin bulgusuyla tutarlı: Python CD bu hızlarda hiçbir koşulda rekabetçi değil. Derlenmiş CD (jüri S1) ise ayrı bir gerçekleştirme sorusu.
+- **Kalan:** fikir 5 (geniş bant K_opt uzantısı). Daha büyük bir iş. Mühürlü test için sistem hazır: taze kip v1b, periyodik kip v4.
