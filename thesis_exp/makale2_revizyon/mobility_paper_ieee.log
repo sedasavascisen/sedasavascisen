@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.11.3)  17 NOV 2026 08:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.11.3)  17 NOV 2026 11:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -531,8 +531,11 @@ Package pdftex.def Info: figures/fig_equal_step_vs_ms.pdf  used on input line 9
 1.
 (pdftex.def)             Requested size: 516.0pt x 173.87303pt.
 )
-(./sections/section_07_conclusion.tex [7]) (./mobility_paper_ieee.bbl [8 <./fig
-ures/fig_equal_step_vs_ms.pdf>]
+(./sections/section_07_conclusion.tex [7])
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+(./mobility_paper_ieee.bbl [8 <./figures/fig_equal_step_vs_ms.pdf>]
 Underfull \hbox (badness 5217) in paragraph at lines 222--226
 []\T1/ptm/m/n/8 C. B. Peel, B. M. Hochwald, and A. L. Swindle-hurst, ``A
  []
@@ -548,7 +551,7 @@ Package rerunfilecheck Info: File `mobility_paper_ieee.out' has not changed.
 Here is how much of TeX's memory you used:
  11655 strings out of 476106
  180813 string characters out of 5793933
- 1956975 words of memory out of 5000000
+ 1955975 words of memory out of 5000000
  33357 multiletter control sequences out of 15000+600000
  679381 words of font info for 163 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
@@ -575,7 +578,7 @@ ype1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/u
 tmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on mobility_paper_ieee.pdf (9 pages, 462407 bytes).
+Output written on mobility_paper_ieee.pdf (9 pages, 462574 bytes).
 PDF statistics:
  691 PDF objects out of 1000 (max. 8388607)
  541 compressed objects within 6 object streams

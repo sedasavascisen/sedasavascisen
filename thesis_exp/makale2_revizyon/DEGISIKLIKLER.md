@@ -172,3 +172,16 @@ Makale 9 sayfa (`kaynak_kontrol/grup6_han_truong_chopra_jindal_zhao.md`).
 | Sonuç, sınırlar | "RIS switching time is not modeled" → "RIS switching time (≥0.72 ms in [Zhao2024OJCOMS]) is not modeled" | 2 bitlik prototipte yeni faz desenine geçiş en az 0.72 ms (s. 4890). Sınırlamaya ölçek veriyor. |
 
 Peel (düzenlileştirilmiş ZF, λ = Kσ²/P) ve Nadeem (maks-min SINR) doğru; künyelerin hepsi uyuşuyor. Makale 9 sayfa (`kaynak_kontrol/grup7_cao_wu_zhao_peel_nadeem.md`).
+
+## 14. tur (17 Kasım 2026): eleman kazancı, Tang ve ITU (kullanıcı onayıyla); 9 sayfa için sıkıştırma
+
+| Yer | Değişiklik | Gerekçe |
+| --- | --- | --- |
+| Sistem modeli, Tang cümlesi | "follows the two-hop model of [Tang] with a cos^q element pattern." → "follows the free-space two-hop model of [Tang] with a cos^q power pattern (q = 1); we add the TR 38.901 excess loss and shadowing to each hop. Our element gain, 2(2q+1), exceeds Tang's 2(q+1); the latter lowers absolute rates by about 5% and leaves L* and the best method unchanged." | Kaynak kontrolü grup 8 ve `thesis_exp/kazanc_duyarlilik/REPORT.md`. Seed 11'de L*'daki etkin hız 6.151 → 5.845 (1.5 m/s) ve 5.913 → 5.622 (10 km/h); L* 6 ve 4, en iyi kol değişmiyor. |
+| Hız tablosu | "18 & ITU, veh." → "18 & ours, ITU veh." | ITU'da 18 km/h değeri yok; 10–120 km/h araç sınıfının içinde bizim seçtiğimiz bir hız. |
+| Sistem modeli, sınırlar | "The effect of fixed scatterers on the optimal step count is not known." kaldırıldı | Artık doğru değil. Jüri S2: korelasyon tabanı olmayan Clarke kanalında da iç optimum var (`thesis_exp/juri/REPORT_S4_S2.md`). |
+| Sonuç, sınırlar | "Fixed scatterers make long-horizon rates, and independent per-antenna gains absolute rates, optimistic; the findings hold with shared gains." kaldırıldı | Sistem modeli bölümünün sınırlar paragrafını tekrar ediyordu. |
+| İlgili çalışmalar | Üç cümle aynı anlamla kısaltıldı: Huang, Liu2021WCL, ayrık faz. Özgünlük cümlesindeki örnekler bir atıf listesine indirildi: "is at most a feasibility check [Ryu, Liu2021WCL]". | Yer için. |
+| Şekil 1 altyazısı | "showing the first scenario of the aging set as produced by the channel generator" → "(first scenario of the aging set)" | Yer için. |
+
+Makale 9 sayfa.
