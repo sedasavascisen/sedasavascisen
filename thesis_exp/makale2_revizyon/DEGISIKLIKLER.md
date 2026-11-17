@@ -137,3 +137,11 @@ Grup 3'ün isteğe bağlı önerileri uygulanmadı:
 - Yu2019ICCC başlığındaki "(Invited Paper)" ibaresi.
 
 Doğrulanamayanlar: Yu2019ICCC'nin DOI'si ve Monga2021SPM'nin cilt/sayısı PDF'te basılı değil. Makale 9 sayfa.
+
+## 10. tur (17 Kasım 2026): kaynak kontrolü grup 4'ün bulgusu (Kural 10: makalenin iddiasını sınırlıyor)
+
+| Yer | Önce | Sonra | Gerekçe |
+| --- | --- | --- | --- |
+| İlgili çalışmalar, "Learning" paragrafının sonu | "…and classical baselines are rarely tuned or timed under the same conditions." | "…; even when both are timed on one machine [Samuel, Sun, Hu, Liu2022], the classical baseline runs to convergence or a fixed iteration count, not to the same latency." | Dört kaynak, öğrenme tabanlı ve klasik yöntemi aynı makinede saniye cinsinden zamanlıyor (Samuel s. 2560–2561; Sun s. 5444, 5446; Hu Tablo VIII s. 1406; Liu Tablo V s. 4795). Bu yüzden "timed under the same conditions" yanlıştı. Doğru kalan: klasik yöntem aynı gecikme bütçesine ayarlanmıyor ve süre eşevreli kalma süresiyle ilişkilendirilmiyor (`kaynak_kontrol/grup4_liu_samuel_hu_sun_pellaco.md`). |
+
+Makale 9 sayfa. Bu düzeltme makalenin katkısını daraltıyor ama ortadan kaldırmıyor. Katkı artık "süre ölçülmüyor" değil, "süre aynı gecikme bütçesine ve kanal hızına bağlanmıyor".
