@@ -125,3 +125,15 @@ Makale 9 sayfa. Kaynak numaraları değişti: Wu2019TWC artık ilk cümlede değ
 | İlgili çalışmalar, "RIS phase optimization" paragrafının sonu | "run time, when discussed, is a complexity order, not a latency measured against the coherence time." | "run time is usually a complexity order, and where measured (0.04–13.6 s of CPU time in [Abeywickrama]) it is not compared with the coherence time." | Abeywickrama ve ark., Tablo II'de (s. 5860) MATLAB CPU süresini saniye olarak ölçüyor: ceza yöntemi 2.8–13.6 s, iki aşamalı yöntem 0.04–0.51 s. Eski cümle bu kaynak için yanlıştı (`kaynak_kontrol/grup2_kaynak_06_10.md`). |
 
 Makale 9 sayfa.
+
+## 9. tur (17 Kasım 2026): kaynak kontrolü grup 3'ün bulgusu
+
+| Yer | Önce (8. tur) | Sonra | Gerekçe |
+| --- | --- | --- | --- |
+| İlgili çalışmalar, aynı cümle | "…and where measured (0.04–13.6 s of CPU time in [Abeywickrama]) it is not compared with the coherence time." | "…and where measured, on fixed channel realizations [Abeywickrama, Yu2019ICCC, Shi2011TSP], it is not compared with the coherence time." | Yu ve ark. (Şekil 4, s. 739–740) ve Shi ve ark. (Şekil 4, s. 4337) de çalışma süresini ölçüyor, ama sabit kanal üzerinde (`kaynak_kontrol/grup3_huang_yu_shi_jiang_monga.md`). |
+
+Grup 3'ün isteğe bağlı önerileri uygulanmadı:
+- Jiang'ı "policies" yerine "pilotlardan grafik sinir ağı ile" diye anmak;
+- Yu2019ICCC başlığındaki "(Invited Paper)" ibaresi.
+
+Doğrulanamayanlar: Yu2019ICCC'nin DOI'si ve Monga2021SPM'nin cilt/sayısı PDF'te basılı değil. Makale 9 sayfa.
