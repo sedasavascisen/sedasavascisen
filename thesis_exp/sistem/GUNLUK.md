@@ -31,3 +31,14 @@ Her fikir: ne, neden, kod, seed 14 sonucu, karar. Başarısız fikirler de yazı
 4. **Sıcak başlangıç:** önceki güncellemenin fazından başlamak (takip). Yeni bir hat türü; gecikme ölçümü gerekir.
 5. **Geniş bant uzantısı:** K_opt kararını denetleyiciye eklemek; ölçülmüş adım maliyetleri `genis_bant` deneyinden alınır.
 6. **Sağlamlık:** Doppler kestirimi hatalıyken (±%20) denetleyici ne kadar kaybediyor?
+
+## Tur 1 (17 Kasım, ~05:50): deneysel ψ (fikir 1 ve 2)
+
+- **v1_emp:** ψ, seed 12 küpünden taşıyıcıya ve W'ya özgü olarak kalibre edildi. Her hat için ψ_i = (etkin − R_floor)/(t = 0 − R_floor) hesaplandı; log u ekseninde 25 kutunun medyanı alındı ve bu medyanlar arasında enterpolasyon yapıldı.
+  - Seed 14 sonucu: 5.2880; v0'a fark +0.0011 [−0.008, +0.010], **anlamsız**.
+  - 28 GHz açığını kapatıyor (B1, W = 0: 0.051 → 0), ama 3 GHz'de bozuyor (A4, W = 20: 0.027 → 0.073; A2, W = 20: 0.019 → 0.033).
+- **v1b_carrier:** 3 GHz'de doğrulanmış tasarım kuralı (v0), 28 GHz'de deneysel ψ (v1).
+  - Gerekçe: kuralın ψ'si 3 GHz'de kalibre edildi, orada geçerli; başka bir taşıyıcıda o taşıyıcının ölçümü gerekir.
+  - Seed 14 sonucu: **5.2930**, kâhin açığı 0.0063; v0'a fark **+0.0062 [+0.0019, +0.0105], anlamlı**.
+- **Dürüstlük notu:** v1b'nin "hangi taşıyıcıda hangi ψ" seçimi, v1'in seed 14 sonucu görüldükten sonra yapıldı. Yani bu seçim seed 14'e bir ölçüde uyduruldu; sabahki mühürlü test bunu sınayacak.
+- **Karar:** yeni aday v1b_carrier. Sıradaki fikir: kuyruktaki 3 (ayarlı CD ve karma hatlar) ve 6 (Doppler kestirim hatasına karşı sağlamlık).

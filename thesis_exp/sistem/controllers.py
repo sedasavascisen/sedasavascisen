@@ -73,7 +73,54 @@ def v0_rule(m, cal, c, W):
     return best
 
 
-CTRL = {"v0_rule": v0_rule}
+_EMP = {}
+
+
+def _emp_psi(cal, fc, W):
+    """Round 1: empirical psi per (carrier, W) from the seed-12 cube: psi_i = (eff_i - F)/(t0_i - F) over all arms and
+    all conditions at this carrier, u_i = f_d tau_i; binned median over log u (25 bins), interpolated in log u."""
+    key = (fc, W)
+    if key not in _EMP:
+        mc, zc = cal; us, ps = [], []
+        for c in mc["cond"]:
+            if mc["cond"][c][0] != fc:
+                continue
+            fd = cond_info(mc, c)["fd"]
+            e, t = zc[f"{c}_eff{W}"].mean(1), zc[f"{c}_t0"].mean(1)
+            for i, a in enumerate(mc["arms"]):
+                us.append(fd * mc["lat"][a] / 1000); ps.append((e[i] - PSI["R_floor"]) / (t[i] - PSI["R_floor"]))
+        lu, ps = np.log(np.array(us)), np.array(ps)
+        edges = np.linspace(lu.min(), lu.max() + 1e-9, 26)
+        cen, med = [], []
+        for j in range(25):
+            s = (lu >= edges[j]) & (lu < edges[j + 1])
+            if s.any():
+                cen.append(lu[s].mean()); med.append(np.median(ps[s]))
+        _EMP[key] = (np.array(cen), np.array(med))
+    return _EMP[key]
+
+
+def v1_emp(m, cal, c, W):
+    """v0 with psi replaced by the empirical, carrier- and W-specific psi of _emp_psi (round 1)."""
+    mc, zc = cal; ci = cond_info(m, c)
+    ref = [k for k in mc["cond"] if mc["cond"][k][0] == ci["fc"]][0]
+    t0 = zc[f"{ref}_t0"].mean(1)
+    cen, med = _emp_psi(cal, ci["fc"], W)
+    best, bv = None, -1e9
+    for i, a in enumerate(m["arms"]):
+        u = ci["fd"] * m["lat"][a] / 1000
+        r = PSI["R_floor"] + (t0[i] - PSI["R_floor"]) * float(np.interp(np.log(u), cen, med))
+        if r > bv:
+            best, bv = a, r
+    return best
+
+
+def v1b_carrier(m, cal, c, W):
+    """Round 1b: the validated design rule where it was calibrated (3 GHz); the empirical carrier-specific psi elsewhere (28 GHz)."""
+    return v0_rule(m, cal, c, W) if cond_info(m, c)["fc"] == 3 else v1_emp(m, cal, c, W)
+
+
+CTRL = {"v0_rule": v0_rule, "v1_emp": v1_emp, "v1b_carrier": v1b_carrier}
 
 
 def evaluate(fn, m, z, cal):
