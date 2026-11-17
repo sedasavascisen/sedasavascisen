@@ -109,6 +109,12 @@ Q.~Shi, M.~Razaviyayn, Z.-Q. Luo, and C.~He, ``An iteratively weighted {MMSE}
   broadcast channel,'' \emph{IEEE Transactions on Signal Processing}, vol.~59,
   no.~9, pp. 4331--4340, 2011.
 
+\bibitem{Cao2022TWC}
+Y.~Cao, T.~Lv, and W.~Ni, ``Two-timescale optimization for intelligent
+  reflecting surface-assisted {MIMO} transmission in fast-changing channels,''
+  \emph{IEEE Transactions on Wireless Communications}, vol.~21, no.~12, pp.
+  10\,424--10\,437, 2022.
+
 \bibitem{Jiang2021JSAC}
 T.~Jiang, H.~V. Cheng, and W.~Yu, ``Learning to reflect and to beamform for
   intelligent reflecting surface with implicit channel estimation,'' \emph{IEEE
@@ -196,12 +202,6 @@ M.-M. Zhao, Q.~Wu, M.-J. Zhao, and R.~Zhang, ``Intelligent reflecting surface
   \emph{IEEE Transactions on Wireless Communications}, vol.~20, no.~1, pp.
   2--17, 2021.
 
-\bibitem{Cao2022TWC}
-Y.~Cao, T.~Lv, and W.~Ni, ``Two-timescale optimization for intelligent
-  reflecting surface-assisted {MIMO} transmission in fast-changing channels,''
-  \emph{IEEE Transactions on Wireless Communications}, vol.~21, no.~12, pp.
-  10\,424--10\,437, 2022.
-
 \bibitem{Wu2020TCOM}
 Q.~Wu and R.~Zhang, ``Beamforming optimization for wireless network aided by
   intelligent reflecting surface with discrete phase shifts,'' \emph{IEEE
@@ -230,10 +230,6 @@ Q.-U.-A. Nadeem, A.~Kammoun, A.~Chaaban, M.~Debbah, and M.-S. Alouini,
   assisted {MISO} systems,'' \emph{IEEE Transactions on Wireless
   Communications}, vol.~19, no.~12, pp. 7748--7764, 2020.
 
-\bibitem{Gudmundson1991}
-M.~Gudmundson, ``Correlation model for shadow fading in mobile radio systems,''
-  \emph{Electronics Letters}, vol.~27, no.~23, pp. 2145--2146, 1991.
-
 \bibitem{Tang2021TWC}
 W.~Tang, M.~Z. Chen, X.~Chen, J.~Y. Dai, Y.~Han, M.~D. Renzo, Y.~Zeng, S.~Jin,
   Q.~Cheng, and T.~J. Cui, ``Wireless communications with reconfigurable
@@ -255,10 +251,6 @@ W.~Tang, M.~Z. Chen, X.~Chen, J.~Y. Dai, Y.~Han, M.~D. Renzo, Y.~Zeng, S.~Jin,
 R.~H. Clarke, ``A statistical theory of mobile-radio reception,'' \emph{Bell
   System Technical Journal}, vol.~47, no.~6, pp. 957--1000, 1968.
 
-\bibitem{rappaport_wireless}
-T.~S. Rappaport, \emph{Wireless Communications: Principles and Practice},
-  2nd~ed.\hskip 1em plus 0.5em minus 0.4em\relax Prentice Hall, 2002.
-
 \bibitem{Kingma2015ICLR}
 D.~P. Kingma and J.~Ba, ``Adam: A method for stochastic optimization,'' in
   \emph{Proc. International Conference on Learning Representations (ICLR)},
@@ -268,10 +260,6 @@ D.~P. Kingma and J.~Ba, ``Adam: A method for stochastic optimization,'' in
 L.~Armijo, ``Minimization of functions having {Lipschitz} continuous first
   partial derivatives,'' \emph{Pacific Journal of Mathematics}, vol.~16, no.~1,
   pp. 1--3, 1966.
-
-\bibitem{Efron1993}
-B.~Efron and R.~J. Tibshirani, \emph{An Introduction to the Bootstrap}.\hskip
-  1em plus 0.5em minus 0.4em\relax New York: Chapman \& Hall, 1993.
 
 \bibitem{Zheng2022COMST}
 B.~Zheng, C.~You, W.~Mei, and R.~Zhang, ``A survey on channel estimation and

@@ -185,3 +185,15 @@ Peel (düzenlileştirilmiş ZF, λ = Kσ²/P) ve Nadeem (maks-min SINR) doğru; 
 | Şekil 1 altyazısı | "showing the first scenario of the aging set as produced by the channel generator" → "(first scenario of the aging set)" | Yer için. |
 
 Makale 9 sayfa.
+
+## 15. tur (17 Kasım 2026): bulunamayan kaynaklar çıkarıldı (kullanıcının talimatı: "riske gerek yok, çıkar"); grup 9
+
+| Yer | Önce | Sonra |
+| --- | --- | --- |
+| Sistem modeli | "log-normal shadowing with Gudmundson correlation [Gudmundson1991] at 5 m" | "log-normal shadowing with exponential spatial correlation at 5 m" |
+| Hareketlilik | "T_c = 0.423/f_d = 28.2 ms [Clarke, Rappaport]" | "T_c = √(9/(16π))/f_d ≈ 0.423/f_d = 28.2 ms" (katsayı kendi başına doğrulanabilir: √(9/(16π)) = 0.4231; 0.4231/15.01 Hz = 28.19 ms) |
+| Gecikme analizi | "J0(2πu) ≈ 1 − π²u² [Clarke, Rappaport]" | "… [Clarke]" (J0'ın Taylor açılımı) |
+| Yöntem | "paired bootstrap confidence intervals (CIs) [Efron1993]" | atıfsız |
+| Yöntem, pilot | "With the scheme of [Wang2020TWC], 48 pilot symbols suffice…" | "With the uplink scheme of [Wang2020TWC] and TDD reciprocity, 48 pilot symbols suffice…" (grup 9: kaynak yukarı bağlantı pilotlarına dayanıyor; 48 = 4 + 32 + max(3, 12), denklem 62) |
+
+Kaynakça 49 → 46 (Gudmundson1991, rappaport_wireless, Efron1993 artık atıf almıyor). Makale 9 sayfa.
