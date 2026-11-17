@@ -145,3 +145,12 @@ Doğrulanamayanlar: Yu2019ICCC'nin DOI'si ve Monga2021SPM'nin cilt/sayısı PDF'
 | İlgili çalışmalar, "Learning" paragrafının sonu | "…and classical baselines are rarely tuned or timed under the same conditions." | "…; even when both are timed on one machine [Samuel, Sun, Hu, Liu2022], the classical baseline runs to convergence or a fixed iteration count, not to the same latency." | Dört kaynak, öğrenme tabanlı ve klasik yöntemi aynı makinede saniye cinsinden zamanlıyor (Samuel s. 2560–2561; Sun s. 5444, 5446; Hu Tablo VIII s. 1406; Liu Tablo V s. 4795). Bu yüzden "timed under the same conditions" yanlıştı. Doğru kalan: klasik yöntem aynı gecikme bütçesine ayarlanmıyor ve süre eşevreli kalma süresiyle ilişkilendirilmiyor (`kaynak_kontrol/grup4_liu_samuel_hu_sun_pellaco.md`). |
 
 Makale 9 sayfa. Bu düzeltme makalenin katkısını daraltıyor ama ortadan kaldırmıyor. Katkı artık "süre ölçülmüyor" değil, "süre aynı gecikme bütçesine ve kanal hızına bağlanmıyor".
+
+## 11. tur (17 Kasım 2026): kaynak kontrolü grup 5'in bulguları
+
+| Yer | Önce | Sonra | Gerekçe |
+| --- | --- | --- | --- |
+| İlgili çalışmalar, "Mobility" paragrafı | "forecasts the position and beam direction of fast unmanned aerial vehicles [Liu2021WCL]" | "forecasts the position of fast unmanned aerial vehicles and points the beam at it [Liu2021WCL]" | LSTM yalnızca konumu öngörüyor; hüzme açısı konumdan hesaplanıyor (s. 668). |
+| Aynı paragraf, özgünlük cümlesi | "the optimizer's own run time, at most a feasibility constraint on its operation count [Ryu], does not enter the aging." | "the optimizer's own run time is at most checked for feasibility, as an operation count [Ryu] or a measured 2 ms against a 20 ms slot [Liu2021WCL], and does not enter the aging." | Liu ve ark. öngörü süresini ölçüyor (τc = 2 ms, i7-6700 ve GTX 1080) ve yalnızca 20 ms'lik zaman diliminden kısa olduğunu kontrol ediyor (s. 672). Süre eskimeye girmiyor; özgünlük cümlesi geçerli, kapsamı genişletildi. |
+
+**Açık konu (kullanıcının kararı):** Makale 1'in kaynakça girdisindeki `volume={8}, number={9}`, PDF'ten doğrulanamıyor. PDF "Early View" sürümü: DOI var, cilt ve sayı yok. Wiley şeridinde "0" yazıyor, üst veride "0.0:e70460" var. Makale bir sayıya atandıysa cilt ve sayı doğrulanmalı; atanmadıysa bu alanlar kaldırılmalı. Makale 9 sayfa.
