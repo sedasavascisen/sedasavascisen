@@ -154,3 +154,12 @@ Makale 9 sayfa. Bu düzeltme makalenin katkısını daraltıyor ama ortadan kald
 | Aynı paragraf, özgünlük cümlesi | "the optimizer's own run time, at most a feasibility constraint on its operation count [Ryu], does not enter the aging." | "the optimizer's own run time is at most checked for feasibility, as an operation count [Ryu] or a measured 2 ms against a 20 ms slot [Liu2021WCL], and does not enter the aging." | Liu ve ark. öngörü süresini ölçüyor (τc = 2 ms, i7-6700 ve GTX 1080) ve yalnızca 20 ms'lik zaman diliminden kısa olduğunu kontrol ediyor (s. 672). Süre eskimeye girmiyor; özgünlük cümlesi geçerli, kapsamı genişletildi. |
 
 **Açık konu (kullanıcının kararı):** Makale 1'in kaynakça girdisindeki `volume={8}, number={9}`, PDF'ten doğrulanamıyor. PDF "Early View" sürümü: DOI var, cilt ve sayı yok. Wiley şeridinde "0" yazıyor, üst veride "0.0:e70460" var. Makale bir sayıya atandıysa cilt ve sayı doğrulanmalı; atanmadıysa bu alanlar kaldırılmalı. Makale 9 sayfa.
+
+## 12. tur (17 Kasım 2026): kaynak kontrolü grup 6'nın bulgusu
+
+| Yer | Önce | Sonra | Gerekçe |
+| --- | --- | --- | --- |
+| İlgili çalışmalar, özgünlük cümlesi | "…where modeled, is a fixed parameter;" | "…where modeled, is fixed, even where computation is named as a cause [Truong2013JCN];" | Truong ve Heath hesaplama gecikmesini eskimenin nedenleri arasında açıkça sayıyor (s. 338, 341), ama gecikmeyi sabit alıyor (D = 1 çerçeve; Tablo 1'de 1–10 ms). Cümle, "hesaplama gecikmesini eskimeye ilk biz bağlıyoruz" diye okunmasın diye daraltıldı. Katkı: süre ölçülmüş ve yönteme bağlı, sabit değil. |
+| Kaynakça | Truong2013JCN: "R. W. Heath" | "R. W. Heath Jr." | PDF'te basılı hâli. |
+
+Makale 9 sayfa (`kaynak_kontrol/grup6_han_truong_chopra_jindal_zhao.md`).
