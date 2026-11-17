@@ -95,3 +95,21 @@ Her fikir: ne, neden, kod, seed 14 sonucu, karar. Başarısız fikirler de yazı
 - **Karar:** kabul. Sistem iki kipli:
   - taze güncelleme: v1b;
   - periyodik güncelleme: v1b + sıcak hatlar ("v4").
+
+## Tur 5 (17 Kasım): sıcak başlangıcın güncelleme periyoduna duyarlılığı
+
+- **Ne:** tur 4, P = 50 ms ile tekrarlandı (`harness_warm.py --P 50`, `periodic.py --tag _P50`). Ayrıca `periodic.py` modülü tur 4'ü birebir yeniden üretiyor. K5'teki indeks hatası (sıcak küpte) düzeltildi; taze kipteki sonuçlar değişmedi.
+- **Seed 14 sonucu:**
+
+| | P = 20 ms | P = 50 ms |
+| --- | --- | --- |
+| v4 (sıcak dahil) | 5.3452 | 5.3103 |
+| yalnızca taze | 5.2987 | 5.3165 |
+| v4 − taze [GA] | **+0.047 [+0.032, +0.062]** | **−0.006 [−0.022, +0.009]**, anlamsız |
+| v4 − en iyi karşılaştırma (K4 ya da K5) | +0.143 | +0.099 |
+| kâhin | 5.3544 | 5.3265 |
+
+- **Bulgu:** sıcak başlangıç yalnızca önceki faz tazeyken (P = 20 ms) kazandırıyor. 50 ms'de önceki faz, SU-best-of'tan daha iyi bir başlangıç değil. Denetleyici bunu tam ayırt edemiyor ve sıcak hattı seçmeye devam ediyor; bedeli anlamsız.
+- **Tasarım sonucu:** sıcak başlangıç, normalize periyot f_d·P küçükken kullanılmalı (3 GHz, 1.5 m/s'de P = 20 ms için f_d·P ≈ 0.3; P = 50 ms için ≈ 0.75). Bu eşiği ayarlamak seed 14'e fazla uyum riski taşıdığı için yapılmadı; sistem raporunda bir sınır olarak yazılacak.
+- **Karar:** v4 değişmedi. Periyodik kipin ikincil sonucu (Ek 1) P = 20 ms ile sınanacak.
+- **Kalan fikirler:** 3 (ayarlı CD ve karma hatlar; CD ≥ 75 ms sürdüğü için bu koşullarda kazandırması beklenmiyor) ve 5 (geniş bant K_opt uzantısı; daha büyük bir iş).
