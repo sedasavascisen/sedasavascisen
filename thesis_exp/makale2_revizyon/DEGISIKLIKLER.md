@@ -117,3 +117,11 @@ Makale 9 sayfa. Kaynak listesi: `KAYNAK_LISTESI.md` (49 kaynak; kullanıcı PDF'
 | Sonuç, enumerate sonrası | "latency is therefore not a secondary metric" | "latency is not a secondary metric" | Yer kazanmak için; anlam aynı. |
 
 Makale 9 sayfa. Kaynak numaraları değişti: Wu2019TWC artık ilk cümlede değil.
+
+## 8. tur (17 Kasım 2026): kaynak kontrolü grup 2'nin bulgusu
+
+| Yer | Önce | Sonra | Gerekçe |
+| --- | --- | --- | --- |
+| İlgili çalışmalar, "RIS phase optimization" paragrafının sonu | "run time, when discussed, is a complexity order, not a latency measured against the coherence time." | "run time is usually a complexity order, and where measured (0.04–13.6 s of CPU time in [Abeywickrama]) it is not compared with the coherence time." | Abeywickrama ve ark., Tablo II'de (s. 5860) MATLAB CPU süresini saniye olarak ölçüyor: ceza yöntemi 2.8–13.6 s, iki aşamalı yöntem 0.04–0.51 s. Eski cümle bu kaynak için yanlıştı (`kaynak_kontrol/grup2_kaynak_06_10.md`). |
+
+Makale 9 sayfa.
