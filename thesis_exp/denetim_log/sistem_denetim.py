@@ -330,6 +330,23 @@ if __name__ == "__main__":
         xs_ = np.mean([eff(z12, m12, c, W, my_pick(m12, F12, F12, c, W, ("avg", "best"), False, fd_scale=bfac)) for c, W in keys(m12)], 0)
         chk(f"GÜNLÜK tur3: seed 12 b={bfac}", rv, float(xs_.mean()), 5e-4 if bfac != 2.0 else 5e-4)
 
+    # tur 3 geliştirme farkları (b* = 1.1 − sapmasız), seed 14
+    for s, rv in ((1.0, 0.0016), (0.5, 0.0083), (0.8, 0.0007), (1.25, -0.0066), (2.0, -0.0154)):
+        xa = vec(lambda c, W: my_pick(m, F12, F12, c, W, ("avg", "best"), False, fd_scale=s * 1.1))
+        xb_ = vec(lambda c, W: my_pick(m, F12, F12, c, W, ("avg", "best"), False, fd_scale=s))
+        chk(f"GÜNLÜK tur3: seed 14 sapma farkı, hata ×{s}", rv, float((xa - xb_).mean()), 1e-4)
+        if s == 1.0:
+            rep["dev14_bias11_mean"] = float(xa.mean()); rep["dev14_v1b_mean"] = float(xb_.mean())
+    # KEŞİFSEL (protokolde yok): seed 14'e göre yapılan seçimlerin seed 41'de sonucu
+    m, z = F41; K = keys(m)
+    vec41 = lambda pk: np.mean([eff(z, m, c, W, pk(c, W)) for c, W in K], 0)
+    x1b41 = vec41(lambda c, W: my_pick(m, F12, F12, c, W, ("avg", "best"), False))
+    for n, pk in (("v0_rule", lambda c, W: my_pick_v0(m, F12, c, W)),
+                  ("v1_emp", lambda c, W: my_pick_v1emp(m, F12, F12, c, W)),
+                  ("v1b_bias1.1", lambda c, W: my_pick(m, F12, F12, c, W, ("avg", "best"), False, fd_scale=1.1))):
+        x = vec41(pk); d = x1b41 - x
+        rep[f"explore41_v1b_minus_{n}"] = dict(other_mean=float(x.mean()), diff=float(d.mean()), ci=boot(d))
+
     w = max(len(r[0]) for r in rows)
     for r in rows:
         print(f"{r[0]:<{w}}  rapor {r[1]!s:>12}  yeniden {r[2] if isinstance(r[2], str) else f'{r[2]:.5f}':>12}  {r[3]}")
