@@ -1,0 +1,689 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>RIS denetleyicisi</title><style>
+@page { size: A4; margin: 18mm 15mm 18mm 15mm; }
+:root { --ink:#1b1f24; --mute:#5b6470; --line:#d5dae0; --accent:#1f4e79; --soft:#f3f6f9; }
+body { font-family: 'DejaVu Sans', sans-serif; font-size: 9.2pt; line-height: 1.45; color: var(--ink); background:#fff; }
+h1 { font-size: 17pt; color: var(--accent); margin: 0 0 6pt; }
+h2 { font-size: 12.5pt; color: var(--accent); margin: 14pt 0 5pt; border-bottom: 1px solid var(--line); padding-bottom: 2pt; }
+h3 { font-size: 10.5pt; margin: 11pt 0 4pt; } h4, h5, h6 { font-size: 9.6pt; margin: 9pt 0 3pt; }
+p, li { orphans: 3; widows: 3; } ul, ol { padding-left: 16pt; margin: 3pt 0 6pt; }
+code { font-family: 'DejaVu Sans Mono', monospace; font-size: 8pt; background: var(--soft); padding: 0 2pt; border-radius: 2px; word-break: break-word; }
+pre { background: var(--soft); padding: 6pt; font-size: 7.6pt; white-space: pre-wrap; border-radius: 3px; }
+table { border-collapse: collapse; width: 100%; margin: 6pt 0 10pt; font-size: 7.6pt; page-break-inside: auto; }
+tr { page-break-inside: avoid; } th, td { border: 1px solid var(--line); padding: 2.5pt 4pt; vertical-align: top; text-align: left; word-break: normal; overflow-wrap: break-word; }
+td code { word-break: break-all; }
+.cover th { white-space: nowrap; }
+th { background: var(--soft); }
+blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; background: #fbf1f0; }
+.part { page-break-before: always; } .parthead { border-bottom: 2px solid var(--accent); margin-bottom: 8pt; }
+.tag { display:inline-block; font-size: 8pt; color:#fff; background: var(--accent); padding: 1pt 5pt; border-radius: 3px; margin-right: 4pt; }
+.cover { height: 240mm; display:flex; flex-direction:column; justify-content:center; }
+.cover h1 { font-size: 24pt; } .cover .sub { font-size: 12pt; color: var(--mute); margin-bottom: 18pt; }
+.cover table { width: auto; font-size: 9pt; } .toc li { margin: 2pt 0; list-style: none; } .toc a { color: var(--ink); text-decoration: none; }
+</style></head><body><section class=""><h1>Gecikme farkındalıklı RIS denetleyicisi: tasarım ve mühürlü test</h1>
+<blockquote>
+<p>Teknik rapor; tez metni değildir (Kural 9). Her sayı aşağıdaki dosyalara ve betiklere bağlıdır.</p>
+</blockquote>
+<h2>Ne tasarlandı?</h2>
+<p>Hareketli bir kullanıcıya hizmet eden RIS için, her güncellemede faz hesaplama hattını seçen bir denetleyici.</p>
+<ul>
+<li><strong>Girdiler:</strong> Doppler kestirimi, taşıyıcı frekansı, bu donanımda ölçülmüş gecikmeler, fazın tutulacağı süre (W) ve varsa önceki güncellemenin fazı.</li>
+<li><strong>Karar:</strong> başlangıç noktası (SU-average, SU-best-of ya da önceki faz) ve Adam adım sayısı (0–48).</li>
+<li><strong>Yöntem:</strong> her aday hattın etkin hızı öngörülür: R̂ = R_floor + (R0 − R_floor)·ψ̄(f_d·τ, f_d·W). Burada R0 kalibrasyon çekilişindeki t = 0 hızı, ψ ise eskime eğrisi. Eğri 3 GHz'de tasarım kuralından, 28 GHz'de deneysel kalibrasyondan geliyor. En yüksek öngörüyü veren hat seçilir.</li>
+</ul>
+<h2>Mühürlü test (seed 41, bir kez; <code>FINAL.md</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Kip</th>
+<th>Sistem</th>
+<th>Kâhin</th>
+<th>En iyi karşılaştırma yöntemine fark [GA]</th>
+<th>Hipotezler</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Taze güncelleme (birincil)</td>
+<td>5.1241</td>
+<td>5.1267</td>
+<td>K4 kapalı form: +0.097 [+0.077, +0.118]</td>
+<td>H1 ve H2 tuttu</td>
+</tr>
+<tr>
+<td>Periyodik, P = 20 ms (ikincil)</td>
+<td>5.1957</td>
+<td>5.1979</td>
+<td>K4 kapalı form: +0.150 [+0.132, +0.170]</td>
+<td>H3 tuttu</td>
+</tr>
+</tbody>
+</table>
+<h2>⚠ Kazancın daha güçlü taban çizgilerine karşı boyutu (<code>FINAL_EK.md</code>, bağımsız denetim)</h2>
+<ul>
+<li><strong>Başlangıç seçimi:</strong> SU-best-of'tan başlayan kapalı forma karşı sistemin farkı +0.040 [+0.029, +0.052]. Yani K4'e karşı kazancın yaklaşık %59'u yalnızca başlangıç seçiminden geliyor.</li>
+<li><strong>Sabit tek hat:</strong> seed 12'de seçilen ve her koşulda sabit tutulan en iyi tek hata karşı fark +0.087 [+0.072, +0.102].</li>
+<li><strong>Periyodik kip:</strong> sıcak başlangıcın kendi katkısı +0.051 [+0.037, +0.066]. Kapalı forma da sıcak başlangıç verilince sistemin farkı +0.020 [+0.009, +0.030].</li>
+<li><strong>Sonuç:</strong> kazanç üç tasarım kararının birleşiminden geliyor (başlangıç seçimi, sıcak başlangıç, adım sayısı seçimi) ve tezde bu üçü ayrı ayrı raporlanmalı.</li>
+</ul>
+<h2>Tasarım kuralları (geliştirme çekilişinde, <code>GUNLUK.md</code>)</h2>
+<ul>
+<li><strong>Doppler kestirimi:</strong> ±%20–25 hata zararsız. Yarı yarıya düşük kestirmek 0.09–0.11 kaybettiriyor; belirsizlikte kestirimi yukarı yönlü tutmak gerekir (tur 2–3).</li>
+<li><strong>Sıcak başlangıç:</strong> yalnızca önceki faz tazeyken kazandırıyor. P = 20 ms'de +0.047, P = 50 ms'de anlamsız (tur 4–5).</li>
+<li><strong>CD:</strong> bu hızlarda hiçbir koşulda rekabetçi değil (tur 6).</li>
+</ul>
+<h2>Sınırlar</h2>
+<ul>
+<li>Tek kanal modeli ve tek geometri.</li>
+<li>28 GHz'deki ψ ayrımı, geliştirme sonucu görüldükten sonra seçildi.</li>
+<li>Tur 3'ün sapmalı sürümü seed 14'te 0.0016 daha yüksekti, ama v1b donduruldu (seçim kuralından sapma; seed 41'de etkisiz).</li>
+<li>H2 bir eşdeğerlik testi değil.</li>
+<li>Sağlamlık sonuçları yalnızca geliştirme çekilişinde alındı.</li>
+</ul></section><section class="part"><h1>Gecikme farkındalıklı RIS denetleyicisi: mühürlü test sonucu (seed 41)</h1>
+<p>Commit <code>91a03dd</code>. Kalibrasyon seed 12, test seed 41 (gece hiç kullanılmadı). Dondurulan sürümler <code>FROZEN.md</code>'de. 12 koşul, 400 senaryo; eşli bootstrap 2000, %95.</p>
+<h2>Taze güncelleme kipi (birincil)</h2>
+<p>Sistem ortalaması 5.1241; kâhin 5.1267 (açık 0.0026).</p>
+<table>
+<thead>
+<tr>
+<th>Karşılaştırma</th>
+<th>Ortalaması</th>
+<th>Sistem − karşılaştırma [GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K1</td>
+<td>4.6897</td>
+<td>+0.4344 [+0.397, +0.470]</td>
+</tr>
+<tr>
+<td>K2</td>
+<td>4.9568</td>
+<td>+0.1673 [+0.143, +0.194]</td>
+</tr>
+<tr>
+<td>K3</td>
+<td>4.6899</td>
+<td>+0.4342 [+0.393, +0.475]</td>
+</tr>
+<tr>
+<td>K4</td>
+<td>5.0268</td>
+<td>+0.0973 [+0.077, +0.118]</td>
+</tr>
+<tr>
+<td>K5</td>
+<td>5.0258</td>
+<td>+0.0983 [+0.080, +0.116]</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>H1</strong> (her karşılaştırmadan anlamlı olarak iyi): <strong>TUTTU</strong></li>
+<li><strong>H2</strong> (hiçbir koşulda en iyi karşılaştırmadan anlamlı olarak kötü değil): <strong>TUTTU</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Koşul</th>
+<th>Sistem seçimi</th>
+<th>Sistem</th>
+<th>En iyi karşılaştırma</th>
+<th>Fark [GA]</th>
+<th>Kâhin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1&#124;W0</td>
+<td>best+10</td>
+<td>6.0635</td>
+<td>K5 (best+6) 6.0113</td>
+<td>+0.0523 [+0.030, +0.076]</td>
+<td>6.0635 (best+10)</td>
+</tr>
+<tr>
+<td>A1&#124;W20</td>
+<td>best+8</td>
+<td>5.7085</td>
+<td>K5 (best+6) 5.7029</td>
+<td>+0.0056 [-0.015, +0.027]</td>
+<td>5.7085 (best+8)</td>
+</tr>
+<tr>
+<td>A2&#124;W0</td>
+<td>best+6</td>
+<td>5.8424</td>
+<td>K5 (best+6) 5.8424</td>
+<td>+0.0000 [+0.000, +0.000]</td>
+<td>5.8505 (best+5)</td>
+</tr>
+<tr>
+<td>A2&#124;W20</td>
+<td>best+5</td>
+<td>5.2916</td>
+<td>K5 (best+6) 5.2707</td>
+<td>+0.0209 [+0.006, +0.036]</td>
+<td>5.2923 (best+4)</td>
+</tr>
+<tr>
+<td>A3&#124;W0</td>
+<td>best+3</td>
+<td>5.6044</td>
+<td>K4 (avg+4) 5.5046</td>
+<td>+0.0998 [+0.064, +0.138]</td>
+<td>5.6044 (best+3)</td>
+</tr>
+<tr>
+<td>A3&#124;W20</td>
+<td>best+3</td>
+<td>4.9742</td>
+<td>K5 (best+6) 4.9121</td>
+<td>+0.0621 [+0.027, +0.097]</td>
+<td>4.9742 (best+3)</td>
+</tr>
+<tr>
+<td>A4&#124;W0</td>
+<td>best+1</td>
+<td>5.0606</td>
+<td>K4 (avg+2) 4.9978</td>
+<td>+0.0627 [+0.010, +0.111]</td>
+<td>5.0606 (best+1)</td>
+</tr>
+<tr>
+<td>A4&#124;W20</td>
+<td>best+32</td>
+<td>4.6870</td>
+<td>K3 (avg+48) 4.6914</td>
+<td>-0.0044 [-0.048, +0.040]</td>
+<td>4.7021 (best+48)</td>
+</tr>
+<tr>
+<td>B1&#124;W0</td>
+<td>best+1</td>
+<td>4.7859</td>
+<td>K1 (best+0) 4.6921</td>
+<td>+0.0939 [+0.059, +0.129]</td>
+<td>4.7859 (best+1)</td>
+</tr>
+<tr>
+<td>B1&#124;W20</td>
+<td>best+2</td>
+<td>4.4360</td>
+<td>K5 (best+6) 4.4220</td>
+<td>+0.0140 [-0.009, +0.037]</td>
+<td>4.4360 (best+2)</td>
+</tr>
+<tr>
+<td>B2&#124;W0</td>
+<td>best+0</td>
+<td>4.6369</td>
+<td>K1 (best+0) 4.6369</td>
+<td>+0.0000 [+0.000, +0.000]</td>
+<td>4.6369 (best+0)</td>
+</tr>
+<tr>
+<td>B2&#124;W20</td>
+<td>best+48</td>
+<td>4.3981</td>
+<td>K3 (avg+48) 4.4052</td>
+<td>-0.0071 [-0.019, +0.004]</td>
+<td>4.4052 (avg+48)</td>
+</tr>
+</tbody>
+</table>
+<h2>Periyodik kip, P = 20 ms (ikincil, Ek 1)</h2>
+<p>Sistem ortalaması 5.1957; kâhin 5.1979 (açık 0.0022).</p>
+<table>
+<thead>
+<tr>
+<th>Karşılaştırma</th>
+<th>Ortalaması</th>
+<th>Sistem − karşılaştırma [GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K1</td>
+<td>4.7015</td>
+<td>+0.4942 [+0.458, +0.530]</td>
+</tr>
+<tr>
+<td>K2</td>
+<td>4.9729</td>
+<td>+0.2228 [+0.201, +0.244]</td>
+</tr>
+<tr>
+<td>K3</td>
+<td>4.6753</td>
+<td>+0.5204 [+0.482, +0.557]</td>
+</tr>
+<tr>
+<td>K4</td>
+<td>5.0453</td>
+<td>+0.1504 [+0.132, +0.170]</td>
+</tr>
+<tr>
+<td>K5</td>
+<td>5.0418</td>
+<td>+0.1539 [+0.133, +0.174]</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>H3</strong> (her karşılaştırmadan anlamlı olarak iyi): <strong>TUTTU</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Koşul</th>
+<th>Sistem seçimi</th>
+<th>Sistem</th>
+<th>En iyi karşılaştırma</th>
+<th>Fark [GA]</th>
+<th>Kâhin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1&#124;W0</td>
+<td>warm+8</td>
+<td>6.1808</td>
+<td>K5 (best+6) 6.0030</td>
+<td>+0.1778 [+0.141, +0.213]</td>
+<td>6.1808 (warm+8)</td>
+</tr>
+<tr>
+<td>A1&#124;W20</td>
+<td>warm+6</td>
+<td>5.8465</td>
+<td>K5 (best+6) 5.7153</td>
+<td>+0.1311 [+0.088, +0.173]</td>
+<td>5.8465 (warm+6)</td>
+</tr>
+<tr>
+<td>A2&#124;W0</td>
+<td>warm+5</td>
+<td>5.9448</td>
+<td>K5 (best+6) 5.8492</td>
+<td>+0.0956 [+0.058, +0.134]</td>
+<td>5.9504 (warm+6)</td>
+</tr>
+<tr>
+<td>A2&#124;W20</td>
+<td>warm+4</td>
+<td>5.4124</td>
+<td>K5 (best+6) 5.3187</td>
+<td>+0.0937 [+0.040, +0.148]</td>
+<td>5.4148 (warm+5)</td>
+</tr>
+<tr>
+<td>A3&#124;W0</td>
+<td>warm+4</td>
+<td>5.7406</td>
+<td>K4 (avg+4) 5.5513</td>
+<td>+0.1894 [+0.137, +0.243]</td>
+<td>5.7406 (warm+4)</td>
+</tr>
+<tr>
+<td>A3&#124;W20</td>
+<td>warm+4</td>
+<td>5.0515</td>
+<td>K5 (best+6) 4.9910</td>
+<td>+0.0604 [+0.009, +0.111]</td>
+<td>5.0515 (warm+4)</td>
+</tr>
+<tr>
+<td>A4&#124;W0</td>
+<td>warm+2</td>
+<td>5.2069</td>
+<td>K4 (avg+2) 5.0546</td>
+<td>+0.1523 [+0.090, +0.218]</td>
+<td>5.2069 (warm+2)</td>
+</tr>
+<tr>
+<td>A4&#124;W20</td>
+<td>best+32</td>
+<td>4.6910</td>
+<td>K3 (avg+48) 4.6660</td>
+<td>+0.0250 [-0.022, +0.071]</td>
+<td>4.6981 (warm+32)</td>
+</tr>
+<tr>
+<td>B1&#124;W0</td>
+<td>best+1</td>
+<td>4.8290</td>
+<td>K1 (best+0) 4.7183</td>
+<td>+0.1107 [+0.079, +0.142]</td>
+<td>4.8290 (best+1)</td>
+</tr>
+<tr>
+<td>B1&#124;W20</td>
+<td>best+2</td>
+<td>4.4201</td>
+<td>K3 (avg+48) 4.4052</td>
+<td>+0.0149 [-0.036, +0.066]</td>
+<td>4.4314 (warm+2)</td>
+</tr>
+<tr>
+<td>B2&#124;W0</td>
+<td>best+0</td>
+<td>4.6041</td>
+<td>K1 (best+0) 4.6041</td>
+<td>+0.0000 [+0.000, +0.000]</td>
+<td>4.6041 (best+0)</td>
+</tr>
+<tr>
+<td>B2&#124;W20</td>
+<td>best+48</td>
+<td>4.4206</td>
+<td>K3 (avg+48) 4.4148</td>
+<td>+0.0058 [-0.004, +0.016]</td>
+<td>4.4206 (best+48)</td>
+</tr>
+</tbody>
+</table></section><section class="part"><h1>Mühürlü teste ek: bağımsız denetimin bulguları (17 Kasım 2026)</h1>
+<p><code>FINAL.md</code> değiştirilmedi. Bu ekteki sayılar bağımsız denetim betiğinden gelir: <code>thesis_exp/denetim_log/sistem_denetim.py</code>, rapor <code>DENETIM_SISTEM.md</code>. Betik kayıtlı küplerden hesaplar, bootstrap tohumu kendisine aittir. Denetim FINAL.md'deki 362 sayıyı doğruladı (HATA yok). H1, H2 ve H3 kararları değişmedi. Aşağıdaki karşılaştırmalar ön kayıtlı değildir.</p>
+<h2>⚠ En üstte: kazancın daha güçlü taban çizgilerine karşı boyutu (CLAUDE.md, zayıf taban çizgisi kuralı)</h2>
+<table>
+<thead>
+<tr>
+<th>Karşılaştırma (seed 41)</th>
+<th>Sistem − karşılaştırma [GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Taze kip: K4 (kapalı form, protokoldeki gibi SU-average başlangıçlı)</td>
+<td>+0.097 [+0.077, +0.118] (FINAL.md)</td>
+</tr>
+<tr>
+<td>Taze kip: aynı kapalı form, SU-best-of başlangıçlı</td>
+<td><strong>+0.040 [+0.029, +0.052]</strong></td>
+</tr>
+<tr>
+<td>Taze kip: seed 12'de seçilip her koşulda sabit tutulan tek hat (best+3; seed 41'de 5.0370)</td>
+<td><strong>+0.087 [+0.072, +0.102]</strong></td>
+</tr>
+<tr>
+<td>Periyodik kip: K4 (taze hatlar)</td>
+<td>+0.150 [+0.132, +0.170] (FINAL.md)</td>
+</tr>
+<tr>
+<td>Periyodik kip: kapalı form, sıcak başlangıçlı (warm+L_K4)</td>
+<td><strong>+0.020 [+0.009, +0.030]</strong></td>
+</tr>
+<tr>
+<td>Periyodik kip: K2 sıcak başlangıçlı (warm+5)</td>
+<td>+0.101 [+0.086, +0.117]</td>
+</tr>
+<tr>
+<td>Periyodik kip: K5 sıcak başlangıçlı (warm+6)</td>
+<td>+0.121 [+0.104, +0.137]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Okuma:</strong></p>
+<ul>
+<li><strong>Taze kip:</strong> sistemin K4'e karşı kazancının yaklaşık %59'u yalnızca başlangıç seçiminden (SU-best-of) geliyor. Adım sayısını koşula göre seçmenin kendi katkısı +0.040; küçük ama anlamlı.</li>
+<li><strong>Periyodik kip:</strong> büyük farkların çoğu sıcak başlangıçtan geliyor. Karşılaştırmalara da sıcak başlangıç verildiğinde sistemin üstünlüğü +0.020'ye iniyor, ama anlamlı kalıyor.</li>
+<li><strong>Sonuç:</strong> sistem en güçlü taban çizgilerini de geçiyor, ancak payın çoğu üç tasarım kararının birleşiminden geliyor: başlangıç seçimi, sıcak başlangıç ve adım sayısı seçimi. Tezde bu üçü ayrı ayrı raporlanmalı.</li>
+</ul>
+<h2>Ek 1'in istediği satır</h2>
+<p>Sıcak hatların taze-yalnız sisteme katkısı (seed 41, P = 20 ms): V4 5.1957, yalnızca taze 5.1445, fark <strong>+0.051 [+0.037, +0.066]</strong>. Bu satır <code>final_test.py</code>'nin çıktısında yoktu.</p>
+<h2>Seçim kuralından sapma</h2>
+<p>PROTOKOL gece kuralı 2'ye göre seed 14'te ortalaması en yüksek sürüm dondurulmalıydı: tur 3'ün b = 1.1 sapmalı sürümü (5.2946). Dondurulan v1b'nin ortalaması 5.2930'du; v1b, "doğru kestirimde anlamlı kazanç yok" gerekçesiyle seçildi. <code>FROZEN.md</code>'nin "kurala göre" ifadesi bu yüzden yanlış. Seed 41'de iki sürümün farkı −0.0003 [−0.003, +0.003]; sonuçlar etkilenmez.</p>
+<h2>Diğer sınırlar</h2>
+<ul>
+<li><strong>H2'nin niteliği:</strong> H2, eşdeğerlik testi değil, "anlamlı olarak kötü değil" testi. A4&#124;W20'nin GA'sı geniş: [−0.048, +0.040].</li>
+<li><strong>Bootstrap:</strong> protokol koşullar ve senaryolar üzerinden bootstrap tanımlıyor; kod yalnızca senaryoları yeniden örnekliyor.</li>
+<li><strong>Zamanlama:</strong> ara L'lerin Adam süresi enterpolasyonla bulundu. Zamanlama sırasında yük 0.74'e çıktı; eşik 0.5'ti.</li>
+<li><strong>Periyodik kip:</strong> tek bir güncelleme adımıyla, sabit bir önceki fazla kuruldu.</li>
+<li><strong>Sağlamlık:</strong> Doppler kestirim hatası ve periyot sonuçları yalnızca seed 14'te alındı; seed 41'de sınanmadı.</li>
+<li><strong>Keşifsel doğrulama:</strong> v1b, seed 41'de v0'ı +0.011 [+0.007, +0.015] geçiyor; seed 14'teki seçim yeni çekilişte de doğrulanıyor.</li>
+</ul></section><section class="part"><h1>Gece fikir günlüğü</h1>
+<p>Her fikir: ne, neden, kod, seed 14 sonucu, karar. Başarısız fikirler de yazılır. Seed 41 (mühürlü test) gece kullanılmaz.</p>
+<h2>Tur 0 (17 Kasım, 05:40): v0_rule</h2>
+<ul>
+<li><strong>Ne:</strong> tasarım kuralı genelleştirildi. Her aday hat için öngörülen etkin hız R̂(a) = R_floor + (R0(a) − R_floor)·ψ̄(f_d·τ_a, f_d·W). Başlangıç noktası olarak hem SU-average hem SU-best-of aday. R0, seed 12'nin o taşıyıcıdaki t = 0 hızlarından; ψ ve R_floor, <code>tasarim_kurali</code> kalibrasyonundan (3 GHz, 1.5 m/s).</li>
+<li><strong>Neden:</strong> ön kayıtlı sınamada zaten tutmuş bir kural; sistemin çekirdeği olmaya en uygun aday.</li>
+<li><strong>Seed 14 sonucu</strong> (12 koşul ortalaması): v0 <strong>5.2869</strong>; kâhin 5.2994 (açık 0.0125).</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Karşılaştırma</th>
+<th>Ortalama</th>
+<th>v0 − karşılaştırma [GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K1 SU-best-of</td>
+<td>4.8701</td>
+<td>+0.417 [+0.384, +0.448]</td>
+</tr>
+<tr>
+<td>K2 Adam-5</td>
+<td>5.1053</td>
+<td>+0.182 [+0.156, +0.210]</td>
+</tr>
+<tr>
+<td>K3 Adam-48</td>
+<td>4.8436</td>
+<td>+0.443 [+0.406, +0.481]</td>
+</tr>
+<tr>
+<td>K4 kapalı form</td>
+<td>5.1751</td>
+<td>+0.112 [+0.090, +0.134]</td>
+</tr>
+<tr>
+<td>K5 Ryu tarzı</td>
+<td>5.1889</td>
+<td>+0.098 [+0.079, +0.117]</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Açık nerede:</strong><ul>
+<li>B1, W = 0 (28 GHz, 3 km/h): v0 adım atmıyor, kâhin Adam-1 seçiyor; açık 0.051.</li>
+<li>B2, W = 20: v0 12 adım, kâhin 24; açık 0.030.</li>
+<li>A4, W = 20: v0 32 adım, kâhin 48; açık 0.027.</li>
+<li>Yüksek Doppler ve uzun tutma koşullarında kâhin uzun L seçiyor. Bunun büyük olasılıkla sabit saçıcıların bıraktığı korelasyon tabanının etkisi olduğunu not ediyorum; fiziksel bir sonuç sayılmamalı.</li>
+</ul>
+</li>
+<li><strong>Karar:</strong> temel sistem v0. Bundan sonraki her fikir v0'a karşı ölçülecek.</li>
+</ul>
+<h3>Fikir kuyruğu</h3>
+<ol>
+<li><strong>Taşıyıcıya özgü ψ:</strong> ψ eğrisini her taşıyıcıda seed 12'de ayrı kalibre etmek. B1 ve B2'deki açığı hedefliyor.</li>
+<li><strong>Deneysel ψ:</strong> ψ'yi kanal korelasyonundan değil, doğrudan seed 12 küpündeki etkin ve t = 0 hızlarının oranından kalibre etmek.</li>
+<li><strong>Ayarlı CD ve karma başlangıç hatları:</strong> denetleyicinin seçebileceği hat kümesini genişletmek.</li>
+<li><strong>Sıcak başlangıç:</strong> önceki güncellemenin fazından başlamak (takip). Yeni bir hat türü; gecikme ölçümü gerekir.</li>
+<li><strong>Geniş bant uzantısı:</strong> K_opt kararını denetleyiciye eklemek; ölçülmüş adım maliyetleri <code>genis_bant</code> deneyinden alınır.</li>
+<li><strong>Sağlamlık:</strong> Doppler kestirimi hatalıyken (±%20) denetleyici ne kadar kaybediyor?</li>
+</ol>
+<h2>Tur 1 (17 Kasım, ~05:50): deneysel ψ (fikir 1 ve 2)</h2>
+<ul>
+<li><strong>v1_emp:</strong> ψ, seed 12 küpünden taşıyıcıya ve W'ya özgü olarak kalibre edildi. Her hat için ψ_i = (etkin − R_floor)/(t = 0 − R_floor) hesaplandı; log u ekseninde 25 kutunun medyanı alındı ve bu medyanlar arasında enterpolasyon yapıldı.<ul>
+<li>Seed 14 sonucu: 5.2880; v0'a fark +0.0011 [−0.008, +0.010], <strong>anlamsız</strong>.</li>
+<li>28 GHz açığını kapatıyor (B1, W = 0: 0.051 → 0), ama 3 GHz'de bozuyor (A4, W = 20: 0.027 → 0.073; A2, W = 20: 0.019 → 0.033).</li>
+</ul>
+</li>
+<li><strong>v1b_carrier:</strong> 3 GHz'de doğrulanmış tasarım kuralı (v0), 28 GHz'de deneysel ψ (v1).<ul>
+<li>Gerekçe: kuralın ψ'si 3 GHz'de kalibre edildi, orada geçerli; başka bir taşıyıcıda o taşıyıcının ölçümü gerekir.</li>
+<li>Seed 14 sonucu: <strong>5.2930</strong>, kâhin açığı 0.0063; v0'a fark <strong>+0.0062 [+0.0019, +0.0105], anlamlı</strong>.</li>
+</ul>
+</li>
+<li><strong>Dürüstlük notu:</strong> v1b'nin "hangi taşıyıcıda hangi ψ" seçimi, v1'in seed 14 sonucu görüldükten sonra yapıldı. Yani bu seçim seed 14'e bir ölçüde uyduruldu; sabahki mühürlü test bunu sınayacak.</li>
+<li><strong>Karar:</strong> yeni aday v1b_carrier. Sıradaki fikir: kuyruktaki 3 (ayarlı CD ve karma hatlar) ve 6 (Doppler kestirim hatasına karşı sağlamlık).</li>
+</ul>
+<h2>Tur 2 (17 Kasım): Doppler kestirim hatasına karşı sağlamlık (fikir 6)</h2>
+<ul>
+<li><strong>Ne:</strong> denetleyiciye yanlış f_d verildi (×0.5, ×0.8, ×1.25, ×2); etkin hız yine gerçek kanalda okundu. Kod <code>robust_fd.py</code>, ham çıktı <code>robust_fd.json</code> (seed 14, kalibrasyon seed 12).</li>
+<li><strong>Sonuç</strong> (doğru f_d'ye göre kayıp, b/s/Hz):</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>f_d çarpanı</th>
+<th>v0</th>
+<th>v1b</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>×0.5</td>
+<td>−0.093 [−0.109, −0.077]</td>
+<td>−0.106 [−0.122, −0.090]</td>
+</tr>
+<tr>
+<td>×0.8</td>
+<td>−0.003 (anlamsız)</td>
+<td>−0.009 [−0.015, −0.003]</td>
+</tr>
+<tr>
+<td>×1.25</td>
+<td>−0.003 (anlamsız)</td>
+<td>−0.000 (anlamsız)</td>
+</tr>
+<tr>
+<td>×2</td>
+<td>−0.052 [−0.065, −0.040]</td>
+<td>−0.058 [−0.072, −0.044]</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Bulgu:</strong><ul>
+<li>±%20–25'lik kestirim hatası pratikte zararsız: kayıp ≤ 0.009.</li>
+<li>Hata asimetrik: Doppler'i yarı yarıya küçük kestirmek, iki kat büyük kestirmekten yaklaşık iki kat pahalı. Küçük kestirilen f_d, denetleyiciye fazla adım attırıyor.</li>
+<li>×0.5'te bile v1b (5.187), en iyi karşılaştırma yöntemi K5 (5.189) ile başa baş.</li>
+</ul>
+</li>
+<li><strong>Tasarım sonucu:</strong> belirsizlik varsa f_d kestirimini yukarı yönlü tutmak gerekir. Bu, denetleyiciye bir "temkinli sapma" parametresi olarak eklenebilir (yeni fikir 7).</li>
+<li><strong>Karar:</strong> aday değişmedi (v1b). Sağlamlık sonucu sistemin raporunda yer alacak. Fikir 7 kuyruğa eklendi; sıradaki fikir 3 (ayarlı CD ve karma hatlar).</li>
+</ul>
+<h2>Tur 3 (17 Kasım): temkinli Doppler sapması (fikir 7)</h2>
+<ul>
+<li><strong>Ne:</strong> denetleyici f_d yerine f_d·b kullanıyor. b, seed 12'de {1.0, 1.1, 1.25, 1.5, 2.0} arasından seçildi: b* = 1.1. Seed 12'deki ortalamalar 5.1247, 5.1251, 5.1203, 5.1063, 5.058 ve b = 1.0 ile 1.1 neredeyse eşit. Kod <code>round3_bias.py</code>, ham çıktı <code>round3_bias.json</code>.</li>
+<li><strong>Seed 14 sonucu</strong> (b = 1.1 − sapmasız, v1b):</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Kestirim hatası</th>
+<th>Fark [GA]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hata yok</td>
+<td>+0.0016 [−0.001, +0.004], anlamsız</td>
+</tr>
+<tr>
+<td>×0.5</td>
+<td>+0.0083 [+0.004, +0.012]</td>
+</tr>
+<tr>
+<td>×0.8</td>
+<td>+0.0007, anlamsız</td>
+</tr>
+<tr>
+<td>×1.25</td>
+<td>−0.0066 [−0.010, −0.003]</td>
+</tr>
+<tr>
+<td>×2</td>
+<td>−0.0154 [−0.022, −0.008]</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Bulgu:</strong> sapma beklendiği gibi bir sigorta işi görüyor; Doppler'i küçük kestirirken kazandırıyor, büyük kestirirken kaybettiriyor. Doğru kestirimde etkisi anlamsız. Net fayda, hata dağılımına bağlı.</li>
+<li><strong>Karar:</strong> <strong>reddedildi.</strong> Doğru kestirimde anlamlı bir kazanç yok ve gerçek kestirim hatasının dağılımını bilmiyoruz. Aday v1b olarak kaldı. Sonuç, sistem raporunda bir "ödünleşim" notu olarak yer alacak.</li>
+<li><strong>Sıradaki:</strong> fikir 3 (ayarlı CD ve karma hatlar) ya da fikir 4 (sıcak başlangıç).</li>
+</ul>
+<h2>Tur 4 (17 Kasım): sıcak başlangıç, periyodik çalışma (fikir 4)</h2>
+<ul>
+<li><strong>Ne:</strong> periyodik çalışmada önceki güncellemenin fazı elde hazırdır. Kurgu (<code>harness_warm.py</code> → <code>cube/warm_seed{12,14}</code>):<ul>
+<li>Güncelleme periyodu P = 20 ms.</li>
+<li>Önceki faz: t = 0'da SU-best-of + Adam-6.</li>
+<li>Yeni güncelleme t = P'de, taze CSI ile.</li>
+<li>Yeni hat türü warm+L: Adam önceki fazdan başlıyor, başlangıç maliyeti 0. Adam adım süresi <code>timing2.json</code>'dan; yeni bir hesaplama yok, yalnızca başlangıç atlanıyor.</li>
+</ul>
+</li>
+<li><strong>Seed 14 sonucu</strong> (12 koşul, t = P'den itibaren):<ul>
+<li>Yalnızca taze hatlarla v1b: <strong>5.2987</strong>.</li>
+<li>Sıcak hatlara da izin verilen v1b: <strong>5.3452</strong>.</li>
+<li>Fark <strong>+0.0465 [+0.032, +0.062]</strong>, anlamlı. Kâhin 5.3544; açık 0.009.</li>
+<li>Denetleyici 3 GHz'de 3–30 km/h ve W = 0 koşullarında sıcak hattı seçiyor. Yüksek Doppler ile uzun tutmanın birleştiği koşullarda (A4/W20, B1, B2) taze hatta kalıyor; kâhin de büyük ölçüde aynı seçimleri yapıyor.</li>
+</ul>
+</li>
+<li><strong>Not:</strong> bu bir çalışma kipi farkı. Protokolün birincil sonucu "taze güncelleme" kipindeki 12 koşul; periyodik kip ikincil sonuç olarak protokole eklenmeli. Bu ekleme seed 41 koşulmadan önce yapılacak (aşağıda).</li>
+<li><strong>Karar:</strong> kabul. Sistem iki kipli:<ul>
+<li>taze güncelleme: v1b;</li>
+<li>periyodik güncelleme: v1b + sıcak hatlar ("v4").</li>
+</ul>
+</li>
+</ul>
+<h2>Tur 5 (17 Kasım): sıcak başlangıcın güncelleme periyoduna duyarlılığı</h2>
+<ul>
+<li><strong>Ne:</strong> tur 4, P = 50 ms ile tekrarlandı (<code>harness_warm.py --P 50</code>, <code>periodic.py --tag _P50</code>). Ayrıca <code>periodic.py</code> modülü tur 4'ü birebir yeniden üretiyor. K5'teki indeks hatası (sıcak küpte) düzeltildi; taze kipteki sonuçlar değişmedi.</li>
+<li><strong>Seed 14 sonucu:</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>P = 20 ms</th>
+<th>P = 50 ms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v4 (sıcak dahil)</td>
+<td>5.3452</td>
+<td>5.3103</td>
+</tr>
+<tr>
+<td>yalnızca taze</td>
+<td>5.2987</td>
+<td>5.3165</td>
+</tr>
+<tr>
+<td>v4 − taze [GA]</td>
+<td><strong>+0.047 [+0.032, +0.062]</strong></td>
+<td><strong>−0.006 [−0.022, +0.009]</strong>, anlamsız</td>
+</tr>
+<tr>
+<td>v4 − en iyi karşılaştırma (K4 ya da K5)</td>
+<td>+0.143</td>
+<td>+0.099</td>
+</tr>
+<tr>
+<td>kâhin</td>
+<td>5.3544</td>
+<td>5.3265</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Bulgu:</strong> sıcak başlangıç yalnızca önceki faz tazeyken (P = 20 ms) kazandırıyor. 50 ms'de önceki faz, SU-best-of'tan daha iyi bir başlangıç değil. Denetleyici bunu tam ayırt edemiyor ve sıcak hattı seçmeye devam ediyor; bedeli anlamsız.</li>
+<li><strong>Tasarım sonucu:</strong> sıcak başlangıç, normalize periyot f_d·P küçükken kullanılmalı (3 GHz, 1.5 m/s'de P = 20 ms için f_d·P ≈ 0.3; P = 50 ms için ≈ 0.75). Bu eşiği ayarlamak seed 14'e fazla uyum riski taşıdığı için yapılmadı; sistem raporunda bir sınır olarak yazılacak.</li>
+<li><strong>Karar:</strong> v4 değişmedi. Periyodik kipin ikincil sonucu (Ek 1) P = 20 ms ile sınanacak.</li>
+<li><strong>Kalan fikirler:</strong> 3 (ayarlı CD ve karma hatlar; CD ≥ 75 ms sürdüğü için bu koşullarda kazandırması beklenmiyor) ve 5 (geniş bant K_opt uzantısı; daha büyük bir iş).</li>
+</ul>
+<h2>Tur 6 (17 Kasım): ayarlı CD hattı, ucuz ön sınama (fikir 3)</h2>
+<ul>
+<li><strong>Ne:</strong> en yavaş koşulda (A1: 3 GHz, 3 km/h) SU-best-of'tan başlayan CD-s (s = 1…3 tarama, erken durmasız gecikme, <code>juri/raw/timing3.json</code>). s seed 12'de seçildi, sonuç seed 14'te okundu. Kod: <code>round6_cd.py</code>.</li>
+<li><strong>Sonuç:</strong> seçilen CD-1, 78.8 ms.<ul>
+<li>W = 0: 4.943; v1b'nin seçtiği best+10 ise 6.222. Fark −1.279 [−1.363, −1.196].</li>
+<li>W = 20: 4.892; v1b'nin seçtiği best+8 ise 5.871. Fark −0.979 [−1.067, −0.891].</li>
+</ul>
+</li>
+<li><strong>Gerekçe:</strong> en yavaş koşulda bile CD, denetleyicinin seçtiği hattın çok gerisinde. Daha hızlı koşullarda kanal daha hızlı eskidiği için CD'nin konumu ancak kötüleşir.</li>
+<li><strong>Karar:</strong> <strong>reddedildi.</strong> CD aday hat kümesine eklenmedi. Bu, Makale 2'nin bulgusuyla tutarlı: Python CD bu hızlarda hiçbir koşulda rekabetçi değil. Derlenmiş CD (jüri S1) ise ayrı bir gerçekleştirme sorusu.</li>
+<li><strong>Kalan:</strong> fikir 5 (geniş bant K_opt uzantısı). Daha büyük bir iş. Mühürlü test için sistem hazır: taze kip v1b, periyodik kip v4.</li>
+</ul></section></body></html>
