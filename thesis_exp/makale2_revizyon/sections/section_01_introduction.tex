@@ -10,8 +10,8 @@ This paper measures that race. We evaluate every method on the channel that exis
 \subsection{Contributions}
 \begin{enumerate}
     \item \textbf{A latency-aware criterion.} We define the effective rate (Section~\ref{sec:framework}) and show that under it the solvers with the best rate on paper lose to a single-user heuristic that takes milliseconds, for pedestrian users at the measured step cost.
-    \item \textbf{An optimal number of iterations.} More iterations help only up to a point. The best number of steps is set by a single quantity, the time per step relative to the Doppler frequency, and a small-delay model explains how it scales. In the narrowband model it holds for a second classical optimizer, a larger surface and every standardized indoor speed.
-    \item \textbf{Periodic operation.} When the BS re-optimizes continuously, the pilot overhead decides how often to update, and each update should still be short.
+    \item \textbf{An optimal number of iterations.} More iterations help only up to a point. The best number of steps is set by a single quantity, the time per step relative to the Doppler frequency, and a small-delay model explains how it scales. In the narrowband model the optimum persists for a second classical optimizer, a larger surface and every standardized indoor speed.
+    \item \textbf{Periodic operation.} When the BS re-optimizes continuously, the pilot overhead decides how often to update, and short updates (at most 8 steps) suffice.
     \item \textbf{Learning on the clock.} A learned update rule that beats a tuned classical optimizer step for step loses to it millisecond for millisecond.
     \item \textbf{The price of the main assumption.} The main results assume that the BS refreshes its precoder from the current channel; we quantify how much they depend on it, and add pilot airtime, estimation error and discrete phases.
 \end{enumerate}

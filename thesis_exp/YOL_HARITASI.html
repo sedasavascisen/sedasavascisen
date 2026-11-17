@@ -1,0 +1,218 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Tez yol haritası</title><style>
+@page { size: A4; margin: 18mm 15mm 18mm 15mm; }
+:root { --ink:#1b1f24; --mute:#5b6470; --line:#d5dae0; --accent:#1f4e79; --soft:#f3f6f9; }
+body { font-family: 'DejaVu Sans', sans-serif; font-size: 9.2pt; line-height: 1.45; color: var(--ink); background:#fff; }
+h1 { font-size: 17pt; color: var(--accent); margin: 0 0 6pt; }
+h2 { font-size: 12.5pt; color: var(--accent); margin: 14pt 0 5pt; border-bottom: 1px solid var(--line); padding-bottom: 2pt; }
+h3 { font-size: 10.5pt; margin: 11pt 0 4pt; } h4, h5, h6 { font-size: 9.6pt; margin: 9pt 0 3pt; }
+p, li { orphans: 3; widows: 3; } ul, ol { padding-left: 16pt; margin: 3pt 0 6pt; }
+code { font-family: 'DejaVu Sans Mono', monospace; font-size: 8pt; background: var(--soft); padding: 0 2pt; border-radius: 2px; word-break: break-word; }
+pre { background: var(--soft); padding: 6pt; font-size: 7.6pt; white-space: pre-wrap; border-radius: 3px; }
+table { border-collapse: collapse; width: 100%; margin: 6pt 0 10pt; font-size: 7.6pt; page-break-inside: auto; }
+tr { page-break-inside: avoid; } th, td { border: 1px solid var(--line); padding: 2.5pt 4pt; vertical-align: top; text-align: left; word-break: normal; overflow-wrap: break-word; }
+td code { word-break: break-all; }
+.cover th { white-space: nowrap; }
+th { background: var(--soft); }
+blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; background: #fbf1f0; }
+.part { page-break-before: always; } .parthead { border-bottom: 2px solid var(--accent); margin-bottom: 8pt; }
+.tag { display:inline-block; font-size: 8pt; color:#fff; background: var(--accent); padding: 1pt 5pt; border-radius: 3px; margin-right: 4pt; }
+.cover { height: 240mm; display:flex; flex-direction:column; justify-content:center; }
+.cover h1 { font-size: 24pt; } .cover .sub { font-size: 12pt; color: var(--mute); margin-bottom: 18pt; }
+.cover table { width: auto; font-size: 9pt; } .toc li { margin: 2pt 0; list-style: none; } .toc a { color: var(--ink); text-decoration: none; }
+</style></head><body><h1>Tez yol haritası (17 Kasım 2026)</h1>
+<blockquote>
+<p>Bu bir plan; tez metni değil (Kural 9). Her bölüm, dayanağı olan rapora ve sayılara bağlı. Sayıların hepsi ölçülmüş, ön kayıtlı ve bağımsız olarak denetlenmiş. Ölçüm fazı kapandı; bundan sonrası yazım.</p>
+</blockquote>
+<h2>Tezin tek cümlesi</h2>
+<p><strong>Hareketli RIS sistemlerinde hesaplama gecikmesi, yöntem sıralamasını belirleyen birinci sınıf bir tasarım kısıtıdır; bu tez bu kısıtı ölçer, yasasını çıkarır ve onu kullanan bir denetleyici tasarlar.</strong></p>
+<p>"Ne tasarladın?" sorusunun cevabı:</p>
+<blockquote>
+<p>Hareketli kullanıcıya hizmet eden RIS için, ölçülen Doppler'e ve donanım gecikmesine bakarak her güncellemede başlangıcı ve adım sayısını seçen gecikme farkındalıklı bir denetleyici tasarladım. Hiç görülmemiş bir çekilişte, sabit ayarlı en güçlü taban çizgisini +0.087 b/s/Hz geçiyor ve olası en iyi seçime 0.003 b/s/Hz yaklaşıyor.</p>
+</blockquote>
+<h2>Bölümler</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Bölüm</th>
+<th>İçerik</th>
+<th>Dayanak</th>
+<th>Durum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Giriş</td>
+<td>Savunu cümlesi, katkılar, tezin hikâyesi</td>
+<td><code>thesis_exp/juri/HIKAYE.md</code></td>
+<td>İskelet hazır</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Arka plan ve literatür</td>
+<td>RIS, faz optimizasyonu, kanal eskimesi, öğrenme; literatür boşluğu</td>
+<td><code>literatur_pdf/TABLO.md</code>; <code>makale2_revizyon/kaynak_kontrol/TOPLU_RAPOR.md</code>; <code>reports/Geniş bant RIS tez tavsiyeleri.md</code></td>
+<td>Kaynaklar doğrulandı</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Sistem modeli</td>
+<td>Kanal (TR 38.901 + Tang), hareketlilik, etkin hız tanımı</td>
+<td>Makale 2 §III–IV; <code>kazanc_duyarlilik/REPORT.md</code></td>
+<td>Hazır; eleman kazancı notu yazılmalı</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Faz gösterimi (Makale 1)</td>
+<td>sin/cos gösterimi, tek geçişli tahmin, faz hatası ölçütü</td>
+<td>Makale 1; S5 ve S5b</td>
+<td>Makale yayımlandı. Tezde etki tohuma bağlı diye yazılmalı.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Gecikme ve etkin hız (Makale 2)</td>
+<td>Sıralamanın tersine dönmesi, içsel optimum L*, x = ΔT·f_d yasası, pilot, CSI, ayrık faz</td>
+<td>Makale 2 (9 s., kaynakları kontrol edildi)</td>
+<td>Gönderime hazır</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Tasarım kuralı</td>
+<td>L*'ı önceden seçen kural, ön kayıtlı sınama</td>
+<td><code>tasarim_kurali/REPORT.md</code> (medyan kayıp %0.08)</td>
+<td>Hazır</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Sağlamlık: jürinin soruları</td>
+<td>Gerçekleştirme oranı (S1), Clarke kanalı (S2), Ryu farkı (S3), ön kodlayıcı eskimesi (S4)</td>
+<td><code>juri/REPORT_S3_S1.md</code>, <code>REPORT_S4_S2.md</code></td>
+<td>Hazır</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Geniş bant OFDM</td>
+<td>Kaç alt taşıyıcı kararı; 100 MHz'de K_opt = 16, +0.28; iç optimum dar banda özgü</td>
+<td><code>genis_bant/REPORT.md</code></td>
+<td>Hazır</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Tasarlanan sistem</strong></td>
+<td>Gecikme farkındalıklı denetleyici, mühürlü test, üç tasarım kararının ayrı katkıları</td>
+<td><code>sistem/SISTEM_RAPORU.pdf</code>, <code>FINAL.md</code>, <code>FINAL_EK.md</code></td>
+<td>Hazır</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Yapay zekâ ekseni</td>
+<td>Öğrenilen güncelleme kuralı; 28 GHz testi; titiz olumsuz sonuç ve değerlendirme protokolü</td>
+<td><code>juri/REPORT_S5.md</code>, <code>REPORT_S5b.md</code>; Makale 2</td>
+<td>Hazır</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Sonuç</td>
+<td>Katkılar, tasarım kuralları, sınırlar, gelecek çalışma</td>
+<td>Bu belge</td>
+<td>Yazılacak</td>
+</tr>
+</tbody>
+</table>
+<h2>Bölüm 9 için öneri: "tasarım" nasıl anlatılmalı</h2>
+<p>Sistemin kazancı üç ayrı kararın birleşiminden geliyor. Her birini ayrı ölçülmüş katkı olarak anlatmak, jüri karşısında en savunulabilir yol:</p>
+<ol>
+<li><strong>Başlangıç seçimi:</strong> SU-best-of; kapalı forma karşı kazancın yaklaşık %59'u.</li>
+<li><strong>Adım sayısı seçimi:</strong> eskime eğrisinden; en güçlü sabit seçime karşı +0.040…+0.087.</li>
+<li><strong>Sıcak başlangıç:</strong> önceki fazdan; periyodik kipte +0.051; yalnızca periyot kısayken kazandırıyor.</li>
+</ol>
+<p>Bunlara iki ek tasarım kuralı eşlik ediyor:</p>
+<ul>
+<li><strong>Doppler kestirimi:</strong> ±%20 hata zararsız; düşük kestirmek daha pahalı.</li>
+<li><strong>Zaman ölçekleri:</strong> ön kodlayıcı her slotta tazelenmeli; RIS fazı daha yavaş döngüde kalabilir.</li>
+</ul>
+<h2>Zaman çizelgesi (yaklaşık 2 ay)</h2>
+<table>
+<thead>
+<tr>
+<th>Hafta</th>
+<th>İş</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 (17–23 Kasım)</td>
+<td>Makale 2'nin son okuması ve gönderimi. Makale 1'in cilt ve sayısı. GitHub deposuna betiklerin eklenmesi.</td>
+</tr>
+<tr>
+<td>2–3</td>
+<td>Bölüm 3, 5, 6 ve 7. Makale 2'den genişletilerek; en hazır olanlar.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Bölüm 8 ve 9: geniş bant ve tasarlanan sistem.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Bölüm 4 ve 10: faz gösterimi ve yapay zekâ ekseni, olumsuz sonuçlar dürüstçe.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Bölüm 1, 2 ve 11: giriş, literatür, sonuç.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Danışman okuması ve düzeltmeler.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Savunma sunumu; jüri soru-cevap provası (<code>juri/JURI_RAPORU.pdf</code> hazır).</td>
+</tr>
+</tbody>
+</table>
+<h2>Açık kararlar ve riskler</h2>
+<table>
+<thead>
+<tr>
+<th>Konu</th>
+<th>Durum</th>
+<th>Öneri</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RIS eleman kazancı (kod 6, Tang 4)</td>
+<td>Makalede belirtildi; etkisi küçük (mutlak hızlar ~%5 düşük, sıralama aynı)</td>
+<td>Tezde de aynı notla yazılmalı; paket değiştirilmedi.</td>
+</tr>
+<tr>
+<td>Tek geometri ve tek kanal modeli</td>
+<td>En büyük sınır</td>
+<td>Gelecek çalışma olarak yazılmalı. Clarke kanalı sağlamlık kontrolü olarak var.</td>
+</tr>
+<tr>
+<td>Makale 1'in künyesi</td>
+<td>Cilt ve sayı doğrulanmadı</td>
+<td>Wiley sayfasından kontrol et.</td>
+</tr>
+<tr>
+<td>Ölçüm fazı</td>
+<td>Kapalı</td>
+<td>Yeni deney açılmamalı. İstisna: jüri ikinci bir geometri isterse, aynı ön kayıtla tek bir genellenebilirlik testi.</td>
+</tr>
+<tr>
+<td>Python gecikmesi</td>
+<td>Sıralama gecikme oranına bağlı (S1)</td>
+<td>Tezde "sıralamayı dil değil, gecikme oranı belirler" diye yazılmalı.</td>
+</tr>
+</tbody>
+</table>
+<h2>Jüriye en olası beş soru ve hazır cevapları</h2>
+<p><code>juri/JURI_RAPORU.pdf</code> dosyasında her biri ölçülmüş cevapla yer alıyor:
+1. Gerçekleştirme;
+2. L*'ın fiziksel olup olmadığı;
+3. Ryu ve ark.'tan fark;
+4. Ön kodlayıcı eskimesi;
+5. Yapay zekâdan geriye ne kaldığı.</p>
+<p>Altıncı olası soru "ne tasarladın?". Cevabı yukarıda ve <code>sistem/SISTEM_RAPORU.pdf</code> dosyasında.</p></body></html>

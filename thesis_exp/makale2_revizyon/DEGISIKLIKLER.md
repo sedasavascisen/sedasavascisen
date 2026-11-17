@@ -211,3 +211,20 @@ Kaynakça 49 → 46 (Gudmundson1991, rappaport_wireless, Efron1993 artık atıf 
 | Kaynakça, SavasciSen2026AISY | "volume={8}, number={9}" kaldırıldı | PDF "Early View": cilt ve sayı yok. Doğrulanamayan alanlar risk olmasın diye çıkarıldı; e70460 ve DOI kaldı. Makale bir sayıya atandıysa yeniden eklenmeli. |
 
 Makale 9 sayfa, 46 kaynak.
+
+## 17. tur (17 Kasım 2026): son okuma denetiminin bulguları (`DENETIM_FINAL.md`; 7 orta bulgu ve 3 küçük bulgu)
+
+| Yer | Önce | Sonra |
+| --- | --- | --- |
+| Yöntem | "…shows what changes for faster code." | "…shows what changes for a faster Adam step." (§VI-C yalnızca Adam adımını ölçekliyor; derlenmiş CD bulgusuyla çelişmesin) |
+| Sonuç, madde 1 | "The solvers with the best rate on paper lose to…" | "At the measured step costs, the slow solvers lose to…" |
+| Sonuç, sınırlar | "…leave the slow solvers behind;" | "…leave the slow solvers behind tuned Adam;" (§VI-H ile uyum) |
+| Sonuç, sınırlar | "compiled alone (62–63-fold faster), coordinate descent overtakes Python Adam" | "if only coordinate descent is compiled (62–63-fold faster), it overtakes Python Adam" |
+| Özet | "…long-run Adam, the methods with the highest initial-channel rate," | "…long-run Adam, two solvers with high initial-channel rates," (Adam-48'in t = 0 hızı CD'ninkinden yüksek) |
+| Sonuçlar, §VI-D | "at the user speeds of the standards: …18 km/h (5 m/s)…" | "at the speeds of the standards and two higher ones: …18 km/h (5 m/s, our choice in the vehicular class)…" |
+| İlgili çalışmalar | "and where measured, on fixed channel realizations […], it is not compared…" (yüklemsiz) | "and where it is measured, on fixed channel realizations […], it is not compared…" |
+| Giriş, Sonuç, §VI-E başlığı | "each update should still be short" / "Updates Stay Short" | "short updates (at most 8 steps) suffice" / "Short Updates Suffice" (§VI-E'nin kendi metniyle ve Tablo III ile uyumlu) |
+| Giriş, katkı 2 | "In the narrowband model it holds for…" | "In the narrowband model the optimum persists for…" |
+| Sonuç | "centre-frequency" | "center-frequency" (ABD yazımı) |
+
+Uygulanmayan küçük bulgular `DENETIM_FINAL.md`'de listeli ve isteğe bağlı: Şekil 3 altyazısı, statik küme toplamı, §VI-H'deki CD 0.70 s, iş parçacığı cümlesi, 30 dB CSI açıklaması. Makale 9 sayfa.
