@@ -163,3 +163,12 @@ Makale 9 sayfa. Bu düzeltme makalenin katkısını daraltıyor ama ortadan kald
 | Kaynakça | Truong2013JCN: "R. W. Heath" | "R. W. Heath Jr." | PDF'te basılı hâli. |
 
 Makale 9 sayfa (`kaynak_kontrol/grup6_han_truong_chopra_jindal_zhao.md`).
+
+## 13. tur (17 Kasım 2026): kaynak kontrolü grup 7'nin önerileri
+
+| Yer | Değişiklik | Gerekçe |
+| --- | --- | --- |
+| İlgili çalışmalar, çalışma süresi cümlesi | "where measured, on fixed channel realizations [Abeywickrama, Yu, Shi]" → "[…, Cao2022TWC]" | Cao ve ark. iterasyon başına süreyi MATLAB'da ölçüyor ("millisecond level", s. 10433–10434; Şekil 7), ama slot ya da çerçeve süresiyle karşılaştırmıyor; süre eskime gecikmesine girmiyor. |
+| Sonuç, sınırlar | "RIS switching time is not modeled" → "RIS switching time (≥0.72 ms in [Zhao2024OJCOMS]) is not modeled" | 2 bitlik prototipte yeni faz desenine geçiş en az 0.72 ms (s. 4890). Sınırlamaya ölçek veriyor. |
+
+Peel (düzenlileştirilmiş ZF, λ = Kσ²/P) ve Nadeem (maks-min SINR) doğru; künyelerin hepsi uyuşuyor. Makale 9 sayfa (`kaynak_kontrol/grup7_cao_wu_zhao_peel_nadeem.md`).
