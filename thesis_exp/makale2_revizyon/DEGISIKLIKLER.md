@@ -107,3 +107,13 @@ Makale 9 sayfa.
 | İlgili çalışmalar, "Learning" | Kısaltıldı: "Predicting the sine and cosine of each phase removes the ±π discontinuity of direct phase regression~[SavasciSen2026AISY]." Anlam aynı. |
 
 Makale 9 sayfa. Kaynak listesi: `KAYNAK_LISTESI.md` (49 kaynak; kullanıcı PDF'leri gönderecek, her biri tek tek kontrol edilecek).
+
+## 7. tur (17 Kasım 2026): kaynak kontrolü grup 1'in önerileri (kullanıcı onayıyla)
+
+| Yer | Önce | Sonra | Gerekçe |
+| --- | --- | --- | --- |
+| Giriş, 1. cümle | "…covered one~[Basar, Wu2019TWC, DiRenzo, Wu2021]" | "…covered one~[Basar, DiRenzo, Wu2021]" | Wu ve Zhang (2019) bir optimizasyon makalesi; kapsama iddiasını zayıf destekliyor. Diğer üçü açıkça destekliyor (`kaynak_kontrol/grup1_kaynak_01_05.md`). |
+| Giriş, prototip cümlesi | "RIS hardware has been prototyped~[Dai], and one prototype has strengthened…" | "a 256-element RIS has served as a transmit antenna~[Dai], and another prototype has strengthened…" | Dai ve ark. RIS'i verici anten olarak kullanıyor, yansıtıcı olarak değil (dipnot 1, s. 45914). |
+| Sonuç, enumerate sonrası | "latency is therefore not a secondary metric" | "latency is not a secondary metric" | Yer kazanmak için; anlam aynı. |
+
+Makale 9 sayfa. Kaynak numaraları değişti: Wu2019TWC artık ilk cümlede değil.

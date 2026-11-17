@@ -26,11 +26,6 @@ E.~Basar, M.~D. Renzo, J.~D. Rosny, M.~Debbah, M.-S. Alouini, and R.~Zhang,
   ``Wireless communications through reconfigurable intelligent surfaces,''
   \emph{IEEE Access}, vol.~7, pp. 116\,753--116\,773, 2019.
 
-\bibitem{Wu2019TWC}
-Q.~Wu and R.~Zhang, ``Intelligent reflecting surface enhanced wireless network
-  via joint active and passive beamforming,'' \emph{IEEE Transactions on
-  Wireless Communications}, vol.~18, no.~11, pp. 5394--5409, 2019.
-
 \bibitem{DiRenzo2020JSAC}
 M.~D. Renzo, A.~Zappone, M.~Debbah, M.-S. Alouini, C.~Yuen, J.~de~Rosny, and
   S.~Tretyakov, ``Smart radio environments empowered by reconfigurable
@@ -55,6 +50,11 @@ X.~Pei, H.~Yin, L.~Tan, L.~Cao, Z.~Li, K.~Wang, K.~Zhang, and E.~Bj{\"o}rnson,
   ``{RIS}-aided wireless communications: Prototyping, adaptive beamforming, and
   indoor/outdoor field trials,'' \emph{IEEE Transactions on Communications},
   vol.~69, no.~12, pp. 8627--8640, 2021.
+
+\bibitem{Wu2019TWC}
+Q.~Wu and R.~Zhang, ``Intelligent reflecting surface enhanced wireless network
+  via joint active and passive beamforming,'' \emph{IEEE Transactions on
+  Wireless Communications}, vol.~18, no.~11, pp. 5394--5409, 2019.
 
 \bibitem{Abeywickrama2020TCOM}
 S.~Abeywickrama, R.~Zhang, Q.~Wu, and C.~Yuen, ``Intelligent reflecting
@@ -89,6 +89,13 @@ C.~Huang, R.~Mo, and C.~Yuen, ``Reconfigurable intelligent surface assisted
 {3GPP}, ``Study on channel model for frequencies from 0.5 to 100 {GHz},'' 3rd
   Generation Partnership Project (3GPP), Technical Report TR 38.901, V16.1.0
   (Release 16), Dec. 2019.
+
+\bibitem{SavasciSen2026AISY}
+S.~{Savaşçı Şen}, A.~Çalhan, M.~Cicioğlu, and O.~Demiryürek,
+  ``Overcoming the phase discontinuity problem in {RIS} optimization: A robust
+  and scalable phase-aware deep regression framework via hybrid {CNN--LSTM}
+  architecture,'' \emph{Advanced Intelligent Systems}, vol.~8, no.~9, p.
+  e70460, 2026.
 
 \bibitem{Yu2019ICCC}
 X.~Yu, D.~Xu, and R.~Schober, ``{MISO} wireless communication systems via
@@ -139,13 +146,6 @@ H.~Sun, X.~Chen, Q.~Shi, M.~Hong, X.~Fu, and N.~D. Sidiropoulos, ``Learning to
   optimize: Training deep neural networks for interference management,''
   \emph{IEEE Transactions on Signal Processing}, vol.~66, no.~20, pp.
   5438--5453, 2018.
-
-\bibitem{SavasciSen2026AISY}
-S.~{Savaşçı Şen}, A.~Çalhan, M.~Cicioğlu, and O.~Demiryürek,
-  ``Overcoming the phase discontinuity problem in {RIS} optimization: A robust
-  and scalable phase-aware deep regression framework via hybrid {CNN--LSTM}
-  architecture,'' \emph{Advanced Intelligent Systems}, vol.~8, no.~9, p.
-  e70460, 2026.
 
 \bibitem{Huang2022TWC}
 Z.~Huang, B.~Zheng, and R.~Zhang, ``Transforming fading channel from fast to
