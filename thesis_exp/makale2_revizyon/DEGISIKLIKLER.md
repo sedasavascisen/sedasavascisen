@@ -197,3 +197,17 @@ Makale 9 sayfa.
 | Yöntem, pilot | "With the scheme of [Wang2020TWC], 48 pilot symbols suffice…" | "With the uplink scheme of [Wang2020TWC] and TDD reciprocity, 48 pilot symbols suffice…" (grup 9: kaynak yukarı bağlantı pilotlarına dayanıyor; 48 = 4 + 32 + max(3, 12), denklem 62) |
 
 Kaynakça 49 → 46 (Gudmundson1991, rappaport_wireless, Efron1993 artık atıf almıyor). Makale 9 sayfa.
+
+## 16. tur (17 Kasım 2026): kaynak kontrolü grup 10 ve künye düzeltmeleri
+
+| Yer | Değişiklik | Gerekçe |
+| --- | --- | --- |
+| Özet | "in a standardized indoor-office…" → "in an indoor-office…" | 3GPP'nin InH senaryosu 120×50×3 m, 3 km/h (TR 38.901 Tablo 7.2-2). Bizim oda ve hız farklı; yalnızca kanal modeli 3GPP'den. |
+| Giriş | "in the 3GPP indoor-office scenario with walking users [3gpp_channel]" → "in an indoor office with walking users and the 3GPP TR 38.901 channel model [3gpp_channel]" | Aynı gerekçe. |
+| Sistem modeli | "LoS probability" → "mixed-office LoS probability" | Kod, TR 38.901 Tablo 7.4.2-1'in mixed-office satırını kullanıyor. |
+| İlgili çalışmalar | "is at most a feasibility check [Ryu, Liu]" → "is at most a feasibility check or a fixed overhead [Ryu, Liu]" | Ryu ve ark. T_opt'u amaçta sabit bir ek yük olarak da kullanıyor (denklem 13–15); süre FLOP'tan tahmin ediliyor, eskimeye girmiyor. |
+| Kaynakça, Ryu2026arXiv | yalnızca soyadlar → "S. Ryu, S. Choi, H. J. Yang, J. M. Cioffi"; "arXiv:2608.25393v1, submitted to IEEE Trans. Wireless Commun." | PDF'te basılı hâli. |
+| Kaynakça, 3gpp_nr_phy | V16.2.0 → V16.3.0 | Kontrol edilen belge V16.3.0. Kullanılan tanımlar (Tablo 4.2-1, 4.3.2-1) aynı. |
+| Kaynakça, SavasciSen2026AISY | "volume={8}, number={9}" kaldırıldı | PDF "Early View": cilt ve sayı yok. Doğrulanamayan alanlar risk olmasın diye çıkarıldı; e70460 ve DOI kaldı. Makale bir sayıya atandıysa yeniden eklenmeli. |
+
+Makale 9 sayfa, 46 kaynak.

@@ -94,8 +94,7 @@ C.~Huang, R.~Mo, and C.~Yuen, ``Reconfigurable intelligent surface assisted
 S.~{Savaşçı Şen}, A.~Çalhan, M.~Cicioğlu, and O.~Demiryürek,
   ``Overcoming the phase discontinuity problem in {RIS} optimization: A robust
   and scalable phase-aware deep regression framework via hybrid {CNN--LSTM}
-  architecture,'' \emph{Advanced Intelligent Systems}, vol.~8, no.~9, p.
-  e70460, 2026.
+  architecture,'' \emph{Advanced Intelligent Systems}, p. e70460, 2026.
 
 \bibitem{Yu2019ICCC}
 X.~Yu, D.~Xu, and R.~Schober, ``{MISO} wireless communication systems via
@@ -214,9 +213,10 @@ Y.~Zhao, Y.~Feng, A.~M. Ismail, Z.~Wang, Y.~L. Guan, Y.~Guo, and C.~Yuen,
   Open Journal of the Communications Society}, vol.~5, pp. 4885--4901, 2024.
 
 \bibitem{Ryu2026arXiv}
-Ryu, Choi, Yang, and Cioffi, ``End-to-end mobility-aware multi-{RIS}
-  optimization via blockage detection and closed-form {R}iemannian updates,''
-  arXiv:2608.25393, 2026.
+S.~Ryu, S.~Choi, H.~J. Yang, and J.~M. Cioffi, ``End-to-end mobility-aware
+  multi-{RIS} optimization via blockage detection and closed-form {R}iemannian
+  updates,'' arXiv:2608.25393v1, submitted to IEEE Trans. Wireless Commun.,
+  2026.
 
 \bibitem{Peel2005TCOM}
 C.~B. Peel, B.~M. Hochwald, and A.~L. Swindlehurst, ``A vector-perturbation
@@ -275,6 +275,6 @@ Z.~Wang, L.~Liu, and S.~Cui, ``Channel estimation for intelligent reflecting
 
 \bibitem{3gpp_nr_phy}
 {3GPP}, ``{NR}; physical channels and modulation,'' 3rd Generation Partnership
-  Project (3GPP), Technical Specification TS 38.211 V16.2.0 (Release 16), 2020.
+  Project (3GPP), Technical Specification TS 38.211 V16.3.0 (Release 16), 2020.
 
 \end{thebibliography}

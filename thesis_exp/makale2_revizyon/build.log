@@ -85,13 +85,15 @@ Underfull \hbox (badness 1418) in paragraph at lines 5--6
 \OMS/cmsy/m/n/10 f\OT1/cmr/bx/n/10 F\OML/cmm/m/it/10 ; \OT1/cmr/bx/n/10 g[]\OT1
 /cmr/m/n/10 (0)\OML/cmm/m/it/10 ; \OT1/cmr/bx/n/10 h[]\OT1/cmr/m/n/10 (0)\OMS/c
 msy/m/n/10 g$\T1/ptm/m/n/10 , re-turn the phase $[][]$, and need the
-[2] [3 <./figures/fig_scenario.pdf>]) (./sections/section_05_methodology.tex)
-(./sections/section_06_results.tex [4] (./tables/tab_aging.tex) [5 <./figures/f
-ig_aging.pdf> <./figures/fig_intrinsic_optimum.pdf>] (./tables/tab_speeds.tex)
-[6 <./figures/fig_step_scaling.pdf>] (./tables/tab_tracking.tex))
-(./sections/section_07_conclusion.tex [7])
-Underfull \vbox (badness 10000) has occurred while \output is active
-(./mobility_paper_ieee.bbl [8 <./figures/fig_equal_step_vs_ms.pdf>]
+[2] [3 <./figures/fig_scenario.pdf>]) (./sections/section_05_methodology.tex
+[4]) (./sections/section_06_results.tex (./tables/tab_aging.tex)
+Underfull \vbox (badness 10000) has occurred while \output is active [5 <./figu
+res/fig_aging.pdf> <./figures/fig_intrinsic_optimum.pdf>]
+(./tables/tab_speeds.tex)
+Underfull \vbox (badness 10000) has occurred while \output is active [6 <./figu
+res/fig_step_scaling.pdf>] (./tables/tab_tracking.tex))
+(./sections/section_07_conclusion.tex [7]) (./mobility_paper_ieee.bbl [8 <./fig
+ures/fig_equal_step_vs_ms.pdf>]
 Underfull \hbox (badness 5217) in paragraph at lines 222--226
 []\T1/ptm/m/n/8 C. B. Peel, B. M. Hochwald, and A. L. Swindle-hurst, ``A
 ) [9] (./mobility_paper_ieee.aux) )
@@ -118,5 +120,5 @@ msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/urw/times/utmri8a.pfb>
-Output written on mobility_paper_ieee.pdf (9 pages, 461737 bytes).
+Output written on mobility_paper_ieee.pdf (9 pages, 461701 bytes).
 Transcript written on mobility_paper_ieee.log.
