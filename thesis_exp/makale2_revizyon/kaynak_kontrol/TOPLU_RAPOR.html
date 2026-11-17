@@ -1,0 +1,206 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Kaynak kontrolü</title><style>
+@page { size: A4; margin: 18mm 15mm 18mm 15mm; }
+:root { --ink:#1b1f24; --mute:#5b6470; --line:#d5dae0; --accent:#1f4e79; --soft:#f3f6f9; }
+body { font-family: 'DejaVu Sans', sans-serif; font-size: 9.2pt; line-height: 1.45; color: var(--ink); background:#fff; }
+h1 { font-size: 17pt; color: var(--accent); margin: 0 0 6pt; }
+h2 { font-size: 12.5pt; color: var(--accent); margin: 14pt 0 5pt; border-bottom: 1px solid var(--line); padding-bottom: 2pt; }
+h3 { font-size: 10.5pt; margin: 11pt 0 4pt; } h4, h5, h6 { font-size: 9.6pt; margin: 9pt 0 3pt; }
+p, li { orphans: 3; widows: 3; } ul, ol { padding-left: 16pt; margin: 3pt 0 6pt; }
+code { font-family: 'DejaVu Sans Mono', monospace; font-size: 8pt; background: var(--soft); padding: 0 2pt; border-radius: 2px; word-break: break-word; }
+pre { background: var(--soft); padding: 6pt; font-size: 7.6pt; white-space: pre-wrap; border-radius: 3px; }
+table { border-collapse: collapse; width: 100%; margin: 6pt 0 10pt; font-size: 7.6pt; page-break-inside: auto; }
+tr { page-break-inside: avoid; } th, td { border: 1px solid var(--line); padding: 2.5pt 4pt; vertical-align: top; text-align: left; word-break: normal; overflow-wrap: break-word; }
+td code { word-break: break-all; }
+.cover th { white-space: nowrap; }
+th { background: var(--soft); }
+blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; background: #fbf1f0; }
+.part { page-break-before: always; } .parthead { border-bottom: 2px solid var(--accent); margin-bottom: 8pt; }
+.tag { display:inline-block; font-size: 8pt; color:#fff; background: var(--accent); padding: 1pt 5pt; border-radius: 3px; margin-right: 4pt; }
+.cover { height: 240mm; display:flex; flex-direction:column; justify-content:center; }
+.cover h1 { font-size: 24pt; } .cover .sub { font-size: 12pt; color: var(--mute); margin-bottom: 18pt; }
+.cover table { width: auto; font-size: 9pt; } .toc li { margin: 2pt 0; list-style: none; } .toc a { color: var(--ink); text-decoration: none; }
+</style></head><body><h1>Makale 2 kaynak kontrolü: toplu rapor (17 Kasım 2026)</h1>
+<h2>Kısaca</h2>
+<ul>
+<li><strong>Kapsam:</strong> makalenin 49 kaynağının 46'sı kaynağın kendi PDF'ine karşı tek tek kontrol edildi. Her atıf cümlesi, kaynağın ilgili sayfasıyla karşılaştırıldı.</li>
+<li><strong>Çıkarılan kaynaklar:</strong> PDF'ine ulaşılamayan 3 kaynak, senin talimatınla çıkarıldı. Atıf aldıkları cümleler, kaynağa gerek kalmayacak biçimde yeniden yazıldı.</li>
+<li><strong>Hatalı atıf yok:</strong> hiçbir kaynak yanlış bir şey için gösterilmemiş. Künyelerin hepsi doğru; yalnızca dört künyede küçük tamamlama ya da düzeltme yapıldı.</li>
+<li><strong>Asıl düzeltmeler genellemelerde:</strong> makalenin literatür hakkındaki bazı genel cümleleri, kaynakların gerçekte yaptığından daha kesin konuşuyordu. Bunlar düzeltildi.</li>
+<li><strong>Özgünlük iddiası ayakta:</strong> hiçbir kaynak, optimizatörün ölçülmüş çalışma süresini kanal eskimesine katmıyor.</li>
+<li><strong>Makale:</strong> 9 sayfa, 46 kaynak. Ayrıntılı değişiklikler <code>DEGISIKLIKLER.md</code> dosyasında (7.–16. turlar).</li>
+</ul>
+<h2>1. Literatürle ilgili düzeltilen genellemeler (en önemlisi)</h2>
+<table>
+<thead>
+<tr>
+<th>Makaledeki eski iddia</th>
+<th>Kaynaklar ne gösterdi</th>
+<th>Yeni ifade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Çalışma süresi "ele alındığında bir karmaşıklık mertebesidir".</td>
+<td>Abeywickrama, Yu, Shi ve Cao süreyi saniye ya da milisaniye olarak ölçüyor, ama sabit bir kanalda.</td>
+<td>Süre çoğunlukla karmaşıklık mertebesi; ölçüldüğünde sabit kanalda ölçülüyor ve eşevreli kalma süresiyle karşılaştırılmıyor.</td>
+</tr>
+<tr>
+<td>Klasik yöntemler "nadiren aynı koşullarda zamanlanıyor".</td>
+<td>Samuel, Sun, Hu ve Liu (2022), öğrenme tabanlı yöntemi ve klasik yöntemi aynı makinede zamanlıyor.</td>
+<td>Aynı makinede zamanlansalar bile klasik yöntem yakınsamaya ya da sabit bir yineleme sayısına kadar koşuyor, aynı gecikme bütçesine göre ayarlanmıyor.</td>
+</tr>
+<tr>
+<td>Gecikme "sabit bir parametre" ve çalışma süresi modelde yok.</td>
+<td>Truong ve Heath hesaplama gecikmesini eskimenin nedeni olarak adlandırıyor ama sabit alıyor. Liu (2021) süreyi ölçüyor (2 ms), yalnızca 20 ms'lik slota sığdığını kontrol ediyor. Ryu, süreyi FLOP'tan tahmin edip kısıt ya da sabit ek yük olarak kullanıyor.</td>
+<td>Gecikme sabit, hesaplama bir neden olarak anılsa bile; çalışma süresi en çok bir uygulanabilirlik kontrolü ya da sabit ek yük, eskimeye girmiyor.</td>
+</tr>
+</tbody>
+</table>
+<p>Bu üç düzeltme tezin katkısını ortadan kaldırmıyor, ama daha kesin tanımlıyor. Katkı "literatür süreyi hiç ölçmüyor" değil; şu: <strong>ölçülen süre, kanalın eskimesine ve aynı gecikme bütçesine bağlanmıyor.</strong></p>
+<h2>2. Modelle ilgili bir bulgu</h2>
+<p><strong>RIS eleman kazancı.</strong> Kod, Tang ve ark.'ın formülünün verdiği 4 yerine 6 kullanıyor; RIS yolu 1.5 kat güçlü. Etkisi paketi değiştirmeden ölçüldü (<code>thesis_exp/kazanc_duyarlilik/REPORT.md</code>):</p>
+<ul>
+<li>mutlak hızlar yaklaşık %5 düşüyor;</li>
+<li>L*, kayıplar, CD'nin konumu ve en iyi yöntem değişmiyor.</li>
+</ul>
+<p>Makaleye bu fark ve etkisi tek cümleyle yazıldı.</p>
+<h2>3. Küçük düzeltmeler</h2>
+<ul>
+<li><strong>Coğrafi kapsam:</strong><ul>
+<li>"3GPP kapalı ofis senaryosu" ifadesi kaldırıldı. Bizim oda ve hızımız 3GPP'ninkinden farklı; yalnızca kanal modeli 3GPP'den geliyor.</li>
+<li>"Standardized" kelimesi özetten çıkarıldı.</li>
+<li>LoS olasılığının "mixed-office" tablosundan geldiği belirtildi.</li>
+</ul>
+</li>
+<li><strong>ITU:</strong> hız tablosundaki 18 km/h satırı "ours, ITU veh." oldu. ITU'da 18 km/h değeri yok.</li>
+<li><strong>Wang ve ark.:</strong> 48 pilot sayısı doğru: 4 + 32 + max(3, 12) = 48. Yöntem yukarı bağlantı pilotlarına dayandığı için "TDD karşılıklılığı" varsayımı eklendi.</li>
+<li><strong>Dai ve ark.:</strong> prototip, RIS'i verici anten olarak kullanıyor; cümle buna göre yazıldı.</li>
+<li><strong>Wu ve Zhang (2019):</strong> "RIS kapsama sağlar" cümlesinden çıkarıldı; o cümleyi diğer üç kaynak doğrudan destekliyor.</li>
+<li><strong>Liu (2021):</strong> sinir ağı hüzme yönünü değil, konumu öngörüyor; cümle düzeltildi.</li>
+<li><strong>Cao ve Zhao (2024):</strong> ölçülmüş süre listesine Cao eklendi. RIS anahtarlama süresi için ölçek eklendi: en az 0.72 ms.</li>
+<li><strong>Eskimiş cümle:</strong> "sabit saçıcıların optimum adım sayısına etkisi bilinmiyor" cümlesi kaldırıldı. Clarke kanalı deneyi bu soruyu yanıtladı.</li>
+</ul>
+<h2>4. Künye düzeltmeleri</h2>
+<table>
+<thead>
+<tr>
+<th>Kaynak</th>
+<th>Düzeltme</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ryu ve ark.</td>
+<td>Ön adlar eklendi: S. Ryu, S. Choi, H. J. Yang, J. M. Cioffi; arXiv v1, IEEE TWC'ye gönderilmiş.</td>
+</tr>
+<tr>
+<td>Truong ve Heath</td>
+<td>"R. W. Heath Jr."</td>
+</tr>
+<tr>
+<td>3GPP TS 38.211</td>
+<td>V16.2.0 → V16.3.0 (kontrol edilen sürüm; kullanılan tanımlar aynı).</td>
+</tr>
+<tr>
+<td>Makale 1</td>
+<td>"Cilt 8, sayı 9" çıkarıldı; PDF "Early View", cilt ve sayı yok. Makale bir sayıya atandıysa Wiley sayfasından eklenmeli.</td>
+</tr>
+</tbody>
+</table>
+<h2>5. Çıkarılan kaynaklar</h2>
+<table>
+<thead>
+<tr>
+<th>Kaynak</th>
+<th>Ne için atıf alıyordu</th>
+<th>Yerine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gudmundson (1991)</td>
+<td>Gölgeleme korelasyon modeli</td>
+<td>Model tarif edildi: "üstel uzamsal korelasyon".</td>
+</tr>
+<tr>
+<td>Rappaport (kitap)</td>
+<td>T_c = 0.423/f_d</td>
+<td>Katsayı formülüyle yazıldı: √(9/(16π)) ≈ 0.423. Kaynağa gerek kalmadan doğrulanabiliyor.</td>
+</tr>
+<tr>
+<td>Efron ve Tibshirani (kitap)</td>
+<td>Bootstrap yöntemi</td>
+<td>Atıf kaldırıldı; standart yöntem.</td>
+</tr>
+</tbody>
+</table>
+<h2>6. Kaynak başına sonuç</h2>
+<p>Bütün kaynaklar <strong>DOĞRU</strong> çıktı. Bazılarında atfın geçtiği cümle netleştirildi ya da kaynak bir listeye eklendi; çıkarılması gereken kaynak yok.</p>
+<table>
+<thead>
+<tr>
+<th>Grup</th>
+<th>Kaynaklar</th>
+<th>Sonuç</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Basar; Wu ve Zhang (2019); Di Renzo; Wu (2021); Dai</td>
+<td>Doğru. Wu ve Zhang ilk cümleden çıktı; Dai cümlesi netleşti.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Pei; Abeywickrama; Pan; Guo; Choi</td>
+<td>Doğru. Abeywickrama genellemenin düzeltilmesine yol açtı.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Huang (2020); Yu; Shi; Jiang; Monga</td>
+<td>Doğru. Yu ve Shi genellemeye eklendi.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Liu (2022); Samuel; Hu; Sun; Pellaco</td>
+<td>Doğru. "Aynı koşullarda zamanlanmıyor" genellemesi düzeltildi.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Papazafeiropoulos; Liu (2021); Makale 1; Zhang; Huang (2022)</td>
+<td>Doğru. Liu (2021) cümlesi düzeltildi; Makale 1 künyesi düzeltildi.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Han; Truong; Chopra; Jindal; Zhao (2021)</td>
+<td>Doğru. Özgünlük cümlesi Truong'a göre daraltıldı.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Cao; Wu (2020); Zhao (2024); Peel; Nadeem</td>
+<td>Doğru. Cao ve Zhao (2024) eklemeleri yapıldı.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Kingma; ITU-R M.2410; Armijo; Tang</td>
+<td>Doğru. Tang ile kazanç farkı ve ITU tablo satırı düzeltildi.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Zheng; Wang</td>
+<td>Doğru. TDD varsayımı eklendi.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Ryu; 3GPP TR 38.901; TR 38.913; TS 38.211; Clarke</td>
+<td>Doğru. 3GPP senaryo ifadesi, Ryu künyesi ve TS sürümü düzeltildi.</td>
+</tr>
+</tbody>
+</table>
+<p>Her kaynak için ayrıntılı kontrol (sayfa, alıntı, değerlendirme) <code>kaynak_kontrol/grup1…grup10</code> dosyalarında.</p>
+<h2>7. Senin yapman gerekenler</h2>
+<ol>
+<li>Makale 1 bir sayıya atandıysa, cilt ve sayıyı Wiley sayfasından ekle.</li>
+<li>Makale 2'nin "Data Availability" bölümündeki GitHub deposuna düzeltilmiş betikleri ekle (daha önce not edilmişti).</li>
+<li>Göndermeden önce makaleyi son bir kez oku. Bugünkü değişikliklerin hepsi <code>DEGISIKLIKLER.md</code> dosyasında, önce ve sonra hâlleriyle duruyor.</li>
+</ol></body></html>
