@@ -2,6 +2,12 @@
 
 > Bu bölüm bir tez metni değildir (Kural 9). Tezin bölümlerini birbirine bağlayan neden-sonuç zincirini, her halkayı ölçülmüş ve denetlenmiş bir sayıya dayandırarak gösterir. Cümleler savunma ve yazım için bir iskelettir; tezdeki ifade sana aittir. Makale 1'in kendi sayıları burada kullanılmadı, çünkü Makale 1 bu çalışmanın denetim kapsamı dışında.
 
+## Kapsam
+
+Bu tezde "RIS tasarımı", yüzeyin donanımı değil, hareketli kullanıcılar için **faz kontrolünün tasarımı** anlamında kullanılıyor.
+
+**Temel tasarım ilkesi (iki zaman ölçeği):** ön kodlayıcı her slotta güncel kanaldan tazelenir; RIS fazı daha yavaş, gecikmesi ölçülmüş bir döngüde güncellenir. Bu ölçülmüş bir zorunluluk: ön kodlayıcı da eskirse sistem yaklaşık 1 ms içinde çöküyor (`REPORT_S4_S2.md`). Tezin bütün sonuçları bu ilkenin içinde geçerlidir.
+
 ## Savunu cümlesi
 
 **Hareketli RIS sistemlerinde hesaplama gecikmesi ikincil bir ölçüt değil; yöntemlerin sıralamasını belirleyen birinci sınıf bir tasarım kısıtıdır.**
@@ -10,7 +16,7 @@
 
 ### 1. Başlangıç sorusu: daha doğru faz, daha iyi sistem mi? (Makale 1)
 
-Makale 1, RIS fazını tek geçişte tahmin eden bir ağ kurar ve fazın ±π süreksizliğini sin/cos gösterimiyle giderir. Başarı ölçütü faz hatasıdır (RMSE). Bu, tezin ilk sorusunu doğurur: faz hatasını azaltmak sistemin hızını da artırır mı?
+Makale 1, RIS fazını tek geçişte tahmin eden bir ağ kurar ve başarıyı faz hatasıyla (RMSE) ölçer. Makale 1, tezde yöntemin yeniliği olarak değil, **başlangıç noktası** olarak durur: sin/cos gösterimi başka çalışmalarda da var ve bu tezin kendi deneyinde avantajı tohuma bağlı çıktı. Makale 1'in asıl katkısı, tezin ilk sorusunu doğurmasıdır: faz hatasını azaltmak, hareketli bir sistemde hızı da artırır mı?
 
 ### 2. Kırılma: ölçüt merdiveni
 
@@ -59,6 +65,17 @@ Tez, öğrenmeye en elverişli rejimi bilerek aradı: 28 GHz, 1.5 m/s, T_c ≈ 3
 - **Makale 1'le bağ:** sin/cos avantajı bu kurguda tohuma bağlı; üç tohumdan yalnızca birinde anlamlı.
 
 Bu, yapay zekâ ekseninin titiz bir olumsuz sonuçla kapanması demek. Kapsamı: bu mimari ailesi ve bu eğitim bütçesi. Tezde öğrenmenin katkısı bir yöntem olarak değil, bir **değerlendirme protokolü** olarak kalıyor: öğrenilen her yöntem, ölçülmüş gecikmede ve her bütçede ayarlanmış klasik bir rakibe karşı değerlendirilmeli.
+
+## Tasarlanan denetleyicinin kazancı, dürüst ölçüyle
+
+Mühürlü testte (seed 41; `sistem/katki_ayrisimi.py`) kazanç ayrı kararlara ayrışıyor:
+- başlangıç seçimi: +0.057 (%1.14);
+- koşula göre adım sayısı: +0.040 (%0.79);
+- toplam, kapalı forma göre: +0.097 (%1.94);
+- en iyi sabit hatta göre: +0.087 (%1.73);
+- periyodik kipte sıcak başlangıç: +0.051 (%0.99).
+
+Değeri büyük bir kazanç değil, ayarsız çalışması: elle ayar gerekmeden hız, taşıyıcı ve tutma süresi değiştikçe en iyiye yakın (kâhine 0.003) kalıyor.
 
 ## Harmoni: iki makale ve geniş bant tek cümlede
 

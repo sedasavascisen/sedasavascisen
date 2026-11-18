@@ -1,487 +1,555 @@
 1
-00:00:00,000 --> 00:00:09,917
-Sayın jüri üyeleri, bu tezde yeniden yapılandırılabilir akıllı yüzeylerin, yani RIS'in, hareketli kullanıcılar için nasıl tasarlanması gerektiğini inceledim.
+00:00:00,000 --> 00:00:10,163
+Sayın jüri üyeleri, bu tezde yeniden yapılandırılabilir akıllı yüzeylerin, yani RIS'in, hareketli kullanıcılar için nasıl kontrol edilmesi gerektiğini inceledim.
 
 2
-00:00:09,917 --> 00:00:21,225
-Tezin tek cümlelik iddiası şudur: hareketli RIS sistemlerinde hesaplama gecikmesi ikincil bir ölçüt değil, yöntemlerin sıralamasını belirleyen birinci sınıf bir tasarım kısıtıdır.
+00:00:10,163 --> 00:00:17,864
+Burada tasarım derken yüzeyin donanımını değil, fazlarını ne zaman ve nasıl hesapladığımızı, yani kontrolünü kastediyorum.
 
 3
-00:00:21,225 --> 00:00:30,069
-Bu videoda önce problemi ve senaryoyu, sonra kodları ve ölçümleri, en sonunda da bu kısıtı kullanan, tasarladığım denetleyiciyi anlatacağım.
+00:00:17,864 --> 00:00:29,163
+Tezin tek cümlelik iddiası şudur: hareketli RIS sistemlerinde hesaplama gecikmesi ikincil bir ölçüt değil, yöntemlerin sıralamasını belirleyen birinci sınıf bir tasarım kısıtıdır.
 
 4
-00:00:31,269 --> 00:00:32,008
-Problem şu.
+00:00:29,163 --> 00:00:38,001
+Bu videoda önce problemi ve senaryoyu, sonra kodları ve ölçümleri, en sonunda da bu kısıtı kullanan, tasarladığım denetleyiciyi anlatacağım.
 
 5
-00:00:32,008 --> 00:00:36,106
-Yürüyen bir kullanıcı kanalı onlarca milisaniyede değiştirir.
+00:00:39,201 --> 00:00:39,930
+Problem şu.
 
 6
-00:00:36,106 --> 00:00:44,907
-Üç gigahertzde, saniyede bir buçuk metre hızla yürüyen bir kullanıcı için eşevreli kalma süresi yaklaşık yirmi sekiz milisaniyedir.
+00:00:39,930 --> 00:00:43,974
+Yürüyen bir kullanıcı kanalı onlarca milisaniyede değiştirir.
 
 7
-00:00:44,907 --> 00:00:49,139
-Oysa dikkatli bir optimizasyon algoritması saniyeler sürebilir.
+00:00:43,974 --> 00:00:52,659
+Üç gigahertzde, saniyede bir buçuk metre hızla yürüyen bir kullanıcı için eşevreli kalma süresi yaklaşık yirmi sekiz milisaniyedir.
 
 8
-00:00:49,139 --> 00:00:51,759
-Cevap hazır olduğunda soru değişmiştir.
+00:00:52,659 --> 00:00:56,835
+Oysa dikkatli bir optimizasyon algoritması saniyeler sürebilir.
 
 9
-00:00:51,759 --> 00:00:57,402
-Literatürde yöntemler çoğunlukla kendilerine verilen kanal üzerinde karşılaştırılır.
+00:00:56,835 --> 00:00:59,421
+Cevap hazır olduğunda soru değişmiştir.
 
 10
-00:00:57,402 --> 00:01:02,844
-Ben ise her yöntemi, işini bitirdiği anda var olan kanal üzerinde değerlendirdim.
+00:00:59,421 --> 00:01:05,388
+İlk makalemde fazı tek geçişte tahmin eden bir ağ kurdum ve başarıyı faz hatasıyla ölçtüm.
 
 11
-00:01:04,044 --> 00:01:08,968
-Senaryom kırk metreye yirmi metrelik, altı metre yüksekliğinde bir ofis.
+00:01:05,388 --> 00:01:13,078
+Bu tez, o makalenin bıraktığı sorudan doğdu: faz hatasını azaltmak, hareketli bir kullanıcı için hızı da artırır mı?
 
 12
-00:01:08,968 --> 00:01:14,575
-Duvarda otuz iki elemanlı bir RIS, karşısında sekiz antenli bir baz istasyonu var.
+00:01:13,078 --> 00:01:19,310
+Bunu yanıtlamak için her yöntemi, işini bitirdiği anda var olan kanal üzerinde değerlendirdim.
 
 13
-00:01:14,575 --> 00:01:19,705
-Dört kullanıcı saniyede bir buçuk metre hızla düz çizgiler boyunca yürüyor.
+00:01:20,510 --> 00:01:25,402
+Senaryom kırk metreye yirmi metrelik, altı metre yüksekliğinde bir ofis.
 
 14
-00:01:19,705 --> 00:01:25,244
-Doğrudan yollar engellenmiş, yani kullanıcılara asıl katkı RIS üzerinden geliyor.
+00:01:25,402 --> 00:01:30,973
+Duvarda otuz iki elemanlı bir RIS, karşısında sekiz antenli bir baz istasyonu var.
 
 15
-00:01:25,244 --> 00:01:31,126
-Büyük ölçekli kanal parametreleri 3GPP TR otuz sekiz dokuz yüz bir modelinden geliyor.
+00:01:30,973 --> 00:01:36,069
+Dört kullanıcı saniyede bir buçuk metre hızla düz çizgiler boyunca yürüyor.
 
 16
-00:01:31,126 --> 00:01:36,255
-Kullanıcılar hareket ettikçe kanal geometriden her an yeniden hesaplanıyor.
+00:01:36,069 --> 00:01:41,573
+Doğrudan yollar engellenmiş, yani kullanıcılara asıl katkı RIS üzerinden geliyor.
 
 17
-00:01:37,455 --> 00:01:40,393
-Kanalın nasıl eskidiğini bu sınıf modelliyor.
+00:01:41,573 --> 00:01:47,416
+Büyük ölçekli kanal parametreleri 3GPP TR otuz sekiz dokuz yüz bir modelinden geliyor.
 
 18
-00:01:40,393 --> 00:01:51,234
-Her senaryo için bir tohum ve bir zaman listesi veriyorum; üreteç, kullanıcıların o anlardaki konumlarına göre RIS–kullanıcı ve doğrudan kanalları yeniden hesaplıyor.
+00:01:47,416 --> 00:01:52,512
+Kullanıcılar hareket ettikçe kanal geometriden her an yeniden hesaplanıyor.
 
 19
-00:01:51,234 --> 00:01:56,720
-Saçıcılar, yol kazançları ve baz istasyonu ile RIS arasındaki kanal sabit tutuluyor.
+00:01:53,712 --> 00:01:59,794
+Sonuçlara geçmeden önce tezin temel tasarım ilkesini söylemek istiyorum: iki zaman ölçeği.
 
 20
-00:01:56,720 --> 00:01:59,201
-Değişen tek şey kullanıcıların konumu.
+00:01:59,794 --> 00:02:04,524
+Baz istasyonundaki ön kodlayıcı her slotta, güncel kanaldan tazelenir.
 
 21
-00:01:59,201 --> 00:02:03,969
-Böylece kanal, rastgele değil, geometriye bağlı olarak sürekli değişiyor.
+00:02:04,524 --> 00:02:12,430
+RIS fazı ise daha yavaş bir döngüde, gecikmesi ölçülmüş bir algoritmayla güncellenir; bu tezin konusu bu yavaş döngü.
 
 22
-00:02:03,969 --> 00:02:09,193
-Bütün deneylerde aynı tohumları kullandım: seçim için on iki, rapor için on bir.
+00:02:12,430 --> 00:02:15,606
+Bunu bir varsayım olarak değil, ölçerek koydum.
 
 23
-00:02:09,193 --> 00:02:15,136
-Böylece her karşılaştırma aynı dört yüz senaryo üzerinde ve eşleştirilmiş olarak yapılıyor.
+00:02:15,606 --> 00:02:25,405
+Ön kodlayıcı da RIS fazıyla birlikte eskirse, sistem yaklaşık bir milisaniyede çöküyor: hız beş virgül kırk birden dört virgül sıfır üçe düşüyor.
 
 24
-00:02:16,336 --> 00:02:18,055
-Tezin ana ölçütü etkin hız.
+00:02:25,405 --> 00:02:30,135
+Yani ön kodlayıcıyı hızlı döngüde tutmak bir tercih değil, zorunluluk.
 
 25
-00:02:18,055 --> 00:02:25,380
-Faz, sıfır anındaki kanal üzerinde hesaplanıyor; ama hız, yöntemin işini bitirdiği andaki kanal üzerinde ölçülüyor.
+00:02:30,135 --> 00:02:33,378
+Tezin bütün sonuçları bu ilkenin içinde geçerli.
 
 26
-00:02:25,380 --> 00:02:35,443
-Kodda bu iki satır: adam fonksiyonu fazı sıfır anındaki kanalda optimize ediyor; minrate fonksiyonu ise o fazı, gecikme kadar sonraki kanalda değerlendiriyor.
+00:02:34,578 --> 00:02:37,485
+Kanalın nasıl eskidiğini bu sınıf modelliyor.
 
 27
-00:02:35,443 --> 00:02:41,684
-Önemli bir ayrıntı: değerlendirmeyi enterpolasyonla değil, her yöntemin tam gecikme anında yaptım.
+00:02:37,485 --> 00:02:48,205
+Her senaryo için bir tohum ve bir zaman listesi veriyorum; üreteç, kullanıcıların o anlardaki konumlarına göre RIS–kullanıcı ve doğrudan kanalları yeniden hesaplıyor.
 
 28
-00:02:41,684 --> 00:02:48,499
-Kaba bir zaman ızgarasından enterpolasyon yapmanın sonuçları kaydırdığını denetimlerde gördüm ve düzelttim.
+00:02:48,205 --> 00:02:53,630
+Saçıcılar, yol kazançları ve baz istasyonu ile RIS arasındaki kanal sabit tutuluyor.
 
 29
-00:02:49,699 --> 00:02:53,940
-Gecikmeyi ölçmek bu tezde bir yan iş değil, ana ölçümün kendisi.
+00:02:53,630 --> 00:02:56,084
+Değişen tek şey kullanıcıların konumu.
 
 30
-00:02:53,940 --> 00:02:56,458
-Bu yüzden katı bir protokol kullandım.
+00:02:56,084 --> 00:03:00,798
+Böylece kanal, rastgele değil, geometriye bağlı olarak sürekli değişiyor.
 
 31
-00:02:56,458 --> 00:03:06,796
-Makine boşalana kadar bekledim, tek iş parçacığıyla çalıştım, ısınma turlarından sonra beş turun medyanını aldım ve ölçüm öncesi ile sonrası yükü kaydettim.
+00:03:00,798 --> 00:03:05,965
+Bütün deneylerde aynı tohumları kullandım: seçim için on iki, rapor için on bir.
 
 32
-00:03:06,796 --> 00:03:13,489
-Bu önemli, çünkü bir ölçümde eğitim arka planda çalışırken alınan sayılar yanlış bir sonuç üretmişti.
+00:03:05,965 --> 00:03:11,842
+Böylece her karşılaştırma aynı dört yüz senaryo üzerinde ve eşleştirilmiş olarak yapılıyor.
 
 33
-00:03:13,489 --> 00:03:17,200
-Ölçümü boş makinede tekrarladığımda sonuç tersine döndü.
+00:03:13,042 --> 00:03:14,774
+Tezin ana ölçütü etkin hız.
 
 34
-00:03:17,200 --> 00:03:20,447
-O günden sonra her gecikme bu protokolle ölçüldü.
+00:03:14,774 --> 00:03:22,151
+Faz, sıfır anındaki kanal üzerinde hesaplanıyor; ama hız, yöntemin işini bitirdiği andaki kanal üzerinde ölçülüyor.
 
 35
-00:03:21,647 --> 00:03:22,338
-İlk sonuç.
+00:03:22,151 --> 00:03:32,286
+Kodda bu iki satır: adam fonksiyonu fazı sıfır anındaki kanalda optimize ediyor; minrate fonksiyonu ise o fazı, gecikme kadar sonraki kanalda değerlendiriyor.
 
 36
-00:03:22,338 --> 00:03:26,485
-Tabloda soldan ikinci sütun yöntemlerin sıfır anındaki hızı.
+00:03:32,286 --> 00:03:38,573
+Önemli bir ayrıntı: değerlendirmeyi enterpolasyonla değil, her yöntemin tam gecikme anında yaptım.
 
 37
-00:03:26,485 --> 00:03:31,599
-Bu sütuna bakarsanız en iyi yöntemler koordinat inişi ve uzun koşulu Adam.
+00:03:38,573 --> 00:03:45,437
+Kaba bir zaman ızgarasından enterpolasyon yapmanın sonuçları kaydırdığını denetimlerde gördüm ve düzelttim.
 
 38
-00:03:31,599 --> 00:03:36,022
-Ama onlar sıfır virgül dokuz ve beş virgül dokuz saniye sürüyor.
+00:03:46,637 --> 00:03:50,886
+Gecikmeyi ölçmek bu tezde bir yan iş değil, ana ölçümün kendisi.
 
 39
-00:03:36,022 --> 00:03:38,855
-O sürede kullanıcılar metrelerce yürüyor.
+00:03:50,886 --> 00:03:53,409
+Bu yüzden katı bir protokol kullandım.
 
 40
-00:03:38,855 --> 00:03:45,835
-Etkin hızlarına baktığımızda iki buçuk milisaniyelik basit bir sezgisel yöntemin gerisine düşüyorlar.
+00:03:53,409 --> 00:04:03,766
+Makine boşalana kadar bekledim, tek iş parçacığıyla çalıştım, ısınma turlarından sonra beş turun medyanını aldım ve ölçüm öncesi ile sonrası yükü kaydettim.
 
 41
-00:03:45,835 --> 00:03:47,563
-Sıralama tersine dönüyor.
+00:04:03,766 --> 00:04:10,472
+Bu önemli, çünkü bir ölçümde eğitim arka planda çalışırken alınan sayılar yanlış bir sonuç üretmişti.
 
 42
-00:03:47,563 --> 00:03:56,961
-Ve bu bir bütçe yapaylığı değil: koordinat inişinin tek bir taraması bile yüz yedi milisaniye, yani yaklaşık dört eşevreli kalma süresi.
+00:04:10,472 --> 00:04:14,190
+Ölçümü boş makinede tekrarladığımda sonuç tersine döndü.
 
 43
-00:03:58,161 --> 00:04:02,248
-İkinci sonuç: daha fazla iterasyon her zaman daha iyi değil.
+00:04:14,190 --> 00:04:17,443
+O günden sonra her gecikme bu protokolle ölçüldü.
 
 44
-00:04:02,248 --> 00:04:07,834
-Adam'ın adım sayısı arttıkça sıfır anındaki hız yükseliyor ama gecikme de artıyor.
+00:04:18,643 --> 00:04:19,333
+İlk sonuç.
 
 45
-00:04:07,834 --> 00:04:10,694
-İkisi dengelendiğinde bir optimum çıkıyor.
+00:04:19,333 --> 00:04:23,474
+Tabloda soldan ikinci sütun yöntemlerin sıfır anındaki hızı.
 
 46
-00:04:10,694 --> 00:04:15,190
-Saniyede bir buçuk metrede en iyi adım sayısı dört ile altı arası.
+00:04:23,474 --> 00:04:28,582
+Bu sütuna bakarsanız en iyi yöntemler koordinat inişi ve uzun koşulu Adam.
 
 47
-00:04:15,190 --> 00:04:19,141
-Kırk sekiz adıma kadar koşmak yüzde on dört kaybettiriyor.
+00:04:28,582 --> 00:04:32,999
+Ama onlar sıfır virgül dokuz ve beş virgül dokuz saniye sürüyor.
 
 48
-00:04:19,141 --> 00:04:22,274
-Saatte on kilometrede optimum üç adıma iniyor.
+00:04:32,999 --> 00:04:35,828
+O sürede kullanıcılar metrelerce yürüyor.
 
 49
-00:04:22,274 --> 00:04:24,999
-Bu optimumu iç optimum diye adlandırdım.
+00:04:35,828 --> 00:04:42,799
+Etkin hızlarına baktığımızda iki buçuk milisaniyelik basit bir sezgisel yöntemin gerisine düşüyorlar.
 
 50
-00:04:24,999 --> 00:04:32,082
-Daha sonra jüri sorusu olarak, korelasyon tabanı olmayan bir Clarke kanalında da var olduğunu gösterdim.
+00:04:42,799 --> 00:04:44,525
+Sıralama tersine dönüyor.
 
 51
-00:04:33,282 --> 00:04:35,734
-Üçüncü sonuç, bir ölçekleme yasası.
+00:04:44,525 --> 00:04:53,911
+Ve bu bir bütçe yapaylığı değil: koordinat inişinin tek bir taraması bile yüz yedi milisaniye, yani yaklaşık dört eşevreli kalma süresi.
 
 52
-00:04:35,734 --> 00:04:40,777
-Optimumun yeri tek bir sayıya bağlı: adım süresi çarpı Doppler frekansı.
+00:04:55,111 --> 00:04:59,301
+İkinci sonuç: daha fazla iterasyon her zaman daha iyi değil.
 
 53
-00:04:40,777 --> 00:04:41,688
-Buna x dedim.
+00:04:59,301 --> 00:05:05,028
+Adam'ın adım sayısı arttıkça sıfır anındaki hız yükseliyor ama gecikme de artıyor.
 
 54
-00:04:41,688 --> 00:04:53,244
-Küçük gecikme yaklaşımıyla en iyi adım sayısının x üzeri eksi iki bölü gama artı iki gibi ölçeklendiğini türettim; ölçtüğüm üs eksi sıfır virgül altı yüz yetmiş beş.
+00:05:05,028 --> 00:05:07,961
+İkisi dengelendiğinde bir optimum çıkıyor.
 
 55
-00:04:53,244 --> 00:04:58,778
-Bunun pratik anlamı şu: daha hızlı bir donanım optimumu kaydırır ama yok etmez.
+00:05:07,961 --> 00:05:12,571
+Saniyede bir buçuk metrede en iyi adım sayısı dört ile altı arası.
 
 56
-00:04:58,778 --> 00:05:01,860
-Adım zaman aldığı sürece bir optimum vardır.
+00:05:12,571 --> 00:05:16,622
+Kırk sekiz adıma kadar koşmak yüzde on dört kaybettiriyor.
 
 57
-00:05:03,060 --> 00:05:05,907
-Dördüncü sonuç yapay zekâ ekseniyle ilgili.
+00:05:16,622 --> 00:05:19,834
+Saatte on kilometrede optimum üç adıma iniyor.
 
 58
-00:05:05,907 --> 00:05:08,688
-Adam'ın adımlarını öğrenen bir ağ eğittim.
+00:05:19,834 --> 00:05:22,628
+Bu optimumu iç optimum diye adlandırdım.
 
 59
-00:05:08,688 --> 00:05:11,403
-Eşit adım sayısında bu ağ Adam'ın önünde.
+00:05:22,628 --> 00:05:29,891
+Daha sonra jüri sorusu olarak, korelasyon tabanı olmayan bir Clarke kanalında da var olduğunu gösterdim.
 
 60
-00:05:11,403 --> 00:05:14,780
-Literatürde genellikle bu karşılaştırma raporlanır.
+00:05:31,091 --> 00:05:33,578
+Üçüncü sonuç, bir ölçekleme yasası.
 
 61
-00:05:14,780 --> 00:05:22,660
-Ama her adımı ölçülmüş süresiyle saydığımda, öğrenilen bütün yapılandırmalar Adam eğrisinin altında ve sağında kalıyor.
+00:05:33,578 --> 00:05:38,692
+Optimumun yeri tek bir sayıya bağlı: adım süresi çarpı Doppler frekansı.
 
 62
-00:05:22,660 --> 00:05:26,435
-Yani adım başına kazanıyor, milisaniye başına kaybediyor.
+00:05:38,692 --> 00:05:39,616
+Buna x dedim.
 
 63
-00:05:26,435 --> 00:05:38,221
-Bu tezin önemli olumsuz sonuçlarından biri ve bir değerlendirme protokolü öneriyor: öğrenilen yöntemler ölçülmüş süreyle, her bütçede ayarlanmış klasik rakiplere karşı sınanmalı.
+00:05:39,616 --> 00:05:51,337
+Küçük gecikme yaklaşımıyla en iyi adım sayısının x üzeri eksi iki bölü gama artı iki gibi ölçeklendiğini türettim; ölçtüğüm üs eksi sıfır virgül altı yüz yetmiş beş.
 
 64
-00:05:39,421 --> 00:05:42,045
-Bu yasayı bir tasarım kuralına çevirdim.
+00:05:51,337 --> 00:05:56,949
+Bunun pratik anlamı şu: daha hızlı bir donanım optimumu kaydırır ama yok etmez.
 
 65
-00:05:42,045 --> 00:05:49,392
-Kural, her aday adım sayısı için etkin hızı öngörüyor: sıfır anındaki hız, eskime eğrisiyle ağırlıklandırılıyor.
+00:05:56,949 --> 00:06:00,075
+Adım zaman aldığı sürece bir optimum vardır.
 
 66
-00:05:49,392 --> 00:05:53,131
-Eğriyi yalnızca bir hızda ve bir çekilişte kalibre ettim.
+00:06:01,275 --> 00:06:04,163
+Dördüncü sonuç yapay zekâ ekseniyle ilgili.
 
 67
-00:05:53,131 --> 00:06:01,658
-Sonra kuralı, sonuçları görmeden önce kayda aldığım bir protokolle, hiç görmediği bir çekilişte ve hiç görmediği hızlarda sınadım.
+00:06:04,163 --> 00:06:06,985
+Adam'ın adımlarını öğrenen bir ağ eğittim.
 
 68
-00:06:01,658 --> 00:06:10,186
-Altmış koşulda doğru adım sayısını seçmeye göre medyan kayıp yüzde sıfır virgül sıfır sekiz, en kötü yüzde iki virgül yetmiş dört.
+00:06:06,985 --> 00:06:09,739
+Eşit adım sayısında bu ağ Adam'ın önünde.
 
 69
-00:06:10,186 --> 00:06:15,696
-Sabit bir adım sayısı seçmek ise ortalama yüzde üç ile üç virgül altı kaybettiriyor.
+00:06:09,739 --> 00:06:13,166
+Literatürde genellikle bu karşılaştırma raporlanır.
 
 70
-00:06:16,896 --> 00:06:25,129
-Savunmaya hazırlanırken jürinin sorabileceği en zor soruları kendime sordum ve her birini ön kayıtlı bir deneyle yanıtladım.
+00:06:13,166 --> 00:06:21,160
+Ama her adımı ölçülmüş süresiyle saydığımda, öğrenilen bütün yapılandırmalar Adam eğrisinin altında ve sağında kalıyor.
 
 71
-00:06:25,129 --> 00:06:28,050
-Koordinat inişini C ile yazsaydım ne olurdu?
+00:06:21,160 --> 00:06:24,989
+Yani adım başına kazanıyor, milisaniye başına kaybediyor.
 
 72
-00:06:28,050 --> 00:06:32,432
-Yalnız onu derlersem Python Adam'ı geçiyor; bunu açıkça yazıyorum.
+00:06:24,989 --> 00:06:36,947
+Bu tezin önemli olumsuz sonuçlarından biri ve bir değerlendirme protokolü öneriyor: öğrenilen yöntemler ölçülmüş süreyle, her bütçede ayarlanmış klasik rakiplere karşı sınanmalı.
 
 73
-00:06:32,432 --> 00:06:37,146
-Ama bütün yöntemler eşit hızlandırılırsa Adam her noktada önde kalıyor.
+00:06:38,147 --> 00:06:40,750
+Bu yasayı bir tasarım kuralına çevirdim.
 
 74
-00:06:37,146 --> 00:06:41,462
-Yani sıralamayı programlama dili değil, gecikme oranı belirliyor.
+00:06:40,750 --> 00:06:48,038
+Kural, her aday adım sayısı için etkin hızı öngörüyor: sıfır anındaki hız, eskime eğrisiyle ağırlıklandırılıyor.
 
 75
-00:06:41,462 --> 00:06:43,852
-İç optimum modelin bir yapaylığı mı?
+00:06:48,038 --> 00:06:51,747
+Eğriyi yalnızca bir hızda ve bir çekilişte kalibre ettim.
 
 76
-00:06:43,852 --> 00:06:47,304
-Hayır, korelasyon tabanı olmayan bir kanalda da var.
+00:06:51,747 --> 00:07:00,206
+Sonra kuralı, sonuçları görmeden önce kayda aldığım bir protokolle, hiç görmediği bir çekilişte ve hiç görmediği hızlarda sınadım.
 
 77
-00:06:47,304 --> 00:06:49,495
-Ryu ve arkadaşlarından farkım ne?
+00:07:00,206 --> 00:07:08,666
+Altmış koşulda doğru adım sayısını seçmeye göre medyan kayıp yüzde sıfır virgül sıfır sekiz, en kötü yüzde iki virgül yetmiş dört.
 
 78
-00:06:49,495 --> 00:06:58,259
-Süreyi yalnızca bir bütçe kısıtı olarak kullanmak bir virgül dörde kadar kaybettiriyor; benim katkım süreyi kanal eskimesine katmak.
+00:07:08,666 --> 00:07:14,132
+Sabit bir adım sayısı seçmek ise ortalama yüzde üç ile üç virgül altı kaybettiriyor.
 
 79
-00:06:58,259 --> 00:06:59,853
-Ön kodlayıcı da eskirse?
+00:07:15,332 --> 00:07:23,552
+Savunmaya hazırlanırken jürinin sorabileceği en zor soruları kendime sordum ve her birini ön kayıtlı bir deneyle yanıtladım.
 
 80
-00:06:59,853 --> 00:07:02,575
-O zaman her şey bir milisaniyede çöküyor.
+00:07:23,552 --> 00:07:26,468
+Koordinat inişini C ile yazsaydım ne olurdu?
 
 81
-00:07:02,575 --> 00:07:08,816
-Bu, ön kodlayıcının her slotta tazelenmesinin bir tercih değil zorunluluk olduğunu gösteriyor.
+00:07:26,468 --> 00:07:30,843
+Yalnız onu derlersem Python Adam'ı geçiyor; bunu açıkça yazıyorum.
 
 82
-00:07:10,016 --> 00:07:12,435
-Tezin son deneysel adımı geniş bant.
+00:07:30,843 --> 00:07:35,550
+Ama bütün yöntemler eşit hızlandırılırsa Adam her noktada önde kalıyor.
 
 83
-00:07:12,435 --> 00:07:17,071
-OFDM'de tek bir RIS faz vektörü bütün alt taşıyıcılara hizmet ediyor.
+00:07:35,550 --> 00:07:39,859
+Yani sıralamayı programlama dili değil, gecikme oranı belirliyor.
 
 84
-00:07:17,071 --> 00:07:23,991
-Optimizasyona kaç alt taşıyıcı alacağım da bir karar, çünkü her ek alt taşıyıcı adımı pahalılaştırıyor.
+00:07:39,859 --> 00:07:42,245
+İç optimum modelin bir yapaylığı mı?
 
 85
-00:07:23,991 --> 00:07:26,745
-Yirmi megahertzde dar bant amacı yetiyor.
+00:07:42,245 --> 00:07:45,692
+Hayır, korelasyon tabanı olmayan bir kanalda da var.
 
 86
-00:07:26,745 --> 00:07:37,563
-Yüz megahertzde ise on altı alt taşıyıcı üzerinden optimize etmek, adım dokuz kat pahalı olmasına rağmen en iyi dar bant kolunu sıfır virgül yirmi sekiz geçiyor.
+00:07:45,692 --> 00:07:47,880
+Ryu ve arkadaşlarından farkım ne?
 
 87
-00:07:37,563 --> 00:07:44,281
-Yani gecikme geniş bantta da kararı belirliyor, ama artık iki eksende: kaç adım ve kaç alt taşıyıcı.
+00:07:47,880 --> 00:07:56,630
+Süreyi yalnızca bir bütçe kısıtı olarak kullanmak bir virgül dörde kadar kaybettiriyor; benim katkım süreyi kanal eskimesine katmak.
 
 88
-00:07:44,281 --> 00:07:49,858
-Burada dürüst bir sınır da var: dar banttaki iç optimum geniş bantta genelleşmiyor.
+00:07:56,630 --> 00:07:58,221
+Ön kodlayıcı da eskirse?
 
 89
-00:07:49,858 --> 00:07:51,739
-Bunu makalede açıkça yazdım.
+00:07:58,221 --> 00:08:00,939
+O zaman her şey bir milisaniyede çöküyor.
 
 90
-00:07:52,939 --> 00:07:55,515
-Şimdi tezin tasarım katkısına geliyorum.
+00:08:00,939 --> 00:08:07,170
+Bu, ön kodlayıcının her slotta tazelenmesinin bir tercih değil zorunluluk olduğunu gösteriyor.
 
 91
-00:07:55,515 --> 00:08:00,860
-Yukarıdaki yasaları birleştirerek gecikme farkındalıklı bir denetleyici tasarladım.
+00:08:08,370 --> 00:08:10,805
+Tezin son deneysel adımı geniş bant.
 
 92
-00:08:00,860 --> 00:08:14,448
-Denetleyici her güncellemede aday hatları değerlendiriyor: başlangıç noktası olarak SU-average, SU-best-of ya da periyodik çalışmada bir önceki fazı alıyor, üzerine sıfır ile kırk sekiz arası Adam adımı ekliyor.
+00:08:10,805 --> 00:08:15,472
+OFDM'de tek bir RIS faz vektörü bütün alt taşıyıcılara hizmet ediyor.
 
 93
-00:08:14,448 --> 00:08:22,820
-Her aday için ölçülmüş gecikmeyi ve Doppler kestirimini kullanarak etkin hızı öngörüyor ve en yüksek öngörüyü veren hattı seçiyor.
+00:08:15,472 --> 00:08:22,439
+Optimizasyona kaç alt taşıyıcı alacağım da bir karar, çünkü her ek alt taşıyıcı adımı pahalılaştırıyor.
 
 94
-00:08:22,820 --> 00:08:27,714
-Kod bu kadar kısa; çünkü işi yapan, daha önce ölçülen ve doğrulanan yasalar.
+00:08:22,439 --> 00:08:25,212
+Yirmi megahertzde dar bant amacı yetiyor.
 
 95
-00:08:28,914 --> 00:08:39,211
-Denetleyiciyi bir gece boyunca geliştirdim, her fikri yalnızca geliştirme çekilişinde sınadım ve başarısız olanlar dahil bütün denemeleri günlüğe yazdım.
+00:08:25,212 --> 00:08:36,101
+Yüz megahertzde ise on altı alt taşıyıcı üzerinden optimize etmek, adım dokuz kat pahalı olmasına rağmen en iyi dar bant kolunu sıfır virgül yirmi sekiz geçiyor.
 
 96
-00:08:39,211 --> 00:08:45,201
-Sonra son sürümü dondurdum ve gece hiç dokunulmayan bir çekilişte tek bir kez test ettim.
+00:08:36,101 --> 00:08:42,864
+Yani gecikme geniş bantta da kararı belirliyor, ama artık iki eksende: kaç adım ve kaç alt taşıyıcı.
 
 97
-00:08:45,201 --> 00:08:56,978
-Sonuç: denetleyici beş karşılaştırma yönteminin hepsini anlamlı farkla geçiyor ve geriye dönük olarak mümkün olan en iyi seçime yalnızca sıfır virgül sıfır sıfır üç uzaklıkta.
+00:08:42,864 --> 00:08:48,478
+Burada dürüst bir sınır da var: dar banttaki iç optimum geniş bantta genelleşmiyor.
 
 98
-00:08:56,978 --> 00:09:00,680
-Bağımsız denetim daha güçlü taban çizgilerini de sordu.
+00:08:48,478 --> 00:08:50,372
+Bunu makalede açıkça yazdım.
 
 99
-00:09:00,680 --> 00:09:09,563
-En iyi sabit hatta karşı fark sıfır virgül sıfır seksen yedi, başlangıcı da iyi seçilmiş kapalı forma karşı sıfır virgül sıfır kırk.
+00:08:51,572 --> 00:08:54,158
+Şimdi tezin tasarım katkısına geliyorum.
 
 100
-00:09:09,563 --> 00:09:17,774
-Kazancın kaynaklarını ayrı ayrı raporluyorum: başlangıç seçimi, adım sayısı seçimi ve periyodik çalışmada sıcak başlangıç.
+00:08:54,158 --> 00:08:59,525
+Yukarıdaki yasaları birleştirerek gecikme farkındalıklı bir denetleyici tasarladım.
 
 101
-00:09:18,974 --> 00:09:21,686
-Yapay zekâ eksenini de dürüstçe kapattım.
+00:08:59,525 --> 00:09:13,167
+Denetleyici her güncellemede aday hatları değerlendiriyor: başlangıç noktası olarak SU-average, SU-best-of ya da periyodik çalışmada bir önceki fazı alıyor, üzerine sıfır ile kırk sekiz arası Adam adımı ekliyor.
 
 102
-00:09:21,686 --> 00:09:31,078
-Öğrenmenin klasiği yenme şansının en yüksek olduğu rejimi bilerek aradım: yirmi sekiz gigahertz, eşevreli kalma süresi yaklaşık üç milisaniye.
+00:09:13,167 --> 00:09:21,573
+Her aday için ölçülmüş gecikmeyi ve Doppler kestirimini kullanarak etkin hızı öngörüyor ve en yüksek öngörüyü veren hattı seçiyor.
 
 103
-00:09:31,078 --> 00:09:39,742
-Sıfır virgül kırk üç milisaniyede karar veren tek geçişli ağ, bir virgül yirmi dört milisaniyelik basit sezgiselin gerisinde kaldı.
+00:09:21,573 --> 00:09:26,487
+Kod bu kadar kısa; çünkü işi yapan, daha önce ölçülen ve doğrulanan yasalar.
 
 104
-00:09:39,742 --> 00:09:46,687
-Veriyi dört katına çıkardım, üç farklı tohum ve iki kat geniş bir ağ denedim; açık daraldı ama kapanmadı.
+00:09:27,687 --> 00:09:37,857
+Denetleyiciyi bir gece boyunca geliştirdim, her fikri yalnızca geliştirme çekilişinde sınadım ve başarısız olanlar dahil bütün denemeleri günlüğe yazdım.
 
 105
-00:09:46,687 --> 00:09:50,986
-Ağ gerçekten öğreniyor, ama kalite tavanı basit yöntemin altında.
+00:09:37,857 --> 00:09:43,773
+Sonra son sürümü dondurdum ve gece hiç dokunulmayan bir çekilişte tek bir kez test ettim.
 
 106
-00:09:50,986 --> 00:09:54,359
-Bu sonuç bu mimari ailesi ve bu bütçe için geçerli.
+00:09:43,773 --> 00:09:46,233
+Ön kayıtlı üç hipotezin üçü de tuttu.
 
 107
-00:09:54,359 --> 00:10:00,510
-Tezde öğrenmenin katkısı bir yöntem olarak değil, bir değerlendirme protokolü olarak kalıyor.
+00:09:46,233 --> 00:09:49,490
+Kazancı abartmadan, kararlara ayırarak veriyorum.
 
 108
-00:10:01,710 --> 00:10:05,761
-Her tez gibi bu tezin de sınırları var ve bunları açıkça yazdım.
+00:09:49,490 --> 00:09:58,929
+Başlangıç noktasını doğru seçmek yüzde bir virgül on dört kazandırıyor; adım sayısını koşula göre seçmek yüzde sıfır virgül yetmiş dokuz daha.
 
 109
-00:10:05,761 --> 00:10:11,963
-Tek bir geometri ve tek bir kanal modeli kullandım; Clarke kanalı yalnızca bir sağlamlık kontrolü.
+00:09:58,929 --> 00:10:08,368
+En iyi sabit ayara karşı toplam kazanç yüzde bir virgül yetmiş üç; periyodik çalışmada önceki fazdan başlamak yaklaşık yüzde bir daha ekliyor.
 
 110
-00:10:11,963 --> 00:10:19,432
-Gecikmeleri tek iş parçacıklı Python'da ölçtüm; bu yüzden sıralamanın gecikme oranına bağlı olduğunu ayrıca gösterdim.
+00:10:08,368 --> 00:10:10,097
+Bu büyük bir kazanç değil.
 
 111
-00:10:19,432 --> 00:10:25,762
-Kaynak kontrolünde, RIS eleman kazancının Tang ve arkadaşlarının formülünden farklı olduğunu buldum.
+00:10:10,097 --> 00:10:21,863
+Denetleyicinin asıl değeri, ayarsız çalışması: elle hiçbir ayar yapmadan, hız, taşıyıcı ve tutma süresi değiştikçe olası en iyi seçime sıfır virgül sıfır sıfır üç yakın kalıyor.
 
 112
-00:10:25,762 --> 00:10:32,724
-Etkisini ölçtüm: mutlak hızlar yaklaşık yüzde beş yüksek, ama optimum adım sayısı ve en iyi yöntem değişmiyor.
+00:10:21,863 --> 00:10:25,851
+Sabit bir ayar ise yalnızca kalibre edildiği koşullarda iyi.
 
 113
-00:10:32,724 --> 00:10:35,066
-Makalede bunu tek cümleyle belirttim.
+00:10:27,051 --> 00:10:29,779
+Yapay zekâ eksenini de dürüstçe kapattım.
 
 114
-00:10:35,066 --> 00:10:41,839
-Ön kayıt, mühürlü test ve bağımsız denetimler, bu sınırların sonuçları nerede etkilediğini görmemi sağladı.
+00:10:29,779 --> 00:10:39,226
+Öğrenmenin klasiği yenme şansının en yüksek olduğu rejimi bilerek aradım: yirmi sekiz gigahertz, eşevreli kalma süresi yaklaşık üç milisaniye.
 
 115
-00:10:43,039 --> 00:10:48,581
-Özetle: hareketli RIS sistemlerinde hesaplama gecikmesi yöntem sıralamasını belirliyor.
+00:10:39,226 --> 00:10:47,941
+Sıfır virgül kırk üç milisaniyede karar veren tek geçişli ağ, bir virgül yirmi dört milisaniyelik basit sezgiselin gerisinde kaldı.
 
 116
-00:10:48,581 --> 00:10:53,614
-Etkin hız ölçütüyle kâğıt üzerindeki en iyi yöntemlerin kaybettiğini gösterdim.
+00:10:47,941 --> 00:10:54,926
+Veriyi dört katına çıkardım, üç farklı tohum ve iki kat geniş bir ağ denedim; açık daraldı ama kapanmadı.
 
 117
-00:10:53,614 --> 00:11:00,940
-Bir iç optimum ve onun ölçekleme yasasını buldum, bunu ön kayıtlı olarak doğrulanmış bir tasarım kuralına çevirdim.
+00:10:54,926 --> 00:10:59,250
+Ağ gerçekten öğreniyor, ama kalite tavanı basit yöntemin altında.
 
 118
-00:11:00,940 --> 00:11:08,457
-Bu yasaları kullanan bir denetleyici tasarladım; hiç görülmemiş bir çekilişte olası en iyi seçime çok yakın çalışıyor.
+00:10:59,250 --> 00:11:02,643
+Bu sonuç bu mimari ailesi ve bu bütçe için geçerli.
 
 119
-00:11:08,457 --> 00:11:12,279
-Geniş bantta zaman bütçesinin ikinci eksenini ortaya koydum.
+00:11:02,643 --> 00:11:08,830
+Tezde öğrenmenin katkısı bir yöntem olarak değil, bir değerlendirme protokolü olarak kalıyor.
 
 120
-00:11:12,279 --> 00:11:17,885
-Ve yapay zekâ ekseninde titiz bir olumsuz sonuç ve bir değerlendirme protokolü bıraktım.
+00:11:10,030 --> 00:11:14,056
+Her tez gibi bu tezin de sınırları var ve bunları açıkça yazdım.
 
 121
-00:11:17,885 --> 00:11:23,873
-Bütün sayılar betiklere, ham verilere ve tohumlara bağlı; her biri bağımsız olarak denetlendi.
+00:11:14,056 --> 00:11:20,219
+Tek bir geometri ve tek bir kanal modeli kullandım; Clarke kanalı yalnızca bir sağlamlık kontrolü.
 
 122
-00:11:23,873 --> 00:11:26,039
+00:11:20,219 --> 00:11:27,640
+Gecikmeleri tek iş parçacıklı Python'da ölçtüm; bu yüzden sıralamanın gecikme oranına bağlı olduğunu ayrıca gösterdim.
+
+123
+00:11:27,640 --> 00:11:33,929
+Kaynak kontrolünde, RIS eleman kazancının Tang ve arkadaşlarının formülünden farklı olduğunu buldum.
+
+124
+00:11:33,929 --> 00:11:40,848
+Etkisini ölçtüm: mutlak hızlar yaklaşık yüzde beş yüksek, ama optimum adım sayısı ve en iyi yöntem değişmiyor.
+
+125
+00:11:40,848 --> 00:11:43,175
+Makalede bunu tek cümleyle belirttim.
+
+126
+00:11:43,175 --> 00:11:49,904
+Ön kayıt, mühürlü test ve bağımsız denetimler, bu sınırların sonuçları nerede etkilediğini görmemi sağladı.
+
+127
+00:11:51,104 --> 00:11:54,500
+Bu sınırların her biri için somut bir deney planım var.
+
+128
+00:11:54,500 --> 00:12:03,205
+Tek geometri sınırını, farklı bir oda, farklı bir RIS konumu ve altmış dört elemanlı bir yüzeyle, aynı ön kayıtlı hipotezlerle kapatabilirim.
+
+129
+00:12:03,205 --> 00:12:09,750
+Ölçüt açık: tasarım kuralı yeni geometride optimum adım sayısını yüzde birden az kayıpla öngörebiliyor mu?
+
+130
+00:12:09,750 --> 00:12:19,381
+Simülasyon sınırını ölçülmüş bir kanalla, Python sınırını bütün yöntemleri aynı düzeyde derleyerek ya da bir hızlandırıcı üzerinde koşturarak kapatabilirim.
+
+131
+00:12:19,381 --> 00:12:28,457
+RIS'in anahtarlama süresini gecikmeye eklemek ve ön kodlayıcı döngüsünü pilot ve kestirim hatasıyla birlikte ana sonuca katmak da sıradaki adımlar.
+
+132
+00:12:29,657 --> 00:12:35,202
+Özetle: hareketli RIS sistemlerinde hesaplama gecikmesi yöntem sıralamasını belirliyor.
+
+133
+00:12:35,202 --> 00:12:40,237
+Etkin hız ölçütüyle kâğıt üzerindeki en iyi yöntemlerin kaybettiğini gösterdim.
+
+134
+00:12:40,237 --> 00:12:47,567
+Bir iç optimum ve onun ölçekleme yasasını buldum, bunu ön kayıtlı olarak doğrulanmış bir tasarım kuralına çevirdim.
+
+135
+00:12:47,567 --> 00:12:55,088
+Bu yasaları kullanan bir denetleyici tasarladım; hiç görülmemiş bir çekilişte olası en iyi seçime çok yakın çalışıyor.
+
+136
+00:12:55,088 --> 00:12:58,913
+Geniş bantta zaman bütçesinin ikinci eksenini ortaya koydum.
+
+137
+00:12:58,913 --> 00:13:04,522
+Ve yapay zekâ ekseninde titiz bir olumsuz sonuç ve bir değerlendirme protokolü bıraktım.
+
+138
+00:13:04,522 --> 00:13:10,513
+Bütün sayılar betiklere, ham verilere ve tohumlara bağlı; her biri bağımsız olarak denetlendi.
+
+139
+00:13:10,513 --> 00:13:12,680
 Dinlediğiniz için teşekkür ederim.

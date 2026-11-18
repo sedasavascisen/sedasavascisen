@@ -23,6 +23,15 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 <blockquote>
 <p>Bu bir plan; tez metni değil (Kural 9). Her bölüm, dayanağı olan rapora ve sayılara bağlı. Sayıların hepsi ölçülmüş, ön kayıtlı ve bağımsız olarak denetlenmiş. Ölçüm fazı kapandı; bundan sonrası yazım.</p>
 </blockquote>
+<h2>Düzeltme 1: başlık ve kapsam</h2>
+<p>Tasarlanan şey bir yüzey değil, yüzeyin <strong>kontrolü</strong>. Başlık ya da ilk paragraf bunu açıkça söylemeli. Öneriler (son karar sende ve enstitünün kurallarında):</p>
+<ul>
+<li>"Hareketli Kullanıcılar için Gecikme Farkındalıklı Yeniden Yapılandırılabilir Akıllı Yüzey Kontrolü"</li>
+<li>"Yeniden Yapılandırılabilir Akıllı Yüzeylerde Zaman Bütçeli Faz Kontrolü: Ölçüm, Yasa ve Denetleyici Tasarımı"</li>
+</ul>
+<p>Başlık değiştirilemiyorsa ilk paragraf şöyle sınırlanmalı: "Bu tezde 'RIS tasarımı', yüzeyin donanımı değil, hareketli kullanıcılar için faz kontrolünün tasarımı anlamında kullanılmıştır."</p>
+<h2>Düzeltme 4: temel tasarım ilkesi (tezin başında, sınırlar bölümünde değil)</h2>
+<p><strong>İki zaman ölçeği:</strong> ön kodlayıcı her slotta (≤ 1 ms) güncel kanaldan tazelenir; RIS fazı daha yavaş, gecikmesi ölçülmüş bir döngüde güncellenir. Bu bir varsayım değil, ölçülmüş bir zorunluluk: ön kodlayıcı RIS fazıyla birlikte eskirse sistem yaklaşık 1 ms içinde çöküyor (1.15 ms'de 5.41 → 4.03 b/s/Hz; <code>juri/REPORT_S4_S2.md</code>). Tezin bütün sonuçları bu ilkenin içinde geçerlidir. Bölüm 3, bu ilkeyle açılmalı.</p>
 <h2>Tezin tek cümlesi</h2>
 <p><strong>Hareketli RIS sistemlerinde hesaplama gecikmesi, yöntem sıralamasını belirleyen birinci sınıf bir tasarım kısıtıdır; bu tez bu kısıtı ölçer, yasasını çıkarır ve onu kullanan bir denetleyici tasarlar.</strong></p>
 <p>"Ne tasarladın?" sorusunun cevabı:</p>
@@ -64,10 +73,10 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 </tr>
 <tr>
 <td>4</td>
-<td>Faz gösterimi (Makale 1)</td>
-<td>sin/cos gösterimi, tek geçişli tahmin, faz hatası ölçütü</td>
+<td>Faz hatası ölçütünün sınırı (Makale 1)</td>
+<td>Tek geçişli tahminle faz hatasını küçültmek; ama faz hatası, hareketli sistemde başarıyı ölçmüyor. Bu bölüm, tezin ölçüt merdiveninin ilk basamağı: faz hatası → t = 0 hızı → etkin hız.</td>
 <td>Makale 1; S5 ve S5b</td>
-<td>Makale yayımlandı. Tezde etki tohuma bağlı diye yazılmalı.</td>
+<td>Düzeltme 3'e göre yeniden konumlandırılmalı (aşağıda).</td>
 </tr>
 <tr>
 <td>5</td>
@@ -120,18 +129,105 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 </tr>
 </tbody>
 </table>
+<h2>Düzeltme 3: Makale 1'in yeri</h2>
+<p>Makale 1, tezde <strong>yöntemin yeniliği olarak değil, başlangıç noktası olarak</strong> anlatılmalı.</p>
+<ul>
+<li>sin/cos gösterimi RIS'te ve başka alanlarda daha önce kullanıldı (Fondo-Ferreiro ve ark.; Makale 1'in kendi "Note on Novelty" bölümü).</li>
+<li>Bu tezin kendi deneyinde, çok kullanıcılı ve hız tabanlı eğitimde avantajı tohuma bağlı çıktı: 3 tohumdan 1'inde anlamlı (<code>juri/REPORT_S5b.md</code>).</li>
+<li>Makale 1'in teze katkısı: faz tahminini tek geçişe indirmek ve başarıyı faz hatasıyla ölçmek. Tezin geri kalanı, bu ölçütün hareketli kullanıcıda yetmediğini gösteriyor; anlatıyı başlatan soru buradan doğuyor.</li>
+</ul>
 <h2>Bölüm 9 için öneri: "tasarım" nasıl anlatılmalı</h2>
-<p>Sistemin kazancı üç ayrı kararın birleşiminden geliyor. Her birini ayrı ölçülmüş katkı olarak anlatmak, jüri karşısında en savunulabilir yol:</p>
-<ol>
-<li><strong>Başlangıç seçimi:</strong> SU-best-of; kapalı forma karşı kazancın yaklaşık %59'u.</li>
-<li><strong>Adım sayısı seçimi:</strong> eskime eğrisinden; en güçlü sabit seçime karşı +0.040…+0.087.</li>
-<li><strong>Sıcak başlangıç:</strong> önceki fazdan; periyodik kipte +0.051; yalnızca periyot kısayken kazandırıyor.</li>
-</ol>
+<p><strong>Düzeltme 2:</strong> kazanç yüzde olarak ve ayrı kararlar hâlinde verilmeli. Kaynak: mühürlü test, seed 41; <code>sistem/katki_ayrisimi.py</code> → <code>katki_ayrisimi.json</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Karar</th>
+<th>Katkı [%95 GA]</th>
+<th>Yüzde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Başlangıç seçimi (SU-average → SU-best-of)</td>
+<td>+0.057 [+0.036, +0.079]</td>
+<td>%1.14</td>
+</tr>
+<tr>
+<td>Koşula göre adım sayısı (kapalı form → denetleyici)</td>
+<td>+0.040 [+0.029, +0.052]</td>
+<td>%0.79</td>
+</tr>
+<tr>
+<td>Toplam, makalenin kapalı formuna göre</td>
+<td>+0.097 [+0.077, +0.118]</td>
+<td>%1.94</td>
+</tr>
+<tr>
+<td>En iyi sabit hatta göre</td>
+<td>+0.087 [+0.072, +0.103]</td>
+<td>%1.73</td>
+</tr>
+<tr>
+<td>Periyodik kip: sıcak başlangıcın değeri</td>
+<td>+0.051 [+0.036, +0.066]</td>
+<td>%0.99</td>
+</tr>
+<tr>
+<td>Periyodik kip: sıcak başlangıçlı kapalı forma göre</td>
+<td>+0.020 [+0.010, +0.030]</td>
+<td>%0.39</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Nasıl söylenmeli:</strong> "Denetleyici, en güçlü sabit seçimi %1–2 geçiyor ve kâhine 0.003 b/s/Hz yaklaşıyor. Bunun değeri büyük bir kazanç değil, ayarsız çalışması: hiçbir koşul için elle ayar gerekmeden, hız, taşıyıcı ve tutma süresi değiştikçe en iyiye yakın kalıyor. Sabit bir ayar ise yalnızca kalibre edildiği koşullarda iyi."</p>
 <p>Bunlara iki ek tasarım kuralı eşlik ediyor:</p>
 <ul>
 <li><strong>Doppler kestirimi:</strong> ±%20 hata zararsız; düşük kestirmek daha pahalı.</li>
 <li><strong>Zaman ölçekleri:</strong> ön kodlayıcı her slotta tazelenmeli; RIS fazı daha yavaş döngüde kalabilir.</li>
 </ul>
+<h2>Düzeltme 5: gelecek çalışma, somut deney planıyla</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deney</th>
+<th>Neyi kapatır</th>
+<th>Ölçüt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>İkinci geometri (farklı oda boyutu, RIS konumu, N = 64), aynı ön kayıtlı hipotezlerle</td>
+<td>Tek geometri itirazı</td>
+<td>L* tasarım kuralıyla öngörülüyor mu (medyan kayıp ≤ %1)?</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Ölçülmüş kanal (RIS'li bir ölçüm veri seti ya da test yatağı)</td>
+<td>Simülasyon itirazı</td>
+<td>Etkin hız sıralaması ve iç optimum korunuyor mu?</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Gerçek donanım gecikmesi (GPU, FPGA ya da derlenmiş C; bütün yöntemler aynı düzeyde)</td>
+<td>Python gecikmesi itirazı</td>
+<td>Gecikme oranları ve başa baş oranı r*</td>
+</tr>
+<tr>
+<td>4</td>
+<td>RIS anahtarlama süresini (≥ 0.72 ms) gecikmeye eklemek</td>
+<td>Eksik gecikme bileşeni</td>
+<td>28 GHz'de denetleyicinin seçimi değişiyor mu?</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Ön kodlayıcı döngüsünü pilot ve kestirim hatasıyla birlikte ana sonuca katmak</td>
+<td>Kusursuz CSI varsayımı</td>
+<td>Denetleyicinin kâhine uzaklığı</td>
+</tr>
+</tbody>
+</table>
 <h2>Zaman çizelgesi (yaklaşık 2 ay)</h2>
 <table>
 <thead>

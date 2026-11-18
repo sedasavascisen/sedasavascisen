@@ -23,6 +23,17 @@ Hareketli bir kullanıcıya hizmet eden RIS için, her güncellemede faz hesapla
 - **Periyodik kip:** sıcak başlangıcın kendi katkısı +0.051 [+0.037, +0.066]. Kapalı forma da sıcak başlangıç verilince sistemin farkı +0.020 [+0.009, +0.030].
 - **Sonuç:** kazanç üç tasarım kararının birleşiminden geliyor (başlangıç seçimi, sıcak başlangıç, adım sayısı seçimi) ve tezde bu üçü ayrı ayrı raporlanmalı.
 
+## Kazancın kararlara ayrışması (mühürlü test; `katki_ayrisimi.py` → `katki_ayrisimi.json`)
+
+| Karar | Katkı [%95 GA] | Yüzde |
+| --- | --- | --- |
+| Başlangıç seçimi (SU-average → SU-best-of) | +0.057 [+0.036, +0.079] | %1.14 |
+| Koşula göre adım sayısı | +0.040 [+0.029, +0.052] | %0.79 |
+| Toplam, kapalı forma göre | +0.097 [+0.077, +0.118] | %1.94 |
+| En iyi sabit hatta göre | +0.087 [+0.072, +0.103] | %1.73 |
+| Periyodik: sıcak başlangıcın değeri | +0.051 [+0.036, +0.066] | %0.99 |
+| Periyodik: sıcak başlangıçlı kapalı forma göre | +0.020 [+0.010, +0.030] | %0.39 |
+
 ## Tasarım kuralları (geliştirme çekilişinde, `GUNLUK.md`)
 
 - **Doppler kestirimi:** ±%20–25 hata zararsız. Yarı yarıya düşük kestirmek 0.09–0.11 kaybettiriyor; belirsizlikte kestirimi yukarı yönlü tutmak gerekir (tur 2–3).

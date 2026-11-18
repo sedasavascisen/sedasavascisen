@@ -14,10 +14,11 @@ def S(kind, title, body, say, src=""):
 
 
 # 1 -------------------------------------------------------------------------------------------
-S("title", "Hareketli RIS sistemlerinde hesaplama gecikmesi",
+S("title", "Hareketli kullanıcılar için gecikme farkındalıklı RIS kontrolü",
   """<div class="sub">Ölç, yasasını çıkar, onu kullanan bir denetleyici tasarla</div>
+<div class="who">Bu tezde "RIS tasarımı": yüzeyin donanımı değil, faz kontrolünün tasarımı</div>
 <div class="who">Seda Savaşçı Şen · Doktora tezi savunması · Kasım 2026</div>""",
-  """Sayın jüri üyeleri, bu tezde yeniden yapılandırılabilir akıllı yüzeylerin, yani RIS'in, hareketli kullanıcılar için nasıl tasarlanması gerektiğini inceledim.
+  """Sayın jüri üyeleri, bu tezde yeniden yapılandırılabilir akıllı yüzeylerin, yani RIS'in, hareketli kullanıcılar için nasıl kontrol edilmesi gerektiğini inceledim. Burada tasarım derken yüzeyin donanımını değil, fazlarını ne zaman ve nasıl hesapladığımızı, yani kontrolünü kastediyorum.
 Tezin tek cümlelik iddiası şudur: hareketli RIS sistemlerinde hesaplama gecikmesi ikincil bir ölçüt değil, yöntemlerin sıralamasını belirleyen birinci sınıf bir tasarım kısıtıdır.
 Bu videoda önce problemi ve senaryoyu, sonra kodları ve ölçümleri, en sonunda da bu kısıtı kullanan, tasarladığım denetleyiciyi anlatacağım.""")
 
@@ -27,11 +28,12 @@ S("text", "Problem: kanal, karar verilene kadar değişir",
 <li>Yürüyen bir kullanıcı kanalı <b>onlarca milisaniyede</b> değiştirir (3 GHz, 1.5 m/s: eşevreli kalma süresi 28.2 ms).</li>
 <li>Dikkatli bir çözücü <b>saniyeler</b> sürebilir.</li>
 <li>Literatür yöntemleri genellikle <b>verildiği kanal üzerinde</b> karşılaştırır.</li>
+<li>Başlangıç noktası (Makale 1): fazı tek geçişte tahmin etmek ve başarıyı <b>faz hatasıyla</b> ölçmek.</li>
 <li>Bu tezin sorusu: <b>zaman sayılınca hangi yöntem, ne kadar süre çalıştırılmalı?</b></li>
 </ul>""",
   """Problem şu. Yürüyen bir kullanıcı kanalı onlarca milisaniyede değiştirir. Üç gigahertzde, saniyede bir buçuk metre hızla yürüyen bir kullanıcı için eşevreli kalma süresi yaklaşık yirmi sekiz milisaniyedir.
 Oysa dikkatli bir optimizasyon algoritması saniyeler sürebilir. Cevap hazır olduğunda soru değişmiştir.
-Literatürde yöntemler çoğunlukla kendilerine verilen kanal üzerinde karşılaştırılır. Ben ise her yöntemi, işini bitirdiği anda var olan kanal üzerinde değerlendirdim.""",
+İlk makalemde fazı tek geçişte tahmin eden bir ağ kurdum ve başarıyı faz hatasıyla ölçtüm. Bu tez, o makalenin bıraktığı sorudan doğdu: faz hatasını azaltmak, hareketli bir kullanıcı için hızı da artırır mı? Bunu yanıtlamak için her yöntemi, işini bitirdiği anda var olan kanal üzerinde değerlendirdim.""",
   "Makale 2, Giriş; T_c = √(9/(16π))/f_d")
 
 # 3 -------------------------------------------------------------------------------------------
@@ -41,6 +43,17 @@ S("figure", "Senaryo: kapalı ofis, yürüyen kullanıcılar",
 Dört kullanıcı saniyede bir buçuk metre hızla düz çizgiler boyunca yürüyor. Doğrudan yollar engellenmiş, yani kullanıcılara asıl katkı RIS üzerinden geliyor.
 Büyük ölçekli kanal parametreleri 3GPP TR otuz sekiz dokuz yüz bir modelinden geliyor. Kullanıcılar hareket ettikçe kanal geometriden her an yeniden hesaplanıyor.""",
   "Makale 2, Şekil 1 ve §III")
+
+# 3b ------------------------------------------------------------------------------------------
+S("text", "Temel tasarım ilkesi: iki zaman ölçeği",
+  """<ul><li><b>Hızlı döngü:</b> ön kodlayıcı her slotta (≤ 1 ms) güncel kanaldan tazelenir.</li>
+<li><b>Yavaş döngü:</b> RIS fazı, gecikmesi ölçülmüş bir algoritmayla güncellenir — bu tezin konusu.</li>
+<li>Bu bir varsayım değil, ölçülmüş bir zorunluluk: ön kodlayıcı da eskirse sistem <b>~1 ms içinde çöker</b> (1.15 ms'de 5.41 → 4.03 b/s/Hz).</li>
+<li>Tezin bütün sonuçları bu ilkenin içinde geçerlidir.</li></ul>""",
+  """Sonuçlara geçmeden önce tezin temel tasarım ilkesini söylemek istiyorum: iki zaman ölçeği.
+Baz istasyonundaki ön kodlayıcı her slotta, güncel kanaldan tazelenir. RIS fazı ise daha yavaş bir döngüde, gecikmesi ölçülmüş bir algoritmayla güncellenir; bu tezin konusu bu yavaş döngü.
+Bunu bir varsayım olarak değil, ölçerek koydum. Ön kodlayıcı da RIS fazıyla birlikte eskirse, sistem yaklaşık bir milisaniyede çöküyor: hız beş virgül kırk birden dört virgül sıfır üçe düşüyor. Yani ön kodlayıcıyı hızlı döngüde tutmak bir tercih değil, zorunluluk. Tezin bütün sonuçları bu ilkenin içinde geçerli.""",
+  "thesis_exp/juri/REPORT_S4_S2.md")
 
 # 4 -------------------------------------------------------------------------------------------
 S("code", "Kod 1: kanal zamanla nasıl eskiyor?",
@@ -184,18 +197,17 @@ Her aday için ölçülmüş gecikmeyi ve Doppler kestirimini kullanarak etkin h
 
 # 15 ------------------------------------------------------------------------------------------
 S("text", "Mühürlü test: hiç görülmemiş çekilişte, tek sefer",
-  """<table class="t sm"><tr><th>Karşılaştırma (seed 41, 12 koşul)</th><th>Sistem − karşılaştırma [%95 GA]</th></tr>
-<tr><td>SU-best-of</td><td>+0.434 [+0.397, +0.470]</td></tr>
-<tr><td>Gecikmeyi yok sayan Adam-48</td><td>+0.434 [+0.393, +0.475]</td></tr>
-<tr><td>Makalenin kapalı formu</td><td>+0.097 [+0.077, +0.118]</td></tr>
-<tr><td>Kapalı form, SU-best-of başlangıçlı</td><td>+0.040 [+0.029, +0.052]</td></tr>
-<tr><td>Seed 12'de seçilen en iyi sabit hat</td><td>+0.087 [+0.072, +0.102]</td></tr>
-<tr><td>Periyodik kip: sıcak başlangıcın katkısı</td><td>+0.051 [+0.037, +0.066]</td></tr></table>
+  """<table class="t sm"><tr><th>Karar (seed 41, 12 koşul)</th><th>Katkı [%95 GA]</th><th>Yüzde</th></tr>
+<tr><td>Başlangıç seçimi (SU-average → SU-best-of)</td><td>+0.057 [+0.036, +0.079]</td><td>%1.14</td></tr>
+<tr><td>Koşula göre adım sayısı</td><td>+0.040 [+0.029, +0.052]</td><td>%0.79</td></tr>
+<tr><td><b>Toplam, makalenin kapalı formuna göre</b></td><td>+0.097 [+0.077, +0.118]</td><td>%1.94</td></tr>
+<tr><td><b>En iyi sabit hatta göre</b></td><td>+0.087 [+0.072, +0.103]</td><td>%1.73</td></tr>
+<tr><td>Periyodik kip: sıcak başlangıcın değeri</td><td>+0.051 [+0.036, +0.066]</td><td>%0.99</td></tr></table>
 <div class="cap">Kâhine (geriye dönük en iyi seçim) uzaklık: 0.0026 b/s/Hz · ön kayıtlı H1, H2, H3 tuttu · 362/362 bağımsız denetim</div>""",
-  """Denetleyiciyi bir gece boyunca geliştirdim, her fikri yalnızca geliştirme çekilişinde sınadım ve başarısız olanlar dahil bütün denemeleri günlüğe yazdım. Sonra son sürümü dondurdum ve gece hiç dokunulmayan bir çekilişte tek bir kez test ettim.
-Sonuç: denetleyici beş karşılaştırma yönteminin hepsini anlamlı farkla geçiyor ve geriye dönük olarak mümkün olan en iyi seçime yalnızca sıfır virgül sıfır sıfır üç uzaklıkta.
-Bağımsız denetim daha güçlü taban çizgilerini de sordu. En iyi sabit hatta karşı fark sıfır virgül sıfır seksen yedi, başlangıcı da iyi seçilmiş kapalı forma karşı sıfır virgül sıfır kırk. Kazancın kaynaklarını ayrı ayrı raporluyorum: başlangıç seçimi, adım sayısı seçimi ve periyodik çalışmada sıcak başlangıç.""",
-  "thesis_exp/sistem/FINAL.md, FINAL_EK.md")
+  """Denetleyiciyi bir gece boyunca geliştirdim, her fikri yalnızca geliştirme çekilişinde sınadım ve başarısız olanlar dahil bütün denemeleri günlüğe yazdım. Sonra son sürümü dondurdum ve gece hiç dokunulmayan bir çekilişte tek bir kez test ettim. Ön kayıtlı üç hipotezin üçü de tuttu.
+Kazancı abartmadan, kararlara ayırarak veriyorum. Başlangıç noktasını doğru seçmek yüzde bir virgül on dört kazandırıyor; adım sayısını koşula göre seçmek yüzde sıfır virgül yetmiş dokuz daha. En iyi sabit ayara karşı toplam kazanç yüzde bir virgül yetmiş üç; periyodik çalışmada önceki fazdan başlamak yaklaşık yüzde bir daha ekliyor.
+Bu büyük bir kazanç değil. Denetleyicinin asıl değeri, ayarsız çalışması: elle hiçbir ayar yapmadan, hız, taşıyıcı ve tutma süresi değiştikçe olası en iyi seçime sıfır virgül sıfır sıfır üç yakın kalıyor. Sabit bir ayar ise yalnızca kalibre edildiği koşullarda iyi.""",
+  "thesis_exp/sistem/FINAL.md, FINAL_EK.md, katki_ayrisimi.json")
 
 # 16 ------------------------------------------------------------------------------------------
 S("text", "Yapay zekâ ekseni: en elverişli rejimde de olumsuz",
@@ -222,12 +234,25 @@ Kaynak kontrolünde, RIS eleman kazancının Tang ve arkadaşlarının formülü
 Ön kayıt, mühürlü test ve bağımsız denetimler, bu sınırların sonuçları nerede etkilediğini görmemi sağladı.""",
   "Makale 2, §III ve §VII; thesis_exp/kazanc_duyarlilik")
 
+# 17b -----------------------------------------------------------------------------------------
+S("text", "Gelecek çalışma: sınırları kapatacak deneyler",
+  """<table class="t sm"><tr><th>Deney</th><th>Neyi kapatır</th></tr>
+<tr><td>İkinci geometri (farklı oda, RIS konumu, N = 64), aynı ön kayıtlı hipotezlerle</td><td>Tek geometri</td></tr>
+<tr><td>Ölçülmüş kanal (RIS'li ölçüm verisi ya da test yatağı)</td><td>Simülasyon</td></tr>
+<tr><td>Gerçek donanım gecikmesi (GPU / FPGA / derlenmiş C, bütün yöntemler eşit düzeyde)</td><td>Python gecikmesi</td></tr>
+<tr><td>RIS anahtarlama süresini (≥ 0.72 ms) gecikmeye eklemek</td><td>Eksik gecikme bileşeni</td></tr>
+<tr><td>Ön kodlayıcı döngüsünü pilot ve kestirim hatasıyla ana sonuca katmak</td><td>Kusursuz CSI</td></tr></table>""",
+  """Bu sınırların her biri için somut bir deney planım var.
+Tek geometri sınırını, farklı bir oda, farklı bir RIS konumu ve altmış dört elemanlı bir yüzeyle, aynı ön kayıtlı hipotezlerle kapatabilirim. Ölçüt açık: tasarım kuralı yeni geometride optimum adım sayısını yüzde birden az kayıpla öngörebiliyor mu?
+Simülasyon sınırını ölçülmüş bir kanalla, Python sınırını bütün yöntemleri aynı düzeyde derleyerek ya da bir hızlandırıcı üzerinde koşturarak kapatabilirim. RIS'in anahtarlama süresini gecikmeye eklemek ve ön kodlayıcı döngüsünü pilot ve kestirim hatasıyla birlikte ana sonuca katmak da sıradaki adımlar.""",
+  "thesis_exp/YOL_HARITASI.md")
+
 # 18 ------------------------------------------------------------------------------------------
 S("title", "Sonuç",
   """<div class="sub">Gecikme, hareketli RIS'te yöntem sıralamasını belirler.</div>
 <ul class="concl"><li><b>Ölçüt:</b> etkin hız — kâğıt üzerindeki en iyiler kaybeder.</li>
 <li><b>Yasa:</b> iç optimum L*, x = ΔT·f_d ile ölçeklenir; tasarım kuralı medyan %0.08 kayıp.</li>
-<li><b>Tasarım:</b> gecikme farkındalıklı denetleyici, mühürlü testte kâhine 0.003 yakın.</li>
+<li><b>Tasarım:</b> gecikme farkındalıklı denetleyici: ayarsız, en iyi sabit ayarı %1.7 geçiyor, kâhine 0.003 yakın.</li>
 <li><b>Genişleme:</b> geniş bantta ikinci eksen — kaç alt taşıyıcı.</li>
 <li><b>Titiz olumsuz sonuç:</b> öğrenme, ölçülmüş zamanda kazanmıyor.</li></ul>""",
   """Özetle: hareketli RIS sistemlerinde hesaplama gecikmesi yöntem sıralamasını belirliyor.

@@ -65,6 +65,48 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 <li><strong>Periyodik kip:</strong> sıcak başlangıcın kendi katkısı +0.051 [+0.037, +0.066]. Kapalı forma da sıcak başlangıç verilince sistemin farkı +0.020 [+0.009, +0.030].</li>
 <li><strong>Sonuç:</strong> kazanç üç tasarım kararının birleşiminden geliyor (başlangıç seçimi, sıcak başlangıç, adım sayısı seçimi) ve tezde bu üçü ayrı ayrı raporlanmalı.</li>
 </ul>
+<h2>Kazancın kararlara ayrışması (mühürlü test; <code>katki_ayrisimi.py</code> → <code>katki_ayrisimi.json</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Karar</th>
+<th>Katkı [%95 GA]</th>
+<th>Yüzde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Başlangıç seçimi (SU-average → SU-best-of)</td>
+<td>+0.057 [+0.036, +0.079]</td>
+<td>%1.14</td>
+</tr>
+<tr>
+<td>Koşula göre adım sayısı</td>
+<td>+0.040 [+0.029, +0.052]</td>
+<td>%0.79</td>
+</tr>
+<tr>
+<td>Toplam, kapalı forma göre</td>
+<td>+0.097 [+0.077, +0.118]</td>
+<td>%1.94</td>
+</tr>
+<tr>
+<td>En iyi sabit hatta göre</td>
+<td>+0.087 [+0.072, +0.103]</td>
+<td>%1.73</td>
+</tr>
+<tr>
+<td>Periyodik: sıcak başlangıcın değeri</td>
+<td>+0.051 [+0.036, +0.066]</td>
+<td>%0.99</td>
+</tr>
+<tr>
+<td>Periyodik: sıcak başlangıçlı kapalı forma göre</td>
+<td>+0.020 [+0.010, +0.030]</td>
+<td>%0.39</td>
+</tr>
+</tbody>
+</table>
 <h2>Tasarım kuralları (geliştirme çekilişinde, <code>GUNLUK.md</code>)</h2>
 <ul>
 <li><strong>Doppler kestirimi:</strong> ±%20–25 hata zararsız. Yarı yarıya düşük kestirmek 0.09–0.11 kaybettiriyor; belirsizlikte kestirimi yukarı yönlü tutmak gerekir (tur 2–3).</li>
