@@ -248,7 +248,7 @@ Makale 9 sayfa, 46 kaynak; `audit_claims.py --all` 126/126, `check_claims.py` 12
 Kullanıcının onayıyla, kapanmış ölçüm fazına istisna; yalnızca hızlar, zamanlama yok. Betik `veri_bolme/saglamlik_900.py` → `saglamlik_900.json`, `saglamlik_900.log`.
 - **V0 (Adam 400 doğrulama, 600 test):** yayımlanan sayıları birebir üretti (fark 0). Betik doğru çalışıyor.
 - **V1a (Adam 500 doğrulama, 600 test):** Adam her bütçede (L = 1…64) yine 0.75 / soft-min seçiyor. Bütün sonuçlar ve iddialar aynı: öğrenilen kural her L'de önde, kazanma oranı %68–84, her öğrenilen nokta 5 zamanlama turunun 5'inde baskınlanıyor.
-- **V1 (500 doğrulama, 900 test):** Adam tarafı hesaplandı. Öğrenilen kural için ağırlık arşivi (`ris_mu_agirliklar_2026-10-27.tar.gz`) gerekiyor; arşiv bu ortamda olmadığı için **ÜRETİLEMEDİ**.
+- **V1 (500 doğrulama, 900 test):** Adam tarafı hesaplandı. Öğrenilen kural için ağırlık arşivi (`ris_mu_agirliklar_2026-10-27.tar.gz`) gerekiyor; arşiv bu ortamda olmadığı için **ÜRETİLEMEDİ**. Kullanıcı kararı: makale bu hâliyle kalır; eğitim yalnızca hakem isterse yapılır (`HAKEM_HAZIRLIK.md`).
 
 | Yer | Önce | Sonra |
 | --- | --- | --- |
