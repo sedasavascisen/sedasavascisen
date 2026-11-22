@@ -231,7 +231,7 @@ Uygulanmayan küçük bulgular `DENETIM_FINAL.md`'de listeli ve isteğe bağlı:
 
 ## 18. tur (22 Kasım 2026): statik kümenin bölmesi (madde 19)
 
-Kaynak: `veri_bolme/kontrol_bolme.py` → `veri_bolme/veri_bolme.json`. Kod 6000 senaryoyu rastgele 70/15/15 böler (`ris_mu/features.py:split_indices`, tohum 0): 4200/900/900. Öğrenilen güncelleme kuralı en iyi epoch'unu 500 doğrulama senaryosunda seçer (`scripts/mumiso_unrolled.py`). Adam bunların ilk 400'ünde ayarlanır. Sonuçlar 900 test senaryosunun 600'ünde raporlanır (`mumiso_equal_step.py`, `mumiso_latency_parity.py`). Makaledeki 4200 + 400 + 600 = 5200 bu yüzden eksikti. Kalan 800 senaryonun 100'ü yalnızca öğrenilen kuralın epoch seçiminde kullanıldı; 700'ü hiç kullanılmadı. Sonuçlarda hiçbir sayı değişmedi.
+Kaynak: `veri_bolme/kontrol_bolme.py` → `veri_bolme/veri_bolme.json`. Kod 6000 senaryoyu rastgele 70/15/15 böler (`ris_mu/features.py:split_indices`, tohum 0): 4200/900/900. Öğrenilen güncelleme kuralı en iyi epoch'unu 500 doğrulama senaryosunda seçer (`scripts/mumiso_unrolled.py`). Adam bunların ilk 400'ünde ayarlanır. Sonuçlar 900 test senaryosunun 600'ünde raporlanır (`mumiso_equal_step.py`, `mumiso_latency_parity.py`). Makaledeki 4200 + 400 + 600 = 5200 bu yüzden eksikti. Kalan 800 senaryonun 100'ü yalnızca öğrenilen kuralın epoch seçiminde kullanıldı; 700'ü ne seçimde ne makaledeki sayılarda kullanıldı (eğitim betiği 900 test senaryosunun hepsinde bir `test_min` yazıyor, ama bu değer hiçbir yerde kullanılmıyor). Sonuçlarda hiçbir sayı değişmedi.
 
 | Yer | Önce | Sonra |
 | --- | --- | --- |
@@ -239,6 +239,6 @@ Kaynak: `veri_bolme/kontrol_bolme.py` → `veri_bolme/veri_bolme.json`. Kod 6000
 | §V-A, ışın kümesi | "400 further scenarios with 6 scatterers." | "400 more scenarios, 6 scatterers." (yer kazanmak için; bilgi aynı) |
 | §V-A | "The generator is not prefix-stable, so every trained model is evaluated with the sample count it was trained with." | "The generator is not prefix-stable; trained models are evaluated at their training sample count." (aynı) |
 | §V-C | "and most measurements are repeated in several rounds. These are latencies of unoptimized Python code (…)" | "and most are repeated in several rounds; the code is unoptimized Python (…)" (aynı) |
-| §V-C | "is timed in three rounds from a load average of 0.45." | "is timed in three rounds (load average 0.45)." (aynı) |
+| §V-C | "The $N=64$ step-time ratio of 1.04 comes from one round on 20 scenarios." | "The $N=64$ step-time ratio (1.04) is from one round on 20 scenarios." (aynı; bağımsız denetimden sonra, "from a load average of 0.45" ifadesi yükün ölçüm öncesinde alındığını korumak için geri getirildi) |
 
 Makale 9 sayfa, 46 kaynak; `audit_claims.py --all` 126/126, `check_claims.py` 120/120. `DENETIM_FINAL.md` madde 15 bununla kapandı.

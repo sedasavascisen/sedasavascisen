@@ -98,14 +98,14 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 <p>Ne anlama geliyor:</p>
 <ul>
 <li><strong>CD'nin 104°'si bir ölçüt hatası.</strong> CD gerçek optimuma gidiyor; makalenin etiketi (Denklem 8) doğrudan bağlantıyı (h_d) yok sayıyor. İkisi arasında senaryo başına tek bir ortak faz farkı var. Bu fark çıkarılınca CD, K = 5'te bile CNN–LSTM'den yaklaşık 2.5–3.5 kat daha küçük hata veriyor.</li>
-<li><strong>CNN–LSTM'in hız kaybı (0.69 b/s/Hz) tamamen ortak fazdan.</strong> Ağ, etiketin şeklini iyi öğreniyor: ortak fazı h_d'ye hizalayan tek parametreli bir düzeltmeyle hızı 6.488 b/s/Hz'e çıkıyor, yani optimuma 0.002 kalıyor (aynı JSON, <code>rate_after_common_phase_fix_bpshz</code>). Ama ağ yayımlandığı hâliyle etiketi öğrendiği için, etiketin kendisi kadar (5.799) hız veriyor.</li>
+<li><strong>CNN–LSTM'in hız kaybı (0.69 b/s/Hz) neredeyse tamamen (%99.7) ortak fazdan.</strong> Ağ, etiketin şeklini iyi öğreniyor: ortak fazı h_d'ye hizalayan tek parametreli bir düzeltmeyle hızı 6.488 b/s/Hz'e çıkıyor, yani optimuma 0.002 kalıyor (aynı JSON, <code>rate_after_common_phase_fix_bpshz</code>). Bu düzeltme, ağın girdisinde olmayan h_d'yi kullanıyor; aynı bilgiyle optimum zaten kapalı formda hesaplanabiliyor (SPA ya da h_d'yi içeren etiket). Yani bu bir "ağ optimumu buluyor" sonucu değil, kaybın nereden geldiğinin teşhisi. Ama ağ yayımlandığı hâliyle etiketi öğrendiği için, etiketin kendisi kadar (5.799) hız veriyor.</li>
 <li><strong>Ortak faz, bu bağlantıda serbest değil.</strong> h_d ≠ 0 olduğundan ortak faz, RIS yolunun doğrudan yola nasıl ekleneceğini belirliyor. Bu yüzden ortak fazdan arındırılmış RMSE tek başına yeterli değil, yanında hız da verilmeli. Tabloda ikisi birlikte var.</li>
 </ul>
-<p>Tez için sonuç: "CNN–LSTM klasik yöntemlerden daha doğru" cümlesi bu ölçütle de, hızla da kurulamaz. Kurulabilecek doğru cümleler:</p>
+<p>Tez için sonuç: "CNN–LSTM, CD, AO ve SPA'dan daha doğru" cümlesi bu ölçütle de, hızla da kurulamaz. Yayımlanan PSO, PGD ve "WMMSE" betiklerine karşı ise CNN–LSTM iki ölçütte de önde: ortak fazsız RMSE'leri 71.65 / 93.90 / 93.67°, hızları 5.527 / 2.891 / 3.003 b/s/Hz (<code>audit/raw/step2_baselines.json</code>). Ama bu üç betik zayıf uygulamalar: PGD ve "WMMSE" fazı neredeyse hiç hareket ettirmiyor. Kurulabilecek doğru cümleler:</p>
 <ul>
-<li>ağ, CD'den çok daha hızlı tek geçişli bir tahmin veriyor;</li>
+<li>ağ, tek geçişli bir tahmin veriyor (CD ile gecikme karşılaştırması bu raporda yapılmadı; makaledeki gecikmeler farklı ölçüm türlerinden, bkz. Ek A);</li>
 <li>faz profilinin şeklini 3° civarında öğreniyor;</li>
-<li>etiket h_d'yi içerecek biçimde düzeltilirse ya da ortak faz sonradan hizalanırsa, optimuma çok yaklaşıyor.</li>
+<li>kaybının neredeyse tamamı ortak fazdan geliyor; ortak faz h_d'ye sonradan hizalanınca optimuma 0.002 b/s/Hz kalıyor. Etiketi h_d'yi içerecek biçimde düzeltip yeniden eğitmek <strong>ölçülmedi</strong>.</li>
 </ul>
 <p>Bu sonuncusu tezin değerlendirme protokolü fikriyle de uyumlu: doğru ölçüt faz hatası değil, hız.</p>
 <h2>2) Madde 19: Makale 2'deki statik küme. DÜZELTİLDİ.</h2>
@@ -141,7 +141,7 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 <li>Sonuç dosyalarının kayıtlı ayarı (<code>samples = 6000</code>, <code>eval_n = 600</code>, <code>val_n = 400</code>) ve beş checkpoint'in eğitim ayarı (<code>samples = 6000</code>) bununla tutuyor.</li>
 <li>Önerilen üç olasılıktan ikincisine yakın, ama tam olarak o değil. Eksik görünen 800 senaryonun:<ul>
 <li><strong>100'ü</strong> yalnızca öğrenilen kuralın epoch seçiminde kullanıldı (doğrulamanın 401–500. senaryoları);</li>
-<li><strong>700'ü</strong> hiç kullanılmadı (doğrulamada 400, testte 300).</li>
+<li><strong>700'ü</strong> (doğrulamada 400, testte 300) ne seçimde ne makaledeki sayılarda kullanıldı. Not: eğitim betiği (<code>mumiso_unrolled.py</code>) 900 test senaryosunun hepsinde bir <code>test_min</code> değeri hesaplayıp <code>results/mumiso_eqstep_L*.json</code>'a yazıyor; bu değer hiçbir seçimde ve makalede kullanılmıyor.</li>
 </ul>
 </li>
 <li>Yazım hatası yok; makale yalnızca eksik anlatıyordu. <strong>Hiçbir sonuç sayısı değişmedi.</strong></li>
@@ -218,9 +218,9 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 </tbody>
 </table>
 <ul>
-<li><strong>Bütün klasik yöntemler h_d'yi kullanıyor; etiket kullanmıyor.</strong> RMSE'nin onları cezalandırmasının nedeni bu.</li>
+<li><strong>Bütün klasik yöntemler h_d'yi kullanıyor; etiket kullanmıyor.</strong> CD, AO ve SPA'yı RMSE'nin cezalandırmasının nedeni bu: üçü de h_d'ye hizalı optimuma gidiyor (SPA tam optimumu veriyor). PSO, PGD ve "WMMSE" ise optimuma ulaşmadığı için ortak faz çıkarılsa da kötü.</li>
 <li>Yayımlanan kodla CD, AO, PSO ve SPA'nın makaledeki ölçütle RMSE'si 103.8–104.9°. Makaledeki 3.50 / 3.50 / 4.50 / 5.00° bu kodla <strong>ÜRETİLEMEDİ</strong> (<code>audit/raw/step2_baselines.json</code>).</li>
-<li>AO ile CD aynı algoritma olduğu hâlde makalede farklı ± ve süre değerleri var (±1.38 / ±1.42; 0.18 / 0.15 ms). Bu, ikisinin aynı koşudan gelmediğini gösteriyor.</li>
+<li>AO ile CD aynı algoritma olduğu hâlde makalede farklı ± ve süre değerleri var (±1.38 / ±1.42; 0.18 / 0.15 ms). K = 5'te aynı algoritmanın aynı veride farklı ± vermesi, ikisinin aynı koşudan gelmediğini gösteriyor. Süre farkı ise zamanlama gürültüsünden de gelebilir.</li>
 <li>PGD ve "WMMSE" betikleri fazı neredeyse hiç hareket ettirmiyor: alınan güç etiketin 10.3 ve 9.9 dB altında.</li>
 </ul>
 <p>Tezde ne olur: yöntem bölümüne yukarıdaki tabloyu özetleyen 3–4 cümle girer. Eleştirel alt bölüm <strong>güçlenir</strong>, çünkü 1. bölümdeki ölçüm doğrudan cevap veriyor.</p>
@@ -265,14 +265,14 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 <ul>
 <li>Varyant mimarilerinin (CNN-only, LSTM-only, 1L+1L, 3L+2L, 2L+3L) <strong>hiçbiri</strong> hiçbir kod sürümünde tanımlı değil. Bu 6 satırın RMSE ve parametre değerleri <strong>ÜRETİLEMEDİ</strong>.</li>
 <li><strong>Parametre sayıları kendi içinde tutarsız.</strong><ul>
-<li>Önerilen modelin 727 360'ı, makaledeki analitik toplam. Bu toplam 565 696 parametrelik bir FC bloğu içeriyor, ama koddaki modelde bu blok yok. Kodun gerçek sayısı 161 794 (MATLAB) / 162 562 (PyTorch; fark ikinci LSTM yanlılığı).</li>
+<li>Önerilen modelin 727 360'ı, makaledeki analitik toplam. Bu toplam 565 696 parametrelik bir FC bloğu içeriyor, ama koddaki modelde bu blok yok. Kodun gerçek sayısı 161 794 (MATLAB) / 162 562 (PyTorch aktarımı; 768'lik fark, PyTorch'un iki LSTM katmanında taşıdığı ek yanlılık vektörlerinden: 4·128 + 4·64).</li>
 <li>Daha derin varyantlar (231 K, 213 K), aynı FC bloğunu taşıyorlarsa 727 K'dan küçük olamaz.</li>
 <li>"CNN-only" (680 K), "LSTM-only"den (520 K) büyük görünüyor; oysa CNN bloğu yalnızca 13 440 parametre.</li>
 <li>Kaynak: <code>audit/raw/step3_sources.json</code>.</li>
 </ul>
 </li>
 </ul>
-<p>Tezde ne olur: parametre sütunu ya çıkarılır, ya da yalnızca kodu olan iki model için koddan sayılan değerle verilir (CNN–LSTM 161 794; CNN-Transformer 17 442). Ablasyon satırları ya çıkarılır ya da "betiği bulunamadı" notuyla verilir. Not bırakmak yerine çıkarmayı öneririm.</p>
+<p>Tezde ne olur: parametre sütunu ya çıkarılır, ya da yalnızca kodu olan iki model için koddan sayılan değerle verilir (CNN–LSTM 161 794; CNN-Transformer 17 442, <code>transformer_baseline.m</code>'nin PyTorch aktarımından sayıldı). Ablasyon satırları ya çıkarılır ya da "betiği bulunamadı" notuyla verilir. Not bırakmak yerine çıkarmayı öneririm.</p>
 <h3>Madde 14: Şekil 6.6 (CSI hatasına gürbüzlük)</h3>
 <ul>
 <li>Yayımlanan şeklin x ekseni "CSI Error Variance (σ²)", metin ise "%10 CSI hatası" diyor.</li>
@@ -380,7 +380,7 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 <p><em>Şekil. CSI hatasına gürbüzlük (bağımsız Python yeniden üretimi; hata modeli F̂ = F + √(x|F_n|²)·CN(0,1), Ĝ aynı).</em></p>
 <ul>
 <li>(a) Etikete göre RMSE: CNN–LSTM, aynı bozuk girdiyle kapalı formdan her noktada biraz kötü.</li>
-<li>(b) Hız: CD ve optimum, CNN–LSTM'in her hata düzeyinde yaklaşık 0.7 b/s/Hz üstünde.</li>
+<li>(b) Hız: CD ve h_d'yi içeren kapalı form (ikisi de aynı bozuk girdiyle), CNN–LSTM'in her hata düzeyinde yaklaşık 0.7 b/s/Hz üstünde.</li>
 <li>Makaledeki "CSI hatasında kapalı formdan belirgin üstünlük" iddiası bu modelle desteklenmiyor.</li>
 </ul>
 <p>Kontrol: <code>T1_gosterim</code>'deki std değerleri ilk denemede kendi hesabımla 0.31 çıktı; <code>TEZ_YAZIM_REFERANSI.md</code> 0.38 diyordu. Fark popülasyon ve örneklem std'sinden geliyordu. Tablo artık JSON'da kayıtlı değeri (örneklem std) okuyor ve referansla birebir aynı.</p>
@@ -405,6 +405,82 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 <li><code>cnn_lstm_test_results.mat</code>, varsa. Gelince CDF birebir çizilir ve <code>S1_cdf</code> onunla değiştirilir.</li>
 <li>Ek A'nın danışmanla görüşülmesi.</li>
 </ol>
+<h2>7) Double check (22 Kasım 2026)</h2>
+<p><strong>Benim yaptığım kontroller</strong></p>
+<ul>
+<li>Bütün betikler yeniden koşturuldu. Sayılar ve altı tablo birebir aynı çıktı: betikler deterministik.</li>
+<li>Ortak fazsız RMSE ikinci bir yöntemle sınandı: 3601 noktalı ızgarada gerçek en küçük arandı. CNN–LSTM için 2.724° ve 2.725°, CD için 1.100° ve 1.100° çıktı; formül doğru.</li>
+</ul>
+<p><strong>Bağımsız denetim</strong> (<code>DENETIM_BAGIMSIZ.md</code>): denetçi, benim sonuçlarımı görmeden, raporu ham dosyalarla ve orijinal kodla karşılaştırdı.</p>
+<ul>
+<li>KRİTİK bulgu yok. Uydurulmuş ya da kaynaksız sayı yok. Makale 2'deki yeni cümle koda göre birebir doğru.</li>
+<li>Dört ORTA ve on KÜÇÜK bulgu çıktı; hepsi ifade gücü ve etiketle ilgili. Uygulananlar:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Bulgu</th>
+<th>Düzeltme</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Klasik yöntemler" genellemesi fazla geniş</td>
+<td>Çelişki CD, AO ve SPA ile sınırlandı. Yayımlanan PSO, PGD ve "WMMSE" betiklerine karşı CNN–LSTM'in önde olduğu sayılarıyla eklendi.</td>
+</tr>
+<tr>
+<td>"Etiket düzeltilirse optimuma yaklaşır" ölçülmemişti</td>
+<td>"Ölçülmedi" diye işaretlendi; yalnızca ölçülen sonradan hizalama bırakıldı.</td>
+</tr>
+<tr>
+<td>Ortak faz düzeltmesi h_d kullanıyor</td>
+<td>Bunun bir teşhis olduğu, "ağ optimumu buluyor" sonucu olmadığı yazıldı.</td>
+</tr>
+<tr>
+<td>Nicemleme satırı fazla kesindi</td>
+<td>"Sürekli etikete karşı RMSE tanımıyla imkânsız" diye daraltıldı.</td>
+</tr>
+<tr>
+<td>"700'ü hiç kullanılmadı"</td>
+<td>Eğitim betiği 900 test senaryosunun hepsinde bir değer yazıyor, ama hiçbir yerde kullanılmıyor; ifade buna göre düzeltildi (rapor ve <code>DEGISIKLIKLER.md</code>).</td>
+</tr>
+<tr>
+<td>"Tamamen ortak fazdan"</td>
+<td>"Neredeyse tamamen (%99.7)".</td>
+</tr>
+<tr>
+<td>T3'te %100.0 (ham değer 0.99984)</td>
+<td>İki ondalığa çıkarıldı: %99.98.</td>
+</tr>
+<tr>
+<td>T5 ve S2'de "optimum" etiketi</td>
+<td>Bozuk CSI'dan hesaplandığı için "kapalı form, h_d dahil" diye adlandırıldı.</td>
+</tr>
+<tr>
+<td>T4'te kaynak etiketi; 768'lik farkın açıklaması</td>
+<td>PyTorch aktarımı diye işaretlendi; fark iki LSTM katmanının ek yanlılık vektörlerinden (4·128 + 4·64).</td>
+</tr>
+<tr>
+<td>AO değeri K = 1'de hesaplanmış</td>
+<td>Ek A'ya K = 5'te CD ile aynı olduğu (104.02°) eklendi.</td>
+</tr>
+<tr>
+<td>AO/CD süre farkı</td>
+<td>Gürültüden de gelebileceği yazıldı; kanıt olarak yalnızca ± farkı kullanıldı.</td>
+</tr>
+<tr>
+<td>Makale 2, iki küçük anlam kaybı</td>
+<td>Yükün ölçümden önce alındığı bilgisi geri getirildi ("from a load average of 0.45"). Makale yine 9 sayfa. "most are repeated" ifadesini netleştirmek sayfayı taşırdığı için bırakıldı; anlam bağlamdan açık.</td>
+</tr>
+</tbody>
+</table>
+<p>Kalan bilgi notları:</p>
+<ul>
+<li>"Yatay eksen yineleme" ve "yarım-MSE" iddiaları kod değil MATLAB belgelerine dayanıyor; MATLAB olmadan doğrulanamaz.</li>
+<li>Şekil 5(b)'nin zamanlamaları ayrı bir küçük çekilişten, tek senaryoda ölçülüyor (bu düzenlemeden önce de böyleydi). Gecikme veriden bağımsız olduğu için etkisi yok.</li>
+<li>CDF'in ham hata dosyası depoya konmadı (7 MB); betik yaklaşık 40 saniyede yeniden üretiyor.</li>
+</ul>
+<p>Son durum: <code>audit_claims.py --all</code> 126/126, <code>check_claims.py</code> 120/120, Makale 2 9 sayfa.</p>
 <h2>Ek A: Makale 1'de yeniden üretilemeyen ya da çelişen değerler</h2>
 <p>Bütün "kod sonucu" sütunu bağımsız Python çekilişinden geliyor (MATLAB değil). Kaynaklar: <code>audit/AUDIT_REPORT.md</code> ve <code>audit/raw/</code>; ortak fazsız değerler <code>audit/raw/step8_invariant_rmse.json</code>.</p>
 <table>
@@ -432,7 +508,7 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 <tr>
 <td>Tablo 6, AO / PSO / SPA</td>
 <td>3.50 / 4.50 / 5.00°</td>
-<td>103.75 / 104.15 / 104.85°</td>
+<td>103.75 (varsayılan K = 1; K = 5'te CD ile aynı, 104.02) / 104.15 / 104.85°</td>
 <td>Üretilemedi</td>
 </tr>
 <tr>
@@ -442,10 +518,10 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 <td>Üretilemedi</td>
 </tr>
 <tr>
-<td>CNN–LSTM ve CD karşılaştırması</td>
+<td>CNN–LSTM ve CD/AO/SPA karşılaştırması</td>
 <td>CNN–LSTM daha doğru</td>
-<td>Ortak fazsız 2.72–3.85° ve 1.10°; hız 5.797 ve 6.467</td>
-<td>Çelişiyor</td>
+<td>Ortak fazsız 2.72–3.85° ve 1.10° (CD); hız 5.797 ve 6.467 (CD), 6.490 (SPA)</td>
+<td>Çelişiyor (PSO/PGD/WMMSE betiklerine karşı CNN–LSTM önde)</td>
 </tr>
 <tr>
 <td>Tablo 1, doğrudan faz</td>
@@ -481,7 +557,7 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 <td>1/2/3 bit nicemleme</td>
 <td>4.12 / 3.08 / 2.81°</td>
 <td>52.06 / 26.17 / 13.39° (etiketin kendisi nicemlenince 51.95 / 25.98 / 12.98°)</td>
-<td>Matematiksel olarak imkânsız</td>
+<td>Sürekli etikete karşı RMSE tanımıyla imkânsız</td>
 </tr>
 <tr>
 <td>Gecikme N = 32</td>
