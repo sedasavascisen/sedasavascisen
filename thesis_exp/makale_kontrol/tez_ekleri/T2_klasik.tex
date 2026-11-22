@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\caption{Klasik yöntemlerin yayımlanan koddaki uygulaması}
+\begin{tabular}{lllll}
+\toprule
+Yöntem & Amaçta h\_d & Başlangıç & Güncelleme & Durma \\
+\midrule
+CD & var & bütün fazlar 0 & eleman başına kapalı form, sürekli faz & sabit K tarama (K = 5) \\
+AO & var & bütün fazlar 0 & CD ile aynı güncelleme & sabit, K = 1 \\
+SPA & var & h\_d & elemanları sırayla hizalama & tek geçiş \\
+PGD & var & bütün fazlar 0 & gradyan adımı 0.2 + birim modüle izdüşüm & sabit 50 yineleme \\
+"WMMSE" (betik) & var & bütün fazlar 0 & eleman başına bir gradyan adımı (0.1) & 1 yineleme \\
+PSO & var (alınan güç) & rastgele, tekdüze & 20 parçacık & sabit 30 yineleme \\
+Etiket (Denk. 8) & yok & — & --∠(G\_n F\_n) & — \\
+\bottomrule
+\end{tabular}
+\end{table}
+% Kaynak: aisy_paket/orijinal/ris_CD.m; ris_AO/SPA/PGD/WMMSE/PSO.m satır satır aktarımı audit/scripts/step2_baselines.py

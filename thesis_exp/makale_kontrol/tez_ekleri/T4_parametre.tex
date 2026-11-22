@@ -1,0 +1,15 @@
+\begin{table}[t]
+\centering
+\caption{Parametre sayıları: yalnızca kodu olan modeller sayılabildi}
+\begin{tabular}{llll}
+\toprule
+Model & Makalede & Koddan sayılan & Kod \\
+\midrule
+CNN–LSTM (önerilen) & 727 360 & 161 794 (MATLAB); 162 562 (PyTorch) & theta\_NN\_multioutput.m \\
+CNN-Transformer & 201 K & 17 442 & transformer\_baseline.m \\
+FC-DNN (doğrudan) & — & 470 304 & transformer\_baseline.m \\
+Diğer 5 ablasyon varyantı & 89 K … 680 K & ÜRETİLEMEDİ (kodu yok) & — \\
+\bottomrule
+\end{tabular}
+\end{table}
+% Kaynak: audit/raw/step3_arith_check.json; audit/raw/train/{cnnlstm,transformer,fcdnn_direct}_N32_s0.json. PyTorch sayısı MATLAB'dan 768 fazla: ikinci LSTM yanlılığı.

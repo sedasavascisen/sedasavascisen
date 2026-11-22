@@ -158,11 +158,69 @@ Tezde ne olur: şekil ya çıkarılır, ya da hata modeli açıkça tanımlanmı
 | 12–13 | ÜRETİLEMEDİ (kod yok); parametreler tutarsız | Çıkarılsın ya da yalnızca kodu olanlar |
 | 14 | ÜRETİLEMEDİ (kod ve model tanımı yok) | Çıkarılsın ya da tanımlı yeniden üretim |
 
-## 5) Senden gerekenler
+## 5) Onaydan sonra yapılanlar (22 Kasım 2026)
 
-1. `cnn_lstm_test_results.mat` dosyası (varsa): CDF'i birebir çizmek için.
-2. Tez taslağındaki şekil numaralarının eşleşmesini onaylaman.
-3. Yayımlanmış Makale 1 için düzeltme (correction) gerekip gerekmediği: bu karar danışmanın ve ortak yazarların. Bulgular 12 Kasım denetiminden beri aynı; bugünkü ölçüm yalnızca ortak fazdan arındırılmış ölçütü ve şekli ekledi.
+Şekil eşleşmesi onaylandı: 6.1 eğitim eğrisi, 6.3 CDF, 6.6 CSI gürbüzlüğü.
+
+**1. Tez için hazır tablo ve şekiller** (`thesis_exp/makale_kontrol/tez_ekleri/`, `make_tez_ekleri.py`)
+- Yeni ölçüm yok; her sayı ham bir dosyadan okunuyor ve kaynağı dosyanın altında yazılı.
+- Tablolar `.tex` (booktabs) ve `.md`, şekiller SVG, PDF ve PNG.
+
+| Dosya | Madde | İçerik |
+| --- | --- | --- |
+| `T2_klasik` | 8 | Klasik yöntemlerin koddaki uygulaması |
+| `T3_ortak_faz` | 8 | Ortak fazsız RMSE ve hız (1. bölümdeki tablo) |
+| `S1_cdf` | 10 | Gerçek yeniden üretim verisinden CDF |
+| `T1_gosterim` | 11 | Aynı mimaride sin/cos ve doğrudan açı (Tablo 1'in yerine) |
+| `T4_parametre` | 12–13 | Koddan sayılabilen parametreler |
+| `S2_csi`, `T5_csi` | 14 | CSI gürbüzlüğü, hata modeli açıkça tanımlı (Şekil 6.6'nın yerine) |
+
+<img src="tez_ekleri/S2_csi.svg" style="width:100%">
+
+*Şekil. CSI hatasına gürbüzlük (bağımsız Python yeniden üretimi; hata modeli F̂ = F + √(x\|F_n\|²)·CN(0,1), Ĝ aynı).*
+- (a) Etikete göre RMSE: CNN–LSTM, aynı bozuk girdiyle kapalı formdan her noktada biraz kötü.
+- (b) Hız: CD ve optimum, CNN–LSTM'in her hata düzeyinde yaklaşık 0.7 b/s/Hz üstünde.
+- Makaledeki "CSI hatasında kapalı formdan belirgin üstünlük" iddiası bu modelle desteklenmiyor.
+
+Kontrol: `T1_gosterim`'deki std değerleri ilk denemede kendi hesabımla 0.31 çıktı; `TEZ_YAZIM_REFERANSI.md` 0.38 diyordu. Fark popülasyon ve örneklem std'sinden geliyordu. Tablo artık JSON'da kayıtlı değeri (örneklem std) okuyor ve referansla birebir aynı.
+
+**2. `.mat` okuyucusu hazır** (`audit/scripts/step9_mat_cdf.py`)
+- `cnn_lstm_test_results.mat` (v7.3) dosyasını okuyor ve şunları veriyor:
+  - RMSE, SR@1/3/5/10°, 5°'de CDF ve %95 hata;
+  - THETA_pred ve THETA_true varsa ortak fazsız RMSE;
+  - birebir MATLAB CDF şekli.
+- Bilinen sonuçlu sentetik bir v7.3 dosyasıyla sınandı: RMSE birebir tuttu.
+- Dosyayı gönderdiğinde tek komutla çalışıyor: `python3 audit/scripts/step9_mat_cdf.py <dosya>`.
+
+**3. Danışman görüşmesi için düzeltme listesi:** aşağıda Ek A.
+- Bu bir teknik liste; düzeltme metni değil.
+- Derginin düzeltme sürecine başvurup başvurmamak senin, danışmanının ve ortak yazarların kararı. Ben dergiye bir şey göndermedim, gönderemem de.
+
+## 6) Hâlâ senden gelecek olan
+
+1. `cnn_lstm_test_results.mat`, varsa. Gelince CDF birebir çizilir ve `S1_cdf` onunla değiştirilir.
+2. Ek A'nın danışmanla görüşülmesi.
+
+## Ek A: Makale 1'de yeniden üretilemeyen ya da çelişen değerler
+
+Bütün "kod sonucu" sütunu bağımsız Python çekilişinden geliyor (MATLAB değil). Kaynaklar: `audit/AUDIT_REPORT.md` ve `audit/raw/`; ortak fazsız değerler `audit/raw/step8_invariant_rmse.json`.
+
+| Yer | Yayımlanan | Kod sonucu | Durum |
+| --- | --- | --- | --- |
+| Denk. 8 etiketi | Alınan gücün optimumu | h_d'yi içeren etiket ortalama 2.20 dB daha fazla güç alıyor | Çelişiyor |
+| Tablo 6, CD (K = 5) | 3.50° | 104.02°; ortak fazsız 1.10° | Üretilemedi; ölçüt hatası |
+| Tablo 6, AO / PSO / SPA | 3.50 / 4.50 / 5.00° | 103.75 / 104.15 / 104.85° | Üretilemedi |
+| Tablo 6, PGD / WMMSE | 4.00 / 4.00° | Faz neredeyse hareket etmiyor (−10.3 / −9.9 dB) | Üretilemedi |
+| CNN–LSTM ve CD karşılaştırması | CNN–LSTM daha doğru | Ortak fazsız 2.72–3.85° ve 1.10°; hız 5.797 ve 6.467 | Çelişiyor |
+| Tablo 1, doğrudan faz | 3.95° (aynı mimari) | Tek kod FC-DNN; o da 83.85° | Kod yok / çelişiyor |
+| Tablo 3, ablasyon | 6 varyant, 89–680 K | Varyantlar tanımlı değil | Üretilemedi |
+| Parametre sayısı | 727 360 | 161 794 (MATLAB), 162 562 (PyTorch) | Çelişiyor |
+| Şekil 8 (CDF) | Görüntüde 5°'de ≈ %87 | %92.9–96.3 (metindeki %95 ile uyumlu) | Görüntü çelişiyor |
+| Şekil 10, %10 CSI | 4.2°, kapalı formdan üstün | 19.0°; kapalı form 18.66° | Kod yok / çelişiyor |
+| 1/2/3 bit nicemleme | 4.12 / 3.08 / 2.81° | 52.06 / 26.17 / 13.39° (etiketin kendisi nicemlenince 51.95 / 25.98 / 12.98°) | Matematiksel olarak imkânsız |
+| Gecikme N = 32 | 0.08 ms | 0.80 ms (tek örnek, CPU; makale toplu iş, GPU) | Farklı ölçüm |
+| 5 koşu GA | ±0.07–0.09° | 3 tohumda std 0.58° | Çelişiyor |
+| Kaynakça | 64 kaynak | 7'si hiçbir kayıtta yok, 1'i geri çekilmiş | Çelişiyor |
 
 ## Yeniden üretim
 
@@ -170,5 +228,7 @@ Tezde ne olur: şekil ya çıkarılır, ya da hata modeli açıkça tanımlanmı
 python3 thesis_exp/makale2_revizyon/veri_bolme/kontrol_bolme.py   # madde 19, < 5 s
 python3 audit/scripts/step8_invariant_rmse.py                      # bölüm 1, ~40 s, tek iş parçacığı
 python3 audit/scripts/step8_cdf_plot.py                            # madde 10 şekli
+python3 thesis_exp/makale_kontrol/tez_ekleri/make_tez_ekleri.py    # tez ekleri
+python3 audit/scripts/step9_mat_cdf.py <cnn_lstm_test_results.mat> # .mat gelince
 ```
 Tohumlar: veri 42, bölme 42 (Makale 1 aktarımı); statik küme bölmesi 0, senaryo 11 (Makale 2). Eğitim yok; zamanlama ölçümü yok.

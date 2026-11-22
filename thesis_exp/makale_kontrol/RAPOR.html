@@ -328,15 +328,186 @@ blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; ba
 </tr>
 </tbody>
 </table>
-<h2>5) Senden gerekenler</h2>
+<h2>5) Onaydan sonra yapılanlar (22 Kasım 2026)</h2>
+<p>Şekil eşleşmesi onaylandı: 6.1 eğitim eğrisi, 6.3 CDF, 6.6 CSI gürbüzlüğü.</p>
+<p><strong>1. Tez için hazır tablo ve şekiller</strong> (<code>thesis_exp/makale_kontrol/tez_ekleri/</code>, <code>make_tez_ekleri.py</code>)</p>
+<ul>
+<li>Yeni ölçüm yok; her sayı ham bir dosyadan okunuyor ve kaynağı dosyanın altında yazılı.</li>
+<li>Tablolar <code>.tex</code> (booktabs) ve <code>.md</code>, şekiller SVG, PDF ve PNG.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Dosya</th>
+<th>Madde</th>
+<th>İçerik</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>T2_klasik</code></td>
+<td>8</td>
+<td>Klasik yöntemlerin koddaki uygulaması</td>
+</tr>
+<tr>
+<td><code>T3_ortak_faz</code></td>
+<td>8</td>
+<td>Ortak fazsız RMSE ve hız (1. bölümdeki tablo)</td>
+</tr>
+<tr>
+<td><code>S1_cdf</code></td>
+<td>10</td>
+<td>Gerçek yeniden üretim verisinden CDF</td>
+</tr>
+<tr>
+<td><code>T1_gosterim</code></td>
+<td>11</td>
+<td>Aynı mimaride sin/cos ve doğrudan açı (Tablo 1'in yerine)</td>
+</tr>
+<tr>
+<td><code>T4_parametre</code></td>
+<td>12–13</td>
+<td>Koddan sayılabilen parametreler</td>
+</tr>
+<tr>
+<td><code>S2_csi</code>, <code>T5_csi</code></td>
+<td>14</td>
+<td>CSI gürbüzlüğü, hata modeli açıkça tanımlı (Şekil 6.6'nın yerine)</td>
+</tr>
+</tbody>
+</table>
+<p><img src="tez_ekleri/S2_csi.svg" style="width:100%"></p>
+<p><em>Şekil. CSI hatasına gürbüzlük (bağımsız Python yeniden üretimi; hata modeli F̂ = F + √(x|F_n|²)·CN(0,1), Ĝ aynı).</em></p>
+<ul>
+<li>(a) Etikete göre RMSE: CNN–LSTM, aynı bozuk girdiyle kapalı formdan her noktada biraz kötü.</li>
+<li>(b) Hız: CD ve optimum, CNN–LSTM'in her hata düzeyinde yaklaşık 0.7 b/s/Hz üstünde.</li>
+<li>Makaledeki "CSI hatasında kapalı formdan belirgin üstünlük" iddiası bu modelle desteklenmiyor.</li>
+</ul>
+<p>Kontrol: <code>T1_gosterim</code>'deki std değerleri ilk denemede kendi hesabımla 0.31 çıktı; <code>TEZ_YAZIM_REFERANSI.md</code> 0.38 diyordu. Fark popülasyon ve örneklem std'sinden geliyordu. Tablo artık JSON'da kayıtlı değeri (örneklem std) okuyor ve referansla birebir aynı.</p>
+<p><strong>2. <code>.mat</code> okuyucusu hazır</strong> (<code>audit/scripts/step9_mat_cdf.py</code>)</p>
+<ul>
+<li><code>cnn_lstm_test_results.mat</code> (v7.3) dosyasını okuyor ve şunları veriyor:<ul>
+<li>RMSE, SR@1/3/5/10°, 5°'de CDF ve %95 hata;</li>
+<li>THETA_pred ve THETA_true varsa ortak fazsız RMSE;</li>
+<li>birebir MATLAB CDF şekli.</li>
+</ul>
+</li>
+<li>Bilinen sonuçlu sentetik bir v7.3 dosyasıyla sınandı: RMSE birebir tuttu.</li>
+<li>Dosyayı gönderdiğinde tek komutla çalışıyor: <code>python3 audit/scripts/step9_mat_cdf.py &lt;dosya&gt;</code>.</li>
+</ul>
+<p><strong>3. Danışman görüşmesi için düzeltme listesi:</strong> aşağıda Ek A.</p>
+<ul>
+<li>Bu bir teknik liste; düzeltme metni değil.</li>
+<li>Derginin düzeltme sürecine başvurup başvurmamak senin, danışmanının ve ortak yazarların kararı. Ben dergiye bir şey göndermedim, gönderemem de.</li>
+</ul>
+<h2>6) Hâlâ senden gelecek olan</h2>
 <ol>
-<li><code>cnn_lstm_test_results.mat</code> dosyası (varsa): CDF'i birebir çizmek için.</li>
-<li>Tez taslağındaki şekil numaralarının eşleşmesini onaylaman.</li>
-<li>Yayımlanmış Makale 1 için düzeltme (correction) gerekip gerekmediği: bu karar danışmanın ve ortak yazarların. Bulgular 12 Kasım denetiminden beri aynı; bugünkü ölçüm yalnızca ortak fazdan arındırılmış ölçütü ve şekli ekledi.</li>
+<li><code>cnn_lstm_test_results.mat</code>, varsa. Gelince CDF birebir çizilir ve <code>S1_cdf</code> onunla değiştirilir.</li>
+<li>Ek A'nın danışmanla görüşülmesi.</li>
 </ol>
+<h2>Ek A: Makale 1'de yeniden üretilemeyen ya da çelişen değerler</h2>
+<p>Bütün "kod sonucu" sütunu bağımsız Python çekilişinden geliyor (MATLAB değil). Kaynaklar: <code>audit/AUDIT_REPORT.md</code> ve <code>audit/raw/</code>; ortak fazsız değerler <code>audit/raw/step8_invariant_rmse.json</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Yer</th>
+<th>Yayımlanan</th>
+<th>Kod sonucu</th>
+<th>Durum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Denk. 8 etiketi</td>
+<td>Alınan gücün optimumu</td>
+<td>h_d'yi içeren etiket ortalama 2.20 dB daha fazla güç alıyor</td>
+<td>Çelişiyor</td>
+</tr>
+<tr>
+<td>Tablo 6, CD (K = 5)</td>
+<td>3.50°</td>
+<td>104.02°; ortak fazsız 1.10°</td>
+<td>Üretilemedi; ölçüt hatası</td>
+</tr>
+<tr>
+<td>Tablo 6, AO / PSO / SPA</td>
+<td>3.50 / 4.50 / 5.00°</td>
+<td>103.75 / 104.15 / 104.85°</td>
+<td>Üretilemedi</td>
+</tr>
+<tr>
+<td>Tablo 6, PGD / WMMSE</td>
+<td>4.00 / 4.00°</td>
+<td>Faz neredeyse hareket etmiyor (−10.3 / −9.9 dB)</td>
+<td>Üretilemedi</td>
+</tr>
+<tr>
+<td>CNN–LSTM ve CD karşılaştırması</td>
+<td>CNN–LSTM daha doğru</td>
+<td>Ortak fazsız 2.72–3.85° ve 1.10°; hız 5.797 ve 6.467</td>
+<td>Çelişiyor</td>
+</tr>
+<tr>
+<td>Tablo 1, doğrudan faz</td>
+<td>3.95° (aynı mimari)</td>
+<td>Tek kod FC-DNN; o da 83.85°</td>
+<td>Kod yok / çelişiyor</td>
+</tr>
+<tr>
+<td>Tablo 3, ablasyon</td>
+<td>6 varyant, 89–680 K</td>
+<td>Varyantlar tanımlı değil</td>
+<td>Üretilemedi</td>
+</tr>
+<tr>
+<td>Parametre sayısı</td>
+<td>727 360</td>
+<td>161 794 (MATLAB), 162 562 (PyTorch)</td>
+<td>Çelişiyor</td>
+</tr>
+<tr>
+<td>Şekil 8 (CDF)</td>
+<td>Görüntüde 5°'de ≈ %87</td>
+<td>%92.9–96.3 (metindeki %95 ile uyumlu)</td>
+<td>Görüntü çelişiyor</td>
+</tr>
+<tr>
+<td>Şekil 10, %10 CSI</td>
+<td>4.2°, kapalı formdan üstün</td>
+<td>19.0°; kapalı form 18.66°</td>
+<td>Kod yok / çelişiyor</td>
+</tr>
+<tr>
+<td>1/2/3 bit nicemleme</td>
+<td>4.12 / 3.08 / 2.81°</td>
+<td>52.06 / 26.17 / 13.39° (etiketin kendisi nicemlenince 51.95 / 25.98 / 12.98°)</td>
+<td>Matematiksel olarak imkânsız</td>
+</tr>
+<tr>
+<td>Gecikme N = 32</td>
+<td>0.08 ms</td>
+<td>0.80 ms (tek örnek, CPU; makale toplu iş, GPU)</td>
+<td>Farklı ölçüm</td>
+</tr>
+<tr>
+<td>5 koşu GA</td>
+<td>±0.07–0.09°</td>
+<td>3 tohumda std 0.58°</td>
+<td>Çelişiyor</td>
+</tr>
+<tr>
+<td>Kaynakça</td>
+<td>64 kaynak</td>
+<td>7'si hiçbir kayıtta yok, 1'i geri çekilmiş</td>
+<td>Çelişiyor</td>
+</tr>
+</tbody>
+</table>
 <h2>Yeniden üretim</h2>
 <pre><code>python3 thesis_exp/makale2_revizyon/veri_bolme/kontrol_bolme.py   # madde 19, &lt; 5 s
 python3 audit/scripts/step8_invariant_rmse.py                      # bölüm 1, ~40 s, tek iş parçacığı
 python3 audit/scripts/step8_cdf_plot.py                            # madde 10 şekli
+python3 thesis_exp/makale_kontrol/tez_ekleri/make_tez_ekleri.py    # tez ekleri
+python3 audit/scripts/step9_mat_cdf.py &lt;cnn_lstm_test_results.mat&gt; # .mat gelince
 </code></pre>
 <p>Tohumlar: veri 42, bölme 42 (Makale 1 aktarımı); statik küme bölmesi 0, senaryo 11 (Makale 2). Eğitim yok; zamanlama ölçümü yok.</p></body></html>

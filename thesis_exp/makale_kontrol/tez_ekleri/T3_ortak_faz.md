@@ -1,0 +1,14 @@
+**Ortak faz kaymasından arındırılmış RMSE ve hız (6000 test senaryosu, bağımsız Python yeniden üretimi)**
+
+| Yöntem | Etikete RMSE (°) | Ortak fazsız RMSE (°) | Ortak fazsız SR@5° | Hız (b/s/Hz) | Optimuma kayıp |
+|---|---|---|---|---|---|
+| CNN–LSTM, tohum 0 | 3.18 | 3.13 | %95.0 | 5.797 | 0.693 |
+| CNN–LSTM, tohum 1 | 2.77 | 2.72 | %96.4 | 5.797 | 0.693 |
+| CNN–LSTM, tohum 2 | 3.90 | 3.85 | %93.0 | 5.797 | 0.694 |
+| CD, K = 5 | 104.02 | 1.10 | %99.2 | 6.467 | 0.024 |
+| CD, K = 20 | 104.50 | 0.25 | %100.0 | 6.488 | 0.003 |
+| CD, K = 50 | 104.79 | 0.05 | %100.0 | 6.490 | 0.000 |
+| Etiket (Denk. 8) | 0.00 | 0.00 | %100.0 | 5.799 | 0.691 |
+| Optimum (h_d dahil) | 104.85 | 0.00 | %100.0 | 6.490 | 0.000 |
+
+Kaynak: audit/raw/step8_invariant_rmse.json (audit/scripts/step8_invariant_rmse.py)

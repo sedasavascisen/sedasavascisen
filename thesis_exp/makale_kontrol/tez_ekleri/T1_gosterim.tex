@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\caption{Aynı mimaride çıkış gösterimi karşılaştırması (3 tohum, ortalama $\pm$ örneklem std; JSON'daki kayıtlı değerler)}
+\begin{tabular}{llllll}
+\toprule
+Senaryo & Çıkış & RMSE ($^\circ$) & SR@5$^\circ$ & $\pm$π yakınında RMSE ($^\circ$) & Hız (b/s/Hz) \\
+\midrule
+SISO & sin/cos & 14.63 $\pm$ 0.38 & \%72.7 & 16.00 & 10.334 \\
+SISO & açı, 1--cos kaybı & 21.35 $\pm$ 0.30 & \%61.6 & 28.82 & 10.310 \\
+SISO & açı, düz MSE & 30.33 $\pm$ 0.02 & \%56.2 & 62.65 & 10.239 \\
+MISO, N\_t = 8 & sin/cos & 61.49 $\pm$ 0.10 & \%25.2 & 64.92 & 12.486 \\
+MISO, N\_t = 8 & açı, 1--cos kaybı & 63.67 $\pm$ 0.26 & \%20.5 & 64.91 & 12.426 \\
+MISO, N\_t = 8 & açı, düz MSE & 73.76 $\pm$ 0.17 & \%20.7 & 122.68 & 11.775 \\
+\bottomrule
+\end{tabular}
+\end{table}
+% Kaynak: results/sumiso_representation.json (scripts/sumiso_representation_summary.py)

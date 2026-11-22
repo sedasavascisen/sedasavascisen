@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{CSI hatasına gürbüzlük; hata modeli F̂ = F + √(x|F\_n|²)·CN(0,1), Ĝ aynı; fazlar F̂, Ĝ'den, değerlendirme gerçek kanalda}
+\begin{tabular}{llllll}
+\toprule
+x & CNN–LSTM RMSE ($^\circ$) & Kapalı form RMSE ($^\circ$) & CNN–LSTM hız & CD K = 5 hız & Optimum hız \\
+\midrule
+0.0 & 3.28 & 0.00 & 5.797 & 6.467 & 6.490 \\
+0.05 & 13.40 & 12.96 & 5.735 & 6.412 & 6.438 \\
+0.1 & 19.00 & 18.66 & 5.670 & 6.354 & 6.382 \\
+0.15 & 23.56 & 23.28 & 5.603 & 6.292 & 6.322 \\
+0.2 & 27.68 & 27.41 & 5.529 & 6.225 & 6.259 \\
+\bottomrule
+\end{tabular}
+\end{table}
+% Kaynak: audit/raw/step6_eval.json, audit/raw/step2_baselines.json (hata modeli: audit/scripts/step2_baselines.py)
