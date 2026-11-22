@@ -19,7 +19,7 @@ Karar (22 Kasım 2026, kullanıcı): makale bu hâliyle gönderilir. 900 test se
 Hakem isterse iki yol var:
 1. **Ağırlık arşivi bulunursa:** `ris_mu_agirliklar_2026-10-27.tar.gz` depo köküne açılır ve `python3 thesis_exp/makale2_revizyon/veri_bolme/saglamlik_900.py` koşturulur. Yaklaşık 1 dakika sürer. Betik ağırlıkları kendisi bulur ve V1'i tamamlar.
 2. **Arşiv yoksa:** beş model yeniden eğitilir. Komut, her L ∈ {1, 2, 4, 8, 16} için:
-   `python3 scripts/mumiso_unrolled.py --samples 6000 --epochs 12 --steps L --mode exchange --bs 32 --lr 0.001 --baseline-n 300 --seed 11 --tag eqstep_L{L}`
+   `python3 scripts/mumiso_unrolled.py --samples 6000 --epochs 12 --steps L --mode exchange --use-grad --bs 32 --lr 0.001 --baseline-n 300 --seed 11 --tag eqstep_L{L}`
    - Ayarlar `results/mumiso_eqstep_L*.json` config'inden alındı.
    - İlk eğitim 2 saat 18 dakika sürmüştü (`results/run_eqstep_all.log`).
    - Önce 600 senaryoda yayımlanan sayılarla karşılaştırılır (V0). Birebir değilse bu açıkça yazılır.
