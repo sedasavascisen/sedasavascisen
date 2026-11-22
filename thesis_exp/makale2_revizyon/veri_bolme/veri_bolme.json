@@ -1,0 +1,39 @@
+{
+ "commit": "e5af163308b1020a10132e933edd35b16f8448f0",
+ "sizes": {
+  "train": 4200,
+  "val": 900,
+  "test": 900
+ },
+ "uses": {
+  "learned_val": 500,
+  "adam_val": 400,
+  "test": 600
+ },
+ "result_configs": {
+  "mumiso_equal_step.json": {
+   "samples": 6000,
+   "eval_n": 600,
+   "val_n": 400
+  },
+  "mumiso_latency_parity.json": {
+   "samples": 6000,
+   "eval_n": 600,
+   "val_n": 400
+  }
+ },
+ "checkpoint_samples": {
+  "1": 6000,
+  "2": 6000,
+  "4": 6000,
+  "8": 6000,
+  "16": 6000
+ },
+ "disjoint": true,
+ "adam_val_subset_of_learned_val": true,
+ "unused": {
+  "val": 400,
+  "test": 300,
+  "total": 700
+ }
+}

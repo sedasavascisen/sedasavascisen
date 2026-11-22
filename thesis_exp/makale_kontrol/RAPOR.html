@@ -1,0 +1,342 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Madde 8–14 ve 19</title><style>
+@page { size: A4; margin: 18mm 15mm 18mm 15mm; }
+:root { --ink:#1b1f24; --mute:#5b6470; --line:#d5dae0; --accent:#1f4e79; --soft:#f3f6f9; }
+body { font-family: 'DejaVu Sans', sans-serif; font-size: 9.2pt; line-height: 1.45; color: var(--ink); background:#fff; }
+h1 { font-size: 17pt; color: var(--accent); margin: 0 0 6pt; }
+h2 { font-size: 12.5pt; color: var(--accent); margin: 14pt 0 5pt; border-bottom: 1px solid var(--line); padding-bottom: 2pt; }
+h3 { font-size: 10.5pt; margin: 11pt 0 4pt; } h4, h5, h6 { font-size: 9.6pt; margin: 9pt 0 3pt; }
+p, li { orphans: 3; widows: 3; } ul, ol { padding-left: 16pt; margin: 3pt 0 6pt; }
+code { font-family: 'DejaVu Sans Mono', monospace; font-size: 8pt; background: var(--soft); padding: 0 2pt; border-radius: 2px; word-break: break-word; }
+pre { background: var(--soft); padding: 6pt; font-size: 7.6pt; white-space: pre-wrap; border-radius: 3px; }
+table { border-collapse: collapse; width: 100%; margin: 6pt 0 10pt; font-size: 7.6pt; page-break-inside: auto; }
+tr { page-break-inside: avoid; } th, td { border: 1px solid var(--line); padding: 2.5pt 4pt; vertical-align: top; text-align: left; word-break: normal; overflow-wrap: break-word; }
+td code { word-break: break-all; }
+.cover th { white-space: nowrap; }
+th { background: var(--soft); }
+blockquote { margin: 6pt 0; padding: 4pt 8pt; border-left: 3px solid #c0392b; background: #fbf1f0; }
+.part { page-break-before: always; } .parthead { border-bottom: 2px solid var(--accent); margin-bottom: 8pt; }
+.tag { display:inline-block; font-size: 8pt; color:#fff; background: var(--accent); padding: 1pt 5pt; border-radius: 3px; margin-right: 4pt; }
+.cover { height: 240mm; display:flex; flex-direction:column; justify-content:center; }
+.cover h1 { font-size: 24pt; } .cover .sub { font-size: 12pt; color: var(--mute); margin-bottom: 18pt; }
+.cover table { width: auto; font-size: 9pt; } .toc li { margin: 2pt 0; list-style: none; } .toc a { color: var(--ink); text-decoration: none; }
+</style></head><body><h1>Madde 8–14 ve 19: kod ve ham sonuçlarla kontrol raporu</h1>
+<p>22 Kasım 2026, dal <code>thesis/p4-deneyler</code>. Bu bir teknik rapor; tez metni değil (Kural 9). Her sayı aşağıda adı geçen betiğe ve ham çıktı dosyasına bağlı. MATLAB çalıştırılmadı (Kural 8). Makale 1 için kullanılan sayılar, daha önce onaylanan NumPy/PyTorch aktarımıyla alınmış <strong>bağımsız bir çekilişten</strong> geliyor; MATLAB'ın <code>rng(42)</code> örnekleriyle birebir aynı değil.</p>
+<p>Not: tezin taslağı bu depoda yok. Şekil 6.1, 6.3 ve 6.6'yı içeriklerine göre eşleştirdim: 6.1 eğitim eğrisi, 6.3 hata CDF'i (makalede Şekil 8), 6.6 CSI hatasına gürbüzlük (makalede Şekil 10). Eşleşme yanlışsa söyle, ilgili satırı düzeltirim.</p>
+<h2>1) En üstte: Makale 1'in iddiasıyla çelişen bulgu (Kural 10)</h2>
+<p>Önerilen ölçütü (ortak faz kaymasından arındırılmış RMSE, min_φ RMSE(θ̂ + φ, θ*)) hesapladım. Mevcut eğitilmiş CNN–LSTM ağırlıkları kullanıldı; yeni eğitim yapılmadı. Bu ölçütte de, alınan hızda da <strong>koordinat inişi (CD), CNN–LSTM'i geçiyor.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Makaledeki ölçüt (°)</th>
+<th>Ortak faz çıkarılmış RMSE (°)</th>
+<th>5°'nin altındaki oran</th>
+<th>Hız (b/s/Hz)</th>
+<th>Optimuma göre kayıp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CNN–LSTM, tohum 0</td>
+<td>3.18</td>
+<td>3.13</td>
+<td>%95.0</td>
+<td>5.797</td>
+<td>0.693</td>
+</tr>
+<tr>
+<td>CNN–LSTM, tohum 1</td>
+<td>2.77</td>
+<td>2.72</td>
+<td>%96.4</td>
+<td>5.797</td>
+<td>0.693</td>
+</tr>
+<tr>
+<td>CNN–LSTM, tohum 2</td>
+<td>3.90</td>
+<td>3.85</td>
+<td>%93.0</td>
+<td>5.797</td>
+<td>0.694</td>
+</tr>
+<tr>
+<td>CD, K = 5</td>
+<td>104.02</td>
+<td><strong>1.10</strong></td>
+<td>%99.2</td>
+<td><strong>6.467</strong></td>
+<td>0.024</td>
+</tr>
+<tr>
+<td>CD, K = 20</td>
+<td>104.50</td>
+<td>0.25</td>
+<td>%99.98</td>
+<td>6.488</td>
+<td>0.003</td>
+</tr>
+<tr>
+<td>CD, K = 50</td>
+<td>104.79</td>
+<td>0.05</td>
+<td>%100</td>
+<td>6.490</td>
+<td>0.0002</td>
+</tr>
+<tr>
+<td>Optimum (h_d'yi hesaba katan)</td>
+<td>104.85</td>
+<td>0.00</td>
+<td>%100</td>
+<td>6.490</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>Test kümesi 6000 senaryo × 32 eleman. Kaynak: <code>audit/scripts/step8_invariant_rmse.py</code> → <code>audit/raw/step8_invariant_rmse.json</code>; veri <code>m1_data.generate(40000, seed=42)</code>, bölme tohumu 42; commit <code>e5af163</code>.</p>
+<p>Ne anlama geliyor:</p>
+<ul>
+<li><strong>CD'nin 104°'si bir ölçüt hatası.</strong> CD gerçek optimuma gidiyor; makalenin etiketi (Denklem 8) doğrudan bağlantıyı (h_d) yok sayıyor. İkisi arasında senaryo başına tek bir ortak faz farkı var. Bu fark çıkarılınca CD, K = 5'te bile CNN–LSTM'den yaklaşık 2.5–3.5 kat daha küçük hata veriyor.</li>
+<li><strong>CNN–LSTM'in hız kaybı (0.69 b/s/Hz) tamamen ortak fazdan.</strong> Ağ, etiketin şeklini iyi öğreniyor: ortak fazı h_d'ye hizalayan tek parametreli bir düzeltmeyle hızı 6.488 b/s/Hz'e çıkıyor, yani optimuma 0.002 kalıyor (aynı JSON, <code>rate_after_common_phase_fix_bpshz</code>). Ama ağ yayımlandığı hâliyle etiketi öğrendiği için, etiketin kendisi kadar (5.799) hız veriyor.</li>
+<li><strong>Ortak faz, bu bağlantıda serbest değil.</strong> h_d ≠ 0 olduğundan ortak faz, RIS yolunun doğrudan yola nasıl ekleneceğini belirliyor. Bu yüzden ortak fazdan arındırılmış RMSE tek başına yeterli değil, yanında hız da verilmeli. Tabloda ikisi birlikte var.</li>
+</ul>
+<p>Tez için sonuç: "CNN–LSTM klasik yöntemlerden daha doğru" cümlesi bu ölçütle de, hızla da kurulamaz. Kurulabilecek doğru cümleler:</p>
+<ul>
+<li>ağ, CD'den çok daha hızlı tek geçişli bir tahmin veriyor;</li>
+<li>faz profilinin şeklini 3° civarında öğreniyor;</li>
+<li>etiket h_d'yi içerecek biçimde düzeltilirse ya da ortak faz sonradan hizalanırsa, optimuma çok yaklaşıyor.</li>
+</ul>
+<p>Bu sonuncusu tezin değerlendirme protokolü fikriyle de uyumlu: doğru ölçüt faz hatası değil, hız.</p>
+<h2>2) Madde 19: Makale 2'deki statik küme. DÜZELTİLDİ.</h2>
+<p><strong>Koddaki gerçek bölme</strong> (<code>thesis_exp/makale2_revizyon/veri_bolme/kontrol_bolme.py</code> → <code>veri_bolme.json</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Küme</th>
+<th>Boyut</th>
+<th>Kim kullanıyor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Eğitim</td>
+<td>4200</td>
+<td>Öğrenilen güncelleme kuralı (<code>scripts/mumiso_unrolled.py</code>)</td>
+</tr>
+<tr>
+<td>Doğrulama</td>
+<td>900</td>
+<td>Öğrenilen kural en iyi epoch'u ilk 500'de seçiyor. Adam'ın adım boyu ve amacı bunların ilk 400'ünde seçiliyor.</td>
+</tr>
+<tr>
+<td>Test</td>
+<td>900</td>
+<td>Şekil 5'teki bütün sayılar ilk 600'de raporlanıyor (<code>mumiso_equal_step.py</code>, <code>mumiso_latency_parity.py</code>).</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Bölme rastgele bir permütasyonla 70/15/15: <code>ris_mu/features.py:split_indices</code>, tohum 0. Üç küme ayrık; 400'lük küme 500'lüğün alt kümesi.</li>
+<li>Sonuç dosyalarının kayıtlı ayarı (<code>samples = 6000</code>, <code>eval_n = 600</code>, <code>val_n = 400</code>) ve beş checkpoint'in eğitim ayarı (<code>samples = 6000</code>) bununla tutuyor.</li>
+<li>Önerilen üç olasılıktan ikincisine yakın, ama tam olarak o değil. Eksik görünen 800 senaryonun:<ul>
+<li><strong>100'ü</strong> yalnızca öğrenilen kuralın epoch seçiminde kullanıldı (doğrulamanın 401–500. senaryoları);</li>
+<li><strong>700'ü</strong> hiç kullanılmadı (doğrulamada 400, testte 300).</li>
+</ul>
+</li>
+<li>Yazım hatası yok; makale yalnızca eksik anlatıyordu. <strong>Hiçbir sonuç sayısı değişmedi.</strong></li>
+<li>Birinci makalenin 6000 test senaryosu (40 000 × %15) ile bu 6000'in aynı olması gerçekten bir tesadüf. İki küme farklı üreteçlerden geliyor.</li>
+</ul>
+<p><strong>Makaledeki değişiklik</strong> (§V-A):</p>
+<ul>
+<li>Önce: "6000 scenarios without mobility, of which 4200 are used for training, 400 for validation and 600 for testing."</li>
+<li>Sonra: "6000 scenarios without mobility, split at random 4200/900/900 (training/validation/test); the learned update is validated on 500, Adam on 400 of these, and results use 600 test scenarios."</li>
+</ul>
+<p>Makale 10 sayfaya taştığı için dört cümle, bilgi kaybı olmadan kısaltıldı (<code>DEGISIKLIKLER.md</code>, 18. tur). Makale yine 9 sayfa ve 46 kaynak. İddia denetleyicileri 126/126 ve 120/120.</p>
+<h2>3) Birinci makale, madde 8–14</h2>
+<p>Yayımlanmış makale değiştirilmedi (değiştirilemez). Aşağıdaki tablo, her madde için kodun ne gösterdiğini ve tezde ne yapılabileceğini veriyor. Kaynaklar:</p>
+<ul>
+<li><code>aisy_paket/orijinal/</code> (dokunulmadı);</li>
+<li><code>audit/AUDIT_REPORT.md</code> ve ham dosyaları (12 Kasım bağımsız denetimi);</li>
+<li>bugünkü <code>step8</code> betikleri.</li>
+</ul>
+<h3>Madde 8: klasik yöntemler (en kritik)</h3>
+<p>Koddan okunanlar (<code>ris_CD.m</code>; diğerleri denetimin satır satır aktardığı <code>ris_AO/PGD/PSO/SPA/WMMSE.m</code>, <code>audit/scripts/step2_baselines.py</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Amaçta h_d var mı?</th>
+<th>Başlangıç</th>
+<th>Faz araması</th>
+<th>Durma</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CD</td>
+<td>Var: |h_d + Σ G_n F_n e^{jθ_n}|</td>
+<td>Bütün fazlar 0</td>
+<td>Her eleman için kapalı form, sürekli (ızgara yok), [−π, π)'ye sarılı</td>
+<td>Sabit K tarama (K = 5); yakınsama testi yok</td>
+</tr>
+<tr>
+<td>AO</td>
+<td>Var</td>
+<td>0</td>
+<td>CD ile <strong>aynı</strong> algoritma</td>
+<td>Varsayılan K = 1</td>
+</tr>
+<tr>
+<td>SPA</td>
+<td>Var</td>
+<td>h_d'den başlar</td>
+<td>Elemanları sırayla hizalar, tek geçiş</td>
+<td>Tek geçiş</td>
+</tr>
+<tr>
+<td>PGD</td>
+<td>Var</td>
+<td>0 (z = 1)</td>
+<td>Gradyan adımı 0.2, birim modüle izdüşüm</td>
+<td>Sabit 50 yineleme</td>
+</tr>
+<tr>
+<td>"WMMSE"</td>
+<td>Var</td>
+<td>0</td>
+<td>Eleman başına tek gradyan adımı (0.1); adı WMMSE ama algoritma WMMSE değil</td>
+<td>1 yineleme</td>
+</tr>
+<tr>
+<td>PSO</td>
+<td>Var (uygunluk = alınan güç)</td>
+<td>Rastgele, tekdüze</td>
+<td>20 parçacık</td>
+<td>Sabit 30 yineleme</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Bütün klasik yöntemler h_d'yi kullanıyor; etiket kullanmıyor.</strong> RMSE'nin onları cezalandırmasının nedeni bu.</li>
+<li>Yayımlanan kodla CD, AO, PSO ve SPA'nın makaledeki ölçütle RMSE'si 103.8–104.9°. Makaledeki 3.50 / 3.50 / 4.50 / 5.00° bu kodla <strong>ÜRETİLEMEDİ</strong> (<code>audit/raw/step2_baselines.json</code>).</li>
+<li>AO ile CD aynı algoritma olduğu hâlde makalede farklı ± ve süre değerleri var (±1.38 / ±1.42; 0.18 / 0.15 ms). Bu, ikisinin aynı koşudan gelmediğini gösteriyor.</li>
+<li>PGD ve "WMMSE" betikleri fazı neredeyse hiç hareket ettirmiyor: alınan güç etiketin 10.3 ve 9.9 dB altında.</li>
+</ul>
+<p>Tezde ne olur: yöntem bölümüne yukarıdaki tabloyu özetleyen 3–4 cümle girer. Eleştirel alt bölüm <strong>güçlenir</strong>, çünkü 1. bölümdeki ölçüm doğrudan cevap veriyor.</p>
+<h3>Madde 9: Şekil 6.1 (eğitim eğrisi)</h3>
+<p><code>theta_NN_multioutput.m</code>, eğrileri MATLAB'ın <code>'Plots','training-progress'</code> penceresiyle çiziyor. Bu pencerenin özellikleri:</p>
+<ul>
+<li><strong>Yatay eksen yineleme, epoch değil.</strong> 28 000 / 256 ≈ 109 yineleme bir epoch ediyor.</li>
+<li>Doğrulama her 50 yinelemede bir hesaplanıyor.</li>
+<li>Üst panelde "RMSE", alt panelde kayıp var. Buradaki RMSE, ağın <strong>sin/cos çıktısının</strong> RMSE'si: birimsiz, derece değil. Kayıp ise yarım-MSE.</li>
+<li><code>trainNetwork</code> çağrısı eğitim bilgisini (<code>info</code>) kaydetmiyor. Eğrinin sayısal değerleri sonradan çıkarılamaz; yalnızca ekran görüntüsü var.</li>
+</ul>
+<p>Tezde ne olur: eksen "yineleme" ve "RMSE (sin/cos çıktısı, birimsiz)" olarak etiketlenir. Metin derece cinsinden faz hatasından söz ediyorsa, şekle değil test RMSE'sine bağlanır. Şekil "RMSE (°)" ya da "epoch" diyorsa yanlıştır.</p>
+<h3>Madde 10: Şekil 6.3 (CDF)</h3>
+<ul>
+<li>Yayımlanan şeklin çizim betiği yok. <code>plot_results.m</code>'deki CDF bölümü yayımlanan görüntüyle uyuşmuyor (<code>audit/raw/step0_step3_notes.md</code>).</li>
+<li>Görüntüden okunan değerler: 5°'de CDF ≈ 0.87; "5°" etiketli kesikli çizgi aslında x ≈ 6.7°'de.</li>
+<li>Bağımsız yeniden üretimde 5°'de CDF %92.9 / %94.8 / %96.3 (3 tohum), %95'e ulaşılan hata 4.4–5.8°. Metindeki "%95'i 5°'nin altında" ifadesi yeniden üretimle uyumlu; <strong>yayımlanan görüntü uyumlu değil.</strong></li>
+<li>Gerçek veriden çizilmiş yeni şekil: <code>audit/raw/step8_cdf.svg</code> (<code>audit/scripts/step8_cdf_plot.py</code>).<ul>
+<li>Panel (a), makaledeki ölçütle.</li>
+<li>Panel (b), ortak faz çıkarılmış ölçütle, CD dahil.</li>
+</ul>
+</li>
+<li>Birebir MATLAB eğrisi için <code>cnn_lstm_test_results.mat</code> dosyası gerekiyor. Betik <code>phase_err</code> değişkenini bu dosyaya kaydediyor. Sende varsa gönder; eğriyi o veriden yeniden çizerim. Dosya v7.3 biçiminde, okumak için h5py kurmam gerekecek.</li>
+</ul>
+<p><img src="../../audit/raw/step8_cdf.svg" style="width:100%"></p>
+<p><em>Şekil. |Faz hatası| CDF'i, bağımsız Python yeniden üretimi (6000 test senaryosu × 32 eleman). (a) Makaledeki ölçüt; CD burada 5°'de %3 gösteriyor, çünkü etiket h_d'yi yok sayıyor. (b) Ortak faz çıkarılmış ölçüt; CD her K'de CNN–LSTM'in solunda.</em></p>
+<p>Tezde ne olur: ya <code>.mat</code> dosyasından birebir çizilir, ya da yeni şekil "bağımsız Python yeniden üretimi" diye açıkça etiketlenerek kullanılır.</p>
+<h3>Madde 11: 3.95° çakışması</h3>
+<p>3.95° iki yerde geçiyor:
+- Tablo 1: "doğrudan faz tahmini", aynı mimari olduğu söyleniyor;
+- Tablo 6: "FC-DNN (doğrudan) 3.95 ± 1.71".</p>
+<p>Doğrudan faz için sayı üreten tek kod, <code>transformer_baseline.m</code> içindeki 512-512-256 FC-DNN (MLP). Tablo 1'deki "aynı mimari, doğrudan çıkış" için hiçbir sürümde kod yok. Yani iki satır büyük olasılıkla <strong>aynı FC-DNN koşusu</strong>, ve Tablo 1'deki "aynı mimari" ifadesi kodla desteklenmiyor.</p>
+<p>Ek tutarsızlık: FC-DNN için üç farklı değer var.</p>
+<ul>
+<li>Tablo 3: "FC-DNN only" 4.73°;</li>
+<li>Tablo 6: FC-DNN (sin/cos) 3.41°;</li>
+<li>Tablo 6: FC-DNN (doğrudan) 3.95°.</li>
+</ul>
+<p>Bağımsız yeniden üretimde FC-DNN (doğrudan) 83.85° verdi, yani tamamen başarısız oldu (<code>audit/raw/train/fcdnn_direct_N32_s0.json</code>).</p>
+<p>Tezde ne olur: Tablo 1'in satırı "FC-DNN (doğrudan faz)" diye adlandırılmalı. Daha iyisi, tezin kendi <strong>aynı mimarili</strong> karşılaştırması kullanılmalı (<code>TEZ_YAZIM_REFERANSI.md</code> §6.4, <code>results/sumiso_representation.json</code>): SISO'da sin/cos 14.63° ± 0.38, açı + 1−cos kaybı 21.35°, açı + düz MSE 30.33°. sin/cos üç tohumun üçünde de en düşük RMSE'yi veriyor. Bu, sin/cos katkısını kodu olan bir deneyle destekliyor.</p>
+<h3>Madde 12–13: ablasyon (Tablo 3)</h3>
+<ul>
+<li>Varyant mimarilerinin (CNN-only, LSTM-only, 1L+1L, 3L+2L, 2L+3L) <strong>hiçbiri</strong> hiçbir kod sürümünde tanımlı değil. Bu 6 satırın RMSE ve parametre değerleri <strong>ÜRETİLEMEDİ</strong>.</li>
+<li><strong>Parametre sayıları kendi içinde tutarsız.</strong><ul>
+<li>Önerilen modelin 727 360'ı, makaledeki analitik toplam. Bu toplam 565 696 parametrelik bir FC bloğu içeriyor, ama koddaki modelde bu blok yok. Kodun gerçek sayısı 161 794 (MATLAB) / 162 562 (PyTorch; fark ikinci LSTM yanlılığı).</li>
+<li>Daha derin varyantlar (231 K, 213 K), aynı FC bloğunu taşıyorlarsa 727 K'dan küçük olamaz.</li>
+<li>"CNN-only" (680 K), "LSTM-only"den (520 K) büyük görünüyor; oysa CNN bloğu yalnızca 13 440 parametre.</li>
+<li>Kaynak: <code>audit/raw/step3_sources.json</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Tezde ne olur: parametre sütunu ya çıkarılır, ya da yalnızca kodu olan iki model için koddan sayılan değerle verilir (CNN–LSTM 161 794; CNN-Transformer 17 442). Ablasyon satırları ya çıkarılır ya da "betiği bulunamadı" notuyla verilir. Not bırakmak yerine çıkarmayı öneririm.</p>
+<h3>Madde 14: Şekil 6.6 (CSI hatasına gürbüzlük)</h3>
+<ul>
+<li>Yayımlanan şeklin x ekseni "CSI Error Variance (σ²)", metin ise "%10 CSI hatası" diyor.</li>
+<li>Görüntüden okunan değerler: σ² = 0.10'da ≈ 3.5°; metindeki 4.2° ise σ² = 0.15'te.</li>
+<li><strong>Hiçbir kod sürümünde CSI hatası kodu ve hata modeli tanımı yok.</strong> Yayımlanan eğri ÜRETİLEMEDİ.</li>
+<li>Varsayılan bir modelle (eleman başına göreli hata varyansı; varsayım raporda açıkça yazılı) σ² = 0.10'da model 19.0°, aynı girdiyle kapalı form 18.66° veriyor. Yani üstünlük yok (<code>audit/raw/step6_eval.json</code>, <code>step2_baselines.json</code>).</li>
+</ul>
+<p>Tezde ne olur: şekil ya çıkarılır, ya da hata modeli açıkça tanımlanmış yeniden üretimle değiştirilir. Tezin kendi kusurlu CSI deneyleri ön kayıtlı ve ayrıca var (<code>ON_KAYIT_KISMI_CSI.md</code>, <code>TEZ_YAZIM_REFERANSI.md</code> §6.7).</p>
+<h2>4) Özet tablo</h2>
+<table>
+<thead>
+<tr>
+<th>Madde</th>
+<th>Durum</th>
+<th>Önerilen işlem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>19 (Makale 2)</td>
+<td>Kod okundu, kesin</td>
+<td>Makalede düzeltildi; sayılar değişmedi</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Kod okundu, kesin; ölçüldü</td>
+<td>Uygulama paragrafı ve 1. bölümdeki tablo</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Kod okundu, kesin</td>
+<td>Eksen etiketleri: yineleme, birimsiz sin/cos RMSE</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Betik yok; yeniden üretim var</td>
+<td><code>.mat</code> gelirse birebir; yoksa etiketli yeni şekil</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Kod okundu</td>
+<td>Satır "FC-DNN (doğrudan)"; tezin §6.4'ü kullanılsın</td>
+</tr>
+<tr>
+<td>12–13</td>
+<td>ÜRETİLEMEDİ (kod yok); parametreler tutarsız</td>
+<td>Çıkarılsın ya da yalnızca kodu olanlar</td>
+</tr>
+<tr>
+<td>14</td>
+<td>ÜRETİLEMEDİ (kod ve model tanımı yok)</td>
+<td>Çıkarılsın ya da tanımlı yeniden üretim</td>
+</tr>
+</tbody>
+</table>
+<h2>5) Senden gerekenler</h2>
+<ol>
+<li><code>cnn_lstm_test_results.mat</code> dosyası (varsa): CDF'i birebir çizmek için.</li>
+<li>Tez taslağındaki şekil numaralarının eşleşmesini onaylaman.</li>
+<li>Yayımlanmış Makale 1 için düzeltme (correction) gerekip gerekmediği: bu karar danışmanın ve ortak yazarların. Bulgular 12 Kasım denetiminden beri aynı; bugünkü ölçüm yalnızca ortak fazdan arındırılmış ölçütü ve şekli ekledi.</li>
+</ol>
+<h2>Yeniden üretim</h2>
+<pre><code>python3 thesis_exp/makale2_revizyon/veri_bolme/kontrol_bolme.py   # madde 19, &lt; 5 s
+python3 audit/scripts/step8_invariant_rmse.py                      # bölüm 1, ~40 s, tek iş parçacığı
+python3 audit/scripts/step8_cdf_plot.py                            # madde 10 şekli
+</code></pre>
+<p>Tohumlar: veri 42, bölme 42 (Makale 1 aktarımı); statik küme bölmesi 0, senaryo 11 (Makale 2). Eğitim yok; zamanlama ölçümü yok.</p></body></html>

@@ -228,3 +228,17 @@ Makale 9 sayfa, 46 kaynak.
 | Sonuç | "centre-frequency" | "center-frequency" (ABD yazımı) |
 
 Uygulanmayan küçük bulgular `DENETIM_FINAL.md`'de listeli ve isteğe bağlı: Şekil 3 altyazısı, statik küme toplamı, §VI-H'deki CD 0.70 s, iş parçacığı cümlesi, 30 dB CSI açıklaması. Makale 9 sayfa.
+
+## 18. tur (22 Kasım 2026): statik kümenin bölmesi (madde 19)
+
+Kaynak: `veri_bolme/kontrol_bolme.py` → `veri_bolme/veri_bolme.json`. Kod 6000 senaryoyu rastgele 70/15/15 böler (`ris_mu/features.py:split_indices`, tohum 0): 4200/900/900. Öğrenilen güncelleme kuralı en iyi epoch'unu 500 doğrulama senaryosunda seçer (`scripts/mumiso_unrolled.py`). Adam bunların ilk 400'ünde ayarlanır. Sonuçlar 900 test senaryosunun 600'ünde raporlanır (`mumiso_equal_step.py`, `mumiso_latency_parity.py`). Makaledeki 4200 + 400 + 600 = 5200 bu yüzden eksikti. Kalan 800 senaryonun 100'ü yalnızca öğrenilen kuralın epoch seçiminde kullanıldı; 700'ü hiç kullanılmadı. Sonuçlarda hiçbir sayı değişmedi.
+
+| Yer | Önce | Sonra |
+| --- | --- | --- |
+| §V-A, statik küme | "6000 scenarios without mobility, of which 4200 are used for training, 400 for validation and 600 for testing." | "6000 scenarios without mobility, split at random 4200/900/900 (training/validation/test); the learned update is validated on 500, Adam on 400 of these, and results use 600 test scenarios." |
+| §V-A, ışın kümesi | "400 further scenarios with 6 scatterers." | "400 more scenarios, 6 scatterers." (yer kazanmak için; bilgi aynı) |
+| §V-A | "The generator is not prefix-stable, so every trained model is evaluated with the sample count it was trained with." | "The generator is not prefix-stable; trained models are evaluated at their training sample count." (aynı) |
+| §V-C | "and most measurements are repeated in several rounds. These are latencies of unoptimized Python code (…)" | "and most are repeated in several rounds; the code is unoptimized Python (…)" (aynı) |
+| §V-C | "is timed in three rounds from a load average of 0.45." | "is timed in three rounds (load average 0.45)." (aynı) |
+
+Makale 9 sayfa, 46 kaynak; `audit_claims.py --all` 126/126, `check_claims.py` 120/120. `DENETIM_FINAL.md` madde 15 bununla kapandı.

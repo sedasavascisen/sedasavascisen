@@ -10,3 +10,4 @@ results/sumiso_cnnlstm*.pt
 data_site/
 logs_partial/
 audit/raw/data/
+audit/raw/step8_abs_err_deg.npz

@@ -1,0 +1,74 @@
+{
+ "commit": "e5af163308b1020a10132e933edd35b16f8448f0",
+ "data": "m1_data.generate(40000, N=32, seed=42), split seed 42 (NumPy port, independent draw, not MATLAB rng(42))",
+ "n_test": 6000,
+ "optimum_rate_bpshz": 6.490295995943847,
+ "label_a": {
+  "rmse_pub_deg": 0.0,
+  "rmse_inv_deg": 0.0,
+  "sr5_inv": 1.0,
+  "rate_bpshz": 5.799132018768752,
+  "loss_vs_opt_bpshz": 0.6911639771750951,
+  "rate_after_common_phase_fix_bpshz": 6.490295995943847
+ },
+ "optimum_b": {
+  "rmse_pub_deg": 104.84519222890066,
+  "rmse_inv_deg": 1.8334860507078722e-14,
+  "sr5_inv": 1.0,
+  "rate_bpshz": 6.490295995943847,
+  "loss_vs_opt_bpshz": 0.0,
+  "rate_after_common_phase_fix_bpshz": 6.490295995943847
+ },
+ "cnnlstm": {
+  "s0": {
+   "rmse_pub_deg": 3.1773207833684802,
+   "rmse_inv_deg": 3.1307830791092117,
+   "sr5_inv": 0.9500416666666667,
+   "rate_bpshz": 5.796806809843649,
+   "loss_vs_opt_bpshz": 0.6934891861001988,
+   "rate_after_common_phase_fix_bpshz": 6.488410472298281
+  },
+  "s1": {
+   "rmse_pub_deg": 2.7686390211903005,
+   "rmse_inv_deg": 2.7249365873437275,
+   "sr5_inv": 0.9641510416666667,
+   "rate_bpshz": 5.797247207076808,
+   "loss_vs_opt_bpshz": 0.6930487888670401,
+   "rate_after_common_phase_fix_bpshz": 6.488799254403512
+  },
+  "s2": {
+   "rmse_pub_deg": 3.9041031791191796,
+   "rmse_inv_deg": 3.846672918158792,
+   "sr5_inv": 0.92990625,
+   "rate_bpshz": 5.796551318316442,
+   "loss_vs_opt_bpshz": 0.6937446776274058,
+   "rate_after_common_phase_fix_bpshz": 6.487976818508895
+  }
+ },
+ "cd": {
+  "K5": {
+   "rmse_pub_deg": 104.01934507967755,
+   "rmse_inv_deg": 1.0999217438658357,
+   "sr5_inv": 0.9923020833333334,
+   "rate_bpshz": 6.466582483338687,
+   "loss_vs_opt_bpshz": 0.023713512605160927,
+   "rate_after_common_phase_fix_bpshz": 6.489849680601868
+  },
+  "K20": {
+   "rmse_pub_deg": 104.49639752332838,
+   "rmse_inv_deg": 0.24689842633541886,
+   "sr5_inv": 0.9998385416666666,
+   "rate_bpshz": 6.487598967907847,
+   "loss_vs_opt_bpshz": 0.0026970280360005864,
+   "rate_after_common_phase_fix_bpshz": 6.490272292533671
+  },
+  "K50": {
+   "rmse_pub_deg": 104.7926209205508,
+   "rmse_inv_deg": 0.05457778016748997,
+   "sr5_inv": 1.0,
+   "rate_bpshz": 6.4900628726490694,
+   "loss_vs_opt_bpshz": 0.00023312329477840165,
+   "rate_after_common_phase_fix_bpshz": 6.490294754506435
+  }
+ }
+}
