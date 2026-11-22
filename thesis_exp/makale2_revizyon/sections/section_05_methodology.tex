@@ -6,7 +6,7 @@ All sets use seed 11 unless stated otherwise, and numbers from different sets ar
 \begin{itemize}
     \item \emph{Aging set} (Tables~\ref{tab:aging}--\ref{tab:tracking}, Figs.~\ref{fig:aging}--\ref{fig:scaling}): 400 scenarios with walking users and 20 point scatterers, close to the 15--19 clusters of the 3GPP indoor-office model; with $N=64$, the same construction with an $8\times 8$ panel.
     \item \emph{Beam set} (Section~\ref{sec:res_beam}): 400 more scenarios, 6 scatterers.
-    \item \emph{Static set} (Fig.~\ref{fig:eqms}): 6000 scenarios without mobility, split at random 4200/900/900 (training/validation/test); the learned update is validated on 500, Adam on 400 of these, and results use 600 test scenarios.
+    \item \emph{Static set} (Fig.~\ref{fig:eqms}): 6000 static scenarios, randomly split 4200/900/900 (training/validation/test); the learned update is validated on 500, Adam on 400 of these (all 500 give the same choice); results use 600 test scenarios.
 \end{itemize}
 The generator is not prefix-stable; trained models are evaluated at their training sample count.
 

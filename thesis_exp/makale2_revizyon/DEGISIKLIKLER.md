@@ -242,3 +242,16 @@ Kaynak: `veri_bolme/kontrol_bolme.py` → `veri_bolme/veri_bolme.json`. Kod 6000
 | §V-C | "The $N=64$ step-time ratio of 1.04 comes from one round on 20 scenarios." | "The $N=64$ step-time ratio (1.04) is from one round on 20 scenarios." (aynı; bağımsız denetimden sonra, "from a load average of 0.45" ifadesi yükün ölçüm öncesinde alındığını korumak için geri getirildi) |
 
 Makale 9 sayfa, 46 kaynak; `audit_claims.py --all` 126/126, `check_claims.py` 120/120. `DENETIM_FINAL.md` madde 15 bununla kapandı.
+
+## 19. tur (22 Kasım 2026): doğrulama alt kümesinin sağlamlığı
+
+Kullanıcının onayıyla, kapanmış ölçüm fazına istisna; yalnızca hızlar, zamanlama yok. Betik `veri_bolme/saglamlik_900.py` → `saglamlik_900.json`, `saglamlik_900.log`.
+- **V0 (Adam 400 doğrulama, 600 test):** yayımlanan sayıları birebir üretti (fark 0). Betik doğru çalışıyor.
+- **V1a (Adam 500 doğrulama, 600 test):** Adam her bütçede (L = 1…64) yine 0.75 / soft-min seçiyor. Bütün sonuçlar ve iddialar aynı: öğrenilen kural her L'de önde, kazanma oranı %68–84, her öğrenilen nokta 5 zamanlama turunun 5'inde baskınlanıyor.
+- **V1 (500 doğrulama, 900 test):** Adam tarafı hesaplandı. Öğrenilen kural için ağırlık arşivi (`ris_mu_agirliklar_2026-10-27.tar.gz`) gerekiyor; arşiv bu ortamda olmadığı için **ÜRETİLEMEDİ**.
+
+| Yer | Önce | Sonra |
+| --- | --- | --- |
+| §V-A, statik küme | "6000 scenarios without mobility, split at random 4200/900/900 (training/validation/test); the learned update is validated on 500, Adam on 400 of these, and results use 600 test scenarios." | "6000 static scenarios, randomly split 4200/900/900 (training/validation/test); the learned update is validated on 500, Adam on 400 of these (all 500 give the same choice); results use 600 test scenarios." |
+
+Makale 9 sayfa.
