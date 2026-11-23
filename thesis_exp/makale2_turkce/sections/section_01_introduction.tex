@@ -1,0 +1,17 @@
+\section{Giriş}
+\label{sec:intro}
+
+\IEEEPARstart{Y}{eniden} yapılandırılabilir akıllı yüzey (RIS), bir binanın engellenmiş bir köşesini kapsama altındaki bir köşeye dönüştürebilir~\cite{Basar2019Access,DiRenzo2020JSAC,Wu2021TCOM}; 256 elemanlı bir RIS verici anten olarak görev yapmıştır~\cite{Dai2020Access} ve bir başka prototip, bir beton duvarın içinden geçen bir bağlantıyı güçlendirmiştir~\cite{Pei2021TCOM}. Ancak bir yüzey, yalnızca pasif elemanları sinyali kullanıcının \emph{şu an} bulunduğu yere yönlendirdiğinde yardımcı olur; kullanıcının \emph{önceden} bulunduğu yere değil. Bu fazları seçmek, yinelemeli çözücülerle~\cite{Wu2019TWC,Abeywickrama2020TCOM,Pan2020TWC,Guo2020TWC,Choi2024TCOM} ve giderek artan ölçüde öğrenilmiş politikalarla~\cite{Huang2020JSAC} ele alınan, zor ve dışbükey olmayan bir problemdir. Bu yöntemler genellikle kendilerine verilen kanal üzerinde ulaştıkları hızla karşılaştırılır.
+
+Bu karşılaştırma bir yarışı gizler. Bir ofiste yürüyen bir kişi radyo kanalını onlarca milisaniye içinde değiştirir; özenli bir çözücü ise saniyeler gerektirebilir. En iyi yanıt hazır olduğunda soru değişmiş olur. Bu durumda zamanında teslim edilen kaba bir faz, geç teslim edilen mükemmel bir fazı geçebilir ve daha fazla yineleme koşturmak sonucu daha iyi değil, daha kötü yapabilir.
+
+Bu makale bu yarışı ölçer. Her yöntemi, işini bitirdiği anda var olan kanal üzerinde, yani \emph{etkin hızı} ile; gecikmeleri bir CPU üzerinde ölçerek, yürüyen kullanıcıların bulunduğu bir iç mekân ofisinde ve 3GPP TR~38.901 kanal modeliyle~\cite{3gpp_channel} değerlendiriyoruz. Soru, bir baz istasyonunun (BS) karşılaştığı sorudur: zaman hesaba katıldığında hangi yöntemi koşturmalı ve ne kadar süreyle? Bu çalışma, sinüs--kosinüs gösterimine dayanan tek geçişli faz öngörücümüzü~\cite{SavasciSen2026AISY}, koşma süresi maliyet olarak yansıtıldığında böyle bir hızın ne zaman karşılığını verdiğini sorarak sürdürmektedir.
+
+\subsection{Katkılar}
+\begin{enumerate}
+    \item \textbf{Gecikmeyi hesaba katan bir ölçüt.} Etkin hızı tanımlıyor (Bölüm~\ref{sec:framework}) ve bu ölçüt altında, kâğıt üzerinde en iyi hıza sahip çözücülerin, yaya kullanıcılar için ve ölçülen adım maliyetinde, milisaniyeler süren tek kullanıcılı bir sezgisel yönteme yenildiğini gösteriyoruz.
+    \item \textbf{Optimal bir yineleme sayısı.} Daha fazla yineleme yalnızca bir noktaya kadar yardımcı olur. En iyi adım sayısı tek bir nicelikle, yani Doppler frekansına göreli adım süresiyle belirlenir ve bir küçük gecikme modeli bunun nasıl ölçeklendiğini açıklar. Dar bant modelde optimum, ikinci bir klasik optimize edici, daha büyük bir yüzey ve standartlaştırılmış her iç mekân hızı için de varlığını korur.
+    \item \textbf{Periyodik işletim.} BS sürekli olarak yeniden optimize ettiğinde, ne sıklıkla güncelleme yapılacağına pilot ek yükü karar verir ve kısa güncellemeler (en fazla 8 adım) yeterlidir.
+    \item \textbf{Saat karşısında öğrenme.} Ayarlanmış bir klasik optimize ediciyi adım başına yenen bir öğrenilen güncelleme kuralı, milisaniye başına ona yenilir.
+    \item \textbf{Ana varsayımın bedeli.} Ana sonuçlar, BS'nin ön kodlayıcısını güncel kanaldan yenilediğini varsayar; sonuçların buna ne kadar bağlı olduğunu nicelendiriyor, ayrıca pilot yayın süresini, kestirim hatasını ve ayrık fazları ekliyoruz.
+\end{enumerate}
