@@ -1,0 +1,58 @@
+\documentclass[journal]{IEEEtran}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\mbf}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\todo}[1]{\textcolor{red}{[#1]}}
+
+\graphicspath{{../makale2_revizyon/}}
+\emergencystretch=1em
+\begin{document}
+
+\title{Hareketli Kullanıcılara Hizmet Eden Yeniden Yapılandırılabilir Akıllı Yüzeyler için Gecikme Farkındalıklı Faz Optimizasyonu}
+
+\author{Seda~Savaşçı~Şen, Ali~Çalhan, and Murtaza~Cicioğlu%
+\thanks{(Sorumlu yazar: Seda Savaşçı Şen.) Bu belge, IEEE Transactions on Wireless Communications'a gönderilen İngilizce makalenin birebir Türkçe çalışma çevirisidir; şekillerdeki etiketler İngilizce bırakılmıştır.}%
+\thanks{S.~Savaşçı~Şen, Düzce Üniversitesi Elektrik-Elektronik Mühendisliği Bölümü, Düzce, Türkiye (e-posta: sedasavascisen@duzce.edu.tr).}%
+\thanks{A.~Çalhan, Düzce Üniversitesi Bilgisayar Mühendisliği Bölümü, Düzce, Türkiye (e-posta: alicalhan@gmail.com).}%
+\thanks{M.~Cicioğlu, Bursa Uludağ Üniversitesi Bilgisayar Mühendisliği Bölümü, Bursa, Türkiye (e-posta: murtazacicioglu@uludag.edu.tr).}}
+
+\markboth{IEEE Transactions on Wireless Communications}%
+{Hareketli Kullanıcılar için Gecikme Farkındalıklı RIS Faz Optimizasyonu}
+
+\maketitle
+
+\begin{abstract}
+Yürüyen bir kullanıcı kanalı onlarca milisaniye içinde değiştirir; buna karşın yeniden yapılandırılabilir akıllı yüzey (RIS) faz optimizasyon yöntemleri genellikle kendilerine verilen kanalda ulaştıkları hızla karşılaştırılır. Biz bunun yerine her yöntemi, işini bitirdiği anda var olan kanalda, yani \emph{etkin hızı} ile ve ölçülmüş gecikmelerle değerlendiriyoruz; kurgu, 32 elemanlı bir RIS'e sahip iç mekân ofis ortamında dar bantlı, çok kullanıcılı, çok girişli tek çıkışlı bir aşağı bağlantıdır. Birincisi, başlangıç kanalında yüksek hıza ulaşan iki çözücü, koordinat inişi ve uzun koşulu Adam, 0.9--5.9~s gerektirir ve 2.5~ms süren tek kullanıcılı bir sezgisel yönteme kaybeder. İkincisi, daha fazla yineleme yalnızca bir noktaya kadar yarar sağlar: 1.5~m/s'de Adam'ın etkin hızı 4--6 adımda tepe yapar ve onu 48 adıma kadar koşturmak \%14 kaybettirir; 10~km/h'de tepe 3 adımdadır. Optimumu, bir küçük gecikme modelinin açıkladığı gibi, adım süresinin Doppler frekansına göre büyüklüğü belirler. Üçüncüsü, eşit adımda ayarlı Adam'ı geçen öğrenilen bir güncelleme kuralı, gecikme tek iş parçacığında ölçüldüğünde daha hızlı Adam yapılandırmaları tarafından baskınlanır. Taze bir ön kodlayıcının pilotlarını hesaba katmak hızları düşürür, ancak yavaş çözücüler ayarlı Adam'ın gerisinde kalır. Ölçülen adım maliyetinde yaya kullanıcılar için hangi yöntemin en iyi olduğuna yakınsama değil, gecikme karar verir.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Yeniden yapılandırılabilir akıllı yüzey, faz optimizasyonu, hareketlilik, kanal eskimesi, hesaplama gecikmesi.
+\end{IEEEkeywords}
+
+\input{sections/section_01_introduction}
+\input{sections/section_02_related_work}
+\input{sections/section_03_system_model}
+\input{sections/section_04_latency_analysis}
+\input{sections/section_05_methodology}
+\input{sections/section_06_results}
+\input{sections/section_07_conclusion}
+
+\section*{Teşekkür}
+\emph{Yapay zekâ araçlarının kullanımı.} IEEE politikası uyarınca, bu makalenin hazırlanmasında yapay zekâ asistanı Claude'un (Anthropic) kullanıldığını beyan ederiz: bütün bölümlerin metnini taslak hâline getirmek ve düzenlemek, yazarların benzetim altyapısını Python'a aktarmak, deneyleri tanımlayan ve sonuçları denetleyen yazarlarla birlikte deney ve analiz betiklerini geliştirmek, kayıtlı sonuçlardan şekil ve tabloları üretmek ve kaynakları kontrol etmek için. Çalışmayı yazarlar tasarlamış, bütün analizleri yönlendirmiş, her sonucu ve kaynağı doğrulamıştır ve içeriğin bütün sorumluluğunu taşır.
+
+\section*{Veri ve Kodun Erişilebilirliği}
+Her tablo ve şekli üreten betikler ve bunların okuduğu kayıtlı ölçüm dosyaları \url{https://github.com/sedasavascisen/ris-latency-mobility} adresinde erişilebilirdir.
+
+\bibliographystyle{IEEEtran}
+\bibliography{../makale2_revizyon/references/references}
+
+\end{document}
