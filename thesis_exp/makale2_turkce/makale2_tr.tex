@@ -16,10 +16,15 @@
 \graphicspath{{../makale2_revizyon/}}
 \emergencystretch=1em
 \begin{document}
+\renewcommand{\abstractname}{Özet}
+\renewcommand{\IEEEkeywordsname}{Anahtar Kelimeler}
+\renewcommand{\figurename}{Şekil}
+\renewcommand{\tablename}{Tablo}
+\renewcommand{\refname}{Kaynaklar}
 
 \title{Hareketli Kullanıcılara Hizmet Eden Yeniden Yapılandırılabilir Akıllı Yüzeyler için Gecikme Farkındalıklı Faz Optimizasyonu}
 
-\author{Seda~Savaşçı~Şen, Ali~Çalhan, and Murtaza~Cicioğlu%
+\author{Seda~Savaşçı~Şen, Ali~Çalhan ve Murtaza~Cicioğlu%
 \thanks{(Sorumlu yazar: Seda Savaşçı Şen.) Bu belge, IEEE Transactions on Wireless Communications'a gönderilen İngilizce makalenin birebir Türkçe çalışma çevirisidir; şekillerdeki etiketler İngilizce bırakılmıştır.}%
 \thanks{S.~Savaşçı~Şen, Düzce Üniversitesi Elektrik-Elektronik Mühendisliği Bölümü, Düzce, Türkiye (e-posta: sedasavascisen@duzce.edu.tr).}%
 \thanks{A.~Çalhan, Düzce Üniversitesi Bilgisayar Mühendisliği Bölümü, Düzce, Türkiye (e-posta: alicalhan@gmail.com).}%
@@ -31,7 +36,7 @@
 \maketitle
 
 \begin{abstract}
-Yürüyen bir kullanıcı kanalı onlarca milisaniye içinde değiştirir; buna karşın yeniden yapılandırılabilir akıllı yüzey (RIS) faz optimizasyon yöntemleri genellikle kendilerine verilen kanalda ulaştıkları hızla karşılaştırılır. Biz bunun yerine her yöntemi, işini bitirdiği anda var olan kanalda, yani \emph{etkin hızı} ile ve ölçülmüş gecikmelerle değerlendiriyoruz; kurgu, 32 elemanlı bir RIS'e sahip iç mekân ofis ortamında dar bantlı, çok kullanıcılı, çok girişli tek çıkışlı bir aşağı bağlantıdır. Birincisi, başlangıç kanalında yüksek hıza ulaşan iki çözücü, koordinat inişi ve uzun koşulu Adam, 0.9--5.9~s gerektirir ve 2.5~ms süren tek kullanıcılı bir sezgisel yönteme kaybeder. İkincisi, daha fazla yineleme yalnızca bir noktaya kadar yarar sağlar: 1.5~m/s'de Adam'ın etkin hızı 4--6 adımda tepe yapar ve onu 48 adıma kadar koşturmak \%14 kaybettirir; 10~km/h'de tepe 3 adımdadır. Optimumu, bir küçük gecikme modelinin açıkladığı gibi, adım süresinin Doppler frekansına göre büyüklüğü belirler. Üçüncüsü, eşit adımda ayarlı Adam'ı geçen öğrenilen bir güncelleme kuralı, gecikme tek iş parçacığında ölçüldüğünde daha hızlı Adam yapılandırmaları tarafından baskınlanır. Taze bir ön kodlayıcının pilotlarını hesaba katmak hızları düşürür, ancak yavaş çözücüler ayarlı Adam'ın gerisinde kalır. Ölçülen adım maliyetinde yaya kullanıcılar için hangi yöntemin en iyi olduğuna yakınsama değil, gecikme karar verir.
+Yürüyen bir kullanıcı kanalı onlarca milisaniye içinde değiştirir; buna karşın yeniden yapılandırılabilir akıllı yüzey (RIS) faz optimizasyon yöntemleri genellikle kendilerine verilen kanalda ulaştıkları hızla karşılaştırılır. Biz bunun yerine her yöntemi, işini bitirdiği anda var olan kanalda, yani \emph{etkin hızı} ile ve ölçülmüş gecikmelerle değerlendiriyoruz; kurgu, 32 elemanlı bir RIS'e sahip iç mekân ofis ortamında dar bantlı, çok kullanıcılı, çok girişli tek çıkışlı bir aşağı bağlantıdır. Birincisi, başlangıç kanalında yüksek hıza ulaşan iki çözücü, koordinat inişi ve uzun koşulu Adam, 0.9--5.9~s gerektirir ve 2.5~ms süren tek kullanıcılı bir sezgisel yönteme kaybeder. İkincisi, daha fazla yineleme yalnızca bir noktaya kadar yarar sağlar: 1.5~m/s'de Adam'ın etkin hızı 4--6 adımda tepe yapar ve onu 48 adıma kadar koşturmak \%14 kaybettirir; 10~km/h'de tepe 3 adımdadır. Optimumu, bir küçük gecikme modelinin açıkladığı gibi, adım süresinin Doppler frekansına göre büyüklüğü belirler. Üçüncüsü, eşit adımda ayarlanmış Adam'ı geçen öğrenilen bir güncelleme kuralı, gecikme tek iş parçacığında ölçüldüğünde daha hızlı Adam yapılandırmaları tarafından baskınlanır. Taze bir ön kodlayıcının pilotlarını hesaba katmak hızları düşürür, ancak yavaş çözücüler ayarlanmış Adam'ın gerisinde kalır. Ölçülen adım maliyetinde yaya kullanıcılar için hangi yöntemin en iyi olduğuna yakınsama değil, gecikme karar verir.
 \end{abstract}
 
 \begin{IEEEkeywords}
