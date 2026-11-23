@@ -1,0 +1,74 @@
+\section{Gecikmeye Duyarlı Değerlendirme Çerçevesi}
+\label{sec:framework}
+
+\subsection{Etkin Hız}
+Bir $A$ yöntemi $\mathcal{H}(0)=\{\mbf{F},\mbf{g}_k(0),\mbf{h}_{d,k}(0)\}$ kanalını alsın, $\bs{\theta}_A$ fazını döndürsün ve bunu yapmak için $\tau_A$ duvar saati süresine ihtiyaç duysun.
+
+\textbf{Tanım 1 (Etkin hız).} $A$ yönteminin etkin hızı, yöntem işini bitirdiğinde mevcut olan kanal üzerindeki en düşük kullanıcı hızıdır,
+\begin{equation}
+    R^{\mathrm{eff}}_A = \min_k R_k\big(\bs{\theta}_A;\,\mathcal{H}(\tau_A)\big),
+    \label{eq:effective_rate}
+\end{equation}
+burada ön kodlayıcı $\mathcal{H}(\tau_A)$ kanalından yeniden hesaplanır.
+
+Ön kodlayıcı, BS'nin taze pilotlara sahip olduğu her durumda yinelediği kapalı biçimli bir hesaplamadır; RIS fazı ise gecikmesini ölçtüğümüz yinelemeli optimizasyonu gerektirir. Bu nedenle Tanım~1 fazın eskimesine izin verir ve hüzmeyi taze tutar; bu ayrım, iki zaman ölçekli tasarımlardakine~\cite{Zhao2021TWC} benzer. Bölüm~\ref{sec:res_beam} ve~\ref{sec:res_robust} bu varsayımın bedelini ölçer.
+
+\subsection{Neden Optimal Bir Adım Sayısı Vardır}
+$L$ adım boyunca koşturulan yinelemeli bir yöntem için $t=0$ anındaki en düşük hızını $r_0(L)$, gecikmesini $\tau(L)$ ve kendi çalışma süresi boyunca eskime nedeniyle kaybedilen hızı $\Delta(L)=r_0(L)-\min_k R_k(\bs{\theta}_L;\mathcal{H}(\tau(L)))$ ile gösterelim; böylece $R^{\mathrm{eff}}(L)=r_0(L)-\Delta(L)$ olur. Her adım $r_0$ değerini azalan getiriyle artırırken $\Delta$, $\tau$ ile birlikte büyür. Bir adım ancak şu koşul sağlandığı sürece karşılığını verir:
+\begin{equation}
+    r_0(L+1)-r_0(L) \;>\; \Delta(L+1)-\Delta(L),
+    \label{eq:marginal}
+\end{equation}
+ve etkin hız bu koşulun sağlanmadığı noktada tepe yapar: \emph{içsel optimum} $L^\star$. Bu optimum; optimize ediciye, onun adım başına gecikmesine ve kanal değişiminin hızına birlikte bağlıdır. $R^{\mathrm{eff}}$ fonksiyonunun tek tepeli olup olmadığı deneysel bir sorudur (Bölüm~\ref{sec:res_optimum}).
+
+\subsection{Eşit Adıma Karşı Eşit Milisaniye}
+Öğrenilen bir adım $c$ klasik adım kadar zaman alıyorsa, eşit adımlı bir karşılaştırma öğrenilen yönteme $c$ kat zaman bütçesi verir. Bu nedenle ölçülen eşit süre altında da karşılaştırma yapıyoruz.
+
+\textbf{Tanım 2 (Baskınlık).} $\tau_B\le\tau_A$ ve $r_{0,B}\ge r_{0,A}$ ise ve eşitsizliklerden biri kesinse, $B$ yapılandırması $A$ yapılandırmasını baskınlar.
+
+Baskınlanmış bir yapılandırma, hiçbir gecikme bütçesinde daha iyi seçenek değildir.
+
+\subsection{Normalize Adım Maliyeti ve Küçük Gecikme Modeli}
+Kanal değişimi, kullanıcının dalga boyu cinsinden kat ettiği uzaklığa ($f_d\tau$) bağlıdır. Bir optimize edici adım başına $\Delta T$ süre harcıyorsa, $L$ adım sonraki gecikmesi bu birimlerde $Lx$ olur; burada
+\begin{equation}
+    x = \Delta T\, f_d .
+    \label{eq:x}
+\end{equation}
+Modelimizde $\Delta T$ değerini ölçeklemek, $v$ hızını ölçeklemeye tam olarak denktir; taşıyıcı değişikliği ise yalnızca yaklaşık olarak denktir, çünkü yol kaybı ve dalga boyu cinsinden dizi boyutu da onunla birlikte değişir.
+
+Bölüm~\ref{sec:res_scaling} içinde sınanan iki yaklaşık düzenlilik, \eqref{eq:marginal} koşulunu açık hâle getirir. Yakınsama açığı kabaca bir kuvvet yasasıyla azalır,
+\begin{equation}
+    R_\infty - r_0(L) \approx D\,L^{-\gamma},
+    \label{eq:conv_law}
+\end{equation}
+ve küçük gecikmelerde eskime kaybı, kat edilen uzaklık $u=f_d\tau$ cinsinden ikinci derecedendir,
+\begin{equation}
+    \Delta(L,u) \approx \kappa_L\, u^2 ,
+    \label{eq:aging_law}
+\end{equation}
+tıpkı Clarke korelasyonunun önde gelen terimindeki gibi: $J_0(2\pi u)\approx 1-\pi^2u^2$~\cite{Clarke1968BSTJ}. $u = xL$ ile,
+\begin{equation}
+    R^{\mathrm{eff}}(L) \approx R_\infty - D\,L^{-\gamma} - \kappa\, x^2 L^2 .
+    \label{eq:reff_model}
+\end{equation}
+
+\textbf{Önerme 1 (Optimumun ölçeklenmesi).} $\gamma, D, \kappa, x > 0$ ve $\kappa_L=\kappa$ için \eqref{eq:reff_model}, $L>0$ üzerinde tek bir maksimize ediciye sahiptir,
+\begin{equation}
+    L^\star = \left(\frac{\gamma D}{2\kappa}\right)^{\frac{1}{\gamma+2}} x^{-\frac{2}{\gamma+2}} ,
+    \label{eq:Lstar}
+\end{equation}
+ve bu noktada eskime kaybı, kalan yakınsama açığının $\gamma/2$ katına eşittir.
+
+\emph{Kanıt.} $\gamma D L^{-\gamma-1} - 2\kappa x^2 L$ türevi küçük $L$ için pozitif, büyük $L$ için negatiftir ve yalnızca $L^{\gamma+2}=\gamma D/(2\kappa x^2)$ noktasında sıfır olur; ikinci türev negatiftir. Yerine koyma dengeyi verir. \hfill$\square$
+
+Dolayısıyla optimum, üssü $(-1,0)$ aralığında olan, $x$ cinsinden bir kuvvet yasasıdır: daha hızlı bir optimize edici daha fazla adım koşturmalıdır, ancak artış orantılı olandan daha azdır. Türetme $xL^\star \ll 1$ varsayar; bu, bizim aralığımızda geçerlidir ($xL^\star\le 0.16$). Uydurulmuş sabitlerle \eqref{eq:Lstar}, ölçümleri bağımsız olarak öngörmek yerine betimler; değeri, optimumun nasıl kaydığını açıklamasındadır.
+
+\subsection{Periyodik Yeniden Optimizasyon}
+Konuşlandırılmış bir denetleyici optimizasyonu $U$ periyoduyla tekrarlar: veri iletmeden pilotlara $T_{\mathrm{p}}$, ardından optimizasyona $L\Delta T$ süre harcar, sonucu devreye alır ve bekler ($U \ge T_{\mathrm{p}}+L\Delta T$; \emph{art arda}, eşitlik durumu anlamına gelir).
+
+\textbf{Tanım 3 (Zaman ortalamalı etkin hız).} $\bs{\theta}(t)$ devreye alınmış faz ve $\mathcal{P}$ pilot aralıkları olmak üzere, bir $\mathcal{W}$ penceresi üzerinde
+\begin{equation}
+    \bar{R}^{\mathrm{eff}} = \frac{1}{|\mathcal{W}|}\int_{\mathcal{W}\setminus\mathcal{P}} \min_k R_k\big(\bs{\theta}(t);\,\mathcal{H}(t)\big)\,dt .
+    \label{eq:time_avg}
+\end{equation}
+Her güncelleme ya sıfırdan (\emph{soğuk}) ya da devredeki fazdan (\emph{sıcak}) başlar.
