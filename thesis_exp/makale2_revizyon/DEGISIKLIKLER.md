@@ -270,3 +270,12 @@ Kontroller:
 | --- | --- | --- |
 | §V-A | "Adam on 400 of these (all 500 give the same choice)" | "Adam on 400 of these (on all 500 it picks the same setting)" (öznesi Adam olduğu açık) |
 | §V-C | "and most are repeated in several rounds;" | "and most measurements are repeated in several rounds;" (öznesi belirsizdi) |
+
+## 21. tur (23 Kasım 2026): çeviri sırasında bulunan iki belirsizlik
+
+| Yer | Önce | Sonra |
+| --- | --- | --- |
+| §VI-H, öncü pilotlar | "only tuned Adam beats it under every window." | "only tuned Adam beats coordinate descent under every window." ("it", SU-best-of olarak da okunabiliyordu) |
+| Sonuç, madde 2 | "(holding it longer moves a flat optimum up)" | "(holding it longer moves a flat optimum to more steps)" (§VI-H: W = 25/50/100 ms'de 5 / 6–8 / 16–20 adım) |
+
+Makale 9 sayfa, uyarı yok; denetleyiciler 126/126 ve 120/120. Türkçe çeviri bu iki yeri zaten açık yazıyordu.
