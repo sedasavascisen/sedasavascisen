@@ -255,3 +255,18 @@ Kullanıcının onayıyla, kapanmış ölçüm fazına istisna; yalnızca hızla
 | §V-A, statik küme | "6000 scenarios without mobility, split at random 4200/900/900 (training/validation/test); the learned update is validated on 500, Adam on 400 of these, and results use 600 test scenarios." | "6000 static scenarios, randomly split 4200/900/900 (training/validation/test); the learned update is validated on 500, Adam on 400 of these (all 500 give the same choice); results use 600 test scenarios." |
 
 Makale 9 sayfa.
+
+## 20. tur (23 Kasım 2026): double check
+
+Kontroller:
+- Commit'lenmiş kaynaktan temiz derleme gönderilen PDF ile metin olarak aynı çıktı.
+- 4 geçişten sonra çapraz başvuru uyarısı yok; tanımsız başvuru ve taşan satır yok.
+- 46 kaynak, 9 sayfa. `audit_claims.py --all` 126/126, `check_claims.py` 120/120.
+- 17 Kasım tam okumasından bu yana değişen tek yer §V-A ve §V-C. Hepsi `saglamlik_900.json` ve `veri_bolme.json` ile tutarlı.
+
+İki belirsizlik giderildi:
+
+| Yer | Önce | Sonra |
+| --- | --- | --- |
+| §V-A | "Adam on 400 of these (all 500 give the same choice)" | "Adam on 400 of these (on all 500 it picks the same setting)" (öznesi Adam olduğu açık) |
+| §V-C | "and most are repeated in several rounds;" | "and most measurements are repeated in several rounds;" (öznesi belirsizdi) |
