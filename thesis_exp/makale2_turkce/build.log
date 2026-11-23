@@ -1,0 +1,320 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./makale2_tr.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+(/usr/share/texlive/texmf-dist/tex/latex/ieeetran/IEEEtran.cls
+Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+-- This is a 10 point document.
+) (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd))
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/cite/cite.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+(/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/auxhook/auxhook.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+(/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+(/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)
+(./makale2_tr.aux)
+-- Lines per column: 58 (exact).
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+(./makale2_tr.out) (./makale2_tr.out)
+Underfull \hbox (badness 1838) in paragraph at lines 37--37
+[][][]\T1/ptm/m/n/8 S. Sava³ç^^Y “en, Düzce Üniver-sitesi Elektrik-Elektronik M
+ühendis-li§i
+(./sections/section_01_introduction.tex
+Underfull \hbox (badness 1609) in paragraph at lines 16--17
+\T1/ptm/m/n/10 kod-lay^^Yc^^Ys^^Yn^^Y gün-cel kanal-dan ye-niledi§ini varsa-yar
+;
+) (./sections/section_02_related_work.tex [1{/var/lib/texmf/fonts/map/pdftex/up
+dmap/pdftex.map}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}]
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
+Underfull \hbox (badness 4303) in paragraph at lines 6--7
+\T1/ptm/m/n/10 kod-la-maya [[]21[]], [[]22[]] uygu-lan-m^^Y³t^^Yr ve e§i-tilmi³
+ a§lar
+) (./sections/section_03_system_model.tex
+Underfull \hbox (badness 3158) in paragraph at lines 9--11
+\T1/ptm/m/n/10 olur; bu-rada sinyal-giri³im-art^^Y-gürültü oran^^Y $[][] \OT1/c
+mr/m/n/10 =
+
+Underfull \hbox (badness 3343) in paragraph at lines 9--11
+\OMS/cmsy/m/n/10 j\OT1/cmr/bx/n/10 h[]w[]\OMS/cmsy/m/n/10 j[]\OML/cmm/m/it/10 =
+\OT1/cmr/m/n/10 ([][] \OMS/cmsy/m/n/10 j\OT1/cmr/bx/n/10 h[]w[]\OMS/cmsy/m/n/10
+ j[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 ^^[[]\OT1/cmr/m/n/10 )$ \T1/ptm/m/n/10 
+biçi-mindedir. Ön kod-
+[2]) (./sections/section_04_latency_analysis.tex [3 <../makale2_revizyon/figure
+s/fig_scenario.pdf>]) (./sections/section_05_methodology.tex
+Underfull \hbox (badness 10000) in paragraph at lines 9--10
+[]\T1/ptm/m/it/10 Statik küme \T1/ptm/m/n/10 (“ekil []5[]): rast-gele 4200/900/
+900
+
+Underfull \hbox (badness 2418) in paragraph at lines 9--10
+\T1/ptm/m/n/10 (e§itim/do§rulama/test) olarak bölün-mü³ 6000 statik
+[4]) (./sections/section_06_results.tex
+Underfull \hbox (badness 2884) in paragraph at lines 26--1
+[]\T1/ptm/m/it/10 Yeniden üretilebilir-lik. \T1/ptm/m/n/10 Tablo []III[] (izlem
+e ben-ze-ti-minin
+
+Underfull \vbox (badness 3460) has occurred while \output is active
+(./tables/tab_aging.tex) [5] [6 <../makale2_revizyon/figures/fig_aging.pdf> <..
+/makale2_revizyon/figures/fig_intrinsic_optimum.pdf>] (./tables/tab_speeds.tex)
+
+Underfull \hbox (badness 4913) in paragraph at lines 70--71
+\T1/ptm/m/n/10 1.5 m/s'de Adam'^^Yn en iyi etkin h^^Yz^^Y: 5.984 yer-ine
+
+Underfull \hbox (badness 6412) in paragraph at lines 70--71
+\T1/ptm/m/n/10 5.398 b/s/Hz), an-cak bul-gu-lar geçerlil-i§ini ko-rur: $\OML/cm
+m/m/it/10 L[]$
+(./tables/tab_tracking.tex)
+Underfull \hbox (badness 2096) in paragraph at lines 98--99
+[]\T1/ptm/m/n/10 Ana sonuçlar, yal-n^^Yzca RIS faz^^Y es-kirken BS'nin ön
+[7 <../makale2_revizyon/figures/fig_step_scaling.pdf>]
+Underfull \hbox (badness 4036) in paragraph at lines 100--100
+ \T1/ptm/m/it/10 H. Pi-lot-lara, Ke-stirim Hatas^^Yna ve Faz Çözünür-lü§üne
+) (./sections/section_07_conclusion.tex [8 <../makale2_revizyon/figures/fig_equ
+al_step_vs_ms.pdf>])
+Underfull \hbox (badness 4940) in paragraph at lines 58--59
+\T1/ptm/m/n/10 kay^^Ytl^^Y ölçüm dosyalar^^Y []$https : / / github . com / seda
+savascisen /
+(./makale2_tr.bbl [9]
+Underfull \hbox (badness 5217) in paragraph at lines 222--226
+[]\T1/ptm/m/n/8 C. B. Peel, B. M. Hochwald, and A. L. Swindle-hurst, ``A
+) [10] (./makale2_tr.aux)
+
+Package rerunfilecheck Warning: File `makale2_tr.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+ )
+(see the transcript file for additional information)</usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
+8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols
+/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/
+msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/urw/times/utmri8a.pfb>
+Output written on makale2_tr.pdf (10 pages, 472855 bytes).
+Transcript written on makale2_tr.log.
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./makale2_tr.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+(/usr/share/texlive/texmf-dist/tex/latex/ieeetran/IEEEtran.cls
+Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+-- This is a 10 point document.
+) (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd))
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/cite/cite.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+(/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/auxhook/auxhook.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+(/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+(/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)
+(./makale2_tr.aux)
+-- Lines per column: 58 (exact).
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+(./makale2_tr.out) (./makale2_tr.out)
+Underfull \hbox (badness 1838) in paragraph at lines 37--37
+[][][]\T1/ptm/m/n/8 S. Sava³ç^^Y “en, Düzce Üniver-sitesi Elektrik-Elektronik M
+ühendis-li§i
+(./sections/section_01_introduction.tex
+Underfull \hbox (badness 1609) in paragraph at lines 16--17
+\T1/ptm/m/n/10 kod-lay^^Yc^^Ys^^Yn^^Y gün-cel kanal-dan ye-niledi§ini varsa-yar
+;
+) (./sections/section_02_related_work.tex [1{/var/lib/texmf/fonts/map/pdftex/up
+dmap/pdftex.map}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}]
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
+Underfull \hbox (badness 4303) in paragraph at lines 6--7
+\T1/ptm/m/n/10 kod-la-maya [[]21[]], [[]22[]] uygu-lan-m^^Y³t^^Yr ve e§i-tilmi³
+ a§lar
+) (./sections/section_03_system_model.tex
+Underfull \hbox (badness 3158) in paragraph at lines 9--11
+\T1/ptm/m/n/10 olur; bu-rada sinyal-giri³im-art^^Y-gürültü oran^^Y $[][] \OT1/c
+mr/m/n/10 =
+
+Underfull \hbox (badness 3343) in paragraph at lines 9--11
+\OMS/cmsy/m/n/10 j\OT1/cmr/bx/n/10 h[]w[]\OMS/cmsy/m/n/10 j[]\OML/cmm/m/it/10 =
+\OT1/cmr/m/n/10 ([][] \OMS/cmsy/m/n/10 j\OT1/cmr/bx/n/10 h[]w[]\OMS/cmsy/m/n/10
+ j[] \OT1/cmr/m/n/10 + \OML/cmm/m/it/10 ^^[[]\OT1/cmr/m/n/10 )$ \T1/ptm/m/n/10 
+biçi-mindedir. Ön kod-
+[2]) (./sections/section_04_latency_analysis.tex [3 <../makale2_revizyon/figure
+s/fig_scenario.pdf>]) (./sections/section_05_methodology.tex
+Underfull \hbox (badness 10000) in paragraph at lines 9--10
+[]\T1/ptm/m/it/10 Statik küme \T1/ptm/m/n/10 (“ekil []5[]): rast-gele 4200/900/
+900
+
+Underfull \hbox (badness 2418) in paragraph at lines 9--10
+\T1/ptm/m/n/10 (e§itim/do§rulama/test) olarak bölün-mü³ 6000 statik
+[4]) (./sections/section_06_results.tex
+Underfull \hbox (badness 2884) in paragraph at lines 26--1
+[]\T1/ptm/m/it/10 Yeniden üretilebilir-lik. \T1/ptm/m/n/10 Tablo []III[] (izlem
+e ben-ze-ti-minin
+
+Underfull \vbox (badness 3460) has occurred while \output is active
+(./tables/tab_aging.tex) [5] [6 <../makale2_revizyon/figures/fig_aging.pdf> <..
+/makale2_revizyon/figures/fig_intrinsic_optimum.pdf>] (./tables/tab_speeds.tex)
+
+Underfull \hbox (badness 4913) in paragraph at lines 70--71
+\T1/ptm/m/n/10 1.5 m/s'de Adam'^^Yn en iyi etkin h^^Yz^^Y: 5.984 yer-ine
+
+Underfull \hbox (badness 6412) in paragraph at lines 70--71
+\T1/ptm/m/n/10 5.398 b/s/Hz), an-cak bul-gu-lar geçerlil-i§ini ko-rur: $\OML/cm
+m/m/it/10 L[]$
+(./tables/tab_tracking.tex)
+Underfull \hbox (badness 2096) in paragraph at lines 98--99
+[]\T1/ptm/m/n/10 Ana sonuçlar, yal-n^^Yzca RIS faz^^Y es-kirken BS'nin ön
+[7 <../makale2_revizyon/figures/fig_step_scaling.pdf>]
+Underfull \hbox (badness 4036) in paragraph at lines 100--100
+ \T1/ptm/m/it/10 H. Pi-lot-lara, Ke-stirim Hatas^^Yna ve Faz Çözünür-lü§üne
+) (./sections/section_07_conclusion.tex [8 <../makale2_revizyon/figures/fig_equ
+al_step_vs_ms.pdf>])
+Underfull \hbox (badness 4940) in paragraph at lines 58--59
+\T1/ptm/m/n/10 kay^^Ytl^^Y ölçüm dosyalar^^Y []$https : / / github . com / seda
+savascisen /
+(./makale2_tr.bbl [9]
+Underfull \hbox (badness 5217) in paragraph at lines 222--226
+[]\T1/ptm/m/n/8 C. B. Peel, B. M. Hochwald, and A. L. Swindle-hurst, ``A
+) [10] (./makale2_tr.aux) )
+(see the transcript file for additional information)</usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
+8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols
+/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/
+msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/urw/times/utmri8a.pfb>
+Output written on makale2_tr.pdf (10 pages, 472852 bytes).
+Transcript written on makale2_tr.log.
