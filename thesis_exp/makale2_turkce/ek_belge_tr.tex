@@ -1,0 +1,31 @@
+\documentclass[journal,onecolumn]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\begin{document}
+\title{Ek Belge: ``Hareketli Kullanıcılara Hizmet Eden Yeniden Yapılandırılabilir Akıllı Yüzeyler için Gecikme Farkındalıklı Faz Optimizasyonu''}
+\maketitle
+\noindent\emph{Bu belge, makaleyle birlikte gönderilen İngilizce ek belgenin (supplementary material) Türkçe çalışma çevirisidir.}
+
+\section*{E1. Zamanlama ayrıntıları}
+Bütün gecikmeler, 2.1~GHz Intel Xeon işlemcide tek PyTorch iş parçacığıyla, bir senaryo için ölçülmüş duvar saati süreleridir; aşağıdaki iki iş parçacıklı 1.66~ms'lik Adam adımı bunun tek istisnasıdır. Tekrarların medyanı alınmıştır.
+\begin{itemize}
+\item \emph{Eskime kümesi.} Yük ortalaması zamanlamadan önce 0.20, sonra 0.86'dır (artış, zamanlama betiğinin kendi iş parçacığından kaynaklanır); turlar arası fark 1.15--3.66$\times$'tir. Adam'ın 1.66~ms'lik adım süresi (8 adım için 13.3~ms), bir ön kodlayıcı düzeltmesinden önce iki iş parçacığıyla yapılmış daha eski bir ölçümden gelir; eskime kümesindeki sonraki turlar adım başına 1.49--2.02~ms vermiştir. Tek iş parçacıklı bir yeniden ölçüm (zamanlamadan önce yük ortalaması 0.45) adım başına 1.33~ms vermiştir; bu değer Bölüm~VI-H'de kullanılır.
+\item \emph{Statik küme.} Beş turda turlar arası fark 1.15--1.60$\times$'tir; yük ortalaması kaydedilmemiştir. Adam'ın adım başına medyanları 1.60--1.71~ms'dir. Öğrenilen ağın girdi özellikleri onun süresine dahil edilmemiştir; bu, ağın lehinedir.
+\item \emph{$N=64$.} $N=32$'ye göre 1.04'lük adım süresi oranı, 20 senaryo üzerinde tek bir turdan elde edilmiştir.
+\item \emph{1--8 taramalı koordinat inişi}, yük ortalaması 0.45 iken başlayan üç turda zamanlanmıştır.
+\item \emph{Armijo}, adım başına Adam'ın 1.26 katı maliyete sahiptir (2.09~ms; senaryo başına oran 0.81--1.97).
+\item \emph{Ön kodlayıcı ile Adam adımı} (Bölüm~VI-G): beş tur, yük ortalaması öncesinde ve sonrasında 0.46; medyanlar ön kodlayıcı başına 0.12~ms ve Adam adımı başına 1.60~ms (oran 13.4).
+\item \emph{Ayrı oturum}: işlem sayısı kontrolü (Bölüm~VI-C), Clarke kanalı (Bölüm~VI-D) ve E3'teki gerçekleştirme kontrolleri için yük ortalaması öncesinde 0.06, sonrasında 0.75; Adam adımı 1.086~ms.
+\end{itemize}
+
+\section*{E2. Ek kontrollerin kaynakları}
+Bölüm~VI-C'deki işlem sayısı kontrolü (bir hız değerlendirmesi başına 11{,}008 gerçel kayan noktalı işlem; bir Adam adımına göre kalibre edilmiştir) ve Bölüm~VI-D'deki Clarke kanalı kontrolü, kendi gecikme ölçümleriyle ayrı bir oturumda koşturulmuştur. Betikleri ve ham çıktıları, makalede belirtilen kod deposundadır.
+
+\section*{E3. Sonuç bölümünde anılan gerçekleştirme ve geniş bant kontrolleri}
+\begin{itemize}
+\item \emph{Derlenmiş koordinat inişi.} Yalnızca koordinat inişi derlenirse (aynı algoritma, 62--63 kat hızlı), Python ile çalışan Adam'ı 1.5~m/s'de 0.514~b/s/Hz, 10~km/h'de 0.602~b/s/Hz farkla geçer. Bütün yöntemler aynı oranda, 1 ile 1000 arasındaki herhangi bir katsayıyla hızlandırılırsa, ayarlanmış Adam ayarlanmış koordinat inişinin önünde kalır (fark $-1.43$ ile $-0.12$~b/s/Hz arasında); bu eşit hızlanma analizi ön kayda alınmamıştır.
+\item \emph{OFDM.} Bütün alt taşıyıcılar için tek bir faz vektörüyle, merkez frekansında optimizasyon için iç optimum 20~MHz'de korunmuştur; 50--100~MHz'de ise 16 yapılandırmanın yalnızca 3'ünde 48 adım optimumdan anlamlı olarak kötüdür.
+\end{itemize}
+Bu kontrollerin betikleri ve ham çıktıları, makalede belirtilen kod deposundadır.
+\end{document}
