@@ -317,3 +317,8 @@ Yorumlar: özet; akademik üslup; literatür karşılaştırma tablosu; hiperpar
 | E8 | Katkı 4 | "on static channels to isolate the computation cost" |
 
 10 sayfa; özet PDF sayımıyla 197 kelime; uyarı yok; denetleyiciler 126/126 ve 120/120.
+
+## 24. tur (26 Kasım 2026): gelecek çalışma cümlesi
+- Sonuç, sınırlar: "A second geometry, a clustered delay-line channel and timed semidefinite-relaxation and WMMSE baselines are left for future work." eklendi.
+- Temiz zamanlama oturumuna geçiş kullanıcı kararıyla ertelendi (`EDITOR_PLANI.md`).
+- 10 sayfa, uyarı yok. Son PDF: `Latency-Aware_Phase_Optimization_v27.pdf`; ek belge: `supplementary.pdf`.

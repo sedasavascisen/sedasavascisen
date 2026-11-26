@@ -35,3 +35,7 @@ Tek iş parçacıklı, temiz bir zamanlama oturumu zaten var:
 - Bu sürelerle tam gecikmede yapılmış değerlendirme: `p4/izgara_kontrol/raw/results.json`, `results_tab1.json`.
 
 Ana tablo ve adım taraması bu oturuma geçirilirse makale tek bir Adam adım süresi kullanır. Yeni gecikme ölçümü gerekmez, ama sayıların çoğu (Tablo III, Şekil 3, metindeki L* ve yüzdeler) değişir; bütün paket yeniden denetlenmeli. Statik küme (Şekil 5) için yeniden zamanlama ağırlık arşivi gerektiriyor.
+
+## Kullanıcı kararları (26 Kasım)
+- **E9 (temiz oturuma geçiş): şimdilik yapılmadı.** Envanter: 1.66 ms dokuz betiğe sabit yazılı (`mumiso_aging`, `aging_sweep`, `aging_sensitivity`, `aging_stats`, `standard_speeds`, `step_scaling`, `optimum_model`, `cd_budget`, `takip_duzeltme/run.py`). Temiz oturumda (`thesis_exp/infra/raw/mumiso_mobility_latency_rerun.json`, yük 0.45) SU-average 0.297 ms, SU-best-of 1.629 ms, Adam adımı 1.328 ms, CD 702.97 ms ve uzun koşulu Adam 4950.35 ms var; Armijo yok. Tam geçiş yaklaşık 60 sayıyı değiştirir; tahmini süre 1–2 iş günü. Hakem isterse revizyonda yapılacak.
+- **E10, E11: gelecek çalışma olarak yazıldı** (sonuç bölümü, sınırlar: ikinci geometri, CDL kanalı, SDR ve WMMSE'nin zamanlanması).
