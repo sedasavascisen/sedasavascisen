@@ -20,8 +20,6 @@
 \@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{section.1}\protected@file@percent }
 \newlabel{sec:intro}{{I}{1}{Introduction}{section.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-A}}Contributions}{1}{subsection.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{1}{section.2}\protected@file@percent }
-\newlabel{sec:related_work}{{II}{1}{Related Work}{section.2}{}}
 \citation{Huang2020JSAC}
 \citation{Jiang2021JSAC}
 \citation{Monga2021SPM}
@@ -58,6 +56,8 @@
 \citation{Tang2021TWC}
 \citation{3gpp_tr38913}
 \citation{itu_m2410}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{2}{section.2}\protected@file@percent }
+\newlabel{sec:related_work}{{II}{2}{Related Work}{section.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {III}System and Channel Model}{2}{section.3}\protected@file@percent }
 \newlabel{sec:system}{{III}{2}{System and Channel Model}{section.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Signal Model}{2}{subsection.3.1}\protected@file@percent }
@@ -74,10 +74,10 @@
 \newlabel{sec:framework}{{IV}{3}{Latency-Aware Evaluation Framework}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Effective Rate}{3}{subsection.4.1}\protected@file@percent }
 \newlabel{eq:effective_rate}{{3}{3}{Effective Rate}{equation.4.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Existence of an Optimal Number of Steps}{3}{subsection.4.2}\protected@file@percent }
 \citation{Clarke1968BSTJ}
 \citation{Kingma2015ICLR}
 \citation{Armijo1966PJM}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Existence of an Optimal Number of Steps}{4}{subsection.4.2}\protected@file@percent }
 \newlabel{eq:marginal}{{4}{4}{Existence of an Optimal Number of Steps}{equation.4.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Comparison at Equal Steps and at Equal Latency}{4}{subsection.4.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Normalized Step Cost and a Small-Delay Model}{4}{subsection.4.4}\protected@file@percent }
@@ -118,27 +118,28 @@
 \citation{3gpp_tr38913,itu_m2410}
 \citation{3gpp_tr38913}
 \citation{itu_m2410}
+\citation{Clarke1968BSTJ}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Adam with its step time scaled from 0.01 to 3 times the measured value. (a)~Best step count for $N=32$ (shaded: not significantly below the best) and $N=64$; line: closed form~\eqref  {eq:Lstar}. (b)~Loss of running to $L=256$ instead of $L^\star $ ($N=32$), with 95\% paired CIs. Dashed: this setup.}}{7}{figure.4}\protected@file@percent }
 \newlabel{fig:scaling}{{4}{7}{Adam with its step time scaled from 0.01 to 3 times the measured value. (a)~Best step count for $N=32$ (shaded: not significantly below the best) and $N=64$; line: closed form~\eqref {eq:Lstar}. (b)~Loss of running to $L=256$ instead of $L^\star $ ($N=32$), with 95\% paired CIs. Dashed: this setup}{figure.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-D}}Standardized Speeds and Acquisition Delay}{7}{subsection.6.4}\protected@file@percent }
 \newlabel{sec:res_sensitivity}{{\mbox  {VI-D}}{7}{Standardized Speeds and Acquisition Delay}{subsection.6.4}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Standardized and higher user speeds (aging set, no acquisition delay): coherence time, normalized step cost, best step count (range within 0.5\%), cost of running Adam to $L=48$, and $\Delta $: SU-best-of minus coordinate descent in effective rate (b/s/Hz). Computed on a 0.5~ms grid, so values can differ slightly from Table~\ref {tab:aging} and Fig.~\ref {fig:optimum}. $^\dagger $Beyond the reliable horizon; approximate.}}{7}{table.4}\protected@file@percent }
 \newlabel{tab:speeds}{{IV}{7}{Standardized and higher user speeds (aging set, no acquisition delay): coherence time, normalized step cost, best step count (range within 0.5\%), cost of running Adam to $L=48$, and $\Delta $: SU-best-of minus coordinate descent in effective rate (b/s/Hz). Computed on a 0.5~ms grid, so values can differ slightly from Table~\ref {tab:aging} and Fig.~\ref {fig:optimum}. $^\dagger $Beyond the reliable horizon; approximate}{table.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Periodic re-optimization (aging set): best update period $U$ (ms; b2b = back-to-back) and steps per update $L$, with the time-averaged effective rate (b/s/Hz) for pilot durations $T_{\mathrm  {p}}$. Warm$-$cold: paired difference of the two best policies; $^\S  $not significant.}}{7}{table.5}\protected@file@percent }
-\newlabel{tab:tracking}{{V}{7}{Periodic re-optimization (aging set): best update period $U$ (ms; b2b = back-to-back) and steps per update $L$, with the time-averaged effective rate (b/s/Hz) for pilot durations $T_{\mathrm {p}}$. Warm$-$cold: paired difference of the two best policies; $^\S $not significant}{table.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Periodic Re-optimization}{7}{subsection.6.5}\protected@file@percent }
 \newlabel{sec:res_tracking}{{\mbox  {VI-E}}{7}{Periodic Re-optimization}{subsection.6.5}{}}
-\citation{Zhao2024OJCOMS}
-\citation{Wu2019TWC}
-\citation{Choi2024TCOM}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-F}}Learned Update Rule at Equal Steps and at Equal Latency}{8}{subsection.6.6}\protected@file@percent }
-\newlabel{sec:res_reversal}{{\mbox  {VI-F}}{8}{Learned Update Rule at Equal Steps and at Equal Latency}{subsection.6.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-F}}Learned Update Rule at Equal Steps and at Equal Latency}{7}{subsection.6.6}\protected@file@percent }
+\newlabel{sec:res_reversal}{{\mbox  {VI-F}}{7}{Learned Update Rule at Equal Steps and at Equal Latency}{subsection.6.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Periodic re-optimization (aging set): best update period $U$ (ms; b2b = back-to-back) and steps per update $L$, with the time-averaged effective rate (b/s/Hz) for pilot durations $T_{\mathrm  {p}}$. Warm$-$cold: paired difference of the two best policies; $^\S  $not significant.}}{8}{table.5}\protected@file@percent }
+\newlabel{tab:tracking}{{V}{8}{Periodic re-optimization (aging set): best update period $U$ (ms; b2b = back-to-back) and steps per update $L$, with the time-averaged effective rate (b/s/Hz) for pilot durations $T_{\mathrm {p}}$. Warm$-$cold: paired difference of the two best policies; $^\S $not significant}{table.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-G}}Sensitivity to the Fresh-Precoder Assumption}{8}{subsection.6.7}\protected@file@percent }
 \newlabel{sec:res_beam}{{\mbox  {VI-G}}{8}{Sensitivity to the Fresh-Precoder Assumption}{subsection.6.7}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-H}}Robustness to Pilots, Estimation Error and Phase Resolution}{8}{subsection.6.8}\protected@file@percent }
 \newlabel{sec:res_robust}{{\mbox  {VI-H}}{8}{Robustness to Pilots, Estimation Error and Phase Resolution}{subsection.6.8}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {VII}Conclusion}{8}{section.7}\protected@file@percent }
 \newlabel{sec:conclusion}{{VII}{8}{Conclusion}{section.7}{}}
+\citation{Zhao2024OJCOMS}
+\citation{Wu2019TWC}
+\citation{Choi2024TCOM}
 \bibstyle{IEEEtran}
 \bibdata{references/references}
 \bibcite{Basar2019Access}{1}
@@ -150,14 +151,14 @@
 \bibcite{Abeywickrama2020TCOM}{7}
 \bibcite{Pan2020TWC}{8}
 \bibcite{Guo2020TWC}{9}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Learned update rule versus tuned Adam (static test set, 600 scenarios, $t=0$ rates, one CPU thread). (a)~At equal steps the learned rule is ahead at every budget. (b)~On the measured latency axis (labels: number of steps $L$), every learned configuration lies below and to the right of the Adam curve: it is dominated.}}{9}{figure.5}\protected@file@percent }
+\newlabel{fig:eqms}{{5}{9}{Learned update rule versus tuned Adam (static test set, 600 scenarios, $t=0$ rates, one CPU thread). (a)~At equal steps the learned rule is ahead at every budget. (b)~On the measured latency axis (labels: number of steps $L$), every learned configuration lies below and to the right of the Adam curve: it is dominated}{figure.5}{}}
+\@writefile{toc}{\contentsline {section}{References}{9}{section*.3}\protected@file@percent }
 \bibcite{Choi2024TCOM}{10}
 \bibcite{Huang2020JSAC}{11}
 \bibcite{3gpp_channel}{12}
 \bibcite{SavasciSen2026AISY}{13}
 \bibcite{Yu2019ICCC}{14}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Learned update rule versus tuned Adam (static test set, 600 scenarios, $t=0$ rates, one CPU thread). (a)~At equal steps the learned rule is ahead at every budget. (b)~On the measured latency axis (labels: number of steps $L$), every learned configuration lies below and to the right of the Adam curve: it is dominated.}}{9}{figure.5}\protected@file@percent }
-\newlabel{fig:eqms}{{5}{9}{Learned update rule versus tuned Adam (static test set, 600 scenarios, $t=0$ rates, one CPU thread). (a)~At equal steps the learned rule is ahead at every budget. (b)~On the measured latency axis (labels: number of steps $L$), every learned configuration lies below and to the right of the Adam curve: it is dominated}{figure.5}{}}
-\@writefile{toc}{\contentsline {section}{References}{9}{section*.3}\protected@file@percent }
 \bibcite{Shi2011TSP}{15}
 \bibcite{Cao2022TWC}{16}
 \bibcite{Jiang2021JSAC}{17}

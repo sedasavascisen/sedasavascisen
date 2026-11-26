@@ -302,3 +302,18 @@ Yorumlar: özet; akademik üslup; literatür karşılaştırma tablosu; hiperpar
 - **Küçük:** Tablo I'de Abeywickrama, Sun, Liu (2022) ve Papazafeiropoulos/Zhang hücreleri kesinleştirildi; kısaltmalar açıldı; $T_c$ yerine "coherence time"; "0.75 selected for L ≤ 16"; uzun koşulu Adam'ın adım boyu 0.05 (`baselines.pga`); "logarithm of the relative channel power"; girişte "no longer exists" → "has already changed"; §VI-G'de öncül netleştirildi; tablolarda `\raggedright` ile satır uyarıları giderildi.
 
 10 sayfa; taşan satır, tanımsız başvuru ve çapraz başvuru uyarısı yok. Denetleyiciler 126/126 ve 120/120.
+
+## 23. tur (26 Kasım 2026): editör eleştirilerine göre (E1–E8, `EDITOR_PLANI.md`)
+
+| # | Yer | Değişiklik |
+| --- | --- | --- |
+| E1 | Özet, Katkı 2 | "proves" → "shows that such an optimum exists"; "with constants fitted to the measurements, explains how it scales" |
+| E2 | Giriş | Yenilik, ölçütle birlikte ortaya çıkardığı olgu olarak tanımlandı: içsel optimum ve tek normalize nicelik |
+| E3 | §VI-C | FLOP tabanlı maliyet modeli ölçülmüş süreyle aynı adım sayısını seçiyor; sıralamalar arası Kendall τ = 0.86–0.87 (`juri/REPORT_S3_S1.md`, S3-E, keşifsel) |
+| E4 | §VI-D | Clarke kanalı: optimum 3–8 adım (3.4–8.8 ms), L = 48 %27–32 kaybettiriyor; ayrı zamanlanmış koşu (`juri/REPORT_S4_S2.md`) |
+| E5 | Özet | "perfect channel knowledge" varsayımı eklendi |
+| E6 | Sonuç, sınırlar | RIS anahtarlama süresi ek bir sabit gecikme gibi davranır, §VI-D'nin 0–10 ms aralığına düşer; tek geometri ve tek alternatif kanal modeli (Clarke) açıkça yazıldı |
+| E7 | §V-C | Yük ortalamaları, tur sayıları, tur arası farklar, N = 64 oranı ve CD tur bilgisi `supplementary.pdf`'e taşındı |
+| E8 | Katkı 4 | "on static channels to isolate the computation cost" |
+
+10 sayfa; özet PDF sayımıyla 197 kelime; uyarı yok; denetleyiciler 126/126 ve 120/120.

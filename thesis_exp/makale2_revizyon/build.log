@@ -90,11 +90,15 @@ msy/m/n/10 g$\T1/ptm/m/n/10 , re-turn the phase $[][]$, and need the
 [4]) (./sections/section_06_results.tex [5] (./tables/tab_aging.tex) [6 <./figu
 res/fig_aging.pdf> <./figures/fig_intrinsic_optimum.pdf>]
 (./tables/tab_speeds.tex) (./tables/tab_tracking.tex) [7 <./figures/fig_step_sc
-aling.pdf>]) (./sections/section_07_conclusion.tex) [8]
+aling.pdf>]) (./sections/section_07_conclusion.tex [8])
 (./mobility_paper_ieee.bbl [9 <./figures/fig_equal_step_vs_ms.pdf>]
 Underfull \hbox (badness 5217) in paragraph at lines 222--226
 []\T1/ptm/m/n/8 C. B. Peel, B. M. Hochwald, and A. L. Swindle-hurst, ``A
-) [10] (./mobility_paper_ieee.aux) )
+) [10] (./mobility_paper_ieee.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ )
 (see the transcript file for additional information)</usr/share/texlive/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/ty
@@ -118,7 +122,7 @@ msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/urw/times/utmri8a.pfb>
-Output written on mobility_paper_ieee.pdf (10 pages, 468376 bytes).
+Output written on mobility_paper_ieee.pdf (10 pages, 469261 bytes).
 Transcript written on mobility_paper_ieee.log.
 This is BibTeX, Version 0.99d (TeX Live 2023/Debian)
 The top-level auxiliary file: mobility_paper_ieee.aux
@@ -221,7 +225,7 @@ msy/m/n/10 g$\T1/ptm/m/n/10 , re-turn the phase $[][]$, and need the
 [4]) (./sections/section_06_results.tex [5] (./tables/tab_aging.tex) [6 <./figu
 res/fig_aging.pdf> <./figures/fig_intrinsic_optimum.pdf>]
 (./tables/tab_speeds.tex) (./tables/tab_tracking.tex) [7 <./figures/fig_step_sc
-aling.pdf>]) (./sections/section_07_conclusion.tex) [8]
+aling.pdf>]) (./sections/section_07_conclusion.tex [8])
 (./mobility_paper_ieee.bbl [9 <./figures/fig_equal_step_vs_ms.pdf>]
 Underfull \hbox (badness 5217) in paragraph at lines 222--226
 []\T1/ptm/m/n/8 C. B. Peel, B. M. Hochwald, and A. L. Swindle-hurst, ``A
@@ -249,7 +253,7 @@ msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/urw/times/utmri8a.pfb>
-Output written on mobility_paper_ieee.pdf (10 pages, 468376 bytes).
+Output written on mobility_paper_ieee.pdf (10 pages, 469261 bytes).
 Transcript written on mobility_paper_ieee.log.
 This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex)
  restricted \write18 enabled.
@@ -343,7 +347,7 @@ msy/m/n/10 g$\T1/ptm/m/n/10 , re-turn the phase $[][]$, and need the
 [4]) (./sections/section_06_results.tex [5] (./tables/tab_aging.tex) [6 <./figu
 res/fig_aging.pdf> <./figures/fig_intrinsic_optimum.pdf>]
 (./tables/tab_speeds.tex) (./tables/tab_tracking.tex) [7 <./figures/fig_step_sc
-aling.pdf>]) (./sections/section_07_conclusion.tex) [8]
+aling.pdf>]) (./sections/section_07_conclusion.tex [8])
 (./mobility_paper_ieee.bbl [9 <./figures/fig_equal_step_vs_ms.pdf>]
 Underfull \hbox (badness 5217) in paragraph at lines 222--226
 []\T1/ptm/m/n/8 C. B. Peel, B. M. Hochwald, and A. L. Swindle-hurst, ``A
@@ -371,5 +375,5 @@ msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/urw/times/utmri8a.pfb>
-Output written on mobility_paper_ieee.pdf (10 pages, 468376 bytes).
+Output written on mobility_paper_ieee.pdf (10 pages, 469261 bytes).
 Transcript written on mobility_paper_ieee.log.
