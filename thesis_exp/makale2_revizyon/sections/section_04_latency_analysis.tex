@@ -13,15 +13,15 @@ with the precoder recomputed from $\mathcal{H}(\tau_A)$.
 
 The precoder is a closed-form computation that the BS repeats whenever it has fresh pilots; the RIS phase needs the iterative optimization whose latency we measure. Definition~1 therefore lets the phase age and keeps the beam fresh, a split similar to that of two-timescale designs~\cite{Zhao2021TWC}. Sections~\ref{sec:res_beam} and~\ref{sec:res_robust} price this assumption.
 
-\subsection{Why an Optimal Number of Steps Exists}
-For an iterative method run for $L$ steps, write $r_0(L)$ for its minimum rate at $t=0$, $\tau(L)$ for its latency, and $\Delta(L)=r_0(L)-\min_k R_k(\bs{\theta}_L;\mathcal{H}(\tau(L)))$ for the rate lost to aging during its own run time, so that $R^{\mathrm{eff}}(L)=r_0(L)-\Delta(L)$. Each step raises $r_0$ with diminishing returns, while $\Delta$ grows with $\tau$. A step pays off only while
+\subsection{Existence of an Optimal Number of Steps}
+For an iterative method run for $L$ steps, write $r_0(L)$ for its minimum rate at $t=0$, $\tau(L)$ for its latency, and $\Delta(L)=r_0(L)-\min_k R_k(\bs{\theta}_L;\mathcal{H}(\tau(L)))$ for the rate lost to aging during its own run time, so that $R^{\mathrm{eff}}(L)=r_0(L)-\Delta(L)$. Each step raises $r_0$ with diminishing returns, while $\Delta$ grows with $\tau$. An additional step is beneficial only while
 \begin{equation}
     r_0(L+1)-r_0(L) \;>\; \Delta(L+1)-\Delta(L),
     \label{eq:marginal}
 \end{equation}
 and the effective rate peaks where this fails: the \emph{intrinsic optimum} $L^\star$. It depends jointly on the optimizer, its per-step latency and the rate of channel variation. Whether $R^{\mathrm{eff}}$ is unimodal is an empirical question (Section~\ref{sec:res_optimum}).
 
-\subsection{Equal Steps versus Equal Milliseconds}
+\subsection{Comparison at Equal Steps and at Equal Latency}
 If one learned step costs as much time as $c$ classical steps, an equal-step comparison gives the learned method $c$ times the time budget. We therefore also compare at equal measured time.
 
 \textbf{Definition 2 (Dominance).} Configuration $B$ dominates $A$ if $\tau_B\le\tau_A$ and $r_{0,B}\ge r_{0,A}$, with one inequality strict.

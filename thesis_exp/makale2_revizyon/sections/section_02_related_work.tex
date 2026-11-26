@@ -7,4 +7,27 @@
 
 \emph{Mobility and outdated channels.} A vehicle-mounted refracting surface with two-stage estimation turns fast fading into slow fading~\cite{Huang2022TWC}. Channel aging~\cite{Papazafeiropoulos2023TVT} and outdated channel knowledge~\cite{Zhang2022TCOM} have been analyzed for RIS, predictive beamforming points beams at the forecast positions of fast drones~\cite{Liu2021WCL}, and active sensing tracks mobile users~\cite{Han2025TWC}. Aging is classical in massive MIMO~\cite{Truong2013JCN,Chopra2018TWC}, as is limited channel feedback in broadcast channels~\cite{Jindal2006IT}. Two-timescale designs update the phases from channel statistics and the precoder from instantaneous channels~\cite{Zhao2021TWC,Cao2022TWC}. Practical surfaces have a few bits of phase resolution~\cite{Wu2020TCOM,Zhao2024OJCOMS}; Section~\ref{sec:res_robust} adds 1--3-bit phases to our continuous-phase results. In these works the delay between channel acquisition and use, where modeled, is fixed, even where computation is named as a cause~\cite{Truong2013JCN}; the optimizer's own run time is at most a feasibility check or a fixed overhead~\cite{Ryu2026arXiv,Liu2021WCL} and does not enter the aging.
 
-\emph{Gap.} To our knowledge, no RIS work evaluates each method on the channel at its own measured completion time, shows that this creates an optimal iteration count, or compares learned and classical optimizers both at equal steps and at equal measured time.
+\begin{table*}[t]
+\caption{Treatment of channel variation and optimizer run time in representative works.}
+\label{tab:literature}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{0.13\textwidth}p{0.22\textwidth}p{0.22\textwidth}p{0.17\textwidth}p{0.19\textwidth}@{}}
+\toprule
+Work & Problem & Channel variation & Run time & Role of run time \\
+\midrule
+\cite{Pan2020TWC,Guo2020TWC,Choi2024TCOM} & RIS precoding and phases (BCD, FP, WMMSE) & none & complexity order & none \\
+\cite{Abeywickrama2020TCOM,Yu2019ICCC} & RIS phases (practical model; fixed-point, manifold) & none & measured on a fixed channel & not compared with $T_c$ \\
+\cite{Sun2018TSP,Liu2022TWC} & learned WMMSE; unfolded RIS design & none; fixed CSI delay of 0--1.2~ms~\cite{Liu2022TWC} & measured for learned and classical methods & classical method at convergence or fixed iterations \\
+\cite{Cao2022TWC} & RIS, two-timescale design & first-order aging, fixed delay & measured per iteration & not part of the delay \\
+\cite{Papazafeiropoulos2023TVT,Zhang2022TCOM} & RIS with aged or outdated channels & Jakes correlation, fixed delay & complexity order or closed form & none \\
+\cite{Truong2013JCN} & massive MIMO channel aging & fixed delay (1--10~ms); computation named as a cause & not measured & none \\
+\cite{Han2025TWC} & RIS beam tracking, learned active sensing & Gauss--Markov, fixed block & complexity order & none \\
+\cite{Liu2021WCL} & predictive beamforming for UAVs & prediction one 20~ms slot ahead & measured (2~ms) & feasibility check \\
+\cite{Ryu2026arXiv} & RIS, sensing-aided optimization & fixed delay & estimated from operation counts & constraint and fixed overhead \\
+This work & RIS, multi-user MISO & walking users; channel at measured completion time & measured (one thread) & enters the aging; methods compared at equal latency \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\emph{Gap.} Table~\ref{tab:literature} summarizes how representative works treat channel variation and run time. To our knowledge, no RIS work evaluates each method on the channel at its own measured completion time, shows that this creates an optimal iteration count, or compares learned and classical optimizers both at equal steps and at equal measured time.
