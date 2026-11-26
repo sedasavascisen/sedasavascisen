@@ -2,18 +2,20 @@
 
 Sayın Hocam,
 
-Değerli yorumlarınız için teşekkür ederim. Altı noktanın hepsini makaleye işledim; revize edilmiş PDF ektedir. Hiçbir sonuç sayısı değişmedi. Değişiklikler metin, sunuş ve iki yeni tablodan ibaret. Makale 9 sayfadan 10 sayfaya çıktı; TWC'nin ek ücret alınmayan 10 sayfa sınırı içinde kalıyor.
+Değerli yorumlarınız için teşekkür ederim. Altı noktanın hepsini makaleye işledim. Ayrıca makaleyi bir TWC editörünün gözüyle yeniden değerlendirip olası hakem itirazlarına karşı ek düzeltmeler yaptım (aşağıda 7. bölüm). Revize edilmiş PDF ve kısa bir ek belge (supplementary material) ektedir.
+
+Hiçbir sonuç sayısı değişmedi. Değişiklikler metin, sunuş, iki yeni tablo ve tezde daha önce yapılıp denetlenmiş iki sağlamlık kontrolünden ibaret. Makale 9 sayfadan 10 sayfaya çıktı; TWC'nin ek ücret alınmayan 10 sayfa sınırı içinde kalıyor.
 
 **1. Özet**
 
 Özeti baştan yazdım. Sırasıyla şunları veriyor:
 - **Problem:** yöntemler kendilerine verilen kanaldaki hızla karşılaştırılıyor, oysa kanal onlarca milisaniyede değişiyor.
 - **Yenilik:** her yöntem, hesaplaması bittiğindeki kanalda ve ölçülmüş gecikmeyle değerlendiriliyor (etkin hız).
-- **Teorik katkı:** küçük gecikme modeli (Önerme 1), sıfırdan büyük her adım süresinde bir iç optimum bulunduğunu ispatlıyor. Uydurulmuş sabitlerle de optimumun nasıl ölçeklendiğini açıklıyor.
+- **Teorik katkı:** küçük gecikme modeli (Önerme 1), model içinde, sıfırdan büyük her adım süresinde bir iç optimum bulunduğunu gösteriyor. Ölçümlere uydurulmuş sabitlerle de optimumun nasıl ölçeklendiğini açıklıyor.
 - **Uyarlanabilirlik sonucu:** optimal adım sayısını adım süresinin Doppler frekansına oranı belirliyor; optimum 3 km/h'de 8 adımdan 30 km/h'de 1 adıma iniyor. Dolayısıyla adım sayısı kullanıcı hızına ve donanıma göre seçilmeli. Bu, katkılarda da açıkça yazılı.
-- **Ana varsayım:** özet, ön kodlayıcının güncel kanaldan hesaplandığını artık açıkça söylüyor.
+- **Ana varsayımlar:** özet, kanal bilgisinin kusursuz olduğunu ve ön kodlayıcının güncel kanaldan hesaplandığını artık açıkça söylüyor.
 
-Özet 193 kelime (TWC sınırı 200). Açılmamış kısaltma ve matematik sembolü içermiyor.
+Özet 197 kelime (TWC sınırı 200). Açılmamış kısaltma ve matematik sembolü içermiyor.
 
 Bir not: kapalı formun ölçülen optimuma 1.27 kat yakınlığı bir örnek içi kontroldür; model ölçümleri bağımsız olarak öngörmüyor, açıklıyor. Bu yüzden kapalı formu özette "öngörücü bir kural" olarak sunmadım; bu, makalenin gövdesindeki kayıtlarla da tutarlı. Periyodik çalışma sonucu (güncelleme periyodunu pilot yükü belirliyor, güncelleme başına en fazla 8 adım yetiyor) kelime sınırı nedeniyle özete sığmadı; katkılarda ve sonuçta duruyor.
 
@@ -73,11 +75,30 @@ Değişiklikler:
 - Zamanlama paragrafını üç değeri ve kullanıldıkları bölümleri açıkça sayacak biçimde yeniden yazdım.
 - Tablo II'ye bunu gösteren bir dipnot ekledim.
 
+**7. Ek olarak yaptığımız çalışmalar ve değişiklikler**
+
+Yorumlarınızı işledikten sonra makaleyi bir TWC editörünün gözüyle değerlendirdim. Hakemlerin en olası itirazlarını listeleyip makalede şu değişiklikleri yaptım:
+
+- **Teorinin kapsamı:** özette "proves" yerine "shows" kullandım. Katkılarda, modelin sabitlerinin ölçümlere uydurulduğunu ve modelin ölçümleri öngörmekten çok açıkladığını yazdım. Bu, Bölüm VI-C'deki mevcut kayıtlarla tutarlı.
+- **Yeniliğin tanımı:** girişe, katkının yalnızca yeni bir ölçüt değil, bu ölçütün ortaya çıkardığı davranış olduğunu ekledim: iterasyon sayısında bir iç optimum ve bu optimumun tek bir normalize nicelikle belirlenmesi.
+- **Sonucun gerçekleştirmeye bağlılığı** (gecikmeler Python'da ölçüldüğü için hakem soracaktır): Bölüm VI-C'ye, tezde yapılmış bir kontrolü ekledim. Kayan noktalı işlem sayısına dayanan bir maliyet modeli, ölçülen süreyle aynı adım sayısını seçiyor (1.5 m/s'de 6, 10 km/h'de 4 adım) ve iki sıralama arasında Kendall τ = 0.86–0.87. Bütün yöntemlerin eşit hızlandırıldığı durumda ayarlı Adam'ın önde kaldığı sonucu zaten sonuç bölümündeydi.
+- **Tek kanal modeli:** Bölüm VI-D'ye tezdeki Clarke kanalı kontrolünü ekledim. Sabit saçıcıların korelasyon tabanı olmayan bu kanalda da iç optimum var: 3–10 km/h'de 3–8 adım (3.4–8.8 ms) ve 48 adım %27–32 kaybettiriyor.
+- **RIS anahtarlama süresi:** sınırlar bölümüne, bu sürenin (≥ 0.72 ms) ek bir sabit gecikme gibi davrandığını ve Bölüm VI-D'de incelenen 0–10 ms'lik kanal edinme gecikmesi aralığına düştüğünü yazdım.
+- **Öğrenilen yöntemin kapsamı:** katkılarda, karşılaştırmanın hesaplama maliyetini ayırmak için statik kanallarda yapıldığını açıkça belirttim.
+- **Sunuş:** Zamanlama bölümü bir ölçüm günlüğü gibi okunuyordu. Yük ortalamalarını, tur sayılarını ve turlar arası farkları bir sayfalık ek belgeye taşıdım; ana metin oraya başvuruyor, hiçbir bilgi silinmedi.
+- **Gelecek çalışma:** ikinci bir geometri, CDL (clustered delay-line) kanalı ve SDR ile WMMSE'nin zamanlanması sonuç bölümünde gelecek çalışma olarak yer alıyor.
+
+Ertelediğimiz bir iş var: bütün tablo ve şekilleri tek bir temiz zamanlama oturumuyla (Adam adımı 1.33 ms) yeniden üretmek. Bu oturumun ölçümleri hazır, ama geçiş yaklaşık 60 sayıyı değiştiriyor ve 1–2 iş günü sürüyor. Şimdilik üç değeri açıkça anlatmayı ve sonuçların 1.33 ms ile de korunduğunu göstermeyi tercih ettim. Hakem isterse revizyonda yapılabilir; plan hazır.
+
+Bu kontrollerin hepsi daha önce bağımsız olarak denetlendi; makalenin sayısal iddiaları otomatik denetleyicilerden de geçiyor.
+
 Bütün değişiklikler, eski ve yeni hâlleriyle birlikte, revizyon kayıt dosyasında duruyor.
 
-Ayrıca bir öneri: tezde, bu kapalı formu kullanan ve her güncellemede başlangıç noktasını ve adım sayısını seçen bir denetleyici var. Ön kayıtlı 60 koşullu sınamada doğru adım sayısına göre medyan kaybı %0.08. Bu sonuç şu an makalede yok. Uyarlanabilir yöntemi daha da öne çıkarmak isterseniz kısa bir paragraf olarak ekleyebilirim; makale yine 10 sayfada kalacak biçimde.
+Ayrıca bir öneri: tezde, adım sayısını önceden seçen bir tasarım kuralı ve bunu kullanan, her güncellemede başlangıç noktasını ve adım sayısını seçen bir denetleyici var. Kural, ön kayıtlı 60 koşullu bağımsız sınamada doğru adım sayısına göre medyan %0.08 kaybettiriyor. Bu sonuç şu an makalede yok. Uyarlanabilir yöntemi daha da öne çıkarmak isterseniz kısa bir paragraf olarak ekleyebilirim; makale yine 10 sayfada kalacak biçimde.
 
 Saygılarımla,
 Seda Savaşçı Şen
 
-Ek: Latency-Aware_Phase_Optimization_v26.pdf
+Ekler:
+- Latency-Aware_Phase_Optimization_v27.pdf
+- supplementary.pdf
