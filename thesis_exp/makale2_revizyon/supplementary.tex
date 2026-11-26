@@ -6,15 +6,23 @@
 \maketitle
 
 \section*{S1. Timing details}
-All latencies are wall-clock times for one scenario on an Intel Xeon CPU at 2.1~GHz with one PyTorch thread; the median over repetitions is kept.
+All latencies are wall-clock times for one scenario on an Intel Xeon CPU at 2.1~GHz with one PyTorch thread, except the two-thread 1.66~ms Adam step below; the median over repetitions is kept.
 \begin{itemize}
 \item \emph{Aging set.} The load average was 0.20 before and 0.86 after timing (the rise is the timing script's own thread), and the round-to-round spread was 1.15--3.66$\times$. Adam's step time of 1.66~ms (13.3~ms for 8 steps) comes from an earlier two-thread measurement made before a precoder fix; later rounds on the aging set gave 1.49--2.02~ms per step. A one-thread re-measurement (load average 0.45 before timing) gave 1.33~ms per step; it is used in Section~VI-H.
 \item \emph{Static set.} The round-to-round spread was 1.15--1.60$\times$ over five rounds, and the load average was not recorded. Adam's per-step medians were 1.60--1.71~ms. The learned network's input features are excluded from its time, which favors it.
 \item \emph{$N=64$.} The step-time ratio of 1.04 relative to $N=32$ is from one round on 20 scenarios.
 \item \emph{Coordinate descent with 1--8 sweeps} is timed in three rounds from a load average of 0.45.
 \item \emph{Armijo} costs 1.26 times as much as Adam per step (2.09~ms; per-scenario ratio 0.81--1.97).
+\item \emph{Precoder versus Adam step} (Section~VI-G): five rounds, load average 0.46 before and after; medians 0.12~ms per precoder and 1.60~ms per Adam step (ratio 13.4).
+\item \emph{Separate session} for the operation-count check (Section~VI-C), the Clarke channel (Section~VI-D) and the implementation checks of S3: load average 0.06 before and 0.75 after; Adam step 1.086~ms.
 \end{itemize}
 
 \section*{S2. Sources of the additional checks}
 The operation-count check of Section~VI-C (11{,}008 real floating-point operations per rate evaluation, calibrated to one Adam step) and the Clarke-channel check of Section~VI-D were run in a separate session with their own latency measurements; their scripts and raw outputs are in the code repository listed in the paper.
+\section*{S3. Implementation and wideband checks cited in the conclusion}
+\begin{itemize}
+\item \emph{Compiled coordinate descent.} Compiling only coordinate descent (same algorithm, 62--63 times faster) lets it overtake Python Adam by 0.514~b/s/Hz at 1.5~m/s and 0.602~b/s/Hz at 10~km/h. If all methods are sped up equally, by any factor from 1 to 1000, tuned Adam stays ahead of tuned coordinate descent (difference $-1.43$ to $-0.12$~b/s/Hz); this equal-speed-up analysis was not pre-registered.
+\item \emph{OFDM.} With one phase vector for all subcarriers, the interior optimum held for center-frequency optimization at 20~MHz; at 50--100~MHz, 48 steps were significantly worse than the optimum in only 3 of 16 configurations.
+\end{itemize}
+Scripts and raw outputs of these checks are in the code repository listed in the paper.
 \end{document}

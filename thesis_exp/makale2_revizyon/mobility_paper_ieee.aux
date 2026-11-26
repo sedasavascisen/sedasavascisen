@@ -109,8 +109,8 @@
 \newlabel{fig:aging}{{2}{6}{Minimum user rate of a phase fixed at $t=0$ as users walk at 1.5~m/s, with the precoder refreshed. Dashed: $T_c=28.2$~ms. Shaded: beyond 200~ms the model is optimistic}{figure.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Optimal Number of Iterations}{6}{subsection.6.2}\protected@file@percent }
 \newlabel{sec:res_optimum}{{\mbox  {VI-B}}{6}{Optimal Number of Iterations}{subsection.6.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Step sweep (aging set). The $t=0$ rate increases with $L$; the effective rate peaks at $L=4$--$6$ and is 14.0\% lower at $L=48$. Armijo (2.09~ms per step) shows the same shape. $L=0$: SU-best-of at 0.05~ms (5.276; 5.272 at its measured 2.5~ms).}}{6}{figure.3}\protected@file@percent }
-\newlabel{fig:optimum}{{3}{6}{Step sweep (aging set). The $t=0$ rate increases with $L$; the effective rate peaks at $L=4$--$6$ and is 14.0\% lower at $L=48$. Armijo (2.09~ms per step) shows the same shape. $L=0$: SU-best-of at 0.05~ms (5.276; 5.272 at its measured 2.5~ms)}{figure.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Step sweep (aging set). The $t=0$ rate increases with $L$; the effective rate peaks at $L=4$--$6$ and is 14.0\% lower at $L=48$. Armijo (2.09~ms per step) shows the same shape. $L=0$: SU-best-of (not the SU-average start of the sweep) at 0.05~ms (5.276; 5.272 at its measured 2.5~ms).}}{6}{figure.3}\protected@file@percent }
+\newlabel{fig:optimum}{{3}{6}{Step sweep (aging set). The $t=0$ rate increases with $L$; the effective rate peaks at $L=4$--$6$ and is 14.0\% lower at $L=48$. Armijo (2.09~ms per step) shows the same shape. $L=0$: SU-best-of (not the SU-average start of the sweep) at 0.05~ms (5.276; 5.272 at its measured 2.5~ms)}{figure.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Scaling of the Optimum with the Normalized Step Cost}{6}{subsection.6.3}\protected@file@percent }
 \newlabel{sec:res_scaling}{{\mbox  {VI-C}}{6}{Scaling of the Optimum with the Normalized Step Cost}{subsection.6.3}{}}
 \citation{3gpp_tr38913}
@@ -127,10 +127,10 @@
 \newlabel{tab:speeds}{{IV}{7}{Standardized and higher user speeds (aging set, no acquisition delay): coherence time, normalized step cost, best step count (range within 0.5\%), cost of running Adam to $L=48$, and $\Delta $: SU-best-of minus coordinate descent in effective rate (b/s/Hz). Computed on a 0.5~ms grid, so values can differ slightly from Table~\ref {tab:aging} and Fig.~\ref {fig:optimum}. $^\dagger $Beyond the reliable horizon; approximate}{table.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Periodic Re-optimization}{7}{subsection.6.5}\protected@file@percent }
 \newlabel{sec:res_tracking}{{\mbox  {VI-E}}{7}{Periodic Re-optimization}{subsection.6.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-F}}Learned Update Rule at Equal Steps and at Equal Latency}{7}{subsection.6.6}\protected@file@percent }
-\newlabel{sec:res_reversal}{{\mbox  {VI-F}}{7}{Learned Update Rule at Equal Steps and at Equal Latency}{subsection.6.6}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Periodic re-optimization (aging set): best update period $U$ (ms; b2b = back-to-back) and steps per update $L$, with the time-averaged effective rate (b/s/Hz) for pilot durations $T_{\mathrm  {p}}$. Warm$-$cold: paired difference of the two best policies; $^\S  $not significant.}}{8}{table.5}\protected@file@percent }
 \newlabel{tab:tracking}{{V}{8}{Periodic re-optimization (aging set): best update period $U$ (ms; b2b = back-to-back) and steps per update $L$, with the time-averaged effective rate (b/s/Hz) for pilot durations $T_{\mathrm {p}}$. Warm$-$cold: paired difference of the two best policies; $^\S $not significant}{table.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-F}}Learned Update Rule at Equal Steps and at Equal Latency}{8}{subsection.6.6}\protected@file@percent }
+\newlabel{sec:res_reversal}{{\mbox  {VI-F}}{8}{Learned Update Rule at Equal Steps and at Equal Latency}{subsection.6.6}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-G}}Sensitivity to the Fresh-Precoder Assumption}{8}{subsection.6.7}\protected@file@percent }
 \newlabel{sec:res_beam}{{\mbox  {VI-G}}{8}{Sensitivity to the Fresh-Precoder Assumption}{subsection.6.7}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-H}}Robustness to Pilots, Estimation Error and Phase Resolution}{8}{subsection.6.8}\protected@file@percent }
@@ -149,11 +149,11 @@
 \bibcite{Pei2021TCOM}{5}
 \bibcite{Wu2019TWC}{6}
 \bibcite{Abeywickrama2020TCOM}{7}
-\bibcite{Pan2020TWC}{8}
-\bibcite{Guo2020TWC}{9}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Learned update rule versus tuned Adam (static test set, 600 scenarios, $t=0$ rates, one CPU thread). (a)~At equal steps the learned rule is ahead at every budget. (b)~On the measured latency axis (labels: number of steps $L$), every learned configuration lies below and to the right of the Adam curve: it is dominated.}}{9}{figure.5}\protected@file@percent }
 \newlabel{fig:eqms}{{5}{9}{Learned update rule versus tuned Adam (static test set, 600 scenarios, $t=0$ rates, one CPU thread). (a)~At equal steps the learned rule is ahead at every budget. (b)~On the measured latency axis (labels: number of steps $L$), every learned configuration lies below and to the right of the Adam curve: it is dominated}{figure.5}{}}
 \@writefile{toc}{\contentsline {section}{References}{9}{section*.3}\protected@file@percent }
+\bibcite{Pan2020TWC}{8}
+\bibcite{Guo2020TWC}{9}
 \bibcite{Choi2024TCOM}{10}
 \bibcite{Huang2020JSAC}{11}
 \bibcite{3gpp_channel}{12}

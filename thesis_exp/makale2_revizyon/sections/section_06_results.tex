@@ -33,7 +33,7 @@ The optimum is not an artifact of Adam or its step size. Step sizes 0.25, 0.75 a
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.92\columnwidth]{figures/fig_intrinsic_optimum.pdf}
-\caption{Step sweep (aging set). The $t=0$ rate increases with $L$; the effective rate peaks at $L=4$--$6$ and is 14.0\% lower at $L=48$. Armijo (2.09~ms per step) shows the same shape. $L=0$: SU-best-of at 0.05~ms (5.276; 5.272 at its measured 2.5~ms).}
+\caption{Step sweep (aging set). The $t=0$ rate increases with $L$; the effective rate peaks at $L=4$--$6$ and is 14.0\% lower at $L=48$. Armijo (2.09~ms per step) shows the same shape. $L=0$: SU-best-of (not the SU-average start of the sweep) at 0.05~ms (5.276; 5.272 at its measured 2.5~ms).}
 \label{fig:optimum}
 \end{figure}
 
@@ -73,7 +73,7 @@ A deployed system also spends time on pilots and feedback before it optimizes. O
 
 \subsection{Periodic Re-optimization}
 \label{sec:res_tracking}
-Table~\ref{tab:tracking} simulates the controller of Definition~3. The pilot overhead decides how often to update. With free pilots, back-to-back updates with two warm-started steps are best (6.36~b/s/Hz); with 0.86~ms of pilots the best period is 10--20~ms; with 3.43~ms, updates every 80~ms (warm start) and back-to-back updates with 48 steps (cold start) are statistically tied. What does not change is that short updates suffice: in every row some policy with at most 8 steps is not significantly below the best. Warm starting gains up to 0.53~b/s/Hz when pilots are short and nothing significant with 3.43~ms pilots.
+Table~\ref{tab:tracking} simulates the controller of Definition~3. The pilot overhead decides how often to update. With free pilots, back-to-back updates with two warm-started steps are best (6.36~b/s/Hz); with 0.86~ms of pilots the best period is 10--20~ms; with 3.43~ms, updates every 80~ms (warm start) and back-to-back updates with 48 steps (cold start) are statistically tied; here each phase serves a whole update period, unlike Section~\ref{sec:res_optimum}. What does not change is that short updates suffice: in every row some policy with at most 8 steps is not significantly below the best. Warm starting gains up to 0.53~b/s/Hz when pilots are short and nothing significant with 3.43~ms pilots.
 
 \begin{table}[t]
 \centering
@@ -97,7 +97,7 @@ This comparison uses the static set and $t=0$ rates, to isolate compute efficien
 
 \subsection{Sensitivity to the Fresh-Precoder Assumption}
 \label{sec:res_beam}
-The main results assume that the BS refreshes its precoder from the current channel while only the RIS phase ages. On the beam set, keeping the precoder from $t=0$ instead makes the rate collapse within tens of milliseconds: at $T_c$ it is 11.7--14.2$\times$ lower than with a fresh beam, for every phase choice, and with the phase of Adam ($L=8$) a precoder only 5~ms old already lowers the rate from 5.228 to 1.736~b/s/Hz (beam-set rates are not comparable with Table~\ref{tab:aging}). Recomputing the precoder is inexpensive (0.12~ms, about 13 times shorter than one Adam step), but it requires effective-channel pilots every few milliseconds; Section~\ref{sec:res_robust} charges their airtime.
+The main results assume that the BS refreshes its precoder from the current channel while only the RIS phase ages. On the beam set, keeping the precoder from $t=0$ instead makes the rate collapse within tens of milliseconds: at $T_c$ it is 11.7--14.2$\times$ lower than with a fresh precoder, for every phase choice, and with the phase of Adam ($L=8$) a precoder only 5~ms old already lowers the rate from 5.228 to 1.736~b/s/Hz (beam-set rates are not comparable with Table~\ref{tab:aging}). Recomputing the precoder is inexpensive (0.12~ms, about 13 times shorter than one Adam step), but it requires effective-channel pilots every few milliseconds; Section~\ref{sec:res_robust} charges their airtime.
 
 \subsection{Robustness to Pilots, Estimation Error and Phase Resolution}
 \label{sec:res_robust}

@@ -322,3 +322,27 @@ Yorumlar: özet; akademik üslup; literatür karşılaştırma tablosu; hiperpar
 - Sonuç, sınırlar: "A second geometry, a clustered delay-line channel and timed semidefinite-relaxation and WMMSE baselines are left for future work." eklendi.
 - Temiz zamanlama oturumuna geçiş kullanıcı kararıyla ertelendi (`EDITOR_PLANI.md`).
 - 10 sayfa, uyarı yok. Son PDF: `Latency-Aware_Phase_Optimization_v27.pdf`; ek belge: `supplementary.pdf`.
+
+## 25. tur (26 Kasım 2026): v27 tutarlılık denetimi (`DENETIM_V27_TUTARLILIK.md`)
+
+**Kaynak kontrolü:** 46 atıfın hepsi 17 Kasım kaynak kontrolünde PDF'ten doğrulanmış. Grup 1–2 notlarında 9 kaynak anahtar yerine yazar adıyla geçiyor; hepsi DOĞRU. Kaynakçada atıf almayan 3 kayıt (Efron, Gudmundson, Rappaport) daha önce çıkarılmış olanlar; PDF'e girmiyorlar. 17 Kasım'dan sonra eklenen atıflı içerik: Tablo I (26 Kasım denetimi), §VI-D'deki Clarke atfı (grup 10: ρ = J₀) ve girişte yeniden yazılan kapsama cümlesi (aynı üç kaynak, aynı iddia).
+
+**Düzeltilen tutarsızlıklar**
+
+| Bulgu | Düzeltme |
+| --- | --- |
+| K1: "tek iş parçacığı" ile iki iş parçacıklı 1.66 ms çelişiyor | §V-C ve ek belgede "except the two-thread 1.66 ms"; Tablo I'de "measured on a CPU" |
+| K2: özet ve Katkı 1'de CD'nin yenilgisi niteliksiz (§VI-H'de uzun pencerede CD SU-best-of'u geçebiliyor) | Özette "trail, at deployment,"; Katkı 1'de "outperformed at deployment" |
+| K3: sonuçtaki derlenmiş CD, eşit hızlanma ve OFDM sayıları gövdede yok | Ek belgeye S3 eklendi (kaynaklar: `juri/REPORT_S3_S1.md`, `genis_bant/REPORT.md`); sonuç bölümü ek belgeye başvuruyor |
+| O1: ayrı oturumların Adam adımları (Clarke/FLOP 1.086 ms, §VI-G 1.597 ms) belirtilmemiş | Ek belge S1'e eklendi (`results/mumiso_precoder_vs_step.json`; `juri/REPORT_S3_S1.md`); §V-C ve Tablo II dipnotu ek belgeye başvuruyor |
+| O2: CD'nin yeniden ölçülmüş süresi (0.70 s) §V-C'de yok; 0.26'nın iki farklı GA'sı | §V-C: "coordinate descent 0.70 s", "8-sweep coordinate descent" (§VI-A'daki 0.26, 1–8 taramanın en iyisi) |
+| O3: sonuç 1. madde, "ayarlı tarama" ile "her hız" birleşmiş | "at 1.5 m/s … tuned number of sweeps; … every speed … (8 sweeps …)" |
+| O4: ayrık faz cümlesi §VI-H'yi aşıyor | "with 3-bit phases, and with 2-bit phases from two sweeps on, discrete coordinate descent stays behind rounded SU-best-of" |
+| O5: Şekil 3, L = 0 | Altyazı: "SU-best-of (not the SU-average start of the sweep)" |
+| O6: Tablo V'te soğuk başlangıçlı L = 48 | §VI-E: "here each phase serves a whole update period, unlike Section VI-B" |
+| O7, O8: ek belgede eksik yük bilgileri; ayrı oturumlar | "Other checks use separate sessions; … in the supplementary material"; S1'de yükler (kaydedilmişse) |
+| Küçük | xL* ≤ 0.16 → ≤ 0.17 (18 km/h'de 0.166); "fresh beam" → "fresh precoder" |
+
+Uygulanmayan küçük bulgular raporda duruyor: sembol çakışmaları (Δ, τ, 𝒲/W), özetteki etkin hız tanımının kısalığı, Tablo III'teki Adam gecikmelerinin L × 1.66 modeli olması. Bunlar biçimsel; sayfa sınırı nedeniyle bırakıldı.
+
+10 sayfa, özet 197 kelime, uyarı yok; denetleyiciler 126/126 ve 120/120. PDF: `Latency-Aware_Phase_Optimization_v28.pdf`; ek belge güncellendi.
