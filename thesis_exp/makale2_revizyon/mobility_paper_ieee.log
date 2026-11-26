@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.11.3)  26 NOV 2026 05:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.11.3)  26 NOV 2026 06:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -268,6 +268,16 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@lastruleclass=\count283
 \@thisrulewidth=\dimen187
 )
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen188
+\ar@mcellbox=\box55
+\extrarowheight=\dimen189
+\NC@list=\toks24
+\extratabsurround=\skip54
+\backup@length=\skip55
+\ar@cellbox=\box56
+)
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2024-01-20 v7.01h Hypertext links for LaTeX
 
@@ -321,7 +331,7 @@ Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count285
 )
-\@linkdim=\dimen188
+\@linkdim=\dimen190
 \Hy@linkcounter=\count286
 \Hy@pagecounter=\count287
 
@@ -354,7 +364,7 @@ Package hyperref Info: Bookmarks ON on input line 4446.
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4784.
-\XeTeXLinkMargin=\dimen189
+\XeTeXLinkMargin=\dimen191
 
 (/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -364,8 +374,8 @@ Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
 \Fld@menulength=\count290
-\Field@Width=\dimen190
-\Fld@charsize=\dimen191
+\Field@Width=\dimen192
+\Fld@charsize=\dimen193
 Package hyperref Info: Hyper figures OFF on input line 6063.
 Package hyperref Info: Link nesting OFF on input line 6068.
 Package hyperref Info: Hyper index ON on input line 6071.
@@ -404,49 +414,49 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 85.
 )
-\Hy@SectionHShift=\skip54
+\Hy@SectionHShift=\skip56
 )
 (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count296
-\l__pdf_internal_box=\box55
+\l__pdf_internal_box=\box57
 )
 (./mobility_paper_ieee.aux)
 \openout1 = `mobility_paper_ieee.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
 
 -- Lines per column: 58 (exact).
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count297
-\scratchdimen=\dimen192
-\scratchbox=\box56
+\scratchdimen=\dimen194
+\scratchbox=\box58
 \nofMPsegments=\count298
 \nofMParguments=\count299
-\everyMPshowfont=\toks24
+\everyMPshowfont=\toks25
 \MPscratchCnt=\count300
-\MPscratchDim=\dimen193
+\MPscratchDim=\dimen195
 \MPnumerator=\count301
 \makeMPintoPDFobject=\count302
-\everyMPtoPDFconversion=\toks25
+\everyMPtoPDFconversion=\toks26
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
@@ -456,14 +466,14 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 15.
+Package hyperref Info: Link coloring OFF on input line 16.
 
 (./mobility_paper_ieee.out) (./mobility_paper_ieee.out)
 \@outlinefile=\write3
 \openout3 = `mobility_paper_ieee.out'.
 
 
-Underfull \hbox (badness 1365) in paragraph at lines 29--29
+Underfull \hbox (badness 1365) in paragraph at lines 30--30
 \T1/ptm/m/n/8 ics En-gi-neer-ing, Düzce Uni-ver-sity, Düzce, Türkiye (e-mail: s
 edasavas-
  []
@@ -483,22 +493,8 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 6.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-Underfull \hbox (badness 4543) in paragraph at lines 21--21
-[]\T1/ptm/m/n/8 none; fixed CSI de-lay of 0--
- []
-
-
-Underfull \hbox (badness 1521) in paragraph at lines 21--22
-[]\T1/ptm/m/n/8 classical method at con-ver-
- []
-
-
-Underfull \hbox (badness 5446) in paragraph at lines 28--29
-[]\T1/ptm/m/n/8 enters the ag-ing; meth-ods
- []
-
-) (./sections/section_03_system_model.tex
+))
+(./sections/section_03_system_model.tex
 <figures/fig_scenario.pdf, id=210, 523.04271pt x 228.3091pt>
 File: figures/fig_scenario.pdf Graphic file (type pdf)
 <use figures/fig_scenario.pdf>
@@ -519,29 +515,6 @@ msy/m/n/10 g$\T1/ptm/m/n/10 , re-turn the phase $[][]$, and need the
  []
 
 [3 <./figures/fig_scenario.pdf>]) (./sections/section_05_methodology.tex
-Underfull \hbox (badness 10000) in paragraph at lines 28--28
-[]\T1/ptm/m/n/8 Long-run
- []
-
-
-Underfull \hbox (badness 1596) in paragraph at lines 29--29
-[]$\OML/cmm/m/it/8 L \OMS/cmsy/m/n/8 2 f\OT1/cmr/m/n/8 1\OML/cmm/m/it/8 ; \OT1/
-cmr/m/n/8 2\OML/cmm/m/it/8 ; \OT1/cmr/m/n/8 4\OML/cmm/m/it/8 ; \OT1/cmr/m/n/8 8
-\OML/cmm/m/it/8 ; \OT1/cmr/m/n/8 16\OMS/cmsy/m/n/8 g$\T1/ptm/m/n/8 , one net-wo
-rk
- []
-
-
-Underfull \hbox (badness 2970) in paragraph at lines 29--29
-\T1/ptm/m/n/8 min train-ing (Adam, $\OT1/cmr/m/n/8 10[]$\T1/ptm/m/n/8 , co-sine
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 29--30
-[]\T1/ptm/m/n/8 2.7--4.0 Adam
- []
-
 [4]) (./sections/section_06_results.tex [5] (./tables/tab_aging.tex)
 <figures/fig_aging.pdf, id=392, 258.30125pt x 204.98117pt>
 File: figures/fig_aging.pdf Graphic file (type pdf)
@@ -584,13 +557,13 @@ Package rerunfilecheck Info: File `mobility_paper_ieee.out' has not changed.
 (rerunfilecheck)             Checksum: BD15A34BD077251A738CD3F565D54DA9;5505.
  ) 
 Here is how much of TeX's memory you used:
- 11656 strings out of 476106
- 180814 string characters out of 5793933
- 1953975 words of memory out of 5000000
- 33358 multiletter control sequences out of 15000+600000
+ 11720 strings out of 476106
+ 181756 string characters out of 5793933
+ 1954975 words of memory out of 5000000
+ 33419 multiletter control sequences out of 15000+600000
  679381 words of font info for 163 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 75i,12n,79p,1752b,591s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,79p,1793b,591s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texl
@@ -613,7 +586,7 @@ ype1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/u
 tmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on mobility_paper_ieee.pdf (10 pages, 468062 bytes).
+Output written on mobility_paper_ieee.pdf (10 pages, 468376 bytes).
 PDF statistics:
  713 PDF objects out of 1000 (max. 8388607)
  562 compressed objects within 6 object streams

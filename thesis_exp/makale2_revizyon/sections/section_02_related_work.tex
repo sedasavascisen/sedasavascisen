@@ -12,18 +12,18 @@
 \label{tab:literature}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}p{0.13\textwidth}p{0.22\textwidth}p{0.22\textwidth}p{0.17\textwidth}p{0.19\textwidth}@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.13\textwidth}>{\raggedright\arraybackslash}p{0.22\textwidth}>{\raggedright\arraybackslash}p{0.22\textwidth}>{\raggedright\arraybackslash}p{0.17\textwidth}>{\raggedright\arraybackslash}p{0.19\textwidth}@{}}
 \toprule
 Work & Problem & Channel variation & Run time & Role of run time \\
 \midrule
-\cite{Pan2020TWC,Guo2020TWC,Choi2024TCOM} & RIS precoding and phases (BCD, FP, WMMSE) & none & complexity order & none \\
-\cite{Abeywickrama2020TCOM,Yu2019ICCC} & RIS phases (practical model; fixed-point, manifold) & none & measured on a fixed channel & not compared with $T_c$ \\
-\cite{Sun2018TSP,Liu2022TWC} & learned WMMSE; unfolded RIS design & none; fixed CSI delay of 0--1.2~ms~\cite{Liu2022TWC} & measured for learned and classical methods & classical method at convergence or fixed iterations \\
+\cite{Pan2020TWC,Guo2020TWC,Choi2024TCOM} & RIS precoding and phases (block coordinate descent, fractional programming, WMMSE) & none & complexity order & none \\
+\cite{Abeywickrama2020TCOM,Yu2019ICCC} & RIS beamforming (practical phase model; fixed-point and manifold methods) & none & measured on a fixed channel & not compared with the coherence time \\
+\cite{Sun2018TSP,Liu2022TWC} & neural network imitating WMMSE; unfolded RIS design & none; CSI delay swept over 0--1.2~ms~\cite{Liu2022TWC} & measured for learned and classical methods & not related to channel variation; classical method at convergence or fixed iterations \\
 \cite{Cao2022TWC} & RIS, two-timescale design & first-order aging, fixed delay & measured per iteration & not part of the delay \\
-\cite{Papazafeiropoulos2023TVT,Zhang2022TCOM} & RIS with aged or outdated channels & Jakes correlation, fixed delay & complexity order or closed form & none \\
+\cite{Papazafeiropoulos2023TVT,Zhang2022TCOM} & RIS with aged or outdated channels & Jakes correlation; delay set by the frame or estimation & complexity order or closed form & none \\
 \cite{Truong2013JCN} & massive MIMO channel aging & fixed delay (1--10~ms); computation named as a cause & not measured & none \\
 \cite{Han2025TWC} & RIS beam tracking, learned active sensing & Gauss--Markov, fixed block & complexity order & none \\
-\cite{Liu2021WCL} & predictive beamforming for UAVs & prediction one 20~ms slot ahead & measured (2~ms) & feasibility check \\
+\cite{Liu2021WCL} & predictive beamforming for drones & prediction one 20~ms slot ahead & measured (2~ms) & feasibility check \\
 \cite{Ryu2026arXiv} & RIS, sensing-aided optimization & fixed delay & estimated from operation counts & constraint and fixed overhead \\
 This work & RIS, multi-user MISO & walking users; channel at measured completion time & measured (one thread) & enters the aging; methods compared at equal latency \\
 \bottomrule

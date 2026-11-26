@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{booktabs}
+\usepackage{array}
 \usepackage[hidelinks]{hyperref}
 
 \newcommand{\mbf}[1]{\mathbf{#1}}
@@ -28,7 +29,7 @@
 \maketitle
 
 \begin{abstract}
-Phase optimizers for reconfigurable intelligent surfaces (RISs) are usually compared by their rate on the given channel, although a walking user changes the channel within tens of milliseconds. We evaluate each method on the channel that exists when its computation ends, termed the \emph{effective rate}, using measured latencies in a narrowband indoor multi-user multiple-input single-output downlink with a 32-element RIS. First, coordinate descent and long-run Adam, despite high initial-channel rates, require 0.9--5.9~s and are outperformed by a single-user heuristic that takes 2.5~ms. Second, the effective rate has an interior maximum in the number of iterations: at 1.5~m/s it lies at four to six Adam steps, and 48 steps cost 14\%. A small-delay model shows that this optimum exists for every nonzero step time and scales with the product of step time and Doppler frequency; its closed form, which adapts the step count to user speed and hardware, is within a factor of 1.27 of the measured optimum. Third, a learned update rule that outperforms tuned Adam at equal iteration counts is dominated by faster Adam configurations at equal measured latency. In periodic operation, the pilot overhead sets the update period, and at most eight steps per update suffice.
+Phase optimizers for reconfigurable intelligent surfaces (RISs) are usually compared by their rate on the given channel, although a walking user changes the channel within tens of milliseconds. We evaluate each method by its \emph{effective rate}, the rate on the channel at the end of its computation, with measured latencies, in a narrowband indoor multi-user multiple-input single-output downlink with a 32-element RIS and a freshly computed precoder. First, coordinate descent and long-run Adam, despite high initial-channel rates, require 0.9--5.9~s and are outperformed by a single-user heuristic taking 2.5~ms. Second, the effective rate has an interior maximum in the number of iterations: at 1.5~m/s it lies at four to six Adam steps, and 48 steps lower it by 14\%. This optimum is governed by the step time relative to the Doppler frequency, falling from eight steps at 3~km/h to one at 30~km/h; a small-delay model proves that it exists for every nonzero step time and, with fitted constants, explains its scaling. Third, a learned update rule that outperforms tuned Adam at equal iteration counts is dominated by faster, better Adam configurations at latencies measured on one processor thread.
 \end{abstract}
 
 \begin{IEEEkeywords}

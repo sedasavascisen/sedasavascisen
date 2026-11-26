@@ -33,6 +33,7 @@ For additional information on amsmath, use the `?' option.
 (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx))
 (/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
 (/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
@@ -67,23 +68,15 @@ For additional information on amsmath, use the `?' option.
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
 (./mobility_paper_ieee.out) (./mobility_paper_ieee.out)
-Underfull \hbox (badness 1365) in paragraph at lines 29--29
+Underfull \hbox (badness 1365) in paragraph at lines 30--30
 \T1/ptm/m/n/8 ics En-gi-neer-ing, Düzce Uni-ver-sity, Düzce, Türkiye (e-mail: s
 edasavas-
 (./sections/section_01_introduction.tex)
 (./sections/section_02_related_work.tex [1{/var/lib/texmf/fonts/map/pdftex/updm
 ap/pdftex.map}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}]
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
-Underfull \hbox (badness 4543) in paragraph at lines 21--21
-[]\T1/ptm/m/n/8 none; fixed CSI de-lay of 0--
-
-Underfull \hbox (badness 1521) in paragraph at lines 21--22
-[]\T1/ptm/m/n/8 classical method at con-ver-
-
-Underfull \hbox (badness 5446) in paragraph at lines 28--29
-[]\T1/ptm/m/n/8 enters the ag-ing; meth-ods
-) (./sections/section_03_system_model.tex)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd))
+(./sections/section_03_system_model.tex)
 (./sections/section_04_latency_analysis.tex [2]
 Underfull \hbox (badness 10000) in paragraph at lines 5--6
 []\T1/ptm/m/n/10 Let a method $\OML/cmm/m/it/10 A$ \T1/ptm/m/n/10 re-ceive the 
@@ -94,21 +87,6 @@ Underfull \hbox (badness 1418) in paragraph at lines 5--6
 /cmr/m/n/10 (0)\OML/cmm/m/it/10 ; \OT1/cmr/bx/n/10 h[]\OT1/cmr/m/n/10 (0)\OMS/c
 msy/m/n/10 g$\T1/ptm/m/n/10 , re-turn the phase $[][]$, and need the
 [3 <./figures/fig_scenario.pdf>]) (./sections/section_05_methodology.tex
-Underfull \hbox (badness 10000) in paragraph at lines 28--28
-[]\T1/ptm/m/n/8 Long-run
-
-Underfull \hbox (badness 1596) in paragraph at lines 29--29
-[]$\OML/cmm/m/it/8 L \OMS/cmsy/m/n/8 2 f\OT1/cmr/m/n/8 1\OML/cmm/m/it/8 ; \OT1/
-cmr/m/n/8 2\OML/cmm/m/it/8 ; \OT1/cmr/m/n/8 4\OML/cmm/m/it/8 ; \OT1/cmr/m/n/8 8
-\OML/cmm/m/it/8 ; \OT1/cmr/m/n/8 16\OMS/cmsy/m/n/8 g$\T1/ptm/m/n/8 , one net-wo
-rk
-
-Underfull \hbox (badness 2970) in paragraph at lines 29--29
-\T1/ptm/m/n/8 min train-ing (Adam, $\OT1/cmr/m/n/8 10[]$\T1/ptm/m/n/8 , co-sine
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 29--30
-[]\T1/ptm/m/n/8 2.7--4.0 Adam
 [4]) (./sections/section_06_results.tex [5] (./tables/tab_aging.tex) [6 <./figu
 res/fig_aging.pdf> <./figures/fig_intrinsic_optimum.pdf>]
 (./tables/tab_speeds.tex) (./tables/tab_tracking.tex) [7 <./figures/fig_step_sc
@@ -140,7 +118,7 @@ msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/urw/times/utmri8a.pfb>
-Output written on mobility_paper_ieee.pdf (10 pages, 468062 bytes).
+Output written on mobility_paper_ieee.pdf (10 pages, 468376 bytes).
 Transcript written on mobility_paper_ieee.log.
 This is BibTeX, Version 0.99d (TeX Live 2023/Debian)
 The top-level auxiliary file: mobility_paper_ieee.aux
@@ -186,6 +164,7 @@ For additional information on amsmath, use the `?' option.
 (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx))
 (/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
 (/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
@@ -220,23 +199,15 @@ For additional information on amsmath, use the `?' option.
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
 (./mobility_paper_ieee.out) (./mobility_paper_ieee.out)
-Underfull \hbox (badness 1365) in paragraph at lines 29--29
+Underfull \hbox (badness 1365) in paragraph at lines 30--30
 \T1/ptm/m/n/8 ics En-gi-neer-ing, Düzce Uni-ver-sity, Düzce, Türkiye (e-mail: s
 edasavas-
 (./sections/section_01_introduction.tex)
 (./sections/section_02_related_work.tex [1{/var/lib/texmf/fonts/map/pdftex/updm
 ap/pdftex.map}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}]
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
-Underfull \hbox (badness 4543) in paragraph at lines 21--21
-[]\T1/ptm/m/n/8 none; fixed CSI de-lay of 0--
-
-Underfull \hbox (badness 1521) in paragraph at lines 21--22
-[]\T1/ptm/m/n/8 classical method at con-ver-
-
-Underfull \hbox (badness 5446) in paragraph at lines 28--29
-[]\T1/ptm/m/n/8 enters the ag-ing; meth-ods
-) (./sections/section_03_system_model.tex)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd))
+(./sections/section_03_system_model.tex)
 (./sections/section_04_latency_analysis.tex [2]
 Underfull \hbox (badness 10000) in paragraph at lines 5--6
 []\T1/ptm/m/n/10 Let a method $\OML/cmm/m/it/10 A$ \T1/ptm/m/n/10 re-ceive the 
@@ -247,21 +218,6 @@ Underfull \hbox (badness 1418) in paragraph at lines 5--6
 /cmr/m/n/10 (0)\OML/cmm/m/it/10 ; \OT1/cmr/bx/n/10 h[]\OT1/cmr/m/n/10 (0)\OMS/c
 msy/m/n/10 g$\T1/ptm/m/n/10 , re-turn the phase $[][]$, and need the
 [3 <./figures/fig_scenario.pdf>]) (./sections/section_05_methodology.tex
-Underfull \hbox (badness 10000) in paragraph at lines 28--28
-[]\T1/ptm/m/n/8 Long-run
-
-Underfull \hbox (badness 1596) in paragraph at lines 29--29
-[]$\OML/cmm/m/it/8 L \OMS/cmsy/m/n/8 2 f\OT1/cmr/m/n/8 1\OML/cmm/m/it/8 ; \OT1/
-cmr/m/n/8 2\OML/cmm/m/it/8 ; \OT1/cmr/m/n/8 4\OML/cmm/m/it/8 ; \OT1/cmr/m/n/8 8
-\OML/cmm/m/it/8 ; \OT1/cmr/m/n/8 16\OMS/cmsy/m/n/8 g$\T1/ptm/m/n/8 , one net-wo
-rk
-
-Underfull \hbox (badness 2970) in paragraph at lines 29--29
-\T1/ptm/m/n/8 min train-ing (Adam, $\OT1/cmr/m/n/8 10[]$\T1/ptm/m/n/8 , co-sine
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 29--30
-[]\T1/ptm/m/n/8 2.7--4.0 Adam
 [4]) (./sections/section_06_results.tex [5] (./tables/tab_aging.tex) [6 <./figu
 res/fig_aging.pdf> <./figures/fig_intrinsic_optimum.pdf>]
 (./tables/tab_speeds.tex) (./tables/tab_tracking.tex) [7 <./figures/fig_step_sc
@@ -293,7 +249,7 @@ msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/urw/times/utmri8a.pfb>
-Output written on mobility_paper_ieee.pdf (10 pages, 468062 bytes).
+Output written on mobility_paper_ieee.pdf (10 pages, 468376 bytes).
 Transcript written on mobility_paper_ieee.log.
 This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex)
  restricted \write18 enabled.
@@ -330,6 +286,7 @@ For additional information on amsmath, use the `?' option.
 (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx))
 (/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
 (/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty)
 (/usr/share/texlive/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
@@ -364,23 +321,15 @@ For additional information on amsmath, use the `?' option.
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
 (./mobility_paper_ieee.out) (./mobility_paper_ieee.out)
-Underfull \hbox (badness 1365) in paragraph at lines 29--29
+Underfull \hbox (badness 1365) in paragraph at lines 30--30
 \T1/ptm/m/n/8 ics En-gi-neer-ing, Düzce Uni-ver-sity, Düzce, Türkiye (e-mail: s
 edasavas-
 (./sections/section_01_introduction.tex)
 (./sections/section_02_related_work.tex [1{/var/lib/texmf/fonts/map/pdftex/updm
 ap/pdftex.map}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}]
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
-Underfull \hbox (badness 4543) in paragraph at lines 21--21
-[]\T1/ptm/m/n/8 none; fixed CSI de-lay of 0--
-
-Underfull \hbox (badness 1521) in paragraph at lines 21--22
-[]\T1/ptm/m/n/8 classical method at con-ver-
-
-Underfull \hbox (badness 5446) in paragraph at lines 28--29
-[]\T1/ptm/m/n/8 enters the ag-ing; meth-ods
-) (./sections/section_03_system_model.tex)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd))
+(./sections/section_03_system_model.tex)
 (./sections/section_04_latency_analysis.tex [2]
 Underfull \hbox (badness 10000) in paragraph at lines 5--6
 []\T1/ptm/m/n/10 Let a method $\OML/cmm/m/it/10 A$ \T1/ptm/m/n/10 re-ceive the 
@@ -391,21 +340,6 @@ Underfull \hbox (badness 1418) in paragraph at lines 5--6
 /cmr/m/n/10 (0)\OML/cmm/m/it/10 ; \OT1/cmr/bx/n/10 h[]\OT1/cmr/m/n/10 (0)\OMS/c
 msy/m/n/10 g$\T1/ptm/m/n/10 , re-turn the phase $[][]$, and need the
 [3 <./figures/fig_scenario.pdf>]) (./sections/section_05_methodology.tex
-Underfull \hbox (badness 10000) in paragraph at lines 28--28
-[]\T1/ptm/m/n/8 Long-run
-
-Underfull \hbox (badness 1596) in paragraph at lines 29--29
-[]$\OML/cmm/m/it/8 L \OMS/cmsy/m/n/8 2 f\OT1/cmr/m/n/8 1\OML/cmm/m/it/8 ; \OT1/
-cmr/m/n/8 2\OML/cmm/m/it/8 ; \OT1/cmr/m/n/8 4\OML/cmm/m/it/8 ; \OT1/cmr/m/n/8 8
-\OML/cmm/m/it/8 ; \OT1/cmr/m/n/8 16\OMS/cmsy/m/n/8 g$\T1/ptm/m/n/8 , one net-wo
-rk
-
-Underfull \hbox (badness 2970) in paragraph at lines 29--29
-\T1/ptm/m/n/8 min train-ing (Adam, $\OT1/cmr/m/n/8 10[]$\T1/ptm/m/n/8 , co-sine
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 29--30
-[]\T1/ptm/m/n/8 2.7--4.0 Adam
 [4]) (./sections/section_06_results.tex [5] (./tables/tab_aging.tex) [6 <./figu
 res/fig_aging.pdf> <./figures/fig_intrinsic_optimum.pdf>]
 (./tables/tab_speeds.tex) (./tables/tab_tracking.tex) [7 <./figures/fig_step_sc
@@ -437,5 +371,5 @@ msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/urw/times/utmri8a.pfb>
-Output written on mobility_paper_ieee.pdf (10 pages, 468062 bytes).
+Output written on mobility_paper_ieee.pdf (10 pages, 468376 bytes).
 Transcript written on mobility_paper_ieee.log.

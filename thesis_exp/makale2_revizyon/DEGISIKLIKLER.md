@@ -279,3 +279,26 @@ Kontroller:
 | Sonuç, madde 2 | "(holding it longer moves a flat optimum up)" | "(holding it longer moves a flat optimum to more steps)" (§VI-H: W = 25/50/100 ms'de 5 / 6–8 / 16–20 adım) |
 
 Makale 9 sayfa, uyarı yok; denetleyiciler 126/126 ve 120/120. Türkçe çeviri bu iki yeri zaten açık yazıyordu.
+
+## 22. tur (26 Kasım 2026): danışman yorumları (v25_1 üzerinde)
+
+Yorumlar: özet; akademik üslup; literatür karşılaştırma tablosu; hiperparametre tablosu; öğrenilen algoritmanın girdileri; Adam'ın farklı süreleri. Hiçbir sonuç sayısı değişmedi. Makale 9 sayfadan 10 sayfaya çıktı (TWC'de ek ücret 10 sayfanın üstünde başlıyor).
+
+| Yer | Değişiklik |
+| --- | --- |
+| Özet | Baştan yazıldı: problem, yenilik (etkin hız), üç sonuç, uyarlanabilirlik (optimum 3 km/h'de 8, 30 km/h'de 1 adım) ve teorik katkı ("small-delay model proves that it exists … and, with fitted constants, explains its scaling"). Ana varsayım (taze ön kodlayıcı) ve "one processor thread" kaydı özette. PDF sayımıyla 193 kelime. |
+| Giriş | Gayriresmî cümleler ("hides a race", "the question has changed", "pays off") akademik ifadelerle değiştirildi. |
+| Katkılar ve sonuç | Slogan başlıklar ("Speed beats precision." vb.) kaldırıldı; maddeler düz cümle. "Practical rules" → "Design guidelines". Katkı 2: model "explains how it scales, so the step count should be adapted to the user speed and the step time". |
+| Alt bölüm başlıkları | §IV-B/C ve §VI-A/B/C/E/F/G betimleyici başlıklar oldu. |
+| §II, yeni Tablo I | 14 çalışma (10 satır) ve bu çalışma: problem, kanal değişimi, çalışma süresi, sürenin rolü. Hücreler `kaynak_kontrol/grup2–7, 10` notlarından. |
+| §V-B, yeni Tablo II | Yedi yöntemin ayarları ve maliyeti; L* değerleri; öğrenilen modelin eğitim ayarları; Adam'ın üç adım süresini açıklayan dipnot. |
+| §V-B | Öğrenilen modelin girdileri: 37 sabit + 4 dinamik kanal, mimari, ortak ağırlıklar, öğrenilen adım boyu. Kaynak: `ris_mu/mumiso/features.py`, `unrolled.py`, `models.py`. |
+| §V-C | Adam'ın üç adım süresi (1.66 / 1.60–1.71 / 1.33 ms), her biri kullanıldığı bölümle açıkça anlatıldı. |
+| §VI | "beats", "cheap", "flatters", "nearly free" ve benzeri ifadeler akademik karşılıklarıyla değiştirildi. |
+
+**Bağımsız denetim** (`DENETIM_26KASIM.md`): 1 kritik, 5 orta ve birkaç küçük bulgu; hepsi uygulandı.
+- **Kritik:** ilk yazımda özet ve Katkı 2, kapalı formu öngörücü ve "hıza uyarlanan" bir kural gibi sunuyordu. Gövde ise "örnek içi kontrol" ve "describes rather than predicts" diyor. İfade "explains, with fitted constants" düzeyine indirildi.
+- **Orta:** "one thread" kaydı ve ana varsayım özete geri eklendi; ölçekleme yönü düzeltildi ("falling from eight … to one"); Tablo II'de öğrenilen kural için "(static set)"; "conclusions do not depend" ifadesi optimum ve L = 48 maliyetiyle sınırlandı.
+- **Küçük:** Tablo I'de Abeywickrama, Sun, Liu (2022) ve Papazafeiropoulos/Zhang hücreleri kesinleştirildi; kısaltmalar açıldı; $T_c$ yerine "coherence time"; "0.75 selected for L ≤ 16"; uzun koşulu Adam'ın adım boyu 0.05 (`baselines.pga`); "logarithm of the relative channel power"; girişte "no longer exists" → "has already changed"; §VI-G'de öncül netleştirildi; tablolarda `\raggedright` ile satır uyarıları giderildi.
+
+10 sayfa; taşan satır, tanımsız başvuru ve çapraz başvuru uyarısı yok. Denetleyiciler 126/126 ve 120/120.

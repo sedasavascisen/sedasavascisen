@@ -95,7 +95,7 @@ This comparison uses the static set and $t=0$ rates, to isolate compute efficien
 
 \subsection{Sensitivity to the Fresh-Precoder Assumption}
 \label{sec:res_beam}
-The main results assume that the BS refreshes its precoder from the current channel while only the RIS phase ages. On the beam set, keeping the precoder from $t=0$ instead makes the rate collapse within tens of milliseconds: at $T_c$ it is 11.7--14.2$\times$ lower than with a fresh beam, for every phase choice, and with the phase of Adam ($L=8$) a precoder only 5~ms old already lowers the rate from 5.228 to 1.736~b/s/Hz (beam-set rates are not comparable with Table~\ref{tab:aging}). Its computation is inexpensive (0.12~ms, about 13 times shorter than one Adam step), but it requires effective-channel pilots every few milliseconds; Section~\ref{sec:res_robust} charges their airtime.
+The main results assume that the BS refreshes its precoder from the current channel while only the RIS phase ages. On the beam set, keeping the precoder from $t=0$ instead makes the rate collapse within tens of milliseconds: at $T_c$ it is 11.7--14.2$\times$ lower than with a fresh beam, for every phase choice, and with the phase of Adam ($L=8$) a precoder only 5~ms old already lowers the rate from 5.228 to 1.736~b/s/Hz (beam-set rates are not comparable with Table~\ref{tab:aging}). Recomputing the precoder is inexpensive (0.12~ms, about 13 times shorter than one Adam step), but it requires effective-channel pilots every few milliseconds; Section~\ref{sec:res_robust} charges their airtime.
 
 \subsection{Robustness to Pilots, Estimation Error and Phase Resolution}
 \label{sec:res_robust}

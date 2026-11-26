@@ -9,10 +9,13 @@ Değerli yorumlarınız için teşekkür ederim. Altı noktanın hepsini makaley
 Özeti baştan yazdım. Sırasıyla şunları veriyor:
 - **Problem:** yöntemler kendilerine verilen kanaldaki hızla karşılaştırılıyor, oysa kanal onlarca milisaniyede değişiyor.
 - **Yenilik:** her yöntem, hesaplaması bittiğindeki kanalda ve ölçülmüş gecikmeyle değerlendiriliyor (etkin hız).
-- **Teorik katkı:** küçük gecikme modeli (Önerme 1), optimal adım sayısının sıfırdan büyük her adım süresinde var olduğunu ve "adım süresi × Doppler frekansı" çarpımıyla ölçeklendiğini gösteriyor.
-- **Uyarlanabilir yöntemin sonucu:** kapalı form, adım sayısını kullanıcı hızına ve donanıma göre seçiyor ve ölçülen optimumun 1.27 katı içinde kalıyor. Periyodik çalışmada güncelleme periyodunu pilot yükü belirliyor ve güncelleme başına en fazla 8 adım yetiyor.
+- **Teorik katkı:** küçük gecikme modeli (Önerme 1), sıfırdan büyük her adım süresinde bir iç optimum bulunduğunu ispatlıyor. Uydurulmuş sabitlerle de optimumun nasıl ölçeklendiğini açıklıyor.
+- **Uyarlanabilirlik sonucu:** optimal adım sayısını adım süresinin Doppler frekansına oranı belirliyor; optimum 3 km/h'de 8 adımdan 30 km/h'de 1 adıma iniyor. Dolayısıyla adım sayısı kullanıcı hızına ve donanıma göre seçilmeli. Bu, katkılarda da açıkça yazılı.
+- **Ana varsayım:** özet, ön kodlayıcının güncel kanaldan hesaplandığını artık açıkça söylüyor.
 
-Özet 199 kelime (TWC sınırı 200). Açılmamış kısaltma ve matematik sembolü içermiyor.
+Özet 193 kelime (TWC sınırı 200). Açılmamış kısaltma ve matematik sembolü içermiyor.
+
+Bir not: kapalı formun ölçülen optimuma 1.27 kat yakınlığı bir örnek içi kontroldür; model ölçümleri bağımsız olarak öngörmüyor, açıklıyor. Bu yüzden kapalı formu özette "öngörücü bir kural" olarak sunmadım; bu, makalenin gövdesindeki kayıtlarla da tutarlı. Periyodik çalışma sonucu (güncelleme periyodunu pilot yükü belirliyor, güncelleme başına en fazla 8 adım yetiyor) kelime sınırı nedeniyle özete sığmadı; katkılarda ve sonuçta duruyor.
 
 **2. Akademik üslup**
 
@@ -64,7 +67,7 @@ Haklısınız; metin bunu yeterince açık anlatmıyordu. Adam'ın adım süresi
 | 1.60–1.71 ms | Statik kümedeki karşılaştırmanın kendi ölçümü (beş turun medyanları) | Öğrenilen kuralla karşılaştırma (Bölüm VI-F) |
 | 1.33 ms | Tek iş parçacığıyla, boş makinede yapılan yeniden ölçüm | Sağlamlık analizleri (Bölüm VI-H) |
 
-Farklar ölçüm koşullarından ve zamanlama değişkenliğinden kaynaklanıyor; aynı kod, farklı oturumlar. Sonuçlar hangi değerin kullanıldığına bağlı değil: 1.33 ms ile de optimum L* = 6, 48 adımın kaybı %14.9 ve SU-best-of koordinat inişinin önünde kalıyor.
+Farklar ölçüm koşullarından ve zamanlama değişkenliğinden kaynaklanıyor; aynı kod, farklı oturumlar. Ana sonuç, eskime kümesindeki iki değerden hangisinin kullanıldığına bağlı değil: 1.33 ms ile optimum L* = 6 ve 48 adımın kaybı %14.9; 1.66 ms ile L* = 4–6 ve %14.0. Makaledeki cümleyi de bu kapsamla sınırladım.
 
 Değişiklikler:
 - Zamanlama paragrafını üç değeri ve kullanıldıkları bölümleri açıkça sayacak biçimde yeniden yazdım.
